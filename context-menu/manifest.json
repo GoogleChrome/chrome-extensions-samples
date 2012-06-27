@@ -1,0 +1,12 @@
+{
+  "name": "Context Menu Example",
+  "version": "1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["main.js"],
+      "transient": true
+    }
+  },
+  "permissions": ["experimental", "contextMenus"]
+}

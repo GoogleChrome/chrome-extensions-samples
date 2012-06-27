@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>Filesystem Access Example</title>
+<style>
+body {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+}
+.dropping {
+  background: #ffcc00;
+}
+nav {
+	display: -webkit-flex;
+	-webkit-justify-content: center;
+	-webkit-align-items: center;
+}
+video {
+	width: 640px;
+	height: 480px;
+	background: rgba(0,0,0,0.25);
+}
+button {
+  display: inline-block;
+  background: -webkit-linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+  background: linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+  border: 1px solid #999;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+button:not(:disabled):hover {
+  border-color: black;
+}
+button:not(:disabled):active {
+  background: -webkit-linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+  background: linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+}
+input {
+  width: 100%;
+  -webkit-user-select: none;
+}
+input, textarea {
+  box-shadow: 1px 1px 5px #ccc inset;
+  border: none;
+  padding: 1em;
+}
+[readonly] {
+  background: #eee;
+}
+[hidden] {
+  display: none;
+}
+textarea {
+  width: 100%;
+  height: 200px;
+  outline: none;
+  padding: 1px;
+  font-size: 20px;
+  padding: 1em;
+}
+output {
+  text-align: center;
+  padding: 1em;
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button id="choose_file">Choose File</button>
+  <button id="write_file" hidden disabled>Write File</button>
+</nav>
+
+Path: <input type="text" id="file_path" readonly>
+
+<output></output>
+
+<textarea></textarea>
+
+<p><button id="save_file" disabled>Save As</button></p>
+
+<script src="js/dnd.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Echo",
+  "description": "Echo..... Echo.",
+  "version": "1",
+  "app": {
+    "launch": {
+      "local_path": "echo_mco.html",
+      "width": 600,
+      "height": 600,
+      "container": "panel"
+    }
+  },
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "permissions": [
+    "experimental",
+    "socket"
+  ]
+}

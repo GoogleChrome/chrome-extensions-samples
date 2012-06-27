@@ -1,0 +1,19 @@
+{
+  "name": "Calculator",
+  "description": "A simple calculator.",
+  "manifest_version": 2,
+  "version": "1.0.3",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "permissions": [
+    "experimental"
+  ]
+}

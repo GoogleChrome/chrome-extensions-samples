@@ -1,0 +1,11 @@
+{
+  "name": "Singleton",
+  "version": "1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": ["experimental"]
+}

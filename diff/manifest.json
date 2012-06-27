@@ -1,0 +1,17 @@
+{
+  "name": "Diff Tool",
+  "description": "Platform app that displays diff of two files.",
+  "manifest_version": 2,
+  "version": "1",
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "permissions": [
+    "experimental",
+    "unlimitedStorage",
+    "<all_urls>"
+  ],
+  "icons": { "16": "img/icon_16.png", "128": "img/icon_128.png" }
+}

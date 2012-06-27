@@ -1,0 +1,15 @@
+{
+  "name": "Regex Tester",
+  "description": "An interactive regular expression tester.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app" : {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+
+  "permissions": [
+    "experimental"
+  ]
+}

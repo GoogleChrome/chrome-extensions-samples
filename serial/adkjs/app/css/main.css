@@ -1,0 +1,292 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
+
+body {
+  background-image: url(../img/background_holo_dark.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  color: #fff;
+  font-family: 'Open Sans', arial, sans-serif;
+  font-size: 15px;
+  overflow: hidden;
+}
+
+header {
+ position: relative;
+}
+header:after {
+  clear: left;
+  content: "";
+  display: block;
+}
+header .expandable {
+ position: absolute;
+ z-index: 2;
+ -webkit-transition: height 0.5s;
+ height: 16px;
+ overflow: hidden;
+ margin:0;
+ background: black;
+ padding: 3px;
+ font-size: 13px;
+ left: 0;
+ right: 0;
+}
+header .expandable:hover #status {
+  color: transparent;
+}
+header #status {
+ float: left;
+}
+header #status.error {
+ color: red;
+}
+header #status.on {
+ color: green;
+}
+header #handler {
+ float: right;
+}
+header .commands {
+  clear: both;
+  padding: 10px;
+}
+
+header .expandable:hover {
+ height: 220px;
+ background: -webkit-linear-gradient(#000, #186404);
+}
+
+.log {
+ width: 100%; 
+ height: 140px;
+ background: white;
+ border: 1px solid #333;
+ overflow: auto;
+ font-size: 12px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 22px 0 0 0;
+  list-style: none;
+  line-height: 24px;
+  width: 100%;
+}
+nav li {
+  float:left;
+  margin:0;
+  padding:0;
+  width: 50%;
+}
+nav a {
+  display: block;
+  text-decoration:none;
+  background: -webkit-linear-gradient(#212121, #131313);
+  color: white;
+  float: left;
+  width: 100%;
+  font-size: 22px;
+  text-align: center;
+  padding: 10px 0;
+}
+nav a:hover,
+nav a:active,
+nav a:target
+{
+  background: #2ac7e1;
+}
+
+section {
+  padding: 0 10px;
+  color: #666;
+}
+
+.hidden {
+  display: none;
+}
+
+article {
+  display: block;
+}
+article.servos {
+  float: left;
+  width: 60%;
+}
+article.relays {
+  float: right;
+  width: 35%;
+}
+article.leds {
+  float: left;
+  clear: both;
+}
+section article span {
+  color: white;
+}
+section#in article label {
+  font-size: 36px;
+  display: block;
+  color: white;
+  margin-top: -3px;
+}
+small {
+  font-size: 16px;
+}
+.temp, .light {
+  float: left;
+  width: 48%;
+}
+.light label {
+  margin-bottom: -6px;
+}
+
+.buttons {
+ clear: left;
+}
+
+.buttons div {
+  width: 60px;
+  height: 60px;
+  border: 0px;
+  float: left;
+  margin-left: 15px;
+}
+#b1 {
+  background: url("../img/indicator_button1_off_holo_dark.png");
+} 
+#b1.on {
+  background: url("../img/indicator_button1_on_holo_dark.png");
+} 
+#b2 {
+  background: url("../img/indicator_button2_off_holo_dark.png");
+} 
+#b2.on {
+  background: url("../img/indicator_button2_on_holo_dark.png");
+} 
+#b3 {
+  background: url("../img/indicator_button3_off_holo_dark.png");
+} 
+#b3.on {
+  background: url("../img/indicator_button3_on_holo_dark.png");
+} 
+#bc {
+  background: url("../img/indicator_button_capacitive_off_holo_dark.png");
+} 
+#bc.on {
+  background: url("../img/indicator_button_capacitive_on_holo_dark.png");
+} 
+
+.joys {
+ clear: left;
+}
+article p {
+  margin-bottom: 3px;
+  margin-top: 0;
+  padding-top: 5px;
+}
+#out p {
+  margin: 0;
+  padding: 0;
+}
+
+#joy {
+  background: url("../img/joystick_background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 242px;
+  position: relative;
+} 
+#joy .pointer {
+  background-image: url("../img/joystick_normal_holo_dark.png");
+  background-position: -11px center;
+  background-repeat: no-repeat;
+  padding-left: 12px;
+  color: white;
+  font-size: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -5px;
+  margin-top: -7px;
+}
+#joy .pointer.on {
+  background-image: url("../img/joystick_pressed_holo_dark.png");
+  color: #2ac7e1;
+}
+
+input[type='range'] {
+  margin: 0;
+}
+.servos input[type='range'] {
+    -webkit-appearance: none;
+    background: url('../img/scrubber_horizontal_holo_dark.png');
+    width: 100%;
+    background-position: center;
+    background-size: -webkit-calc(100% - 5px) 100%;
+    background-repeat: no-repeat;
+}
+
+.leds p {
+  position: relative;
+}
+
+.leds label, .leds span {
+  position: absolute;
+}
+
+.leds span {
+  right: 0;
+  padding-top: 8px;
+  color: #666;
+}
+
+.leds input[type='range'] {
+    -webkit-appearance: none;
+    background: url('../img/scrubber_horizontal_green_holo_dark.png');
+    width: 80%;
+    margin-left: 35px;
+    background-position: center;
+    background-size: -webkit-calc(100% - 25px) 3px;
+    background-repeat: no-repeat;
+}
+.leds input[type='range'].r {
+    background-image: url('../img/scrubber_horizontal_red_holo_dark.png');
+}
+.leds input[type='range'].b {
+    background-image: url('../img/scrubber_horizontal_blue_holo_dark.png');
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    background: url('../img/scrubber_control.png');
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.relays button {
+  background-color: transparent;
+  display: block;
+  color: white;
+  width: 100%;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+}
+.relays button,
+.relays button.on:hover {
+  background-image: url('../img/toggle_button_off_holo_dark.png');
+}
+.relays button:hover,
+.relays button.on {
+  background-image: url('../img/toggle_button_on_holo_dark.png');
+}
+

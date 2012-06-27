@@ -1,0 +1,48 @@
+<html>
+<head>
+<style>
+body {
+  font-family: "helvetica neue", arial, sans-serif;
+  font-size: 14px;
+  margin: 2em;
+}
+
+.indicates-match {
+  background-color: #f88;
+  color: #ff8;
+  font-weight: bold;
+}
+
+.match {
+  background-color: #cfc;
+}
+
+.about {
+  margin: 1em 0;
+}
+
+.error {
+  font-size: 11px;
+  font-weight: bold;
+  color: red;
+}
+
+</style>
+<base href='__EXTENSION_BASE_URL__'>
+<script src='editor.js'></script>
+</head>
+
+<body>
+
+<h3>Your Regex</h3>
+<div><textarea id="expression" rows="2" columns="80">/bar/</textarea></div>
+<div id="err" class="error"></div>
+
+<h3>Text to Test</h3>
+<div><textarea id="text" rows="2" columns="80">foo, bar, baz</textarea></div>
+
+<div class="about">If the regex matches the text, the text's enclosing box will turn green.</div>
+<div class="about">The point of this demo is to show how to use eval() without exposing your entire code to eval's security risks.</div>
+
+</body>
+</html>

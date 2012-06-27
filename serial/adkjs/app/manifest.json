@@ -1,0 +1,16 @@
+{
+  "name": "Chrome ADK control",
+  "version": "1.0",
+  "permissions": [
+    "experimental"
+  ],
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "icons": {
+    "128": "img/icon_128.png"
+  },
+  "manifest_version": 2
+}

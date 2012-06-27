@@ -1,0 +1,70 @@
+10
+
+dir
+0
+http://src.chromium.org/svn/trunk/src/chrome/common/extensions/docs/examples/extensions/diff/lib
+http://src.chromium.org/svn
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4ff67af0-8c30-449e-8e8b-ad334ec8d88c
+
+jquery-1.7.2.min.js
+file
+
+
+
+add
+
+diff_match_patch_test.html
+file
+
+
+
+add
+
+diff_match_patch_uncompressed.js
+file
+
+
+
+add
+
+diff_match_patch_test.js
+file
+
+
+
+add
+
+diff_match_patch.js
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+

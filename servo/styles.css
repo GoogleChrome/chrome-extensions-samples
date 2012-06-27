@@ -1,0 +1,84 @@
+body {
+  background-color: #f8f8f8;
+  font-family: "helvetica neue", helvetica, sans-serif;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+label {
+  display: block;
+  padding: 20px;
+  border-bottom: solid 1px #ddd;
+  border-right: solid 1px #ddd;
+  width: 300px;
+}
+
+label {
+  color: #999;
+}
+
+#port-picker,
+#status {
+  color: #000;
+}
+
+#port-picker {
+  max-width: 250px;
+  margin-right: 10px;
+}
+
+#position-input {
+  display: block;
+   -webkit-appearance:none !important;
+  width: 90%;
+  margin: 20px auto;
+  height: 6px;
+  background: rgb(13, 168, 97);
+}
+
+#position-input::-webkit-slider-thumb {
+  -webkit-appearance:none !important;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background: rgb(67, 135, 253);
+}
+
+#image {
+  position: absolute;
+  right: 10px;
+  top: -10px;
+  background-image: url(chrome-logo.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 256px;
+  height: 256px;
+  -webkit-transition: all .2s linear;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 640px;
+}
+
+#tv {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 640px;
+  height: 480px;
+  border-left: solid 1px #ddd;
+}
+
+#tv video,
+#tv img {
+  display: none;
+}
+
+#tv.working video,
+#tv.broken img {
+  display: block;
+}

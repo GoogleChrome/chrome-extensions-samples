@@ -1,0 +1,47 @@
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body,input,button {
+  color: black;
+  font-family: "Courier New", courier, monospace;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+#calc {
+  background-color: #a7a7a7;
+  border: 0;
+  margin: 0;
+  max-width: 200px;
+  padding: 8px;
+}
+
+.calc-button {
+  font-size: 16px;
+  height: 36px;
+  margin: 2px;
+  max-width: 46px;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.big {
+  max-width: 96px;
+  padding: 8px 41px;
+}
+
+.calc-display {
+  background-color: #e4e8d0;  /* OS X calculator color */
+  border-radius: 4px;
+  border: 1px solid #333;
+  font-size: 24px;
+  height: 40px;
+  margin: 0 0 4px 0;
+  padding: 4px;
+  text-align: right;
+  width: 99%;
+}

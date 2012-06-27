@@ -1,0 +1,34 @@
+body {
+  margin: 2px;
+  padding: 0;
+}
+
+button {
+  margin: 0;
+}
+
+.CodeMirror {
+  margin: 0;
+  padding: 2px 0;
+  border-bottom: 1px solid #333;
+  border-top: 1px solid #333;
+}
+
+.CodeMirror-scroll {
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.info {
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.buttons {
+  margin-bottom: 1em;
+}
+
+#editor {
+  display: none;
+}

@@ -1,0 +1,108 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif, Tahoma, Verdana, sans-serif;
+    font-size: 12px;
+    background: white;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+#toolbar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 58px;
+    height: 100%;
+    background: #EEE;
+    z-index: 100001;
+}
+
+.toolbarbutton {
+    padding: 5px;
+    height: 48px;
+    width: 48px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.enabled:hover {
+    background: white;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#config {
+    background-image: url("icons/config.png");
+}
+
+#openfile {
+    background-image: url("icons/openfile.png");
+}
+
+#openweb {
+    background-image: url("icons/openweb.png");
+}
+
+#save {
+    background-image: url("icons/save.png");
+}
+
+#saveas {
+    background-image: url("icons/saveas.png");
+}
+
+#new {
+    background-image: url("icons/new.png");
+}
+
+#controlspanel {
+    position: absolute;
+    left: -242px;
+    top: 0px;
+    width: 300px;
+    height: 100%;
+    z-index: 100000;
+    opacity: 0.9;
+    background: white;
+    border-right: 1px solid #CCC;
+    -webkit-transition: all 0.5s ease-out;
+}
+
+#logo {
+    padding: 15px;
+    margin-left: 70px;
+}
+
+#controls {
+    padding: 5px;
+}
+
+#controls td {
+    text-align: right;
+}
+
+#controls td + td {
+    text-align: left;
+}
+
+#editor {
+    position: absolute;
+    top:  0px;
+    left: 58px;
+    bottom: 0px;
+    right: 0px;
+    background: white;
+}

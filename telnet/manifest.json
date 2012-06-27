@@ -1,0 +1,16 @@
+{
+  "name": "Telnet Client (platform app)",
+  "version": "1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["launch.js"],
+      "transient": true
+    }
+  },
+  "permissions": ["experimental", "socket"]
+}

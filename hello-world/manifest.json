@@ -1,0 +1,16 @@
+{
+  "name": "Hello World (platform app)",
+  "version": "1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"],
+      "transient": true
+    }
+  },
+  "permissions": ["experimental"]
+}

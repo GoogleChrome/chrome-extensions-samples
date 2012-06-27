@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="servo.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="container">
+    <label>
+      Port:
+      <select id="port-picker"></select>
+    </label>
+
+    <label>
+      Status:
+      <span id="status">Loading</span>
+    </label>
+
+    <label>
+      Input:
+      <input id="position-input" type="range" min="0" max="9" value="0">
+    </label>
+
+    <div id="image"></div>
+  </div>
+
+  <div id="tv" class="off">
+    <video id="camera-output" width="640" height="480" autoplay></video>
+    <img src="technical-difficulties.png" width="640" height="480" alt="Please stand by">
+  </div>
+
+</body>
+</html>

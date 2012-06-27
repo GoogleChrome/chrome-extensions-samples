@@ -1,0 +1,27 @@
+{
+  "name": "WebIntents Image Editor",
+  "description": "Image Editor (File System + canvas). You can invoke using Chrome Extensions' WebIntents API",
+  "platform_app": true,
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "48": "img/48.png",
+    "128": "img/128.png"
+  },
+  "permissions": [
+    "experimental"
+  ],
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "intents": {
+    "http://webintents.org/edit": [
+      {
+        "title": "WebIntents Image Editor",
+        "type": ["image/*"]
+      }
+    ]
+  }
+}

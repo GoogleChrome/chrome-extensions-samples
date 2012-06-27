@@ -1,0 +1,23 @@
+{
+  "name": "Text Editor (Platform app)",
+  "description": "Syntax highlighting text editor",
+  "version": "0.15",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/texteditor_16.png",
+    "24": "icons/texteditor_24.png",
+    "48": "icons/texteditor_48.png",
+    "128": "icons/texteditor_128.png"
+  },
+  "permissions": [
+    "experimental",
+    "clipboardRead",
+    "clipboardWrite",
+    "fileSystem"
+  ],
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  }
+}

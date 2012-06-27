@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Diff Chrome Extension</title>
+    <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="lib/diff_match_patch.js"></script>
+    <script type="text/javascript" src="js/diff.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="offline hidden">
+      <span class="loader"><span class="bolt"></span></span>
+      <div class="text">You are currently offline</div>
+    </div>
+
+    <div id="file1-container">
+      <div class="input-container url">
+        <div class="button form-cover">Choose URL</div>
+        <form>
+          <input class="choose-url 1" type="button" value="Choose URL">
+        </form>
+      </div>
+      <div class="input-container">
+        <div class="button form-cover">Choose File</div>
+        <div class="file-name form-cover 1">No File Selected</div>
+        <form>
+          <input class="choose-file 1" type="file">
+        </form>
+        <div class="tooltip">
+          <a class="tooltip-text 1">No File Selected</a>
+          <span class="pointer"></span>
+        </div>
+      </div>
+      <br>
+      <div class="file-diff 1" id="drop-zone1"></div>
+    </div>
+
+    <div id="file2-container">
+      <div class="input-container url">
+        <div class="button form-cover">Choose URL</div>
+        <form>
+          <input class="choose-url 2" type="button" value="Choose URL">
+        </form>
+      </div>
+      <div class="input-container">
+        <div class="button form-cover">Choose File</div>
+        <div class="file-name form-cover 2">No File Selected</div>
+        <form>
+          <input class="choose-file 2" type="file">
+        </form>
+        <div class="tooltip">
+          <a class="tooltip-text 2">No File Selected</a>
+          <span class="pointer"></span>
+        </div>
+      </div>
+      <br>
+      <div class="file-diff 2" id="drop-zone2"></div>
+    </div>
+
+    <br class="clear">
+
+    <div id="num-diffs"></div>
+    <br>
+    <div id="collapse-all" class="button">Collapse Matching Lines</div>
+    <div id="expand-all" class="button">Expand All Lines</div>
+
+    <div class="enter-url modal-dialog prompt hidden">
+      <div class="close-button"></div>
+      <h1>Select URL</h1>
+      <p>
+        <label for="url">Please enter the URL</label>
+        <input type="text" name="url" id="url">
+        <div class="error-message hidden">Please enter a valid URL</div>
+      </p>
+      <div class="button blue submit">Submit</div>
+      <div class="button cancel">Cancel</div>
+    </div>
+    <div id="modal-shield" class="hidden"></div>
+  </body>
+</html>
