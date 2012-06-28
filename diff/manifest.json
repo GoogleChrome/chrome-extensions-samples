@@ -1,9 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Diff Tool",
-  "description": "View diff of two files.",
+  "description": "App that displays diff of two local or remote files.",
   "version": "0.1.2",
-  "offline_enabled" : true,
   "app": {
     "background": {
       "scripts": ["js/background.js"]

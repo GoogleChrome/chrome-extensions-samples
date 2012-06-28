@@ -1,5 +1,5 @@
 {
-  "name": "Eval in sandboxed iframe (platform app)",
+  "name": "Eval in sandboxed iframe",
   "version": "1.0",
   "manifest_version": 2,
   "app": {

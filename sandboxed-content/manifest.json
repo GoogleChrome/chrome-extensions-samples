@@ -1,5 +1,5 @@
 {
-  "name": "Iframe for UI (platform app)",
+  "name": "Sandboxed content",
   "version": "1.0",
   "manifest_version": 2,
   "app": {

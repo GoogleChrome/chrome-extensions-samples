@@ -1,4 +1,4 @@
-- Basic Foursquare client implemented as a platform apps.
+- Basic Foursquare client implemented as a packaged app.
 - Just displays recent checkins.
 - Uses the storage API to persist the auth token locally
 - Uses the identity API to do the OAuth dance in a separate window

@@ -1,5 +1,5 @@
 {
-  "name": "Text Editor (Platform app)",
+  "name": "Text Editor",
   "description": "Syntax highlighting text editor",
   "version": "0.15",
   "manifest_version": 2,

@@ -6,8 +6,8 @@ state of an LED connected to an Arduino.
 
 1. Install the LED sketch on your Duo.
 2. Attach a LED to pin 2 (with a resistor to not burn it out).
-3. Install and launch this platform app.
+3. Install and launch this packaged app.
 4. Press the button to toggle the LED.
 
 Future version: use the standard Firmata sketch and build a JS firmata driver
-for Chrome Platform apps.
+for Chrome packaged apps.
