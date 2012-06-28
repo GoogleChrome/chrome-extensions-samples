@@ -6,8 +6,8 @@
 
 function onLaunched(launchData) {
   chrome.appWindow.create('main.html', {
-    width: 1250,
-    height: 790
+    width: 1024,
+    height: 768
   });
 }
 

@@ -1,6 +1,7 @@
 body {
-  margin: 2px;
+  margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 button {
@@ -9,9 +10,7 @@ button {
 
 .CodeMirror {
   margin: 0;
-  padding: 2px 0;
-  border-bottom: 1px solid #333;
-  border-top: 1px solid #333;
+  padding: 0;
 }
 
 .CodeMirror-scroll {
@@ -20,15 +19,32 @@ button {
   overflow-x: auto;
 }
 
+#editor {
+  position: absolute;
+  top: 29px;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  background: #262626;
+}
+
 .info {
   font-family: monospace;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 0;
+  background: #eee;
+  padding: 2px;
+  height: 20px;
+  left: 0;
+  right: 0;
+}
+
+.info label {
   font-weight: bold;
 }
 
 .buttons {
-  margin-bottom: 1em;
-}
-
-#editor {
-  display: none;
+  padding: 2px;
+  height: 25px;
 }

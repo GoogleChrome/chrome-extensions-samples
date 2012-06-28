@@ -14,6 +14,8 @@
       <div class="text">You are currently offline</div>
     </div>
 
+    <div id="plus-container"></div>
+
     <div id="file1-container">
       <div class="input-container url">
         <div class="button form-cover">Choose URL</div>
@@ -36,6 +38,8 @@
       <div class="file-diff 1" id="drop-zone1"></div>
     </div>
 
+    <div id="arrow-container"></div>
+
     <div id="file2-container">
       <div class="input-container url">
         <div class="button form-cover">Choose URL</div>
@@ -54,14 +58,18 @@
           <span class="pointer"></span>
         </div>
       </div>
+      <div class="button edit">Edit</div>
+      <div class="button done hidden">Done</div>
       <br>
       <div class="file-diff 2" id="drop-zone2"></div>
+      <textarea class="diff-text hidden"></textarea>
     </div>
 
     <br class="clear">
 
     <div id="num-diffs"></div>
     <br>
+
     <div id="collapse-all" class="button">Collapse Matching Lines</div>
     <div id="expand-all" class="button">Expand All Lines</div>
 

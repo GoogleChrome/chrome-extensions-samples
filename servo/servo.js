@@ -1,33 +1,25 @@
 var connectionId = -1;
 
-var onWrite = function(writeInfo) {
-};
-
-var setPosition = function(position) {
+function setPosition(position) {
   var buffer = new ArrayBuffer(1);
   var uint8View = new Uint8Array(buffer);
-  uint8View[0] = 48 + position;
-  chrome.experimental.serial.write(connectionId, buffer, onWrite);
+  uint8View[0] = '0'.charCodeAt(0) + position;
+  chrome.experimental.serial.write(connectionId, buffer, function() {});
 };
 
-var onRead = function(readInfo) {
-  if (readInfo.bytesRead > 0) {
-    var uint8View = new Uint8Array(readInfo.data);
-    var charValue = uint8View[0];
-    if (charValue != 13 && charValue != 10) {
-      var value = uint8View[0] - 48;
-      var rotation = value * 18.0;
+function onRead(readInfo) {
+  var uint8View = new Uint8Array(readInfo.data);
+  var value = uint8View[0] - '0'.charCodeAt(0);
+  var rotation = value * 18.0;
 
-      document.getElementById('image').style.webkitTransform =
-        'rotateZ(' + rotation + 'deg)';
-    }
-  }
+  document.getElementById('image').style.webkitTransform =
+    'rotateZ(' + rotation + 'deg)';
 
   // Keep on reading.
   chrome.experimental.serial.read(connectionId, onRead);
 };
 
-var onOpen = function(openInfo) {
+function onOpen(openInfo) {
   connectionId = openInfo.connectionId;
   if (connectionId == -1) {
     setStatus('Could not open');
@@ -36,11 +28,38 @@ var onOpen = function(openInfo) {
   setStatus('Connected');
 
   setPosition(0);
-  onRead({bytesRead: 0});
+  chrome.experimental.serial.read(connectionId, onRead);
 };
 
 function setStatus(status) {
   document.getElementById('status').innerText = status;
+}
+
+function buildPortPicker(ports) {
+  var eligiblePorts = ports.filter(function(port) {
+    return !port.match(/[Bb]luetooth/);
+  });
+
+  var portPicker = document.getElementById('port-picker');
+  eligiblePorts.forEach(function(port) {
+    var portOption = document.createElement('option');
+    portOption.value = portOption.innerText = port;
+    portPicker.appendChild(portOption);
+  });
+
+  portPicker.onchange = function() {
+    if (connectionId != -1) {
+      chrome.experimental.serial.close(connectionId, openSelectedPort);
+      return;
+    }
+    openSelectedPort();
+  };
+}
+
+function openSelectedPort() {
+  var portPicker = document.getElementById('port-picker');
+  var selectedPort = portPicker.options[portPicker.selectedIndex].value;
+  chrome.experimental.serial.open(selectedPort, onOpen);
 }
 
 onload = function() {
@@ -61,30 +80,7 @@ onload = function() {
   };
 
   chrome.experimental.serial.getPorts(function(ports) {
-    var eligiblePorts = ports.filter(function(port) {
-      return !port.match(/[Bb]luetooth/);
-    });
-
-    var portPicker = document.getElementById('port-picker');
-    eligiblePorts.forEach(function(port) {
-      var portOption = document.createElement('option');
-      portOption.value = portOption.innerText = port;
-      portPicker.appendChild(portOption);
-    });
-
-    portPicker.onchange = function() {
-      if (connectionId != -1) {
-        chrome.experimental.serial.close(connectionId, openSelectedPort);
-        return;
-      }
-      openSelectedPort();
-    };
-
-    function openSelectedPort() {
-      var selectedPort = portPicker.options[portPicker.selectedIndex].value;
-      chrome.experimental.serial.open(selectedPort, onOpen);
-    }
-
+    buildPortPicker(ports)
     openSelectedPort();
   });
 };

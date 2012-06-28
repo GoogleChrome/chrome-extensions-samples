@@ -27,6 +27,36 @@ $(document).ready(function() {
     }
   }, 500);
 
+  $('.edit').click(function() {
+    var text = getText();
+    $('#arrow-container').addClass('arrow-edit');
+    $('.file-diff.2').addClass('hidden');
+    $('textarea.diff-text').val(text);
+    $('textarea.diff-text').scrollTop($('.file-diff.1').scrollTop());
+    $('textarea.diff-text').removeClass('hidden');
+    $('.edit').addClass('hidden');
+    $('.done').removeClass('hidden');
+  });
+
+  $('.done').click(function() {
+    var text = $('textarea.diff-text').val();
+    var fileName = $('#file2-container div.file-name').text();
+    var filePath = $('#file2-container div.tooltip-text').text();
+    setText(text, fileName, 1, filePath);
+    $('#arrow-container').removeClass('arrow-edit');
+    $('.file-diff.2').removeClass('hidden');
+    $('textarea.diff-text').addClass('hidden');
+    $('.edit').removeClass('hidden');
+    $('.done').addClass('hidden');
+  });
+
+  $('textarea.diff-text').scroll(function () {
+    $('.file-diff.1').scrollTop($('textarea.diff-text').scrollTop());
+    $('.file-diff.2').scrollTop($('textarea.diff-text').scrollTop());
+    $('#arrow-container').scrollTop($('textarea.diff-text').scrollTop());
+    $('#plus-container').scrollTop($('textarea.diff-text').scrollTop());
+  });
+
   for (i = 1; i < 3; i++) {
     $('.choose-file.' + i).change(function() {
       var i = $(this).attr('class').split(' ')[1];
@@ -35,7 +65,7 @@ $(document).ready(function() {
       var fileName = $('input[type=file].' + i).val();
       fileName = fileName.slice(12, fileName.length);
       setTextFromFile(file, fileName, $fileArea, i - 1);
-      $('.file-diff-input.' + i).scrollTop(0);
+      $('.file-diff.' + i).scrollTop(0);
       $('a.tooltip-text.' + i).text(fileName);
     });
 
@@ -70,6 +100,9 @@ $(document).ready(function() {
       var i = $(this).attr('class').split(' ')[1];
       $('.file-diff.' + (i % 2 + 1)).scrollTop(
           $('.file-diff.' + i).scrollTop());
+      $('#arrow-container').scrollTop($('.file-diff.' + i).scrollTop());
+      $('#plus-container').scrollTop($('.file-diff.' + i).scrollTop());
+      $('textarea.diff-text').scrollTop($('.file-diff.' + i).scrollTop());
     });
   }
 
@@ -106,7 +139,6 @@ $(document).ready(function() {
     expandAllMatches();
   });
 
-
   $.ajaxSetup({
     error: function(xhr) {
       message = ajaxErrorMessage(xhr);
@@ -117,6 +149,35 @@ $(document).ready(function() {
   });
 });
 
+function getText() {
+  var lines = $('.file-diff.2 div').children('.text');
+  var text = '';
+  for (var i = 0; i < lines.length; i++) {
+    if (!$(lines[i]).hasClass('hidden')) {
+      var line = $(lines[i]).children();
+      for (var j = 0; j < line.length; j++) {
+        if ($(lines[i]).hasClass('left')) {
+          if (!$(line[j]).hasClass('ins'))
+            text += $(line[j]).html();
+        } else {
+          if (!$(line[j]).hasClass('del'))
+            text += $(line[j]).html();
+        }
+      }
+      text += '\n';
+    }
+  }
+  text = escapeHtml(text);
+  return text;
+}
+
+function escapeHtml(text) {
+  var text = text.replace(/&amp;/g, '&')
+                 .replace(/&lt;/g, '<')
+                 .replace(/&gt;/g, '>')
+                 .replace(/&nbsp;/g, ' ');
+  return text;
+}
 
 function ajaxErrorMessage(xhr) {
   message = 'Please enter a valid URL';
@@ -139,7 +200,7 @@ function ajaxErrorMessage(xhr) {
 
 function setTextFromUrl() {
   var url = $('.enter-url input#url').val();
-  if (!(url.slice(0, 3) == 'http')) {
+  if (!(url.slice(0, 4) == 'http')) {
     url = 'http://' + url;
   }
   var urlSecs = url.split('/');
@@ -289,7 +350,8 @@ function computeDiff(file1, file2) {
   setLineTypes();
   setLineNums();
   if (texts[0] != '' && texts[1] != '') {
-    setNumDiffs();
+    setNumDiffs(true);
+    setArrows();
     createCollapsibleMatches();
   }
 }
@@ -343,7 +405,7 @@ function createHtmlLines(diffs) {
               html2 += '</div><div>';
             } while (line2 > line1) {
               line1 += 1;
-              html2 += '</div><div>';
+              html1 += '</div><div>';
             }
             txt = '<span>' + text[i] + '</span>';
             html1 += txt;
@@ -403,12 +465,47 @@ function setLineTypes() {
   $('.file-diff > div:last-child').remove();
 }
 
+function isBlankLine(lineDiv) {
+  if ($(lineDiv).attr('class'))
+    var lineNum = $(lineDiv).attr('class').replace('blank ', '')
+                                          .replace('ins ', '')
+                                          .replace('del ', '')
+                                          .split(' ')[0];
+  return ( $(lineDiv).hasClass('blank') && !$(lineDiv).hasClass('fix') )
+         || ( ($(lineDiv).children('.left.text').length > 0)
+              && ($('.file-diff.1 .' + lineNum).hasClass('blank'))
+            )
+         || ( ($(lineDiv).hasClass('blank') && $(lineDiv).hasClass('fix'))
+              && ($(lineDiv).children('.left.text').length == 0)
+            )
+         || $(lineDiv).hasClass('collapsed-num');
+}
+
 function setLineNums() {
   files = [1, 2];
-  for (var j = 0; j < files.length; j++) {
-    lineNum = 1;
-    $('.file-diff.' + files[j] + ' > div').each(function() {
-      if (!$(this).hasClass('blank')) {
+  var realLine = 1;
+  for (var i = 0; i < files.length; i++) {
+    var lineNum = 1;
+    realLine = 1;
+    $('.file-diff.' + files[i] + ' > div').each(function() {
+      if (!isBlankLine(this)) {
+        $(this).html('<div class="text right">' + $(this).html() + '</div>');
+        $(this).prepend('<div class="lineNum">' + lineNum + '</div>');
+        lineNum += 1;
+      }
+      $(this).addClass('realLine-' + realLine);
+      realLine += 1;
+    });
+  }
+}
+
+function resetLineNums() {
+  var files = [1, 2];
+  $('.file-diff > div > div.lineNum').remove();
+  for (var i = 0; i < files.length; i++) {
+    var lineNum = 1;
+    $('.file-diff.' + files[i] + ' > div').each(function() {
+      if (!isBlankLine(this)) {
         $(this).prepend('<div class="lineNum">' + lineNum + '</div>');
         lineNum += 1;
       }
@@ -416,35 +513,43 @@ function setLineNums() {
   }
 }
 
-function setNumDiffs() {
-  var diffLines = numDiffLines();
-  var diffChunks = numDiffChunks();
-  $('#num-diffs').html('Different Lines: ' + diffLines
-                       + '<br>Different Chunks: ' + diffChunks);
-}
-
-function numDiffChunks() {
-  var files = [0, 1];
-  var numChunks = [0, 0];
-  for (var i = 0; i < files.length; i++) {
-    var cont = false;
-    var lines = $('.file-diff.' + (files[i] + 1) + ' div').children();
-    for (var j =  0; j < lines.length; j++) {
-      var $line = $(lines[j]).parent();
-      if ($line.hasClass('ins') ||
-          $line.hasClass('del') ||
-          $line.hasClass('blank')) {
-        if (!cont) {
-          cont = true;
-          numChunks[files[i]] += 1;
-        }
-        $line.addClass('chunk-' + numChunks[files[i]]);
-      } else {
-        cont = false;
+function setArrows() {
+  var numChunks = 0;
+  var arrow = '<div class="arrow"></div>';
+  var cont = 0;
+  $('#arrow-container').html('');
+  var lines = $('.file-diff.1').children('div');
+  for (var j =  0; j < lines.length; j++) {
+    var $line = $(lines[j]);
+    if ($line.hasClass('ins') ||
+        $line.hasClass('del') ||
+        $line.hasClass('blank')) {
+      if (cont == 0) {
+        numChunks += 1;
       }
+      cont += 1;
+    } else if (cont > 0) {
+      var mid = (cont / 2) | 0;
+      for (var k = 0; k < mid; k++)
+        $('#arrow-container').append(arrow);
+      $('#arrow-container').append('<div class="arrow visible '
+                                   + 'chunk-' + numChunks + '"></div>');
+      $('#arrow-container').append('<div class="undo visible hidden '
+                                   + 'chunk-' + numChunks + '"></div>');
+      for (var k = mid + 1; k < cont; k++)
+        $('#arrow-container').append(arrow);
+      cont = 0;
+      $('#arrow-container').append(arrow);
+    } else {
+      $('#arrow-container').append(arrow);
     }
   }
-  return Math.max(numChunks[0], numChunks[1]);
+  setArrowClicks();
+}
+
+function setNumDiffs(set) {
+  var diffChunks = numDiffChunks(set);
+  $('#num-diffs').html(diffChunks + ' differences');
 }
 
 function numDiffLines() {
@@ -452,9 +557,10 @@ function numDiffLines() {
   var numDiffs = [0, 0];
   for (var i = 0; i < files.length; i++) {
     $('.file-diff.' + (files[i] + 1) + ' div').each(function(lineNum) {
-      if ($(this).hasClass('ins') ||
-          $(this).hasClass('del') ||
-          $(this).hasClass('blank')) {
+      if (( $(this).hasClass('ins') ||
+            $(this).hasClass('del') ||
+            $(this).hasClass('blank')
+          ) && !$(this).hasClass('fix')) {
         numDiffs[files[i]] += 1;
       }
     });
@@ -462,9 +568,53 @@ function numDiffLines() {
   return Math.max(numDiffs[0], numDiffs[1])
 }
 
+function numDiffChunks(set) {
+  var files = [0, 1];
+  var numChunks = [0, 0];
+  for (var i = 0; i < files.length; i++) {
+    var cont = 0;
+    var lines = $('.file-diff.' + (files[i] + 1)).children('div');
+    for (var j =  0; j < lines.length; j++) {
+      var $line = $(lines[j]);
+      if (( $line.hasClass('ins') ||
+            $line.hasClass('del') ||
+            $line.hasClass('blank')
+          ) && !$line.hasClass('fix')) {
+        if (cont == 0) {
+          numChunks[files[i]] += 1;
+        }
+        cont += 1;
+        if (set)
+          $line.addClass('chunk-' + numChunks[files[i]]);
+      } else if (cont > 0) {
+        cont = 0;
+      }
+    }
+  }
+  return Math.max(numChunks[0], numChunks[1]);
+}
+
+function setArrowClicks() {
+  $('#arrow-container div.arrow.visible').click(function () {
+    var chunkNum = $(this).attr('class').replace('arrow ', '')
+                                        .replace('visible ', '')
+                                        .split(' ')[0];
+    moveChunk(chunkNum);
+  });
+
+  $('#arrow-container div.undo.visible').click(function () {
+    var chunkNum = $(this).attr('class').replace('undo ', '')
+                                        .replace('visible ', '')
+                                        .split(' ')[0];
+    undoMoveChunk(chunkNum);
+  });
+}
+
 function createCollapsibleMatches() {
   var lines1 = $('.file-diff.1').children('div');
   var lines2 = $('.file-diff.2').children('div');
+  var arrows = $('#arrow-container').children('div');
+  var plusses = $('#plus-container').children('div');
   var numContMatches = 0;
   for (var i = 0; i < lines1.length; i++) {
     if (!$(lines1[i]).hasClass('ins') &&
@@ -472,56 +622,123 @@ function createCollapsibleMatches() {
         !$(lines1[i]).hasClass('blank')) {
       numContMatches += 1;
     } else {
-      collapse(lines1, lines2, numContMatches, i)
+      collapse(lines1, lines2, arrows, plusses, numContMatches, i)
       numContMatches = 0;
     }
   }
-  collapse(lines1, lines2, numContMatches, lines1.length);
+  collapse(lines1, lines2, arrows, plusses, numContMatches, lines1.length);
 
-  $('.collapsed-num a').click(function () {
+  $('.collapsed-num > a').click(function () {
     var collapsedNumClass = $(this).attr('class');
     var $collapsedNum = $('div.' + collapsedNumClass);
     expandSection($collapsedNum);
   });
 }
 
-function collapse(lines1, lines2, numContMatches, i) {
+function collapse(lines1, lines2, arrows, plusses, numContMatches, i) {
   if (numContMatches > 10) {
-    var firstCol = i - numContMatches + 5;
-    var lastCol = i - 6;
-    var numCol = lastCol - firstCol + 1
+    var firstCol = i - numContMatches + 6;
+    var lastCol = i - 5;
+    var numCol = lastCol - firstCol;
     var firstLine = firstCol + '-line';
-    for (var l = firstCol; l <= lastCol; l++) {
-      $(lines1[l]).addClass('hidden collapsible');
-      $(lines2[l]).addClass('hidden collapsible');
-      $(lines1[l]).addClass(firstLine);
-      $(lines2[l]).addClass(firstLine);
+    for (var l = firstCol; l < lastCol; l++) {
+      $(lines1[l]).addClass('hidden collapsible ' + firstLine);
+      $(lines2[l]).addClass('hidden collapsible ' + firstLine);
+      $(arrows[l]).addClass('hidden collapsible ' + firstLine);
+      $(plusses[l]).addClass('hidden collapsible ' + firstLine);
     }
     $(lines1[firstCol]).before('<div class="collapsed-num ' + firstLine + '">'
-                             + numCol + ' lines collapsed (<a class="'
-                             + firstLine + '">expand</a>)</div>');
+                               + numCol + ' lines collapsed (<a class="'
+                               + firstLine + '">expand</a>)</div>');
     $(lines2[firstCol]).before('<div class="collapsed-num ' + firstLine + '">'
-                             + numCol + ' lines collapsed (<a class="'
-                             + firstLine + '">expand</a>)</div>');
+                               + numCol + ' lines collapsed (<a class="'
+                               + firstLine + '">expand</a>)</div>');
+    $(arrows[firstCol]).before('<div class="arrow collapsed-num '
+                               + firstLine + '"></div>');
+    $(plusses[firstCol]).addClass('minus');
+    $(plusses[firstCol]).before('<div class="plus ' + firstLine + '"></div>');
   }
 }
 
+function moveChunk(chunkNum) {
+  var lines1 = $('.file-diff.1').children('div.' + chunkNum);
+  var lines2 = $('.file-diff.2').children('div.' + chunkNum);
+  for (var i = 0; i < lines1.length; i++) {
+    var realLineNum = $(lines1[i]).attr('class')
+                                  .replace('ins ', '')
+                                  .replace('del ', '')
+                                  .replace('blank ', '')
+                                  .split(' ')[0];
+    var text = '';
+    if ($('.file-diff.1 .' + realLineNum).children('.text.right').length > 0)
+      text = $('.file-diff.1 .' + realLineNum + ' > div.text').html();
+    var div = '<div class="left text">' + text + '</div>';
+    $('.file-diff.2 > .' + realLineNum + ' > .text.right').addClass('hidden');
+    $('.file-diff.2 > .' + realLineNum).append(div);
+    $('.file-diff.1 > .' + realLineNum).addClass('fix');
+    $('.file-diff.2 > .' + realLineNum).addClass('fix');
+  }
+  $('#arrow-container .arrow.' + chunkNum).addClass('hidden');
+  $('#arrow-container .undo.' + chunkNum).removeClass('hidden');
+  resetLineNums();
+  setNumDiffs();
+  var text = getText();
+  saveFile(text, 'file1.txt');
+}
+
+function undoMoveChunk(chunkNum) {
+  var lines1 = $('.file-diff.1').children('div.' + chunkNum);
+  var lines2 = $('.file-diff.2').children('div.' + chunkNum);
+  for (var i = 0; i < lines1.length; i++) {
+    var lineNum = $(lines1[i]).attr('class')
+                              .replace('ins ', '')
+                              .replace('del ', '')
+                              .replace('blank ', '')
+                              .replace('fix ', '')
+                              .split(' ')[0];
+    $('.file-diff.2 > .' + lineNum + ' > .text.right').removeClass('hidden');
+    $('.file-diff.2 > .' + lineNum + ' > .left').remove();
+    $('.file-diff.1 > .' + lineNum).removeClass('fix');
+    $('.file-diff.2 > .' + lineNum).removeClass('fix');
+  }
+  $('#arrow-container .arrow.' + chunkNum).removeClass('hidden');
+  $('#arrow-container .undo.' + chunkNum).addClass('hidden');
+  resetLineNums();
+  setNumDiffs();
+  var text = getText();
+  saveFile(text, 'file1.txt');
+}
+
 function expandAllMatches() {
-  $('.file-diff > div.collapsible').removeClass('hidden');
-  $('.file-diff div.collapsed-num').addClass('hidden');
+  $('div.collapsible').removeClass('hidden');
+  $('div.collapsed-num').addClass('hidden');
+  $('div.plus').addClass('hidden');
 }
 
 function collapseAllMatches() {
-  $('.file-diff > div.collapsible').addClass('hidden');
-  $('.file-diff div.collapsed-num').removeClass('hidden');
+  $('div.collapsible').addClass('hidden');
+  $('div.collapsed-num').removeClass('hidden');
+  $('div.plus').removeClass('hidden');
 }
 
 function expandSection($collapsedNum) {
   var classes = $collapsedNum.attr('class');
-  var c = classes.replace(/(?:^|\s)(collapsed-num)(?=\s|$)/g, '').split(' ');
-  c = c[1];
+  var c = classes.replace('collapsed-num ', '')
+                 .replace('plus ', '')
+                 .split(' ')[0];
   $collapsedNum.addClass('hidden');
+  $('div.plus.' + c).addClass('hidden');
   $('div.collapsible.' + c).removeClass('hidden');
+}
+
+function collapseSection($collapsedNum) {
+  var classes = $collapsedNum.attr('class');
+  var c = classes.replace('collapsible ', '')
+                 .replace('minus ', '')
+                 .split(' ')[0];
+  $collapsedNum.removeClass('hidden');
+  $('div.plus.' + c).removeClass('hidden');
+  $('div.collapsible.' + c).addClass('hidden');
 }
 
 function errorHandler(e) {

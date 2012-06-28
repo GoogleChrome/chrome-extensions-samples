@@ -1,17 +1,21 @@
 {
-  "name": "Diff Tool",
-  "description": "Platform app that displays diff of two files.",
   "manifest_version": 2,
-  "version": "1",
+  "name": "Diff Tool",
+  "description": "View diff of two files.",
+  "version": "0.1.2",
+  "offline_enabled" : true,
   "app": {
     "background": {
       "scripts": ["js/background.js"]
     }
   },
-  "permissions": [
-    "experimental",
-    "unlimitedStorage",
-    "<all_urls>"
-  ],
-  "icons": { "16": "img/icon_16.png", "128": "img/icon_128.png" }
+  "permissions": ["experimental",
+                  "appWindow",
+                  "unlimitedStorage",
+                  "<all_urls>"
+                 ],
+  "icons": { "16": "img/icon_16.png",
+             "48": "img/icon_48.png",
+             "128": "img/icon_128.png"
+           }
 }

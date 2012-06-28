@@ -38,7 +38,7 @@ div.CodeMirror span.CodeMirror-matchingbracket { color: #7EFC7E; }/*65FC65*/
 .cm-s-lesser-dark span.cm-builtin { color: #ff9e59; }
 .cm-s-lesser-dark span.cm-bracket { color: #EBEFE7; }
 .cm-s-lesser-dark span.cm-tag { color: #669199; }
-.cm-s-lesser-dark span.cm-attribute {color: #00c;}
+.cm-s-lesser-dark span.cm-attribute {color: #66c;}
 .cm-s-lesser-dark span.cm-header {color: #a0a;}
 .cm-s-lesser-dark span.cm-quote {color: #090;}
 .cm-s-lesser-dark span.cm-hr {color: #999;}

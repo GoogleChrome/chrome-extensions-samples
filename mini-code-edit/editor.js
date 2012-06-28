@@ -2,7 +2,6 @@ var newButton, openButton, saveButton;
 var editor;
 var fileEntry;
 var hasWriteAccess;
-var isCrOS = false;
 
 function errorHandler(e) {
   var msg = "";
@@ -42,7 +41,7 @@ function handleDocumentChange(title) {
       mode = {name: "javascript", json: true};
       modeName = "JavaScript (JSON)";
     } else if (title.match(/.html$/)) {
-      mode = "htmlembedded";
+      mode = "htmlmixed";
       modeName = "HTML";
     } else if (title.match(/.css$/)) {
       mode = "css";
@@ -87,18 +86,20 @@ function readFileIntoEditor(theFileEntry) {
 
 function writeEditorToFile(theFileEntry) {
   theFileEntry.createWriter(function(fileWriter) {
-
-    fileWriter.onwriteend = function(e) {
-      handleDocumentChange(theFileEntry.fullPath);
-      console.log("Write completed.");
-    };
-
     fileWriter.onerror = function(e) {
       console.log("Write failed: " + e.toString());
     };
 
     var blob = new Blob([editor.getValue()]);
-    fileWriter.write(blob);
+    fileWriter.truncate(blob.size);
+    fileWriter.onwriteend = function() {
+      fileWriter.onwriteend = function(e) {
+        handleDocumentChange(theFileEntry.fullPath);
+        console.log("Write completed.");
+      };
+
+      fileWriter.write(blob);
+    }
   }, errorHandler);
 }
 
@@ -136,33 +137,46 @@ function handleSaveButton() {
   if (fileEntry && hasWriteAccess) {
     writeEditorToFile(fileEntry);
   } else {
-    if (isCrOS) {
-      chrome.fileBrowserHandler.selectFile({ "suggestedName": "new_file.txt" },
-        function(selectInfo) {
-          setFile(selectInfo.entry, true);
-          handleSaveButton();
-        }
-      );
-    } else {
-      chrome.fileSystem.chooseFile({ type: 'saveFile' }, onChosenFileToSave);
-    }
+    chrome.fileSystem.chooseFile({ type: 'saveFile' }, onChosenFileToSave);
   }
 }
 
-window.onload = function() {
-  // TODO: since chrome.fileSystem seems to be the future, this test should
-  // hinge on availablility of that API rather than absence of this one.
-  isCrOS = (typeof chrome.fileBrowserHandler != 'undefined');
+function initContextMenu() {
+  chrome.contextMenus.removeAll(function() {
+    for (var snippetName in SNIPPETS) {
+      chrome.contextMenus.create({
+        title: snippetName,
+        id: snippetName,
+        contexts: ['all']
+      });
+    }
+  });
+}
+
+chrome.contextMenus.onClicked.addListener(function(info) {
+  // Context menu command wasn't meant for us.
+  if (!document.hasFocus()) {
+    return;
+  }
+
+  editor.replaceSelection(SNIPPETS[info.menuItemId]);
+});
+
+onload = function() {
+  initContextMenu();
 
   newButton = document.getElementById("new");
   openButton = document.getElementById("open");
   saveButton = document.getElementById("save");
 
   newButton.addEventListener("click", handleNewButton);
+  openButton.addEventListener("click", handleOpenButton);
   saveButton.addEventListener("click", handleSaveButton);
 
-  editor = CodeMirror.fromTextArea(document.getElementById("editor"),
-    { mode: {name: "javascript", json: true },
+  editor = CodeMirror(
+    document.getElementById("editor"),
+    {
+      mode: {name: "javascript", json: true },
       lineNumbers: true,
       theme: "lesser-dark",
       extraKeys: {
@@ -171,12 +185,18 @@ window.onload = function() {
       }
     });
 
-  if (isCrOS) {
-    // file_browser_handlers aren't available for apps, grrr.
-    openButton.disabled = true;
-  } else {
-    // We don't appear to be running on CrOS. Use chrome.fileSystem instead.
-    openButton.addEventListener("click", handleOpenButton);
-  }
   newFile();
+  onresize();
 };
+
+onresize = function() {
+  var container = document.getElementById('editor');
+  var containerWidth = container.offsetWidth;
+  var containerHeight = container.offsetHeight;
+
+  var scrollerElement = editor.getScrollerElement();
+  scrollerElement.style.width = containerWidth + 'px';
+  scrollerElement.style.height = containerHeight + 'px';
+
+  editor.refresh();
+}

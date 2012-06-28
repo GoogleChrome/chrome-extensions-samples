@@ -1,6 +1,6 @@
 {
   "name": "MiniCodeEdit",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "manifest_version": 2,
   "description": "A very small code editor.",
   "app": {
@@ -11,9 +11,9 @@
 
   "permissions": [
     "experimental",
-    "fileBrowserHandler",
     "fileSystem",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "contextMenus"
   ],
 
   "icons": {
