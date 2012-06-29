@@ -13,7 +13,8 @@
     "experimental",
     "clipboardRead",
     "clipboardWrite",
-    "fileSystem"
+    "fileSystem",
+	"fileSystemWrite"
   ],
   "app": {
     "background": {
