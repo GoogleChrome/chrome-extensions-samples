@@ -14,18 +14,16 @@
   "permissions": [
     "experimental",
     "fileSystem",
-    "fileSystem.write"
+    "fileSystemWrite"
   ],
   "intents": {
     "http://webintents.org/view" : [{
       "title" : "Txt Reader",
-      "type" : ["text/*"],
-      "disposition" : "window"
+      "type" : ["text/*"]
     }],
     "http://webintents.org/edit" : [{
       "title" : "Txt Reader",
-      "type" : ["text/*"],
-      "disposition" : "window"
+      "type" : ["text/*"]
     }]
   }
 }
