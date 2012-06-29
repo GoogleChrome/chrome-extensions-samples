@@ -14,7 +14,7 @@
   "permissions": [
     "experimental",
     "fileSystem",
-    "fileSystem.write"
+    "fileSystemWrite"
   ],
   "intents": {
     "http://webintents.org/view" : [{
