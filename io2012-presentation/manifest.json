@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Apps IO 2012",
+  "description": "Chrome Apps IO 2012 presentation.",
+  "version": "1.1",
+  "app": {
+    "background": {
+      "scripts": ["js/main.js"]
+    }
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  },
+  "permissions": [
+    "experimental",
+    "storage",
+    "videoCapture"
+  ]
+}

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google IO 2012</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/presentation.css">
+</head>
+<body style="opacity: 0">
+
+<!-- removed class="layout-widescreen" since we're using a chromebook -->
+<slides>
+
+  <slide class="logoslide nobackground">
+    <article class="chromelogo">
+      <img src="images/chrome-logo.png"><div id="chrometext">chrome</div>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/chrome-logo.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Remember Google I/O 2011?</h2>
+    </hgroup>
+    <article>
+      <div id="remember_icons" class="build">
+        <img class="icon" src="images/remember-chrome.png" alt="Chrome reached 160 million users">
+        <img class="icon" src="images/remember-wallet.png" alt="Launched in-app payments">
+        <img class="icon" src="images/remember-i18n.png" alt="Launched the store in 42 languages">
+        <img class="icon" src="images/remember-angry-birds.png" alt="Launched Angry Birds in Chrome">
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Ecosystem Is Thriving</h2>
+    </hgroup>
+    <article id="ecosystem">
+    <div id="ecosystem_blocks" class="build">
+      <div class="ecoblock">
+        <div class="ecoblock_left">Native Client</div>
+        <div class="vdivider"></div>
+        <div class="ecoblock_right">Amazing Games</div>
+      </div>
+      <div class="ecoblock">
+        <div class="ecoblock_left">Web Store</div>
+        <div class="vdivider"></div>
+        <div class="ecoblock_right">
+          <div>750</div>
+          <div>
+            <span class="blue">Million</span><br/>App Installs
+          </div>
+        </div>
+      </div>
+      <div class="ecoblock">
+        <div class="ecoblock_left">Chrome</div>
+        <div class="vdivider"></div>
+        <div class="ecoblock_right">
+          <div>310</div>
+          <div>
+            <span class="blue">Million</span><br/>Active Users
+          </div>
+        </div>
+      </div>
+    </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Apps Evolution</h2>
+    </hgroup>
+    <article>
+      <div id="evolution_blocks" class="build">
+        <div class="evoblock bluebg">
+        Breaking Out of the Browser
+        </div>
+        <div class="evoblock redbg">
+        Enhanced User Interface
+        </div>
+        <div class="evoblock yellowbg">
+        Offline by Default
+        </div>
+        <div class="evoblock greenbg">
+        New APIs
+        </div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="topborder">
+    <hgroup class="bluebg">
+      <h2>Breaking Out Of the Browser</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">Launch from outside of the browser.</div>
+        <div class="li">First class OS windows (alt-tab, etc.)</div>
+        <aside id="exit-fullscreen" class="demobutton"></aside>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="topborder">
+    <hgroup class="redbg">
+      <h2>Enhanced User Interface</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">Full control over multiple windows.</div>
+        <div class="li">Custom window frame without browser chrome.</div>
+        <div class="li"><a href="http://www.google.com" target="_blank">Links</a> open in browsers, not in the app.</div>
+        <aside id="windows-demo" class="demobutton"></aside>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="topborder">
+    <hgroup class="yellowbg">
+      <h2>Offline by Default</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">Packaged app UI and logic is loaded and run locally.</div>
+        <div class="li">Enforced separation of client UI and data.</div>
+        <div class="li">APIs degrade gracefully when offline.</div>
+        <div class="li">Apps are launched from outside of the browser.</div>
+        <aside id="offline-demo" class="demobutton"></aside>
+      </div>
+    </article>
+  </slide>
+
+  <slide id="apis-slide" class="topborder">
+    <div id="spinner-demo" class="spinner-demo">
+      <video id="camera-output" width="640" height="480" autoplay></video>
+      <input id="spinner-input" type="range" min="0" max="9" value="0">
+      <div id="spinner-error"></div>
+    </div>
+
+    <div id="technical-difficulties" class="spinner-demo">
+      <img src="images/technical-difficulties.png" width="640" height="480" alt="Please stand by">
+    </div>
+
+    <hgroup class="greenbg">
+      <h2>New APIs</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">System</div>
+        <div class="li">Shared Data</div>
+        <div class="li">Services</div>
+        <aside id="spinner-demo-button" class="demobutton"></aside>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The Programming Model</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">Packaged apps.</div>
+        <div class="li">Background page as the hub.</div>
+        <div class="li">App lifetime controlled by runtime; event-driven.</div>
+        <aside id="programming-demo" class="demobutton"></aside>
+        <div class="li">"Single-page", no navigation.</div>
+        <div class="li">Some web features deprecated.</div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The Security Model</h2>
+    </hgroup>
+    <article>
+      <div class="ul build">
+        <div class="li">Process isolation.</div>
+        <div class="li">Sandboxing.</div>
+        <div class="li">Permissions model.</div>
+        <div class="li">Content Security Policy (CSP).</div>
+        <aside id="security-demo" class="demobutton"></aside>
+        <div class="li">Storage isolation.</div>
+        <div class="li">Explicit shared data APIs.</div>
+        <div class="li">No extension APIs.</div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>&lt;browser&gt;</h2>
+    </hgroup>
+    <article>
+      <div>
+        <pre>&lt;browser src="http://news.google.com/" width="750" height="300"&gt;</pre>
+        <object src="http://news.google.com/news/section?pz=1&cf=all&ned=us&topic=s&ict=ln" type="application/browser-plugin"
+                width="750" height="400"></object>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Take it For a Spin</h2>
+    </hgroup>
+    <article>
+    <img style="height: 500px; display:block; margin: auto;" src="images/chrome-logo.svg">
+    <aside id="spinner-demo-button2" class="demobutton"></aside>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Apps Evolved</h2>
+    </hgroup>
+    <article>
+      <div id="evolution_blocks" class="build">
+        <div>
+          <div class="evoblock bluebg">
+          Breaking Out of the Browser
+          </div>
+          <div class="evoblock redbg">
+          Enhanced User Interface
+          </div>
+          <div class="evoblock yellowbg">
+          Offline by Default
+          </div>
+          <div class="evoblock greenbg">
+          New APIs
+          </div>
+        </div>
+        <div style="margin-top: 50px;">· Available for testing on Canary</div>
+        <div style="margin-top: 10px;">· System Applications working group</div>
+        <div style="margin-top: 10px;">· Mobile coming</div>
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Check Out More Demos</h2>
+    </hgroup>
+    <article id="sandbox">
+      <div class="ul">
+        <div class="li">Media player - Sencha</div>
+        <div class="li">Photobooth - Kendo UI</div>
+        <div class="li">Text Editor - AngularJS (Google)</div>
+        <div class="li">"Johnny" - Google</div>
+        <div class="li">github.com/GoogleChrome</div>
+      </div>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/chrome-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>Thank You!</h2>
+      <p>Try out the developer preview and send us feedback.</p>
+      <p>developer.chrome.com/apps</p>
+      <p>chromium-apps@chromium.org</p>
+      <p>#chromium-apps (freenode)</p>
+    </article>
+  </slide>
+
+  <slide class="logoslide dark nobackground">
+    <article class="chromelogo">
+      <img src="images/chrome-logo.png"><div id="chrometext">chrome</div>
+    </article>
+  </slide>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="js/slide-config.js"></script>
+<script src="js/slide-controller.js"></script>
+<script src="js/slide-deck.js"></script>
+<script src="js/servo.js"></script>
+<script src="js/slides.js"></script>
+</body>
+</html>

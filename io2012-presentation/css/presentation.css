@@ -1,0 +1,248 @@
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inconsolata'), url(../theme/inconsolata.woff) format('woff');
+}
+.link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#remember_icons {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+#remember_icons .icon {
+  width: 128px;
+  height: 128px;
+  padding: 0px 20px;
+}
+
+#remember_icons.build .to-build {
+  -webkit-transform: translateY(300px);
+}
+
+#remember_icons > * {
+  -webkit-transition: all 0.5s ease-in-out 0.2s;
+  transition: all 0.5s ease-in-out 0.2s;
+}
+
+#ecosystem {
+  background: url(../images/ecosystem.png) no-repeat bottom right;
+  background-size: 350px;
+  height: 500px;
+}
+
+#ecosystem_blocks {
+  padding-top: 100px;
+}
+
+#ecosystem_blocks > * {
+  -webkit-transition: all 0.5s ease-in-out 0.2s;
+}
+
+.ecoblock {
+  display: block;
+  min-height: 100px;
+  width: 600px;
+  vertical-align: top;
+  Xcolor: #515151;
+}
+
+.ecoblock.to-build {
+  -webkit-transform: rotateY(90deg);
+}
+
+.ecoblock_left {
+  display: inline-block;
+  vertical-align: top;
+  width: 180px;
+}
+
+.vdivider {
+  margin: 0px 10px;
+  display: inline-block;
+  width: 2px;
+  height: 40px;
+  background-color: #a9a9a9;
+}
+
+.ecoblock_right {
+  display: inline-block;
+  padding-left: 20px;
+  vertical-align: top;
+  font-size: 100%;
+}
+
+.ecoblock_right div {
+  display: inline-block;
+  font-weight: bold;
+}
+.ecoblock_right div:nth-child(1) {
+  font-size: 40px;
+  color: #4387fd;
+}
+
+.ecoblock_right div:nth-child(2) {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.bignumber {
+  font-size: 40px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#evolution_blocks {
+  margin: 150px auto;
+}
+
+#evolution_blocks > * {
+  -webkit-transition: all 0.5s ease-in-out 0.2s;
+}
+
+.evoblock {
+  padding: 5px 0px 0px 0px;
+  display: inline-block;
+  min-height: 120px;
+  width: 180px;
+  vertical-align: top;
+  font-size: 24px;
+}
+
+.evoblock.to-build {
+  -XXwebkit-transform: rotateY(90deg);
+}
+
+.bluebg {
+  border-top: 10px solid #4387fd;
+}
+
+.redbg {
+  border-top: 10px solid #f44a3f;
+}
+
+.greenbg {
+  border-top: 10px solid #0da861;
+}
+
+.yellowbg {
+  border-top: 10px solid #ffd14d;
+}
+
+.topborder hgroup {
+  margin-top: -20px;
+  padding-top: 10px;
+}
+
+.chromelogo {
+  font-size: 60px;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  height: 100%;
+  width: 100%;
+}
+
+.chromelogo img {
+  width: 100px;
+  height: 100px;
+}
+
+#chrometext {
+  position: relative;
+  top: -30px;
+  left: 10px;
+  display: inline-block;
+  letter-spacing: -3px;
+}
+
+.spinner-demo {
+  -webkit-transition: all .5s ease-in-out;
+  opacity: 0;
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  width: 640px;
+  height: 500px;
+  text-align: center;
+}
+
+.spinner-demo.visible {
+  opacity: 1;
+}
+
+#spinner-input {
+   -webkit-appearance:none !important;
+  width: 400px;
+  height: 6px;
+  background: rgb(13, 168, 97);
+}
+
+#spinner-input::-webkit-slider-thumb {
+  -webkit-appearance:none !important;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background: rgb(67, 135, 253);
+}
+
+#spinner-error {
+  -webkit-transition: all .5s ease-in-out;
+  opacity: 0;
+  font-size: 12px;
+}
+
+#spinner-error.visible {
+  opacity: 1.0;
+}
+
+aside.demobutton {
+  height: 67px;
+  position: absolute;
+  right: -1px;
+  top: 125px;
+  -webkit-border-radius: 10px 0px 0px 10px;
+  background: -webkit-linear-gradient(left, #e6e6e6, #e6e6e6) no-repeat;
+  -webkit-transition: all 0.1s ease-out 0.1s;
+  padding: 30px 20px 0px 20px;
+}
+
+.demobutton:after {
+  content: "Demo";
+}
+
+.demobutton:hover {
+  color: #4387fd;
+}
+
+.demobutton.hidden {
+  display: none;
+}
+
+.ul {
+  margin-left: 1.2em;
+  margin-bottom: 1em;
+}
+
+.li {
+  margin-bottom: 0.5em;
+}
+
+.li:before {
+  content: '·';
+  margin-left: -1em;
+  position: absolute;
+  font-weight: 600;
+}
+
+#sandbox img {
+  height: 80px;
+  margin: 20px 20px 20px 0px;
+  display: block;
+}

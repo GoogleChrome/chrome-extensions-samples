@@ -1,0 +1,17 @@
+{
+  "name": "Servo",
+  "version": "0.3",
+  "manifest_version": 2,
+  "description": "Show off serial functionality.",
+
+  "app": {
+    "background": {
+      "scripts": [ "background.js" ]
+    }
+  },
+
+  "permissions": [
+    "experimental",
+    "videoCapture"
+  ]
+}
