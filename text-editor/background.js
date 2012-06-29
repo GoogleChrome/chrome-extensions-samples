@@ -1,5 +1,5 @@
 function onLaunched(launchData) {
-  chrome.appWindow.create('demo.html', function(win) {
+  chrome.appWindow.create('editor.html', function(win) {
     win.launchData = launchData;
   });
 }

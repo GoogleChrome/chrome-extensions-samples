@@ -44,10 +44,6 @@ body {
     background-position: center;
 }
 
-#config {
-    background-image: url("icons/config.png");
-}
-
 #openfile {
     background-image: url("icons/openfile.png");
 }
@@ -68,41 +64,27 @@ body {
     background-image: url("icons/new.png");
 }
 
-#controlspanel {
-    position: absolute;
-    left: -242px;
-    top: 0px;
-    width: 300px;
-    height: 100%;
-    z-index: 100000;
-    opacity: 0.9;
-    background: white;
-    border-right: 1px solid #CCC;
-    -webkit-transition: all 0.5s ease-out;
-}
-
-#logo {
-    padding: 15px;
-    margin-left: 70px;
-}
-
-#controls {
-    padding: 5px;
-}
-
-#controls td {
-    text-align: right;
-}
-
-#controls td + td {
-    text-align: left;
-}
-
-#editor {
+#editarea {
     position: absolute;
     top:  0px;
     left: 58px;
     bottom: 0px;
     right: 0px;
     background: white;
+}
+
+#status {
+    border-bottom: 1px solid #CCC;
+    background-color: #EEE;
+}
+
+#path {
+    padding: 5px;
+    color: #777;
+}
+
+#error {
+    padding: 5px;
+    padding-top: 0px;
+    color: #C66;
 }

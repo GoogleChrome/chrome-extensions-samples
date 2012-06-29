@@ -1,1 +1,1 @@
-The icons in this folder are from the Eclipse project and licensed under the Eclipse public license version 1.0 (EPL).
+The icons in this project are awesome and come from http://www.silvestre.com.ar/.
