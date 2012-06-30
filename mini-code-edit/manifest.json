@@ -12,6 +12,7 @@
   "permissions": [
     "experimental",
     "fileSystem",
+    "fileSystemWrite",
     "unlimitedStorage",
     "contextMenus"
   ],
