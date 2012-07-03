@@ -46,7 +46,7 @@ function onGetAuthToken(auth_token) {
 }
 
 function getUserInfo() {
-  chrome.experimental.identity.getAuthToken(onGetAuthToken);
+  chrome.experimental.identity.getAuthToken({ 'interactive': false }, onGetAuthToken);
 }
 
 window.onload = getUserInfo;
