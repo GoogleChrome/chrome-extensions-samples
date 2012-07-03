@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#controls {
+  padding: 3px;
+  border-bottom: solid 1px #ccc;
+}
+
+#controls button,
+#controls input {
+  font-size: 14px;
+}
+
+button,
+input[type="submit"] {
+  border: solid 1px #ccc;
+  background: #eee;
+  border-radius: 2px;
+}
+
+#location {
+  border: solid 1px #ccc;
+  padding: 2px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+#controls {
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#controls #location-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#controls #center-column {
+  -webkit-flex: 1;
+  margin: 0 2px;
+}
+
