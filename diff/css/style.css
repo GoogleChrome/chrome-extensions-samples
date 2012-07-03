@@ -10,8 +10,8 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 18px;
+  margin: 10px;
   min-width: 975px;
-  padding: 20px;
 }
 
 .title {
@@ -279,10 +279,23 @@ input[type=text].form-error{
   width: 0;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #eee;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+}
+
 #file1-container,
 #file2-container {
   float: left;
+  min-height: 625px;
+  min-width: 470px;
   position: relative;
+  width: 48%;
 }
 
 .input-container {
@@ -320,7 +333,7 @@ input[type=text].form-error{
   margin-top: 36px;
   overflow: hidden;
   position: relative;
-  width: 40px;
+  width: 30px;
 }
 
 #arrow-container.arrow-edit {
@@ -345,61 +358,30 @@ input[type=text].form-error{
   opacity: 1;
 }
 
-#plus-container {
-  display: none;
-  float: left;
-  height: 575px;
-  margin-right: 2px;
-  margin-top: 36px;
-  overflow: hidden;
-  position: relative;
-  width: 16px;
-  z-index: 10;
-}
-
-#plus-container div {
-  border: 1px solid #999;
-  color: #999;
-  font-size: 18px;
-  height: 14px;
-  opacity: 0;
-  text-align: center;
-  width: 14px;
-}
-
-#plus-container div.plus,
-#plus-container div.minus {
-  cursor: pointer;
-  opacity: 1;
-}
-
-#plus-container div.plus:after {
-  content: "+";
-}
-
-#plus-container div.minus:after {
-  content: "-";
-}
-
 .file-diff,
 textarea {
   background: #fafafa;
   border: 1px solid #999;
+  color: #666;
   float: left;
-  font-family: monospace;
-  font-size: 12px;
-  height: 585px;
+  font-family: mono, courier, monospace;
+  font-size: 10px;
+  height: 625px;
   line-height: 16px;
   margin-bottom: 10px;
   margin-top: 10px;
   overflow: auto;
   white-space: nowrap;
-  width: 455px;
+  width: 100%;
 }
 
 div.button.edit,
-div.button.done{
+div.button.done,
+div.button.save {
   float: right;
+  margin-left: 16px;
+  margin-right: 0px;
+  min-width: 38px;
 }
 
 .file-diff div {

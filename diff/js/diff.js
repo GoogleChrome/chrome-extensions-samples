@@ -28,13 +28,14 @@ $(document).ready(function() {
   }, 500);
 
   $('.edit').click(function() {
-    var text = getText();
+    var text = getText(2);
     $('#arrow-container').addClass('arrow-edit');
     $('.file-diff.2').addClass('hidden');
     $('textarea.diff-text').val(text);
     $('textarea.diff-text').scrollTop($('.file-diff.1').scrollTop());
     $('textarea.diff-text').removeClass('hidden');
     $('.edit').addClass('hidden');
+    $('.save').addClass('hidden');
     $('.done').removeClass('hidden');
   });
 
@@ -48,6 +49,11 @@ $(document).ready(function() {
     $('textarea.diff-text').addClass('hidden');
     $('.edit').removeClass('hidden');
     $('.done').addClass('hidden');
+    $('.save').removeClass('hidden');
+  });
+
+  $('.save').click(function() {
+    saveFileAs();
   });
 
   $('textarea.diff-text').scroll(function () {
@@ -84,9 +90,9 @@ $(document).ready(function() {
       }
     );
 
-    var dropZone = document.getElementById('drop-zone' + i);
-    dropZone.addEventListener('dragover', handleDragOver, false);
-    dropZone.addEventListener('drop', handleDrop, false);
+    // var dropZone = document.getElementById('drop-zone' + i);
+    // dropZone.addEventListener('dragover', handleDragOver, false);
+    // dropZone.addEventListener('drop', handleDrop, false);
 
     $('.choose-url.' + i).click(function () {
       var i = $(this).attr('class').split(' ')[1];
@@ -149,8 +155,8 @@ $(document).ready(function() {
   });
 });
 
-function getText() {
-  var lines = $('.file-diff.2 div').children('.text');
+function getText(fileNum) {
+  var lines = $('.file-diff.' + fileNum + ' div').children('.text');
   var text = '';
   for (var i = 0; i < lines.length; i++) {
     if (!$(lines[i]).hasClass('hidden')) {
@@ -160,7 +166,9 @@ function getText() {
           if (!$(line[j]).hasClass('ins'))
             text += $(line[j]).html();
         } else {
-          if (!$(line[j]).hasClass('del'))
+          if (fileNum == 1 && !$(line[j]).hasClass('ins'))
+            text += $(line[j]).html();
+          if (fileNum == 2 && !$(line[j]).hasClass('del'))
             text += $(line[j]).html();
         }
       }
@@ -278,24 +286,35 @@ function saveFile(content, fileName) {
     FILE_SIZE,
     function(fs) {
       fs.root.getFile(fileName, {create: true}, function(fileEntry) {
-        fileEntry.createWriter(function(fileWriter) {
-
-          fileWriter.onwriteend = function(e) {
-            fileWriter.onwriteend = null;
-            fileWriter.truncate(content.length);
-          };
-
-          fileWriter.onerror = function(e) {
-            console.log('Write failed: ' + e.toString());
-          };
-
-          var blob = new Blob([content], {'type': 'text/plain'});
-          fileWriter.write(blob);
-
-        }, errorHandler);
+        save(fileEntry, content);
       }, errorHandler);
     },errorHandler);
 }
+
+function saveFileAs() {
+  chrome.fileSystem.chooseFile({'type': 'saveFile'}, function(fileEntry) {
+    save(fileEntry, getText(2));
+  });
+}
+
+function save(fileEntry, content) {
+  fileEntry.createWriter(function(fileWriter) {
+
+    fileWriter.onwriteend = function(e) {
+      fileWriter.onwriteend = null;
+      fileWriter.truncate(content.length);
+    };
+
+    fileWriter.onerror = function(e) {
+      console.log('Write failed: ' + e.toString());
+    };
+
+    var blob = new Blob([content], {'type': 'text/plain'});
+    fileWriter.write(blob);
+
+  }, errorHandler);
+}
+
 
 function readFileName(readFileName, fileNum) {
   window.webkitRequestFileSystem(
@@ -637,7 +656,7 @@ function createCollapsibleMatches() {
 
 function collapse(lines1, lines2, arrows, plusses, numContMatches, i) {
   if (numContMatches > 10) {
-    var firstCol = i - numContMatches + 6;
+    var firstCol = i - numContMatches + 5;
     var lastCol = i - 5;
     var numCol = lastCol - firstCol;
     var firstLine = firstCol + '-line';
@@ -682,7 +701,7 @@ function moveChunk(chunkNum) {
   $('#arrow-container .undo.' + chunkNum).removeClass('hidden');
   resetLineNums();
   setNumDiffs();
-  var text = getText();
+  var text = getText(2);
   saveFile(text, 'file1.txt');
 }
 
@@ -705,7 +724,7 @@ function undoMoveChunk(chunkNum) {
   $('#arrow-container .undo.' + chunkNum).addClass('hidden');
   resetLineNums();
   setNumDiffs();
-  var text = getText();
+  var text = getText(2);
   saveFile(text, 'file1.txt');
 }
 
