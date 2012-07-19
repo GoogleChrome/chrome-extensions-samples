@@ -1,7 +1,7 @@
-var main = null;
+var mainWindow = null;
 chrome.experimental.app.onLaunched.addListener(function(data) {
-  if (main) {
-    main.focus();
+  if (mainWindow && !mainWindow.closed) {
+    mainWindow.chrome.appWindow.focus();
   } else {
     chrome.appWindow.create('index.html', {
       width: 700,
@@ -10,7 +10,7 @@ chrome.experimental.app.onLaunched.addListener(function(data) {
       minHeight: 473,
       type: 'none'
     }, function(win) {
-      main = win;
+      mainWindow = win;
       if (data && data.intent && data.intent.type.indexOf('image') === 0)
         win.webkitIntent = data.intent || null;
     });
