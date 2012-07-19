@@ -4,11 +4,8 @@
   "description": "Echo..... Echo.",
   "version": "1",
   "app": {
-    "launch": {
-      "local_path": "echo_mco.html",
-      "width": 600,
-      "height": 600,
-      "container": "panel"
+    "background": {
+      "scripts": ["main.js"]
     }
   },
   "icons": {
