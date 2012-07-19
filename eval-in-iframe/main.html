@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Eval in Sandboxed Iframe</title>
-	<script src="main.js"></script>
-	<style>
-	  /* Don't the sandboxed iframe to be visible while it's in the document */
-	  iframe.sandboxed {
-	    position: absolute;
-	    top: 0;
-	    left: -100px;
+  <meta charset="utf-8" />
+  <title>Eval in Sandboxed Iframe</title>
+  <script src="main.js"></script>
+  <style>
+    /* Don't allow the sandboxed iframe to be visible while it's in the document */
+    iframe.sandboxed {
+      position: absolute;
+      top: 0;
+      left: -100px;
       width: 0px;
       height: 0px;
-	  }
-	</style>
+    }
+  </style>
 </head>
 <body>
 Input:<br>
