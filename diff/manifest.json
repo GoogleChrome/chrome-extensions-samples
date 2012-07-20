@@ -10,9 +10,9 @@
     }
   },
   "permissions": ["experimental",
-                  "appWindow",
                   "unlimitedStorage",
                   "fileSystem",
+                  "fileSystemWrite",
                   "<all_urls>"
                  ],
   "icons": { "16": "img/icon_16.png",

@@ -11,7 +11,7 @@ body {
   font-size: 13px;
   line-height: 18px;
   margin: 10px;
-  min-width: 975px;
+  min-width: 1175px;
 }
 
 .title {
@@ -45,14 +45,11 @@ body {
 
 div.button:hover {
   background-color: #f8f8f8;
-  background-image: -webkit-linear-gradient(top,#f8f8f8,#f1f1f1);
-  background-image: -moz-linear-gradient(top,#f8f8f8,#f1f1f1);
-  background-image: -ms-linear-gradient(top,#f8f8f8,#f1f1f1);
-  background-image: -o-linear-gradient(top,#f8f8f8,#f1f1f1);
-  background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #f1f1f1);
+  background-image: linear-gradient(top, #f8f8f8, #f1f1f1);
   border: 1px solid #c6c6Cc;
-  box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   color: #222;
   transition: all 0.0s;
   -webkit-transition: all 0.0s;
@@ -199,7 +196,7 @@ input[type=text].form-error{
 
 .offline {
   margin-bottom: 10px;
-  margin-top: -15px;
+  margin-top: -5px;
 }
 
 .offline div.text {
@@ -246,15 +243,14 @@ input[type=text].form-error{
   font-weight: bold;
   height: 29px;
   line-height: 29px;
-  margin-left: 85px;
-  opacity: 0.0;
   outline: 1px solid rgba(255,255,255,0.5);
   padding: 0 10px;
   position: absolute;
   text-align: center;
-  top: 30px;
+  top: 46px;
   transition: opacity 0.13s;
   -webkit-transition: opacity 0.13s;
+  white-space: nowrap;
   z-index: 2000;
 }
 
@@ -286,54 +282,98 @@ input[type=text].form-error{
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e5e5e5;
+  background: #ddd;
+  border: 1px solid #d5d5d5;
 }
 
-#file1-container,
-#file2-container {
+#left-side {
   float: left;
-  min-height: 625px;
-  min-width: 470px;
+  height: 100%;
+  margin-right: 5px;
+  min-height: 768px;
   position: relative;
-  width: 48%;
+  width: 44px;
 }
 
-.input-container {
+#left-side .button.new-diff {
+  cursor: pointer;
   float: left;
-  position: relative;
-  white-space: nowrap;
+  height: 30px;
+  margin: 4px;
+  min-height: 30px;
+  min-width: 36px;
+  padding: 0px;
+  width: 36px;
 }
 
-.input-container form {
-  opacity: 0;
-  position: relative;
-  z-index: 10;
+#left-side .button.new-diff img {
+  height: 24px;
+  margin-top: 3px;
+  width: 24px;
 }
 
-.input-container form input {
-  opacity: 0;
-}
-
-.input-container .form-cover {
-  left: 0px;
+#left-side #prev-chunk {
+  background: url('../img/arrow-up.jpg') center no-repeat;
+  background-size: auto 20px;
+  cursor: pointer;
+  height: 30px;
+  left: 13px;
   position: absolute;
-  top: 0px;
-  z-index: 1;
+  top: 75px;
+  width: 20px;
 }
 
-.input-container .form-cover.file-name {
-  font-size: 16px;
-  left: 100px;
-  padding-top: 5px;
+#left-side #next-chunk {
+  background: url('../img/arrow-down.jpg') center no-repeat;
+  background-size: auto 20px;
+  cursor: pointer;
+  height: 30px;
+  left: 13px;
+  position: absolute;
+  top: 105px;
+  width: 20px;
+}
+
+#left-side #expand-all,
+#left-side #collapse-all {
+  cursor: pointer;
+  height: 20px;
+  position: absolute;
+  top: 45px;
+  width: 20px;
+}
+
+#left-side #expand-all {
+  background: url('../img/plus_all.png') center no-repeat;
+  left: 2px;
+}
+
+#left-side #collapse-all {
+  background: url('../img/minus_all.png') center no-repeat;
+  left: 23px;
+}
+
+#left-side #expand-all.disabled,
+#left-side #collapse-all.disabled,
+#left-side #prev-chunk.disabled,
+#left-side #next-chunk.disabled {
+  cursor: default;
+  opacity: 0.25;
 }
 
 #arrow-container {
+  border-bottom: 2px solid #666;
+  border-top: 2px solid #666;
   float: left;
-  height: 575px;
-  margin-top: 36px;
-  overflow: hidden;
+  height: 705px;
+  margin-top: 43px;
+  overflow: auto;
   position: relative;
   width: 30px;
+}
+
+#arrow-container::-webkit-scrollbar {
+  display: none;
 }
 
 #arrow-container.arrow-edit {
@@ -358,38 +398,97 @@ input[type=text].form-error{
   opacity: 1;
 }
 
+#file0-container,
+#file1-container {
+  float: left;
+  min-height: 755px;
+  position: relative;
+  width: 45%;
+}
+
+#file0-container {
+  min-width: 555px;
+}
+
+#file1-container {
+  min-width: 530;
+}
+
+div.file-name {
+  float: left;
+  font-size: 16px;
+  padding-top: 15px;
+}
+
 .file-diff,
 textarea {
-  background: #fafafa;
-  border: 1px solid #999;
+  background: #fff;
+  border: 2px solid #666;
   color: #666;
   float: left;
   font-family: mono, courier, monospace;
   font-size: 10px;
-  height: 625px;
+  height: 705px;
   line-height: 16px;
   margin-bottom: 10px;
   margin-top: 10px;
   overflow: auto;
+  top: 35px;
   white-space: nowrap;
   width: 100%;
+}
+
+#file0-container .file-diff::-webkit-scrollbar {
+  display: none;
+}
+
+#file0-container .file-diff {
+  border-right: 1px solid #999;
+}
+
+#file1-container .file-diff {
+  border-left: 1px solid #999;
 }
 
 div.button.edit,
-div.button.done,
 div.button.save {
   float: right;
+  height: 20px;
   margin-left: 16px;
   margin-right: 0px;
-  min-width: 38px;
+  margin-top: 10px;
+  min-height: 20px;
+  min-width: 20px;
 }
 
-.file-diff div {
+.tooltip.save {
+  right: 0px;
+}
+
+.tooltip.edit {
+  right: 55px;
+}
+
+div.button.done {
+  float: right;
+  margin-right: 0px;
+  margin-top: 4px;
+  min-width: 20px;
+}
+
+.edit img,
+.save img {
+  height: 16px;
+  margin: 2px;
+  width: 16px;
+}
+
+.file-diff > div {
   float: left;
   min-height: 16px;
+  min-width: 100%;
   position: relative;
   white-space: nowrap;
-  width: 100%;
 }
 
 .file-diff div.collapsed-num {
@@ -407,17 +506,45 @@ div.button.save {
   cursor: pointer;
 }
 
+.file-diff div .expand {
+  background-color: #fff;
+  border-right: 1px solid #999;
+  float: left;
+  height: 48px;
+  margin-left: -1px;
+  margin-top: -16px;
+  padding-left: 3px;
+  position: absolute;
+  width: 21px;
+}
+
+.file-diff div.selected-chunk .expand {
+  width: 20px;
+}
+
+.file-diff div .expand.plus {
+  background: url('../img/plus.png') center no-repeat;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.file-diff div .expand.minus {
+  background: url('../img/minus.png') center no-repeat;
+  cursor: pointer;
+  z-index: 10;
+}
+
 .file-diff div.blank {
   background: #eee;
 }
 
-#file2-container .file-diff div.ins,
-#file2-container .file-diff div.del {
+#file1-container .file-diff div.ins,
+#file1-container .file-diff div.del {
   background: #dfd;
 }
 
-#file1-container .file-diff div.del,
-#file1-container .file-diff div.ins {
+#file0-container .file-diff div.del,
+#file0-container .file-diff div.ins {
   background: #fee;
 }
 
@@ -426,17 +553,43 @@ div.button.save {
   display: none;
 }
 
+.file-diff div.selected-chunk {
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  color: #000;
+}
+
+.file-diff div.selected-chunk.first {
+  border-top: 1px solid #000;
+  box-shadow: 0 -4px 4px -3px #666;
+}
+
+.file-diff div.selected-chunk.last {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 4px 4px -3px #666;
+}
+
 .file-diff div div.lineNum {
   border-right: 1px solid #999;
   float: left;
+  overflow: hidden;
   text-align: center;
   width: 35px;
 }
 
-.file-diff div div.text,
-.file-diff div div.left-text {
+#file0-container .file-diff div div.lineNum {
   position: absolute;
-  left: 36px;
+  left: 26px;
+}
+
+#file0-container .file-diff div div.text {
+  position: absolute;
+  left: 68px;
+}
+
+#file1-container .file-diff div div.text {
+  position: absolute;
+  left: 42px;
 }
 
 .file-diff div span {
@@ -452,37 +605,88 @@ div.button.save {
   background: #faa;
 }
 
-#file1-container .file-diff div span.ins {
+#file0-container .file-diff div span.ins {
   display: none;
 }
 
-#file2-container .file-diff div span.del {
+#file1-container .file-diff div span.del {
   display: none;
 }
 
-#file1-container .file-diff div.fix,
-#file2-container .file-diff div.fix {
+#file0-container .file-diff div.fix,
+#file1-container .file-diff div.fix {
   background: none;
+}
+
+#file0-container .file-diff div.fix span.del {
+  background: none;
+}
+
+#file1-container .file-diff div.fix span.ins {
+  display: none;
 }
 
 #file1-container .file-diff div.fix span.del {
-  background: none;
-}
-
-#file2-container .file-diff div.fix span.ins {
-  display: none;
-}
-
-#file2-container .file-diff div.fix span.del {
   display: block;
   background: none;
 }
 
+#num-diffs {
+  float: right;
+  margin-right: 12px;
+  margin-top: 15px;
+}
+
+.modal-dialog.new-diff .choose-file {
+  float: left;
+  margin-bottom: 16px;
+}
+
+.modal-dialog.new-diff label {
+  float: left;
+  margin-right: 16px;
+  margin-top: 5px;
+}
+
+.modal-dialog.new-diff input {
+  float: left;
+  margin-bottom: 16px;
+  width: 320px;
+}
+
+.error-message {
+  float: left;
+  margin-bottom: 8px;
+  margin-top: -14px;
+  opacity: 0;
+}
+
+.error-message.visible {
+  opacity: 1;
+}
+
+.modal-dialog.new-diff .loading {
+  margin-left: 16px;
+  position: relative;
+}
+
+.modal-dialog.new-diff .loading .loader {
+  float: left;
+  margin: 4px;
+}
 
 .hidden {
   display: none;
 }
 
+.modal-dialog.new-diff .url.hidden {
+  display: none;
+}
+
 br.clear {
   clear: both;
+}
+
+br.clear-right {
+  clear: right;
 }

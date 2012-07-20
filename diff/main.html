@@ -3,10 +3,16 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Diff Chrome Extension</title>
-    <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="lib/diff_match_patch.js"></script>
-    <script type="text/javascript" src="js/diff.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.activity-indicator.js"></script>
+    <script type="text/javascript" src="lib/diff_match_patch.js"></script>
+
+    <script type="text/javascript" src="js/diff.js"></script>
+    <script type="text/javascript" src="js/merge.js"></script>
+    <script type="text/javascript" src="js/filesystem.js"></script>
   </head>
   <body>
     <div class="offline hidden">
@@ -14,77 +20,60 @@
       <div class="text">You are currently offline</div>
     </div>
 
-    <div id="plus-container"></div>
+    <div id="left-side">
+      <div class="button new-diff"><img src="img/edit_diff.png" /></div>
+      <div class="tooltip new-diff hidden">New Diff<span class="pointer"</span></div>
+      <div id="expand-all" class="disabled"></div>
+      <div id="collapse-all" class="disabled"></div>
+      <div id="prev-chunk" class="disabled"></div>
+      <div id="next-chunk" class="disabled"></div>
+    </div>
 
-    <div id="file1-container">
-      <div class="input-container url">
-        <div class="button form-cover">Choose URL</div>
-        <form>
-          <input class="choose-url 1" type="button" value="Choose URL">
-        </form>
-      </div>
-      <div class="input-container">
-        <div class="button form-cover">Choose File</div>
-        <div class="file-name form-cover 1">No File Selected</div>
-        <form>
-          <input class="choose-file 1" type="file">
-        </form>
-        <div class="tooltip">
-          <a class="tooltip-text 1">No File Selected</a>
-          <span class="pointer"></span>
-        </div>
-      </div>
-      <br>
-      <div class="file-diff 1" id="drop-zone1"></div>
+    <div id="file0-container">
+      <div class="file-name 0">No File Selected</div>
+      <div class="file-diff 0" id="drop-zone0"></div>
     </div>
 
     <div id="arrow-container"></div>
 
-    <div id="file2-container">
-      <div class="input-container url">
-        <div class="button form-cover">Choose URL</div>
-        <form>
-          <input class="choose-url 2" type="button" value="Choose URL">
-        </form>
-      </div>
-      <div class="input-container">
-        <div class="button form-cover">Choose File</div>
-        <div class="file-name form-cover 2">No File Selected</div>
-        <form>
-          <input class="choose-file 2" type="file">
-        </form>
-        <div class="tooltip">
-          <a class="tooltip-text 2">No File Selected</a>
-          <span class="pointer"></span>
-        </div>
-      </div>
-      <div class="button save">Save</div>
-      <div class="button edit">Edit</div>
+    <div id="file1-container">
+      <div class="file-name 1">No File Selected</div>
+      <div class="button save hidden"><img src="img/save.png" /></div>
+      <div class="tooltip save hidden">Save<span class="pointer"</span></div>
+      <div class="button edit hidden"><img src="img/edit.png" /></div>
+      <div class="tooltip edit hidden">Edit<span class="pointer"</span></div>
       <div class="button done hidden">Done</div>
+      <div id="num-diffs"></div>
       <br>
-      <div class="file-diff 2" id="drop-zone2"></div>
+      <div class="file-diff 1" id="drop-zone1"></div>
       <textarea class="diff-text hidden"></textarea>
     </div>
 
-    <br class="clear">
-
-    <div id="num-diffs"></div>
     <br>
 
-    <div id="collapse-all" class="button">Collapse Matching Lines</div>
-    <div id="expand-all" class="button">Expand All Lines</div>
+    <div class="expand-all"></div>
 
-    <div class="enter-url modal-dialog prompt hidden">
+    <div class="new-diff modal-dialog prompt hidden">
       <div class="close-button"></div>
-      <h1>Select URL</h1>
-      <p>
-        <label for="url">Please enter the URL</label>
-        <input type="text" name="url" id="url">
-        <div class="error-message hidden">Please enter a valid URL</div>
-      </p>
+
+      <h1>File 1:  <span class="file-name 0">No File Selected</span></h1>
+      <div class="button choose-file 0">Choose File</div>
+      <label for="url" class="url">or select URL</label>
+      <input type="text" name="url" class="url 0">
+      <div class="error-message 0">Please enter a valid URL</div>
+      <br class="clear">
+
+      <h1>File 2:  <span class="file-name 1">No File Selected</span></h1>
+      <div class="button choose-file 1">Choose File</div>
+      <label for="url" class="url">or select URL</label>
+      <input type="text" name="url" class="url 1">
+      <div class="error-message 1">Please enter a valid URL</div>
+      <br class="clear">
+
       <div class="button blue submit">Submit</div>
       <div class="button cancel">Cancel</div>
     </div>
+
     <div id="modal-shield" class="hidden"></div>
   </body>
 </html>

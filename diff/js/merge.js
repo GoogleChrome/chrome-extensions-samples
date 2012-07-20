@@ -3,12 +3,3 @@
  * Use of this source code is governed by a BSD-style license that can be
  * found in the LICENSE file.
  **/
-
-function onLaunched(launchData) {
-  chrome.appWindow.create('main.html', {
-    width: 1195,
-    height: 800
-  });
-}
-
-chrome.experimental.app.onLaunched.addListener(onLaunched);
