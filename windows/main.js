@@ -12,7 +12,7 @@ function clear() {
 
 function launch() {
   clear();
-  chrome.appWindow.create('original.html', {
+  chrome.app.window.create('original.html', {
     top: 128,
     left: 128,
     width: 256,
@@ -21,7 +21,7 @@ function launch() {
     minWidth: 256
   }, function(originalWindow) {
     windows.push(originalWindow);
-    chrome.appWindow.create('copycat.html', {
+    chrome.app.window.create('copycat.html', {
       top: 128,
       left: 384 + 5,
       width: 256,
@@ -46,13 +46,13 @@ function launch() {
             originalWindow.outerHeight);
       }, 10);
 
-      originalWindow.chrome.appWindow.focus();
+      originalWindow.chrome.app.window.focus();
     });
   });
 }
 
 function minimizeAll() {
-  windows.forEach(function(w) {w.chrome.appWindow.minimize()});
+  windows.forEach(function(w) {w.chrome.app.window.minimize()});
   setTimeout(clear, 2000);
 }
 

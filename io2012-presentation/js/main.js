@@ -5,14 +5,14 @@ var presentationWindow;
 
 chrome.experimental.app.onLaunched.addListener(function() {
   if (presentationWindow && !presentationWindow.closed) {
-    presentationWindow.chrome.appWindow.focus();
+    presentationWindow.chrome.app.window.focus();
     return;
   }
 
   var left = Math.max((screen.width - PRESENTATION_WIDTH)/2, 0);
   var top = Math.max((screen.height - PRESENTATION_HEIGHT)/2, 0);
 
-  chrome.appWindow.create('presentation.html?presentme=true', {
+  chrome.app.window.create('presentation.html?presentme=true', {
       frame: 'chrome',
       left: left, top: top,
       width: PRESENTATION_WIDTH, height: PRESENTATION_HEIGHT,
@@ -38,14 +38,14 @@ var windowingApiDemo = {
 
   launch: function() {
     windowingApiDemo.clear();
-    chrome.appWindow.create('windowing_api/original.html', {
+    chrome.app.window.create('windowing_api/original.html', {
       top: 128,
       left: 128,
       width: 256,
       height: 256
     }, function(originalWindow) {
       windowingApiDemo.windows.push(originalWindow);
-      chrome.appWindow.create('windowing_api/copycat.html', {
+      chrome.app.window.create('windowing_api/copycat.html', {
         top: 128,
         left: 384 + 5,
         width: 256,
@@ -68,13 +68,13 @@ var windowingApiDemo = {
               originalWindow.outerHeight);
         }, 10);
 
-        originalWindow.chrome.appWindow.focus();
+        originalWindow.chrome.app.window.focus();
       });
     });
   },
 
   minimizeAll: function() {
-    windowingApiDemo.windows.forEach(function(w) {w.chrome.appWindow.minimize()});
+    windowingApiDemo.windows.forEach(function(w) {w.chrome.app.window.minimize()});
     setTimeout(windowingApiDemo.clear, 2000);
   }
 }

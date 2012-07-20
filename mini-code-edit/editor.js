@@ -123,7 +123,7 @@ function handleNewButton() {
     newFile();
     editor.setValue("");
   } else {
-    chrome.appWindow.create('main.html', {
+    chrome.app.window.create('main.html', {
       frame: 'chrome', width: 720, height: 400
     });
   }

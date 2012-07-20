@@ -9,11 +9,11 @@ document.getElementById('exit-fullscreen').onclick = function() {
 };
 
 var minimizeAndHideButton = function(e) {
-  chrome.appWindow.minimize();
+  chrome.app.window.minimize();
   e.target.classList.toggle('hidden');
 };
 
-var minimize = function () { chrome.appWindow.minimize(); };
+var minimize = function () { chrome.app.window.minimize(); };
 
 document.getElementById("apis-slide").addEventListener("slideleave", function() {
   if (spinnerDemoRunning) {
