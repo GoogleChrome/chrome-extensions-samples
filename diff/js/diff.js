@@ -14,30 +14,27 @@ var numCollapsed;
 
 $(document).ready(function() {
 
-  $('#left-side .button.new-diff').hover(
-    function() {
-      $('.tooltip.new-diff').removeClass('hidden');
-    },
-    function() {
-      $('.tooltip.new-diff').addClass('hidden');
-    }
-  );
-  $('.button.save').hover(
-    function() {
-      $('.tooltip.save').removeClass('hidden');
-    },
-    function() {
-      $('.tooltip.save').addClass('hidden');
-    }
-  );
-  $('.button.edit').hover(
-    function() {
-      $('.tooltip.edit').removeClass('hidden');
-    },
-    function() {
-      $('.tooltip.edit').addClass('hidden');
-    }
-  );
+  var buttons = [ '#new-diff',
+                  '#save',
+                  '#edit',
+                  // '#expand-all',
+                  // '#collapse-all',
+                  // '#next-chunk',
+                  // '#prev-chunk'
+                ];
+
+  for (var i = 0; i < buttons.length; i++) {
+    $(buttons[i]).hover(
+      function() {
+        var button = $(this).attr('id');
+        $('.tooltip.' + button).removeClass('hidden');
+      },
+      function() {
+        var button = $(this).attr('id');
+        $('.tooltip.' + button).addClass('hidden');
+      }
+    );
+  }
 
   // Check for connection every 5 seconds
   setInterval(function() {
@@ -61,11 +58,18 @@ $(document).ready(function() {
       $('.file-diff.' + ((parseInt(i) + 1) % 2)).scrollTop(
           $('.file-diff.' + i).scrollTop());
       $('#arrow-container').scrollTop($('.file-diff.' + i).scrollTop());
+      $('#check-container').scrollTop($('.file-diff.' + i).scrollTop());
     });
   }
 
   $('#arrow-container').scroll(function() {
     $('.file-diff').scrollTop($('#arrow-container').scrollTop());
+    $('#check-container').scrollTop($('#arrow-container').scrollTop());
+  });
+
+  $('#check-container').scroll(function() {
+    $('.file-diff').scrollTop($('#check-container').scrollTop());
+    $('#arrow-container').scrollTop($('#check-container').scrollTop());
   });
 
   $('#collapse-all').click(function () {
@@ -98,10 +102,18 @@ function keyboardShortcut(event) {
     selectNextChunk();
   else if (event.which == 75)
     selectPrevChunk();
-  else if ( (event.which == 77) 
+  else if ((event.which == 76) 
             && (selectedChunk > 0) && (selectedChunk <= totalChunks))
     moveChunk('chunk-' + selectedChunk);
+  else if ((event.which == 82) 
+            && (selectedChunk > 0) && (selectedChunk <= totalChunks))
+    checkRight('chunk-' + selectedChunk);
+  else if (event.which == 69)
+    expandAllMatches();
+  else if (event.which == 67)
+    collapseAllMatches();
 }
+
 
 function disableShortcuts () {
   return ( !$('#modal-shield').hasClass('hidden') 
@@ -167,16 +179,20 @@ function getChunk(line) {
                               .replace('blank ', '')
                               .replace('first ', '')
                               .replace('chunk ', '')
+                              .replace('fix ', '')
+                              .replace('correct ', '')
                               .split(' ')[1];
 }
 
 function getRealLine(line) {
   var classes =  $(line).attr('class');
   classes = classes.replace('del ', '')
-                                     .replace('ins ', '')
-                                     .replace('blank ', '')
-                                     .replace('first ', '')
-                                     .replace('chunk ', '');
+                   .replace('ins ', '')
+                   .replace('blank ', '')
+                   .replace('first ', '')
+                   .replace('fix ', '')
+                   .replace('correct ', '')
+                   .replace('chunk ', '');
   var realLine = classes.split(' ')[0];
   return realLine;
 }
@@ -193,7 +209,7 @@ function computeDiff(file1, file2) {
   setLineNums();
   if (texts[0] != '' && texts[1] != '') {
     setNumDiffs(true);
-    setArrows();
+    setArrowsAndChecks();
     createCollapsibleMatches();
     $('.button.save').removeClass('hidden');
     $('.button.edit').removeClass('hidden');
@@ -287,6 +303,7 @@ function setLineTypes() {
     }
     if (displayed.length == 0) {
       $(this).addClass('blank');
+      $(this).prepend('<div class="expand"></div>');
     }
     $(this).has('.del').addClass('del');
     $(this).has('.ins').addClass('ins');
@@ -359,68 +376,71 @@ function resetLineNums() {
   }
 }
 
-function setArrows() {
+function setArrowsAndChecks() {
   var numChunks = 0;
   var arrow = '<div class="arrow"></div>';
+  var check = '<div class="check"></div>';
   var cont = 0;
   $('#arrow-container').html('');
+  $('#check-container').html('');
   var lines = $('.file-diff.0').children('div');
   for (var j =  0; j < lines.length; j++) {
     var $line = $(lines[j]);
     if ( $line.hasClass('ins')
          || $line.hasClass('del')
-         || $line.hasClass('blank') ) {
+         || $line.hasClass('blank')
+       ) {
       if (cont == 0) numChunks += 1;
       cont += 1;
     }
     else if (cont > 0) {
-      insertArrow(cont, numChunks);
+      insertArrowAndCheck(cont, numChunks);
       cont = 0;
       $('#arrow-container').append(arrow);
+      $('#check-container').append(check);
     }
     else {
       $('#arrow-container').append(arrow);
+      $('#check-container').append(check);
     }
   }
-  if (cont > 0) insertArrow(cont, numChunks);
+  if (cont > 0) insertArrowAndCheck(cont, numChunks);
   setArrowClicks();
+  setCheckClicks();
 }
 
-function insertArrow(cont, numChunks) {
+function insertArrowAndCheck(cont, numChunks) {
   var mid = (cont / 2) | 0;
   var arrow = '<div class="arrow"></div>';
-  for (var k = 0; k < mid; k++)
+  var check = '<div class="check"></div>';
+  for (var k = 0; k < mid; k++) {
     $('#arrow-container').append(arrow);
+    $('#check-container').append(check);
+  }
+  $('#arrow-container').append('<div class="holder hidden '
+                               + 'chunk-' + numChunks + '"></div>');
+  $('#check-container').append('<div class="holder hidden '
+                               + 'chunk-' + numChunks + '"></div>');
   $('#arrow-container').append('<div class="arrow visible '
                                + 'chunk-' + numChunks + '"></div>');
   $('#arrow-container').append('<div class="undo visible hidden '
                                + 'chunk-' + numChunks + '"></div>');
-  for (var k = mid + 1; k < cont; k++)
+  $('#check-container').append('<div class="check visible '
+                               + 'chunk-' + numChunks + '"></div>');
+  $('#check-container').append('<div class="undo visible hidden '
+                               + 'chunk-' + numChunks + '"></div>');
+  for (var k = mid + 1; k < cont; k++) {
     $('#arrow-container').append(arrow);
+    $('#check-container').append(check);
+  }
 }
 
 function setNumDiffs(set) {
   var diffChunks = numDiffChunks(set);
   if (diffChunks == 1)
-    $('#num-diffs').html(diffChunks + ' difference');
+    $('#num-diffs').html(diffChunks + ' conflict');
   else
-    $('#num-diffs').html(diffChunks + ' differences');
-}
-
-function numDiffLines() {
-  var files = [0, 1];
-  var numDiffs = [0, 0];
-  for (var i = 0; i < files.length; i++) {
-    $('.file-diff.' + files[i] + ' div').each(function(lineNum) {
-      if (( $(this).hasClass('ins') ||
-            $(this).hasClass('del') ||
-            $(this).hasClass('blank')
-          ) && !$(this).hasClass('fix')) {
-        numDiffs[files[i]] += 1;
-      }
-    });
-  }
-  return Math.max(numDiffs[0], numDiffs[1])
+    $('#num-diffs').html(diffChunks + ' conflicts');
 }
 
 function numDiffChunks(set) {
@@ -434,7 +454,8 @@ function numDiffChunks(set) {
       if (( $line.hasClass('ins') ||
             $line.hasClass('del') ||
             $line.hasClass('blank')
-          ) && !$line.hasClass('fix')) {
+          ) && !$line.hasClass('fix')
+            && !$line.hasClass('correct')) {
         if (cont == 0) {
           numChunks[files[i]] += 1;
           $line.addClass('first');
@@ -480,14 +501,22 @@ function selectChunk(chunkNum) {
 
 function selectNextChunk() {
   var chunkNum = selectedChunk + 1;
-  while (chunkNum <= totalChunks  && $('.chunk-' + chunkNum).hasClass('fix'))
+  while ( chunkNum <= totalChunks  
+          && ( $('.chunk-' + chunkNum).hasClass('fix')
+               || $('.chunk-' + chunkNum).hasClass('correct')
+             )
+        )
     chunkNum += 1;
   selectChunk(chunkNum);
 }
 
 function selectPrevChunk() {
   var chunkNum = selectedChunk - 1;
-  while (chunkNum > 0  && $('.chunk-' + chunkNum).hasClass('fix'))
+  while ( chunkNum > 0  
+          && ( $('.chunk-' + chunkNum).hasClass('fix')
+               || $('.chunk-' + chunkNum).hasClass('correct')
+             )
+        )
     chunkNum -= 1;
   selectChunk(chunkNum);
 }
@@ -508,22 +537,40 @@ function setArrowClicks() {
   });
 }
 
+function setCheckClicks() {
+  $('#check-container div.check.visible').click(function () {
+    var chunkNum = $(this).attr('class').replace('check ', '')
+                                        .replace('visible ', '')
+                                        .split(' ')[0];
+    checkRight(chunkNum);
+  });
+
+  $('#check-container div.undo.visible').click(function () {
+    var chunkNum = $(this).attr('class').replace('undo ', '')
+                                        .replace('visible ', '')
+                                        .split(' ')[0];
+    undoCheckRight(chunkNum);
+  });
+}
+
 function createCollapsibleMatches() {
   var lines1 = $('.file-diff.0').children('div');
   var lines2 = $('.file-diff.1').children('div');
-  var arrows = $('#arrow-container').children('div');
+  var arrows = $('#arrow-container').children('div.arrow');
+  var checks = $('#check-container').children('div.check');
   var numContMatches = 0;
   for (var i = 0; i < lines1.length; i++) {
-    if (!$(lines1[i]).hasClass('ins') &&
-        !$(lines1[i]).hasClass('del') &&
-        !$(lines1[i]).hasClass('blank')) {
+    if ( !$(lines1[i]).hasClass('ins') &&
+         !$(lines1[i]).hasClass('del') &&
+         !$(lines1[i]).hasClass('blank')
+       ) {
       numContMatches += 1;
     } else {
-      collapse(lines1, lines2, arrows, numContMatches, i)
+      collapse(lines1, lines2, arrows, checks, numContMatches, i)
       numContMatches = 0;
     }
   }
-  collapse(lines1, lines2, arrows, numContMatches, lines1.length);
+  collapse(lines1, lines2, arrows, checks, numContMatches, lines1.length);
 
   $('.collapsed-num > .plus').click(function () {
     var collapsedNumClass = $(this).attr('class').split(' ')[0];
@@ -541,7 +588,7 @@ function createCollapsibleMatches() {
     $('#expand-all').removeClass('disabled');
 }
 
-function collapse(lines1, lines2, arrows, numContMatches, i) {
+function collapse(lines1, lines2, arrows, checks, numContMatches, i) {
   totalCollapsible += 1;
   if (numContMatches > 10) {
     var firstCol = i - numContMatches + 5;
@@ -552,6 +599,7 @@ function collapse(lines1, lines2, arrows, numContMatches, i) {
       $(lines1[l]).addClass('hidden collapsible ' + firstLine);
       $(lines2[l]).addClass('hidden collapsible ' + firstLine);
       $(arrows[l]).addClass('hidden collapsible ' + firstLine);
+      $(checks[l]).addClass('hidden collapsible ' + firstLine);
     }
     $(lines1[firstCol]).before('<div class="collapsed-num ' + firstLine + '">'
                                + '<div class="' + firstLine + ' expand plus"></div>'
@@ -559,6 +607,8 @@ function collapse(lines1, lines2, arrows, numContMatches, i) {
     $(lines2[firstCol]).before('<div class="collapsed-num ' + firstLine + '">'
                                + numCol + ' lines collapsed' + '</div>');
     $(arrows[firstCol]).before('<div class="arrow collapsed-num '
+                               + firstLine + '"></div>');
+    $(checks[firstCol]).before('<div class="check collapsed-num '
                                + firstLine + '"></div>');
     $(lines1[firstCol]).children(':first').addClass('minus');
   }
@@ -579,9 +629,15 @@ function moveChunk(chunkNum) {
     $('.file-diff.1 > .' + realLineNum).addClass('fix');
   }
   $('#arrow-container .arrow.' + chunkNum).addClass('hidden');
+  $('#check-container .check.' + chunkNum).addClass('hidden');
   $('#arrow-container .undo.' + chunkNum).removeClass('hidden');
+  $('#check-container .holder.' + chunkNum).removeClass('hidden');
   resetLineNums();
-  setNumDiffs();
+  var numChunks = totalChunks - 1;
+  if (numChunks == 1)
+    $('#num-diffs').html(numChunks + ' conflict');
+  else
+    $('#num-diffs').html(numChunks + ' conflicts');
   var text = getText(1);
   saveFile(text, 'file1.txt');
   var num = parseInt(chunkNum.slice(6));
@@ -600,11 +656,64 @@ function undoMoveChunk(chunkNum) {
     $('.file-diff.1 > .' + lineNum).removeClass('fix');
   }
   $('#arrow-container .arrow.' + chunkNum).removeClass('hidden');
+  $('#check-container .check.' + chunkNum).removeClass('hidden');
   $('#arrow-container .undo.' + chunkNum).addClass('hidden');
+  $('#check-container .holder.' + chunkNum).addClass('hidden');
+  $('#arrow-container .holder.' + chunkNum).addClass('hidden');
   resetLineNums();
-  setNumDiffs();
+  var numChunks = totalChunks + 1;
+  if (numChunks == 1)
+    $('#num-diffs').html(numChunks + ' conflict');
+  else
+    $('#num-diffs').html(numChunks + ' conflicts');
   var text = getText(1);
   saveFile(text, 'file1.txt');
+  var num = parseInt(chunkNum.slice(6));
+  selectChunk(num);
+}
+
+function checkRight(chunkNum) {
+  var lines1 = $('.file-diff.0').children('div.' + chunkNum);
+  var lines2 = $('.file-diff.1').children('div.' + chunkNum);
+  for (var i = 0; i < lines1.length; i++) {
+    var realLineNum = getRealLine(lines1[i]);
+    $('.file-diff.0 > .' + realLineNum).addClass('correct');
+    $('.file-diff.1 > .' + realLineNum).addClass('correct');
+  }
+  $('#arrow-container .arrow.' + chunkNum).addClass('hidden');
+  $('#check-container .check.' + chunkNum).addClass('hidden');
+  $('#check-container .undo.' + chunkNum).removeClass('hidden');
+  $('#arrow-container .holder.' + chunkNum).removeClass('hidden');
+  resetLineNums();
+  var numChunks = totalChunks - 1;
+  if (numChunks == 1)
+    $('#num-diffs').html(numChunks + ' conflict');
+  else
+    $('#num-diffs').html(numChunks + ' conflicts');
+  var num = parseInt(chunkNum.slice(6));
+  if (selectedChunk == num)
+    selectNextChunk();
+}
+
+function undoCheckRight(chunkNum) {
+  var lines1 = $('.file-diff.0').children('div.' + chunkNum);
+  var lines2 = $('.file-diff.1').children('div.' + chunkNum);
+  for (var i = 0; i < lines1.length; i++) {
+    var lineNum = getRealLine(lines1[i]);
+    $('.file-diff.0 > .' + lineNum).removeClass('correct');
+    $('.file-diff.1 > .' + lineNum).removeClass('correct');
+  }
+  $('#arrow-container .arrow.' + chunkNum).removeClass('hidden');
+  $('#check-container .check.' + chunkNum).removeClass('hidden');
+  $('#check-container .undo.' + chunkNum).addClass('hidden');
+  $('#check-container .holder.' + chunkNum).addClass('hidden');
+  $('#arrow-container .holder.' + chunkNum).addClass('hidden');
+  resetLineNums();
+  var numChunks = totalChunks + 1;
+  if (numChunks == 1)
+    $('#num-diffs').html(numChunks + ' conflict');
+  else
+    $('#num-diffs').html(numChunks + ' conflicts');
   var num = parseInt(chunkNum.slice(6));
   selectChunk(num);
 }

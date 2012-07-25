@@ -12,9 +12,10 @@ var texts = [null, null];
 var urlNum = null;
 var badURL = false;
 
+var fileHistory = {};
+
 $(document).ready(function() {
-  readFile('file0.txt', 0);
-  readFile('file1.txt', 1);
+
   readFileName('name0.txt', 0);
   readFileName('name1.txt', 1);
 
@@ -48,10 +49,11 @@ $(document).ready(function() {
   });
 
   $('.edit').click(function() {
-    var text = getText(1);
+    var text1 = getText(1);
     $('#arrow-container').addClass('arrow-edit');
+    $('#check-container').addClass('check-edit');
     $('.file-diff.1').addClass('hidden');
-    $('textarea.diff-text').val(text);
+    $('textarea.diff-text').val(text1);
     $('textarea.diff-text').removeClass('hidden');
     $('.edit').addClass('hidden');
     $('.save').addClass('hidden');
@@ -64,6 +66,7 @@ $(document).ready(function() {
     saveFile(texts[1], 'file1.txt');
     computeDiff(texts[0], texts[1]);
     $('#arrow-container').removeClass('arrow-edit');
+    $('#check-container').removeClass('check-edit');
     $('.file-diff.1').removeClass('hidden');
     $('textarea.diff-text').addClass('hidden');
     $('.edit').removeClass('hidden');
@@ -81,6 +84,18 @@ $(document).ready(function() {
     selectURL();
   });
 
+  $('.menubutton').click(function(event) {
+    if (!$(this).hasClass('menulist')) {
+      event.preventDefault();
+      event.stopPropagation();
+      $(this).children('ul.menulist').addClass('shown');
+    }
+  });
+
+  $(document).click(function() {
+    $('ul.menulist').removeClass('shown');
+  });
+
   $.ajaxSetup({
     error: function(xhr) {
       badURL = true;
@@ -92,6 +107,26 @@ $(document).ready(function() {
   });
 
 });
+
+function registerMenulistitemClicks() {
+  $('li.menulistitem').click(function() {
+    if (!$(this).hasClass('selected')) {
+      var fileNum = $(this).parent().attr('class').split(' ')[1];
+      var fileName = $(this).text();
+      $(this).parent().children('li.menulistitem').removeClass('selected');
+      $(this).addClass('selected');
+      displayNames[fileNum] = fileName;
+      texts[fileNum] = fileHistory[fileName];
+      saveFile(texts[fileNum], 'file' + fileNum + '.txt');
+      saveFile(displayNames[fileNum], 'name' + fileNum + '.txt');
+      submitDiffs();
+    }
+    console.log($('.menulist').hasClass('shown'));
+    console.log($(this).parent().hasClass('shown'));
+    $('.menulist').removeClass('shown');
+    console.log($('.menulist').hasClass('shown'));
+  });
+}
 
 function selectURL() {
   $('.error-message.' + urlNum).removeClass('visible');
@@ -131,6 +166,7 @@ function selectFile(fileNum) {
           $('.url.' + fileNum).removeClass('form-error');
           $('input.url.' + fileNum).val('');
           texts[fileNum] = this.result;
+          rememberFile(fileNum);
           var name = 'file' + fileNum + '.txt';
           saveFile(this.result, name);
           saveFile(displayNames[fileNum], 'name' + fileNum + '.txt');
@@ -139,6 +175,32 @@ function selectFile(fileNum) {
       }, errorHandler);
     });
   });
+}
+
+function rememberFile(fileNum) {
+  fileHistory[displayNames[fileNum]] = texts[fileNum];
+  $('ul.menulist.' + fileNum + ' .menulistitem').removeClass('selected');
+  $('ul.menulist.' + fileNum).append('<li class="menulistitem selected">'
+                                     + displayNames[fileNum] + '</li>');
+  $('ul.menulist.' + ((fileNum + 1) % 2)).append('<li class="menulistitem">'
+                                                 + displayNames[fileNum] + '</li>');
+  registerMenulistitemClicks();
+}
+
+function selectRememberedFile(fileNum, fileName) {
+  texts[fileNum] = fileHistory[fileName];
+  displayNames[fileNum] = fileName;
+  submitDiffs();
+}
+
+function createDropdown() {
+  for (var i = 0; i < 2; i++) {
+    $('ul.menulist.' + i).append('<li class="menulistitem selected">'
+                              + displayNames[i] + '</li>'
+                              + '<li class="menulistitem">'
+                              + displayNames[((i + 1) % 2)] + '</li>');
+  }
+  registerMenulistitemClicks();
 }
 
 function submitDiffs() {
@@ -201,7 +263,11 @@ function readFile(fileName, fileNum) {
           var reader = new FileReader();
           reader.onloadend = function(e) {
             texts[fileNum] = this.result;
-            if (texts[0] && texts[1]) computeDiff(texts[0], texts[1]);
+            fileHistory[displayNames[fileNum]] = texts[fileNum];
+            if (texts[0] && texts[1]) {
+              createDropdown();
+              computeDiff(texts[0], texts[1]);
+            }
           };
           reader.readAsText(file);
         }, errorHandler);
@@ -219,7 +285,8 @@ function readFileName(fileName, fileNum) {
           var reader = new FileReader();
           reader.onloadend = function(e) {
             displayNames[fileNum] = this.result;
-            $('.file-name.' + fileNum).text(this.result)
+            $('.file-name.' + fileNum).text(displayNames[fileNum]);
+            readFile('file' + fileNum + '.txt', fileNum);
           };
           reader.readAsText(file);
         }, errorHandler);

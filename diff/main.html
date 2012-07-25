@@ -21,26 +21,68 @@
     </div>
 
     <div id="left-side">
-      <div class="button new-diff"><img src="img/edit_diff.png" /></div>
-      <div class="tooltip new-diff hidden">New Diff<span class="pointer"</span></div>
+      <div class="button new-diff" id="new-diff">
+        <img src="img/edit_diff.png" />
+      </div>
+      <div class="tooltip new-diff hidden">
+        New Diff<span class="pointer"</span>
+      </div>
       <div id="expand-all" class="disabled"></div>
+      <div class="tooltip expand-all hidden">
+        Expand All<span class="pointer"</span>
+      </div>
       <div id="collapse-all" class="disabled"></div>
+      <div class="tooltip collapse-all hidden">
+        Collapse All<span class="pointer"</span>
+      </div>
       <div id="prev-chunk" class="disabled"></div>
+      <div class="tooltip prev-chunk hidden">
+        Previous Conflict<span class="pointer"</span>
+      </div>
       <div id="next-chunk" class="disabled"></div>
+      <div class="tooltip next-chunk hidden">
+        Next Conflict<span class="pointer"</span>
+      </div>
     </div>
 
     <div id="file0-container">
+
+      ​<span class="button menubutton">
+        <span class="label file-name 0">No File Selected</span>
+      ​​​​​​​​​​​  <span class="indicator"></span>
+        <ul class="menulist 0">
+<!--
+          <li class="menulistitem">Option 1</li>
+          <li class="menulistitem selected">Option 2</li>
+          <li class="menulistitem">Option 3</li>
+-->
+        </ul>
+      </span>
+<!--
       <div class="file-name 0">No File Selected</div>
+-->
+
       <div class="file-diff 0" id="drop-zone0"></div>
     </div>
 
     <div id="arrow-container"></div>
 
     <div id="file1-container">
+
+      ​<span class="button menubutton">
+        <span class="label file-name 1">No File Selected</span>
+      ​​​​​​​​​​​  <span class="indicator"></span>
+        <ul class="menulist 1">
+        </ul>
+      </span>
+
+<!--
       <div class="file-name 1">No File Selected</div>
-      <div class="button save hidden"><img src="img/save.png" /></div>
+-->
+
+      <div class="button save hidden" id="save"><img src="img/save.png" /></div>
       <div class="tooltip save hidden">Save<span class="pointer"</span></div>
-      <div class="button edit hidden"><img src="img/edit.png" /></div>
+      <div class="button edit hidden" id="edit"><img src="img/edit.png" /></div>
       <div class="tooltip edit hidden">Edit<span class="pointer"</span></div>
       <div class="button done hidden">Done</div>
       <div id="num-diffs"></div>
@@ -48,6 +90,8 @@
       <div class="file-diff 1" id="drop-zone1"></div>
       <textarea class="diff-text hidden"></textarea>
     </div>
+
+    <div id="check-container"></div>
 
     <br>
 

@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Diff Tool",
-  "description": "View diff of two files.",
-  "version": "0.1.2",
+  "description": "View diff and merge two files.",
+  "version": "0.1.4",
   "offline_enabled" : true,
   "app": {
     "background": {
