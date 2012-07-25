@@ -1,5 +1,5 @@
 chrome.experimental.app.onLaunched.addListener(function(launchData) {
-  chrome.appWindow.create('../main.html', {
+  chrome.app.window.create('../main.html', {
     width: 800,
     height: 600,
     minWidth: 800,

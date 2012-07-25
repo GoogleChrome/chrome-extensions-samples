@@ -10,7 +10,7 @@
 // width 640 for font size 12
 //       720 for font size 14
 chrome.experimental.app.onLaunched.addListener(function() {
-  chrome.appWindow.create('main.html', {
+  chrome.app.window.create('main.html', {
     frame: 'chrome', width: 720, height: 400
   });
 });

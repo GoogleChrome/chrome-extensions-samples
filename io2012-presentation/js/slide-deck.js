@@ -187,7 +187,7 @@ SlideDeck.prototype.onBodyKeyDown_ = function(e) {
       break;
 
     case 77: // M: Minimize
-      chrome.appWindow.minimize();
+      chrome.app.window.minimize();
       break;
   }
 };

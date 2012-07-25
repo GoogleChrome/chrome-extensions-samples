@@ -1,9 +1,9 @@
 var mainWindow = null;
 chrome.experimental.app.onLaunched.addListener(function(data) {
   if (mainWindow && !mainWindow.closed) {
-    mainWindow.chrome.appWindow.focus();
+    mainWindow.chrome.app.window.focus();
   } else {
-    chrome.appWindow.create('index.html', {
+    chrome.app.window.create('index.html', {
       width: 700,
       height: 473,
       minWidth: 700,
