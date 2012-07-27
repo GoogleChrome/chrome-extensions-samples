@@ -256,10 +256,16 @@ editor.commands.addCommand({
 
 // Handle drop events.
 event.addListener(container, "drop", function(e) {
-    var file = e.dataTransfer.files[0];
-    replaceDocContentsFromFile(file);
-    setEntry(null, false, file.name);
-    return event.preventDefault(e);
+  var file = e.dataTransfer.files[0];
+  replaceDocContentsFromFile(file);
+  setEntry(null, false, file.name);
+  return event.preventDefault(e);
 });
+
+// Setup any launch data.
+if (launchData) {
+  setEntry(launchData.intent.data, false);
+  replaceDocContentsFromFileEntry();
+}
 
 });
