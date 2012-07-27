@@ -20,7 +20,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Define some local variables here.
    */
-  var socket = chrome.experimental.socket;
+  var socket = chrome.socket || chrome.experimental.socket;
   var dns = chrome.experimental.dns;
 
   function TcpClient(host, port) {
