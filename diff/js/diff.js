@@ -17,10 +17,10 @@ $(document).ready(function() {
   var buttons = [ '#new-diff',
                   '#save',
                   '#edit',
-                  // '#expand-all',
-                  // '#collapse-all',
-                  // '#next-chunk',
-                  // '#prev-chunk'
+                  '#expand-all',
+                  '#collapse-all',
+                  '#next-chunk',
+                  '#prev-chunk'
                 ];
 
   for (var i = 0; i < buttons.length; i++) {
@@ -100,7 +100,7 @@ $(document).ready(function() {
 function keyboardShortcut(event) {
   if (event.which == 74)
     selectNextChunk();
-  else if (event.which == 75)
+  else if (evenjjkt.which == 75)
     selectPrevChunk();
   else if ((event.which == 76) 
             && (selectedChunk > 0) && (selectedChunk <= totalChunks))
@@ -129,8 +129,10 @@ function getText(fileNum) {
         && !$(lines[i]).hasClass('hidden')) {
       var line = $(lines[i]).children();
       for (var j = 0; j < line.length; j++) {
-        if ($(lines[i]).hasClass('left')) {
-          if (!$(line[j]).hasClass('ins'))
+        if ($(lines[i]).hasClass('merged')) {
+          if (fileNum == 1 && !$(line[j]).hasClass('ins'))
+            text += $(line[j]).html();
+          if (fileNum == 0 && !$(line[j]).hasClass('del'))
             text += $(line[j]).html();
         } else {
           if (fileNum == 0 && !$(line[j]).hasClass('ins'))
@@ -216,6 +218,12 @@ function computeDiff(file1, file2) {
     $('#collapse-all').removeClass('hidden');
     $('#expand-all').removeClass('hidden');
   }
+}
+
+function patchToFile2(file1, patchText) {
+  var patches = dmp.patch_fromText(patchText);
+  var patchData = dmp.patch_apply(patches, file1);
+  return patchData[0];
 }
 
 function createHtmlLines(diffs) {
@@ -334,9 +342,15 @@ function isBlankLine(lineDiv, realLineNum) {
   } else {
     var realLine = 'realLine-' + realLineNum;
   }
-  return ($(lineDiv).hasClass('blank') && !$(lineDiv).hasClass('fix'))
+  return ( $(lineDiv).hasClass('blank')
+           && !$(lineDiv).hasClass('fix') 
+           && !$(lineDiv).hasClass('correct')
+         )
          || ( $(lineDiv).hasClass('fix')
               && ($('#file0-container .' + realLine).hasClass('blank'))
+            )
+         || ( $(lineDiv).hasClass('correct')
+              && ($('#file1-container .' + realLine).hasClass('blank'))
             )
          || $(lineDiv).hasClass('collapsed-num');
 }
@@ -348,7 +362,7 @@ function setLineNums() {
     var realLineNum = 1;
     $('.file-diff.' + files[i] + ' > div').each(function() {
       if (!isBlankLine(this, realLineNum)) {
-        $(this).html('<div class="text right">' + $(this).html() + '</div>');
+        $(this).html('<div class="text orig">' + $(this).html() + '</div>');
         $(this).prepend('<div class="lineNum">' + lineNum + '</div>');
         if ($(this).parent().hasClass('0'))
           $(this).prepend('<div class="expand"></div>');
@@ -620,10 +634,10 @@ function moveChunk(chunkNum) {
   for (var i = 0; i < lines1.length; i++) {
     var realLineNum = getRealLine(lines1[i]);
     var text = '';
-    if ($('.file-diff.0 .' + realLineNum).children('.text.right').length > 0)
+    if ($('.file-diff.0 .' + realLineNum).children('.text.orig').length > 0)
       text = $('.file-diff.0 .' + realLineNum + ' > div.text').html();
-    var div = '<div class="left text">' + text + '</div>';
-    $('.file-diff.1 > .' + realLineNum + ' > .text.right').addClass('hidden');
+    var div = '<div class="merged text">' + text + '</div>';
+    $('.file-diff.1 > .' + realLineNum + ' > .text.orig').addClass('hidden');
     $('.file-diff.1 > .' + realLineNum).append(div);
     $('.file-diff.0 > .' + realLineNum).addClass('fix');
     $('.file-diff.1 > .' + realLineNum).addClass('fix');
@@ -650,8 +664,8 @@ function undoMoveChunk(chunkNum) {
   var lines2 = $('.file-diff.1').children('div.' + chunkNum);
   for (var i = 0; i < lines1.length; i++) {
     var lineNum = getRealLine(lines1[i]);
-    $('.file-diff.1 > .' + lineNum + ' > .text.right').removeClass('hidden');
-    $('.file-diff.1 > .' + lineNum + ' > .left').remove();
+    $('.file-diff.1 > .' + lineNum + ' > .text.orig').removeClass('hidden');
+    $('.file-diff.1 > .' + lineNum + ' > .merged').remove();
     $('.file-diff.0 > .' + lineNum).removeClass('fix');
     $('.file-diff.1 > .' + lineNum).removeClass('fix');
   }
@@ -677,6 +691,12 @@ function checkRight(chunkNum) {
   var lines2 = $('.file-diff.1').children('div.' + chunkNum);
   for (var i = 0; i < lines1.length; i++) {
     var realLineNum = getRealLine(lines1[i]);
+    var text = '';
+    if ($('.file-diff.1 .' + realLineNum).children('.text.orig').length > 0)
+      text = $('.file-diff.1 .' + realLineNum + ' > div.text').html();
+    var div = '<div class="merged text">' + text + '</div>';
+    $('.file-diff.0 > .' + realLineNum + ' > .text.orig').addClass('hidden');
+    $('.file-diff.0 > .' + realLineNum).append(div);
     $('.file-diff.0 > .' + realLineNum).addClass('correct');
     $('.file-diff.1 > .' + realLineNum).addClass('correct');
   }
@@ -690,6 +710,8 @@ function checkRight(chunkNum) {
     $('#num-diffs').html(numChunks + ' conflict');
   else
     $('#num-diffs').html(numChunks + ' conflicts');
+  var text = getText(0);
+  saveFile(text, 'file0.txt');
   var num = parseInt(chunkNum.slice(6));
   if (selectedChunk == num)
     selectNextChunk();
@@ -700,6 +722,8 @@ function undoCheckRight(chunkNum) {
   var lines2 = $('.file-diff.1').children('div.' + chunkNum);
   for (var i = 0; i < lines1.length; i++) {
     var lineNum = getRealLine(lines1[i]);
+    $('.file-diff.0 > .' + lineNum + ' > .text.orig').removeClass('hidden');
+    $('.file-diff.0 > .' + lineNum + ' > .merged').remove();
     $('.file-diff.0 > .' + lineNum).removeClass('correct');
     $('.file-diff.1 > .' + lineNum).removeClass('correct');
   }
@@ -714,6 +738,8 @@ function undoCheckRight(chunkNum) {
     $('#num-diffs').html(numChunks + ' conflict');
   else
     $('#num-diffs').html(numChunks + ' conflicts');
+  var text = getText(0);
+  saveFile(text, 'file0.txt');
   var num = parseInt(chunkNum.slice(6));
   selectChunk(num);
 }

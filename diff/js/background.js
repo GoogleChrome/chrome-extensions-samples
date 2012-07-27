@@ -11,4 +11,8 @@ function onLaunched(launchData) {
   });
 }
 
+chrome.runtime.onInstalled.addListener(function() { 
+  chrome.storage.local.set({});
+});
+
 chrome.experimental.app.onLaunched.addListener(onLaunched);

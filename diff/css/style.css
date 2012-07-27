@@ -83,7 +83,8 @@ body {
   font-size: 14px;
   font-weight: normal;
   margin-left: 5px;
-  width: 200px;
+  overflow: hidden;
+  width: 310px;
   text-align: left;
 }
 
@@ -145,6 +146,7 @@ body {
   font-weight: normal;
   margin: 0px;
   margin-bottom: 4px;
+  overflow: hidden;
   padding: 2px 40px 2px 12px;
   position: relative;
 }
@@ -155,6 +157,23 @@ body {
   color: #222;
   transition: background 0s;
   -webkit-transition: background 0s;
+}
+
+.menulist .menulistitem .delete {
+  background: url('../img/x.png') center no-repeat;
+  background-size: auto 15px;
+  cursor: default;
+  filter: alpha(opacity=70);
+  height: 10px;
+  opacity: 0.7;
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  width: 10px;
+}
+
+.menulist .menulistitem .delete:hover {
+  opacity: 1;
 }
 
 input[type=text] {
@@ -331,7 +350,6 @@ input[type=text].form-error{
   padding: 0 10px;
   position: absolute;
   text-align: center;
-  top: 46px;
   transition: opacity 0.13s;
   -webkit-transition: opacity 0.13s;
   white-space: nowrap;
@@ -396,6 +414,10 @@ input[type=text].form-error{
   width: 24px;
 }
 
+#left-side .tooltip.new-diff {
+  top: 42px;
+}
+
 #left-side #prev-chunk {
   background: url('../img/arrow-up.jpg') center no-repeat;
   background-size: auto 20px;
@@ -408,8 +430,12 @@ input[type=text].form-error{
 }
 
 #left-side .tooltip.prev-chunk {
-  left: 13px;
-  top: 105px;
+  left: 0px;
+  top: 110px;
+}
+
+#left-side .tooltip.prev-chunk .pointer {
+  left: 23px;
 }
 
 #left-side #next-chunk {
@@ -423,9 +449,13 @@ input[type=text].form-error{
   width: 20px;
 }
 
-#left-side .tooltip.prev-chunk {
-  left: 13px;
+#left-side .tooltip.next-chunk {
+  left: 0px;
   top: 135px;
+}
+
+#left-side .tooltip.next-chunk .pointer {
+  left: 23px;
 }
 
 #left-side #expand-all,
@@ -443,8 +473,12 @@ input[type=text].form-error{
 }
 
 #left-side .tooltip.expand-all {
-  top: 65px;
+  top: 73px;
   left: 0px;
+}
+
+#left-side .tooltip.expand-all .pointer {
+  left: 15px;
 }
 
 #left-side #collapse-all {
@@ -453,8 +487,12 @@ input[type=text].form-error{
 }
 
 #left-side .tooltip.collapse-all {
-  top: 65px;
-  left: 23px;
+  top: 73px;
+  left: 18px;
+}
+
+#left-side .tooltip.collapse-all .pointer {
+  left: 15px;
 }
 
 #left-side #expand-all.disabled,
@@ -477,31 +515,31 @@ input[type=text].form-error{
   width: 30px;
 }
 
-#check-container {
-  border-right: 2px solid #666;
-}
-
-#arrow-container::-webkit-scrollbar {
+#arrow-container::-webkit-scrollbar,
+#check-container::-webkit-scrollbar {
   display: none;
 }
 
 #arrow-container .arrow {
   background: url('../img/arrow-right.png') center no-repeat;
-  background-size: auto 95px;
+  background-size: auto 85px;
   height: 16px;
   opacity: 0;
 }
 
 #check-container .check {
-  background: url('../img/checkmark.png') center no-repeat;
-  background-size: auto 16px;
-  height: 16px;
+  background: url('../img/arrow-left.png') center no-repeat;
+  background-size: auto 85px;
+  height: 20px;
+  margin-left: 5px;
+  margin-bottom: -4px;
   opacity: 0;
 }
 
 #arrow-container .undo,
 #check-container .undo,
-#arrow-container  .holder {
+#arrow-container  .holder,
+#check-container  .holder {
   background: url('../img/undo.svg') right no-repeat;
   height: 16px;
   opacity: 0;
@@ -545,6 +583,11 @@ div.file-name {
   padding-top: 15px;
 }
 
+span.file-name-info {
+  color: #777;
+  font-size: 11px;
+}
+
 .file-diff,
 textarea {
   background: #fff;
@@ -563,13 +606,11 @@ textarea {
   width: 100%;
 }
 
-#file0-container .file-diff::-webkit-scrollbar,
-#file1-container .file-diff::-webkit-scrollbar {
+#file0-container .file-diff::-webkit-scrollbar {
   display: none;
 }
 
-#file0-container .file-diff,
-#file1-container .file-diff {
+#file0-container .file-diff {
   border-right: 1px solid #999;
 }
 
@@ -590,10 +631,16 @@ div.button.save {
 
 .tooltip.save {
   right: 0px;
+  top: 39px;
+}
+
+.tooltip.save .pointer {
+  left: 43px;
 }
 
 .tooltip.edit {
   right: 55px;
+  top: 39px;
 }
 
 div.button.done {
@@ -758,6 +805,15 @@ div.button.done {
 #file1-container .file-diff div.fix span.del {
   display: block;
   background: none;
+}
+
+#file0-container .file-diff div.correct span.ins {
+  display: block;
+  background: none;
+}
+
+#file0-container .file-diff div.correct span.del {
+  display: none;
 }
 
 .file-diff div.correct span {

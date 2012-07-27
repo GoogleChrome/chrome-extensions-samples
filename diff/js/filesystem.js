@@ -6,7 +6,7 @@
 
 var FILE_SIZE = 1024 * 1024;
 var displayNames = [null, null];
-var paths = [null, null];
+var paths = {};
 var fileEntries = [null, null];
 var texts = [null, null];
 var urlNum = null;
@@ -110,21 +110,34 @@ $(document).ready(function() {
 
 function registerMenulistitemClicks() {
   $('li.menulistitem').click(function() {
-    if (!$(this).hasClass('selected')) {
-      var fileNum = $(this).parent().attr('class').split(' ')[1];
-      var fileName = $(this).text();
+    if ($(this).hasClass('choose-new-file')) {
+      var fileNum = parseInt($(this).parent().attr('class').split(' ')[1]);
+      selectFile(fileNum, true);
+    }
+    else if (!$(this).hasClass('selected')) {
+      var fileNum = parseInt($(this).parent().attr('class').split(' ')[1]);
+      var fileName = $(this).children('.file-name').text();
       $(this).parent().children('li.menulistitem').removeClass('selected');
       $(this).addClass('selected');
       displayNames[fileNum] = fileName;
-      texts[fileNum] = fileHistory[fileName];
+      texts[fileNum] = fileHistory[paths[fileName]];
+      setFileName(fileNum);
       saveFile(texts[fileNum], 'file' + fileNum + '.txt');
-      saveFile(displayNames[fileNum], 'name' + fileNum + '.txt');
-      submitDiffs();
+      saveFile(paths[displayNames[fileNum]], 'name' + fileNum + '.txt');
+      computeDiff(texts[0], texts[1]);
     }
-    console.log($('.menulist').hasClass('shown'));
-    console.log($(this).parent().hasClass('shown'));
     $('.menulist').removeClass('shown');
-    console.log($('.menulist').hasClass('shown'));
+  });
+
+  $('li.menulistitem .delete').click(function() {
+    var name = $(this).parent().children('.file-name').text();
+    var path = paths[name];
+    delete fileHistory[path];
+    chrome.storage.local.set({'fileHistory': fileHistory});
+    $('li.menulistitem').each(function() {
+      if ($(this).children('.file-name').text() == name)
+        $(this).remove();
+    })
   });
 }
 
@@ -139,11 +152,13 @@ function selectURL() {
       function(text) { 
         var urlSecs = url.split('/');
         displayNames[urlNum] = urlSecs[urlSecs.length-1];
+        paths[displayNames[urlNum]] = url;
         badURL = false;
         texts[urlNum] = text;
+        rememberFile(fileNum);
         var name = 'file' + urlNum + '.txt';
         saveFile(text, name);
-        saveFile(displayNames[urlNum], 'name' + urlNum + '.txt');
+        saveFile(paths[displayNames[urlNum]], 'name' + urlNum + '.txt');
       },
       'html'
     );
@@ -152,12 +167,14 @@ function selectURL() {
   }
 }
 
-function selectFile(fileNum) {
+function selectFile(fileNum, chooseNew) {
   chrome.fileSystem.chooseFile({'type': 'openFile'}, function(fileEntry) {
     fileEntries[fileNum] = fileEntry;
     chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
-      path = path.split('/');
-      displayNames[fileNum] = path[path.length - 1];
+      var pathList = path.split('/');
+      var l = pathList.length - 1;
+      displayNames[fileNum] = pathList[l];
+      paths[displayNames[fileNum]] = path;
       $('.modal-dialog.new-diff .file-name.' + fileNum).text(displayNames[fileNum]);
       fileEntries[fileNum].file(function(file) {
         var reader = new FileReader();
@@ -168,8 +185,10 @@ function selectFile(fileNum) {
           texts[fileNum] = this.result;
           rememberFile(fileNum);
           var name = 'file' + fileNum + '.txt';
-          saveFile(this.result, name);
-          saveFile(displayNames[fileNum], 'name' + fileNum + '.txt');
+          saveFile(texts[fileNum], name);
+          saveFile(paths[displayNames[fileNum]], 'name' + fileNum + '.txt');
+          if (chooseNew)
+            chooseNewFile(fileNum);
         };
         reader.readAsText(file);
       }, errorHandler);
@@ -177,36 +196,89 @@ function selectFile(fileNum) {
   });
 }
 
-function rememberFile(fileNum) {
-  fileHistory[displayNames[fileNum]] = texts[fileNum];
-  $('ul.menulist.' + fileNum + ' .menulistitem').removeClass('selected');
-  $('ul.menulist.' + fileNum).append('<li class="menulistitem selected">'
-                                     + displayNames[fileNum] + '</li>');
-  $('ul.menulist.' + ((fileNum + 1) % 2)).append('<li class="menulistitem">'
-                                                 + displayNames[fileNum] + '</li>');
-  registerMenulistitemClicks();
+function getExtension(fileName) {
+  var parts = fileName.split('.');
+  return parts[parts.length - 1];
 }
 
-function selectRememberedFile(fileNum, fileName) {
-  texts[fileNum] = fileHistory[fileName];
-  displayNames[fileNum] = fileName;
-  submitDiffs();
+function isPatch(fileName) {
+  return getExtension(fileName).toLowerCase() == 'patch';
+}
+
+function addToMenulistDisplayed(listNum, displayNum, selected) {
+  var name = displayNames[displayNum];
+  var path = paths[displayNames[displayNum]].split('/').slice(-5, -2).join('/');
+  $('ul.menulist.' + listNum).append(
+      '<li class="menulistitem ' + selected + '">'
+      + '<span class="file-name">' + name + '</span>'
+      + '<span class="file-name-info"> - ' + path + '</span>'
+      + '<span class="delete"></span></li>');
+}
+
+function addToMenulist(path) {
+  var pathSecs = path.split('/');
+  var name = pathSecs[pathSecs.length - 1];
+  var displayPath = pathSecs.slice(-5, -2).join('/');
+  paths[name] = path;
+  for (var listNum = 0; listNum < 2; listNum++) {
+    $('ul.menulist.' + listNum).append(
+        '<li class="menulistitem">'
+        + '<span class="file-name">' + name + '</span>'
+        + '<span class="file-name-info"> - ' + displayPath + '</span>'
+        + '<span class="delete"></span></li>');
+  }
+}
+
+function setFileName(fileNum) {
+  var name = displayNames[fileNum];
+  var path = paths[displayNames[fileNum]].split('/').slice(-5, -2).join('/');
+  $('#file' + fileNum + '-container .label.file-name').html(
+      '<span class="file-name">' + name + '</span>'
+      + '<span class="file-name-info"> - ' + path + '</span>');
 }
 
 function createDropdown() {
-  for (var i = 0; i < 2; i++) {
-    $('ul.menulist.' + i).append('<li class="menulistitem selected">'
-                              + displayNames[i] + '</li>'
-                              + '<li class="menulistitem">'
-                              + displayNames[((i + 1) % 2)] + '</li>');
+  $('ul.menulist').html('<li class="menulistitem choose-new-file">Choose File</li>');
+  for (path in fileHistory) {
+    if (path == paths[displayNames[0]]) {
+      addToMenulistDisplayed(0, 0, 'selected');
+      addToMenulistDisplayed(0, 1, '');
+    }
+    else if (path == paths[displayNames[1]]) {
+      addToMenulistDisplayed(1, 0, '');
+      addToMenulistDisplayed(1, 1, 'selected');
+    }
+    else {
+      addToMenulist(path);
+    }
   }
   registerMenulistitemClicks();
 }
 
+function rememberFile(fileNum) {
+  fileHistory[paths[displayNames[fileNum]]] = texts[fileNum];
+  chrome.storage.local.set({'fileHistory': fileHistory});
+  $('ul.menulist.' + fileNum + ' .menulistitem').removeClass('selected');
+  addToMenulistDisplayed(fileNum, fileNum, 'selected');
+  addToMenulistDisplayed(((fileNum + 1) % 2), fileNum, '');
+  registerMenulistitemClicks();
+}
+
+function selectRememberedFile(fileNum, fileName) {
+  texts[fileNum] = fileHistory[paths[fileName]];
+  displayNames[fileNum] = fileName;
+  submitDiffs();
+}
+
 function submitDiffs() {
   if (texts[0] && texts[1] && !badURL) {
-    $('.file-name.0').text(displayNames[0]);
-    $('.file-name.1').text(displayNames[1]);
+    setFileName(0);
+    setFileName(1);
+    if (isPatch(displayNames[1])) {
+      texts[1] = patchToFile2(texts[0], texts[1]);
+      rememberFile(1);
+      saveFile(texts[1], 'file1.txt');
+    }
     computeDiff(texts[0], texts[1]);
     $('.modal-dialog.new-diff .close-button').click();
     $('.button.edit').removeClass('hidden');
@@ -219,6 +291,24 @@ function submitDiffs() {
   if (!texts[1]) {
     $('.error-message.1').text('Please select a file or URL.');
     $('.error-message.1').addClass('visible');
+  }
+}
+
+function chooseNewFile(fileNum) {
+  setFileName(fileNum);
+  if (texts[0] && texts[1]) {
+    if ((fileNum == 1) && isPatch(displayNames[1])) {
+      texts[1] = patchToFile2(texts[0], texts[1]);
+      rememberFile(1);
+      saveFile(texts[1], 'file1.txt');
+    }
+    computeDiff(texts[0], texts[1]);
+  }
+  else
+    $('.file-diff.' + fileNum).text(texts[fileNum]);
+  if (fileNum == 1) {
+    $('.button.edit').removeClass('hidden');
+    $('.button.save').removeClass('hidden');
   }
 }
 
@@ -263,10 +353,13 @@ function readFile(fileName, fileNum) {
           var reader = new FileReader();
           reader.onloadend = function(e) {
             texts[fileNum] = this.result;
-            fileHistory[displayNames[fileNum]] = texts[fileNum];
             if (texts[0] && texts[1]) {
-              createDropdown();
-              computeDiff(texts[0], texts[1]);
+              chrome.storage.local.get(function(items) {
+                for (key in items['fileHistory'])
+                  fileHistory[key] = items['fileHistory'][key];
+                createDropdown();
+                computeDiff(texts[0], texts[1]);
+              });
             }
           };
           reader.readAsText(file);
@@ -284,8 +377,12 @@ function readFileName(fileName, fileNum) {
         fileEntry.file(function(file) {
           var reader = new FileReader();
           reader.onloadend = function(e) {
-            displayNames[fileNum] = this.result;
-            $('.file-name.' + fileNum).text(displayNames[fileNum]);
+            path = this.result;
+            var pathList = path.split('/');
+            var l = pathList.length - 1;
+            displayNames[fileNum] = pathList[l];
+            paths[displayNames[fileNum]] = path;
+            setFileName(fileNum);
             readFile('file' + fileNum + '.txt', fileNum);
           };
           reader.readAsText(file);
