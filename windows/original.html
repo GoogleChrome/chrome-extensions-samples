@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="window.js"></script>
-	<link rel="stylesheet" href="window.css">
+  <meta charset="utf-8">
+
+	<script src="scripts/window.js"></script>
+	<link rel="stylesheet" href="styles/window.css">
 </head>
-<body>
+<body class="original">
 
-<h1>Original</h1>
+<h1>Move me</h1>
 
-<pre>
-<b>     x</b>: <span id="screenX"></span>
-<b>     y</b>: <span id="screenY"></span>
-<b> width</b>: <span id="innerWidth"></span>
-<b>height</b>: <span id="innerHeight"></span>
-</pre>
+<div id="stats">
+  <p>
+    Position: (<span id="screenX"></span>, <span id="screenY"></span>)
+  </p>
 
-<p style="text-align: center">
+  <p>
+    Size: (<span id="innerWidth"></span>, <span id="innerHeight"></span>)
+  </p>
+</div>
+
 <button id="minimize-button">Minimize me!</button>
-</p>
+
 </body>
 </html>
