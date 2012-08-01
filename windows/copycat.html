@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="window.js"></script>
-	<link rel="stylesheet" href="styles/window.css">
+  <meta charset="utf-8">
+
+  <script src="scripts/window.js"></script>
+  <link rel="stylesheet" href="styles/window.css">
 </head>
 <body class="copycat">
-<div id="titlebar">
-  <div id="close"></div>
+
+<h1>I'm a copycat</h1>
+
+<div id="stats">
+  <p>
+    Position: (<span id="screenX"></span>, <span id="screenY"></span>)
+  </p>
+
+  <p>
+    Size: (<span id="innerWidth"></span>, <span id="innerHeight"></span>)
+  </p>
 </div>
 
-<h1>Bizarro World</h1>
-
-<pre>
-<b>     x</b>: <span id="screenX"></span>
-<b>     y</b>: <span id="screenY"></span>
-<b> width</b>: <span id="innerWidth"></span>
-<b>height</b>: <span id="innerHeight"></span>
-</pre>
 </body>
 </html>

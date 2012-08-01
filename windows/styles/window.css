@@ -1,55 +1,62 @@
-body {
-  font-family: Helvetica;
-  overflow: hidden;
+html, body {
   padding: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Arial;
 }
 
-.copycat {
-  background: #000;
-  color: #fff;
-}
-
-.copycat #titlebar {
-  height: 25px;
+body.original {
+  background: url("../img/original.png") center 75px no-repeat;
   position: relative;
 }
 
-.copycat #close {
-  width: 16px;
-  height: 16px;
-  background: url(close-copycat.png) no-repeat;
-  position: absolute;
-  right: 4px;
-  top: 4px;
+body.copycat {
+  background: #333 url("../img/copycat.png") center 75px no-repeat;
+  position: relative;
+  color: #FFF;
 }
 
 h1 {
-  background: #eee;
+  padding: 0.6em 0;
   margin: 0;
-  padding: 2px;
   text-align: center;
-  border-top: solid 1px #ccc;
-  border-bottom: solid 1px #ccc;
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+  background: #F2F2F2;
+  font-size: 24px;
+}
+
+button {
+  width: 200px;
+  height: 30px;
+  font-size: 16px;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  margin-left: -100px;
+}
+
+#stats {
+  position: absolute;
+  top: 190px;
+  width: 100%;
+}
+
+#stats p {
+  text-align: center;
+  margin: 0 0 0.5em;
+  font-size: 12px;
+  font-weight: bold;
+  color: #888;
+}
+
+#stats p span {
+  font-style: italic;
+  font-weight: normal;
 }
 
 .copycat h1 {
-  background: #111;
-  border-color: #333;
-}
-
-pre {
-  margin: 0;
-  font-size: 35px;
-  color: #333;
-  font-weight: bold;
-  padding: 2px 8px;
-}
-
-.copycat pre {
-  color: #ccc;
-}
-
-p {
-  margin: 12px 0;
+  background: #444;
+  border-
 }
