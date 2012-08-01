@@ -2,6 +2,7 @@ function Calculator() {
   this.operatorNeedsReset = true;
   this.operandNeedsReset = true;
   this.accumulatorNeedsReset = true;
+  this.decimal = -1;
   this.ResetRegisters();
 }
 
@@ -12,6 +13,12 @@ Calculator.prototype.DoOperation = function() {
       break;
     case '-':
       this.accumulator -= this.operand;
+      break;
+    case '/':
+      this.accumulator /= this.operand;
+      break;
+    case '*':
+      this.accumulator *= this.operand;
       break;
     default:
       this.accumulator = this.operand;
@@ -32,6 +39,7 @@ Calculator.prototype.ResetRegisters = function() {
   if (this.operandNeedsReset) {
     this.operandNeedsReset = false;
     this.operand = 0;
+    this.decimal = -1;
   }
   if (this.accumulatorNeedsReset) {
     this.accumulatorNeedsReset = false;
@@ -45,11 +53,9 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
   switch (buttonValue) {
     case '+':
     case '-':
-      // This block feels like a hack. It's to deal with this case:
-      //
-      // 2+5=-1=
-      //
-      // which should give us 6.
+    case '/':
+    case '*':
+      this.decimal = -1;
       if (this.operatorNeedsReset) {
         this.operatorNeedsReset = false;
         this.operator = null;
@@ -60,20 +66,33 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
       this.operator = buttonValue;
       break;
     case '=':
+      this.decimal = -1;
       this.operandNeedsReset = true;
       this.operatorNeedsReset = true;
       this.DoOperation();
       this.SendAccumulatorByUDP();
       break;
-    case 'C':
+    case 'AC':
+      this.decimal = -1;
       this.accumulatorNeedsReset = true;
       this.operandNeedsReset = true;
       this.operatorNeedsReset = true;
       this.ResetRegisters();
       break;
+    case '.':
+      this.decimal = 0;
+      result = parseFloat(this.operand);
+      break;
+    case '+ / -':
+      this.accumulator *= -1;
+      break;
     default:
       this.ResetRegisters();
-      if (this.operand < 10000000) {
+      if (this.decimal >= 0) {
+        this.decimal += 1;
+        this.operand += ( Math.pow(10, -1 * this.decimal) 
+                          * parseInt(buttonValue));
+      } else {
         this.operand *= 10;
         this.operand += parseInt(buttonValue);
       }
@@ -90,5 +109,5 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
       (result < 0 && rstr_len > 9)) {
     result = 'Overflow';
   }
-  return result;
+  return [this.operator, this.operand, this.accumulator];
 }

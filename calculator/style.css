@@ -1,47 +1,156 @@
 html {
+  height: 380px;
   margin: 0;
   padding: 0;
+  width: 250px;
+  color: black;
+  font-family: "Consolata", "Inconsolata", "Hevatica Neue", "Helvetica", "Arial", sans-serif;
+  font-weight: lighter;
+  font-size: 16px;
+  overflow: hidden;
 }
 
-body,input,button {
-  color: black;
-  font-family: "Courier New", courier, monospace;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
+body {
+  margin: 0px;
+  padding: 0px;
 }
 
 #calc {
-  background-color: #a7a7a7;
+  background-color: #fff;
   border: 0;
   margin: 0;
-  max-width: 200px;
-  padding: 8px;
+  padding: 0px;
+}
+
+#calc #display,
+#calc #display:focus {
+  border: none;
+  color: #333;
+  font-weight: lighter;
+  height: 118px;
+  letter-spacing: 1px;
+  line-height: 20px;
+  margin: 0px;
+  max-height: 118px;
+  overflow: scroll;
+  padding: 15px;
+  text-shadow: 1px 1px #999;
+}
+
+.equation {
+  width: 100%;
+  position: relative;
+  clear: both;
+  height: 20px;
+}
+
+.equation .operator {
+  width: 15px;
+  height: 15px;
+  float: left;
+  padding-right: 5px;
+  height: 20px;
+}
+
+.equation .operand {
+  float: left;
+  width: 85px;
+  max-width: 85px;
+  text-align: left;
+  overflow: hidden;
+  height: 20px;
+}
+
+.equation .accumulator {
+  float: left;
+  width: 85px;
+  max-width: 85px;
+  text-align: right;
+  overflow: hidden;
+  margin-left: 20px;
+  height: 20px;
+}
+
+#display .hr {
+  width: 100%;
+  height: 0px;
+  border-top: 2px solid #ebebeb; 
+  position: relative;
+}
+
+#calc #buttons {
+  background-color: #111;
+  height: 231px;
+  padding-left: 1px;
 }
 
 .calc-button {
-  font-size: 16px;
-  height: 36px;
-  margin: 2px;
-  max-width: 46px;
-  padding: 8px 16px;
-  width: 100%;
+  background-color: #3a3a3a;
+  background-image: linear-gradient(top, #3a3a3a, #353535);
+  background-image: -webkit-linear-gradient(top, #3a3a3a, #353535);
+  height: 43px;
+  width: 59px;
+  text-align: center;
+  float: left;
+  border: 1px solid #444;
+  color: #ccc;
+  background-color: #3a3a3a;
+  line-height: 45px;
+  margin-top: 1px;
+  margin-right: 1px;
+  text-shadow: 1px 1px #111;
 }
 
-.big {
-  max-width: 96px;
-  padding: 8px 41px;
+.calc-button:hover {
+  background-color: #3e3e3e;
+  background-image: linear-gradient(top, #3e3e3e, #373737);
+  background-image: -webkit-linear-gradient(top, #3e3e3e, #373737);
+  border: 1px solid 1px solid #434343;
 }
 
-.calc-display {
-  background-color: #e4e8d0;  /* OS X calculator color */
-  border-radius: 4px;
-  border: 1px solid #333;
+.calc-button:active {
+  background-color: #383838;
+  background-image: linear-gradient(top, #383838, #353535);
+  background-image: -webkit-linear-gradient(top, #383838, #353535);
+  border: 1px solid #3c3c3c;
+}
+
+.calc-button.equals {
+  height: 89px;
+  background-color: #4d90fe;
+  background-image: -webkit-linear-gradient(top, #4d90fe, #4787ed);
+  background-image: linear-gradient(top, #4d90fe, #4787ed);
+  border: 1px solid #4f92ff;
+  color: #fff;
+  text-shadow: none;
+  line-height: 89px;
   font-size: 24px;
-  height: 40px;
-  margin: 0 0 4px 0;
-  padding: 4px;
-  text-align: right;
-  width: 99%;
 }
+
+.calc-button.equals:hover {
+  background-color: #4e91ff;
+  background-image: -webkit-linear-gradient(top, #4e91ff, #5090f7);
+  background-image: linear-gradient(top, #4e91ff, #5090f7);
+  border: 1px solid #4f92ff;
+}
+
+.calc-button.equals:active {
+  background-color: #4a8dfb;
+  background-image: -webkit-linear-gradient(top, #4a8dfb, #4484ea);
+  background-image: linear-gradient(top, #4a8dfb, #4484ea);
+  border: 1px solid #3f82ef;
+}
+
+.calc-button.zero {
+  width: 96px;
+  margin-top: -45px;
+  text-align: left;
+  padding-left: 25px;
+}
+
+.calc-button.point {
+  margin-top: -45px;
+  margin-left: 124px;
+}
+
+
