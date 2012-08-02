@@ -54,7 +54,7 @@ var serial_lib=(function() {
         dataRead+=str;
       }
     }
-    chrome.experimental.serial.read(connectionInfo.connectionId, onCharRead);
+    chrome.experimental.serial.read(connectionInfo.connectionId, 1, onCharRead);
   }
 
   var getPorts=function(callback) {

@@ -16,7 +16,7 @@ function onRead(readInfo) {
     'rotateZ(' + rotation + 'deg)';
 
   // Keep on reading.
-  chrome.experimental.serial.read(connectionId, onRead);
+  chrome.experimental.serial.read(connectionId, 1, onRead);
 };
 
 function onOpen(openInfo) {
@@ -28,7 +28,7 @@ function onOpen(openInfo) {
   setStatus('Connected');
 
   setPosition(0);
-  chrome.experimental.serial.read(connectionId, onRead);
+  chrome.experimental.serial.read(connectionId, 1, onRead);
 };
 
 function setStatus(status) {
