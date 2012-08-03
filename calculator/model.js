@@ -80,8 +80,10 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
       this.ResetRegisters();
       break;
     case '.':
-      this.decimal = 0;
-      result = parseFloat(this.operand);
+      if (this.decimal < 0)
+        this.decimal = 0;
+      this.operand = parseFloat(this.operand);
+      result = this.operand;
       break;
     case '+ / -':
       this.accumulator *= -1;
