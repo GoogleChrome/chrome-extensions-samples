@@ -1,5 +1,25 @@
 var operators = ['+', '-', '/', '*'];
 
+var values = { 'one'   : 1,
+               'two'   : 2,
+               'three' : 3,
+               'four'  : 4,
+               'five'  : 5,
+               'six'   : 6,
+               'seven' : 7,
+               'eight' : 8,
+               'nine'  : 9,
+               'zero'  : 0,
+               'plus'  : '+',
+               'minus' : '-',
+               'div'   : '/',
+               'mult'  : '*',
+               'equals': '=',
+               'point' : '.',
+               'AC'    : 'AC',
+               'plus-minus' : '+ / -'
+              }
+
 function View(calcModel) {
   this.calcElement = $('#calc');
   this.buttonsElement = $('#buttons');
@@ -8,7 +28,8 @@ function View(calcModel) {
   this.BuildWidgets();
   var calc = this;
   $('.calc-button').click(function() {
-    var clicked = $(this).text();
+    var clicked = values[$(this).attr('class').split(' ')[1]];
+
     var result = calcModel.HandleButtonClick(clicked);
     var operator = result[0];
     var operand = displayNumber(result[1]);
@@ -89,33 +110,32 @@ View.prototype.AddButtons = function() {
   var row;
 
   row = this.AddRow();
-  this.AddButton(row, 'AC');
-  this.AddButton(row, '+ / -');
-  this.AddButton(row, '/');
-  this.AddButton(row, '*');
+  this.AddButton(row, 'AC', 'AC');
+  this.AddButton(row, 'plus-minus', 'plus-minus');
+  this.AddButton(row, 'div', 'div');
+  this.AddButton(row, 'mult', 'mult');
 
   row = this.AddRow();
-  this.AddButton(row, 7);
-  this.AddButton(row, 8);
-  this.AddButton(row, 9);
-  this.AddButton(row, '-');
+  this.AddButton(row, 7, 'seven');
+  this.AddButton(row, 8, 'eight');
+  this.AddButton(row, 9, 'nine');
+  this.AddButton(row, 'minus', 'minus');
 
   row = this.AddRow();
-  this.AddButton(row, 4);
-  this.AddButton(row, 5);
-  this.AddButton(row, 6);
-  this.AddButton(row, '+');
+  this.AddButton(row, 4, 'four');
+  this.AddButton(row, 5, 'five');
+  this.AddButton(row, 6, 'six');
+  this.AddButton(row, 'plus', 'plus');
 
   row = this.AddRow();
-  this.AddButton(row, 1);
-  this.AddButton(row, 2);
-  this.AddButton(row, 3);
-  this.AddButton(row, '=');
-  // this.AddButton(row, 'C');
+  this.AddButton(row, 1, 'one');
+  this.AddButton(row, 2, 'two');
+  this.AddButton(row, 3, 'three');
+  this.AddButton(row, 'equals', 'equals');
 
   row = this.AddRow();
-  this.AddButton(row, 0);
-  this.AddButton(row, '.')
+  this.AddButton(row, 0, 'zero');
+  this.AddButton(row, 'point', 'point')
 }
 
 View.prototype.AddRow = function() {
@@ -124,11 +144,11 @@ View.prototype.AddRow = function() {
   return row;
 }
 
-View.prototype.AddButton = function(row, value) {
-  var special = ''
-  if (value == 0) special += ' zero';
-  if (value == '=') special += ' equals';
-  if (value == '.') special += ' point';
-  if (operators.indexOf(value) != -1) special += ' operator'
-  row.append('<div class="calc-button' + special + '">' + value + '</div>');
+View.prototype.AddButton = function(row, value, button_value) {
+  // var special = ''
+  // if (value == 0) special += ' zero';
+  // if (value == '=') special += ' equals';
+  // if (value == '.') special += ' point';
+  // if (operators.indexOf(value) != -1) special += ' operator'
+  row.append('<div class="calc-button ' + button_value + '">' + '</div>');
 }
