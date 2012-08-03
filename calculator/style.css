@@ -4,7 +4,7 @@ html {
   padding: 0;
   width: 250px;
   color: black;
-  font-family: "Consolata", "Inconsolata", "Hevatica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Hevatica Neue", "Helvetica", "Arial", sans-serif;
   font-weight: lighter;
   font-size: 16px;
   overflow: hidden;
@@ -19,22 +19,25 @@ body {
   background-color: #fff;
   border: 0;
   margin: 0;
+  max-width: 250px;
+  min-width: 250px;
   padding: 0px;
 }
 
 #calc #display,
 #calc #display:focus {
   border: none;
+  bottom: 232px;
   color: #333;
   font-weight: lighter;
-  height: 118px;
   letter-spacing: 1px;
   line-height: 20px;
   margin: 0px;
-  max-height: 118px;
   overflow: scroll;
   padding: 15px;
+  position: absolute;
   text-shadow: 1px 1px #999;
+  top: 0px;
 }
 
 .equation {
@@ -81,7 +84,11 @@ body {
 #calc #buttons {
   background-color: #111;
   height: 231px;
+  max-width: 250px;
+  min-width: 250px;
   padding-left: 1px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .calc-button {

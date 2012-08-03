@@ -51,7 +51,10 @@ function displayNumber(number) {
       number = parseFloat((number + '').slice(0, 8));
       if (number % 1 != 0) return number;
     }
-    return 'Overflow';
+    var pow = (number + '').length - 1;
+    var extra_length = (pow + '').length + 2;
+    number = number * Math.pow(10, -1*pow);
+    number = (number + '').slice(0, 8 - extra_length) + 'e' + pow;
   }
   return number;
 }
@@ -79,6 +82,7 @@ View.prototype.UpdateDisplayEquation = function(operator, operand, accumulator) 
   $(this.lastDisplayElement).children('.operator').text(operator);
   $(this.lastDisplayElement).children('.operand').text(operand);
   $(this.lastDisplayElement).children('.accumulator').text(accumulator);
+  this.displayElement.scrollTop(this.displayElement[0].scrollHeight);
 }
 
 View.prototype.AddButtons = function() {
