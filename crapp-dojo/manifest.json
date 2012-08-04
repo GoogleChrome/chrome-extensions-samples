@@ -1,0 +1,47 @@
+{
+  "name": "CrApp Dojo-jo!",
+  "version": "1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "dojo.png",
+    "128": "dojo.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "experimental",
+    "audioCapture",
+    "videoCapture",
+    "socket",
+    "geolocation",
+    "storage",
+    "browserTag",
+    "contextMenus",
+    "unlimitedStorage",
+    "fileSystem",
+    "fileSystemWrite",
+    "clipboardRead",
+    "clipboardWrite",
+    "chrome://favicon/",
+    "fileBrowserHandler",
+    "idle",
+    "notifications",
+    "tts",
+
+    "https://api.foursquare.com/",
+    "https://*.4sqi.net/",
+    "https://foursquare.com/",
+    "<all_urls>"
+  ],
+  "sandbox": {
+    "pages": [
+      "analytics/embedded_ga_host.html",
+      "eval-in-iframe/iframe.html",
+      "sandboxed-content/sandboxed.html",
+      "zephyr_hxm/graph.html"
+    ]
+  }
+}

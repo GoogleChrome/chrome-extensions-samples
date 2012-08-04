@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "IOIO Demo",
+  "description": "Blinks the on-board LED",
+  "version": "1.0",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "experimental"
+  ]
+}

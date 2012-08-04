@@ -1,0 +1,90 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif, Tahoma, Verdana, sans-serif;
+    font-size: 12px;
+    background: white;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+#toolbar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 58px;
+    height: 100%;
+    background: #EEE;
+    z-index: 100001;
+}
+
+.toolbarbutton {
+    padding: 5px;
+    height: 48px;
+    width: 48px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.enabled:hover {
+    background: white;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#openfile {
+    background-image: url("icons/openfile.png");
+}
+
+#openweb {
+    background-image: url("icons/openweb.png");
+}
+
+#save {
+    background-image: url("icons/save.png");
+}
+
+#saveas {
+    background-image: url("icons/saveas.png");
+}
+
+#new {
+    background-image: url("icons/new.png");
+}
+
+#editarea {
+    position: absolute;
+    top:  0px;
+    left: 58px;
+    bottom: 0px;
+    right: 0px;
+    background: white;
+}
+
+#status {
+    border-bottom: 1px solid #CCC;
+    background-color: #EEE;
+}
+
+#path {
+    padding: 5px;
+    color: #777;
+}
+
+#error {
+    padding: 5px;
+    padding-top: 0px;
+    color: #C66;
+}

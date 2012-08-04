@@ -1,0 +1,16 @@
+{
+  "name": "Serial Control Signals",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Test serial control signal API.",
+
+  "app": {
+    "background": {
+      "scripts": [ "background.js" ]
+    }
+  },
+
+  "permissions": [
+    "experimental"
+  ]
+}

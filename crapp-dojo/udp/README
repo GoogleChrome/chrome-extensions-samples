@@ -1,0 +1,21 @@
+Chrome UDP socket example
+A simple Echo client
+------------------------------
+
+[127.0.0.1:3007    ] [Connect]
+
+               **o
+                  ..
+                    .
+
+
+
+------------------------------
+
+Connects to UDP echo server at the given address. 
+
+Each little dot represents a echo request.
+When the request receives a reply, it shoots away and blows up.
+When a request doesn't receive a reply, it grows into a big ball and blows up.
+
+The dots gravitate towards each other for extra spiffiness.

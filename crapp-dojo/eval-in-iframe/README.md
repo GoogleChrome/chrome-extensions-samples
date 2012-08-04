@@ -1,0 +1,3 @@
+Sample that shows how to `eval()` JavaScript code while still complying with the strict Content Security Policy (CSP) [used by packaged apps](http://developer.chrome.com/trunk/apps/app_csp.html).
+
+The `main.html`/`main.js` window contains a `<textarea>` with a code snippet that needs to be `eval()`-ed. When the "Eval" button is pressed, it creates a [sandboxed iframe](http://developer.chrome.com/trunk/apps/manifest.html#sandbox) and sends the code string to it via `window.postMessage()`. The sandboxed iframe (source in `iframe.html` and `iframe.js`) is not restricted by the app's CSP, so it can `eval()` the string it receives, and `postMessage()` the result of running the evaluated code back.

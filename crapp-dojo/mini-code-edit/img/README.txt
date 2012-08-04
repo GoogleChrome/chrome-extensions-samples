@@ -1,0 +1,1 @@
+Icons from http://www.smashingmagazine.com/2008/09/02/simplicio-a-free-icon-set/
