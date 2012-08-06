@@ -8,5 +8,8 @@ The app keeps track of its window in the background page. If none exists, or if 
 
 * Experimental
 
+## APIs
+
+* [Windowing](http://developer.chrome.com/trunk/apps/app.window.html)
 ---
 Last updated: 2012-07-31 by paullewis
