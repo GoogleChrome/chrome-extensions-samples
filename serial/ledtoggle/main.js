@@ -18,7 +18,7 @@ SerialConnection.prototype.read = function(callback) {
   if (this.connectionId < 0) {
     throw 'Invalid connection';
   }
-  serial.read(this.connectionId, this.onRead.bind(this));
+  serial.read(this.connectionId, 1, this.onRead.bind(this));
   this.callbacks.read = callback;
 };
 

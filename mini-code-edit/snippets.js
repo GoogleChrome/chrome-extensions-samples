@@ -1,3 +1,7 @@
+// These snippets contain code that was valid at the time of the June 2012 Google I/O
+// presentation during which we used this code editor. The APIs have evolved since then,
+// but we are not necessarily keeping these snippets up to date. Please don't expect
+// that they'll work.
 var SNIPPETS = {
   "Hello World: Manifest": '{\n  "manifest_version": 2,\n  "name": "Hello World",\n  "version": "0.0.1",\n  "app": {\n    "background": {\n      "scripts": ["main.js"]\n    }\n  },\n  "permissions": [\n    "experimental"\n  ]\n}\n',
   "Hello World: main.js": "chrome.experimental.app.onLaunched.addListener(function() {\n  chrome.app.window.create('window.html', {\n    width: 400,\n    height: 400\n  });\n})",
