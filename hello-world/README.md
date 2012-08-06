@@ -17,7 +17,7 @@ chrome.experimental.app.onLaunched.addListener(function() {
 ## APIs
 
 * [Experimental App](http://developer.chrome.com/trunk/apps/experimental.app.html)
-* [chrome.app.window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 
 ---
 Last updated: 2012-07-31 by paullewis
