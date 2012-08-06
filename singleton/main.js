@@ -1,5 +1,14 @@
 var singletonWindow;
 
+/**
+ * Listens and launches the window, using a reference
+ * to determine if a window already exists. If it does
+ * that window is focused, otherwise a new window
+ * is created and the reference stored for next time.
+ *
+ * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/trunk/apps/experimental.app.html
+ */
 chrome.experimental.app.onLaunched.addListener(function() {
   if (singletonWindow && !singletonWindow.closed) {
     console.log('Focusing singleton window');
