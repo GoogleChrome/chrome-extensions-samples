@@ -36,7 +36,7 @@ function View(calcModel) {
     var accumulator = displayNumber(result[2]);
     if (clicked == 'AC') {
       calc.displayElement.text('');
-      calc.lastDisplayElement = null;
+      calc.AddDisplayEquation('', 0, '');
     }
     else if (operators.indexOf(clicked) != -1) {
       if (calc.lastDisplayElement)
@@ -82,6 +82,7 @@ function displayNumber(number) {
 
 View.prototype.BuildWidgets = function() {
   this.AddButtons(this.calcElement);
+  this.AddDisplayEquation('', 0, '');
 }
 
 View.prototype.UpdateTotal = function(accumulator) {
@@ -145,10 +146,5 @@ View.prototype.AddRow = function() {
 }
 
 View.prototype.AddButton = function(row, value, button_value) {
-  // var special = ''
-  // if (value == 0) special += ' zero';
-  // if (value == '=') special += ' equals';
-  // if (value == '.') special += ' point';
-  // if (operators.indexOf(value) != -1) special += ' operator'
   row.append('<div class="calc-button ' + button_value + '">' + '</div>');
 }
