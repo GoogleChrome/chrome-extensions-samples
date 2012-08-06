@@ -4,7 +4,7 @@ function setPosition(position) {
   var buffer = new ArrayBuffer(1);
   var uint8View = new Uint8Array(buffer);
   uint8View[0] = '0'.charCodeAt(0) + position;
-  chrome.experimental.serial.write(connectionId, buffer, function() {});
+  chrome.serial.write(connectionId, buffer, function() {});
 };
 
 function onRead(readInfo) {
@@ -16,7 +16,7 @@ function onRead(readInfo) {
     'rotateZ(' + rotation + 'deg)';
 
   // Keep on reading.
-  chrome.experimental.serial.read(connectionId, 1, onRead);
+  chrome.serial.read(connectionId, 1, onRead);
 };
 
 function onOpen(openInfo) {
@@ -28,7 +28,7 @@ function onOpen(openInfo) {
   setStatus('Connected');
 
   setPosition(0);
-  chrome.experimental.serial.read(connectionId, 1, onRead);
+  chrome.serial.read(connectionId, 1, onRead);
 };
 
 function setStatus(status) {
@@ -49,7 +49,7 @@ function buildPortPicker(ports) {
 
   portPicker.onchange = function() {
     if (connectionId != -1) {
-      chrome.experimental.serial.close(connectionId, openSelectedPort);
+      chrome.serial.close(connectionId, openSelectedPort);
       return;
     }
     openSelectedPort();
@@ -59,7 +59,7 @@ function buildPortPicker(ports) {
 function openSelectedPort() {
   var portPicker = document.getElementById('port-picker');
   var selectedPort = portPicker.options[portPicker.selectedIndex].value;
-  chrome.experimental.serial.open(selectedPort, onOpen);
+  chrome.serial.open(selectedPort, onOpen);
 }
 
 onload = function() {
@@ -79,7 +79,7 @@ onload = function() {
     setPosition(parseInt(this.value, 10));
   };
 
-  chrome.experimental.serial.getPorts(function(ports) {
+  chrome.serial.getPorts(function(ports) {
     buildPortPicker(ports)
     openSelectedPort();
   });

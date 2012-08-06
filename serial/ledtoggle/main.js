@@ -1,6 +1,6 @@
 //const device = '/dev/tty.usbserial-A100DUTY';
 const device = '/dev/tty.usbmodem621';
-const serial = chrome.experimental.serial;
+const serial = chrome.serial;
 const timeout = 100;
 
 function SerialConnection() {

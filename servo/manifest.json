@@ -17,6 +17,7 @@
 
   "permissions": [
     "experimental",
+    "serial",
     "videoCapture"
   ]
 }
