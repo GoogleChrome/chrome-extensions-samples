@@ -12,7 +12,7 @@ var servo = {
     var buffer = new ArrayBuffer(1);
     var uint8View = new Uint8Array(buffer);
     uint8View[0] = 48 + position;
-    chrome.experimental.serial.write(servo.connectionId, buffer, servo.onWrite);
+    chrome.serial.write(servo.connectionId, buffer, servo.onWrite);
   },
 
   onOpen: function(openInfo) {
@@ -47,7 +47,7 @@ var servo = {
       servo.fail(eligiblePorts.length + ' eligible ports found, trying ' + port);
     }
 
-    chrome.experimental.serial.open(port, servo.onOpen);
+    chrome.serial.open(port, servo.onOpen);
   },
 
   onSliderChange: function() {
@@ -64,7 +64,7 @@ var servo = {
 
   init: function() {
     if (servo.connectionId != -1) {
-      chrome.experimental.serial.close(servo.connectionId, function() {
+      chrome.serial.close(servo.connectionId, function() {
         servo.connectionId = -1;
         servo.init();
       });
@@ -73,7 +73,7 @@ var servo = {
     document.getElementById('spinner-error').classList.remove('visible');
     document.getElementById('spinner-input').onchange = servo.onSliderChange;
 
-    chrome.experimental.serial.getPorts(servo.onGetPorts);
+    chrome.serial.getPorts(servo.onGetPorts);
   },
 
   shutDown: function() {
@@ -81,7 +81,7 @@ var servo = {
       return;
     }
 
-    chrome.experimental.serial.close(servo.connectionId, function() {
+    chrome.serial.close(servo.connectionId, function() {
       servo.connectionId = -1;
     });
   },

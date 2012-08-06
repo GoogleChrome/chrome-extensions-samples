@@ -54,15 +54,15 @@ var serial_lib=(function() {
         dataRead+=str;
       }
     }
-    chrome.experimental.serial.read(connectionInfo.connectionId, 1, onCharRead);
+    chrome.serial.read(connectionInfo.connectionId, 1, onCharRead);
   }
 
   var getPorts=function(callback) {
-    chrome.experimental.serial.getPorts(callback);
+    chrome.serial.getPorts(callback);
   };
   
   var openSerial=function(serialPort, callback) {
-    chrome.experimental.serial.open(serialPort, function(cInfo) {
+    chrome.serial.open(serialPort, function(cInfo) {
      onOpen(cInfo, callback)
     });
   };
@@ -79,7 +79,7 @@ var serial_lib=(function() {
   };
   
   var writeSerial=function(str) {
-    chrome.experimental.serial.write(connectionInfo.connectionId, str2ab(str), onWrite); 
+    chrome.serial.write(connectionInfo.connectionId, str2ab(str), onWrite); 
   }
   
   var onWrite=function(obj) {
@@ -112,7 +112,7 @@ var serial_lib=(function() {
  
   var closeSerial=function(callback) {
    if (connectionInfo) {
-     chrome.experimental.serial.close(connectionInfo.connectionId, 
+     chrome.serial.close(connectionInfo.connectionId, 
       function(result) {
         onClose(result, callback);
       });
