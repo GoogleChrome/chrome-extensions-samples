@@ -20,6 +20,30 @@ var values = { 'one'   : 1,
                'plus-minus' : '+ / -'
               }
 
+var keyboard = { 49 : 1,
+                 50 : 2,
+                 51 : 3,
+                 52 : 4,
+                 53 : 5,
+                 54 : 6,
+                 55 : 7,
+                 56 : 8,
+                 57 : 9,
+                 48 : 0,
+                 187 : '=',
+                 13 : '=',
+                 190 : '.',
+                 189 : '-',
+                 191 : '/',
+                 67 : 'AC',
+                 8 : 'back'
+              };
+var shiftKeyboard = { 187 : '+',
+                      56 : '*'
+                    };
+
+var shift = false;
+
 function View(calcModel) {
   this.calcElement = $('#calc');
   this.buttonsElement = $('#buttons');
@@ -27,43 +51,34 @@ function View(calcModel) {
   this.lastDisplayElement = null;
   this.BuildWidgets();
   var calc = this;
+
   $('.calc-button').click(function() {
     var clicked = values[$(this).attr('class').split(' ')[1]];
-
     var result = calcModel.HandleButtonClick(clicked);
-    var operator = result[0];
-    var operand = displayNumber(result[1]);
-    var accumulator = displayNumber(result[2]);
-    if (clicked == 'AC') {
-      calc.displayElement.text('');
-      calc.AddDisplayEquation('', 0, '');
-    }
-    else if (operators.indexOf(clicked) != -1) {
-      if (calc.lastDisplayElement)
-        calc.UpdateTotal(accumulator);
-      operand = '';
-      accumulator = '';
-      calc.AddDisplayEquation(operator, operand, accumulator);
-    }
-    else if (clicked == '=') {
-      calc.displayElement.append('<div class="hr"></div>');
-      calc.AddDisplayEquation('', '', accumulator);
-      this.lastDisplayElement = null;
-    }
-    else if (clicked == '+ / -') {
-      calc.UpdateDisplayEquation(operator, operand, accumulator);
-    }
-    else if (calc.lastDisplayElement) {
-      accumulator = '';
-      calc.UpdateDisplayEquation(operator, operand, accumulator);
-    }
-    else {
-      accumulator = '';
-      operator = '';
-      calc.AddDisplayEquation(operator, operand, accumulator)
+    calc.buttonClicked(clicked, result);
+  });
+
+  $(document).keydown(function(event) {
+    var clicked = null;
+    if (event.which == 16)
+      shift = true;
+    else if (shift && event.which in shiftKeyboard)
+      clicked = shiftKeyboard[event.which]
+    else if (!shift && event.which in keyboard)
+      clicked = keyboard[event.which]
+    if (clicked != null) {
+      var result = calcModel.HandleButtonClick(clicked);
+      calc.buttonClicked(clicked, result);
     }
   });
+
+  $(document).keyup(function(event) {
+    if (event.which == 16)
+      shift = false;
+  });
+
 }
+
 
 function displayNumber(number) {
   var digits = (number + '').length;
@@ -80,6 +95,43 @@ function displayNumber(number) {
   return number;
 }
 
+View.prototype.buttonClicked = function(clicked, result) {
+  var operator = result[0];
+  var operand = displayNumber(result[1]);
+  var accumulator = displayNumber(result[2]);
+  if (clicked == 'AC') {
+    this.displayElement.text('');
+    this.AddDisplayEquation('', 0, '');
+  }
+  else if (clicked == 'back' && operator == 'back') {
+    this.UpdateDisplayEquation('', '', '');
+  }
+  else if (operators.indexOf(clicked) != -1) {
+    if (this.lastDisplayElement)
+      this.UpdateTotal(accumulator);
+    operand = '';
+    accumulator = '';
+    this.AddDisplayEquation(operator, operand, accumulator);
+  }
+  else if (clicked == '=') {
+    this.displayElement.append('<div class="hr"></div>');
+    this.AddDisplayEquation('', accumulator, accumulator);
+    this.lastDisplayElement = null;
+  }
+  else if (clicked == '+ / -') {
+    this.UpdateDisplayEquation(operator, operand, accumulator);
+  }
+  else if (this.lastDisplayElement) {
+    accumulator = '';
+    this.UpdateDisplayEquation(operator, operand, accumulator);
+  }
+  else {
+    accumulator = '';
+    operator = '';
+    this.AddDisplayEquation(operator, operand, accumulator)
+  }
+}
+
 View.prototype.BuildWidgets = function() {
   this.AddButtons(this.calcElement);
   this.AddDisplayEquation('', 0, '');
@@ -92,8 +144,8 @@ View.prototype.UpdateTotal = function(accumulator) {
 View.prototype.AddDisplayEquation = function(operator, operand, accumulator) {
   this.displayElement.append(
       '<div class="equation">'
-      + '<div class="operator">' + operator + '</div>'
       + '<div class="operand">' + operand + '</div>'
+      + '<div class="operator">' + operator + '</div>'
       + '<div class="accumulator">' + accumulator + '</div'
       + '</div>');
   this.lastDisplayElement = $('.equation').last();

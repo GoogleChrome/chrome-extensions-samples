@@ -86,13 +86,33 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
       result = this.operand;
       break;
     case '+ / -':
+      if (this.operatorNeedsReset) {
+          this.operatorNeedsReset = false;
+          this.operator = null;
+          this.operand = null;
+        }
+      if (this.accumulator == 0) this.accumulator = this.operand;
       this.accumulator *= -1;
+      break;
+    case 'back':
+      this.accumulatorNeedsReset = false;
+      this.ResetRegisters();
+      if (this.operand == 0) {
+        this.operator = 'back';
+        this.operatorNeedsReset = true;
+      }
+      else {
+        var operandStr = this.operand + '';
+        operandStr = operandStr.slice(0, operandStr.length - 1);
+        if (operandStr == '') this.operand = 0;
+        else this.operand = parseFloat(operandStr);
+      }
       break;
     default:
       this.ResetRegisters();
       if (this.decimal >= 0) {
         this.decimal += 1;
-        this.operand += ( Math.pow(10, -1 * this.decimal) 
+        this.operand += ( Math.pow(10, -1 * this.decimal)
                           * parseInt(buttonValue));
       } else {
         this.operand *= 10;
