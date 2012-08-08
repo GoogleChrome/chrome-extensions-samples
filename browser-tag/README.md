@@ -16,4 +16,4 @@ The app's main window contains a `<browser>` that is sized to fit most of it (vi
 * [Browser](http://developer.chrome.com/trunk/apps/app_external.html#browsertag)
 
 ---
-Last updated: 2012-07-31 by paullewis
+Last updated: 2012-08-08 by paullewis
