@@ -12,13 +12,15 @@ body {
 #controls button,
 #controls input {
   font-size: 14px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 0 6px;
 }
 
 button,
 input[type="submit"] {
   border: solid 1px #ccc;
-  background: #eee;
-  border-radius: 2px;
+  background: -webkit-linear-gradient(top, #f2f2f2 0%, #cccccc 99%);
 }
 
 #location {
@@ -41,6 +43,5 @@ input[type="submit"] {
 
 #controls #center-column {
   -webkit-flex: 1;
-  margin: 0 2px;
 }
 

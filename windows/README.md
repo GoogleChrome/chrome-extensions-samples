@@ -8,6 +8,8 @@ The app creates two windows, an "original" window and a "copycat" window. The co
 
 * Experimental
 
+[See more on permissions](http://code.google.com/chrome/extensions/manifest.html#permissions)
+
 ## APIs
 
 * [Windowing](http://developer.chrome.com/trunk/apps/app.window.html)

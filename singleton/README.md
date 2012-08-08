@@ -8,6 +8,8 @@ The app keeps track of its window in the background page. If none exists, or if 
 
 * Experimental
 
+[See more on permissions](http://code.google.com/chrome/extensions/manifest.html#permissions)
+
 ## APIs
 
 * [Windowing](http://developer.chrome.com/trunk/apps/app.window.html)

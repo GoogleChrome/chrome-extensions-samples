@@ -1,4 +1,4 @@
-onresize = doLayout;
+window.onresize = doLayout;
 
 onload = function() {
   doLayout();
@@ -20,8 +20,8 @@ onload = function() {
 
     document.querySelector('browser').src =
         document.querySelector('#location').value;
-  }
-}
+  };
+};
 
 function doLayout() {
   var browser = document.querySelector('browser');
@@ -31,4 +31,6 @@ function doLayout() {
   var windowHeight = document.documentElement.clientHeight;
   browser.width = windowWidth;
   browser.height = windowHeight - controlsHeight;
+
+  console.log(windowWidth, windowHeight);
 }
