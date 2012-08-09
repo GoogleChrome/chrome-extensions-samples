@@ -75,10 +75,12 @@ body {
 .equation .operator {
   color: #2c2c2c;
   width: 15px;
-  height: 16px;
   float: right;
   padding-right: 5px;
   height: 22px;
+  line-height: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .equation .operand {
@@ -87,7 +89,10 @@ body {
   max-width: 80px;
   text-align: right;
   overflow: hidden;
-  height: 22px;
+  height: 16px;
+  line-height: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .equation .accumulator {
@@ -98,7 +103,10 @@ body {
   max-width: 80px;
   text-align: left;
   overflow: hidden;
-  height: 22px;
+  height: 13px;
+  line-height: 13px;
+  padding-top: 6px;
+  padding-bottom: 3px;
 }
 
 #display .hr {

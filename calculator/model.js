@@ -86,13 +86,7 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
       result = this.operand;
       break;
     case '+ / -':
-      if (this.operatorNeedsReset) {
-          this.operatorNeedsReset = false;
-          this.operator = null;
-          this.operand = null;
-        }
-      if (this.accumulator == 0) this.accumulator = this.operand;
-      this.accumulator *= -1;
+      this.operand *= -1;
       break;
     case 'back':
       this.accumulatorNeedsReset = false;

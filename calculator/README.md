@@ -10,7 +10,7 @@ DOM manipulation.
 
 * Experimental
 
-[See more on permissions](http://code.google.com/chrome/extensions/manifest.html#permissions)
+[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
 
 ## APIs
 

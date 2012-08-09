@@ -1,0 +1,23 @@
+{
+  "name": "Weather",
+  "description": "A simple weather application.",
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+
+  "icons": {
+    "16": "img/icon-16x16.png",
+    "64": "img/icon-64x64.png",
+    "128": "img/icon-128x128.png"
+  },
+  "permissions": [
+    "experimental",
+    "geolocation",
+    "storage",
+    "<all_urls>"
+  ]
+}
