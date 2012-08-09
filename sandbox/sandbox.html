@@ -14,7 +14,7 @@
       <div class="entry">
         <h1>Hello</h1>
         <p>This is a Handlebar template compiled inside a hidden sandboxed iframe.<br/>
-           The counter parameter from postMessage (outter frame) is: {{counter}}</p> 
+           The counter parameter from postMessage (outter frame) is: {{counter}}</p>
         </p>
       </div>
     </script>
@@ -23,7 +23,7 @@
       <div class="entry">
         <h1>Welcome back</h1>
         <p>This is another Handlebar template compiled inside a hidden sandboxed iframe.<br/>
-           The counter parameter from postMessage (outter frame) is: {{counter}}</p> 
+           The counter parameter from postMessage (outter frame) is: {{counter}}</p>
         </p>
       </div>
     </script>
@@ -42,7 +42,7 @@
 
       // Set up message event handler:
       window.addEventListener('message', function(event) {
-        var command = event.data.command, 
+        var command = event.data.command,
             template = templates[event.data.templateName],
             result = "invalid request";
 
