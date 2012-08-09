@@ -9,6 +9,8 @@ of `eval` or `new Function` (or variations like Function.apply) so using a
 sandbox is necessary for this process. To enable sandboxing in your app you
 add the `sandbox` property to your app's [manifest file](http://code.google.com/chrome/extensions/manifest.html#sandbox).
 
+[See more info on using eval safely in Packaged Apps](http://developer.chrome.com/trunk/apps/sandboxingEval.html)
+
 ## Permissions
 
 * Experimental
