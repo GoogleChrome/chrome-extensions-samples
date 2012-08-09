@@ -119,7 +119,7 @@ View.prototype.buttonClicked = function(clicked, result) {
     this.lastDisplayElement = null;
   }
   else if (clicked == '+ / -') {
-    this.UpdateDisplayEquation(operator, operand, accumulator);
+    this.UpdateDisplayEquation(operator, operand, '');
   }
   else if (this.lastDisplayElement) {
     accumulator = '';
