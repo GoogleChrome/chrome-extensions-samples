@@ -5,8 +5,6 @@
  * @see http://developer.chrome.com/trunk/apps/app.window.html
  */
 chrome.experimental.app.onLaunched.addListener(function() {
-  chrome.app.window.create('browser.html', {
-    'width': 1024,
-    'height': 768
-  });
+  chrome.app.window.create('mainpage.html',
+    {width: 500, height: 309});
 });

@@ -14,6 +14,8 @@ chrome.experimental.app.onLaunched.addListener(function() {
 
 * Experimental
 
+[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
+
 ## APIs
 
 * [Experimental App](http://developer.chrome.com/trunk/apps/experimental.app.html)

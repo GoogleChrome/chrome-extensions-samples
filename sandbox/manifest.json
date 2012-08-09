@@ -1,0 +1,17 @@
+{
+  "name": "Sandboxed Frame",
+  "version": "1.0.1",
+  "manifest_version": 2,
+  "permissions": ["experimental"],
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  }
+}
