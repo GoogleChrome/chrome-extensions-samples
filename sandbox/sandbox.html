@@ -13,18 +13,16 @@
     <script id="sample-template-1" type="text/x-handlebars-template">
       <div class="entry">
         <h1>Hello</h1>
-        <p>This is a Handlebar template compiled inside a hidden sandboxed iframe.<br/>
-           The counter parameter from postMessage (outter frame) is: {{counter}}</p>
-        </p>
+        <p>This is a Handlebar template compiled inside a hidden sandboxed iframe.</p>
+        <p>The counter parameter from postMessage (outer frame) is: {{counter}}</p>
       </div>
     </script>
 
     <script id="sample-template-2" type="text/x-handlebars-template">
       <div class="entry">
         <h1>Welcome back</h1>
-        <p>This is another Handlebar template compiled inside a hidden sandboxed iframe.<br/>
-           The counter parameter from postMessage (outter frame) is: {{counter}}</p>
-        </p>
+        <p>This is another Handlebar template compiled inside a hidden sandboxed iframe.</p>
+        <p>The counter parameter from postMessage (outer frame) is: {{counter}}</p>
       </div>
     </script>
 
@@ -48,7 +46,7 @@
 
         // if we don't know the templateName requested, return an error message
         if (!template) {
-          result = 'unknown templateName: '+event.data.templateName;
+          result = 'Unknown template: ' + event.data.templateName;
         } else {
           switch(command) {
             case 'render':
