@@ -1,0 +1,1 @@
+Please join the [Chromium Apps](https://groups.google.com/a/chromium.org/forum/?fromgroups#!forum/chromium-apps) group for general discussion. We're also available on IRC at #chromium-apps ([Freenode](http://freenode.net/)).
