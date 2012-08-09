@@ -5,6 +5,6 @@
  * @see http://developer.chrome.com/trunk/apps/app.window.html
  */
 chrome.experimental.app.onLaunched.addListener(function() {
-  chrome.app.window.create('eventpage.html',
+  chrome.app.window.create('mainpage.html',
     {width: 500, height: 309});
 });
