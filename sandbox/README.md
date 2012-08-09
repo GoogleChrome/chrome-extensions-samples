@@ -1,21 +1,23 @@
 # Sandbox
 
 This sample creates a sandboxed iframe (`sandbox.html`) to which the main page (`mainpage.html`)
-passes a counter variable. The sandboxed page uses handlebars to evaluate and compose a message
+passes a counter variable. The sandboxed page uses the
+[Handlebars template library](http://handlebarsjs.com/) to evaluate and compose a message
 using the counter variable which is then passed back to the main page for rendering.
 
-[CSP](http://developer.chrome.com/trunk/apps/app_csp.html) disallows the use
-of `eval` or `new Function` (or variations like Function.apply) so using a
+The default packaged app Content Security Policy (CSP) value
+[disallows](http://developer.chrome.com/trunk/apps/app_csp.html) the use of
+`eval()` or `new Function()` (or variants like `Function.apply()`) so using a
 sandbox is necessary for this process. To enable sandboxing in your app you
-add the `sandbox` property to your app's [manifest file](http://code.google.com/chrome/extensions/manifest.html#sandbox).
+add the `sandbox` property to your app's [manifest file](http://developer.chrome.com/trunk/apps/manifest.html#sandbox).
 
-[See more info on using eval safely in Packaged Apps](http://developer.chrome.com/trunk/apps/sandboxingEval.html)
+See more info on [using eval safely in packaged apps](http://developer.chrome.com/trunk/apps/sandboxingEval.html).
 
 ## Permissions
 
 * Experimental
 
-[See more on permissions](http://code.google.com/chrome/extensions/manifest.html#permissions)
+[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
 
 ## APIs
 
