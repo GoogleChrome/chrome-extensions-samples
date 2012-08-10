@@ -1,11 +1,14 @@
 {
-  "name": "Sandboxed content",
-  "version": "1.0",
+  "name": "Sandboxed Content",
+  "version": "1.0.1",
   "manifest_version": 2,
   "app": {
     "background": {
       "scripts": ["main.js"]
     }
+  },
+  "icons": {
+    "128": "icon_128.png"
   },
   "permissions": [
     "experimental"
