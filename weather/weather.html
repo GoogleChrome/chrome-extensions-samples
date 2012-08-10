@@ -11,6 +11,16 @@
 	</head>
 
 	<body>
+		<div id="info-text" class="hidden">
+			<div class="source">
+				Powered by <a href="http://www.worldweatheronline.com/"
+											title="Free local weather content provider"
+											target="_blank">World Weather Online</a>
+			</div>
+			<input type="radio" name="temp-type" value="C" class="C"> Celcius<br>
+			<input type="radio" name="temp-type" value="F" class="F"> Fahrenheit
+			<div class="places-list"></div>
+		</div>
 		<div id="weather">
 			<div class="location new">
 				Add City<br>
@@ -21,5 +31,6 @@
 			</div>
 		</div>
 		<div id="places"><div id="plus"></div></div>
+		<div id="info"></div>
 	</body>
 </html>

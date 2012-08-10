@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  **/
 
-
+var temp = 'F';
 var places = {};
 var current_place = '';
 var base_weather_url = 'http://free.worldweatheronline.com/feed/weather.ashx?format=json&num_of_days=5&key=78b33b52eb213218120708&q=';
@@ -60,7 +60,6 @@ var condition_codes = { 395 : 'snow',
 												200 : 'tstorm',
 												185 : 'rain-snow',
 												182 : 'rain-snow',
-
 												113 : 'sunny',
 												116 : 'partly-cloudy',
 												119 : 'cloudy',
@@ -120,10 +119,21 @@ $(document).ready(function() {
 		for (var place_class in items['places']) {
 			places[place_class] = items['places'][place_class];
 		}
+		temp = items['temp'];
+		if (!temp) temp = 'F';
+		$('input[name="temp-type"].' + temp).attr('checked', true);
   	setup();
   });
 
+  $('input[name="temp-type"]').change(function() {
+  	temp = $('input[name="temp-type"]:checked').val();
+  	chrome.storage.local.set({ 'temp' : temp });
+  	refresh();
+  });
+
 	$('#places .place').live('click', function() {
+		$('#weather').removeClass('hidden');
+		$('#info-text').addClass('hidden');
 		var city_class = $(this).attr('class').split(' ')[1];
 		$('.location').removeClass('selected');
 		$('.place').removeClass('selected');
@@ -149,6 +159,8 @@ $(document).ready(function() {
 	});
 
 	$('#places #plus').live('click', function() {
+		$('#weather').removeClass('hidden');
+		$('#info-text').addClass('hidden');
 		$('.location').removeClass('selected');
 		$('.place').removeClass('selected');
 		$('.location.new').addClass('selected');
@@ -177,11 +189,23 @@ $(document).ready(function() {
 		$('.' + city_class).addClass('selected');
 	});
 
+	$('#info').click(function() {
+		$('#weather').addClass('hidden');
+		$('#info-text').removeClass('hidden');
+	})
+
 });
 
 function setup() {
 	navigator.geolocation.getCurrentPosition(getCurrentPosSuccessFunction,
     																			 getCurrentPosErrorFunction);
+}
+
+function refresh() {
+	for (var location_class in places) {
+		$('.' + location_class).remove();
+	}
+	createDisplay(places);
 }
 
 function getCurrentPosSuccessFunction(position) {
@@ -264,16 +288,17 @@ function addLocationDisplay(location, current_condition, weather) {
 	var selected = '';
 	if (city_class == current_place) selected = ' selected';
 	var location_html = '<div class="location ' + city_class + selected + '">\
-	                     	 <div class="delete"></div>\
 	                     </div>';
 	var city = location.split(', ')[0];
 	var location_dot_html = '<div class="place ' + city_class + selected + '"\
 																title="' + city + '"></div>';
 	var city_html = cityDisplay(location);
+	var places_list_html = placesListItem(city_class, city);
 	var current_html = currentDisplay(current_condition);
 	var day_html = '';
 	for (var i = 0; i < weather.length; i++)
 		day_html += dayDisplay(weather, i);
+	$('#info-text .places-list').append(places_list_html);
 	$('#weather').append(location_html);
 	$('#weather .' + city_class).append(city_html);
 	$('#weather .' + city_class).append(current_html);
@@ -291,7 +316,7 @@ function cityDisplay(location) {
 }
 
 function currentDisplay(current_condition) {
-	var current_temp = current_condition['temp_C'];
+	var current_temp = current_condition['temp_' + temp];
 	var current_description = current_condition['weatherDesc'][0]['value'];
 	var current_icon = condition_codes[current_condition['weatherCode']];
 	var html = '<div class="current">\
@@ -312,9 +337,16 @@ function dayDisplay(weather, i) {
 								<div class="date">' + day + '</div>\
 								<div class="icon ' + day_condition + '"\
 								     title="' + day_description + '"></div>\
-								<div class="high">' + day_data['tempMaxC'] + '&deg;</div>\
-								<div class="low">' + day_data['tempMinC'] + '&deg;</div>\
+								<div class="high">' + day_data['tempMax' + temp] + '&deg;</div>\
+								<div class="low">' + day_data['tempMin' + temp] + '&deg;</div>\
 							</div>';
+	return html;
+}
+
+function placesListItem(city_class, location) {
+	var html = '<div class="place-list ' + city_class + '">\
+							  <div class="delete"></div>' + location +
+						 '</div>';
 	return html;
 }
 

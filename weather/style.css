@@ -72,6 +72,69 @@ body {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+input[type=checkbox],
+input[type=radio] {
+	-webkit-appearance: none;
+	width: 13px;
+	height: 13px;
+	border: 1px solid #c6c6c6;
+	margin: 0;
+	-webkit-border-radius: 1px;
+	border-radius: 1px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: default;
+	position: relative;
+}
+
+input[type=checkbox]:active,
+input[type=radio]:active {
+	background: #ebebeb;
+	border-color: #666;
+}
+
+input[type=checkbox]:hover,
+input[type=radio]:hover {
+	border-color: #666;
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
+}
+
+input[type=radio] {
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+}
+
+input[type=checkbox].disabled,
+input[type=radio].disabled {
+	border-color:#f1f1f1;
+	background: #fff;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.disabledtext{
+	color: #b8b8b8;
+}
+
+input[type=radio]:checked::after {
+	content: '';
+	display: block;
+	position: relative;
+	top: 3px;
+	left: 3px;
+	width: 7px;
+	height: 7px;
+	background: #666;
+	border-radius: 50%;
+}
+
+input[type=checkbox]:focus {
+	outline: none;
+	border-color: #4d90fe;
+}
+
 input[type=text] {
   background-color: #fff;
   border: 1px solid #d9d9d9;
@@ -111,9 +174,52 @@ input[type=text].form-error{
   padding: 0px;
 }
 
+#info-text {
+	height: 240px;
+}
+
+#info-text .source {
+	font-size: 11px;
+	margin-bottom: 10px;
+	margin-top: 5px;
+	text-align: center;
+}
+
+#info-text .places-list {
+	height: 160px;
+	margin-top: 10px;
+	overflow: auto;
+}
+
+#info-text .places-list .delete {
+	background: url('img/x.png') center no-repeat;
+	background-size: 15px 15px;
+	display: inline-block;
+	height: 15px;
+	margin: 4px;
+	margin-bottom: -2px;
+	opacity: 0.7;
+	width: 15px;
+}
+
+#info-text .places-list .delete:hover {
+	opacity: 1;
+}
+
+#info {
+	background: url('img/info.png') center no-repeat;
+	background-size: 12px 12px;
+	bottom: 10px;
+	cursor: pointer;
+	height: 12px;
+	position: absolute;
+	right: 10px;
+	width: 12px;
+}
+
 .location {
 	display: none;
-	height: 240px;
+	height: 245px;
 }
 
 .location.new {
@@ -131,19 +237,6 @@ input#new-city {
 .city {
 	font-size: 14px;
 	text-align: center;
-}
-
-.delete {
-	background: url('img/x.png') center no-repeat;
-	background-size: 15px 15px;
-	float: right;
-	height: 15px;
-	width: 15px;
-	opacity: 0.7;
-}
-
-.delete:hover {
-	opacity: 1;
 }
 
 .current {
