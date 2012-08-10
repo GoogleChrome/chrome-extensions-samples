@@ -2,7 +2,8 @@
   "name": "Calculator",
   "description": "A simple calculator.",
   "manifest_version": 2,
-  "version": "1.0.12",
+  "version": "1.1.0",
+  "offline_enabled": true,
   "app": {
     "background": {
       "scripts": ["main.js"]
