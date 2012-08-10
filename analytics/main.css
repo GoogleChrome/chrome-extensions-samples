@@ -1,0 +1,20 @@
+html, body {
+  font-family: Helvetica, Arial;
+  color: #444;
+  padding: 10px;
+}
+
+h1 {
+  margin: 0 0 0.6em 0;
+}
+
+p {
+  color: #888;
+  margin: 0 0 1em 0;
+  line-height: 140%;
+}
+
+iframe {
+  border: 1px solid #CCC;
+  margin-top: 20px;
+}
