@@ -6,5 +6,5 @@
  */
 chrome.experimental.app.onLaunched.addListener(function() {
   chrome.app.window.create('main.html',
-    {width: 480, height: 225});
+    {width: 400, height: 350});
 });

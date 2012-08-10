@@ -1,10 +1,17 @@
+<!DOCTYPE html>
 <html>
-  <link rel="stylesheet" href="/sandboxed.css" />
-  <body>
-    <h1>Woot</h1>
+<head>
+    <meta charset="utf-8">
+    <title>Sandboxed Content</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <h1>Sandboxed Content</h1>
+    <p>I am the sandboxed iframe.</p>
+    <div id="message"></div>
     <script>
-      document.write('I am an inline script.<br>');
-      eval('document.write(\'I am an eval-ed inline script.\');');
+      eval('document.getElementById(\'message\').innerHTML = \'<p>I am the ' +
+        'output of an eval-ed inline script.</p>\'');
     </script>
-  </body>
+</body>
 </html>
