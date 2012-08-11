@@ -100,7 +100,7 @@ $(document).ready(function() {
 function keyboardShortcut(event) {
   if (event.which == 74)
     selectNextChunk();
-  else if (evenjjkt.which == 75)
+  else if (event.which == 75)
     selectPrevChunk();
   else if ((event.which == 76) 
             && (selectedChunk > 0) && (selectedChunk <= totalChunks))
