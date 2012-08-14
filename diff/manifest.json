@@ -3,6 +3,7 @@
   "name": "Diff Tool",
   "description": "View diff and merge two files.",
   "version": "0.1.4",
+  "minimum_chrome_version": "23",
   "offline_enabled" : true,
   "app": {
     "background": {
