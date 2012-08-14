@@ -2,7 +2,9 @@
   "name": "Zephyr HXM Demo",
   "description": "Demo of Zephyr HXM Heart Rate Monitor interaction",
   "version": "1.0",
-  "manifest_version": 2,  "app": {
+  "manifest_version": 2,
+  "minimum_chrome_version": "23",
+  "app": {
     "background": {
       "scripts": ["background.js"]
     }
