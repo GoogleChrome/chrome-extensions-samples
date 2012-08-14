@@ -3,6 +3,7 @@
   "name": "IOIO Demo",
   "description": "Blinks the on-board LED",
   "version": "1.0",
+  "minimum_chrome_version": "23",
   "app": {
     "background": {
       "scripts": ["background.js"]
