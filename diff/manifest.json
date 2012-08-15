@@ -10,8 +10,7 @@
       "scripts": ["js/background.js"]
     }
   },
-  "permissions": ["experimental",
-                  "storage",
+  "permissions": ["storage",
                   "unlimitedStorage",
                   "fileSystem",
                   "fileSystemWrite",

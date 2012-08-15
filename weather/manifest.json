@@ -16,7 +16,6 @@
     "128": "img/icon-128x128.png"
   },
   "permissions": [
-    "experimental",
     "geolocation",
     "storage",
     "<all_urls>"

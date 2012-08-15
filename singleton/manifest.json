@@ -11,6 +11,5 @@
     "background": {
       "scripts": ["main.js"]
     }
-  },
-  "permissions": ["experimental"]
+  }
 }

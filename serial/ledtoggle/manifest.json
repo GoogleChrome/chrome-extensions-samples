@@ -12,6 +12,5 @@
       "scripts": ["launch.js"],
       "transient": true
     }
-  },
-  "permissions": ["experimental"]
+  }
 }

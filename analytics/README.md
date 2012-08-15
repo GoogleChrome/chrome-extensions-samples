@@ -9,18 +9,12 @@ placed in a [sandbox](http://developer.chrome.com/trunk/apps/manifest.html#sandb
 *Please note: You will need to modify ga_details.js to include real Google
 Analytics credentials.*
 
-## Permissions
-
-* Experimental
-
-[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
-
 ## Resources
 
-* [Experimental App](http://developer.chrome.com/trunk/apps/experimental.app.html)
+* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [CSP](http://developer.chrome.com/trunk/apps/app_csp.html)
 * [Sandbox](http://developer.chrome.com/trunk/apps/manifest.html#sandbox)
 
 ---
-Last updated: 2012-08-10 by paullewis
+Last updated: 2012-08-14 by miu

@@ -6,7 +6,6 @@ The app's main window contains a `<browser>` that is sized to fit most of it (vi
 
 ## Permissions
 
-* Experimental
 * browserTag
 
 [See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
@@ -16,4 +15,4 @@ The app's main window contains a `<browser>` that is sized to fit most of it (vi
 * [Browser](http://developer.chrome.com/trunk/apps/app_external.html#browsertag)
 
 ---
-Last updated: 2012-08-08 by paullewis
+Last updated: 2012-08-14 by miu

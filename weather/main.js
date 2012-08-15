@@ -1,4 +1,4 @@
-chrome.experimental.app.onLaunched.addListener(function() {
+chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('weather.html', {
     height: 280,
     minHeight: 280,

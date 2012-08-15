@@ -4,15 +4,13 @@
  * found in the LICENSE file.
  **/
 
-function onLaunched(launchData) {
+chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create('main.html', {
     width: 1270,
     height: 800
   });
-}
-
-chrome.runtime.onInstalled.addListener(function() { 
-  chrome.storage.local.set({});
 });
 
-chrome.experimental.app.onLaunched.addListener(onLaunched);
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.storage.local.set({});
+});
