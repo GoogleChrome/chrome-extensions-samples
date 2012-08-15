@@ -31,7 +31,7 @@ EOF
 
 function writeJS_accumulatebgtasks() {
   cat ../${app}/$BGSCRIPT | \
-     perl -pe "s/chrome.experimental.app.onLaunched.addListener\(/_dojo_set_app_launcher(\"$app_norm\", /g" |\
+     perl -pe "s/chrome.app.runtime.onLaunched.addListener\(/_dojo_set_app_launcher(\"$app_norm\", /g" |\
      perl -pe "s%(chrome.app.window.create.*?[\"'])%\1$app/%g" \
      >> ${BUILDDIR}/main.js
 }
@@ -51,7 +51,7 @@ EOF
 function writeJS_launch() {
   cat > ${BUILDDIR}/background.js <<EOF
 
-chrome.experimental.app.onLaunched.addListener(function() {
+chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
     width: 600,
     height: 800

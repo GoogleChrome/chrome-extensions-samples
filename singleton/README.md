@@ -4,14 +4,8 @@ Sample that shows how to use the [windowing API](http://developer.chrome.com/tru
 
 The app keeps track of its window in the background page. If none exists, or if it's closed, it creates a new one. Otherwise it re-focuses the existing one via `chrome.app.window.focus()`.
 
-## Permissions
-
-* Experimental
-
-[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
-
 ## APIs
 
 * [Windowing](http://developer.chrome.com/trunk/apps/app.window.html)
 ---
-Last updated: 2012-07-31 by paullewis
+Last updated: 2012-08-14 by miu

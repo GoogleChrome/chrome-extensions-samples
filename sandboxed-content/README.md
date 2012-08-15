@@ -11,15 +11,9 @@ add the `sandbox` property to your app's [manifest file](http://developer.chrome
 
 See more info on [using eval safely in packaged apps](http://developer.chrome.com/trunk/apps/sandboxingEval.html).
 
-## Permissions
-
-* Experimental
-
-[See more on permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
-
 ## APIs
 
-* [Experimental App](http://developer.chrome.com/trunk/apps/experimental.app.html)
+* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 
 ---
-Last updated: 2012-08-10 by paullewis
+Last updated: 2012-08-14 by miu
