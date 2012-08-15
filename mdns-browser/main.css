@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: rgba(102, 102, 119, 0.85);
+  background: white;
+  width: 100%;
+}
+
+div#main {
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  width: 100%;
+  overflow-y: scroll;
+  color: white;
+  color: black;
+}
+
+ul#results {
+  list-style: none;
+  font-family: Arial, Helvetica, Sans-Serif;
+  font-size: 12px;
+  line-height: 21px;
+  padding: 0.5em 0.5em;
+  padding-right: 2em;
+  margin: 0;
+}
+
+ul#results > ul {
+  list-style: square;
+}
+
+ul#results > li {
+  font-weight: bold;
+  margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+ul.loading {
+  background: red;
+}
+
+ul#results li em {
+  font-style: normal;
+  font-weight: normal;
+  opacity: 0.33;
+}
+
+ul#results li em::before {
+  content: "\2014 \a0";
+  padding: 0 4px;
+}
