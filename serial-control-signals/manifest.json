@@ -2,6 +2,7 @@
   "name": "Serial Control Signals",
   "version": "0.1",
   "manifest_version": 2,
+  "minimum_chrome_version": "23",
   "description": "Test serial control signal API.",
 
   "app": {
@@ -11,7 +12,6 @@
   },
 
   "permissions": [
-    "experimental",
     "serial"
   ]
 }

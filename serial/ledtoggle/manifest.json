@@ -2,6 +2,7 @@
   "name": "Serial Test",
   "version": "1",
   "manifest_version": 2,
+  "minimum_chrome_version": "23",
   "icons": {
     "16": "icon_16.png",
     "128": "icon_128.png"
@@ -11,6 +12,5 @@
       "scripts": ["launch.js"],
       "transient": true
     }
-  },
-  "permissions": ["experimental"]
+  }
 }

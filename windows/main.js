@@ -97,5 +97,5 @@ function minimizeAll() {
   setTimeout(reset, 2000);
 }
 
-// @see http://developer.chrome.com/trunk/apps/experimental.app.html
-chrome.experimental.app.onLaunched.addListener(launch);
+// @see http://developer.chrome.com/trunk/apps/app.runtime.html
+chrome.app.runtime.onLaunched.addListener(launch);

@@ -3,13 +3,11 @@
   "description": "Image Editor (File System + canvas). You can invoke using Chrome Extensions' WebIntents API",
   "version": "1.0.0",
   "manifest_version": 2,
+  "minimum_chrome_version": "23",
   "icons": {
     "48": "img/48.png",
     "128": "img/128.png"
   },
-  "permissions": [
-    "experimental"
-  ],
   "app": {
     "background": {
       "scripts": ["js/background.js"]

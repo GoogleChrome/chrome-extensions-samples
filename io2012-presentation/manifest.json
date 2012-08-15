@@ -3,6 +3,7 @@
   "name": "Apps IO 2012",
   "description": "Chrome Apps IO 2012 presentation.",
   "version": "1.1",
+  "minimum_chrome_version": "23",
   "app": {
     "background": {
       "scripts": ["js/main.js"]
@@ -13,7 +14,6 @@
     "128": "images/icon-128.png"
   },
   "permissions": [
-    "experimental",
     "storage",
     "videoCapture"
   ]

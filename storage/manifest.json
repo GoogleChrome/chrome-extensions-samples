@@ -2,13 +2,13 @@
   "name": "Storage test",
   "version": "1.0",
   "manifest_version": 2,
+  "minimum_chrome_version": "23",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
   "permissions": [
-    "experimental",
     "unlimitedStorage"
   ]
 }
