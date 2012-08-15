@@ -8,9 +8,6 @@
     "48": "img/48.png",
     "128": "img/128.png"
   },
-  "permissions": [
-    "experimental"
-  ],
   "app": {
     "background": {
       "scripts": ["js/background.js"]

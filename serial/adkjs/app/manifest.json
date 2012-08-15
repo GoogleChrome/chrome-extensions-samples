@@ -1,9 +1,6 @@
 {
   "name": "Chrome ADK control",
   "version": "1.0",
-  "permissions": [
-    "experimental"
-  ],
   "app": {
     "background": {
       "scripts": ["js/background.js"]

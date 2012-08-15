@@ -12,7 +12,6 @@
     }
   },
   "permissions": [
-    "experimental",
     "browserTag"
   ]
 }
