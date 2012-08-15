@@ -2,14 +2,13 @@
   "name": "mDNS Browser",
   "description": "Browses mDNS services on the local network",
   "manifest_version": 2,
-  "version": "0.3",
+  "version": "0.4",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
   "permissions": [
-    "experimental",
     "socket"
   ],
   "icons": { "128": "img/icon-128.png", "16": "img/icon-16.png" }
