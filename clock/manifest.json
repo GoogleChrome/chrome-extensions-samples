@@ -1,0 +1,21 @@
+{
+	"name": "World Clock",
+	"version": "0.1",
+	"manifest_version": 2,
+	"description": "A world clock app that includes clocks for different time zones, a stopwatch and alarm.",
+	"icons": {
+		"16": "assets/clock-16.png",
+		"128": "assets/clock-128.png"
+	},
+	"app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+	"offline_enabled": true,
+	"permissions": ["geolocation",
+									"storage",
+									"notifications",
+									"<all_urls>"
+								 ]
+}
