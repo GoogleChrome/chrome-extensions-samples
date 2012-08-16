@@ -56,7 +56,6 @@ Clock.prototype.drawface = function () {
 }
 
 //Method to draw an inner shadow on the clock face
-//BIT OF A HACK - SHOULD DO SOMETHING BETTER
 Clock.prototype.innerShadow = function() {
 	this.context.save();
 

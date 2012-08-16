@@ -17,7 +17,7 @@
 
 	<body>
 		<div id='container'>
-			<div class="world hidden">
+			<div class="world selected">
 				<div class="new hidden">
 					<canvas class="clock"></canvas>
 					<div class="new-input">
@@ -42,24 +42,29 @@
 				</div>
 			</div>
 			<div class="timer hidden">
-				<canvas class="clock"></canvas>
-				<div class="button start">Start</div>
-				<div class="button stop hidden">Stop</div>
-				<div class="button reset">Reset</div>
+				<div class="timer-clock">
+					<canvas class="clock"></canvas>
+					<div class="button start">START</div>
+					<div class="button stop hidden">STOP</div>
+					<div class="button reset">RESET</div>
+				</div>
 			</div>
-			<div class="stopwatch selected">
-				<canvas class="clock"></canvas>
-				<div class="button start">Start</div>
-				<div class="button stop hidden">Stop</div>
-				<div class="button reset">Reset</div>
+			<div class="stopwatch hidden">
+				<div class="stopwatch-clock">
+					<canvas class="clock"></canvas>
+					<div class="button start">START</div>
+					<div class="button stop hidden">STOP</div>
+					<div class="button reset">RESET</div>
+				</div>
 			</div>
 		</div>
 		<div id='menu'>
 			<div class='menu-item world selected' title="WORLD"></div>
+			<div class='menu-item new-world button'>ADD</div>
 			<div class='menu-item alarm' title="ALARM"></div>
+			<div class='menu-item new-alarm button hidden'>ADD</div>
 			<div class='menu-item timer' title="TIMER"></div>
 			<div class='menu-item stopwatch' title="STOPWATCH"></div>
-			<div class='menu-item new'></div>
 		</div>
 	</body>
 </html>

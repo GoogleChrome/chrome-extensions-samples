@@ -1,4 +1,5 @@
 var local;
+var local_class;
 var clocks = {};
 var alarms = {};
 
@@ -11,12 +12,10 @@ var timer;
 
 $(document).ready(function() {
 
-	setup();
-
-	$('.menu-item.world').tipTip({ edgeOffset: -5 });
-	$('.menu-item.alarm').tipTip({ edgeOffset: -5 });
-	$('.menu-item.timer').tipTip({ edgeOffset: -5 });
-	$('.menu-item.stopwatch').tipTip({ edgeOffset: -5 });
+	$('.menu-item.world').tipTip({ edgeOffset: -5, defaultPosition: 'top' });
+	$('.menu-item.alarm').tipTip({ edgeOffset: -5, defaultPosition: 'top' });
+	$('.menu-item.timer').tipTip({ edgeOffset: -5, defaultPosition: 'top' });
+	$('.menu-item.stopwatch').tipTip({ edgeOffset: -5, defaultPosition: 'top' });
 
 	setInterval(function() {
 		if (view == 'world' && !navigator.onLine)
@@ -26,22 +25,31 @@ $(document).ready(function() {
 	})
 
 	$('.menu-item.world').click(function() {
+		$('.menu-item.button').addClass('hidden');
 		$('#container > div').addClass('hidden');
 		$('#container .world').removeClass('hidden');
 		$('.menu-item').removeClass('selected');
 		$('.menu-item.world').addClass('selected');
 		view = 'world';
+		if (sizeOf(clocks) == 0)
+			$('.menu-item.new-world').click();
+		$('.new-world').removeClass('hidden');
 	});
 
 	$('.menu-item.alarm').click(function() {
+		$('.menu-item.button').addClass('hidden');
 		$('#container > div').addClass('hidden');
 		$('#container .alarm').removeClass('hidden');
 		$('.menu-item').removeClass('selected');
 		$('.menu-item.alarm').addClass('selected');
 		view = 'alarm';
+		if (sizeOf(alarms) == 0)
+			$('.menu-item.new-alarm').click();
+		$('.new-alarm').removeClass('hidden');
 	});
 
 	$('.menu-item.timer').click(function() {
+		$('.menu-item.button').addClass('hidden');
 		$('#container > div').addClass('hidden');
 		$('#container .timer').removeClass('hidden');
 		$('.menu-item').removeClass('selected');
@@ -50,6 +58,7 @@ $(document).ready(function() {
 	});
 
 	$('.menu-item.stopwatch').click(function() {
+		$('.menu-item.button').addClass('hidden');
 		$('#container > div').addClass('hidden');
 		$('#container .stopwatch').removeClass('hidden');
 		$('.menu-item').removeClass('selected');
@@ -57,12 +66,12 @@ $(document).ready(function() {
 		view = 'stopwatch';
 	});
 
-	$('.menu-item.new').click(function() {
-		if (view == 'world') {
-			openNewClock();
-		} else if (view == 'alarm') {
-			openNewAlarm();
-		}
+	$('.menu-item.new-world').click(function() {
+		openNewClock();
+	});
+
+	$('.menu-item.new-alarm').click(function() {
+		openNewAlarm();
 	});
 
 	$('.world .new .add').click(function() {
@@ -111,13 +120,25 @@ $(document).ready(function() {
 		$('.stopwatch .button.stop').addClass('hidden');
 	});
 
+	$('.delete').live('click', function() {
+		var class_name = $(this).parent().attr('class').split(' ')[1];
+		$('.' + class_name).remove();
+		delete alarms[class_name];
+		delete clocks[class_name];
+		chrome.storage.sync.set({ 'clocks': clocks, 'alarms': alarms });
+		if (sizeOf(clocks) == 0)
+			$('.menu-item.new-world').click();
+		if (sizeOf(alarms) == 0)
+			$('.menu-item.new-alarm').click();
+	});
 
+	setup();
 
 });
 
 function openNewClock() {
-	$('#new-city').focus();
 	$('.world .new').removeClass('hidden');
+	$('#new-city').focus();
 }
 
 function openNewAlarm() {
@@ -160,8 +181,14 @@ function setup() {
 function setupClocks() {
 	var clock = new Clock('new', 0);
 	clock.create();
+	var found_local = false;
 	for (var city_class in clocks) {
+		if (city_class == local_class) found_local = true;
 		addClock(city_class);
+	}
+	if (local_class && !found_local) addClock(local_class);
+	if (sizeOf(clocks) == 0) {
+		$('.menu-item.new-world').click();
 	}
 }
 
@@ -169,6 +196,8 @@ function setupAlarms() {
 	for (var id in alarms) {
 		addAlarm(id);
 	}
+	if (sizeOf(alarms) == 0)
+		$('.menu-item.new-alarm').click();
 }
 
 function setupTimer() {
@@ -226,6 +255,7 @@ function addClock(city_class) {
 function addAlarm(id) {
 	var alarm = alarms[id];
 	$('#container .alarm .new').before('<div class="alarm-clock ' + id + '"></div>');
+	$('.' + id).append('<div class="delete"></div>');
 	$('.' + id).append('<canvas class="clock"></canvas>');
 	$('.' + id).append('<div class="name">' + alarm['name'] + '</div>');
 	$('.' + id).append('<div class="time"></div>');

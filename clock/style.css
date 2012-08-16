@@ -103,24 +103,29 @@ input[type=text].form-error{
 #container .alarm,
 #container .timer,
 #container .stopwatch {
-	height: 95%;
-	overflow-x: auto;
-	top: 20px;
+	top: 50%;
+	margin-top: -125px;
+	min-height: 250px;
 	position: absolute;
 	text-align: center;
-	vertical-align: middle;
 	width: 100%;
-	white-space: nowrap;
+}
+
+#container .timer,
+#container .stopwatch {
+	height: 300px;
+	margin-top: -150px;
 }
 
 #container .world .city-clock,
 #container .world .new,
 #container .alarm .alarm-clock,
-#container .alarm .new {
+#container .alarm .new,
+#container .timer .timer-clock,
+#container .stopwatch .stopwatch-clock {
 	display: inline-block;
 	position: static;
 	text-align: center;
-	height: 100%;
 }
 
 .world .city-clock .clock,
@@ -135,7 +140,7 @@ input[type=text].form-error{
 .timer .clock,
 .stopwatch .clock {
 	display: block;
-	position: relative;
+	position: static;
 }
 
 .world .new .clock {
@@ -227,10 +232,36 @@ input[type=text].form-error{
 	opacity: 1;
 }
 
+.timer-clock .button,
+.stopwatch-clock .button,
+.menu-item.button {
+	font-weight: normal;
+	letter-spacing: 1px;
+	margin-top: 30px;
+	background: #424240;
+	color: #ccc;
+	min-width: 50px;
+	margin-right: 20px;
+}
+
+.timer-clock .button:hover,
+.stopwatch-clock .button:hover,
+.menu-item.button:hover {
+	background: #424240;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.timer-clock .button:active,
+.stopwatch-clock .button:active,
+.menu-item.button:active {
+	background: #3e3e3c;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
 #menu {
 	position: absolute;
 	text-align: center;
-	bottom: 5px;
+	bottom: 25px;
 	width: 100%;
 }
 
@@ -238,6 +269,7 @@ input[type=text].form-error{
 	display: inline-block;
 	height: 24px;
 	margin: 10px;
+	margin-bottom: 25px;
 	width: 24px;
 }
 
@@ -261,10 +293,13 @@ input[type=text].form-error{
 	background-size: 24px 24px;
 }
 
-#menu .new {
-	background: url('img/plus.png') center no-repeat;
-	background-size: 16px 16px;
-	opacity: 0.6;
+#menu .menu-item.button {
+	position: static;
+	margin: 0px;
+	margin-left: -48px;
+	min-width: 30px;
+	line-height: 20px;
+	height: 22px;
 }
 
 .menu-item.world:hover {
@@ -285,10 +320,6 @@ input[type=text].form-error{
 #menu .stopwatch:hover {
 	background: url('img/stopwatch_hover.png') center no-repeat;
 	background-size: 24px 24px;
-}
-
-#menu .new:hover {
-	opacity: 0.8;
 }
 
 .menu-item.world.selected {
