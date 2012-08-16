@@ -1,5 +1,5 @@
 var mainWindow = null;
-chrome.experimental.app.onLaunched.addListener(function(data) {
+chrome.app.runtime.onLaunched.addListener(function(data) {
   if (mainWindow && !mainWindow.closed) {
     mainWindow.chrome.app.window.focus();
   } else {

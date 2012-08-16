@@ -3,7 +3,7 @@ var PRESENTATION_HEIGHT = 700;
 
 var presentationWindow;
 
-chrome.experimental.app.onLaunched.addListener(function() {
+chrome.app.runtime.onLaunched.addListener(function() {
   if (presentationWindow && !presentationWindow.closed) {
     presentationWindow.chrome.app.window.focus();
     return;

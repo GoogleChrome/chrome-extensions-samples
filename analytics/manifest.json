@@ -10,7 +10,6 @@
   "icons": {
     "128": "icon_128.png"
   },
-  "permissions": ["experimental"],
   "sandbox": {
     "pages": ["embedded_ga_host.html"]
   }
