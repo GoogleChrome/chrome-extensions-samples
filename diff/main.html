@@ -7,11 +7,9 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="lib/jquery.activity-indicator.js"></script>
     <script type="text/javascript" src="lib/diff_match_patch.js"></script>
 
     <script type="text/javascript" src="js/diff.js"></script>
-    <script type="text/javascript" src="js/merge.js"></script>
     <script type="text/javascript" src="js/filesystem.js"></script>
   </head>
   <body>
@@ -79,7 +77,7 @@
       <div id="num-diffs"></div>
       <br>
       <div class="file-diff 1" id="drop-zone1"></div>
-      <textarea class="diff-text hidden"></textarea>
+      <textarea class="diff-text hidden" id="editor"></textarea>
     </div>
 
     <br>
@@ -108,5 +106,6 @@
     </div>
 
     <div id="modal-shield" class="hidden"></div>
+
   </body>
 </html>

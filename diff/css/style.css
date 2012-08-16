@@ -531,7 +531,6 @@ input[type=text].form-error{
   background: url('../img/arrow-left.png') center no-repeat;
   background-size: auto 85px;
   height: 20px;
-  margin-left: 5px;
   margin-bottom: -4px;
   opacity: 0;
 }
@@ -554,11 +553,6 @@ input[type=text].form-error{
 #arrow-container.arrow-edit,
 #check-container.check-edit {
   opacity: 0;
-}
-
-#arrow-container .collapsed-num,
-#check-container .collapsed-num {
-  background: #ddf;
 }
 
 #file0-container,
@@ -589,7 +583,7 @@ span.file-name-info {
 }
 
 .file-diff,
-textarea {
+#editor {
   background: #fff;
   border: 2px solid #666;
   color: #666;
@@ -670,14 +664,6 @@ div.button.done {
   color: #000;
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
-}
-
-.file-diff div.collapsed-num a {
-  text-decoration: underline;
-}
-
-.file-diff div.collapsed-num a:hover {
-  cursor: pointer;
 }
 
 .file-diff div .expand {

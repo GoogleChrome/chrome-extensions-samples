@@ -2,9 +2,8 @@
   "manifest_version": 2,
   "name": "Diff Tool",
   "description": "View diff and merge two files.",
-  "version": "0.1.4",
-  "minimum_chrome_version": "23",
-  "offline_enabled" : true,
+  "version": "0.1.7",
+  "offline_enabled": true,
   "app": {
     "background": {
       "scripts": ["js/background.js"]
@@ -14,6 +13,8 @@
                   "unlimitedStorage",
                   "fileSystem",
                   "fileSystemWrite",
+                  "clipboardRead",
+                  "clipboardWrite",
                   "<all_urls>"
                  ],
   "icons": { "16": "img/icon_16.png",

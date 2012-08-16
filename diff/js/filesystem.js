@@ -54,7 +54,7 @@ $(document).ready(function() {
     $('#check-container').addClass('check-edit');
     $('.file-diff.1').addClass('hidden');
     $('textarea.diff-text').val(text1);
-    $('textarea.diff-text').removeClass('hidden');
+    $('.diff-text#editor').removeClass('hidden');
     $('.edit').addClass('hidden');
     $('.save').addClass('hidden');
     $('#num-diffs').addClass('hidden');
@@ -149,7 +149,7 @@ function selectURL() {
     if (!(url.slice(0, 4) == 'http'))
       url = 'http://' + url;
     $.get(url,
-      function(text) { 
+      function(text) {
         var urlSecs = url.split('/');
         displayNames[urlNum] = urlSecs[urlSecs.length-1];
         paths[displayNames[urlNum]] = url;
@@ -283,11 +283,11 @@ function submitDiffs() {
     $('.modal-dialog.new-diff .close-button').click();
     $('.button.edit').removeClass('hidden');
     $('.button.save').removeClass('hidden');
-  } 
+  }
   if (!texts[0]) {
     $('.error-message.0').text('Please select a file or URL.');
     $('.error-message.0').addClass('visible');
-  } 
+  }
   if (!texts[1]) {
     $('.error-message.1').text('Please select a file or URL.');
     $('.error-message.1').addClass('visible');
