@@ -2,7 +2,7 @@
   "name": "Calculator",
   "description": "A simple calculator.",
   "manifest_version": 2,
-  "version": "1.1.0",
+  "version": "1.1.2",
   "offline_enabled": true,
   "app": {
     "background": {
@@ -14,7 +14,5 @@
     "16": "assets/icon-128x128.png",
     "128": "assets/icon-128x128.png"
   },
-  "permissions": [
-    "experimental"
-  ]
+  "permissions": []
 }
