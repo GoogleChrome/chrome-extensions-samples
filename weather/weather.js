@@ -115,7 +115,7 @@ var condition_codes = { 395 : 'snow',
 
 $(document).ready(function() {
 
-	chrome.storage.local.get(function(items) {
+	chrome.storage.sync.get(function(items) {
 		for (var place_class in items['places']) {
 			places[place_class] = items['places'][place_class];
 		}
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
   $('input[name="temp-type"]').change(function() {
   	temp = $('input[name="temp-type"]:checked').val();
-  	chrome.storage.local.set({ 'temp' : temp });
+  	chrome.storage.sync.set({ 'temp' : temp });
   	refresh();
   });
 
@@ -155,7 +155,7 @@ $(document).ready(function() {
 			}
 		}
 		$('.' + current_place).addClass('selected');
-		chrome.storage.local.set({ 'places': places });
+		chrome.storage.sync.set({ 'places': places });
 	});
 
 	$('#places #plus').live('click', function() {
@@ -269,7 +269,7 @@ function createDisplay(locations, add) {
 						$('.new .error-message').addClass('hidden');
 						$('.new').removeClass('selected');
 						places[location_class] = location;
-						chrome.storage.local.set({ 'places': places });
+						chrome.storage.sync.set({ 'places': places });
 					}
 				}
 				else if (add) {

@@ -281,7 +281,9 @@ input#new-city {
 }
 
 #places {
+	max-width: 175px;
 	text-align: center;
+	white-space: nowrap;
 }
 
 #places #plus {
