@@ -1,0 +1,13 @@
+{
+  "name": "Frameless Window",
+  "description": "Chrome platform app.",
+  "manifest_version": 2,
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": ["experimental"],
+  "icons": { "128": "icon_128.png" }
+}
