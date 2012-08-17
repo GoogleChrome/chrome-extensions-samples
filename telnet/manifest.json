@@ -13,5 +13,10 @@
       "transient": true
     }
   },
-  "permissions": ["experimental", "socket"]
+  "permissions": [
+    "experimental",
+    {"socket": [
+      "tcp-connect:*:*"
+    ]}
+  ]
 }
