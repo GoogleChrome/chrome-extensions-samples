@@ -1,3 +1,4 @@
+mdns-browser
 serial/adkjs/app
 analytics
 appsquare
@@ -29,3 +30,5 @@ webintents
 weather
 windows
 zephyr_hxm
+webgl
+clock
