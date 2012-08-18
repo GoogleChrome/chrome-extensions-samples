@@ -1,11 +1,10 @@
 body {
-  background: #fff;
+  background: -webkit-linear-gradient(top, #666, #DDD 25%) no-repeat;
   color: #222;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 13px;
   line-height: 18px;
   margin: 10px;
-  margin-top: 0px;
   text-align: left;
 }
 
@@ -222,9 +221,6 @@ input[type=text].form-error{
 	height: 245px;
 }
 
-.location.new {
-	text-align: center;
-}
 
 input#new-city {
 	margin-top: 10px;
@@ -234,8 +230,9 @@ input#new-city {
 	display: block;
 }
 
-.city {
-	font-size: 14px;
+.city, .location.new {
+        color: white;
+	font-size: 16px;
 	text-align: center;
 }
 
