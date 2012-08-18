@@ -227,7 +227,7 @@ writeHTML_footer
 
 cp include/* ${BUILDDIR}
 
-if [ $1 == "--nocrx" ] ; then
+if [ "$1x" == "--nocrxx" ] ; then
   echo "No CRX generated. Use the out/ directory"
   exit 0;
 fi
