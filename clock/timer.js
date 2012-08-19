@@ -10,6 +10,10 @@ Timer = function() {
 			minor: {color: '#f5f5f5', alpha: 0.4, length: 8, width: 1}
 		},
 	};
+	this.countdown = new Date(0);
+	this.timing = false;
+	this.minutes = 0;
+	this.seconds = 0;
 
 }
 
@@ -182,18 +186,30 @@ Timer.prototype.stopTiming = function() {
 
 Timer.prototype.resetWatch = function() {
 	this.timing = false;
-	this.time_passed = new Date(0)
-	this.drawClock(0, 0, 0, 0);
+	this.countdown = new Date(0, this.minute, this.second)
+	this.drawClock(0, this.minute, this.second, 0);
+}
+
+Timer.prototype.setWatch = function(minute, second) {
+	this.minute = minute;
+	this.second = second;
+	this.countdown = new Date(0, 0, 0, 0, this.minute, this.second);
+	this.drawClock(0, this.minute, this.second, 0);
 }
 
 //Method to fire ten times each second and redraw the clock
 Timer.prototype.tick = function() {
 	if (this.timing) {
-		this.time_passed.setTime(this.time_passed.getTime() + 100);
-		var minute = this.time_passed.getMinutes();
-		var second = this.time_passed.getSeconds();
-		var millisecond = this.time_passed.getMilliseconds();
+		var minute = this.countdown.getMinutes();
+		var second = this.countdown.getSeconds();
+		var millisecond = this.countdown.getMilliseconds();
 		this.drawClock(0, minute, second, millisecond);
+		if (minute == 0 && second == 0) {
+			this.timing = false;
+			$('.timer .button.stop').addClass('disabled');
+		} else {
+			this.countdown.setTime(this.countdown.getTime() - 100);
+		}
 	}
 }
 

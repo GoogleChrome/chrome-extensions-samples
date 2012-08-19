@@ -1,14 +1,14 @@
 Clock = function(id, offset) {
 
 	this.config = {
-		container: {height: 170, width: 170},
-		face: {color: '#424240', alpha: 1, radius: 70},
-		hourHand: {color: '#4d90fe', alpha: 1, length: 35, width: 3},
-		minuteHand: {color: '#4d90fe', alpha: 1, length: 45, width: 3},
+		container: {height: 330, width: 330},
+		face: {color: '#424240', alpha: 1, radius: 120},
+		hourHand: {color: '#4d90fe', alpha: 1, length: 70, width: 4},
+		minuteHand: {color: '#4d90fe', alpha: 1, length: 90, width: 4},
 		unit: {
-			major: {color: '#f5f5f5', alpha: 0.4, length: 7, width: 4},
-			mid: {color: '#f5f5f5', alpha: 0.4, length: 5, width: 2},
-			minor: {color: '#f5f5f5', alpha: 0.4, length: 5, width: 1}
+			major: {color: '#f5f5f5', alpha: 0.4, length: 8, width: 6},
+			mid: {color: '#f5f5f5', alpha: 0.4, length: 8, width: 4},
+			minor: {color: '#f5f5f5', alpha: 0.4, length: 8, width: 2}
 		}
 	};
 	this.tickId;
@@ -142,26 +142,19 @@ Clock.prototype.drawText = function(hour, minute, second) {
 		this.context.save();
 		this.context.translate(this.config.container.width/2, this.config.container.height/2);
 		this.context.rotate(Math.PI * (2.0 * (i/12) - 0.5));
-		this.context.translate(this.config.face.radius - 16, 0);
+		this.context.translate(this.config.face.radius - 24, 0);
 		this.context.rotate((Math.PI * (2.0 * (i/12) - 0.5) * -1));
 
 		var alpha = this.config.unit.major.alpha;
 
-		if (i == 0) j = 11;
+		if (i === 0) j = 11;
 		else j = i - 1;
+		var textValue = '';
 		if ((hour % 12) === i) {
-			alpha += ((60 - minute)/60) * (1-this.config.unit.major.alpha);
+			alpha += (1-this.config.unit.major.alpha);
+			if (i === 0) textValue = 12;
+			else textValue = i;
 		}
-		if ((hour % 12) === j) {
-			alpha += (minute/60) * (1-this.config.unit.major.alpha);
-		}
-
-		// if (i <= minute / 5.0 && minute / 5.0 < i + 1) {
-		// 	alpha += ((5 - minute % 5) / 5) * (1-this.config.unit.major.alpha);
-		// }
-		// if (i >= minute / 5.0 && minute / 5.0 > j) {
-		//  	alpha += ((minute % 5) / 5) * (1-this.config.unit.major.alpha);
-		// }
 
 		this.context.globalAlpha = alpha;
 
@@ -169,18 +162,9 @@ Clock.prototype.drawText = function(hour, minute, second) {
 		this.context.shadowOffsetX = 1;
 		this.context.shadowOffsetY = 1;
 		this.context.shadowColor = "rgba(0, 0, 0, 0.8)";
-		this.context.font = "600 10px 'Open Sans'";
+		this.context.font = "500 13px 'Open Sans'";
 		this.context.textBaseline = 'middle';
 		this.context.textAlign = "center";
-
-		var textValue;
-
-		if (i === 0) {
-			textValue = 12;
-		}
-		else {
-			textValue = i;
-		}
 
 		this.context.fillText(textValue, 0, 0);
 		this.context.restore();

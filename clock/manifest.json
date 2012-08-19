@@ -2,10 +2,11 @@
 	"name": "World Clock",
 	"version": "0.0.1",
 	"manifest_version": 2,
+	"minimum_chrome_version": "23",
 	"description": "A world clock application.",
 	"icons": {
-		"16": "assets/clock-16.png",
-		"128": "assets/clock-128.png"
+		"16": "assets/icon.png",
+		"128": "assets/icon.png"
 	},
 	"app": {
     "background": {

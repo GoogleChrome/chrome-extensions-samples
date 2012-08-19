@@ -27,6 +27,37 @@ Alarm.prototype.create = function() {
 	this.startTick();
 }
 
+//Method to draw the number
+Clock.prototype.drawText = function(hour, minute, second) {
+	for (var i = 0; i < 12; i++) {
+		this.context.save();
+		this.context.translate(this.config.container.width/2, this.config.container.height/2);
+		this.context.rotate(Math.PI * (2.0 * (i/12) - 0.5));
+		this.context.translate(this.config.face.radius - 24, 0);
+		this.context.rotate((Math.PI * (2.0 * (i/12) - 0.5) * -1));
+
+		var alpha = this.config.unit.major.alpha;
+
+		if (i === 0)
+			var textValue = 12;
+		else
+			var textValue = i;
+
+		this.context.globalAlpha = alpha;
+
+		this.context.fillStyle = this.config.unit.major.color;
+		this.context.shadowOffsetX = 1;
+		this.context.shadowOffsetY = 1;
+		this.context.shadowColor = "rgba(0, 0, 0, 0.8)";
+		this.context.font = "500 13px 'Open Sans'";
+		this.context.textBaseline = 'middle';
+		this.context.textAlign = "center";
+
+		this.context.fillText(textValue, 0, 0);
+		this.context.restore();
+	}
+}
+
 //Method to fire each second and redraw the clock
 Alarm.prototype.tick = function() {
  	this.drawClock(this.hour, this.minute, 0);

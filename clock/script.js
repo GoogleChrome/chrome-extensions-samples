@@ -102,6 +102,50 @@ $(document).ready(function() {
 		$('.alarm .new').addClass('hidden');
 	});
 
+	$('.timer .button.start').click(function() {
+		if (!$(this).hasClass('disabled')) {
+			timer.startTiming();
+			$('.timer .button.start').addClass('hidden');
+			$('.timer .button.stop').removeClass('disabled');
+			$('.timer .button.stop').removeClass('hidden');
+		}
+	});
+
+	$('.timer .button.stop').click(function() {
+		timer.stopTiming();
+		$('.timer .button.start').removeClass('hidden');
+		$('.timer .button.stop').addClass('hidden');
+	});
+
+	$('.timer .button.set').click(function() {
+		var minute = parseInt($('#timer-minute').val());
+		var second = parseInt($('#timer-second').val());
+		if (isNaN(minute)) {
+			minute = 0;
+			$('#timer-minute').val('00');
+		} if (isNaN(second)) {
+			second = 0;
+			$('#timer-second').val('00');
+		}
+		$('.timer .button.start').removeClass('disabled');
+		timer.setWatch(minute, second);
+		$('.timer #timer-minute').addClass('disabled');
+		$('.timer #timer-second').addClass('disabled');
+		$('.timer .button.set').addClass('hidden');
+		$('.timer .button.reset').removeClass('hidden');
+	});
+
+	$('.timer .button.reset').click(function() {
+		$('.timer .button.start').removeClass('hidden');
+		$('.timer .button.stop').addClass('hidden');
+		$('.timer .button.start').addClass('disabled');
+		timer.resetWatch();
+		$('.timer #timer-minute').removeClass('disabled');
+		$('.timer #timer-second').removeClass('disabled');
+		$('.timer .button.set').removeClass('hidden');
+		$('.timer .button.reset').addClass('hidden');
+	});
+
 	$('.stopwatch .button.start').click(function() {
 		stopwatch.startTiming();
 		$('.stopwatch .button.start').addClass('hidden');
@@ -193,6 +237,8 @@ function setupClocks() {
 }
 
 function setupAlarms() {
+	var alarm = new Alarm('new', 'new', 0, 0, 0);
+	alarm.create();
 	for (var id in alarms) {
 		addAlarm(id);
 	}
@@ -298,6 +344,11 @@ function addAlarmClock() {
 	var name = $('#new-alarm-name').val();
 	var hour = parseInt($('#new-alarm-hour').val());
 	var minute = parseInt($('#new-alarm-minute').val());
+	if (isNaN(hour)) {
+		hour = 12;
+	} if (isNaN(minute)) {
+		minute = 0;
+	}
 	var noon = $('#new-alarm-noon').val();
 	if (noon.toLowerCase() == 'pm' && hour != 12) hour += 12;
 	else if (noon.toLowerCase() == 'am' && hour == 12) hour -= 12;
