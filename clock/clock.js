@@ -1,7 +1,7 @@
 Clock = function(id, offset) {
 
 	this.config = {
-		container: {height: 330, width: 330},
+		container: {height: 240, width: 240},
 		face: {color: '#424240', alpha: 1, radius: 120},
 		hourHand: {color: '#4d90fe', alpha: 1, length: 70, width: 4},
 		minuteHand: {color: '#4d90fe', alpha: 1, length: 90, width: 4},

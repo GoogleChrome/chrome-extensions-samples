@@ -1,5 +1,6 @@
 Alarm = function(id, name, hour, minute, on) {
 	this.id = id;
+	this.name = name;
 	this.hour = hour;
 	this.minute = minute;
 	this.on = on;
@@ -27,8 +28,17 @@ Alarm.prototype.create = function() {
 	this.startTick();
 }
 
+//Method to update the alarm
+Alarm.prototype.update = function(name, hour, minute) {
+	this.name = name;
+	this.hour = hour;
+	this.minute = minute;
+	this.drawClock(this.hour, this.minute, 0);
+ 	this.displayTime(this.hour, this.minute, false);
+}
+
 //Method to draw the number
-Clock.prototype.drawText = function(hour, minute, second) {
+Alarm.prototype.drawText = function(hour, minute, second) {
 	for (var i = 0; i < 12; i++) {
 		this.context.save();
 		this.context.translate(this.config.container.width/2, this.config.container.height/2);

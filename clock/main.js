@@ -12,7 +12,8 @@
  */
  chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
-    height: 400,
-    width: 900,
+    height: 850,
+    width: 1400,
+    frame: 'none'
   });
 });

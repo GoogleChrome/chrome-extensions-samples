@@ -16,12 +16,14 @@
 	</head>
 
 	<body>
+		<div class="close"></div>
+
 		<div id='container'>
 			<div class="world selected">
 				<div class="new hidden">
 					<canvas class="clock"></canvas>
 					<div class="new-input">
-						<input type="text" id="new-city" />
+						<input type="text" id="new-city" /><br>
 						<div class="error-message hidden"></div>
 						<div class="button add">Add</div>
 						<div class="button cancel">Cancel</div>
@@ -32,10 +34,10 @@
 				<div class="new hidden">
 					<canvas class="clock"></canvas>
 					<div class="new-input">
-						<input type="text" id="new-alarm-name" />
-						<input type="text" id="new-alarm-hour" />
-						<input type="text" id="new-alarm-minute" />
-						<input type="text" id="new-alarm-noon" /><br>
+						<input type="text" id="new-alarm-name" /><br>
+						<input type="text" id="new-alarm-hour" maxlength="2" />
+						<input type="text" id="new-alarm-minute" maxlength="2" />
+						<input type="text" id="new-alarm-noon" maxlength="2" /><br>
 						<div class="button add">Add</div>
 						<div class="button cancel">Cancel</div>
 					</div>
@@ -44,13 +46,12 @@
 			<div class="timer hidden">
 				<div class="timer-clock">
 					<canvas class="clock"></canvas>
-					<input type="text" id="timer-minute" />
-					<input type="text" id="timer-second" />
+					<input type="text" id="timer-minute" maxlength="2" />
+					<input type="text" id="timer-second" maxlength="2" />
 					<br>
 					<div class="button start disabled">START</div>
 					<div class="button stop hidden">STOP</div>
-					<div class="button reset hidden">RESET</div>
-					<div class="button set">SET</div>
+					<div class="button reset">RESET</div>
 				</div>
 			</div>
 			<div class="stopwatch hidden">

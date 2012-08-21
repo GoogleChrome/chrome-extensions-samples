@@ -95,6 +95,21 @@ input[type=text].form-error{
   padding: 0px;
 }
 
+.close {
+	background: url('img/x.png') center no-repeat;
+	background-size: 20px 20px;
+	height: 20px;
+	width: 20px;
+	margin: 5px;
+	float: right;
+	opacity: 0.7;
+	z-index: 50;
+}
+
+.close:hover {
+	opacity: 1;
+}
+
 #container {
 	text-align: center;
 }
@@ -103,12 +118,18 @@ input[type=text].form-error{
 #container .alarm,
 #container .timer,
 #container .stopwatch {
-	top: 50%;
-	margin-top: -175px;
-	min-height: 350px;
+	top: 20px;
+	bottom: 100px;
 	position: absolute;
 	text-align: center;
 	width: 100%;
+	overflow: auto;
+}
+
+#container .timer,
+#container .stopwatch {
+	margin-top: -165px;
+	top: 50%;
 }
 
 #container .world .city-clock,
@@ -120,6 +141,22 @@ input[type=text].form-error{
 	display: inline-block;
 	position: static;
 	text-align: center;
+	vertical-align: middle;
+	margin: 40px;
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+
+#container .world .new {
+	margin-bottom: -12px;
+}
+
+#container .alarm .new {
+	margin-bottom: -74px;
+}
+
+#container .alarm .editing {
+	margin-bottom: -38px;
 }
 
 .world .city-clock .clock,
@@ -130,6 +167,8 @@ input[type=text].form-error{
 	height: 240px;
 	position: relative;
 	width: 240px;
+	margin-right: -25px;
+	margin-bottom: 30px;
 }
 
 .timer .clock,
@@ -138,29 +177,10 @@ input[type=text].form-error{
 	position: static;
 }
 
-.world .new .clock {
-	margin-bottom: 32px;
-}
-
-.world .new .new-input {
-	text-align: center;
-	margin-left: 15px;
-	position: absolute;
-	top: 50%;
-	margin-top: 120px;
-}
-
+.world .new .new-input,
 .alarm .new .new-input {
-	text-align: left;
-	margin-left: 15px;
-	position: relative;
-	height: 220px;
-	vertical-align: middle;
-}
-
-.world .new .new-input input,
-.world .new .new-input .error-message {
-	display: block;
+	text-align: center;
+	position: static;
 }
 
 #container .world .new.hidden,
@@ -184,20 +204,24 @@ input[type=text].form-error{
 	padding: 1px;
 }
 
-.alarm .new #new-alarm-name {
-	display: block;
-}
-
 .alarm .new #new-alarm-hour,
 .alarm .new #new-alarm-minute,
-.alarm .new #new-alarm-noon {
+.alarm .new #new-alarm-noon,
+.alarm .edit .edit-alarm-hour,
+.alarm .edit .edit-alarm-minute,
+.alarm .edit .edit-alarm-noon {
 	display: inline-block;
-	margin-right: 0px;
-	margin-left: 0px;
-	width: 41px;
+	margin-right: -2px;
+	margin-left: -2px;
+	width: 43px;
 	height: 29px;
 	line-height: 27px;
 	padding-right: 13px;
+}
+
+.alarm .info {
+	position: relative;
+	z-index: 10;
 }
 
 .delete {
@@ -205,8 +229,6 @@ input[type=text].form-error{
 	background-size: 15px 15px;
 	float: right;
 	height: 15px;
-	margin-bottom: -15px;
-	margin-left: -35px;
 	opacity: 0;
 	padding: 10px;
 	position: relative;
@@ -263,7 +285,7 @@ input[type=text].form-error{
 	display: inline-block;
 	height: 26px;
 	line-height: 24px;
-	margin-right: 0px;
+	margin-right: -3px;
 	margin-top: 20px;
 	margin-bottom: -10px;
 	width: 35px;

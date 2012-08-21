@@ -186,8 +186,8 @@ Timer.prototype.stopTiming = function() {
 
 Timer.prototype.resetWatch = function() {
 	this.timing = false;
-	this.countdown = new Date(0, this.minute, this.second)
-	this.drawClock(0, this.minute, this.second, 0);
+	this.countdown = new Date(0)
+	this.drawClock(0, 0, 0, 0);
 }
 
 Timer.prototype.setWatch = function(minute, second) {
@@ -207,6 +207,9 @@ Timer.prototype.tick = function() {
 		if (minute == 0 && second == 0) {
 			this.timing = false;
 			$('.timer .button.stop').addClass('disabled');
+			var notification = webkitNotifications.createNotification(
+					'img/timer.png', 'World Clock Timer', '');
+			notification.show();
 		} else {
 			this.countdown.setTime(this.countdown.getTime() - 100);
 		}
