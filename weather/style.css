@@ -8,6 +8,28 @@ body {
   text-align: left;
 }
 
+.close {
+  background-image: url('img/button_close.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  -webkit-widget-region: region(control rectangle);
+  visibility: hidden;
+}
+
+body:hover .close {
+  visibility: visible;
+}
+
+.close:hover {
+  background-image: url('img/button_close_hover.png');
+}
+
 .button {
   background-color: #f5f5f5;
   background-image: linear-gradient(top, #f5f5f5, #f1f1f1);

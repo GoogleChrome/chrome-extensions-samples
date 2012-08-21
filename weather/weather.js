@@ -90,6 +90,10 @@ $(document).ready(function() {
 		setup();
   });
 
+  $('.close').click(function() {
+    window.close();
+  });
+
 	// Tracks to changes to the temperature
 	// format. Stores the setting for the user
 	//
