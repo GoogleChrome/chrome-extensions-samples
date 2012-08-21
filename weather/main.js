@@ -1,10 +1,10 @@
 chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('weather.html', { frame: "none",
-    height: 290,
-    minHeight: 290,
-    minWidth: 210,
-    maxHeight: 290,
-    maxWidth: 210,
-    width: 210,
+  chrome.app.window.create('weather.html', {
+    height: 450,
+    minHeight: 450,
+    minWidth: 300,
+    maxHeight: 450,
+    maxWidth: 300,
+    width: 300,
   });
 });

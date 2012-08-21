@@ -1,11 +1,14 @@
 body {
-  background: -webkit-linear-gradient(top, #666, #DDD 25%) no-repeat;
-  color: #222;
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  color: #fff;
+  background-color: #9fdfff;
+  background-image: linear-gradient(top, #9fdfff, #70b0ff);
+  background-image: -webkit-linear-gradient(top, #9fdfff, #70b0ff);
+  font-family: "Quicksand", "Open Sans", sans-serif;
   font-size: 13px;
+  font-weight: bold;
   line-height: 18px;
   margin: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 .button {
@@ -22,10 +25,10 @@ body {
   font-weight: bold;
   height: 27px;
   line-height: 27px;
-  margin-left: 2px;
-  margin-right: 2px;
-  margin-top: 8px;
-  min-width: 40px;
+  margin-left: 0px;
+  margin-right: 10px;
+  margin-top: 0px;
+  min-width: 50px;
   padding: 0 8px;
   text-align: center;
   transition: all 0.218s;
@@ -77,7 +80,9 @@ input[type=radio] {
 	width: 13px;
 	height: 13px;
 	border: 1px solid #c6c6c6;
+	background: #f5f5f5;
 	margin: 0;
+	margin-right: 10px;
 	-webkit-border-radius: 1px;
 	border-radius: 1px;
 	-webkit-box-sizing: border-box;
@@ -88,7 +93,7 @@ input[type=radio] {
 
 input[type=checkbox]:active,
 input[type=radio]:active {
-	background: #ebebeb;
+	background: #fff;
 	border-color: #666;
 }
 
@@ -144,10 +149,12 @@ input[type=text] {
   -webkit-border-radius: 1px;
   color: #333;
   display: inline-block;
-  height: 29px;
-  line-height: 27px;
+  height: 32px;
+  line-height: 30px;
   padding-left: 8px;
-  vertical-align: top;
+  vertical-align: middle;
+  margin-bottom: 15px;
+  width: 270px;
 }
 
 input[type=text]:hover {
@@ -174,14 +181,27 @@ input[type=text].form-error{
 }
 
 #info-text {
-	height: 240px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	background: #333;
+	text-align: left;
+	padding: 15px;
 }
 
-#info-text .source {
+#info-text .source,
+#info-text .source a {
+	color: #fff;
 	font-size: 11px;
 	margin-bottom: 10px;
 	margin-top: 5px;
 	text-align: center;
+}
+
+#info-text .new {
+	margin-bottom: 10px;
 }
 
 #info-text .places-list {
@@ -192,13 +212,14 @@ input[type=text].form-error{
 
 #info-text .places-list .delete {
 	background: url('img/x.png') center no-repeat;
-	background-size: 15px 15px;
+	background-size: 20px 20px;
 	display: inline-block;
-	height: 15px;
-	margin: 4px;
+	height: 20px;
+	margin: 0px;
 	margin-bottom: -2px;
+	margin-right: 10px;
 	opacity: 0.7;
-	width: 15px;
+	width: 20px;
 }
 
 #info-text .places-list .delete:hover {
@@ -206,19 +227,20 @@ input[type=text].form-error{
 }
 
 #info {
-	background: url('img/info.png') center no-repeat;
-	background-size: 12px 12px;
-	bottom: 10px;
+	background: url('img/settings.png') center no-repeat;
+	background-size: 40px 40px;
+	top: -5px;
 	cursor: pointer;
-	height: 12px;
+	height: 40px;
 	position: absolute;
-	right: 10px;
-	width: 12px;
+	right: -5px;
+	width: 40px;
 }
 
 .location {
 	display: none;
 	height: 245px;
+	text-align: center;
 }
 
 
@@ -230,10 +252,13 @@ input#new-city {
 	display: block;
 }
 
-.city, .location.new {
-        color: white;
-	font-size: 16px;
+.city {
+	bottom: 45px;
+	font-size: 12px;
+	font-weight: bold;
+	position: absolute;
 	text-align: center;
+	width: 95%;
 }
 
 .current {
@@ -241,210 +266,104 @@ input#new-city {
 }
 
 .current-icon {
-	display: inline-block;
-	height: 64px;
-	margin-bottom: -22px;
-	padding: 5px;
-	padding-right: 25px;
-	width: 64px;
+	margin-top: 80px;
+	height: 110px;
+	display: block;
+	margin-bottom: 25px;
 }
 
 .current-temp {
-	display: inline-block;
+	display: block;
 	font-size: 42px;
-	line-height: 64px;
+	font-weight: bold;
+	margin-bottom: 25px;
 }
 
-.date {
-	display: inline-block;
-	padding: 5px;
-	width: 75px;
-}
-
-.high,
-.low {
-	display: inline-block;
-	padding: 5px;
-	width: 12px;
-}
-
-.icon {
-	display: inline-block;
-	height: 24px;
-	margin-bottom: -12px;
-	padding: 5px;
-	padding-right: 15px;
-	width: 24px;
+.high_low {
+	font-size: 21px;
 }
 
 #places {
-	max-width: 175px;
+	width: 150px;
 	text-align: center;
 	white-space: nowrap;
-}
-
-#places #plus {
-	background: url('img/plus.png') center no-repeat;
-	background-size: 9px 9px;
-	display: inline-block;
-	height: 16px;
-	padding: 4px;
-	opacity: 0.4;
-	width: 16px;
-}
-
-#places #plus:hover {
-	opacity: 0.7;
+	position: absolute;
+	bottom: 15px;
+	left: 50%;
+	margin-left: -75px;
 }
 
 #places .place {
-	background: url('img/world.png') center no-repeat;
-	background-size: 10px 10px;
+	border: 2px solid #fff;
+	border-radius: 8px;
 	display: inline-block;
-	height: 16px;
-	padding: 3px;
-	opacity: 0.7;
-	width: 16px;
+	height: 10px;
+	margin: 3px;
+	width: 10px;
 }
 
-#places .place:hover,
 #places .place.selected {
-	opacity: 1;
+	background-color: #fff;
 }
 
 .cloudy {
 	background: url('img/cloudy.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .hail {
 	background: url('img/hail.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .light-rain {
 	background: url('img/light-rain.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .light-snow {
 	background: url('img/light-snow.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .mostly-sunny {
 	background: url('img/mostly-sunny.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .partly-cloudy {
 	background: url('img/partly-cloudy.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .rain-snow {
 	background: url('img/rain-snow.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .rain {
 	background: url('img/rain.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .scattered-light-rain {
 	background: url('img/scattered-light-rain.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .scattered-rain {
 	background: url('img/scattered-rain.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .scattered-snow {
 	background: url('img/scattered-snow.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .scattered-tstorm {
 	background: url('img/scattered-tstorm.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .snow {
 	background: url('img/snow.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .sunny {
 	background: url('img/sunny.png') center no-repeat;
-	background-size: 24px 24px;
 }
 
 .tstorm {
 	background: url('img/tstorm.png') center no-repeat;
-	background-size: 24px 24px;
-}
-
-.current-icon.cloudy {
-	background-size: 72px 72px;
-}
-
-.current-icon.hail {
-	background-size: 72px 72px;
-}
-
-.current-icon.light-rain {
-	background-size: 72px 72px;
-}
-
-.current-icon.light-snow {
-	background-size: 72px 72px;
-}
-
-.current-icon.mostly-sunny {
-	background-size: 72px 72px;
-}
-
-.current-icon.partly-cloudy {
-	background-size: 72px 72px;
-}
-
-.current-icon.rain-snow {
-	background-size: 72px 72px;
-}
-
-.current-icon.rain {
-	background-size: 72px 72px;
-}
-
-.current-icon.scattered-light-rain {
-	background-size: 72px 72px;
-}
-
-.current-icon.scattered-rain {
-	background-size: 72px 72px;
-}
-
-.current-icon.scattered-snow {
-	background-size: 72px 72px;
-}
-
-.current-icon.scattered-tstorm {
-	background-size: 72px 72px;
-}
-
-.current-icon.snow {
-	background-size: 72px 72px;
-}
-
-.current-icon.sunny {
-	background-size: 72px 72px;
-}
-
-.current-icon.tstorm {
-	background-size: 72px 72px;
 }
 
 .hidden {

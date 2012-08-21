@@ -133,19 +133,9 @@ $(document).ready(function() {
 		chrome.storage.sync.set({ 'places': places });
 	});
 
-	// Switches the UI to show the place selector
-	$('#places #plus').live('click', function() {
-		$('#weather').removeClass('hidden');
-		$('#info-text').addClass('hidden');
-		$('.location').removeClass('selected');
-		$('.place').removeClass('selected');
-		$('.location.new').addClass('selected');
-		$('#new-city').focus();
-	});
-
 	// gets the location that the user
 	// has typed in and creates a view for it
-	$('.location.new .add').click(function() {
+	$('.new .add').click(function() {
 		var location = $('#new-city').val();
 		current_place = location.toLowerCase().split(', ')[0].split(' ').join('-');
 		var new_place = {};
@@ -161,7 +151,7 @@ $(document).ready(function() {
 	});
 
 	// cancels the city addition
-	$('.location.new .cancel').click(function() {
+	$('.new .cancel').click(function() {
 		$('#new-city').val('');
 		$('.new').removeClass('selected');
 		$('input#new-city').removeClass('form-error');
@@ -346,6 +336,10 @@ function addLocationDisplay(location, current_condition, weather) {
 	var city_html = cityDisplay(location);
 	var places_list_html = placesListItem(city_class, city);
 	var current_html = currentDisplay(current_condition);
+	var high_low = '<div class="high_low">' +
+										weather[0]['tempMax' + temp] + '&deg; / ' +
+										weather[0]['tempMin' + temp] + '&deg;' +
+								 '</div>';
 	var day_html = '';
 
 	for (var i = 0; i < weather.length; i++) {
@@ -355,13 +349,13 @@ function addLocationDisplay(location, current_condition, weather) {
 	// update the UI
 	$('#info-text .places-list').append(places_list_html);
 	$('#weather').append(location_html);
-	$('#weather .' + city_class).append(city_html);
 	$('#weather .' + city_class).append(current_html);
-	$('#weather .' + city_class).append(day_html);
-	$('#places #plus').before(location_dot_html);
-	$('#places .' + city_class).tipTip({ edgeOffset: -2 });
-	$('.current-icon').tipTip({ edgeOffset: -6 });
-	$('.icon').tipTip({ edgeOffset: -6, defaultPosition: 'left' });
+	$('#weather .' + city_class).append(high_low);
+	$('#weather .' + city_class).append(city_html);
+	$('#places').append(location_dot_html);
+	// $('#places .' + city_class).tipTip({ edgeOffset: -2 });
+	// $('.current-icon').tipTip({ edgeOffset: -6 });
+	// $('.icon').tipTip({ edgeOffset: -6, defaultPosition: 'left' });
 }
 
 /**
@@ -371,7 +365,7 @@ function addLocationDisplay(location, current_condition, weather) {
  */
 function cityDisplay(location) {
 	var city = location.split(', ')[0];
-  var html = '<div class="city">' + city + '</div>';
+  var html = '<div class="city">' + city.toUpperCase() + '</div>';
   return html;
 }
 
