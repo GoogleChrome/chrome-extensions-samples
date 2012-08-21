@@ -5,3 +5,20 @@ body {
   overflow: hidden;
 }
 
+.close {
+  background-image: url('../img/button_close.png');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  -webkit-widget-region: region(control rectangle);
+}
+
+.close:hover {
+  background-image: url('../img/button_close_hover.png');
+}
+
