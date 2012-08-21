@@ -28,6 +28,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function init() {
 
+      var closeEl=document.querySelector(".close");
+      if (closeEl) {
+        closeEl.addEventListener('click', function() {
+          window.close();
+        });
+      };
+
       container = document.createElement( 'div' );
       document.body.appendChild( container );
 
@@ -56,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // load ascii model
       var jsonLoader = new THREE.JSONLoader();
       jsonLoader.load( "obj/html5rocks.js", function( geometry ) { createScene( geometry ) } );
+
     }
 
     function createScene( geometry ) {
@@ -89,5 +97,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
-
 
