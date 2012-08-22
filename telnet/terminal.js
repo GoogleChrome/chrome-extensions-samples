@@ -33,29 +33,35 @@ util.getDocHeight = function() {
 };
 
 
-// TODO(ericbidelman): add fallback to html5 audio.
+/**
+ * Creates a audio context to play sounds
+ */
 function Sound(opt_loop) {
+
   var self_ = this;
   var context_ = null;
   var source_ = null;
   var loop_ = opt_loop || false;
 
+  // Get the context
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   if (window.AudioContext) {
     context_ = new window.AudioContext();
   }
 
+  /**
+   * Loads in a sound file using XHR.
+   *
+   * @param {String} url The URL to load
+   * @param {Boolean} mixToMono If the sound should be mixed down to mono
+   * @param {Function} opt_callback A function to call when the file has loaded
+   */
   this.load = function(url, mixToMono, opt_callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'arraybuffer';
     xhr.onload = function() {
       if (context_) {
-        /*self_.sample = context_.createBuffer(this.response, mixToMono);
-        if (opt_callback) {
-          opt_callback();
-        }
-        */
         context_.decodeAudioData(this.response, function(audioBuffer) {
           self_.sample = audioBuffer;
           opt_callback && opt_callback();
@@ -67,6 +73,9 @@ function Sound(opt_loop) {
     xhr.send();
   };
 
+  /**
+   * Plays the sound
+   */
   this.play = function() {
     if (context_) {
       source_ = context_.createBufferSource();
@@ -77,6 +86,9 @@ function Sound(opt_loop) {
     }
   };
 
+  /**
+   * Stops the sound
+   */
   this.stop = function() {
     if (source_) {
       source_.noteOff(0);
@@ -85,7 +97,11 @@ function Sound(opt_loop) {
   };
 }
 
+/**
+ * Represents the terminal
+ */
 var Terminal = Terminal || function(containerId) {
+
   window.URL = window.URL || window.webkitURL;
   window.requestFileSystem = window.requestFileSystem ||
                              window.webkitRequestFileSystem;
@@ -116,6 +132,7 @@ var Terminal = Terminal || function(containerId) {
        '<div id="input-line" class="input-line">',
        '<div class="prompt">$&gt;</div><div><input class="cmdline" autofocus /></div>',
        '</div>'].join(''));
+
   var cmdLine_ = container_.querySelector('#input-line .cmdline');
   var output_ = container_.querySelector('output');
   var interlace_ = document.querySelector('.interlace');
@@ -124,15 +141,16 @@ var Terminal = Terminal || function(containerId) {
 
   // Hackery to resize the interlace background image as the container grows.
   output_.addEventListener('DOMSubtreeModified', function(e) {
+
     var docHeight = util.getDocHeight();
     document.documentElement.style.height = docHeight + 'px';
-    //document.body.style.background = '-webkit-radial-gradient(center ' + (Math.round(docHeight / 2)) + 'px, contain, rgba(0,75,0,0.8), black) center center no-repeat, black';
     interlace_.style.height = docHeight + 'px';
-    setTimeout(function() { // Need this wrapped in a setTimeout. Chrome is jupming to top :(
-      //window.scrollTo(0, docHeight);
+
+    // Need this wrapped in a setTimeout. Chrome is jupming to top :(
+    setTimeout(function() {
       cmdLine_.scrollIntoView();
     }, 0);
-    //window.scrollTo(0, docHeight);
+
   }, false);
 
   output_.addEventListener('click', function(e) {
@@ -143,11 +161,9 @@ var Terminal = Terminal || function(containerId) {
   }, false);
 
   window.addEventListener('click', function(e) {
-    //if (!document.body.classList.contains('offscreen')) {
     if (e.target.nodeName.toLowerCase() != 'input') {
       cmdLine_.focus();
     }
-    //}
   }, false);
 
   // Always force text cursor to end of input line.
@@ -158,14 +174,20 @@ var Terminal = Terminal || function(containerId) {
   cmdLine_.addEventListener('keyup', historyHandler_, false); // keyup needed for input blinker to appear at end of input.
   cmdLine_.addEventListener('keydown', processNewCommand_, false);
 
-  /*window.addEventListener('beforeunload', function(e) {
-    return "Don't leave me!";
-  }, false);*/
-
+  /**
+   * Click handler for the text cursor
+   *
+   * @param {Event} e The click event
+   */
   function inputTextClick_(e) {
     this.value = this.value;
   }
 
+  /**
+   * Handler for keyboard shortcuts
+   *
+   * @param {Event} e The click event
+   */
   function keyboardShortcutHandler_(e) {
     // Toggle CRT screen flicker.
     if ((e.ctrlKey || e.metaKey) && e.keyCode == 83) { // crtl+s
@@ -178,10 +200,12 @@ var Terminal = Terminal || function(containerId) {
     }
   }
 
-  function selectFile_(el) {
-    alert(el)
-  }
-
+  /**
+   * Callback for keyboard events that scolls through the
+   * history of commands put into the terminal
+   *
+   * @param {Event} e The keyboard event
+   */
   function historyHandler_(e) { // Tab needs to be keydown.
 
     if (history_.length) {
@@ -212,6 +236,12 @@ var Terminal = Terminal || function(containerId) {
     }
   }
 
+  /**
+   * Takes the current command and processes it. Stores it
+   * in the history and sends it over TCP to the remote side
+   *
+   * @param {Event} e The keyboard event (likely enter / return)
+   */
   function processNewCommand_(e) {
 
     // Beep on backspace and no value on command line.
@@ -234,7 +264,7 @@ var Terminal = Terminal || function(containerId) {
 
       // Duplicate current input and append to output section.
       var line = this.parentNode.parentNode.cloneNode(true);
-      line.removeAttribute('id')
+      line.removeAttribute('id');
       line.classList.add('line');
       var input = line.querySelector('input.cmdline');
       input.autofocus = false;
@@ -250,6 +280,12 @@ var Terminal = Terminal || function(containerId) {
     }
   }
 
+  /**
+   * Updates the styles depending on the number of files
+   * that need to be displayed in the terminal.
+   *
+   * @param {Array} entries The file listing
+   */
   function formatColumns_(entries) {
     var maxName = entries[0].name;
     util.toArray(entries).forEach(function(entry, i) {
@@ -270,6 +306,13 @@ var Terminal = Terminal || function(containerId) {
             colWidth, 'px;', height, '">'];
   }
 
+  /**
+   * Helper function to output an error code in a helpful message
+   *
+   * @param {Error} e The generated error
+   * @param {String} cmd The attempted command
+   * @param {String} dest The attempted command target
+   */
   function invalidOpForEntryType_(e, cmd, dest) {
     if (e.code == FileError.NOT_FOUND_ERR) {
       output(cmd + ': ' + dest + ': No such file or directory<br>');
@@ -282,6 +325,11 @@ var Terminal = Terminal || function(containerId) {
     }
   }
 
+  /**
+   * Handler to convert errors to messages
+   *
+   * @param {Error} e The generated error
+   */
   function errorHandler_(e) {
     var msg = '';
     switch (e.code) {
@@ -303,10 +351,17 @@ var Terminal = Terminal || function(containerId) {
       default:
         msg = 'Unknown Error';
         break;
-    };
+    }
     output('<div>Error: ' + msg + '</div>');
   }
 
+  /**
+   * Creates a directory
+   *
+   * @param {DirectoryEntry} rooDirEntry The start point
+   * @param {Array} folders The subfolders to add
+   * @param {Function} opt_errorCallback Callback for errors
+   */
   function createDir_(rootDirEntry, folders, opt_errorCallback) {
     var errorCallback = opt_errorCallback || errorHandler_;
 
@@ -319,6 +374,13 @@ var Terminal = Terminal || function(containerId) {
     }, errorCallback);
   }
 
+  /**
+   * Gets a reference to a file
+   *
+   * @param {String} cmd The attempted command
+   * @param {String} path The file path
+   * @param {Function} successCallback Callback to pass the file reference
+   */
   function open_(cmd, path, successCallback) {
     if (!fs_) {
       return;
@@ -331,6 +393,13 @@ var Terminal = Terminal || function(containerId) {
     });
   }
 
+  /**
+   * Reads a file
+   *
+   * @param {String} cmd The attempted command
+   * @param {String} path The file path
+   * @param {Function} successCallback Callback to pass the file reference
+   */
   function read_(cmd, path, successCallback) {
     if (!fs_) {
       return;
@@ -355,14 +424,18 @@ var Terminal = Terminal || function(containerId) {
     });
   }
 
+  /**
+   * Read contents of current working directory. According to spec, need to
+   * keep calling readEntries() until length of result array is 0. We're
+   * guaranteed the same entry won't be returned again.
+   *
+   * @param {Function} successCallback Function to call when listing is done
+   */
   function ls_(successCallback) {
     if (!fs_) {
       return;
     }
 
-    // Read contents of current working directory. According to spec, need to
-    // keep calling readEntries() until length of result array is 0. We're
-    // guarenteed the same entry won't be returned again.
     var entries = [];
     var reader = cwd_.createReader();
 
@@ -381,6 +454,11 @@ var Terminal = Terminal || function(containerId) {
     readEntries();
   }
 
+  /**
+   * Clears the terminal
+   *
+   * @param {HTMLInputElement} input The input element to clear
+   */
   function clear_(input) {
     output_.innerHTML = '';
     input.value = '';
@@ -388,11 +466,16 @@ var Terminal = Terminal || function(containerId) {
     interlace_.style.height = '100%';
   }
 
+  /**
+   * Sets the terminal's theme by adding a class
+   * onto the document's body.
+   *
+   * @param {String} theme The name of the theme
+   */
   function setTheme_(theme) {
     var currentUrl = document.location.pathname;
 
     if (!theme || theme == 'default') {
-      //history.replaceState({}, '', currentUrl);
       localStorage.removeItem('theme');
       document.body.className = '';
       return;
@@ -401,10 +484,12 @@ var Terminal = Terminal || function(containerId) {
     if (theme) {
       document.body.classList.add(theme);
       localStorage.theme = theme;
-      //history.replaceState({}, '', currentUrl + '#theme=' + theme);
     }
   }
 
+  /**
+   * Toggles the terminal's CSS3D view
+   */
   function toggle3DView_() {
     var body = document.body;
     body.classList.toggle('offscreen');
@@ -425,7 +510,7 @@ var Terminal = Terminal || function(containerId) {
 
         iframe.contentWindow.onload = function() {
           worker_.postMessage({cmd: 'read', type: type_, size: size_});
-        }
+        };
         container_.removeEventListener('webkitTransitionEnd', transEnd_, false);
       };
       container_.addEventListener('webkitTransitionEnd', transEnd_, false);
@@ -436,9 +521,13 @@ var Terminal = Terminal || function(containerId) {
     }
   }
 
+  /**
+   * Writes to the terminal
+   *
+   * @param {String} html The HTML to add to the output
+   */
   function output(html) {
     output_.insertAdjacentHTML('beforeEnd', html);
-    //output_.scrollIntoView();
     cmdLine_.scrollIntoView();
   }
 
@@ -484,15 +573,14 @@ var Terminal = Terminal || function(containerId) {
           if (fsn_) {
             fsn_.contentWindow.postMessage({cmd: 'touch', data: file.name}, location.origin);
           }
-          
+
           fileEntry.createWriter(function(fileWriter) {
             fileWriter.write(file);
           }, errorHandler_);
         }, errorHandler_);
       });
     },
-    toggle3DView: toggle3DView_,
-    selectFile: selectFile_
-  }
+    toggle3DView: toggle3DView_
+  };
 };
 
