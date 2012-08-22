@@ -17,12 +17,17 @@ Clock = function(id, offset) {
 }
 
 //Method to initialize the clock
-Clock.prototype.create = function() {
-	this.canvas = $('.world .' + this.id + ' .clock')[0];
-	this.canvas.height = this.config.container.height;
-	this.canvas.width = this.config.container.width;
+Clock.prototype.create = function(ctx) {
 
-	this.context = this.canvas.getContext("2d");
+	if (ctx) {
+		this.context = ctx;
+	}
+	else {
+		this.canvas = $('.world .' + this.id + ' .clock')[0];
+		this.canvas.height = this.config.container.height;
+		this.canvas.width = this.config.container.width;
+		this.context = this.canvas.getContext("2d");
+	}
 
 	this.startTick();
 }

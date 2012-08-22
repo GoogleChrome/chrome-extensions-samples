@@ -396,15 +396,14 @@ function addAlarm(id) {
 								<div class="button cancel">Cancel</div>\
 							</div>';
 	var info = '<div class="' + id + ' info">\
-								<div class="edit-icon"></div>\
 								<div class="name">' + alarm['name'] + '</div>\
 								<div class="time"></div>\
 							</div>'
 	$('#container .alarm .new').before('<div class="alarm-clock ' + id + '"></div>');
-	$('.' + id).append('<div class="delete"></div>');
-	$('.' + id).append('<canvas class="clock"></canvas>');
-	$('.' + id).append(info);
-	$('.' + id).append(edit);
+	$('.alarm-clock.' + id).append('<div class="delete"></div>');
+	$('.alarm-clock.' + id).append('<canvas class="clock"></canvas>');
+	$('.alarm-clock.' + id).append(info);
+	$('.alarm-clock.' + id).append(edit);
 	var alarm_clock = new Alarm(id,
 															alarm['name'],
 															alarm['hour'],
