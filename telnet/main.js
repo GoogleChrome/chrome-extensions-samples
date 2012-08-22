@@ -1,12 +1,18 @@
+/**
+ * Shows and hides the help panel
+ */
 function toggleHelp() {
   document.querySelector('.help').classList.toggle('hidden');
   document.body.classList.toggle('dim');
 }
 
 (function() {
+
+  // Create and init the terminal
   var term = new Terminal('container');
   term.initFS(false, 1024 * 1024);
 
+  // Capture key presses
   document.body.addEventListener('keydown', function(e) {
     if (e.keyCode == 27) { // Esc
       toggleHelp();
@@ -28,14 +34,22 @@ function toggleHelp() {
   // Bind the connect dialog to real stuff.
   var button = document.getElementById('connect');
   button.addEventListener('click', function() {
+
     // Disconnect from previous socket.
     var host = document.getElementById('host').value;
-    var port = parseInt(document.getElementById('port').value);
+    var port = parseInt(document.getElementById('port').value, 10);
     tcpClient.disconnect();
     connect(host, port);
     toggleHelp();
+
   });
 
+  /**
+   * Connects to a host and port
+   *
+   * @param {String} host The remote host to connect to
+   * @param {Number} port The port to connect to at the remote host
+   */
   function connect(host, port) {
     tcpClient = new TcpClient(host, port);
     tcpClient.connect(function() {

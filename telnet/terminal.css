@@ -63,9 +63,7 @@ html, body {
 body {
   font-family: Inconsolata, monospace;
   color: white;
-  background: -webkit-radial-gradient(center center, contain, rgba(0,150,0,1), black) center center no-repeat, black; /*center center for the gradient scrolls with the page :(*/
-  /*background: -webkit-radial-gradient(center 75%, contain, rgba(0,75,0,0.8), black) center center no-repeat, black;*/
-  -webkit-background-size: 110% 100%;
+  background: #222;
 }
 .offscreen {
   background: -webkit-linear-gradient(top, #000, #333);
@@ -99,8 +97,7 @@ body {
     rgb(251,173,51) 57%,
     rgb(255,208,77) 79%
   );*/
-  background: -webkit-radial-gradient(center center, contain, rgba(0,175,0,1), black) center center no-repeat;
-  -webkit-background-size: 125% 125%;
+  background: #333;
 }
 /*
 .crt {

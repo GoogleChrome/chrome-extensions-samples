@@ -36,6 +36,8 @@ Author: Boris Smus (smus@chromium.org)
 
   /**
    * Given an ANSI string, format it in HTML.
+   *
+   * @param {String} ansiString The string to format
    */
   A.prototype.formatAnsi = function(ansiString) {
     var out = ansiString;
@@ -49,23 +51,25 @@ Author: Boris Smus (smus@chromium.org)
   };
 
   /**
-   * Given a string and a color, return an ANSI string.
+   * Replaces an ANSI Code in the string
+   * with a span-wrapped version. Used as
+   * a callback in the formatAnsi function
+   *
+   * @param {String} matched The substring that matched
+   * @param {String} ansiString The actual matched string
+   * @param {Number} index The offset of the match within the overall string
+   * @param {String} s The overall string
    */
-  A.prototype.colorizeString = function(string, color) {
-    // TODO: implement me!
-  };
-
-
   A.prototype._replaceCodeWithHTML = function(matched, ansiString, index, s) {
     // Extract the ansiCode from the string.
     var split = ansiString.split(';');
-    var ansiCode = parseInt(split[split.length - 1]);
+    var ansiCode = parseInt(split[split.length - 1], 10);
     // Convert code to color code.
     var colorCode = ansiCode - 30;
     // Lookup the corresponding style.
     var style = 'color: ' + COLOR_TABLE[colorCode];
     return '<span style="' + style + ';">';
-  }
+  };
 
   exports.AnsiConverter = A;
 })(window);
