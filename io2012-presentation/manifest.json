@@ -14,6 +14,7 @@
     "128": "images/icon-128.png"
   },
   "permissions": [
+    "serial",
     "storage",
     "videoCapture"
   ]
