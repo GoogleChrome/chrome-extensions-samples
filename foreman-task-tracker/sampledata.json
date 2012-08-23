@@ -1,0 +1,72 @@
+{
+  "snapshot": ["20120817", "20120810"],
+  "context": [
+    {
+      "name": "WorkContext 1",
+      "notes": [
+        {
+          "text": "Some Previous Note 1",
+          "state": "A"
+        },
+        {
+          "text": "Some Previous Note 2",
+          "state": "A",
+          "snaps": ["20120810"]
+        },
+        {
+          "text": "Some Previous Note 3",
+          "state": "P"
+        },
+        {
+          "text": "Some Previous Note 4",
+          "state": "P",
+          "snaps": ["20120817"]
+        }
+        {
+          "text": "Some Previous Note 5",
+          "snaps": ["20120810", "20120817"]
+        }
+        {
+          "text": "Some Previous Note 6",
+          "snaps": ["20120817"]
+        }
+        {
+          "text": "Some Previous Note 7",
+          "snaps": ["20120810"]
+        }
+        {
+          "text": "Some Previous Note 8",
+          "snaps": ["20120810"]
+        }
+      ]
+    },{
+      "name": "WorkContext 2",
+      "notes": [
+        {
+          "text": "Some Previous Note 9",
+          "state": "A"
+        },
+        {
+          "text": "Some Previous Note 10",
+          "state": "A",
+        },
+        {
+          "text": "Some Previous Note 11",
+          "state": "P"
+        },
+        {
+          "text": "Some Previous Note 12",
+          "state": "P",
+        }
+        {
+          "text": "Some Previous Note 13",
+          "snaps": ["20120817"]
+        }
+        {
+          "text": "Some Previous Note 14",
+          "snaps": ["20120817"]
+        }
+      ]
+    }
+  ]
+}
