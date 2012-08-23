@@ -56,7 +56,6 @@ GDocs.prototype.auth = function(opt_callback) {
   var self = this;
   try {
     chrome.experimental.identity.getAuthToken({interactive: false}, function(token) {
-      //log(token);
       //document.querySelector('#authorize-button').disabled = true;
       if (token) {
         self.accessToken = token;
@@ -64,7 +63,7 @@ GDocs.prototype.auth = function(opt_callback) {
       }
     });
   } catch(e) {
-    log(e);
+    console.log(e);
   }
 };
 
