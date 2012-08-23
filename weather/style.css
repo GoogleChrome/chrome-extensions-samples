@@ -3,19 +3,32 @@ html {
   width: 300px;
   margin: 0px;
   padding: 0px;
+  font-weight: normal;
 }
 
 body {
   color: #fff;
   font-family: "Quicksand", "Open Sans", sans-serif;
   font-size: 13px;
-  font-weight: bold;
   line-height: 18px;
   margin: 0px;
   text-align: center;
   height: 450px;
   width: 300px;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #fff;
+  -webkit-widget-region: region(control rectangle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #eee;
+  -webkit-widget-region: region(control rectangle);
+}
+
 
 .close {
   background-image: url('img/x.png');
@@ -52,6 +65,7 @@ body:hover .close {
   margin-left: 0px;
   margin-right: 10px;
   margin-top: 0px;
+  margin-bottom: 10px;
   min-width: 50px;
   padding: 0 8px;
   text-align: center;
@@ -107,6 +121,8 @@ input[type=radio] {
 	background: #f5f5f5;
 	margin: 0;
 	margin-right: 10px;
+	margin-bottom: -2px;
+	margin-top: 2px;
 	-webkit-border-radius: 1px;
 	border-radius: 1px;
 	-webkit-box-sizing: border-box;
@@ -174,7 +190,6 @@ input[type=text] {
   color: #333;
   display: inline-block;
   font-family: "Quicksand", "Open Sans", sans-serif;
-  font-weight: bold;
   font-size: 16px;
   height: 32px;
   line-height: 30px;
@@ -182,6 +197,7 @@ input[type=text] {
   vertical-align: middle;
   margin-bottom: 15px;
   width: 270px;
+  -webkit-widget-region: region(control rectangle);
 }
 
 input[type=text]:hover {
@@ -241,11 +257,11 @@ input[type=text].form-error{
 
 #info-text .places-list .delete {
 	background: url('img/x.png') center no-repeat;
-	background-size: 20px 20px;
+	background-size: 12px 12px;
 	display: inline-block;
 	height: 20px;
-	margin: 0px;
-	margin-bottom: -2px;
+	margin-top: 3px;
+	margin-bottom: -6px;
 	margin-right: 12px;
 	margin-left: -2px;
 	opacity: 0.7;
@@ -258,13 +274,14 @@ input[type=text].form-error{
 
 #info {
 	background: url('img/settings.png') center no-repeat;
-	background-size: 40px 40px;
+	background-size: 16px 16px;
 	top: 0px;
 	cursor: pointer;
-	height: 40px;
+	height: 20px;
+	padding: 2px;
 	position: absolute;
 	right: 0px;
-	width: 40px;
+	width: 20px;
 }
 
 #weather {
@@ -296,32 +313,34 @@ input#new-city {
 .city {
 	bottom: 45px;
 	font-size: 12px;
-	font-weight: bold;
 	position: absolute;
 	text-align: center;
-	width: 95%;
+	width: 100%;
 }
 
 .current {
 	text-align: center;
+	margin-top: 150px;
 }
 
 .current-icon {
-	margin-top: 80px;
-	height: 110px;
-	display: block;
-	margin-bottom: 25px;
+	height: 34px;
+	width: 34px;
+	display: inline-block;
+	margin-bottom: 10px;
 }
 
 .current-temp {
-	display: block;
-	font-size: 42px;
-	font-weight: bold;
-	margin-bottom: 25px;
+	display: inline-block;
+	font-size: 72px;
+	font-weight: normal;
 }
 
 .high_low {
+	margin-top: 45px;
 	font-size: 21px;
+	display: block;
+	font-weight: normal;
 }
 
 #places {
@@ -335,6 +354,38 @@ input#new-city {
 	overflow: auto;
 }
 
+#places #prev,
+#places #next {
+	width: 0;
+	height: 0;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	opacity: 0;
+	display: inline-block;
+	margin-bottom: 4px;
+	opacity: 0;
+}
+
+#places #prev {
+	border-right: 8px solid #fff;
+	margin-right: 5px;
+}
+
+#places #next {
+	border-left: 8px solid #fff;
+	margin-left: 5px;
+}
+
+#places #prev.disabled,
+#places #next.disabled {
+	opacity: 0.4;
+}
+
+#places #prev.shown,
+#places #next.shown {
+	opacity: 1;
+}
+
 #places .place {
 	border: 2px solid #fff;
 	border-radius: 8px;
@@ -342,6 +393,11 @@ input#new-city {
 	height: 10px;
 	margin: 3px;
 	width: 10px;
+	display: none;
+}
+
+#places .place.shown {
+	display: inline-block;
 }
 
 #places .place.selected {
@@ -350,62 +406,77 @@ input#new-city {
 
 .current-icon.cloudy {
 	background: url('img/cloudy.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.hail {
 	background: url('img/hail.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.light-rain {
 	background: url('img/light-rain.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.light-snow {
 	background: url('img/light-snow.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.mostly-sunny {
 	background: url('img/mostly-sunny.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.partly-cloudy {
 	background: url('img/partly-cloudy.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.rain-snow {
 	background: url('img/rain-snow.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.rain {
 	background: url('img/rain.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.scattered-light-rain {
 	background: url('img/scattered-light-rain.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.scattered-rain {
 	background: url('img/scattered-rain.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.scattered-snow {
 	background: url('img/scattered-snow.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.scattered-tstorm {
 	background: url('img/scattered-tstorm.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.snow {
 	background: url('img/snow.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.sunny {
 	background: url('img/sunny.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .current-icon.tstorm {
 	background: url('img/tstorm.png') center no-repeat;
+	background-size: 34px 34px;
 }
 
 .location.cloudy {

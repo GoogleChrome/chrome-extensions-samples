@@ -97,6 +97,7 @@ $(document).ready(function() {
 		$('.new .error-message').addClass('hidden');
 		$('.new .error-message').html('');
 		$('.world .new').addClass('hidden');
+		resize();
 	});
 
 	$('.alarm .new .cancel').click(function() {
@@ -105,6 +106,7 @@ $(document).ready(function() {
 		$('#new-alarm-minute').val('');
 		$('#new-alarm-noon').val('');
 		$('.alarm .new').addClass('hidden');
+		resize();
 	});
 
 	$('.alarm .edit .cancel').live('click', function() {
@@ -224,6 +226,8 @@ $(document).ready(function() {
 			$('.menu-item.new-world').click();
 		if (sizeOf(alarms) == 0)
 			$('.menu-item.new-alarm').click();
+
+		resize();
 	});
 
 	$('.info').live('click', function() {
@@ -256,6 +260,10 @@ $(document).ready(function() {
 		$('.' + id + '.edit').removeClass('hidden');
 	});
 
+	$(window).resize(function() {
+		resize();
+	});
+
 	setup();
 
 });
@@ -282,6 +290,7 @@ function createDefaultText(default_text, $input) {
 function openNewClock() {
 	$('.world .new').removeClass('hidden');
 	$('#new-city').focus();
+	resize();
 }
 
 function openNewAlarm() {
@@ -292,6 +301,7 @@ function openNewAlarm() {
 	createDefaultText('00', $('#new-alarm-minute'));
 	createDefaultText('AM', $('#new-alarm-noon'));
 	$('.alarm .new').removeClass('hidden');
+	resize();
 }
 
 function setup() {
@@ -382,6 +392,7 @@ function addClock(city_class) {
 	$('.' + city_class).append('<div class="day"></div>');
 	var clock = new Clock(city_class, offset);
 	clock.create();
+	resize();
 }
 
 // Function adds a canvas element and initializes a new alarm for that canvas
@@ -411,6 +422,7 @@ function addAlarm(id) {
 															alarm['on']);
 	alarm_clock.create();
 	alarm_clocks[id] = alarm_clock;
+	resize();
 }
 
 function addWorldClock() {
@@ -494,8 +506,28 @@ function editAlarmClock(id) {
 
 function resize() {
 	var clock_width = 330.0;
-	var lines = Math.ceil(clock_width * sizeOf(clocks) / window.innerWidth);
+	var clocks_size = sizeOf(clocks);
+	if (!$('.world .new').hasClass('hidden'))
+		clocks_size += 1;
+	var lines = Math.ceil(clock_width * clocks_size / window.innerWidth);
 	var height = 350 * lines;
+	if (window.innerHeight > height + 100) {
+		$('.world').css({ 'top' : '50%', 'margin-top' : '-' + height/2 + 'px' });
+	} else {
+		$('.world').css({ 'top' : '0px', 'margin-top' : '0px' });
+	}
+
+	var alarm_width = 300.0;
+	var alarms_size = sizeOf(alarms);
+	if (!$('.alarm .new').hasClass('hidden'))
+		alarms_size += 1;
+	var lines = Math.ceil(alarm_width * alarms_size / window.innerWidth);
+	var height = 385 * lines;
+	if (window.innerHeight > height) {
+		$('.alarm').css({ 'top' : '50%', 'margin-top' : '-' + height/2 + 'px' });
+	} else {
+		$('.alarm').css({ 'top' : '0px', 'margin-top' : '0px' });
+	}
 }
 
 function sizeOf(dictionary) {
