@@ -11,32 +11,38 @@
         {
           "text": "Some Previous Note 2",
           "state": "A",
-          "snaps": ["20120810"]
+          "snaps": {
+            "20120810": "What Note 2 looked like on 20120810"
+          }
         },
         {
           "text": "Some Previous Note 3",
           "state": "P"
         },
         {
-          "text": "Some Previous Note 4",
-          "state": "P",
-          "snaps": ["20120817"]
-        }
+          "text": "What Note 5 looked like on 20120817",
+          "snaps": {
+            "20120810": "What Note 5 looked like on 20120810",
+            "20120817": "What Note 5 looked like on 20120817"
+          }
+        },
         {
-          "text": "Some Previous Note 5",
-          "snaps": ["20120810", "20120817"]
-        }
+          "text": "Note 6 on 20120817",
+          "snaps": {
+            "20120817": "Note 6 on 20120817"
+          }
+        },
         {
-          "text": "Some Previous Note 6",
-          "snaps": ["20120817"]
-        }
+          "text": "Note 7 on 20120810",
+          "snaps": {
+            "20120810": "Note 7 on 20120810"
+          }
+        },
         {
-          "text": "Some Previous Note 7",
-          "snaps": ["20120810"]
-        }
-        {
-          "text": "Some Previous Note 8",
-          "snaps": ["20120810"]
+          "text": "Note 8 on 20120810",
+          "snaps": {
+            "20120810": "Note 8 on 20120810"
+          }
         }
       ]
     },{
@@ -48,7 +54,7 @@
         },
         {
           "text": "Some Previous Note 10",
-          "state": "A",
+          "state": "A"
         },
         {
           "text": "Some Previous Note 11",
@@ -56,15 +62,19 @@
         },
         {
           "text": "Some Previous Note 12",
-          "state": "P",
-        }
+          "state": "P"
+        },
         {
-          "text": "Some Previous Note 13",
-          "snaps": ["20120817"]
-        }
+          "text": "Note 13 on 20120817",
+          "snaps": {
+            "20120817": "Note 13 on 20120817"
+          }
+        },
         {
-          "text": "Some Previous Note 14",
-          "snaps": ["20120817"]
+          "text": "Note 14 on 20120817",
+          "snaps": {
+            "20120817": "Note 14 on 20120817"
+          }
         }
       ]
     }
