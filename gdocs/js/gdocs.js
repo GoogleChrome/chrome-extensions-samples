@@ -22,6 +22,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 function GDocs(selector) {
 
   var SCOPE_ = 'https://docs.google.com/feeds/';
+  //var SCOPE_ = 'https://www.googleapis.com/auth/drive';
   //var RESUMABLE_LINK_SCHEME_ = 'http://schemas.google.com/g/2005#resumable-create-media';
   /*var DEFAULT_MIMETYPES = {
     'atom': 'application/atom+xml',
@@ -54,14 +55,15 @@ function GDocs(selector) {
 GDocs.prototype.auth = function(opt_callback) {
   var self = this;
   try {
-    chrome.experimental.identity.getAuthToken({}, function(token) {
-      //log(token);
+    chrome.experimental.identity.getAuthToken({interactive: false}, function(token) {
       //document.querySelector('#authorize-button').disabled = true;
-      self.accessToken = token;
-      opt_callback && opt_callback();
+      if (token) {
+        self.accessToken = token;
+        opt_callback && opt_callback();
+      }
     });
   } catch(e) {
-    log(e);
+    console.log(e);
   }
 };
 

@@ -1,11 +1,5 @@
 var gdocs = new GDocs();
 
-function log(msg) {
-  var frag = document.createDocumentFragment();
-  frag.textContent = msg;
-  document.querySelector('#log').appendChild(frag);
-}
-
 function upload(blob) {
   gdocs.upload(blob, function() {
     //...
@@ -17,6 +11,10 @@ var dnd = new DnDFileController('body', function(files) {
   Util.toArray(files).forEach(function(file, i) {
     upload(file);
   });
+});
+
+document.querySelector('#close-button').addEventListener('click', function(e) {
+  self.close();
 });
 
 function DocsController($scope, $http) {
@@ -44,7 +42,7 @@ function DocsController($scope, $http) {
         xhr.open('GET', doc.icon, true);
         xhr.responseType = 'blob';
         xhr.onload = function(e) {
-          doc.icon = window.webkitURL.createObjectURL(this.response);
+          doc.icon = window.URL.createObjectURL(this.response);
 
           $scope.docs.push(doc);
 

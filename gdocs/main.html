@@ -16,7 +16,7 @@ limitations under the License.
 
 Author: Eric Bidelman (ericbidelman@chromium.org)
 -->
-<html ng-app ng-csp>
+<html data-ng-app data-ng-csp>
 <head>
 <meta charset="utf-8" />
 <title>Google Drive Uploader</title>
@@ -29,18 +29,17 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
   <div class="dropzone"><img src="img/upload.svg"></div>
 </div>
 
-<section id="main" ng-controller="DocsController">
-  <h2>Google Drive Uploader</h2>
+<section id="main" data-ng-controller="DocsController">
   <nav>
+    <h2>Google Drive Uploader</h2>
     <!--<button id="authorize-button" class="btn" onclick="auth()">Authorize</button>-->
-    <button class="btn" ng-click="fetchDocs()">Refresh</button>
+    <button class="btn" data-ng-click="fetchDocs()">Refresh</button>
+    <button class="btn" id="close-button" title="Close">x</button>
     <!--<input type="file" name="file">-->
   </nav>
 
-  <output id="log"></output>
-
   <ul>
-    <li ng-repeat="doc in docs">
+    <li data-ng-repeat="doc in docs">
       <!-- crbug.com/120693. These anchors shouldn't need target="_blank".-->
       <img src="{{doc.icon}}"> <a href="{{doc.alternateLink}}" target="_blank">{{doc.title}}</a>  {{doc.size}}
       <span class="date">{{doc.updatedDate}}</span>
@@ -53,6 +52,6 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 <script src="js/resumableupload.js"></script>
 <script src="js/gdocs.js"></script>
 <script src="js/app.js"></script>
-<script src="js/angular-1.0.0rc7.min.js"></script>
+<script src="js/angular-1.0.1.min.js"></script>
 </body>
 </html>
