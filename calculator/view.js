@@ -58,6 +58,11 @@ function View(calcModel) {
     calc.buttonClicked(clicked, result);
   });
 
+  $('.close').click(function() {
+    console.log("called");
+    window.close();
+  });
+
   $(document).keydown(function(event) {
     var clicked = null;
     if (event.which == 16)
