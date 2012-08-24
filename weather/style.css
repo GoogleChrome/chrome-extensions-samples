@@ -328,6 +328,7 @@ input#new-city {
 	width: 34px;
 	display: inline-block;
 	margin-bottom: 10px;
+	margin-right: -34px;
 }
 
 .current-temp {
@@ -480,9 +481,9 @@ input#new-city {
 }
 
 .location.cloudy {
-	background-color: #55b6ed;
-  background-image: linear-gradient(top, #55b6ed, #45a6dd);
-  background-image: -webkit-linear-gradient(top, #55b6ed, #45a6dd);
+	background-color: #75d6ff;
+  background-image: linear-gradient(top, #75d6ff, #45a6dd);
+  background-image: -webkit-linear-gradient(top, #75d6ff, #45a6dd);
 }
 
 .location.hail {

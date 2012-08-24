@@ -106,6 +106,11 @@ $(document).ready(function() {
 		refresh();
   });
 
+  // Refresh the weather forecast and update the UI every two hours
+  setInterval(function() {
+		refresh();
+	}, 1000 * 60 * 60 * 2);
+
   // shows a specific place
 	$('#places .place').live('click', function() {
 		$('#weather').removeClass('hidden');
