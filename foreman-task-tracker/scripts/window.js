@@ -52,8 +52,20 @@ function append_context(key, val) {
   )
   .click(tabclick)
   .appendTo('#tabs');
-  //create the content, initially hidden
 
+  //create the content, initially hidden
+  active = $("#activetemplate").clone();
+  pending = $("#pendingtemplate").clone();
+  snaps = {}
+  $.each(val['notes'], function(key, val) {
+    console.log(val);
+  });
+
+  $("#tabtemplate").clone()
+  .append(active)
+  .append(pending)
+  .append(snaps)
+  .appendTo("#tabcontainer");
 }
 
 function model_reset(newmodel, src) {
