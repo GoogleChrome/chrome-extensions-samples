@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Syncable storage</h1>
+    <small>Use chrome.storage.sync to share small chunks of data among all of your Chrome devices. To test, open this app in two different devices, both signed in with the same user.</small>
+    <p>This is the current value in the storage:</p>
+    <div id="output"></div>
+    <form>
+      <label>Want to change it?</label>
+      <input name="myValue" id="myValue" />
+      <input type="submit" value="change"></input>
+    </form>
+    <textarea id="log"></textarea>
+    <script src="app.js"></script>
+</body>
+</html>
