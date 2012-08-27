@@ -1,15 +1,17 @@
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create('../main.html', {
-    width: 800,
+    width: 500,
     height: 600,
-    minWidth: 800,
+    minWidth: 500,
     minHeight: 600,
-    left: 100,
-    top: 100,
-    type: 'shell'
+    frame: 'none'
   });
 });
 
 chrome.runtime.onInstalled.addListener(function() {
   console.log('installed');
+});
+
+chrome.runtime.onSuspend.addListener(function() { 
+  // Do some simple clean-up tasks.
 });

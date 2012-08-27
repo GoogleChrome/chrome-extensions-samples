@@ -1,5 +1,5 @@
 body {
-  background: #fff;
+  background: #f5f5f5;
   color: #222;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 13px;
@@ -95,6 +95,21 @@ input[type=text].form-error{
   padding: 0px;
 }
 
+.close {
+	background: url('img/x.png') center no-repeat;
+	background-size: 20px 20px;
+	height: 20px;
+	width: 20px;
+	margin: 5px;
+	float: right;
+	opacity: 0.7;
+	z-index: 50;
+}
+
+.close:hover {
+	opacity: 1;
+}
+
 #container {
 	text-align: center;
 }
@@ -103,18 +118,18 @@ input[type=text].form-error{
 #container .alarm,
 #container .timer,
 #container .stopwatch {
-	top: 50%;
-	margin-top: -125px;
-	min-height: 250px;
+	top: 20px;
+	bottom: 100px;
 	position: absolute;
 	text-align: center;
 	width: 100%;
+	overflow: auto;
 }
 
 #container .timer,
 #container .stopwatch {
-	height: 300px;
-	margin-top: -150px;
+	margin-top: -165px;
+	top: 50%;
 }
 
 #container .world .city-clock,
@@ -126,15 +141,34 @@ input[type=text].form-error{
 	display: inline-block;
 	position: static;
 	text-align: center;
+	vertical-align: middle;
+	margin: 40px;
+	margin-top: 0px;
+	margin-bottom: 30px;
+}
+
+#container .world .new {
+	margin-bottom: -12px;
+}
+
+#container .alarm .new {
+	margin-bottom: -74px;
+}
+
+#container .alarm .editing {
+	margin-bottom: -38px;
 }
 
 .world .city-clock .clock,
 .word .new .clock,
-.alarm .alarm-clock .clock {
+.alarm .alarm-clock .clock,
+.alarm .new .clock {
 	display: block;
-	height: 170px;
+	height: 240px;
 	position: relative;
-	width: 170px;
+	width: 240px;
+	margin-right: -25px;
+	margin-bottom: 30px;
 }
 
 .timer .clock,
@@ -143,28 +177,10 @@ input[type=text].form-error{
 	position: static;
 }
 
-.world .new .clock {
-	margin-bottom: 32px;
-}
-
-.world .new .new-input {
-	text-align: left;
-	margin-left: 15px;
-	position: absolute;
-	top: 160px;
-}
-
+.world .new .new-input,
 .alarm .new .new-input {
-	text-align: left;
-	margin-left: 15px;
-	position: relative;
-	height: 250px;
-	vertical-align: middle;
-}
-
-.world .new .new-input input,
-.world .new .new-input .error-message {
-	display: block;
+	text-align: center;
+	position: static;
 }
 
 #container .world .new.hidden,
@@ -172,41 +188,40 @@ input[type=text].form-error{
 	display: none;
 }
 
-.world .city-clock .city {
-	display: block;
-	font-weight: bold;
-}
-
-.world .city-clock .time,
-.world .city-clock .day {
-	display: inline-block;
-	font-size: 11px;
-	padding: 1px;
-}
-
+.world .city-clock .city,
 .alarm .alarm-clock .name {
 	display: block;
 	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 5px;
 }
 
+.world .city-clock .time,
+.world .city-clock .day,
 .alarm .alarm-clock .time {
 	display: inline-block;
-	font-size: 11px;
+	font-size: 14px;
 	padding: 1px;
-}
-
-.alarm .new #new-alarm-name {
-	display: block;
 }
 
 .alarm .new #new-alarm-hour,
 .alarm .new #new-alarm-minute,
-.alarm .new #new-alarm-noon {
+.alarm .new #new-alarm-noon,
+.alarm .edit .edit-alarm-hour,
+.alarm .edit .edit-alarm-minute,
+.alarm .edit .edit-alarm-noon {
 	display: inline-block;
-	margin-right: 5px;
-	width: 30px;
-	height: 21px;
-	line-height: 19px;
+	margin-right: -2px;
+	margin-left: -2px;
+	width: 43px;
+	height: 29px;
+	line-height: 27px;
+	padding-right: 13px;
+}
+
+.alarm .info {
+	position: relative;
+	z-index: 10;
 }
 
 .delete {
@@ -214,8 +229,6 @@ input[type=text].form-error{
 	background-size: 15px 15px;
 	float: right;
 	height: 15px;
-	margin-bottom: -15px;
-	margin-left: -35px;
 	opacity: 0;
 	padding: 10px;
 	position: relative;
@@ -233,8 +246,7 @@ input[type=text].form-error{
 }
 
 .timer-clock .button,
-.stopwatch-clock .button,
-.menu-item.button {
+.stopwatch-clock .button {
 	font-weight: normal;
 	letter-spacing: 1px;
 	margin-top: 30px;
@@ -242,6 +254,12 @@ input[type=text].form-error{
 	color: #ccc;
 	min-width: 50px;
 	margin-right: 20px;
+}
+
+.timer-clock .button.reset,
+.timer-clock .button.set,
+.stopwatch-clock .button.reset {
+	margin-right: 0px;
 }
 
 .timer-clock .button:hover,
@@ -256,6 +274,27 @@ input[type=text].form-error{
 .menu-item.button:active {
 	background: #3e3e3c;
 	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.timer .button.disabled {
+	opacity: 0.5;
+}
+
+.timer-clock #timer-minute,
+.timer-clock #timer-second {
+	display: inline-block;
+	height: 26px;
+	line-height: 24px;
+	margin-right: -3px;
+	margin-top: 20px;
+	margin-bottom: -10px;
+	width: 35px;
+	opacity: 1;
+}
+
+.timer-clock #timer-minute.disabled,
+.timer-clock #timer-second.disabled {
+	opacity: 0;
 }
 
 #menu {
@@ -293,13 +332,20 @@ input[type=text].form-error{
 	background-size: 24px 24px;
 }
 
-#menu .menu-item.button {
+.menu-item.button {
 	position: static;
+	font-weight: 600;
+	font-size: 11px;
+	letter-spacing: 1px;
 	margin: 0px;
 	margin-left: -48px;
-	min-width: 30px;
-	line-height: 20px;
-	height: 22px;
+	background: #424240;
+	color: #f5f5f5;
+	width: 16px;
+	height: 20px;
+	padding-left: 2px;
+	padding-right: 2px;
+	line-height: 18px;
 }
 
 .menu-item.world:hover {

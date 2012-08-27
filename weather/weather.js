@@ -6,9 +6,11 @@
 
 var temp = 'F';
 var places = {};
+var locations = [];
 var current_place = '';
 var base_weather_url = 'http://free.worldweatheronline.com/feed/weather.ashx?format=json&num_of_days=5&key=78b33b52eb213218120708&q=';
 var base_city_url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&latlng=';
+var settings = false;
 
 var days = {0 : 'Sunday',
 						1 : 'Monday',
@@ -90,6 +92,10 @@ $(document).ready(function() {
 		setup();
   });
 
+  $('.close').click(function() {
+    window.close();
+  });
+
 	// Tracks to changes to the temperature
 	// format. Stores the setting for the user
 	//
@@ -100,10 +106,19 @@ $(document).ready(function() {
 		refresh();
   });
 
+  // Refresh the weather forecast and update the UI every two hours
+  setInterval(function() {
+		refresh();
+	}, 1000 * 60 * 60 * 2);
+
   // shows a specific place
 	$('#places .place').live('click', function() {
 		$('#weather').removeClass('hidden');
 		$('#info-text').addClass('hidden');
+		$('#new-city').val('');
+		$('.new').removeClass('selected');
+		$('input#new-city').removeClass('form-error');
+		$('.new .error-message').addClass('hidden');
 		var city_class = $(this).attr('class').split(' ')[1];
 		$('.location').removeClass('selected');
 		$('.place').removeClass('selected');
@@ -120,60 +135,117 @@ $(document).ready(function() {
 		var city_class = $(this).parent().attr('class').split(' ')[1];
 		$('.' + city_class).remove();
 		delete places[city_class];
+		var index = locations.indexOf(city_class);
+		locations.splice(index, 1);
 		if (sizeOf(places) === 0) {
 			current_place = 'new';
 		}
 		else {
-			for (var place_class in places) {
-				current_place = place_class;
-				break;
-			}
+			if (index === 0)
+				current_place = locations[0];
+			else
+				current_place = locations[index - 1];
 		}
 		$('.' + current_place).addClass('selected');
 		chrome.storage.sync.set({ 'places': places });
-	});
-
-	// Switches the UI to show the place selector
-	$('#places #plus').live('click', function() {
-		$('#weather').removeClass('hidden');
-		$('#info-text').addClass('hidden');
-		$('.location').removeClass('selected');
-		$('.place').removeClass('selected');
-		$('.location.new').addClass('selected');
-		$('#new-city').focus();
+		setDots();
 	});
 
 	// gets the location that the user
 	// has typed in and creates a view for it
-	$('.location.new .add').click(function() {
+	$('.new .add').click(function() {
 		var location = $('#new-city').val();
 		current_place = location.toLowerCase().split(', ')[0].split(' ').join('-');
-		var new_place = {};
-		new_place[current_place] = location;
-		createDisplay(new_place, true);
+		if (!(current_place in places)) {
+			var new_place = {};
+			new_place[current_place] = location;
+			createDisplay(new_place, true);
+		} else {
+			$('#new-city').val('');
+			$('.location').removeClass('selected');
+			$('.place').removeClass('selected');
+			$('.location.' + current_place).addClass('selected');
+			$('#weather').removeClass('hidden');
+			$('#info-text').addClass('hidden');
+		}
 	});
 
 	// shortcut handler for tracking the
 	// return key and calling the click handler
 	$('#new-city').keyup(function(event) {
 		if (event.which == 13)
-			$('.location.new .add').click();
+			$('.new .add').click();
+	});
+
+	// shortcut handler for switching to next city
+	$(document).keyup(function(event) {
+		if (event.which == 39)
+			var index = locations.indexOf(current_place);
+			if (index < locations.length - 1) {
+				$('.' + current_place).removeClass('selected');
+				current_place = locations[index + 1];
+				$('.' + current_place).addClass('selected');
+				setDots();
+			}
+	});
+
+	$('#places #next.shown').live('click', function() {
+		var index = locations.indexOf(current_place);
+		$('.' + current_place).removeClass('selected');
+		if (index + 4 < locations.length)
+			current_place = locations[index + 4];
+		else
+			current_place = locations[locations.length - 1];
+		$('.' + current_place).addClass('selected');
+		setDots();
+	});
+
+	// shortcut handler for switching to previous city
+	$(document).keyup(function(event) {
+		if (event.which == 37)
+			var index = locations.indexOf(current_place);
+			if (index > 0) {
+				$('.' + current_place).removeClass('selected');
+				current_place = locations[index - 1];
+				$('.' + current_place).addClass('selected');
+				setDots();
+			}
+	});
+
+	$('#places #prev.shown').live('click', function() {
+		var index = locations.indexOf(current_place);
+		$('.' + current_place).removeClass('selected');
+		if (index - 4 >= 0)
+			current_place = locations[index - 4];
+		else
+			current_place = locations[0];
+		$('.' + current_place).addClass('selected');
+		setDots();
 	});
 
 	// cancels the city addition
-	$('.location.new .cancel').click(function() {
+	$('.new .cancel').click(function() {
 		$('#new-city').val('');
 		$('.new').removeClass('selected');
 		$('input#new-city').removeClass('form-error');
 		$('.new .error-message').addClass('hidden');
 		var city_class = current_place.split(', ')[0].split(' ').join('-');
 		$('.' + city_class).addClass('selected');
+		$('#info-text').addClass('hidden');
+		$('#weather').removeClass('hidden');
 	});
 
 	// switches the weather and info views
 	$('#info').click(function() {
-		$('#weather').addClass('hidden');
-		$('#info-text').removeClass('hidden');
+		if (settings && locations.length > 0) {
+			settings = false;
+			$('.new .cancel').click();
+		} else {
+			settings = true;
+			$('#weather').addClass('hidden');
+			$('#info-text').removeClass('hidden');
+			$('#new-city').focus();
+		}
 	});
 
 });
@@ -265,6 +337,7 @@ function getCurrentPosErrorFunction(error) {
   }
 	if (current_place === '') {
 		current_place = 'new';
+		$('#info-text').removeClass('hidden');
 	}
 }
 
@@ -293,17 +366,26 @@ function createDisplay(locations, add) {
 					var current_condition = data['data']['current_condition'][0];
 					var weather = data['data']['weather'];
 					var city = data['data']['request'][0]['query'];
+					location_class = city.toLowerCase().split(', ')[0].split(' ').join('-');
+
 					addLocationDisplay(city, current_condition, weather);
 
 					// if this is to be added
 					// to the stored locations do that now
 					if (add) {
+						current_place = location_class;
 						$('input#new-city').removeClass('form-error');
 						$('input#new-city').val('');
 						$('.new .error-message').addClass('hidden');
 						$('.new').removeClass('selected');
-						places[location_class] = location;
+						places[location_class] = city;
 						chrome.storage.sync.set({ 'places': places });
+						$('.location').removeClass('selected');
+						$('.place').removeClass('selected');
+						$('.location.' + location_class).addClass('selected');
+						$('.place.' + location_class).addClass('selected');
+						$('#weather').removeClass('hidden');
+						$('#info-text').addClass('hidden');
 					}
 				}
 				else if (add) {
@@ -320,6 +402,39 @@ function createDisplay(locations, add) {
 }
 
 /**
+ * Sets the display of dots at the bottom of the screen
+ */
+function setDots() {
+	if (locations.length < 5) {
+		$('.place').addClass('shown');
+		$('#places #prev').removeClass('disabled').removeClass('shown');
+		$('#places #next').removeClass('disabled').removeClass('shown');
+	}
+	else {
+		$('#places #prev').addClass('disabled');
+		$('#places #next').addClass('disabled');
+		$('.place').removeClass('shown');
+		var index = locations.indexOf(current_place);
+		if (index >= 4)
+			$('#places #prev').addClass('shown').removeClass('disabled');
+		else
+			$('#places #prev').removeClass('shown').addClass('disabled');
+		if (index < locations.length - 4) {
+			$('#places #next').addClass('shown').removeClass('disabled');
+			var i = index % 4;
+			var first = index - i;
+		}
+		else {
+			$('#places #next').removeClass('shown').addClass('disabled');
+			var first = locations.length - 4;
+		}
+		for (var l = first; l < first + 4; l++)
+			$('#places .place.' + locations[l]).addClass('shown');
+
+	}
+}
+
+/**
  * Creates the markup for the city and adds the specific
  * values for the weather conditions, then adds
  * it to the weather view.
@@ -331,6 +446,7 @@ function createDisplay(locations, add) {
 function addLocationDisplay(location, current_condition, weather) {
 
 	var city_class = location.toLowerCase().split(', ')[0].split(' ').join('-');
+	locations.push(city_class);
 	var selected = '';
 
 	if (city_class == current_place) {
@@ -338,7 +454,8 @@ function addLocationDisplay(location, current_condition, weather) {
 	}
 
 	// create the markup
-	var location_html = '<div class="location ' + city_class + selected + '">' +
+	var description = ' ' + condition_codes[current_condition['weatherCode']];
+	var location_html = '<div class="location ' + city_class + description + selected + '">' +
 											'</div>';
 	var city = location.split(', ')[0];
 	var location_dot_html = '<div class="place ' + city_class + selected + '"' +
@@ -346,6 +463,10 @@ function addLocationDisplay(location, current_condition, weather) {
 	var city_html = cityDisplay(location);
 	var places_list_html = placesListItem(city_class, city);
 	var current_html = currentDisplay(current_condition);
+	var high_low = '<div class="high_low">' +
+										weather[0]['tempMax' + temp] + '&deg; / ' +
+										weather[0]['tempMin' + temp] + '&deg;' +
+								 '</div>';
 	var day_html = '';
 
 	for (var i = 0; i < weather.length; i++) {
@@ -355,13 +476,12 @@ function addLocationDisplay(location, current_condition, weather) {
 	// update the UI
 	$('#info-text .places-list').append(places_list_html);
 	$('#weather').append(location_html);
-	$('#weather .' + city_class).append(city_html);
 	$('#weather .' + city_class).append(current_html);
-	$('#weather .' + city_class).append(day_html);
-	$('#places #plus').before(location_dot_html);
-	$('#places .' + city_class).tipTip({ edgeOffset: -2 });
-	$('.current-icon').tipTip({ edgeOffset: -6 });
-	$('.icon').tipTip({ edgeOffset: -6, defaultPosition: 'left' });
+	$('#weather .' + city_class).append(high_low);
+	$('#weather .' + city_class).append(city_html);
+	$('#places #next').before(location_dot_html);
+
+	setDots();
 }
 
 /**
@@ -371,7 +491,7 @@ function addLocationDisplay(location, current_condition, weather) {
  */
 function cityDisplay(location) {
 	var city = location.split(', ')[0];
-  var html = '<div class="city">' + city + '</div>';
+  var html = '<div class="city">' + city.toUpperCase() + '</div>';
   return html;
 }
 
@@ -387,9 +507,9 @@ function currentDisplay(current_condition) {
 	var current_description = current_condition['weatherDesc'][0]['value'];
 	var current_icon = condition_codes[current_condition['weatherCode']];
 	var html = '<div class="current">' +
+								'<div class="current-temp">' + current_temp + '</div>' +
 								'<div class="current-icon ' + current_icon + '"' +
 									' title="' + current_description + '"></div>' +
-								'<div class="current-temp">' + current_temp + '&deg;</div>' +
 							'</div>';
 	return html;
 

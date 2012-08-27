@@ -11,26 +11,30 @@
 	</head>
 
 	<body>
+		<div class="close"></div>
 		<div id="info-text" class="hidden">
 			<div class="source">
 				Powered by <a href="http://www.worldweatheronline.com/"
 											title="Free local weather content provider"
-											target="_blank">World Weather Online</a>
+											target="blank">World Weather Online</a>
 			</div>
-			<input type="radio" name="temp-type" value="C" class="C"> Celcius<br>
-			<input type="radio" name="temp-type" value="F" class="F"> Fahrenheit
+			<div class="new">
+				ADD CITY<br>
+				<input type="text" id="new-city" /><br>
+				<div class="error-message hidden"></div>
+				<div class="button blue add">ADD</div>
+				<div class="button cancel">CANCEL</div>
+			</div>
+			<input type="radio" name="temp-type" value="F" class="F"> FAHRENHEIT<br>
+			<input type="radio" name="temp-type" value="C" class="C"> CELSIUS
 			<div class="places-list"></div>
 		</div>
 		<div id="weather">
-			<div class="location new">
-				Add City<br>
-				<input type="text" id="new-city" />
-				<div class="error-message hidden"></div>
-				<div class="button blue add">Add</div>
-				<div class="button cancel">Cancel</div>
-			</div>
 		</div>
-		<div id="places"><div id="plus"></div></div>
+		<div id="places">
+			<div id="prev"></div>
+			<div id="next"></div>
+		</div>
 		<div id="info"></div>
 	</body>
 </html>

@@ -2,7 +2,7 @@
   "name": "Weather",
   "description": "A simple weather application.",
   "manifest_version": 2,
-  "version": "0.0.4",
+  "version": "1.0.5",
   "minimum_chrome_version": "23",
   "app": {
     "background": {
@@ -11,9 +11,9 @@
   },
 
   "icons": {
-    "16": "img/icon-16x16.png",
-    "64": "img/icon-64x64.png",
-    "128": "img/icon-128x128.png"
+    "16": "img/icon.png",
+    "64": "img/icon.png",
+    "128": "img/icon.png"
   },
   "permissions": [
     "geolocation",

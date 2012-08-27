@@ -1,0 +1,22 @@
+{
+  "name": "Explicit Web Intents - App 1",
+  "version": "1",
+  "manifest_version": 2,
+  // The public key is the string "App 1" that's base64-encoded. This is
+  // specified so that the app has a stable ID when unpacked, regardless of
+  // where on disk it is.
+  "key": "QXBwIDE=",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "intents": {
+    "chrome-extension://app1/op": [
+      {
+        "title": "App1: Operation",
+        "type": ["text/plain"]
+      }
+    ]
+  }
+}

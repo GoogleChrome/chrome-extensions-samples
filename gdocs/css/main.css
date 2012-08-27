@@ -1,6 +1,13 @@
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url(DroidSans.woff) format('woff');
+}
+
 html, body {
-  background: white;
   margin: 0;
+  height: 100%;
 }
 
 body ::-webkit-scrollbar {
@@ -34,10 +41,12 @@ body ::-webkit-scrollbar-corner {
 }
 
 body {
-  padding: 5px;
+  padding: 15px;
   overflow: hidden;
-  background: url(../img/google_drive_logo.jpg) no-repeat 95% 10%;
-  background-size: 270px 215px;
+  background: url(../img/google_drive_logo.jpg) no-repeat 80% 20%,
+              -webkit-linear-gradient(bottom, #eee, rgba(255,255,255,0));
+  background-size: 270px 215px, 100%;
+  font-family: 'Droid Sans', sans-serif;
 }
 
 body.dropping > #main {
@@ -45,13 +54,13 @@ body.dropping > #main {
 }
 
 .dropping #dropper {
-  display: -webkit-flexbox;
+  display: -webkit-flex;
   opacity: 1;
   pointer-events: all;
 }
 
 ul {
-  margin: 10px;
+  margin: 0;
   height: 525px;
   overflow: auto;
 }
@@ -61,7 +70,7 @@ li {
   border-radius: 3px;
   padding: 5px;
   margin-bottom: 3px;
-  background-color: #eee;
+  background: -webkit-linear-gradient(right, #eee, rgba(255,255,255,0), #eee);
   color: #666666;
 }
 
@@ -73,19 +82,20 @@ li {
   pointer-events: none;
   opacity: 0;
   background: rgba(255,255,255,0.5);
-  padding: 10px;
   position: absolute;
   z-index: 100;
   width: 100%;
   height: 100%;
+  left: 0;
+  top: 0;
   box-sizing: border-box;
-  -webkit-flex-align: center;
-  -webkit-flex-pack: center;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
   -webkit-transition: opacity 0.1s ease-in-out;
 }
 
 .dropzone {
-  padding: 75px 175px;
+  padding: 15px 50px;
   border-radius: 10px;
   border: 10px dashed #ccc;
 }
@@ -97,12 +107,25 @@ li {
 }
 
 #main > nav {
-  display: inline-block;
+  margin-bottom: 10px;
 }
 
-#main > h2 {
+nav > h2 {
   display: inline-block;
   vertical-align: middle;
+  margin-right: 15px;
+}
+
+nav:hover #close-button {
+  opacity: 1;
+}
+
+#close-button {
+  float: right;
+  padding: 0 5px 2px 5px;
+  font-weight: bold;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-in-out;
 }
 
 .date {
