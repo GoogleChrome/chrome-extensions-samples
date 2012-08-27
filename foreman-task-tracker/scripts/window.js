@@ -54,11 +54,24 @@ function saveModel() {
   console.log(model);
 }
 
+//template-concept: find "{{text}}" replace with note['text']
+function makeRowText(tpl, noteob) {
+  var note = noteob.text;
+  var dom = tpl.clone();
+  var cell = dom.find('td').first();
+  cell.html(note);
+  cell.bind('blur keyup paste', function() {
+    noteob.text = $(this).html();
+    saveModel();
+  });
+  return dom;
+}
+
 function appendContext(key, context) {
   //create the tab, from the name
   $('<li>').append(
     $('<a>').attr('href', '#tab' + key).append(
-      context['name']
+      context.name
     )
   )
   .click(tabclick)
@@ -66,35 +79,24 @@ function appendContext(key, context) {
 
   //create the content, initially hidden, from the templates in the DOM
   var tabDOM = $('#template-divTab').clone().attr('id', 'tab' + key);
-  var trActive = tabDOM.find('#template-trActive').detach();
-  var trPending = tabDOM.find('#template-trPending').detach();
-  var divArchive = tabDOM.find('#template-divArchive').detach();
-  var trArchive = divArchive.find('#template-trArchive').detach();
+  tabDOM.trActive = tabDOM.find('#template-trActive').detach();
+  tabDOM.trPending = tabDOM.find('#template-trPending').detach();
+  tabDOM.divArchive = tabDOM.find('#template-divArchive').detach();
+  tabDOM.trArchive = tabDOM.divArchive.find('#template-trArchive').detach();
+  tabDOM.context = context;
 
   var active = [];
   var pending = [];
   var allSnap = [];
   var mapSnap = {};
 
-  //template-concept: find "{{text}}" replace with note['text']
-  function makeRowText(tpl, noteob) {
-    var note = noteob.text;
-    var dom = tpl.clone();
-    var cell = dom.find('td').first();
-    cell.html(note);
-    cell.bind('blur keyup paste', function() {
-      noteob.text = $(this).html();
-      saveModel();
-    });
-    return dom;
-  }
   $.each(context.notes, function(key, note) {
     switch (note.state) {
       case 'A':
-        active.push(makeRowText(trActive, note));
+        active.push(makeRowText(tabDOM.trActive, note));
         break;
       case 'P':
-        pending.push(makeRowText(trPending, note));
+        pending.push(makeRowText(tabDOM.trPending, note));
         break;
       default:
         ; //undefined // skip
@@ -105,17 +107,24 @@ function appendContext(key, context) {
     $.each(note.snap, function(date, extract) {
       var outerDom = mapSnap[date];
       if (!outerDom) {
-        outerDom = divArchive.clone();
+        outerDom = tabDOM.divArchive.clone();
         outerDom.date = date; //we want to sort by this later
         outerDom.find('.snapheader').html('Snapshot on ' + date);
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
       }
-      outerDom.find('.snapcontainer').append(makeRowText(trArchive, extract));
+      outerDom.find('.snapcontainer').append(makeRowText(tabDOM.trArchive, extract));
     });
   });
 
-  //apply sorting?
+  //Sort snapshots by date
+  allSnap.sort(function(lhs, rhs) {
+    if (lhs.date == rhs.date)
+      return 0;
+    return lhs.date < rhs.date ? 1 : -1;
+  });
+
+  //more sorting; within nodes?
 
   $.each(active, function(idx, val) {
     tabDOM.find('.activecontainer').append(val);
@@ -126,15 +135,20 @@ function appendContext(key, context) {
   $.each(allSnap, function(idx, val) {
     tabDOM.append(val);
   });
+  $('.addbutton', tabDOM).click(function() {
+    var note = {
+      text: $(".entry", tabDOM).html(),
+      state: 'A'
+    };
+    context.notes.push(note);
+    tabDOM.find('.activecontainer').append(makeRowText());
+  });
+
   tabDOM.appendTo('#tabcontainer');
 }
 
 function modelReset(newmodel, src) {
   model = newmodel;
-  console.log('from ' + src + ': ' + model);
-  $.each(model, function(key, val) {
-    console.log('got key: ' + key);
-  });
   $.each(model['context'], appendContext);
 }
 
