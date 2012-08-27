@@ -1,17 +1,17 @@
 var activeTabAnchor;
-var activeTab;
+var activeTabHref;
 
 function tabclick() {
   if (activeTabAnchor) {
     //restore this first, or we can not compare hrefs
-    activeTabAnchor.attr('href', activeTab);
+    activeTabAnchor.attr('href', activeTabHref);
   }
 
   //find where the tab link points to
   var tabAnchor = $(this).find('a');
-  var tab = tabAnchor.attr('href');
+  var tabHref = tabAnchor.attr('href');
 
-  if (tab == activeTab) {
+  if (tabHref == activeTabHref) {
     //same tab clicked -- remove href again and do nothing further
     activeTabAnchor.removeAttr('href');
     return false;
@@ -20,18 +20,22 @@ function tabclick() {
     activeTabAnchor.attr('contentEditable', 'false');
   }
   activeTabAnchor = tabAnchor;
-  activeTab = tab;
-  if (tab != '#snapshots') {
-    activeTabAnchor.attr('contentEditable', 'true');
-  }
+  activeTabHref = tabHref;
 
   //switch which tab appears active, and remove href so we don't look clicky
-  $('ul.tabs li').removeClass('active');
-  $(this).addClass('active');
+  $('ul.tabs li').removeClass('active').removeClass('constActive');
+  if (tabHref == '#snapshots') {
+    //"constant" / non-editable tabs
+    $(this).addClass('constActive');
+  } else {
+    activeTabAnchor.attr('contentEditable', 'true');
+    $(this).addClass('active');
+  }
+
   $('.tab_content').hide();
   activeTabAnchor.removeAttr('href');
 
-  $(activeTab).fadeIn();
+  $(activeTabHref).fadeIn();
   return false;
 }
 
@@ -75,8 +79,8 @@ function append_context(key, val) {
     console.log(val);
   });
 
-  x = $('#tabtemplate').clone()
-  .attr('id', '#tab' + key)
+  x = $('#template-divTab').clone()
+  .attr('id', 'tab' + key)
   .append(active)
   .append(pending)
   .append(snaps)

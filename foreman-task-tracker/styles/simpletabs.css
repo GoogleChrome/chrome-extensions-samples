@@ -42,9 +42,9 @@ ul.tabs li a:hover {
 background: #ccc;
 }
 
-html ul.tabs li.active, html ul.tabs li.active a:hover  {
-background: #ffe373;
-border-bottom: 1px solid #ffe373;
+html ul.tabs li.active, html ul.tabs li.active a:hover, html ul.tabs li.cactive {
+  background: #ffe373;
+  border-bottom: 1px solid #ffe373;
 }
 
 .tab_container {
