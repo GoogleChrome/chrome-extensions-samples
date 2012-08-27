@@ -37,16 +37,22 @@
         </dl>
     </div>
 
-    <div id="tabtemplate" class="tab_content">
-      <table width="100%"><tr>
-        <td width="100%"><textarea id="entry1" placeholder="Add some notes for WorkContext1" rows="2" class="entry"></textarea></td>
-        <td class="ops"><button class="add">Add</button><button class="paste">Paste</button>
-      </tr></table>
+    <div id="template-divTab" class="tab_content">
+      <table width="100%">
+        <tr>
+          <td width="100%">
+            <textarea id="entry1" placeholder="Add some notes for WorkContext1" rows="2" class="entry"></textarea>
+          </td>
+          <td class="ops">
+            <button class="add">Add</button><button class="paste">Paste</button>
+          </td>
+        </tr>
+      </table>
       <dl>
         <dt>Current/Active</dt>
         <dd class="taskactive">
           <table class="activecontainer" width="100%">
-          <tr id="activetemplate">
+          <tr id="template-trActive">
             <td class="active_task" contenteditable="true">{{text}}</td>
             <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
           </tr>
@@ -55,35 +61,23 @@
         <dt>Current/Pending Snapshot</dt>
         <dd class="taskpending">
           <table class="pendingcontainer" width="100%">
-          <tr id="pendingtemplate">
-            <td class="pending_task" contenteditable="true"></td>
+          <tr id="template-trPending">
+            <td class="pending_task" contenteditable="true">{{text}}</td>
             <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
           </tr>
           </table>
         </dd>
-        <dt class="snapheader"></dt>
-        <dd class="taskarchive">
-          <table class="snapcontainer" width="100%">
-          <tr id="#snaptemplate">
-            <td>Some Previous Note 5</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr><tr>
-            <td>Some Previous Note 6</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr>
-          </table>
-        </dd>
-        <dt>Snapshot on 2012-08-10</dt>
-        <dd class="taskarchive">
-          <table width="100%"><tr>
-            <td>Some Previous Note 7</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr><tr>
-            <td>Some Previous Note 8</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr>
-          </table>
-        </dd>
+        <div id="template-divArchive" class="taskarchive">
+          <dt class="snapheader">{{name}}</dt>
+          <dd>
+            <table class="snapcontainer" width="100%">
+              <tr id="template-trArchive">
+                <td>{{text}}</td>
+                <td class="ops"><button class="resume">Resume</button></td>
+              </tr>
+            </table>
+          </dd>
+        </div>
       </dl>
     </div>
 
