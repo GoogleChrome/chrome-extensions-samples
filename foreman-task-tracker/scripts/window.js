@@ -49,52 +49,75 @@ $(document).ready(function() {
   $('ul.tabs li').click(tabclick);
 });
 
-function append_context(key, val) {
+function append_context(key, context) {
   //create the tab, from the name
   $('<li>').append(
     $('<a>').attr('href', '#tab' + key).append(
-      val['name']
+      context['name']
     )
   )
   .click(tabclick)
   .appendTo('#tabs');
 
-  //create the content, initially hidden
+  //create the content, initially hidden, from the templates in the DOM
   var tabDOM = $('#template-divTab').clone().attr('id', 'tab' + key);
   var trActive = tabDOM.find('#template-trActive').detach();
   var trPending = tabDOM.find('#template-trPending').detach();
   var divArchive = tabDOM.find('#template-divArchive').detach();
+  var trArchive = divArchive.find('#template-trArchive').detach();
 
   var active = [];
   var pending = [];
-  var snaps = {};
-  function makeRowText(dom, text) {
-    dom.find('td').first().html(text);
+  var allSnap = [];
+  var mapSnap = {};
+
+  //template-concept: find "{{text}}" replace with note['text']
+  function makeRowText(tpl, note) {
+    var dom = tpl.clone();
+    dom.find('td').first().html(note);
     return dom;
   }
-  $.each(val['notes'], function(key, val) {
-    noteState = val['state'];
-    switch (noteState) {
+  $.each(context.notes, function(key, note) {
+    switch (note.state) {
       case 'A':
-        active.push(makeRowText(trActive.clone(), val['text']));
-        console.log(active);
+        active.push(makeRowText(trActive, note.text));
         break;
       case 'P':
-        pending.push(makeRowText(trPending.clone(), val['text']));
+        pending.push(makeRowText(trPending, note.text));
         break;
       default:
         ; //undefined // skip
     }
+    if (!note.snap)
+      return; //no snapshots for this note
+
+    $.each(note.snap, function(date, extract) {
+      var outerDom = mapSnap[date];
+      console.log(outerDom);
+      if (!outerDom) {
+        outerDom = divArchive.clone();
+        outerDom.date = date; //we want to sort by this later
+        outerDom.find('.snapheader').html('Snapshot on ' + date);
+        mapSnap[date] = outerDom;
+        allSnap.push(outerDom);
+      }
+      outerDom.find('.snapcontainer').append(makeRowText(trArchive, extract));
+    });
   });
 
   //apply sorting?
 
-  $.each(active, function(key, val) {
+  $.each(active, function(idx, val) {
     tabDOM.find('.activecontainer').append(val);
   });
-  $.each(pending, function(key, val) {
+  $.each(pending, function(idx, val) {
     tabDOM.find('.pendingcontainer').append(val);
   });
+  $.each(allSnap, function(idx, val) {
+    console.log(val);
+    tabDOM.append(val);
+  });
+
   //tabDOM.find('.pendingcontainer').append(pending);
   tabDOM.appendTo('#tabcontainer');
 }

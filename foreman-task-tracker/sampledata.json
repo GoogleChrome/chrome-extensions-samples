@@ -11,7 +11,7 @@
         {
           "text": "Some Previous Note 2",
           "state": "A",
-          "snaps": {
+          "snap": {
             "20120810": "What Note 2 looked like on 20120810"
           }
         },
@@ -21,26 +21,26 @@
         },
         {
           "text": "What Note 5 looked like on 20120817",
-          "snaps": {
+          "snap": {
             "20120810": "What Note 5 looked like on 20120810",
             "20120817": "What Note 5 looked like on 20120817"
           }
         },
         {
           "text": "Note 6 on 20120817",
-          "snaps": {
+          "snap": {
             "20120817": "Note 6 on 20120817"
           }
         },
         {
           "text": "Note 7 on 20120810",
-          "snaps": {
+          "snap": {
             "20120810": "Note 7 on 20120810"
           }
         },
         {
           "text": "Note 8 on 20120810",
-          "snaps": {
+          "snap": {
             "20120810": "Note 8 on 20120810"
           }
         }
@@ -66,13 +66,13 @@
         },
         {
           "text": "Note 13 on 20120817",
-          "snaps": {
+          "snap": {
             "20120817": "Note 13 on 20120817"
           }
         },
         {
           "text": "Note 14 on 20120817",
-          "snaps": {
+          "snap": {
             "20120817": "Note 14 on 20120817"
           }
         }

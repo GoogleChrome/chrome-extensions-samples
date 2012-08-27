@@ -14,7 +14,7 @@ dd.taskpending {
   background-color: #00A6FF;
 }
 
-dd.taskarchive {
+div.taskarchive dd {
   background-color: #00FFA6
 }
 
