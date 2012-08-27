@@ -1,5 +1,9 @@
+function log(message) {
+  document.getElementById('log').textContent = message;
+}
+
 function handleIntent(intent) {
-  document.getElementById('log').textContent = JSON.stringify(intent);
+  log('Received intent: ' + JSON.stringify(intent));
 }
 
 function dispatchIntent() {
@@ -12,7 +16,14 @@ function dispatchIntent() {
     service: 'chrome-extension://bhjkdniooihlaafoddlgkljnjlgoolmo/_generated_background_page.html'
   });
 
-  window.navigator.webkitStartActivity(intent);
+  window.navigator.webkitStartActivity(
+    intent,
+    function(result) {
+      log('Got intent reply result: ' + JSON.stringify(result));
+    },
+    function(error) {
+      log('Got intent reply error: ' + JSON.stringify(error));
+    });
 }
 
 onload = function() {
