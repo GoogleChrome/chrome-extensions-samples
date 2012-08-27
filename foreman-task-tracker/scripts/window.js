@@ -137,11 +137,11 @@ function appendContext(key, context) {
   });
   $('.addbutton', tabDOM).click(function() {
     var note = {
-      text: $(".entry", tabDOM).html(),
+      text: $(".entry", tabDOM).val(),
       state: 'A'
     };
     context.notes.push(note);
-    tabDOM.find('.activecontainer').append(makeRowText());
+    tabDOM.find('.activecontainer').append(makeRowText(tabDOM.trActive, note));
   });
 
   tabDOM.appendTo('#tabcontainer');
