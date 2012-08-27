@@ -1,4 +1,6 @@
-# Google Docs Platform Client
+# Google Drive Uploader
 
-Uses the `chrome.experimental.identity.getAuthToken()` API to do OAuth2 and
-access the Google Docs API. Drag n' Drop files from the desktop onto the app.
+Uses the `chrome.experimental.identity.getAuthToken()` API to perform OAuth2 and
+access the Google Drive API.
+
+To upload files: drag in files from the desktop onto the app.
