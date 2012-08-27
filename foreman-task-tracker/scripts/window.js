@@ -4,49 +4,51 @@ var activeTab;
 function tabclick() {
   if (activeTabAnchor) {
     //restore this first, or we can not compare hrefs
-    activeTabAnchor.attr("href", activeTab);
+    activeTabAnchor.attr('href', activeTab);
   }
 
   //find where the tab link points to
-  var tabAnchor = $(this).find("a");
-  var tab = tabAnchor.attr("href");
+  var tabAnchor = $(this).find('a');
+  var tab = tabAnchor.attr('href');
 
   if (tab == activeTab) {
     //same tab clicked -- remove href again and do nothing further
-    activeTabAnchor.removeAttr("href");
+    activeTabAnchor.removeAttr('href');
     return false;
   }
   if (activeTabAnchor) {
-    activeTabAnchor.attr("contentEditable", 'false');
+    activeTabAnchor.attr('contentEditable', 'false');
   }
   activeTabAnchor = tabAnchor;
   activeTab = tab;
-  if (tab != "#snapshots") {
-    activeTabAnchor.attr("contentEditable", 'true');
+  if (tab != '#snapshots') {
+    activeTabAnchor.attr('contentEditable', 'true');
   }
 
-  $("ul.tabs li").removeClass("active"); //Remove any "active" class
-  $(this).addClass("active"); //Add "active" class to selected tab
-  $(".tab_content").hide(); //Hide all tab content
-  activeTabAnchor.removeAttr("href");
-  $(activeTab).fadeIn(); //Fade in the active content
+  //switch which tab appears active, and remove href so we don't look clicky
+  $('ul.tabs li').removeClass('active');
+  $(this).addClass('active');
+  $('.tab_content').hide();
+  activeTabAnchor.removeAttr('href');
+
+  $(activeTab).fadeIn();
   return false;
 }
 
 $(document).ready(function() {
   //Default Action
-  $(".tab_content").hide(); //Hide all content
-  $("ul.tabs li:first").addClass("active").show(); //Activate first tab
-  $(".tab_content:first").show(); //Show first tab content
+  $('.tab_content').hide(); //Hide all content
+  $('ul.tabs li:first').addClass('active').show(); //Activate first tab
+  $('.tab_content:first').show(); //Show first tab content
 
   //On Click Event
-  $("ul.tabs li").click(tabclick);
+  $('ul.tabs li').click(tabclick);
 });
 
 function append_context(key, val) {
   //create the tab, from the name
-  $("<li>").append(
-    $("<a>").attr("href", "#tab" + key).append(
+  $('<li>').append(
+    $('<a>').attr('href', '#tab' + key).append(
       val['name']
     )
   )
@@ -54,23 +56,37 @@ function append_context(key, val) {
   .appendTo('#tabs');
 
   //create the content, initially hidden
-  active = $("#activetemplate").clone();
-  pending = $("#pendingtemplate").clone();
+  active = $('#activetemplate').clone();
+  pending = $('#pendingtemplate').clone();
   snaps = {}
+  console.log(active);
   $.each(val['notes'], function(key, val) {
+    note_state = val['state'];
+    switch (note_state) {
+      case 'A':
+        $('.active_task', active).append(val['text']);
+        break;
+      case 'P':
+        $('.pending_task', pending).append(val['text']);
+        break;
+      default:
+        ; //undefined // skip
+    }
     console.log(val);
   });
 
-  $("#tabtemplate").clone()
+  x = $('#tabtemplate').clone()
+  .attr('id', '#tab' + key)
   .append(active)
   .append(pending)
   .append(snaps)
-  .appendTo("#tabcontainer");
+  .appendTo('#tabcontainer');
+  console.log(x);
 }
 
-function model_reset(newmodel, src) {
+function modelReset(newmodel, src) {
   model = newmodel;
-  console.log("from " + src + ": " + model);
+  console.log('from ' + src + ': ' + model);
   $.each(model, function(key, val) {
     console.log('got key: ' + key);
   });
@@ -78,10 +94,10 @@ function model_reset(newmodel, src) {
 }
 
 onload = function() {
-  function load_sample_model() {
+  function loadSampleModel() {
     console.log('loading sample json..');
     var jqxhr = $.getJSON('sampledata.json', {}, function(data) {
-      model_reset(data, 'complete1');
+      modelReset(data, 'complete1');
     })
     .error(function(response) {
       console.log(response);
@@ -89,13 +105,13 @@ onload = function() {
     });
   }
 
-  chrome.storage.sync.get("syncmodel", function(syncmodel) {
+  chrome.storage.sync.get('syncmodel', function(syncmodel) {
     if (!syncmodel['context']) {
-      load_sample_model();
+      loadSampleModel();
     } else {
       model = syncmodel;
       console.log('loaded storage model -- model=' + model);
-      model_reset(syncmodel, 'storage');
+      modelReset(syncmodel, 'storage');
     }
   });
 

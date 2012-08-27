@@ -12,8 +12,6 @@
 <div class="tabwidget">
   <ul id = "tabs" class="tabs">
     <li><a href="#snapshots">Snapshots</a></li>
-    <li><a href="#tab1">WorkContext 1</a></li>
-    <li><a href="#tab2">WorkContext 2</a></li>
   </ul>
   <div id="tabcontainer" class="tabcontainer">
     <div id="snapshots" class="tab_content">
@@ -40,7 +38,6 @@
     </div>
 
     <div id="tabtemplate" class="tab_content">
-<!--      <h2>WorkContext 1</h2> -->
       <table width="100%"><tr>
         <td width="100%"><textarea id="entry1" placeholder="Add some notes for WorkContext1" rows="2" class="entry"></textarea></td>
         <td class="ops"><button class="add">Add</button><button class="paste">Paste</button>
@@ -50,10 +47,7 @@
         <dd class="taskactive">
           <table class="activecontainer" width="100%">
           <tr id="activetemplate">
-            <td class="active_task" contenteditable="true">Some Previous Note 1</td>
-            <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
-          </tr><tr>
-            <td class="active_task">Some Previous Note 2</td>
+            <td class="active_task" contenteditable="true">{{text}}</td>
             <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
           </tr>
           </table>
@@ -61,16 +55,13 @@
         <dt>Current/Pending Snapshot</dt>
         <dd class="taskpending">
           <table class="pendingcontainer" width="100%">
-          <tr id="#pendingtemplate">
-            <td>Some Previous Note 3</td>
-            <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
-          </tr><tr>
-            <td>Some Previous Note 4</td>
+          <tr id="pendingtemplate">
+            <td class="pending_task" contenteditable="true"></td>
             <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
           </tr>
           </table>
         </dd>
-        <dt>Snapshot on 2012-08-17</dt>
+        <dt class="snapheader"></dt>
         <dd class="taskarchive">
           <table class="snapcontainer" width="100%">
           <tr id="#snaptemplate">
@@ -89,50 +80,6 @@
             <td class="ops"><button class="resume">Resume</button></td>
           </tr><tr>
             <td>Some Previous Note 8</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr>
-          </table>
-        </dd>
-      </dl>
-    </div>
-
-    <div id="tab2" class="tab_content">
-<!--      <h2>WorkContext 2</h2> -->
-      <table width="100%"><tr>
-        <td width="100%"><textarea placeholder="Add some notes for WorkContext2" rows="2" class="entry"></textarea></td>
-        <td class="ops"><button class="add">Add</button>
-      </tr></table>
-
-      <dl>
-        <dt>Current/Active</dt>
-        <dd>
-          <table width="100%"><tr>
-            <td class="active_task">Some Previous Note 9</td>
-            <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
-          </tr><tr>
-            <td class="active_task">Some Previous Note 10</td>
-            <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
-          </tr>
-          </table>
-        </dd>
-        <dt>Current/Pending Snapshot</dt>
-        <dd>
-          <table width="100%"><tr>
-            <td>Some Previous Note 11</td>
-            <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
-          </tr><tr>
-            <td>Some Previous Note 12</td>
-            <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
-          </tr>
-          </table>
-        </dd>
-        <dt>Snapshot on 2012-08-17</dt>
-        <dd>
-          <table width="100%"><tr>
-            <td>Some Previous Note 13</td>
-            <td class="ops"><button class="resume">Resume</button></td>
-          </tr><tr>
-            <td>Some Previous Note 14</td>
             <td class="ops"><button class="resume">Resume</button></td>
           </tr>
           </table>
