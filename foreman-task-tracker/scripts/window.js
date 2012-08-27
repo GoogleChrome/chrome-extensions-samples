@@ -60,32 +60,43 @@ function append_context(key, val) {
   .appendTo('#tabs');
 
   //create the content, initially hidden
-  active = $('#activetemplate').clone();
-  pending = $('#pendingtemplate').clone();
-  snaps = {}
-  console.log(active);
+  var tabDOM = $('#template-divTab').clone().attr('id', 'tab' + key);
+  var trActive = tabDOM.find('#template-trActive').detach();
+  var trPending = tabDOM.find('#template-trPending').detach();
+  var divArchive = tabDOM.find('#template-divArchive').detach();
+
+  var active = [];
+  var pending = [];
+  var snaps = {};
+  function makeRowText(dom, text) {
+    dom.find('td').first().html(text);
+    return dom;
+  }
   $.each(val['notes'], function(key, val) {
-    note_state = val['state'];
-    switch (note_state) {
+    noteState = val['state'];
+    switch (noteState) {
       case 'A':
-        $('.active_task', active).append(val['text']);
+        active.push(makeRowText(trActive.clone(), val['text']));
+        console.log(active);
         break;
       case 'P':
-        $('.pending_task', pending).append(val['text']);
+        pending.push(makeRowText(trPending.clone(), val['text']));
         break;
       default:
         ; //undefined // skip
     }
-    console.log(val);
   });
 
-  x = $('#template-divTab').clone()
-  .attr('id', 'tab' + key)
-  .append(active)
-  .append(pending)
-  .append(snaps)
-  .appendTo('#tabcontainer');
-  console.log(x);
+  //apply sorting?
+
+  $.each(active, function(key, val) {
+    tabDOM.find('.activecontainer').append(val);
+  });
+  $.each(pending, function(key, val) {
+    tabDOM.find('.pendingcontainer').append(val);
+  });
+  //tabDOM.find('.pendingcontainer').append(pending);
+  tabDOM.appendTo('#tabcontainer');
 }
 
 function modelReset(newmodel, src) {
