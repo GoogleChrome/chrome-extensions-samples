@@ -1,5 +1,6 @@
 var activeTabAnchor;
 var activeTabHref;
+var model;
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -49,7 +50,11 @@ $(document).ready(function() {
   $('ul.tabs li').click(tabclick);
 });
 
-function append_context(key, context) {
+function saveModel() {
+  console.log(model);
+}
+
+function appendContext(key, context) {
   //create the tab, from the name
   $('<li>').append(
     $('<a>').attr('href', '#tab' + key).append(
@@ -72,18 +77,24 @@ function append_context(key, context) {
   var mapSnap = {};
 
   //template-concept: find "{{text}}" replace with note['text']
-  function makeRowText(tpl, note) {
+  function makeRowText(tpl, noteob) {
+    var note = noteob.text;
     var dom = tpl.clone();
-    dom.find('td').first().html(note);
+    var cell = dom.find('td').first();
+    cell.html(note);
+    cell.bind('blur keyup paste', function() {
+      noteob.text = $(this).html();
+      saveModel();
+    });
     return dom;
   }
   $.each(context.notes, function(key, note) {
     switch (note.state) {
       case 'A':
-        active.push(makeRowText(trActive, note.text));
+        active.push(makeRowText(trActive, note));
         break;
       case 'P':
-        pending.push(makeRowText(trPending, note.text));
+        pending.push(makeRowText(trPending, note));
         break;
       default:
         ; //undefined // skip
@@ -93,7 +104,6 @@ function append_context(key, context) {
 
     $.each(note.snap, function(date, extract) {
       var outerDom = mapSnap[date];
-      console.log(outerDom);
       if (!outerDom) {
         outerDom = divArchive.clone();
         outerDom.date = date; //we want to sort by this later
@@ -114,11 +124,8 @@ function append_context(key, context) {
     tabDOM.find('.pendingcontainer').append(val);
   });
   $.each(allSnap, function(idx, val) {
-    console.log(val);
     tabDOM.append(val);
   });
-
-  //tabDOM.find('.pendingcontainer').append(pending);
   tabDOM.appendTo('#tabcontainer');
 }
 
@@ -128,7 +135,7 @@ function modelReset(newmodel, src) {
   $.each(model, function(key, val) {
     console.log('got key: ' + key);
   });
-  $.each(model['context'], append_context);
+  $.each(model['context'], appendContext);
 }
 
 onload = function() {
