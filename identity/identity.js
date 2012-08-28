@@ -33,9 +33,18 @@ function onUserInfoFetched(e) {
 }
 
 function onGetAuthToken(auth_token) {
+  var userInfoDiv = document.getElementById('user_info');
   if (!auth_token) {
-    document.getElementById('user_info').innerHTML = "Not signed in to Chrome, Sign in to Chrome first";
+    var signinButton = document.createElement('button');
+    signinButton.id = 'signin';
+    signinButton.appendChild(document.createTextNode('Sign In'));
+    signinButton.onclick = getUserInfoInteractive;
+    userInfoDiv.appendChild(signinButton);
     return;
+  }
+  // Remove the sign in button if it exists.
+  if (userInfoDiv.firstChild) {
+    userInfoDiv.removeChild(userInfoDiv.firstChild);
   }
   // Use the auth token to do an XHR to get the user information.
   var xhr = new XMLHttpRequest();
@@ -47,6 +56,10 @@ function onGetAuthToken(auth_token) {
 
 function getUserInfo() {
   chrome.experimental.identity.getAuthToken({ 'interactive': false }, onGetAuthToken);
+}
+
+function getUserInfoInteractive() {
+  chrome.experimental.identity.getAuthToken({ 'interactive': true }, onGetAuthToken);
 }
 
 window.onload = getUserInfo;

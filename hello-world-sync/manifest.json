@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "version": "1",
+  "name": "Syncable storage sample",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": ["storage"],
+
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCwhGKZ4KMgoHDmBGs+BrYueDkiiPAt7QjHbcxeNs3JBaPah/nNsz8e4E38TeEKNyHg+0DoVQlV6gvmuXy/bAbpCBSk3/y+/J5TFCjSgVLhm7nQPeE3RIR2/kVZIaY1YIabxqdC4N0RmAef+EBR+WB4RqFsV78TpzgpNqDinkhfPwIDAQAB"
+}

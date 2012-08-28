@@ -1,0 +1,30 @@
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+
+#output {
+	width: 200px;
+	padding: 5px 3px;
+	border: 1px dotted #666;
+	margin: 10px 0px;
+	background-color: #def;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	-webkit-transition: background-color 0.8s ease-out 0.2s;
+}
+
+#output.changed {
+	background-color: #fef;
+	-webkit-transition: none;
+}
+
+textarea {
+	width: 100%;
+	height: 100px;
+	margin: 20px 0;
+	border: 1px solid #999;
+	color: #666;
+}
