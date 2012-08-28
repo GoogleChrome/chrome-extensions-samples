@@ -2,7 +2,9 @@ var activeTabAnchor;
 var activeTabHref;
 var model;
 var rowid = 1;
+var noteid = 1;
 var rownode = {};
+var notenodes = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -57,15 +59,15 @@ function saveModel() {
 }
 
 //template-concept: find "{{text}}" replace with note['text']
-function makeRowText(tpl, noteob) {
+function makeRowText(tpl, textob, noteob) {
   var dom = tpl.clone();
   var cell = dom.find('td').first();
   var id = 'row_'+rowid++;
   dom.attr('id', id);
-  rownode[id] = noteob;
-  cell.html(noteob.text);
+  rownode[id] = noteob ? noteob : textob;
+  cell.html(textob.text);
   cell.bind('blur keyup paste', function() {
-    noteob.text = $(this).html();
+    textob.text = $(this).html();
     saveModel();
   });
   return dom;
@@ -81,18 +83,25 @@ function addTriggers(tabDOM) {
     $('.unarchivebutton', tr).click(unarchivePending);
     tabDOM.find('.pendingcontainer').append(tr);
   }
-  function unarchivePending() {
-    var tr = $(this).parent().parent();
-    tr.detach();
+  function unarchivePending(event, ctx, realTr) {
+    var tr;
+    if (realTr) {
+      tr = realTr;
+    } else {
+      tr = $(this).parent().parent();
+      tr.detach();
+    }
     var node = rownode[tr.attr('id')];
     node.state = 'A';
     tr = makeRowText(tabDOM.trActive, node); //replace
     $('.archivebutton', tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
   }
-  $('.archivebutton', tabDOM).click(archiveActive);
-  $('.unarchivebutton', tabDOM).click(unarchivePending);
-
+  function resumeArchived(event, ctx) {
+    var tr = $(this).parent().parent();
+    unarchivePending(event, ctx, tr);
+    $('.resumebutton', tr).detach();
+  }
   function addFromTextarea(tabDOM) {
     var note = {
       text: $('.entry', tabDOM).val(),
@@ -104,6 +113,10 @@ function addTriggers(tabDOM) {
     tabDOM.find('.activecontainer').append(tr);
     $('.entry', tabDOM).val('');
   }
+
+  $('.archivebutton', tabDOM).click(archiveActive);
+  $('.unarchivebutton', tabDOM).click(unarchivePending);
+  $('.resumebutton', tabDOM).click(resumeArchived);
 
   $('.addbutton', tabDOM).click(function() {
     addFromTextarea(tabDOM);
@@ -163,7 +176,9 @@ function appendContext(key, context) {
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
       }
-      outerDom.find('.snapcontainer').append(makeRowText(tabDOM.trArchive, extract));
+      outerDom.find('.snapcontainer').append(
+        makeRowText(tabDOM.trArchive, extract, note)
+      );
     });
   });
 
