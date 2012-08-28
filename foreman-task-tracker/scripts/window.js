@@ -1,6 +1,8 @@
 var activeTabAnchor;
 var activeTabHref;
 var model;
+var rowid = 1;
+var rownode = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -56,15 +58,60 @@ function saveModel() {
 
 //template-concept: find "{{text}}" replace with note['text']
 function makeRowText(tpl, noteob) {
-  var note = noteob.text;
   var dom = tpl.clone();
   var cell = dom.find('td').first();
-  cell.html(note);
+  var id = 'row_'+rowid++;
+  dom.attr('id', id);
+  rownode[id] = noteob;
+  cell.html(noteob.text);
   cell.bind('blur keyup paste', function() {
     noteob.text = $(this).html();
     saveModel();
   });
   return dom;
+}
+
+function addTriggers(tabDOM) {
+  function archiveActive() {
+    var tr = $(this).parent().parent();
+    tr.detach();
+    var node = rownode[tr.attr('id')];
+    node.state = 'P';
+    tr = makeRowText(tabDOM.trPending, node); //replace
+    $('.unarchivebutton', tr).click(unarchivePending);
+    tabDOM.find('.pendingcontainer').append(tr);
+  }
+  function unarchivePending() {
+    var tr = $(this).parent().parent();
+    tr.detach();
+    var node = rownode[tr.attr('id')];
+    node.state = 'A';
+    tr = makeRowText(tabDOM.trActive, node); //replace
+    $('.archivebutton', tr).click(archiveActive);
+    tabDOM.find('.activecontainer').append(tr);
+  }
+  $('.archivebutton', tabDOM).click(archiveActive);
+  $('.unarchivebutton', tabDOM).click(unarchivePending);
+
+  function addFromTextarea(tabDOM) {
+    var note = {
+      text: $('.entry', tabDOM).val(),
+      state: 'A'
+    };
+    tabDOM.context.notes.push(note);
+    var tr = makeRowText(tabDOM.trActive, note);
+    $('.archivebutton', tr).click(archiveActive);
+    tabDOM.find('.activecontainer').append(tr);
+    $('.entry', tabDOM).val('');
+  }
+
+  $('.addbutton', tabDOM).click(function() {
+    addFromTextarea(tabDOM);
+  });
+  $('.entry', tabDOM).keydown(function (e) {
+    if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey)
+      addFromTextarea(tabDOM);
+  });
 }
 
 function appendContext(key, context) {
@@ -109,7 +156,10 @@ function appendContext(key, context) {
       if (!outerDom) {
         outerDom = tabDOM.divArchive.clone();
         outerDom.date = date; //we want to sort by this later
-        outerDom.find('.snapheader').html('Snapshot on ' + date);
+        outerDom.find('.snapheader').html(
+          $('<a>').attr('id', 'tab'+key+'_'+date)
+            .append('Snapshot on ' + date)
+          );
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
       }
@@ -135,15 +185,7 @@ function appendContext(key, context) {
   $.each(allSnap, function(idx, val) {
     tabDOM.append(val);
   });
-  $('.addbutton', tabDOM).click(function() {
-    var note = {
-      text: $(".entry", tabDOM).val(),
-      state: 'A'
-    };
-    context.notes.push(note);
-    tabDOM.find('.activecontainer').append(makeRowText(tabDOM.trActive, note));
-  });
-
+  addTriggers(tabDOM);
   tabDOM.appendTo('#tabcontainer');
 }
 

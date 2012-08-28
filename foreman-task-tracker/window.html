@@ -41,7 +41,7 @@
       <table width="100%">
         <tr>
           <td width="100%">
-            <textarea id="entry1" placeholder="Add some notes for WorkContext1" rows="2" class="entry"></textarea>
+            <textarea id="entry1" placeholder="Add some notes for WorkContext1 (Ctrl+Enter will Add)" rows="2" class="entry"></textarea>
           </td>
           <td class="ops">
             <button class="addbutton">Add</button><button class="paste">Paste</button>
@@ -54,7 +54,10 @@
           <table class="activecontainer" width="100%">
           <tr id="template-trActive">
             <td class="active_task" contenteditable="true">{{text}}</td>
-            <td class="ops"><button class="edit">Edit</button><button class="archive">Archive</button><button class="delete">Delete</button></td>
+            <td class="ops">
+              <!-- <button class="editbutton">Edit</button> -->
+              <button class="archivebutton">Archive</button>
+              <button class="deletebutton">Delete</button></td>
           </tr>
           </table>
         </dd>
@@ -63,7 +66,10 @@
           <table class="pendingcontainer" width="100%">
           <tr id="template-trPending">
             <td class="pending_task" contenteditable="true">{{text}}</td>
-            <td class="ops"><button class="edit">Edit</button><button class="unarchive">UnArchive</button><button class="delete">Delete</button></td>
+            <td class="ops">
+            <!-- <button class="editbutton">Edit</button> -->
+            <button class="unarchivebutton">UnArchive</button>
+            <button class="deletebutton">Delete</button></td>
           </tr>
           </table>
         </dd>
