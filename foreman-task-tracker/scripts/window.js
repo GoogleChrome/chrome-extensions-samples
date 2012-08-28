@@ -5,6 +5,7 @@ var rowid = 1;
 var noteid = 1;
 var rownode = {};
 var notenodes = {};
+var extracts = {}
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -178,11 +179,12 @@ function appendContext(key, context) {
 
     $.each(note.snap, function(date, extract) {
       var outerDom = mapSnap[date];
+      var anchorName = 'tab' + key + '_' + date;
       if (!outerDom) {
         outerDom = tabDOM.divArchive.clone();
         outerDom.date = date; //we want to sort by this later
         outerDom.find('.snapheader').html(
-          $('<a>').attr('id', 'tab'+key+'_'+date)
+          $('<a>').attr('id', anchorName)
             .append('Snapshot on ' + date)
           );
         mapSnap[date] = outerDom;
@@ -193,6 +195,13 @@ function appendContext(key, context) {
         $('.resumebutton', tr).detach();
       }
       outerDom.find('.snapcontainer').append(tr);
+
+      var extlist = extracts[date];
+      if (!extlist) {
+        extlist = []
+        extracts[date] = extlist;
+      }
+      extlist.push($('<a>').attr('href', '#' + anchorName)
     });
   });
 
@@ -232,6 +241,7 @@ function modelReset(newmodel, src) {
   noteid = 1;
   rownote = {};
   notenodes = {};
+  extracts = {};
 
   $('.tab_content').detach();
   $('.tabtab').detach();
