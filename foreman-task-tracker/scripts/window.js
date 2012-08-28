@@ -29,10 +29,10 @@ function tabclick() {
   activeTabHref = tabHref;
 
   //switch which tab appears active, and remove href so we don't look clicky
-  $('ul.tabs li').removeClass('active').removeClass('constActive');
-  if (tabHref == '#snapshots') {
+  $('ul.tabs li').removeClass('active').removeClass('cactive');
+  if (activeTabHref == '#tabsnapshots') {
     //"constant" / non-editable tabs
-    $(this).addClass('constActive');
+    $(this).addClass('cactive');
   } else {
     activeTabAnchor.attr('contentEditable', 'true');
     $(this).addClass('active');
@@ -144,12 +144,12 @@ function appendTab(key, context) {
   .appendTo('#tabs');
 }
 
-function appendContext(key, context) {
-  appendTab(key, context);
+function appendContext(tabkey, context) {
+  appendTab(tabkey, context);
 
   //create the content, initially hidden, from the templates in the DOM
   var tabDOM = $('#template-divTab').clone()
-    .attr('id', 'tab' + key)
+    .attr('id', 'tab' + tabkey)
     .attr('class', 'tab_content');
   tabDOM.trActive = tabDOM.find('#template-trActive').detach();
   tabDOM.trPending = tabDOM.find('#template-trPending').detach();
@@ -201,10 +201,14 @@ function appendContext(key, context) {
         extlist = [];
         extracts[date] = extlist;
       }
-      console.log(extract);
       extlist.push($('<tr>').append(
         $('<td>').append(
-          $('<a>').attr('href', '#' + anchorName).append(context.name)
+          $('<a>').attr('href', '#' + anchorName)
+            .append(context.name)
+            .click(function() {
+              $('#tabtab_' + tabkey).click();
+              return true; //follow the href to scroll down (maybe)
+            })
         ).append(' &middot; ' + extract.text)));
 //        ).append(extract)));
     });
