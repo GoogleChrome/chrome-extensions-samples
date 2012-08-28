@@ -1,3 +1,3 @@
-This sample shows how two apps can communicate via explicit web intents without direct user involvement.
+This sample shows how two apps ("ping" and "pong") can communicate via explicit web intents without direct user involvement.
 
-Fully operational samples are blocked on a couple of bugs ([144782](http://crbug.com/144782) and [134044](http://crbug.com/134044)), but the concept can still be seen. Install both "app1" and "app2". Launch either app, and press the "Dispatch intent" button. The other app will be launched (if it's not running already), and the intent data will be delivered to its background page via the `onLaunched` event (and then in turn to its window).
+The sample is not fully operational until packaged apps can respond to web intents ([bug 134044](http://crbug.com/134044)), but the concept can still be seen. Install both "ping" and "pong". Launch either app, and press the "Dispatch intent" button. The other app will be launched (if it's not running already), and the intent data will be delivered to its background page via the `onLaunched` event (and then in turn to its window).

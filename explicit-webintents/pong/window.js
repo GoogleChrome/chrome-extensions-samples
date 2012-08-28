@@ -1,28 +1,32 @@
 function log(message) {
-  document.getElementById('log').textContent = message;
+  document.getElementById('log').textContent +=
+      '[' + new Date().toLocaleTimeString() + '] ' + message + '\n';
 }
 
 function handleIntent(intent) {
-  log('Received intent: ' + JSON.stringify(intent));
+  log('Received intent: ' + JSON.stringify(intent.data));
+  intent.postResult('PONG');
+  log('Replied to intent');
 }
 
 function dispatchIntent() {
   var intent = new WebKitIntent({
-    action: 'chrome-extension://app2/op',
+    action: 'chrome-extension://app1/op',
     type: 'text/plain',
-    data: 'intent data!',
+    data: 'PONG',
     // For packaged apps, the service URL is their background page URL (see
     // http://code.google.com/searchframe#OAMlx_jo-ck/src/chrome/common/extensions/extension.cc&exact_package=chromium&q=kkey%20file:Extension&type=cs&l=1978)
-    service: 'chrome-extension://bhjkdniooihlaafoddlgkljnjlgoolmo/_generated_background_page.html'
+    service: 'chrome-extension://enipnlcbcjgecmlebmimainfnegmlanb/_generated_background_page.html'
   });
 
+  log('Sending intent');
   window.navigator.webkitStartActivity(
     intent,
     function(result) {
-      log('Got intent reply result: ' + JSON.stringify(result));
+      log('Intent result: ' + JSON.stringify(result));
     },
     function(error) {
-      log('Got intent reply error: ' + JSON.stringify(error));
+      log('Intent error: ' + JSON.stringify(error));
     });
 }
 

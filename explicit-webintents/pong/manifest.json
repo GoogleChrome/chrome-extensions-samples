@@ -1,5 +1,5 @@
 {
-  "name": "Explicit Web Intents - App 2",
+  "name": "Pong",
   "version": "1",
   "manifest_version": 2,
   // The public key is the string "App 2" that's base64-encoded. This is
