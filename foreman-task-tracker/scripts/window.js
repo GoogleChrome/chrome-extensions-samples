@@ -1,6 +1,6 @@
+var model;
 var activeTabAnchor;
 var activeTabHref;
-var model;
 var rowid = 1;
 var noteid = 1;
 var rownode = {};
@@ -40,7 +40,8 @@ function tabclick() {
   $('.tab_content').hide();
   activeTabAnchor.removeAttr('href');
 
-  $(activeTabHref).fadeIn();
+  $(activeTabHref).show();
+  //$(activeTabHref).fadeIn();
   return false;
 }
 
@@ -74,6 +75,7 @@ function makeRowText(tpl, textob, noteob) {
 }
 
 function addTriggers(tabDOM) {
+  //ewwwwww too much copy-paste fixitfixitfixit
   function archiveActive() {
     var tr = $(this).parent().parent();
     tr.detach();
@@ -83,24 +85,25 @@ function addTriggers(tabDOM) {
     $('.unarchivebutton', tr).click(unarchivePending);
     tabDOM.find('.pendingcontainer').append(tr);
   }
-  function unarchivePending(event, ctx, realTr) {
-    var tr;
-    if (realTr) {
-      tr = realTr;
-    } else {
-      tr = $(this).parent().parent();
-      tr.detach();
-    }
+  function unarchivePending() {
+    var tr = $(this).parent().parent();
+    tr.detach();
     var node = rownode[tr.attr('id')];
     node.state = 'A';
     tr = makeRowText(tabDOM.trActive, node); //replace
     $('.archivebutton', tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
   }
-  function resumeArchived(event, ctx) {
+  function resumeArchived() {
     var tr = $(this).parent().parent();
-    unarchivePending(event, ctx, tr);
-    $('.resumebutton', tr).detach();
+    var node = rownode[tr.attr('id')];
+    node.state = 'A';
+    modelReset(model); //lazy
+
+    //tr = makeRowText(tabDOM.trActive, node); //replace
+    //$('.archivebutton', tr).click(archiveActive);
+    //tabDOM.find('.activecontainer').append(tr);
+    //$('.resumebutton', node).detach();
   }
   function addFromTextarea(tabDOM) {
     var note = {
@@ -127,18 +130,26 @@ function addTriggers(tabDOM) {
   });
 }
 
-function appendContext(key, context) {
+function appendTab(key, context) {
   //create the tab, from the name
   $('<li>').append(
     $('<a>').attr('href', '#tab' + key).append(
       context.name
     )
   )
+  .attr('id', 'tabtab_' + key)
   .click(tabclick)
+  .addClass('tabtab')
   .appendTo('#tabs');
+}
+
+function appendContext(key, context) {
+  appendTab(key, context);
 
   //create the content, initially hidden, from the templates in the DOM
-  var tabDOM = $('#template-divTab').clone().attr('id', 'tab' + key);
+  var tabDOM = $('#template-divTab').clone()
+    .attr('id', 'tab' + key)
+    .attr('class', 'tab_content');
   tabDOM.trActive = tabDOM.find('#template-trActive').detach();
   tabDOM.trPending = tabDOM.find('#template-trPending').detach();
   tabDOM.divArchive = tabDOM.find('#template-divArchive').detach();
@@ -151,6 +162,7 @@ function appendContext(key, context) {
   var mapSnap = {};
 
   $.each(context.notes, function(key, note) {
+    var resumable = false;
     switch (note.state) {
       case 'A':
         active.push(makeRowText(tabDOM.trActive, note));
@@ -159,7 +171,7 @@ function appendContext(key, context) {
         pending.push(makeRowText(tabDOM.trPending, note));
         break;
       default:
-        ; //undefined // skip
+        resumable = true;
     }
     if (!note.snap)
       return; //no snapshots for this note
@@ -176,9 +188,11 @@ function appendContext(key, context) {
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
       }
-      outerDom.find('.snapcontainer').append(
-        makeRowText(tabDOM.trArchive, extract, note)
-      );
+      var tr = makeRowText(tabDOM.trArchive, extract, note);
+      if (!resumable) {
+        $('.resumebutton', tr).detach();
+      }
+      outerDom.find('.snapcontainer').append(tr);
     });
   });
 
@@ -206,7 +220,31 @@ function appendContext(key, context) {
 
 function modelReset(newmodel, src) {
   model = newmodel;
+  activeTabAnchor = null;
+  var reactivate = activeTabHref;
+  activeTabHref = null;
+  if (!reactivate)
+    reactivate = 'snapshots';
+  else
+    reactivate = reactivate.slice(4);
+
+  rowid = 1;
+  noteid = 1;
+  rownote = {};
+  notenodes = {};
+
+  $('.tab_content').detach();
+  $('.tabtab').detach();
+
+  appendTab('snapshots', {name: "Snapshots"});
+  var snapDOM = $('#template-divSnapshots').clone()
+    .attr('id', 'tabsnapshots')
+    .attr('class', 'tab_content')
+    .appendTo('#tabcontainer');
+
   $.each(model['context'], appendContext);
+
+  $('#tabtab_' + reactivate).click();
 }
 
 onload = function() {

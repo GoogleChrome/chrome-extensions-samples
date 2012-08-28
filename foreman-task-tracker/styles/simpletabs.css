@@ -67,6 +67,10 @@ background: #ffe373;
 
 }
 
+.template_tab_content {
+  display: none;
+}
+
 .tab_content ul {
 list-style: none;
 }
