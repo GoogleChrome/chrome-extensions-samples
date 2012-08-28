@@ -5,7 +5,7 @@ var rowid = 1;
 var noteid = 1;
 var rownode = {};
 var notenodes = {};
-var extracts = {}
+var extracts = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -195,13 +195,18 @@ function appendContext(key, context) {
         $('.resumebutton', tr).detach();
       }
       outerDom.find('.snapcontainer').append(tr);
-
+      var dkey = 'd' + date;
       var extlist = extracts[date];
       if (!extlist) {
-        extlist = []
+        extlist = [];
         extracts[date] = extlist;
       }
-      extlist.push($('<a>').attr('href', '#' + anchorName)
+      console.log(extract);
+      extlist.push($('<tr>').append(
+        $('<td>').append(
+          $('<a>').attr('href', '#' + anchorName).append(context.name)
+        ).append(' &middot; ' + extract.text)));
+//        ).append(extract)));
     });
   });
 
@@ -253,6 +258,27 @@ function modelReset(newmodel, src) {
     .appendTo('#tabcontainer');
 
   $.each(model['context'], appendContext);
+  var extractDates = [];
+  for (key in extracts) {
+    extractDates.push(key);
+  }
+  extractDates.sort(function(lhs, rhs) {
+    if (lhs == rhs) return 0;
+    return lhs < rhs ? 1 : -1; //reverse
+  });
+
+  $.each(extractDates, function(idx, date) {
+    var rows = extracts[date];
+    var tableDOM = $('<table>');
+    console.log(rows);
+    $.each(rows, function(idx, tr) {
+      tableDOM.append(tr);
+    });
+    $('<dl>')
+      .append($('<dt>').append('Snapshot on ' + date))
+      .append($('<dd>').append(tableDOM))
+      .appendTo('#tabsnapshots');
+  });
 
   $('#tabtab_' + reactivate).click();
 }
