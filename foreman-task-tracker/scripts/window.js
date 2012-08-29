@@ -5,7 +5,7 @@ var rowid = 1;
 var noteid = 1;
 var rownode = {};
 var notenodes = {};
-var extracts = {}
+var extracts = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -29,10 +29,10 @@ function tabclick() {
   activeTabHref = tabHref;
 
   //switch which tab appears active, and remove href so we don't look clicky
-  $('ul.tabs li').removeClass('active').removeClass('constActive');
-  if (tabHref == '#snapshots') {
+  $('ul.tabs li').removeClass('active').removeClass('cactive');
+  if (activeTabHref == '#tabsnapshots') {
     //"constant" / non-editable tabs
-    $(this).addClass('constActive');
+    $(this).addClass('cactive');
   } else {
     activeTabAnchor.attr('contentEditable', 'true');
     $(this).addClass('active');
@@ -144,12 +144,12 @@ function appendTab(key, context) {
   .appendTo('#tabs');
 }
 
-function appendContext(key, context) {
-  appendTab(key, context);
+function appendContext(tabkey, context) {
+  appendTab(tabkey, context);
 
   //create the content, initially hidden, from the templates in the DOM
   var tabDOM = $('#template-divTab').clone()
-    .attr('id', 'tab' + key)
+    .attr('id', 'tab' + tabkey)
     .attr('class', 'tab_content');
   tabDOM.trActive = tabDOM.find('#template-trActive').detach();
   tabDOM.trPending = tabDOM.find('#template-trPending').detach();
@@ -195,13 +195,22 @@ function appendContext(key, context) {
         $('.resumebutton', tr).detach();
       }
       outerDom.find('.snapcontainer').append(tr);
-
+      var dkey = 'd' + date;
       var extlist = extracts[date];
       if (!extlist) {
-        extlist = []
+        extlist = [];
         extracts[date] = extlist;
       }
-      extlist.push($('<a>').attr('href', '#' + anchorName)
+      extlist.push($('<tr>').append(
+        $('<td>').append(
+          $('<a>').attr('href', '#' + anchorName)
+            .append(context.name)
+            .click(function() {
+              $('#tabtab_' + tabkey).click();
+              return true; //follow the href to scroll down (maybe)
+            })
+        ).append(' &middot; ' + extract.text)));
+//        ).append(extract)));
     });
   });
 
@@ -253,6 +262,27 @@ function modelReset(newmodel, src) {
     .appendTo('#tabcontainer');
 
   $.each(model['context'], appendContext);
+  var extractDates = [];
+  for (key in extracts) {
+    extractDates.push(key);
+  }
+  extractDates.sort(function(lhs, rhs) {
+    if (lhs == rhs) return 0;
+    return lhs < rhs ? 1 : -1; //reverse
+  });
+
+  $.each(extractDates, function(idx, date) {
+    var rows = extracts[date];
+    var tableDOM = $('<table>');
+    console.log(rows);
+    $.each(rows, function(idx, tr) {
+      tableDOM.append(tr);
+    });
+    $('<dl>')
+      .append($('<dt>').append('Snapshot on ' + date))
+      .append($('<dd>').append(tableDOM))
+      .appendTo('#tabsnapshots');
+  });
 
   $('#tabtab_' + reactivate).click();
 }
