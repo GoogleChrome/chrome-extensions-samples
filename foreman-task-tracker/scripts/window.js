@@ -3,10 +3,13 @@ var activeTabAnchor;
 var activeTabHref;
 var rowid = 1;
 var noteid = 1;
-var rownode = {};
+
+var noteLookup = [];
+var contextLookup = [];
+
 var notenodes = {};
 var extracts = {};
-var snapshotPeer = {};
+var idToNote = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -55,8 +58,55 @@ $(document).ready(function() {
   $('ul.tabs li').click(tabclick);
 });
 
+function modelLookup(domObject) {
+  var rval = {};
+  var domID = domObject.attr('id');
+  var idnum = domID.split('_')[1];
+  rval.idnum = idnum;
+  rval.note = noteLookup[idnum];
+  rval.context = contextLookup[idnum];
+  rval.snapshot = document.getElementById('snap_' + idnum);
+  rval.td = document.getElementById('cell_' + idnum);
+  rval.tr = document.getElementById('row_' + idnum);
+  return rval;
+}
+
+//template-concept: find "{{text}}" replace with note['text']
+function makeDomRow(templateDom, note, context, alternateTextSource) {
+  var dom = templateDom.clone();
+  var cell = dom.find('td').first();
+  var idnum = rowid++;
+  var tr_id = 'row_' + idnum;
+  var td_id = 'cell_' + idnum;
+
+  dom.attr('id', tr_id);
+  cell.attr('id', td_id)
+      .html(alternateTextSource ? alternateTextSource.text : note.text);
+
+  //bind the <td> always to the model note object -- not just the text
+  noteLookup[idnum] = note;
+  contextLookup[idnum] = context;
+
+  cell.bind('blur keyup paste', function() {cellChanged($(this));});
+  return dom;
+}
+
+function moveDomRow(modelPart, templateDom) {
+  $('#row_' + modelPart.idnum).detach();
+  var tr = makeDomRow(templateDom, modelPart.note, modelPart.context);
+  noteLookup[modelPart.idnum] = null;
+  contextLookup[modelPart.idnum] = null;
+  return tr;
+}
+
 function saveModel(filter) {
-  if (filter) {
+  if (filter && filter.note.storageKey) {
+    var ob = {};
+    ob[filter.note.storageKey] = filter.note;
+    chrome.storage.sync.set(ob, function() {
+        document.getElementById('status').innerHTML
+              = 'sync ' + filter.note.storageKey + "@" + new Date();
+    });
     return;
   }
   var num_contexts = model.context.length;
@@ -69,7 +119,8 @@ function saveModel(filter) {
     snapshot.meta[prefix].name = ctx.name;
     var num_notes = ctx.notes.length;
     for (var note_i = 0; note_i < num_notes; note_i++) {
-      snapshot[prefix + '.' + note_i] = ctx.notes[note_i];
+      ctx.notes[note_i].storageKey = prefix + '.' + note_i;
+      snapshot[ctx.notes[note_i].storageKey] = ctx.notes[note_i];
     }
   }
   console.log(snapshot);
@@ -79,61 +130,34 @@ function saveModel(filter) {
   });
 }
 
-//template-concept: find "{{text}}" replace with note['text']
-function makeRowText(tpl, textob, noteob) {
-  var dom = tpl.clone();
-  var cell = dom.find('td').first();
-  var id = 'row_'+rowid++;
-  dom.attr('id', id);
-  cell.html(textob.text);
-
-  if (noteob) {
-    //we are a snapshot -- link to a "peer"
-    rownode[id] = noteob;
-  } else {
-    rownode[id] = textob;
+function cellChanged(cell) {
+  var part = modelLookup(cell);
+  part.note.text = cell.html();
+  if (part.snapshot) {
+    part.snapshot.innerHTML = cell.html();
   }
-  cell.bind('blur keyup paste', function() {
-    textob.text = $(this).html();
-    var peer_span = document.getElementById('snap_' + id);
-    if (peer_span) {
-      peer_span.innerHTML = $(this).html();
-    }
-    saveModel();
-  });
-  return dom;
+  saveModel(part);
 }
 
 function addTriggers(tabDOM) {
-  //ewwwwww too much copy-paste fixitfixitfixit
   function archiveActive() {
-    var tr = $(this).parent().parent();
-    tr.detach();
-    var node = rownode[tr.attr('id')];
-    node.state = 'P';
-    tr = makeRowText(tabDOM.trPending, node); //replace
+    var part = modelLookup($(this).parent().parent());
+    part.note.state = 'P';
+    var tr = moveDomRow(part, tabDOM.trPending);
     $('.unarchivebutton', tr).click(unarchivePending);
     tabDOM.find('.pendingcontainer').append(tr);
   }
   function unarchivePending() {
-    var tr = $(this).parent().parent();
-    tr.detach();
-    var node = rownode[tr.attr('id')];
-    node.state = 'A';
-    tr = makeRowText(tabDOM.trActive, node); //replace
+    var part = modelLookup($(this).parent().parent());
+    part.note.state = 'A';
+    var tr = moveDomRow(part, tabDOM.trActive); //replace
     $('.archivebutton', tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
   }
   function resumeArchived() {
-    var tr = $(this).parent().parent();
-    var node = rownode[tr.attr('id')];
-    node.state = 'A';
+    var part = modelLookup($(this).parent().parent());
+    part.note.state = 'A';
     modelReset(model); //lazy
-
-    //tr = makeRowText(tabDOM.trActive, node); //replace
-    //$('.archivebutton', tr).click(archiveActive);
-    //tabDOM.find('.activecontainer').append(tr);
-    //$('.resumebutton', node).detach();
   }
   function addFromTextarea(tabDOM) {
     var note = {
@@ -141,7 +165,7 @@ function addTriggers(tabDOM) {
       state: 'A'
     };
     tabDOM.context.notes.push(note);
-    var tr = makeRowText(tabDOM.trActive, note);
+    var tr = makeDomRow(tabDOM.trActive, note);
     $('.archivebutton', tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
     $('.entry', tabDOM).val('');
@@ -195,10 +219,10 @@ function appendContext(tabkey, context) {
     var resumable = false;
     switch (note.state) {
       case 'A':
-        active.push(makeRowText(tabDOM.trActive, note));
+        active.push(makeDomRow(tabDOM.trActive, note, context));
         break;
       case 'P':
-        pending.push(makeRowText(tabDOM.trPending, note));
+        pending.push(makeDomRow(tabDOM.trPending, note, context));
         break;
       default:
         resumable = true;
@@ -219,7 +243,7 @@ function appendContext(tabkey, context) {
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
       }
-      var tr = makeRowText(tabDOM.trArchive, extract, note);
+      var tr = makeDomRow(tabDOM.trArchive, note, context, extract);
       if (!resumable) {
         $('.resumebutton', tr).detach();
       }
@@ -229,7 +253,7 @@ function appendContext(tabkey, context) {
         extlist = [];
         extracts[date] = extlist;
       }
-      var snapshotExtractID = 'snap_' + tr.attr('id');
+      var snapshotExtractID = 'snap_' + tr.attr('id').split('_')[1];
       var spandom = $('<span>')
           .attr('id', snapshotExtractID)
           .append(extract.text);
@@ -306,7 +330,6 @@ function modelReset(newmodel, src) {
   $.each(extractDates, function(idx, date) {
     var rows = extracts[date];
     var tableDOM = $('<table>');
-    console.log(rows);
     $.each(rows, function(idx, tr) {
       tableDOM.append(tr);
     });
@@ -317,6 +340,7 @@ function modelReset(newmodel, src) {
   });
 
   $('#tabtab_' + reactivate).click();
+  saveModel();
 }
 
 onload = function() {
@@ -360,7 +384,6 @@ onload = function() {
         }
         context.notes[keys[1]] = note;
       });
-      console.log(jsonmodel);
       modelReset(jsonmodel, 'storage.sync');
     }
 
