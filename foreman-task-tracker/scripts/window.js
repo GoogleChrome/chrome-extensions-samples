@@ -7,9 +7,7 @@ var noteid = 1;
 var noteLookup = [];
 var contextLookup = [];
 
-var notenodes = {};
 var extracts = {};
-var idToNote = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -304,8 +302,6 @@ function modelReset(newmodel, src) {
 
   rowid = 1;
   noteid = 1;
-  rownote = {};
-  notenodes = {};
   extracts = {};
 
   $('.tab_content').detach();
