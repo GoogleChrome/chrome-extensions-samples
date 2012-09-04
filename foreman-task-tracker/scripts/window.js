@@ -185,9 +185,12 @@ function addTriggers(tabDOM) {
 function appendTab(key, context) {
   //create the tab, from the name
   $('<li>').append(
-    $('<a>').attr('href', '#tab' + key).append(
+    $('<a>').attr('href', '#tab' + key).text(
       context.name
-    )
+    ).bind('blur keyup paste', function() {
+      context.name = $(this).text();
+      saveModel();
+    })
   )
   .attr('id', 'tabtab_' + key)
   .click(tabclick)
@@ -264,7 +267,6 @@ function appendContext(tabkey, context) {
               return true; //follow the href to scroll down (maybe)
             })
         ).append(' &middot; ').append(spandom)));
-//        ).append(extract)));
     });
   });
 
