@@ -156,8 +156,8 @@ GDocs.prototype.upload = function(blob, callback) {
     resumableMediaLink: this.CREATE_SESSION_URI/*,entry: entry*/
   }, function(response) {
     var entry = JSON.parse(response).entry;
-    console.log(entry, entry.docs$filename.$t, entry.docs$size.$t);
-    self.getDocumentList();
+console.log(entry, entry.docs$filename.$t, entry.docs$size.$t);
+    self.getDocumentList(null, callback);
   });
 };
 
