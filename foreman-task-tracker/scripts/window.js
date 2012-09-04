@@ -6,6 +6,7 @@ var noteid = 1;
 var rownode = {};
 var notenodes = {};
 var extracts = {};
+var snapshotPeer = {};
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -73,7 +74,8 @@ function saveModel(filter) {
   }
   console.log(snapshot);
   chrome.storage.sync.set(snapshot, function() {
-    document.getElementById('status').innerHTML = 'synced at ' + new Date();
+    document.getElementById('status').innerHTML
+        = 'full sync at ' + new Date();
   });
 }
 
@@ -83,10 +85,20 @@ function makeRowText(tpl, textob, noteob) {
   var cell = dom.find('td').first();
   var id = 'row_'+rowid++;
   dom.attr('id', id);
-  rownode[id] = noteob ? noteob : textob;
   cell.html(textob.text);
+
+  if (noteob) {
+    //we are a snapshot -- link to a "peer"
+    rownode[id] = noteob;
+  } else {
+    rownode[id] = textob;
+  }
   cell.bind('blur keyup paste', function() {
     textob.text = $(this).html();
+    var peer_span = document.getElementById('snap_' + id);
+    if (peer_span) {
+      peer_span.innerHTML = $(this).html();
+    }
     saveModel();
   });
   return dom;
@@ -212,12 +224,15 @@ function appendContext(tabkey, context) {
         $('.resumebutton', tr).detach();
       }
       outerDom.find('.snapcontainer').append(tr);
-      var dkey = 'd' + date;
       var extlist = extracts[date];
       if (!extlist) {
         extlist = [];
         extracts[date] = extlist;
       }
+      var snapshotExtractID = 'snap_' + tr.attr('id');
+      var spandom = $('<span>')
+          .attr('id', snapshotExtractID)
+          .append(extract.text);
       extlist.push($('<tr>').append(
         $('<td>').append(
           $('<a>').attr('href', '#' + anchorName)
@@ -226,7 +241,7 @@ function appendContext(tabkey, context) {
               $('#tabtab_' + tabkey).click();
               return true; //follow the href to scroll down (maybe)
             })
-        ).append(' &middot; ' + extract.text)));
+        ).append(' &middot; ').append(spandom)));
 //        ).append(extract)));
     });
   });
@@ -343,23 +358,23 @@ onload = function() {
           console.log("No context for key -- " + noteid);
           return;
         }
-        context.notes.push(note);
+        context.notes[keys[1]] = note;
       });
       console.log(jsonmodel);
       modelReset(jsonmodel, 'storage.sync');
     }
-  });
 
-  chrome.storage.onChanged.addListener(function(changes, namespace) {
-    for (key in changes) {
-      var storageChange = changes[key];
-      console.log('Storage key "%s" in namespace "%s" changed. ' +
-                  'Old value was "%s", new value is "%s".',
-                  key,
-                  namespace,
-                  storageChange.oldValue,
-                  storageChange.newValue);
-    }
+    chrome.storage.onChanged.addListener(function(changes, namespace) {
+      for (key in changes) {
+        var storageChange = changes[key];
+        console.log('Storage key "%s" in namespace "%s" changed. ' +
+                    'Old value was "%s", new value is "%s".',
+                    key,
+                    namespace,
+                    storageChange.oldValue,
+                    storageChange.newValue);
+      }
+    });
   });
 
   var minimizeNode = document.getElementById('minimize-button');
