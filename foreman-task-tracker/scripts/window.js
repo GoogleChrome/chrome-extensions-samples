@@ -51,13 +51,30 @@ $(document).ready(function() {
   $('.tab_content').hide(); //Hide all content
   $('ul.tabs li:first').addClass('active').show(); //Activate first tab
   $('.tab_content:first').show(); //Show first tab content
-
-  //On Click Event
   $('ul.tabs li').click(tabclick);
 });
 
-function saveModel() {
-  console.log(model);
+function saveModel(filter) {
+  if (filter) {
+    return;
+  }
+  var num_contexts = model.context.length;
+  var snapshot = {};
+  snapshot.meta = {};
+  for (var context_i = 0; context_i < num_contexts; context_i++) {
+    var prefix = 'c' + context_i;
+    var ctx = model.context[context_i];
+    snapshot.meta[prefix] = {};
+    snapshot.meta[prefix].name = ctx.name;
+    var num_notes = ctx.notes.length;
+    for (var note_i = 0; note_i < num_notes; note_i++) {
+      snapshot[prefix + '.' + note_i] = ctx.notes[note_i];
+    }
+  }
+  console.log(snapshot);
+  chrome.storage.sync.set(snapshot, function() {
+    document.getElementById('status').innerHTML = 'synced at ' + new Date();
+  });
 }
 
 //template-concept: find "{{text}}" replace with note['text']
@@ -299,13 +316,37 @@ onload = function() {
     });
   }
 
-  chrome.storage.sync.get('syncmodel', function(syncmodel) {
-    if (!syncmodel['context']) {
+  chrome.storage.sync.get(null, function(syncmodel) {
+    if (!syncmodel.meta) {
       loadSampleModel();
     } else {
-      model = syncmodel;
-      console.log('loaded storage model -- model=' + model);
-      modelReset(syncmodel, 'storage');
+      var jsonmodel = {};
+      jsonmodel.context = [];
+      $.each(syncmodel.meta, function(prefix, context) {
+        var idx = prefix.slice(1);
+        jsonmodel.context[idx] = {
+          name : context.name,
+          notes: []
+        };
+      });
+      $.each(syncmodel, function(noteid, note) {
+        if (noteid == 'meta')
+          return;
+        var keys = noteid.split('.');
+        if (noteid[0] != 'c' || keys.length != 2) {
+          console.log("Deleting unknown/malformed key -- " + noteid);
+          chrome.storage.sync.remove(noteid);
+          return;
+        }
+        var context = jsonmodel.context[keys[0].slice(1)];
+        if (!context) {
+          console.log("No context for key -- " + noteid);
+          return;
+        }
+        context.notes.push(note);
+      });
+      console.log(jsonmodel);
+      modelReset(jsonmodel, 'storage.sync');
     }
   });
 

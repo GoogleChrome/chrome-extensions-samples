@@ -12,7 +12,7 @@
           "text": "Some Previous Note 2",
           "state": "A",
           "snap": {
-            "20120810": {"text": "What Note 2 looked like on 20120810"}
+            "'20120810'": {"text": "What Note 2 looked like on 20120810"}
           }
         },
         {
