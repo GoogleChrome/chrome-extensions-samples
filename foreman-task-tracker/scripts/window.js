@@ -2,11 +2,10 @@ var model;
 var activeTabAnchor;
 var activeTabHref;
 var rowid = 1;
-var noteid = 1;
 
 var noteLookup = [];
 var contextLookup = [];
-
+var idnumLookup = {};
 var extracts = {};
 
 function tabclick() {
@@ -57,9 +56,13 @@ $(document).ready(function() {
 });
 
 function modelLookup(domObject) {
-  var rval = {};
   var domID = domObject.attr('id');
   var idnum = domID.split('_')[1];
+  return modelIndex(idnum);
+}
+
+function modelIndex(idnum) {
+  var rval = {};
   rval.idnum = idnum;
   rval.note = noteLookup[idnum];
   rval.context = contextLookup[idnum];
@@ -84,6 +87,8 @@ function makeDomRow(templateDom, note, context, alternateTextSource) {
   //bind the <td> always to the model note object -- not just the text
   noteLookup[idnum] = note;
   contextLookup[idnum] = context;
+  if (note.storageKey)
+    idnumLookup[note.storageKey] = idnum;
 
   cell.bind('blur keyup paste', function() {cellChanged($(this));});
   return dom;
@@ -108,8 +113,7 @@ function saveModel(filter) {
     return;
   }
   var num_contexts = model.context.length;
-  var snapshot = {};
-  snapshot.meta = {};
+  var snapshot = {meta: {}};
   for (var context_i = 0; context_i < num_contexts; context_i++) {
     var prefix = 'c' + context_i;
     var ctx = model.context[context_i];
@@ -303,7 +307,6 @@ function modelReset(newmodel, src) {
     reactivate = reactivate.slice(4);
 
   rowid = 1;
-  noteid = 1;
   extracts = {};
 
   $('.tab_content').detach();
@@ -341,6 +344,63 @@ function modelReset(newmodel, src) {
   saveModel();
 }
 
+function loadFromStorage(syncmodel) {
+  var jsonmodel = {context: []};
+  $.each(syncmodel.meta, function(prefix, context) {
+    var idx = prefix.slice(1);
+    jsonmodel.context[idx] = {
+      name : context.name,
+      notes: []
+    };
+  });
+  $.each(syncmodel, function(noteid, note) {
+    if (noteid == 'meta')
+      return;
+    var keys = noteid.split('.');
+    if (noteid[0] != 'c' || keys.length != 2) {
+      console.log("Deleting unknown/malformed key -- " + noteid);
+      chrome.storage.sync.remove(noteid);
+      return;
+    }
+    var context = jsonmodel.context[keys[0].slice(1)];
+    if (!context) {
+      console.log("No context for key -- " + noteid);
+      return;
+    }
+    context.notes[keys[1]] = note;
+  });
+  modelReset(jsonmodel, 'storage.sync');
+}
+
+function changeTrigger(changes, namespace) {
+  if (changes.length == 1) {
+    for (key in changes) {
+      var change = changes[key];
+      if (change.newValue.text) {
+        var idnum = idnumLookup[key];
+        if (idnum) {
+          var part = modelIndex(idnum);
+          if (part.note.text == change.oldValue.text) {
+            part.note.text = change.newValue.text;
+            part.note.state = change.newValue.state;
+            part.note.snap = change.newValue.snap;
+            modelReset(model);
+          }
+        }
+      }
+    }
+  }
+  for (key in changes) {
+    var storageChange = changes[key];
+    console.log('Storage key "%s" in namespace "%s" changed. ' +
+                'Old value was "%s", new value is "%s".',
+                key,
+                namespace,
+                storageChange.oldValue,
+                storageChange.newValue);
+  }
+}
+
 onload = function() {
   function loadSampleModel() {
     console.log('loading sample json..');
@@ -357,46 +417,10 @@ onload = function() {
     if (!syncmodel.meta) {
       loadSampleModel();
     } else {
-      var jsonmodel = {};
-      jsonmodel.context = [];
-      $.each(syncmodel.meta, function(prefix, context) {
-        var idx = prefix.slice(1);
-        jsonmodel.context[idx] = {
-          name : context.name,
-          notes: []
-        };
-      });
-      $.each(syncmodel, function(noteid, note) {
-        if (noteid == 'meta')
-          return;
-        var keys = noteid.split('.');
-        if (noteid[0] != 'c' || keys.length != 2) {
-          console.log("Deleting unknown/malformed key -- " + noteid);
-          chrome.storage.sync.remove(noteid);
-          return;
-        }
-        var context = jsonmodel.context[keys[0].slice(1)];
-        if (!context) {
-          console.log("No context for key -- " + noteid);
-          return;
-        }
-        context.notes[keys[1]] = note;
-      });
-      modelReset(jsonmodel, 'storage.sync');
+      loadFromStorage(syncmodel);
     }
-
-    chrome.storage.onChanged.addListener(function(changes, namespace) {
-      for (key in changes) {
-        var storageChange = changes[key];
-        console.log('Storage key "%s" in namespace "%s" changed. ' +
-                    'Old value was "%s", new value is "%s".',
-                    key,
-                    namespace,
-                    storageChange.oldValue,
-                    storageChange.newValue);
-      }
-    });
   });
+  chrome.storage.onChanged.addListener(changeTrigger);
 
   var minimizeNode = document.getElementById('minimize-button');
   if (minimizeNode) {
