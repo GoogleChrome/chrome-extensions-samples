@@ -10,9 +10,9 @@ var singletonWindow;
  * @see http://developer.chrome.com/trunk/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
-  if (singletonWindow && !singletonWindow.closed) {
+  if (singletonWindow && !singletonWindow.dom.closed) {
     console.log('Focusing singleton window');
-    singletonWindow.chrome.app.window.focus();
+    singletonWindow.focus();
   } else {
     console.log('Creating singleton window');
     chrome.app.window.create('singleton.html', {

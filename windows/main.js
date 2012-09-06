@@ -12,7 +12,7 @@ function reset() {
   }
 
   windows.forEach( function (w) {
-    w.close();
+    w.dom.close();
   } );
 
   windows.length = 0;
@@ -76,7 +76,7 @@ function launch() {
               originalWindow.outerHeight);
         }, 10);
 
-        originalWindow.chrome.app.window.focus();
+        originalWindow.focus();
 
       });
   });
@@ -89,7 +89,7 @@ function launch() {
 function minimizeAll() {
 
   windows.forEach( function (w) {
-    w.chrome.app.window.minimize();
+    w.minimize();
   });
 
   // sets a timeout to kill the windows
