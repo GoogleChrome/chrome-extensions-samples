@@ -12,6 +12,7 @@ height: 32px;
 border-bottom: 1px solid #999;
 border-left: 1px solid #999;
 width: 100%;
+-webkit-user-select: text;
 }
 
 ul.tabs li {
@@ -32,7 +33,7 @@ ul.tabs li a {
 text-decoration: none;
 color: #000;
 display: block;
-font-size: 1.2em;
+font-size: 1em;
 padding: 0 5px;
 border: 1px solid #fff;
 outline: none;

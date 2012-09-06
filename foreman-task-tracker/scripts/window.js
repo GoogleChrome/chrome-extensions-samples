@@ -8,6 +8,13 @@ var contextLookup = [];
 var idnumLookup = {};
 var extracts = {};
 
+var B = Object.freeze({
+  ARCHIVE:".archive-button",
+  UNARCHIVE:".unarchive-button",
+  RESUME:".resume-button",
+  DELETE:".delete-button"
+});
+
 function tabclick() {
   if (activeTabAnchor) {
     //restore this first, or we can not compare hrefs
@@ -91,7 +98,7 @@ function makeDomRow(templateDom, note, context, alternateTextSource) {
     idnumLookup[note.storageKey] = idnum;
 
   cell.bind('blur keyup paste', function() {cellChanged($(this));});
-  return dom;
+  return dom; //still a jQuery object here
 }
 
 function moveDomRow(modelPart, templateDom) {
@@ -146,20 +153,23 @@ function addTriggers(tabDOM) {
     var part = modelLookup($(this).parent().parent());
     part.note.state = 'P';
     var tr = moveDomRow(part, tabDOM.trPending);
-    $('.unarchivebutton', tr).click(unarchivePending);
+    $(B.UNARCHIVE, tr).click(unarchivePending);
     tabDOM.find('.pendingcontainer').append(tr);
+    saveModel(modelLookup(tr));
   }
   function unarchivePending() {
     var part = modelLookup($(this).parent().parent());
     part.note.state = 'A';
     var tr = moveDomRow(part, tabDOM.trActive); //replace
-    $('.archivebutton', tr).click(archiveActive);
+    $(B.ARCHIVE, tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
+    saveModel(modelLookup(tr));
   }
   function resumeArchived() {
     var part = modelLookup($(this).parent().parent());
     part.note.state = 'A';
     modelReset(model); //lazy
+    saveModel(part);
   }
   function addFromTextarea(tabDOM) {
     var note = {
@@ -168,14 +178,15 @@ function addTriggers(tabDOM) {
     };
     tabDOM.context.notes.push(note);
     var tr = makeDomRow(tabDOM.trActive, note);
-    $('.archivebutton', tr).click(archiveActive);
+    $(B.ARCHIVE, tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
     $('.entry', tabDOM).val('');
+    saveModel(modelLookup(tr));
   }
 
-  $('.archivebutton', tabDOM).click(archiveActive);
-  $('.unarchivebutton', tabDOM).click(unarchivePending);
-  $('.resumebutton', tabDOM).click(resumeArchived);
+  $(B.ARCHIVE, tabDOM).click(archiveActive);
+  $(B.UNARCHIVE, tabDOM).click(unarchivePending);
+  $(B.RESUME, tabDOM).click(resumeArchived);
 
   $('.addbutton', tabDOM).click(function() {
     addFromTextarea(tabDOM);
@@ -250,7 +261,7 @@ function appendContext(tabkey, context) {
       }
       var tr = makeDomRow(tabDOM.trArchive, note, context, extract);
       if (!resumable) {
-        $('.resumebutton', tr).detach();
+        $(B.RESUME, tr).detach();
       }
       outerDom.find('.snapcontainer').append(tr);
       var extlist = extracts[date];
@@ -402,8 +413,8 @@ function changeTrigger(changes, namespace) {
 }
 
 onload = function() {
-  function loadSampleModel() {
-    console.log('loading sample json..');
+  function loadSampleModel(why) {
+    console.log('loading sample json (' + why + ')...');
     var jqxhr = $.getJSON('sampledata.json', {}, function(data) {
       modelReset(data, 'complete1');
     })
@@ -415,7 +426,8 @@ onload = function() {
 
   chrome.storage.sync.get(null, function(syncmodel) {
     if (!syncmodel.meta) {
-      loadSampleModel();
+      console.log(syncmodel);
+      loadSampleModel('"meta" not in model:');
     } else {
       loadFromStorage(syncmodel);
     }
@@ -430,5 +442,8 @@ onload = function() {
       });
     };
   }
+  $('#the-reset-button').click(function() {
+    loadSampleModel('reset');
+  });
 }
 

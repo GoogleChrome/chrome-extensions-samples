@@ -16,14 +16,15 @@
   <div id="tabcontainer" class="tabcontainer">
     <div id="template-divSnapshots" class="template_tab_content">
 <!--      <h2>Previous Snapshots</h2> -->
-    <button class="take">Take Snapshot</button>
+    <button class="reset-button" id="the-reset-button">Clear Data (!)</button>
+    <button class="take" id="snapshotbutton">Take Snapshot</button>
     </div>
 
     <div id="template-divTab" class="template_tab_content">
       <table width="100%">
         <tr>
           <td width="100%">
-            <textarea id="entry1" placeholder="Add some notes for WorkContext1 (Ctrl+Enter will Add)" rows="2" class="entry"></textarea>
+            <textarea id="entry1" placeholder="Add some notes (Ctrl+Enter will Add)" rows="2" class="entry"></textarea>
           </td>
           <td class="ops">
             <button class="addbutton">Add</button><button class="paste">Paste</button>
@@ -38,8 +39,8 @@
             <td class="active_task" contenteditable="true">{{text}}</td>
             <td class="ops">
               <!-- <button class="editbutton">Edit</button> -->
-              <button class="archivebutton">Archive</button>
-              <button class="deletebutton">Delete</button></td>
+              <button class="archive-button T-I" title="Archive"></button>
+              <button class="delete-button T-I" title="Delete"></button></td>
           </tr>
           </table>
         </dd>
@@ -50,8 +51,8 @@
             <td class="pending_task" contenteditable="true">{{text}}</td>
             <td class="ops">
             <!-- <button class="editbutton">Edit</button> -->
-            <button class="unarchivebutton">UnArchive</button>
-            <button class="deletebutton">Delete</button></td>
+            <button class="unarchive-button T-I" title="UnArchive"></button>
+            <button class="delete-button T-I" title="Delete"></button></td>
           </tr>
           </table>
         </dd>
@@ -61,7 +62,9 @@
             <table class="snapcontainer" width="100%">
               <tr id="template-trArchive">
                 <td class="archived_task" contenteditable="true">{{text}}</td>
-                <td class="ops"><button class="resumebutton">Resume</button></td>
+                <td class="ops">
+                  <button class="resume-button T-I" title="Resume"></button>
+                </td>
               </tr>
             </table>
           </dd>
