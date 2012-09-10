@@ -7,25 +7,76 @@
  *                            updated, or when an error occurs (passes string).
  */
 var ServiceFinder = function(callback) {
-  var me = this;
   this.callback_ = callback;
   this.pendingCallback_ = false;
   this.active_ = true;
   this.byIP_ = {};
   this.byService_ = {};
-  this.socket_ = chrome.experimental.socket || chrome.socket;
+  this.sock_ = [];
+  this.socket_ = [];
 
-  this.socket_.create('udp', {}, function(createInfo) {
-    me.sock_ = createInfo['socketId'];
+  ServiceFinder.forEachAddress_(function(address) {
+    if (address.indexOf(':') != -1) {
+      // TODO: ipv6.
+      console.log('IPv6 address unsupported', address);
+      return true;
+    }
+    console.log('Broadcasting to address', address);
 
-    // NOTE: This will only search for entries on the first/default network
-    // interface.
-    me.socket_.bind(me.sock_, '0.0.0.0', 0, function(result) {
-      if (result) {
-        return me.done_('could not bind socket: ' + result);
+    ServiceFinder.bindToAddress_(address, function(socket) {
+      if (!socket) {
+        return false;
       }
-      me.recv_.apply(me);
-      me.broadcast.apply(me);
+
+      // Store the socket, set up a recieve handler, and broadcast on it.
+      this.socket_.push(socket);
+      this.recv_(socket);
+      this.broadcast(socket);
+    }.bind(this));
+  }.bind(this));
+};
+
+ServiceFinder.api = chrome.socket || chrome.experimental.socket;
+
+/**
+ * Invokes the callback for every local network address on the system.
+ * @private
+ * @param {function} callback to invoke
+ */
+ServiceFinder.forEachAddress_ = function(callback) {
+  var api = ServiceFinder.api;
+
+  if (!api.getNetworkList) {
+    // Short-circuit for Chrome built before r155662.
+    callback('0.0.0.0', '*');
+    return true;
+  }
+
+  api.getNetworkList(function(adapterInfo) {
+    adapterInfo.forEach(function(info) {
+      callback(info['address'], info['name']);
+    });
+  });
+};
+
+/**
+ * Creates UDP socket bound to the specified address, passing it to the
+ * callback. Passes null on failure.
+ * @private
+ * @param {string} address to bind to
+ * @param {function} callback to invoke when done
+ */
+ServiceFinder.bindToAddress_ = function(address, callback) {
+  var api = ServiceFinder.api;
+
+  api.create('udp', {}, function(createInfo) {
+    api.bind(createInfo['socketId'], address, 0, function(result) {
+      if (result) {
+        console.warn('could not bind udp socket', address);
+        callback(null);
+      } else {
+        callback(createInfo['socketId']);
+      }
     });
   });
 };
@@ -76,9 +127,10 @@ ServiceFinder.prototype.done_ = function(opt_error) {
  * Handles an incoming UDP packet.
  * @private
  */
-ServiceFinder.prototype.recv_ = function(info) {
-  this.socket_.recvFrom(this.sock_, this.recv_.bind(this));
+ServiceFinder.prototype.recv_ = function(sock, info) {
+  ServiceFinder.api.recvFrom(sock, this.recv_.bind(this, sock));
   if (!info) {
+    console.info('no data on socket', sock);
     // We didn't receive any data, we were just setting up recvFrom.
     return false;
   }
@@ -113,20 +165,25 @@ ServiceFinder.prototype.recv_ = function(info) {
 /**
  * Broadcasts for services. Hi, everybody!
  */
-ServiceFinder.prototype.broadcast = function(done) {
+ServiceFinder.prototype.broadcast = function(opt_sock) {
+  if (!opt_sock) {
+    this.socket_.forEach(this.broadcast);
+
+    // After five seconds, if we haven't seen anyone, we're unlikely to.
+    setTimeout(this.callback_, 5000);
+    return;
+  }
+  
   var packet = new DNSPacket();
   packet.push('qd', new DNSRecord('_services._dns-sd._udp.local', 12, 1));
 
   var raw = packet.serialize();
-  this.socket_.sendTo(this.sock_, raw, '224.0.0.251', 5353,
+  ServiceFinder.api.sendTo(opt_sock, raw, '224.0.0.251', 5353,
       function(writeInfo) {
     if (writeInfo.bytesWritten != raw.byteLength) {
       this.fail_('could not write DNS packet: ' + raw);
     }
   });
-
-  // After five seconds, if we haven't seen anyone, we're unlikely to.
-  setTimeout(this.callback_, 5000);
 };
 
 window.addEventListener('load', function() {
@@ -202,6 +259,9 @@ window.addEventListener('load', function() {
 
   document.getElementById('clear-refresh').addEventListener('click',
       function() {
+    // TODO: Destroy all old sockets. If we do this however, socket.recvFrom
+    // spews logs for any incoming message to the old socket (perhaps we can do
+    // this better).
     finder = new ServiceFinder(callback_);
     // TODO: Make the working indicator a spinner, and start it up here.
   });
