@@ -3,14 +3,15 @@ header {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  right: 0px;
   height: 42px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eef));
+  /*background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eef));*/
   border-bottom: 2px solid rgba(0, 0, 255, 0.2);
   box-shadow: 0 0.125em 0.5em rgba(0, 0, 0, 0.1);
-  z-index: 10; /* above ul */
   padding: 0 0.25em;
   margin: 0;
+  padding-right: 24px; /* so default Chrome close button is visible */
+  z-index: -1;
   font-family: Arial, Helvetica, Sans-Serif;
   border-radius: 2px;
 }
@@ -24,7 +25,7 @@ header input[type="text"] {
   font-size: 8.5pt;
   font-weight: bold;
   margin: 0;
-  padding: 0 6pt;
+  padding: 0;
   min-width: 5.5em;
   position: relative;
   height: 28px;
@@ -33,6 +34,11 @@ header input[type="text"] {
   margin: 0 2.5pt;
   border: 1px solid transparent;
   text-align: center;
+}
+
+header button,
+header input[type="text"] {
+  -webkit-widget-region: region(control rectangle);
 }
 
 header .small {
