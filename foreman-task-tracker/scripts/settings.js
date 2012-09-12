@@ -7,4 +7,7 @@ onload = function() {
   $('#empty-button').click(function() {
     parent.modelReset({context:[]});
   });
+  $('#dump-button').click(function() {
+    $('#dump').text(JSON.stringify(parent.model, null, 2));
+  });
 }

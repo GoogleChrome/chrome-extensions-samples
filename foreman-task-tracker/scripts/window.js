@@ -7,6 +7,7 @@ var noteLookup = [];
 var contextLookup = [];
 var idnumLookup = {};
 var extracts = {};
+var keysFromStorage = {};
 
 var B = Object.freeze({
   ARCHIVE:'.archive-button',
@@ -150,6 +151,7 @@ function saveModel(filter) {
   }
   var numContexts = model.context.length;
   var snapshot = {meta: {}};
+  var untouchedNotes = $.extend({}, keysFromStorage); //shallow copy
   for (var context_i = 0; context_i < numContexts; context_i++) {
     var prefix = 'c' + context_i;
     var ctx = model.context[context_i];
@@ -158,10 +160,14 @@ function saveModel(filter) {
     var num_notes = ctx.notes.length;
     for (var note_i = 0; note_i < num_notes; note_i++) {
       ctx.notes[note_i].storageKey = prefix + B.STORESEP + note_i;
-      snapshot[ctx.notes[note_i].storageKey] = ctx.notes[note_i];
+      var storeKey = ctx.notes[note_i].storageKey;
+      snapshot[storeKey] = ctx.notes[note_i];
+      delete untouchedNotes[storeKey];
     }
   }
-  //console.log(snapshot);
+  var toRemove = Object.keys(untouchedNotes);
+  if (toRemove.length > 0)
+    chrome.storage.sync.remove(Object.keys(untouchedNotes));
   chrome.storage.sync.set(snapshot, function() {
     document.getElementById('status').innerHTML
         = 'full sync at ' + new Date();
@@ -395,6 +401,8 @@ function modelReset(newmodel, src) {
     chrome.app.window.create('settings.html', {
       'height': 450,
       'width': 450,
+      'left': window.screenX + window.outerWidth,
+      'top': window.screenY
     }, function(appwindow) {
       appwindow.dom.parent = window;
     });
@@ -443,6 +451,7 @@ function loadFromStorage(syncmodel) {
       notes: []
     };
   });
+  keysFromStorage = {};
   $.each(syncmodel, function(noteid, note) {
     if (noteid == 'meta')
       return;
@@ -452,6 +461,7 @@ function loadFromStorage(syncmodel) {
       chrome.storage.sync.remove(noteid);
       return;
     }
+    keysFromStorage[noteid] = 1;
     var context = jsonmodel.context[keys[0].slice(1)];
     if (!context) {
       console.log("No context for key -- " + noteid);
