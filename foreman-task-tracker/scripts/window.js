@@ -200,6 +200,11 @@ function addTriggers(tabDOM) {
     tabDOM.find('.activecontainer').append(tr);
     saveModel(modelLookup(tr));
   }
+  function deleteActiveOrPending() {
+    var part = modelLookup($(this).parent().parent());
+    delete part.note.state; //keep snapshots
+    modelReset(model); //will remove if no snapshots
+  }
   function resumeArchived() {
     var part = modelLookup($(this).parent().parent());
     part.note.state = B.STATE_ACTIVE;
@@ -221,6 +226,7 @@ function addTriggers(tabDOM) {
   $(B.ARCHIVE, tabDOM).click(archiveActive);
   $(B.UNARCHIVE, tabDOM).click(unarchivePending);
   $(B.RESUME, tabDOM).click(resumeArchived);
+  $(B.DELETE, tabDOM).click(deleteActiveOrPending);
 
   $('.addbutton', tabDOM).click(function() {
     addFromTextarea(tabDOM);
@@ -261,6 +267,17 @@ function formatExtract(extract) {
   return extract.text;
 }
 
+function clearEmptyNotes(context) {
+  var oldNotes = context.notes;
+  context.notes = [];
+  $.each(oldNotes, function(key, note) {
+    if (note.state || !$.isEmptyObject(note.snap))
+      context.notes.push(note);
+    else
+      console.log("note: deleting empty note at position " + key);
+  });
+}
+
 function appendContext(tabkey, context) {
   appendTab(tabkey, context);
 
@@ -279,6 +296,8 @@ function appendContext(tabkey, context) {
   var allSnap = [];
   var mapSnap = {};
 
+  clearEmptyNotes(context);
+
   $.each(context.notes, function(key, note) {
     var resumable = false;
     switch (note.state) {
@@ -291,8 +310,9 @@ function appendContext(tabkey, context) {
       default:
         resumable = true;
     }
-    if (!note.snap)
+    if (!note.snap) {
       return; //no snapshots for this note
+    }
 
     $.each(note.snap, function(date, extract) {
       var outerDom = mapSnap[date];
