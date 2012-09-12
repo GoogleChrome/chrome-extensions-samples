@@ -273,8 +273,6 @@ function clearEmptyNotes(context) {
   $.each(oldNotes, function(key, note) {
     if (note.state || !$.isEmptyObject(note.snap))
       context.notes.push(note);
-    else
-      console.log("note: deleting empty note at position " + key);
   });
 }
 
