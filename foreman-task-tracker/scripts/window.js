@@ -9,10 +9,11 @@ var idnumLookup = {};
 var extracts = {};
 
 var B = Object.freeze({
-  ARCHIVE:".archive-button",
-  UNARCHIVE:".unarchive-button",
-  RESUME:".resume-button",
-  DELETE:".delete-button"
+  ARCHIVE:'.archive-button',
+  UNARCHIVE:'.unarchive-button',
+  RESUME:'.resume-button',
+  DELETE:'.delete-button',
+  STORESEP: '_'
 });
 
 function tabclick() {
@@ -128,7 +129,7 @@ function saveModel(filter) {
     snapshot.meta[prefix].name = ctx.name;
     var num_notes = ctx.notes.length;
     for (var note_i = 0; note_i < num_notes; note_i++) {
-      ctx.notes[note_i].storageKey = prefix + '.' + note_i;
+      ctx.notes[note_i].storageKey = prefix + B.STORESEP + note_i;
       snapshot[ctx.notes[note_i].storageKey] = ctx.notes[note_i];
     }
   }
@@ -386,7 +387,7 @@ function loadFromStorage(syncmodel) {
   $.each(syncmodel, function(noteid, note) {
     if (noteid == 'meta')
       return;
-    var keys = noteid.split('.');
+    var keys = noteid.split(B.STORESEP);
     if (noteid[0] != 'c' || keys.length != 2) {
       console.log("Deleting unknown/malformed key -- " + noteid);
       chrome.storage.sync.remove(noteid);

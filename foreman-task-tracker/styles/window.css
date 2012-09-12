@@ -9,7 +9,7 @@ textarea.entry {
   margin-top: -3px;
   vertical-align: middle;
   height: 22px;
-  width: 23px;  
+  width: 23px;
   -webkit-user-select: none;
 }
 
@@ -75,7 +75,7 @@ h1 {
   border-top: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
   background: #F2F2F2;
-  font-size: 24px;
+  font-size: 12px;
 }
 
 .active {
