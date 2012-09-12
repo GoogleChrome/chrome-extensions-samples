@@ -220,8 +220,10 @@ function addTriggers(tabDOM) {
     addFromTextarea(tabDOM);
   });
   $('.entry', tabDOM).keydown(function (e) {
-    if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey)
+    if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey) {
       addFromTextarea(tabDOM);
+      return false;
+    }
   });
 }
 
