@@ -1,7 +1,7 @@
 var mainWindow = null;
 chrome.app.runtime.onLaunched.addListener(function(data) {
-  if (mainWindow && !mainWindow.closed) {
-    mainWindow.chrome.app.window.focus();
+  if (mainWindow && !mainWindow.dom.closed) {
+    mainWindow.focus();
   } else {
     chrome.app.window.create('index.html', {
       width: 700,
@@ -12,7 +12,7 @@ chrome.app.runtime.onLaunched.addListener(function(data) {
     }, function(win) {
       mainWindow = win;
       if (data && data.intent && data.intent.type.indexOf('image') === 0)
-        win.webkitIntent = data.intent || null;
+        win.dom.webkitIntent = data.intent || null;
     });
   }
 });
