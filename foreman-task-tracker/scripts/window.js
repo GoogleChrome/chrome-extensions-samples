@@ -13,7 +13,11 @@ var B = Object.freeze({
   UNARCHIVE:'.unarchive-button',
   RESUME:'.resume-button',
   DELETE:'.delete-button',
-  STORESEP: '_'
+  STORESEP: '_',
+  DATESEP: '-',
+  SNAPKEY_PREFIX: 'd',
+  STATE_PENDING: 'P',
+  STATE_ACTIVE: 'A'
 });
 
 function tabclick() {
@@ -110,6 +114,25 @@ function moveDomRow(modelPart, templateDom) {
   return tr;
 }
 
+function performSnapshot() {
+  var now = new Date();
+  var key = B.SNAPKEY_PREFIX + now.toISOString().replace(/[-:]/g, '');
+  for (var i = 0; i < model.context.length; ++i) {
+    var ctx = model.context[i];
+    for (var j = 0; j < ctx.notes.length; ++j) {
+      var note = ctx.notes[j];
+      if (note.state === B.STATE_PENDING) {
+        delete note.state;
+        if (!note.snap)
+          note.snap = {};
+        note.snap[key] = {text: note.text};
+        //saveModel(ctx);
+      }
+    }
+  }
+  modelReset(model);
+}
+
 function saveModel(filter) {
   if (filter && filter.note.storageKey) {
     var ob = {};
@@ -120,9 +143,9 @@ function saveModel(filter) {
     });
     return;
   }
-  var num_contexts = model.context.length;
+  var numContexts = model.context.length;
   var snapshot = {meta: {}};
-  for (var context_i = 0; context_i < num_contexts; context_i++) {
+  for (var context_i = 0; context_i < numContexts; context_i++) {
     var prefix = 'c' + context_i;
     var ctx = model.context[context_i];
     snapshot.meta[prefix] = {};
@@ -152,7 +175,7 @@ function cellChanged(cell) {
 function addTriggers(tabDOM) {
   function archiveActive() {
     var part = modelLookup($(this).parent().parent());
-    part.note.state = 'P';
+    part.note.state = B.STATE_PENDING;
     var tr = moveDomRow(part, tabDOM.trPending);
     $(B.UNARCHIVE, tr).click(unarchivePending);
     tabDOM.find('.pendingcontainer').append(tr);
@@ -160,7 +183,7 @@ function addTriggers(tabDOM) {
   }
   function unarchivePending() {
     var part = modelLookup($(this).parent().parent());
-    part.note.state = 'A';
+    part.note.state = B.STATE_ACTIVE;
     var tr = moveDomRow(part, tabDOM.trActive); //replace
     $(B.ARCHIVE, tr).click(archiveActive);
     tabDOM.find('.activecontainer').append(tr);
@@ -168,14 +191,13 @@ function addTriggers(tabDOM) {
   }
   function resumeArchived() {
     var part = modelLookup($(this).parent().parent());
-    part.note.state = 'A';
-    modelReset(model); //lazy
-    saveModel(part);
+    part.note.state = B.STATE_ACTIVE;
+    modelReset(model); //
   }
   function addFromTextarea(tabDOM) {
     var note = {
       text: $('.entry', tabDOM).val(),
-      state: 'A'
+      state: B.STATE_ACTIVE
     };
     tabDOM.context.notes.push(note);
     var tr = makeDomRow(tabDOM.trActive, note);
@@ -212,6 +234,10 @@ function appendTab(key, context) {
   .click(tabclick)
   .addClass('tabtab')
   .appendTo('#tabs');
+}
+
+function snapshotTitle(key) {
+  return 'Snapshot on ' + key.slice(1,5) + B.DATESEP + key.slice(5,7) + B.DATESEP + key.slice(7,9);
 }
 
 function appendContext(tabkey, context) {
@@ -255,7 +281,7 @@ function appendContext(tabkey, context) {
         outerDom.date = date; //we want to sort by this later
         outerDom.find('.snapheader').html(
           $('<a>').attr('id', anchorName)
-            .append('Snapshot on ' + date)
+            .append(snapshotTitle(date))
           );
         mapSnap[date] = outerDom;
         allSnap.push(outerDom);
@@ -342,11 +368,10 @@ function modelReset(newmodel, src) {
     .appendTo('#tabcontainer');
 
   $('.reset-button', snapDOM).click(function() {
-    console.log('clicked');
     loadSampleModel('reset');
   });
   $('.snapshot-button', snapDOM).click(function() {
-    console.log('snapshotty times');
+    performSnapshot();
   });
 
   $.each(model['context'], appendContext);
@@ -366,7 +391,7 @@ function modelReset(newmodel, src) {
       tableDOM.append(tr);
     });
     $('<dl>')
-      .append($('<dt>').append('Snapshot on ' + date))
+      .append($('<dt>').append(snapshotTitle(date)))
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
   });
