@@ -43,7 +43,7 @@ function tabclick() {
 
   //switch which tab appears active, and remove href so we don't look clicky
   $('ul.tabs li').removeClass('active').removeClass('cactive');
-  if (activeTabHref == '#tabsnapshots') {
+  if (activeTabHref == '#tabsnapshots' || activeTabHref == '#tabnew') {
     //"constant" / non-editable tabs
     $(this).addClass('cactive');
   } else {
@@ -121,13 +121,18 @@ function performSnapshot() {
     var ctx = model.context[i];
     for (var j = 0; j < ctx.notes.length; ++j) {
       var note = ctx.notes[j];
-      if (note.state === B.STATE_PENDING) {
-        delete note.state;
-        if (!note.snap)
-          note.snap = {};
-        note.snap[key] = {text: note.text};
-        //saveModel(ctx);
-      }
+      var state = note.state; //keep, since we might delete it
+      if (!state)
+        continue;
+      if (state === B.STATE_PENDING)
+        delete note.state; //else: leave active
+      if (!note.snap)
+        note.snap = {};
+
+      note.snap[key] = {
+        text: note.text,
+        state: state
+      };
     }
   }
   modelReset(model);
@@ -220,7 +225,9 @@ function addTriggers(tabDOM) {
   });
 }
 
-function appendTab(key, context) {
+function appendTab(key, context, clickFunc) {
+  if (!clickFunc)
+    clickFunc = tabclick;
   //create the tab, from the name
   $('<li>').append(
     $('<a>').attr('href', '#tab' + key).text(
@@ -231,13 +238,19 @@ function appendTab(key, context) {
     })
   )
   .attr('id', 'tabtab_' + key)
-  .click(tabclick)
+  .click(clickFunc)
   .addClass('tabtab')
   .appendTo('#tabs');
 }
 
 function snapshotTitle(key) {
   return 'Snapshot on ' + key.slice(1,5) + B.DATESEP + key.slice(5,7) + B.DATESEP + key.slice(7,9);
+}
+
+function formatExtract(extract) {
+  if (extract.state && extract.state === B.STATE_ACTIVE)
+    return $('<i>').append(extract.text);
+  return extract.text;
 }
 
 function appendContext(tabkey, context) {
@@ -287,6 +300,7 @@ function appendContext(tabkey, context) {
         allSnap.push(outerDom);
       }
       var tr = makeDomRow(tabDOM.trArchive, note, context, extract);
+      var part = modelLookup(tr);
       if (!resumable) {
         $(B.RESUME, tr).detach();
       }
@@ -299,13 +313,21 @@ function appendContext(tabkey, context) {
       var snapshotExtractID = 'snap_' + tr.attr('id').split('_')[1];
       var spandom = $('<span>')
           .attr('id', snapshotExtractID)
-          .append(extract.text);
+          .append(formatExtract(extract));
       extlist.push($('<tr>').append(
         $('<td>').append(
           $('<a>').attr('href', '#' + anchorName)
             .append(context.name)
             .click(function() {
               $('#tabtab_' + tabkey).click();
+              var cell = $('#cell_' + part.idnum).focus();
+              /* goal: move cursor to end of text (hard) */
+              //var selection = window.getSelection();
+              //selection.removeAllRanges();
+              //range = document.createRange();
+              //range.setStart(cell.get(), cell.text().length);
+              //range.setEnd(cell.get(), cell.text().length);
+              //selection.addRange(range);
               return true; //follow the href to scroll down (maybe)
             })
         ).append(' &middot; ').append(spandom)));
@@ -395,7 +417,6 @@ function modelReset(newmodel, src) {
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
   });
-
   $('#tabtab_' + reactivate).click();
   saveModel();
 }
