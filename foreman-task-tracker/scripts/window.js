@@ -389,8 +389,13 @@ function modelReset(newmodel, src) {
     .attr('class', 'tab_content')
     .appendTo('#tabcontainer');
 
-  $('.reset-button', snapDOM).click(function() {
-    loadSampleModel('reset');
+  $('.settings-button', snapDOM).click(function() {
+    chrome.app.window.create('settings.html', {
+      'height': 450,
+      'width': 450,
+    }, function(appwindow) {
+      appwindow.dom.parent = window;
+    });
   });
   $('.snapshot-button', snapDOM).click(function() {
     performSnapshot();
