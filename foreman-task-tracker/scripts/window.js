@@ -161,7 +161,7 @@ function saveModel(filter) {
       snapshot[ctx.notes[note_i].storageKey] = ctx.notes[note_i];
     }
   }
-  console.log(snapshot);
+  //console.log(snapshot);
   chrome.storage.sync.set(snapshot, function() {
     document.getElementById('status').innerHTML
         = 'full sync at ' + new Date();
@@ -417,6 +417,12 @@ function modelReset(newmodel, src) {
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
   });
+  appendTab('new', {name: "New"}, function() {
+    model.context.push({name:'',  notes:[]});
+    modelReset(model);
+    $('#tabtab_' + (model.context.length-1)).click().focus();
+    return false;
+  });
   $('#tabtab_' + reactivate).click();
   saveModel();
 }
@@ -469,7 +475,7 @@ function changeTrigger(changes, namespace) {
   }
   for (key in changes) {
     var storageChange = changes[key];
-    console.log('Storage key "%s" in namespace "%s" changed. ' +
+    if (false) console.log('Storage key "%s" in namespace "%s" changed. ' +
                 'Old value was "%s", new value is "%s".',
                 key,
                 namespace,
