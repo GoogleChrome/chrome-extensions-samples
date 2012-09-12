@@ -307,6 +307,17 @@ function appendContext(tabkey, context) {
   tabDOM.appendTo('#tabcontainer');
 }
 
+function loadSampleModel(why) {
+  console.log('loading sample json (' + why + ')...');
+  var jqxhr = $.getJSON('sampledata.json', {}, function(data) {
+    modelReset(data, 'complete1');
+  })
+  .error(function(response) {
+    console.log(response);
+    alert('Problem loading sample model');
+  });
+}
+
 function modelReset(newmodel, src) {
   model = newmodel;
   activeTabAnchor = null;
@@ -328,6 +339,14 @@ function modelReset(newmodel, src) {
     .attr('id', 'tabsnapshots')
     .attr('class', 'tab_content')
     .appendTo('#tabcontainer');
+
+  $('.reset-button', snapDOM).click(function() {
+    console.log('clicked');
+    loadSampleModel('reset');
+  });
+  $('.snapshot-button', snapDOM).click(function() {
+    console.log('snapshotty times');
+  });
 
   $.each(model['context'], appendContext);
   var extractDates = [];
@@ -413,17 +432,6 @@ function changeTrigger(changes, namespace) {
 }
 
 onload = function() {
-  function loadSampleModel(why) {
-    console.log('loading sample json (' + why + ')...');
-    var jqxhr = $.getJSON('sampledata.json', {}, function(data) {
-      modelReset(data, 'complete1');
-    })
-    .error(function(response) {
-      console.log(response);
-      alert('Problem loading sample model');
-    });
-  }
-
   chrome.storage.sync.get(null, function(syncmodel) {
     if (!syncmodel.meta) {
       console.log(syncmodel);
@@ -442,8 +450,5 @@ onload = function() {
       });
     };
   }
-  $('#the-reset-button').click(function() {
-    loadSampleModel('reset');
-  });
 }
 
