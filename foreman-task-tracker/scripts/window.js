@@ -231,6 +231,10 @@ function addTriggers(tabDOM) {
   $('.addbutton', tabDOM).click(function() {
     addFromTextarea(tabDOM);
   });
+  $('.paste-button', tabDOM).click(function() {
+    $('.entry', tabDOM).text(Clipboard.getData());
+    addFromTextarea(tabDOM);
+  });
   $('.entry', tabDOM).keydown(function (e) {
     if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey) {
       addFromTextarea(tabDOM);
