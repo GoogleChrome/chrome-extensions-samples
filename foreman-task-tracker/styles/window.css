@@ -42,6 +42,7 @@ textarea.entry {
 
 td.ops {
   text-align: right;
+  white-space: nowrap;
 }
 
 dd {
