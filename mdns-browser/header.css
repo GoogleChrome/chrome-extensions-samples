@@ -5,13 +5,11 @@ header {
   left: 0;
   right: 0px;
   height: 42px;
-  /*background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eef));*/
   border-bottom: 2px solid rgba(0, 0, 255, 0.2);
   box-shadow: 0 0.125em 0.5em rgba(0, 0, 0, 0.1);
   padding: 0 0.25em;
   margin: 0;
-  padding-right: 24px; /* so default Chrome close button is visible */
-  z-index: -1;
+  z-index: 100;
   font-family: Arial, Helvetica, Sans-Serif;
   border-radius: 2px;
 }

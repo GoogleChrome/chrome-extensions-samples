@@ -8,12 +8,9 @@
  */
 var ServiceFinder = function(callback) {
   this.callback_ = callback;
-  this.pendingCallback_ = false;
-  this.active_ = true;
   this.byIP_ = {};
   this.byService_ = {};
-  this.sock_ = [];
-  this.socket_ = [];
+  this.sockets_ = [];
 
   ServiceFinder.forEachAddress_(function(address) {
     if (address.indexOf(':') != -1) {
@@ -24,16 +21,25 @@ var ServiceFinder = function(callback) {
     console.log('Broadcasting to address', address);
 
     ServiceFinder.bindToAddress_(address, function(socket) {
-      if (!socket) {
-        return false;
+      if (chrome.runtime.lastError) {
+        this.callback_('could not bind UDP socket: ' +
+            chrome.runtime.lastError.message);
+        return true;
       }
 
       // Store the socket, set up a recieve handler, and broadcast on it.
-      this.socket_.push(socket);
+      this.sockets_.push(socket);
       this.recv_(socket);
-      this.broadcast(socket);
+      this.broadcast_(socket, address);
     }.bind(this));
   }.bind(this));
+
+  // After a short time, if our database is empty, report an error.
+  setTimeout(function() {
+    if (!Object.keys(this.byIP_).length) {
+      this.callback_('no mDNS services found!');
+    }
+  }.bind(this), 10 * 1000);
 };
 
 ServiceFinder.api = chrome.socket || chrome.experimental.socket;
@@ -71,12 +77,7 @@ ServiceFinder.bindToAddress_ = function(address, callback) {
 
   api.create('udp', {}, function(createInfo) {
     api.bind(createInfo['socketId'], address, 0, function(result) {
-      if (result) {
-        console.warn('could not bind udp socket', address);
-        callback(null);
-      } else {
-        callback(createInfo['socketId']);
-      }
+      callback(createInfo['socketId']);
     });
   });
 };
@@ -104,23 +105,21 @@ ServiceFinder.sortIps_.sort = function(l, r) {
 };
 ServiceFinder.sortIps_.toInt_ = function(i) { return +i };
 
+/**
+ * Returns the services found by this ServiceFinder, optionally filtered by IP.
+ */
 ServiceFinder.prototype.services = function(opt_ip) {
   var k = Object.keys(opt_ip ? this.byIP_[opt_ip] : this.byService_);
   k.sort();
   return k;
 };
 
+/**
+ * Returns the IPs found by this ServiceFinder, optionally filtered by service.
+ */
 ServiceFinder.prototype.ips = function(opt_service) {
   var k = Object.keys(opt_service ? this.byService_[opt_service] : this.byIP_);
   return ServiceFinder.sortIps_(k);
-};
-
-/**
- * @private
- */
-ServiceFinder.prototype.done_ = function(opt_error) {
-  this.active_ = false;
-  this.callback_(opt_error);
 };
 
 /**
@@ -128,9 +127,14 @@ ServiceFinder.prototype.done_ = function(opt_error) {
  * @private
  */
 ServiceFinder.prototype.recv_ = function(sock, info) {
+  if (chrome.runtime.lastError) {
+    // If our socket fails, detect this early: otherwise we'll just register
+    // to receive again (and fail again).
+    this.callback_(chrome.runtime.lastError.message);
+    return true;
+  }
   ServiceFinder.api.recvFrom(sock, this.recv_.bind(this, sock));
   if (!info) {
-    console.info('no data on socket', sock);
     // We didn't receive any data, we were just setting up recvFrom.
     return false;
   }
@@ -153,38 +157,37 @@ ServiceFinder.prototype.recv_ = function(sock, info) {
   }.bind(this));
 
   // Ping! Something new is here. Only update every 25ms.
-  if (!this.pendingCallback_) {
-    this.pendingCallback_ = true;
+  if (!this.callback_pending_) {
+    this.callback_pending_ = true;
     setTimeout(function() {
-      this.pendingCallback_ = false;
+      this.callback_pending_ = undefined;
       this.callback_();
     }.bind(this), 25);
   }
 };
 
 /**
- * Broadcasts for services. Hi, everybody!
+ * Broadcasts for services on the given socket/address.
+ * @private
  */
-ServiceFinder.prototype.broadcast = function(opt_sock) {
-  if (!opt_sock) {
-    this.socket_.forEach(this.broadcast);
-
-    // After five seconds, if we haven't seen anyone, we're unlikely to.
-    setTimeout(this.callback_, 5000);
-    return;
-  }
-  
+ServiceFinder.prototype.broadcast_ = function(sock, address) {
   var packet = new DNSPacket();
   packet.push('qd', new DNSRecord('_services._dns-sd._udp.local', 12, 1));
 
   var raw = packet.serialize();
-  ServiceFinder.api.sendTo(opt_sock, raw, '224.0.0.251', 5353,
-      function(writeInfo) {
+  ServiceFinder.api.sendTo(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
     if (writeInfo.bytesWritten != raw.byteLength) {
-      this.fail_('could not write DNS packet: ' + raw);
+      this.callback_('could not write DNS packet on: ' + address);
     }
   });
 };
+
+ServiceFinder.prototype.shutdown = function() {
+  this.sockets_.forEach(function(sock) {
+    ServiceFinder.api.disconnect(sock);
+    ServiceFinder.api.destroy(sock);
+  });
+}
 
 window.addEventListener('load', function() {
   var results = document.getElementById('results');
@@ -192,11 +195,10 @@ window.addEventListener('load', function() {
     '_workstation._tcp': 'Workgroup Manager',
     '_ssh._tcp': 'SSH',
     '_daap._tcp': 'iTunes',
+    '_airplay': 'AirPlay',
+    '_afpovertcp': 'AFP (Apple Filing Protocol)',
+    '_raop': 'AirTunes',
   };
-  var refreshBtn = document.getElementById('refresh');
-  refreshBtn.origText = refreshBtn.innerHTML;
-  refreshBtn.innerHTML = '&hellip;';
-  var modeBtn = document.getElementById('mode');
 
   var getHtml_ = function(category, key) {
     if (category == finder.services && key in serviceDb) {
@@ -208,9 +210,15 @@ window.addEventListener('load', function() {
   var finder;
   var mode = 'service';
   var callback_ = function(opt_error) {
-    refreshBtn.innerHTML = refreshBtn.origText;
+    results.innerHTML = '';
+    results.classList.remove('working');
+
     if (opt_error) {
-      return console.warn('error', opt_error);
+      var s = document.createElement('strong');
+      s.classList.add('warning');
+      s.innerText = opt_error;
+      results.appendChild(s);
+      return console.warn(opt_error);
     }
 
     var outer = finder.services;
@@ -238,12 +246,21 @@ window.addEventListener('load', function() {
       ul.childNodes.length && results.appendChild(ul);
     });
   };
-  finder = new ServiceFinder(callback_);
 
+  // Configure the refresh button, then immediately invoke it.
+  var refreshBtn = document.getElementById('btn-refresh');
   refreshBtn.addEventListener('click', function() {
-    refreshBtn.innerHTML = '&hellip;';
-    finder.broadcast();
+    results.innerHTML = '';
+    results.classList.add('working');
+
+    finder && finder.shutdown();
+    finder = new ServiceFinder(callback_);
   });
+  refreshBtn.click();
+
+  // Configure the mode button, then immediately invoke it twice to reset to
+  // the default state (show by service).
+  var modeBtn = document.getElementById('btn-mode');
   modeBtn.addEventListener('click', function() {
     var h = document.getElementById('mode-span');
     if (mode == 'service') {
@@ -253,17 +270,15 @@ window.addEventListener('load', function() {
       mode = 'service';
       h.innerText = 'Service';
     }
-    callback_();
+    if (finder) {
+      callback_();
+    }
   });
   modeBtn.click(); modeBtn.click();
 
-  document.getElementById('clear-refresh').addEventListener('click',
-      function() {
-    // TODO: Destroy all old sockets. If we do this however, socket.recvFrom
-    // spews logs for any incoming message to the old socket (perhaps we can do
-    // this better).
-    finder = new ServiceFinder(callback_);
-    // TODO: Make the working indicator a spinner, and start it up here.
+  // Configure the close button.
+  document.getElementById('btn-close').addEventListener('click', function() {
+    window.close();
   });
 });
 
