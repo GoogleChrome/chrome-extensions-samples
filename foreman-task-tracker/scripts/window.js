@@ -18,7 +18,13 @@ var B = Object.freeze({
   DATESEP: '-',
   SNAPKEY_PREFIX: 'd',
   STATE_PENDING: 'P',
-  STATE_ACTIVE: 'A'
+  STATE_ACTIVE: 'A',
+  SRC_REMOTE: 'remote',
+  SRC_SAMPLE_JSON: 'sample-json',
+  SRC_NEW_CONTEXT: 'new-context',
+  SRC_SNAPSHOT: 'snapshot',
+  SRC_DELETE: 'delete',
+  SRC_RESUME: 'resume'
 });
 
 function tabclick() {
@@ -136,7 +142,7 @@ function performSnapshot() {
       };
     }
   }
-  modelReset(model);
+  modelReset(model, B.SRC_SNAPSHOT);
 }
 
 function saveModel(filter) {
@@ -203,12 +209,12 @@ function addTriggers(tabDOM) {
   function deleteActiveOrPending() {
     var part = modelLookup($(this).parent().parent());
     delete part.note.state; //keep snapshots
-    modelReset(model); //will remove if no snapshots
+    modelReset(model, B.SRC_DELETE); //will remove if no snapshots
   }
   function resumeArchived() {
     var part = modelLookup($(this).parent().parent());
     part.note.state = B.STATE_ACTIVE;
-    modelReset(model); //
+    modelReset(model, B.SRC_RESUME); //
   }
   function addFromTextarea(tabDOM) {
     var note = {
@@ -389,7 +395,7 @@ function appendContext(tabkey, context) {
 function loadSampleModel(why) {
   console.log('loading sample json (' + why + ')...');
   var jqxhr = $.getJSON('sampledata.json', {}, function(data) {
-    modelReset(data, 'complete1');
+    modelReset(data, B.SRC_SAMPLE_JSON);
   })
   .error(function(response) {
     console.log(response);
@@ -456,12 +462,13 @@ function modelReset(newmodel, src) {
   });
   appendTab('new', {name: "New"}, function() {
     model.context.push({name:'',  notes:[]});
-    modelReset(model);
+    modelReset(model, B.SRC_NEW_CONTEXT);
     $('#tabtab_' + (model.context.length-1)).click().focus();
     return false;
   });
   $('#tabtab_' + reactivate).click();
-  saveModel();
+  if (src != B.SRC_REMOTE)
+    saveModel();
 }
 
 function loadFromStorage(syncmodel) {
@@ -495,23 +502,61 @@ function loadFromStorage(syncmodel) {
 }
 
 function changeTrigger(changes, namespace) {
-  if (changes.length == 1) {
+  var kn = '';
+  var vno = '';
+  var vnn = '';
+  var numChanges = 0;
+  for (key in changes)
+    ++numChanges;
+  var redraw = false;
+  var allmine = true;
+  console.log(changes);
+  console.log(namespace);
+
+  if (true || numChanges == 1) {
     for (key in changes) {
       var change = changes[key];
+      kn = key;
+      vnn = change.newValue.text;
+      if (!change.oldValue) {
+        allmine = false;
+        continue;
+      }
+      vno = change.oldValue.text;
       if (change.newValue.text) {
         var idnum = idnumLookup[key];
         if (idnum) {
           var part = modelIndex(idnum);
-          if (part.note.text == change.oldValue.text) {
+          if (part.note.text === change.oldValue.text) {
             part.note.text = change.newValue.text;
             part.note.state = change.newValue.state;
             part.note.snap = change.newValue.snap;
-            modelReset(model);
+            allmine = false;
+            redraw = true;
+          } else if (part.note.text === change.newValue.text &&
+                     part.note.state === change.newValue.state &&
+                     JSON.stringify(part.snap) === JSON.stringify(change.newValue.snap)) {
+            //probably mine
+          } else {
+            allmine = false;
           }
+        } else { //probably new
+          allmine = false;
         }
       }
     }
   }
+  if (redraw) {
+    modelReset(model, B.SRC_REMOTE);
+    document.getElementById('status').innerHTML
+          = 'remote sync at ' + (new Date()).toISOString();
+  } else if (!allmine) {
+    document.getElementById('status').innerHTML
+          = 'remote change was not "simple" -- reload required';
+  }
+
+  console.log('%d changes, key[%d] %s --> %s', numChanges, kn, vno, vnn);
+
   for (key in changes) {
     var storageChange = changes[key];
     if (false) console.log('Storage key "%s" in namespace "%s" changed. ' +
