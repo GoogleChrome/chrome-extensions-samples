@@ -21,8 +21,10 @@ var ServiceFinder = function(callback) {
     console.log('Broadcasting to address', address);
 
     ServiceFinder.bindToAddress_(address, function(socket) {
-      if (!socket) {
-        return false;
+      if (chrome.runtime.lastError) {
+        this.callback_('could not bind UDP socket: ' +
+            chrome.runtime.lastError.message);
+        return true;
       }
 
       // Store the socket, set up a recieve handler, and broadcast on it.
@@ -75,12 +77,7 @@ ServiceFinder.bindToAddress_ = function(address, callback) {
 
   api.create('udp', {}, function(createInfo) {
     api.bind(createInfo['socketId'], address, 0, function(result) {
-      if (result) {
-        console.warn('could not bind udp socket', address);
-        callback(null);
-      } else {
-        callback(createInfo['socketId']);
-      }
+      callback(createInfo['socketId']);
     });
   });
 };
