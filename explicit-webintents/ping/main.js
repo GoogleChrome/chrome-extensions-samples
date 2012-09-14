@@ -12,7 +12,7 @@ chrome.app.runtime.onLaunched.addListener(function(launchData) {
       top: 64,
       left: 32
     }, function(w) {
-      appWindow = w.dom;
+      appWindow = w.contentWindow;
       appWindow.launchData = launchData;
     });
   }
