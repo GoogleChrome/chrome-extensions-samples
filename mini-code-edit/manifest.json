@@ -11,8 +11,7 @@
   },
 
   "permissions": [
-    "fileSystem",
-    "fileSystemWrite",
+    {"fileSystem": ["write"]},
     "unlimitedStorage",
     "contextMenus"
   ],

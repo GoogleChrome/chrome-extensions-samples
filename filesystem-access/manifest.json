@@ -13,8 +13,7 @@
     }
   },
   "permissions": [
-    "fileSystem",
-    "fileSystemWrite"
+    {"fileSystem": ["write"]}
   ],
   "intents": {
     "http://webintents.org/view" : [{
