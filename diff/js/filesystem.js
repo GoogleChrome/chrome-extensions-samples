@@ -168,7 +168,7 @@ function selectURL() {
 }
 
 function selectFile(fileNum, chooseNew) {
-  chrome.fileSystem.chooseFile({'type': 'openFile'}, function(fileEntry) {
+  chrome.fileSystem.chooseEntry({'type': 'openFile'}, function(fileEntry) {
     fileEntries[fileNum] = fileEntry;
     chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
       var pathList = path.split('/');
@@ -324,7 +324,7 @@ function saveFile(content, fileName) {
 }
 
 function saveFileAs() {
-  chrome.fileSystem.chooseFile({'type': 'saveFile'}, function(fileEntry) {
+  chrome.fileSystem.chooseEntry({'type': 'saveFile'}, function(fileEntry) {
     save(fileEntry, getText(1));
   });
 }
