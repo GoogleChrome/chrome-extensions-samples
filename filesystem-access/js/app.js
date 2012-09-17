@@ -94,7 +94,7 @@ chooseFileButton.addEventListener('click', function(e) {
     //mimeTypes: ['text/*'],
     extensions: ['js', 'css', 'txt', 'html', 'xml', 'tsv', 'csv', 'rtf']
   }];
-  chrome.fileSystem.chooseFile({type: 'openFile', accepts: accepts}, function(readOnlyEntry) {
+  chrome.fileSystem.chooseEntry({type: 'openFile', accepts: accepts}, function(readOnlyEntry) {
     if (!readOnlyEntry) {
       output.textContent = 'No file selected.';
       return;
@@ -116,7 +116,7 @@ chooseFileButton.addEventListener('click', function(e) {
 
 // writeFileButton.addEventListener('click', function(e) {
 //   if (chosenFileEntry) {
-//    chrome.fileSystem.getWritableFileEntry(chosenFileEntry, function(writableEntry) {
+//    chrome.fileSystem.getWritableEntry(chosenFileEntry, function(writableEntry) {
 //       writeFileEntry(writableEntry, null, function(e) {
 //         output.textContent = 'Write complete :)';
 //       });
@@ -126,7 +126,7 @@ chooseFileButton.addEventListener('click', function(e) {
 
 saveFileButton.addEventListener('click', function(e) {
   var config = {type: 'saveFile', suggestedName: chosenFileEntry.name};
-  chrome.fileSystem.chooseFile(config, function(writableEntry) {
+  chrome.fileSystem.chooseEntry(config, function(writableEntry) {
     var blob = new Blob([textarea.value], {type: 'text/plain'});
     writeFileEntry(writableEntry, blob, function(e) {
       output.textContent = 'Write complete :)';

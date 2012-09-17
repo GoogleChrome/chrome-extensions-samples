@@ -130,14 +130,14 @@ function handleNewButton() {
 }
 
 function handleOpenButton() {
-  chrome.fileSystem.chooseFile({ type: 'openFile' }, onChosenFileToOpen);
+  chrome.fileSystem.chooseEntry({ type: 'openFile' }, onChosenFileToOpen);
 }
 
 function handleSaveButton() {
   if (fileEntry && hasWriteAccess) {
     writeEditorToFile(fileEntry);
   } else {
-    chrome.fileSystem.chooseFile({ type: 'saveFile' }, onChosenFileToSave);
+    chrome.fileSystem.chooseEntry({ type: 'saveFile' }, onChosenFileToSave);
   }
 }
 
