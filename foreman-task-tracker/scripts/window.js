@@ -69,6 +69,42 @@ function snapshotMenu(date) {
   });
 }
 
+function undoSnapshot() {}
+function deleteSnapshot() {}
+function sendSnapshot() {}
+function alterSnapshot() {}
+
+function snapshotMenu(date) {
+  var O = {
+    documentUrlPatterns: ['chrome-extension://*/window.html'],
+    contexts: ['link'],
+    targetUrlPatterns: ['chrome-extension://*/snapmenu.dummy']
+  };
+  var CMDS = [
+    $.extend({
+              id: 'undo-snapshot',
+              title: 'Delete and Restore Pending'
+             }, O),
+    $.extend({
+              id: 'delete',
+              title: 'Delete and Purge Pending'
+             }, O),
+    $.extend({
+              id: 'send-to-snippets',
+              title: 'Send Snapshot to Snippets'
+             }, O),
+    $.extend({
+              id: 'alter-date',
+              title: 'Alter Snapshot Date'
+             }, O),
+  ];
+  chrome.contextMenus.removeAll(function() {
+    for (var i = 0; i < CMDS.length; ++i) {
+      chrome.contextMenus.create(CMDS[i]);
+    }
+  });
+}
+
 function tabclick() {
   if (activeTabAnchor) {
     //restore this first, or we can not compare hrefs
