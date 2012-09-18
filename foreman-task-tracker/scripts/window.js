@@ -134,7 +134,7 @@ function installMenu(jqdom) {
       action: deleteSnapshot
     }
   ];
-  
+
   var T = 400;
   var listdom = $('<ul class="list">')
     .hover(function() {
@@ -559,7 +559,8 @@ function modelReset(newmodel, src) {
     var menuid = 'smenu_' + idx;
     $('<dl>')
       .append($('<dt>')
-          .append(installMenu($('<button class="T-I menu-button" title="Tasks">')))
+        .append(installMenu($('<button class="T-I menu-button" title="Tasks">')))
+/*
         .append($('<button class="menu-button T-I" title="Tasks">'))
         .append($('<a href="snapmenu.dummy" class="menu-anchor">'))
         .append($('<ul class="menu" style="display:none">')
@@ -577,10 +578,12 @@ function modelReset(newmodel, src) {
           document.dispatchEvent(evt);
           return true;
         })
+*/
         .append(snapshotTitle(date))
         .append(' &middot; ')
         .append($('<a href="snapmenu.dummy" id="'+menuid+'">')
                 .append('menu')
+/*
                 .on('mousedown', function(e) {
                   console.log('button = ' + e.button);
                   // try to convert to right-click... does not work :(
@@ -596,6 +599,7 @@ function modelReset(newmodel, src) {
                   return true;
                 })
                 .click(function(){return false;})
+*/
                 )
       )
       .append($('<dd>').append(tableDOM))
