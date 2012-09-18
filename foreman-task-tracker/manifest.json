@@ -14,7 +14,8 @@
     "app.window",
     "storage",
     "unlimitedStorage",
-    "notifications"
+    "notifications",
+    "contextMenus"
   ],
   "icons": {
     "16": "assets/icon.png",

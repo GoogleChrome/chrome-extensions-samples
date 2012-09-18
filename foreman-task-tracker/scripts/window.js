@@ -1,3 +1,8 @@
+// module (WIP)
+var foreman = {
+  ui: {}
+};
+
 var model = {}
 var regex = [];
 var activeTabAnchor;
@@ -25,8 +30,44 @@ var B = Object.freeze({
   SRC_NEW_CONTEXT: 'new-context',
   SRC_SNAPSHOT: 'snapshot',
   SRC_DELETE: 'delete',
-  SRC_RESUME: 'resume'
+  SRC_RESUME: 'resume',
 });
+
+function undoSnapshot() {}
+function deleteSnapshot() {}
+function sendSnapshot() {}
+function alterSnapshot() {}
+
+function snapshotMenu(date) {
+  var O = {
+    documentUrlPatterns: ['chrome-extension://*/window.html'],
+    contexts: ['link'],
+    targetUrlPatterns: ['chrome-extension://*/snapmenu.dummy']
+  };
+  var CMDS = [
+    $.extend({
+              id: 'undo-snapshot',
+              title: 'Delete and Restore Pending'
+             }, O),
+    $.extend({
+              id: 'delete',
+              title: 'Delete and Purge Pending'
+             }, O),
+    $.extend({
+              id: 'send-to-snippets',
+              title: 'Send Snapshot to Snippets'
+             }, O),
+    $.extend({
+              id: 'alter-date',
+              title: 'Alter Snapshot Date'
+             }, O),
+  ];
+  chrome.contextMenus.removeAll(function() {
+    for (var i = 0; i < CMDS.length; ++i) {
+      chrome.contextMenus.create(CMDS[i]);
+    }
+  });
+}
 
 function tabclick() {
   if (activeTabAnchor) {
@@ -515,10 +556,48 @@ function modelReset(newmodel, src) {
     $.each(rows, function(idx, tr) {
       tableDOM.append(tr);
     });
+    var menuid = 'smenu_' + idx;
     $('<dl>')
       .append($('<dt>')
           .append(installMenu($('<button class="T-I menu-button" title="Tasks">')))
-          .append(snapshotTitle(date)))
+        .append($('<button class="menu-button T-I" title="Tasks">'))
+        .append($('<a href="snapmenu.dummy" class="menu-anchor">'))
+        .append($('<ul class="menu" style="display:none">')
+          .append($('<li>').append($('<a tabindex="-1" href="#">test1</a>')))
+          .append($('<li>').append($('<a tabindex="-1" href="#">test2</a>')))
+          .append($('<li>').append($('<a tabindex="-1" href="#">test3</a>')))
+        )
+        .on('click', function() {
+          var evt = document.createEvent("HTMLEvents");
+          evt.initEvent('contextmenu', true, false, window, 1);
+          //var menu = $('.snapmenu.dummy', this).get()[0]
+          var menu = $('#' + menuid).get()[0];
+          menu.dispatchEvent(evt);
+          console.log(evt);
+          document.dispatchEvent(evt);
+          return true;
+        })
+        .append(snapshotTitle(date))
+        .append(' &middot; ')
+        .append($('<a href="snapmenu.dummy" id="'+menuid+'">')
+                .append('menu')
+                .on('mousedown', function(e) {
+                  console.log('button = ' + e.button);
+                  // try to convert to right-click... does not work :(
+                  if (e.button != 2) {
+                    var evt = document.createEvent("MouseEvents");
+                    evt.initMouseEvent("mousedown", true, true, window,
+                      1, e.screenX, e.screenY, e.clientX, e.clientY,
+                      false, false, false, false, 2, null);
+                    this.dispatchEvent(evt);
+                    //setTimeout(function() {this.dispatchEvent(evt);}, 1000);
+                    return true;
+                  }
+                  return true;
+                })
+                .click(function(){return false;})
+                )
+      )
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
   });
@@ -631,6 +710,7 @@ function changeTrigger(changes, namespace) {
 }
 
 onload = function() {
+  snapshotMenu();
   chrome.storage.sync.get(null, function(syncmodel) {
     if (!syncmodel.meta) {
       console.log(syncmodel);
