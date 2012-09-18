@@ -137,6 +137,8 @@ DRONE.API = (function() {
 
   /**
    * Creates and connects a socket connection
+   *
+   * @see http://developer.chrome.com/apps/socket.html
    */
   function connect(sockRef) {
 
