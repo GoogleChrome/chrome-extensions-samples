@@ -1,4 +1,5 @@
-var model;
+var model = {}
+var regex = [];
 var activeTabAnchor;
 var activeTabHref;
 var rowid = 1;
@@ -456,7 +457,9 @@ function modelReset(newmodel, src) {
       tableDOM.append(tr);
     });
     $('<dl>')
-      .append($('<dt>').append(snapshotTitle(date)))
+      .append($('<dt>')
+          .append('<button class="T-I menu-button" title="Tasks"></button>')
+          .append(snapshotTitle(date)))
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
   });

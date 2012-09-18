@@ -10,4 +10,7 @@ onload = function() {
   $('#dump-button').click(function() {
     $('#dump').text(JSON.stringify(parent.model, null, 2));
   });
+  $('#load-regex').click(function() {
+    $('#dump').text(JSON.stringify(parent.regex, null, 2));
+  })
 }

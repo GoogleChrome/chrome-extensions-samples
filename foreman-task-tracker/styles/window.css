@@ -25,6 +25,13 @@ textarea.entry {
   background: #F1F1F1 url(../assets/sprite_black2.png) -62px -43px no-repeat;
 }
 
+.menu-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -47px -90px no-repeat;
+  opacity: 0.3;
+  width: 8px;
+  height: 12px;
+}
+
 .unarchive-button {
   background: #F1F1F1 url(../assets/sprite_black2.png) -21px -85px no-repeat;
  }
