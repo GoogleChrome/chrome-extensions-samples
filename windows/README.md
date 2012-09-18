@@ -7,6 +7,3 @@ The app creates two windows, an "original" window and a "copycat" window. The co
 ## APIs
 
 * [Windowing](http://developer.chrome.com/trunk/apps/app.window.html)
-
----
-Last updated: 2012-08-14 by miu

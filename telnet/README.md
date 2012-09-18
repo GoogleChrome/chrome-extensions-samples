@@ -17,6 +17,3 @@ Renders it in glorious ANSIColor for your viewing joy.
 
 Networking stuff, ANSI colors by Boris Smus.
 Terminal by Eric Bidelman: http://www.htmlfivewow.com/demos/terminal/terminal.html
-
----
-Last updated: 2012-08-14 by paullewis

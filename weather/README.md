@@ -13,6 +13,3 @@ that the user has chosen
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [Storage](http://developer.chrome.com/trunk/apps/storage.html)
 * [Geolocation](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
-
----
-Last updated: 2012-08-17 by paullewis

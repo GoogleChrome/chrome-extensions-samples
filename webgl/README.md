@@ -20,6 +20,3 @@ chrome.app.runtime.onLaunched.addListener(function() {
 ## External libs
 
 * [Three.js](https://github.com/mrdoob/three.js/)
-
----
-Last updated: 2012-08-17 by Renato Mangini

@@ -19,6 +19,3 @@ and, at that point, creates a window using a basic HTML page, index.html, as the
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-
----
-Last updated: 2012-08-29 by paullewis
