@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var zmesh, geometry;
 
     var mouseX = 0, mouseY = 0;
+    var mousemoveX = 0, mousemoveY = 0;
 
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
 
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+    document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
     document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
 
@@ -73,6 +76,21 @@ document.addEventListener('DOMContentLoaded', function() {
       scene.add( zmesh );
     }
 
+    function onDocumentMouseDown(event) {
+      document.body.requestPointerLock =
+        document.body.requestPointerLock ||
+        document.body.mozRequestPointerLock ||
+        document.body.webkitRequestPointerLock;
+      document.body.requestPointerLock();
+    }
+
+    function onDocumentMouseUp(event) {
+      document.exitPointerLock =
+        document.exitPointerLock ||
+        document.mozExitPointerLock ||
+        document.webkitExitPointerLock;
+      document.exitPointerLock();
+    }
 
     function onDocumentMouseWheel(event) {
       camera.position.z -= event.wheelDelta/120*3;
@@ -81,6 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function onDocumentMouseMove(event) {
       mouseX = ( event.clientX - windowHalfX );
       mouseY = ( event.clientY - windowHalfY );
+      document.pointerLockElement =
+        document.pointerLockElement ||
+        document.mozPointerLockElement ||
+        document.webkitPointerLockElement;
+      if (document.pointerLockElement) {
+        mousemoveX += event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        mousemoveY += event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+      }
     }
 
     function animate() {
@@ -91,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function render() {
 
       if (zmesh) {
-	zmesh.rotation.set(-mouseY/250 + 1, -mouseX/100, 0);
+        zmesh.rotation.set(-(mouseY + mousemoveY)/windowHalfY + 0,
+                           -(mouseX + mousemoveX)/windowHalfX, 0);
       }
       webglRenderer.render( scene, camera );
     }

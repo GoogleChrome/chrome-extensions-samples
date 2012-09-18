@@ -27,6 +27,18 @@ ul#results {
   margin: 0;
 }
 
+ul.working#results {
+  background: url(img/working.gif) no-repeat center;
+  min-height: 80px;
+}
+
+ul strong.warning {
+  color: #D14836;
+  text-align: center;
+  display: block;
+  padding: 0.5em;
+}
+
 ul#results > ul {
   list-style: square;
 }

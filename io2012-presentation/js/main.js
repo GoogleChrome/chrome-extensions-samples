@@ -4,7 +4,7 @@ var PRESENTATION_HEIGHT = 700;
 var presentationWindow;
 
 chrome.app.runtime.onLaunched.addListener(function() {
-  if (presentationWindow && !presentationWindow.dom.closed) {
+  if (presentationWindow && !presentationWindow.contentWindow.closed) {
     presentationWindow.focus();
     return;
   }
@@ -32,7 +32,7 @@ var windowingApiDemo = {
       clearInterval(windowingApiDemo.updateInterval);
     }
 
-    windowingApiDemo.windows.forEach(function(w) {w.dom.close()});
+    windowingApiDemo.windows.forEach(function(w) {w.contentWindow.close()});
     windowingApiDemo.windows = [];
   },
 
@@ -55,17 +55,17 @@ var windowingApiDemo = {
         windowingApiDemo.windows.push(copycatWindow);
 
         windowingApiDemo.updateInterval = setInterval(function() {
-          if (originalWindow.dom.closed || copycatWindow.dom.closed) {
+          if (originalWindow.contentWindow.closed || copycatWindow.contentWindow.closed) {
             windowingApiDemo.clear();
             return;
           }
 
-          copycatWindow.dom.moveTo(
-              originalWindow.dom.screenX + originalWindow.dom.outerWidth + 5,
-              originalWindow.dom.screenY);
+          copycatWindow.moveTo(
+              originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
+              originalWindow.contentWindow.screenY);
           copycatWindow.resizeTo(
-              originalWindow.dom.outerWidth,
-              originalWindow.dom.outerHeight);
+              originalWindow.contentWindow.outerWidth,
+              originalWindow.contentWindow.outerHeight);
         }, 10);
 
         originalWindow.focus();

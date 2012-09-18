@@ -21,8 +21,7 @@
   "permissions": [
     "clipboardRead",
     "clipboardWrite",
-    "fileSystem",
-    "fileSystemWrite"
+    {"fileSystem": ["write"]}
   ],
   "app": {
     "background": {
