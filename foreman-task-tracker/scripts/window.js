@@ -108,6 +108,65 @@ function tabclick() {
   return false;
 }
 
+// <div class="size">
+//   <input type="text" name="test" value="choose your size" class="field" readonly="readonly" />
+//   <ul class="list">
+//     <li>Male - M</li>
+//     <li>Female - M</li>
+//     <li>Male - S</li>
+//     <li>Female - S</li>
+//   </ul>
+// </div>
+function deleteSnapshot(arg) {
+
+}
+
+function installMenu(jqdom) {
+  var ITEMS = [
+    {
+      id:'delete',
+      label: 'Delete Snapshot',
+      action: deleteSnapshot
+    },
+    {
+      id:'deletex',
+      label: 'Delete Snapshot X',
+      action: deleteSnapshot
+    }
+  ];
+  
+  var T = 400;
+  var listdom = $('<ul class="list">')
+    .hover(function() {
+      $('li', this).fadeOut(T);
+    });
+  for (var i = 0; i < ITEMS.length; ++i) {
+    listdom.append($('<li>')
+      .attr('id', ITEMS[i].id)
+      .append(ITEMS[i].label)
+      .click(function() {
+        listdom.fateOut(400);
+        ITEMS[i].action(ITEMS[i])
+      })
+      .hover(function(){
+
+      })
+    );
+  }
+  var divdom = $('<div>')
+    .addClass('menu')
+    .append(listdom);
+
+  jqdom.click(function() {
+    listdom.fadeIn(T);
+    $(document).keyup(function(event) {
+      if (event.keyCode == 27)
+        divdom.fadeOut(T);
+    }); //fadeout on escape
+  });
+  return jqdom.append(divdom);
+}
+
 $(document).ready(function() {
   //Default Action
   $('.tab_content').hide(); //Hide all content
@@ -500,7 +559,7 @@ function modelReset(newmodel, src) {
     var menuid = 'smenu_' + idx;
     $('<dl>')
       .append($('<dt>')
-        .append($('<button class="menu-button T-I" title="Tasks">'))
+          .append(installMenu($('<button class="T-I menu-button" title="Tasks">')))
         .append($('<a href="snapmenu.dummy" class="menu-anchor">'))
         .append($('<ul class="menu" style="display:none">')
           .append($('<li>').append($('<a tabindex="-1" href="#">test1</a>')))
