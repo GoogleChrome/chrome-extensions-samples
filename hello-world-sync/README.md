@@ -25,6 +25,3 @@ chrome.storage.sync.get("myValue",
 ## APIs
 
 * [Storage sync](http://developer.chrome.com/extensions/storage.html)
-
----
-Last updated: 2012-08-27 by mangini

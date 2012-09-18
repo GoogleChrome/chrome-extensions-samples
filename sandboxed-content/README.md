@@ -15,5 +15,3 @@ See more info on [using eval safely in packaged apps](http://developer.chrome.co
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 
----
-Last updated: 2012-08-14 by miu

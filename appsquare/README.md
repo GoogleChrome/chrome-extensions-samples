@@ -18,6 +18,3 @@ The key *must* be removed before uploading it to the store.
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-
----
-Last updated: 2012-08-29 by paullewis
