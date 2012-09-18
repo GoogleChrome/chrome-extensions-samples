@@ -4,8 +4,8 @@ var PRESENTATION_HEIGHT = 700;
 var presentationWindow;
 
 chrome.app.runtime.onLaunched.addListener(function() {
-  if (presentationWindow && !presentationWindow.closed) {
-    presentationWindow.chrome.app.window.focus();
+  if (presentationWindow && !presentationWindow.contentWindow.closed) {
+    presentationWindow.focus();
     return;
   }
 
@@ -32,7 +32,7 @@ var windowingApiDemo = {
       clearInterval(windowingApiDemo.updateInterval);
     }
 
-    windowingApiDemo.windows.forEach(function(w) {w.close()});
+    windowingApiDemo.windows.forEach(function(w) {w.contentWindow.close()});
     windowingApiDemo.windows = [];
   },
 
@@ -55,26 +55,26 @@ var windowingApiDemo = {
         windowingApiDemo.windows.push(copycatWindow);
 
         windowingApiDemo.updateInterval = setInterval(function() {
-          if (originalWindow.closed || copycatWindow.closed) {
+          if (originalWindow.contentWindow.closed || copycatWindow.contentWindow.closed) {
             windowingApiDemo.clear();
             return;
           }
 
           copycatWindow.moveTo(
-              originalWindow.screenX + originalWindow.outerWidth + 5,
-              originalWindow.screenY);
+              originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
+              originalWindow.contentWindow.screenY);
           copycatWindow.resizeTo(
-              originalWindow.outerWidth,
-              originalWindow.outerHeight);
+              originalWindow.contentWindow.outerWidth,
+              originalWindow.contentWindow.outerHeight);
         }, 10);
 
-        originalWindow.chrome.app.window.focus();
+        originalWindow.focus();
       });
     });
   },
 
   minimizeAll: function() {
-    windowingApiDemo.windows.forEach(function(w) {w.chrome.app.window.minimize()});
+    windowingApiDemo.windows.forEach(function(w) { w.minimize() });
     setTimeout(windowingApiDemo.clear, 2000);
   }
 }

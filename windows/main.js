@@ -12,7 +12,7 @@ function reset() {
   }
 
   windows.forEach( function (w) {
-    w.close();
+    w.contentWindow.close();
   } );
 
   windows.length = 0;
@@ -35,7 +35,8 @@ function launch() {
       height: 300,
       minHeight: 300,
       maxWidth: 500,
-      minWidth: 300
+      minWidth: 300,
+      frame: 'none'
     },
 
     // when that is created store it
@@ -63,20 +64,20 @@ function launch() {
         // now have the copycat watch the
         // original window for changes
         updateInterval = setInterval(function() {
-          if (originalWindow.closed || copycatWindow.closed) {
+          if (originalWindow.contentWindow.closed || copycatWindow.contentWindow.closed) {
             reset();
             return;
           }
 
           copycatWindow.moveTo(
-              originalWindow.screenX + originalWindow.outerWidth + 5,
-              originalWindow.screenY);
+              originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
+              originalWindow.contentWindow.screenY);
           copycatWindow.resizeTo(
-              originalWindow.outerWidth,
-              originalWindow.outerHeight);
+              originalWindow.contentWindow.outerWidth,
+              originalWindow.contentWindow.outerHeight);
         }, 10);
 
-        originalWindow.chrome.app.window.focus();
+        originalWindow.focus();
 
       });
   });
@@ -89,7 +90,7 @@ function launch() {
 function minimizeAll() {
 
   windows.forEach( function (w) {
-    w.chrome.app.window.minimize();
+    w.minimize();
   });
 
   // sets a timeout to kill the windows

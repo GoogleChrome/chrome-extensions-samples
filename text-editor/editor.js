@@ -122,7 +122,7 @@ function createNew() {
 }
 
 function openFile() {
-  chrome.fileSystem.chooseFile(function (entry) {
+  chrome.fileSystem.chooseEntry(function (entry) {
     if (chrome.runtime.lastError) {
       showError(chrome.runtime.lastError.message);
       return;
@@ -137,7 +137,7 @@ function saveFile() {
   if (gotWritable) {
     saveToEntry();
   } else if (fileEntry) {
-    chrome.fileSystem.getWritableFileEntry(fileEntry, function(entry) {
+    chrome.fileSystem.getWritableEntry(fileEntry, function(entry) {
       if (chrome.runtime.lastError) {
         showError(chrome.runtime.lastError.message);
         return;
@@ -152,7 +152,7 @@ function saveFile() {
 }
 
 function saveAs() {
-  chrome.fileSystem.chooseFile({type: 'saveFile'}, function(entry) {
+  chrome.fileSystem.chooseEntry({type: 'saveFile'}, function(entry) {
     if (chrome.runtime.lastError) {
       showError(chrome.runtime.lastError.message);
       return;

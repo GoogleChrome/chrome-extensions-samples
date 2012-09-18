@@ -140,7 +140,7 @@ console.log(headers['Content-Range']);
 
 console.log(startByte, startByte + chunkSize_);
 
-        var chunk = this.file.webkitSlice(
+        var chunk = this.file.slice(
             startByte, startByte + chunkSize_, this.file.type);
 
 console.log(chunk, chunk.size);

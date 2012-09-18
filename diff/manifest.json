@@ -12,8 +12,7 @@
   },
   "permissions": ["storage",
                   "unlimitedStorage",
-                  "fileSystem",
-                  "fileSystemWrite",
+                  {"fileSystem": ["write"]},
                   "clipboardRead",
                   "clipboardWrite",
                   "<all_urls>"
