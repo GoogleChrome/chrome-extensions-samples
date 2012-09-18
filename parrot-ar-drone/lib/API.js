@@ -74,6 +74,9 @@ DRONE.API = (function() {
           sendFlatTrim();
           sendSensitivity();
 
+          // send this if you're flying outdoors
+          // sendOutdoor();
+
           // now enable controls
           status.enabled = COMMANDS_ENABLED;
 
@@ -316,6 +319,9 @@ DRONE.API = (function() {
     status.angularSpeed = -val;
   }
 
+  /**
+   * Resets all values to zero
+   */
   function allStop() {
     status.angularSpeed = 0;
     status.verticalSpeed = 0;
