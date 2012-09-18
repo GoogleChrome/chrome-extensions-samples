@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AR.Drone 2.0</title>
+    <link href="styles/drone.css" rel="stylesheet"></link>
+</head>
+<body>
+
+  <h1>AR.Drone 2.0</h1>
+  <p id="message">Connect to the AR.Drone's Wifi network. Then press A
+    on your gamepad to get started.</p>
+  <p id="instructions">
+    <strong>Left shoulder button:</strong> Land<br/>
+    <strong>Right shoulder button:</strong> Take off<br/>
+    <strong>Left stick:</strong> move<br/>
+    <strong>Right stick:</strong> rotate left-right / raise and lower<br/></p>
+
+  <div id="commands">
+    <h2>Command log</h2>
+    <textarea id="log"></textarea>
+  </div>
+
+  <script src="third-party/gamepad.js"></script>
+
+  <script src="lib/Util.js"></script>
+  <script src="lib/NavData.js"></script>
+  <script src="lib/Command.js"></script>
+  <script src="lib/Sequence.js"></script>
+  <script src="lib/API.js"></script>
+  <script src="lib/Gamepad.js"></script>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>
