@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Foreman Task Tracker",
   "description": "A work-context, task-tracker, and snippets creator",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "minimum_chrome_version": "23",
   "app": {
     "background": {
