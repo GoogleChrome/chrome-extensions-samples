@@ -93,3 +93,35 @@ h1 {
 .constActive {
   -webkit-user-select: none;
 }
+
+.menu {
+  position: relative;
+}
+
+.menu>ul.list {
+  display: none;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 999;
+  width: auto;
+  padding: 2px;
+  list-style: none;
+  background: #eee;
+  box-shadow: 3px 3px 2px #888888;
+}
+
+.menu>ul.list li {
+  text-align: left;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.menu>ul.list li:hover {
+  background: #EC6603;
+  color: #fff;
+}
+
+.menu>ul.list li:last-child {
+  border: none
+}

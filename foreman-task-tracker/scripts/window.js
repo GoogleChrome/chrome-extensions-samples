@@ -33,74 +33,40 @@ var B = Object.freeze({
   SRC_RESUME: 'resume',
 });
 
-function undoSnapshot() {}
-function deleteSnapshot() {}
-function sendSnapshot() {}
-function alterSnapshot() {}
+var SNAPMENU_ACTIONS = {
+  undoSnapshot: function undoSnapshot() {},
+  deleteSnapshot: function deleteSnapshot() {},
+  sendSnapshot: function sendSnapshot() {},
+  alterSnapshot: function alterSnapshot() {}
+};
+var SNAPMENU_COMMON = {
+  documentUrlPatterns: ['chrome-extension://*/window.html'],
+  contexts: ['link'],
+  targetUrlPatterns: ['chrome-extension://*/snapmenu.dummy']
+};
+var SNAPMENU_CMDS = [
+  $.extend({
+            id: 'undoSnapshot',
+            title: 'Delete and Restore Pending',
+           }, SNAPMENU_COMMON),
+  $.extend({
+            id: 'deleteSnapshot',
+            title: 'Delete and Purge Pending',
+           }, SNAPMENU_COMMON),
+  $.extend({
+            id: 'sendSnapshot',
+            title: 'Send Snapshot to Snippets',
+           }, SNAPMENU_COMMON),
+  $.extend({
+            id: 'alterSnapshot',
+            title: 'Alter Snapshot Date',
+           }, SNAPMENU_COMMON),
+];
 
 function snapshotMenu(date) {
-  var O = {
-    documentUrlPatterns: ['chrome-extension://*/window.html'],
-    contexts: ['link'],
-    targetUrlPatterns: ['chrome-extension://*/snapmenu.dummy']
-  };
-  var CMDS = [
-    $.extend({
-              id: 'undo-snapshot',
-              title: 'Delete and Restore Pending'
-             }, O),
-    $.extend({
-              id: 'delete',
-              title: 'Delete and Purge Pending'
-             }, O),
-    $.extend({
-              id: 'send-to-snippets',
-              title: 'Send Snapshot to Snippets'
-             }, O),
-    $.extend({
-              id: 'alter-date',
-              title: 'Alter Snapshot Date'
-             }, O),
-  ];
   chrome.contextMenus.removeAll(function() {
-    for (var i = 0; i < CMDS.length; ++i) {
-      chrome.contextMenus.create(CMDS[i]);
-    }
-  });
-}
-
-function undoSnapshot() {}
-function deleteSnapshot() {}
-function sendSnapshot() {}
-function alterSnapshot() {}
-
-function snapshotMenu(date) {
-  var O = {
-    documentUrlPatterns: ['chrome-extension://*/window.html'],
-    contexts: ['link'],
-    targetUrlPatterns: ['chrome-extension://*/snapmenu.dummy']
-  };
-  var CMDS = [
-    $.extend({
-              id: 'undo-snapshot',
-              title: 'Delete and Restore Pending'
-             }, O),
-    $.extend({
-              id: 'delete',
-              title: 'Delete and Purge Pending'
-             }, O),
-    $.extend({
-              id: 'send-to-snippets',
-              title: 'Send Snapshot to Snippets'
-             }, O),
-    $.extend({
-              id: 'alter-date',
-              title: 'Alter Snapshot Date'
-             }, O),
-  ];
-  chrome.contextMenus.removeAll(function() {
-    for (var i = 0; i < CMDS.length; ++i) {
-      chrome.contextMenus.create(CMDS[i]);
+    for (var i = 0; i < SNAPMENU_CMDS.length; ++i) {
+      chrome.contextMenus.create(SNAPMENU_CMDS[i]);
     }
   });
 }
@@ -144,45 +110,20 @@ function tabclick() {
   return false;
 }
 
-// <div class="size">
-//   <input type="text" name="test" value="choose your size" class="field" readonly="readonly" />
-//   <ul class="list">
-//     <li>Male - M</li>
-//     <li>Female - M</li>
-//     <li>Male - S</li>
-//     <li>Female - S</li>
-//   </ul>
-// </div>
-function deleteSnapshot(arg) {
-
-}
-
 function installMenu(jqdom) {
-  var ITEMS = [
-    {
-      id:'delete',
-      label: 'Delete Snapshot',
-      action: deleteSnapshot
-    },
-    {
-      id:'deletex',
-      label: 'Delete Snapshot X',
-      action: deleteSnapshot
-    }
-  ];
-
-  var T = 400;
+  var ITEMS = SNAPMENU_CMDS;
+  var T = 100;
   var listdom = $('<ul class="list">')
     .hover(function() {
-      $('li', this).fadeOut(T);
+      //$('li', this).fadeOut(T);
     });
   for (var i = 0; i < ITEMS.length; ++i) {
     listdom.append($('<li>')
       .attr('id', ITEMS[i].id)
-      .append(ITEMS[i].label)
+      .append(ITEMS[i].title)
       .click(function() {
         listdom.fateOut(400);
-        ITEMS[i].action(ITEMS[i])
+        SNAPMENU_ACTIONS[ITEMS[i].id](ITEMS[i]);
       })
       .hover(function(){
 
