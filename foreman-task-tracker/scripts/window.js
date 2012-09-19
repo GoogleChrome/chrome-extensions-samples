@@ -4,11 +4,12 @@
 // module (WIP)
 var foreman = {
   ui: {},
+  regex: [],
+  cregex: [],
   snapLookup: []
 };
 
 var model = {}
-var regex = [];
 var activeTabAnchor;
 var activeTabHref;
 var rowid = 1;
@@ -20,11 +21,15 @@ var extracts = {};
 var keysFromStorage = {};
 
 var B = Object.freeze({
+  SETTINGS_WIDTH: 600,
+  SETTINGS_HEIGHT: 450,
   ARCHIVE:'.archive-button',
   UNARCHIVE:'.unarchive-button',
   RESUME:'.resume-button',
   DELETE:'.delete-button',
   STORESEP: '_',
+  STORE_META: 'meta',
+  STORE_REGEX: 'regex',
   DATESEP: '-',
   SNAPKEY_PREFIX: 'd',
   STATE_PENDING: 'P',
@@ -35,7 +40,32 @@ var B = Object.freeze({
   SRC_SNAPSHOT: 'snapshot',
   SRC_DELETE: 'delete',
   SRC_RESUME: 'resume',
+  DEFAULT_REGEX:
+  [
+    ['(http://code.google.com/p/chromium/issues/detail\\?id=)(\\d+)',
+     '<a href="$1$2">crbug/$2</a>'],
+    ['(https://chromiumcodereview.appspot.com/)(\\d+)(/?)',
+     '<a href="$1$2$3">cl$2</a>'],
+    ['(\\w*://)?(\\w+\\.\\S+)',
+     '<a href="$1$2">$2</a>']
+  ]
 });
+
+function setRegex(arg) {
+  foreman.regex = arg;
+  foreman.cregex = [];
+  for (var i = 0; i < foreman.regex.length; ++i) {
+    var e = foreman.regex[i];
+    foreman.cregex.push(new RegExp(e[0]));
+  }
+}
+
+function applyRegex(s) {
+  for (var i = 0; i < foreman.regex.length; ++i) {
+    s = s.replace(foreman.cregex[i], foreman.regex[i][1]);
+  }
+  return s;
+}
 
 function snapshotOperation(op, arg) {
   var date = foreman.snapLookup[arg.get()[0].id.split('_')[1]];
@@ -329,8 +359,9 @@ function addTriggers(tabDOM) {
     modelReset(model, B.SRC_RESUME); //
   }
   function addFromTextarea(tabDOM) {
+    var s = applyRegex($('.entry', tabDOM).val());
     var note = {
-      text: $('.entry', tabDOM).val(),
+      text: s,
       state: B.STATE_ACTIVE
     };
     tabDOM.context.notes.push(note);
@@ -538,13 +569,17 @@ function modelReset(newmodel, src) {
     .appendTo('#tabcontainer');
 
   $('.settings-button', snapDOM).click(function() {
+    if (foreman.ui.settingsWindow) {
+      foreman.ui.settingsWindow.focus();
+      return;
+    }
     chrome.app.window.create('settings.html', {
-      'height': 450,
-      'width': 450,
+      'height': B.SETTINGS_HEIGHT,
+      'width': B.SETTINGS_WIDTH,
       'left': window.screenX + window.outerWidth,
       'top': window.screenY
-    }, function(appwindow) {
-      appwindow.dom.parent = window;
+    }, function(appWindow) {
+      foreman.ui.settingsWindow = appWindow;
     });
   });
   $('.snapshot-button', snapDOM).click(function() {
@@ -639,8 +674,12 @@ function loadFromStorage(syncmodel) {
   });
   keysFromStorage = {};
   $.each(syncmodel, function(noteid, note) {
-    if (noteid == 'meta')
+    if (noteid == B.STORE_META)
       return;
+    if (noteid == B.STORE_REGEX) {
+      setRegex(note);
+      return;
+    }
     var keys = noteid.split(B.STORESEP);
     if (noteid[0] != 'c' || keys.length != 2) {
       console.log("Deleting unknown/malformed key -- " + noteid);
@@ -663,8 +702,18 @@ function changeTrigger(changes, namespace) {
   var vno = '';
   var vnn = '';
   var numChanges = 0;
-  for (key in changes)
+  for (key in changes) {
+    switch (key) {
+    case B.STORE_META:
+      delete changes[key];
+      continue;
+    case B.STORE_REGEX:
+      setRegex(changes[key].newValue);
+      delete changes[key];
+      continue;
+    }
     ++numChanges;
+  }
   var redraw = false;
   var allmine = true;
   console.log(changes);
@@ -735,6 +784,9 @@ function changeTrigger(changes, namespace) {
       loadFromStorage(syncmodel);
     }
   });
+  if (foreman.regex.length == 0)
+    setRegex(B.DEFAULT_REGEX);
+
   chrome.storage.onChanged.addListener(changeTrigger);
 
   var minimizeNode = document.getElementById('minimize-button');
