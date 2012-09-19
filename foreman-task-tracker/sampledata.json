@@ -2,7 +2,7 @@
   "snapshot": ["d20120817", "d20120810"],
   "context": [
     {
-      "name": "WorkContext 1",
+      "name": "Context 1",
       "notes": [
         {
           "text": "Some Previous Note 1",
@@ -46,7 +46,7 @@
         }
       ]
     },{
-      "name": "WorkContext 2",
+      "name": "Context 2",
       "notes": [
         {
           "text": "Some Previous Note 9",
