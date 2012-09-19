@@ -108,6 +108,7 @@ h1 {
   background: #eee;
   box-shadow: 3px 3px 2px #888888;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 .menu>ul.list li {

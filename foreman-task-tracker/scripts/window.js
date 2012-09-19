@@ -1,6 +1,10 @@
+// Whole-script strict mode syntax
+'use strict';
+
 // module (WIP)
 var foreman = {
-  ui: {}
+  ui: {},
+  snapLookup: []
 };
 
 var model = {}
@@ -33,18 +37,35 @@ var B = Object.freeze({
   SRC_RESUME: 'resume',
 });
 
+function snapshotOperation(op, arg) {
+  var date = foreman.snapLookup[arg.get()[0].id.split('_')[1]];
+  for (var i = 0; i < model.context.length; ++i) {
+    var ctx = model.context[i];
+    for (var j = 0; j < ctx.notes.length; ++j) {
+      var note = ctx.notes[j];
+      if (!note.snap || !note.snap[date])
+        continue;
+      if (op == 'UNDO' && !note.state)
+        note.state = B.STATE_PENDING;
+      if (op == 'UNDO' || op == 'DELETE')
+        delete note.snap[date];
+    }
+  }
+  modelReset(model);
+}
+
 var SNAPMENU_ACTIONS = {
-  undoSnapshot: function undoSnapshot() {
-    console.log('undo');
+  undoSnapshot: function undoSnapshot(arg) {
+    snapshotOperation('UNDO', arg);
   },
-  deleteSnapshot: function deleteSnapshot() {
-    console.log('delete');
+  deleteSnapshot: function deleteSnapshot(arg) {
+    snapshotOperation('DELETE', arg);
   },
   sendSnapshot: function sendSnapshot() {
-
+    confirm('unimplemented');
   },
   alterSnapshot: function alterSnapshot() {
-
+    prompt('unimplemented', currentSnapKey());
   }
 };
 var SNAPMENU_COMMON = {
@@ -129,12 +150,12 @@ function installMenu(jqdom) {
       .append(item.title)
       .click(function(e) {
         listdom.fadeOut(T);
-        SNAPMENU_ACTIONS[this.id](item);
+        SNAPMENU_ACTIONS[this.id](jqdom, item);
         return false;
       })
     );
   }
-  var divdom = $('<div>')
+  var divdom = $('<span>')
     .addClass('menu')
     .append(listdom);
 
@@ -150,7 +171,7 @@ function installMenu(jqdom) {
     .mousedown(function(){
       listdom.fadeOut(T);
     });
-  return jqdom.append(divdom);
+  return jqdom.before(divdom);
 }
 
 $(document).ready(function() {
@@ -208,9 +229,13 @@ function moveDomRow(modelPart, templateDom) {
   return tr;
 }
 
-function performSnapshot() {
+function currentSnapKey() {
   var now = new Date();
-  var key = B.SNAPKEY_PREFIX + now.toISOString().replace(/[-:]/g, '');
+  return B.SNAPKEY_PREFIX + now.toISOString().replace(/[-:]/g, '');
+}
+
+function performSnapshot() {
+  var key = currentSnapKey();
   for (var i = 0; i < model.context.length; ++i) {
     var ctx = model.context[i];
     for (var j = 0; j < ctx.notes.length; ++j) {
@@ -535,6 +560,7 @@ function modelReset(newmodel, src) {
     if (lhs == rhs) return 0;
     return lhs < rhs ? 1 : -1; //reverse
   });
+  foreman.snapLookup = extractDates;
 
   $.each(extractDates, function(idx, date) {
     var rows = extracts[date];
@@ -545,7 +571,7 @@ function modelReset(newmodel, src) {
     var menuid = 'smenu_' + idx;
     $('<dl>')
       .append($('<dt>')
-        .append(installMenu($('<button class="T-I menu-button" title="Tasks">')))
+        .append(installMenu($('<button class="T-I menu-button" title="Tasks" id="b'+menuid+'">')))
 /*
         .append($('<button class="menu-button T-I" title="Tasks">'))
         .append($('<a href="snapmenu.dummy" class="menu-anchor">'))
@@ -699,7 +725,7 @@ function changeTrigger(changes, namespace) {
   }
 }
 
-onload = function() {
+(function() {
   snapshotMenu();
   chrome.storage.sync.get(null, function(syncmodel) {
     if (!syncmodel.meta) {
@@ -719,5 +745,4 @@ onload = function() {
       });
     };
   }
-}
-
+})();
