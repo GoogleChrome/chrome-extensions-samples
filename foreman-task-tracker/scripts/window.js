@@ -34,10 +34,18 @@ var B = Object.freeze({
 });
 
 var SNAPMENU_ACTIONS = {
-  undoSnapshot: function undoSnapshot() {},
-  deleteSnapshot: function deleteSnapshot() {},
-  sendSnapshot: function sendSnapshot() {},
-  alterSnapshot: function alterSnapshot() {}
+  undoSnapshot: function undoSnapshot() {
+    console.log('undo');
+  },
+  deleteSnapshot: function deleteSnapshot() {
+    console.log('delete');
+  },
+  sendSnapshot: function sendSnapshot() {
+
+  },
+  alterSnapshot: function alterSnapshot() {
+
+  }
 };
 var SNAPMENU_COMMON = {
   documentUrlPatterns: ['chrome-extension://*/window.html'],
@@ -113,20 +121,16 @@ function tabclick() {
 function installMenu(jqdom) {
   var ITEMS = SNAPMENU_CMDS;
   var T = 100;
-  var listdom = $('<ul class="list">')
-    .hover(function() {
-      //$('li', this).fadeOut(T);
-    });
+  var listdom = $('<ul class="list">');
   for (var i = 0; i < ITEMS.length; ++i) {
+    var item = ITEMS[i];
     listdom.append($('<li>')
-      .attr('id', ITEMS[i].id)
-      .append(ITEMS[i].title)
-      .click(function() {
-        listdom.fateOut(400);
-        SNAPMENU_ACTIONS[ITEMS[i].id](ITEMS[i]);
-      })
-      .hover(function(){
-
+      .attr('id', item.id)
+      .append(item.title)
+      .click(function(e) {
+        listdom.fadeOut(T);
+        SNAPMENU_ACTIONS[this.id](item);
+        return false;
       })
     );
   }
@@ -136,11 +140,16 @@ function installMenu(jqdom) {
 
   jqdom.click(function() {
     listdom.fadeIn(T);
-    $(document).keyup(function(event) {
-      if (event.keyCode == 27)
-        divdom.fadeOut(T);
-    }); //fadeout on escape
+    return false;
   });
+  $(document)
+    .keyup(function(event) { //fadeout on escape
+      if (event.keyCode == 27)
+        listdom.fadeOut(T);
+    })
+    .mousedown(function(){
+      listdom.fadeOut(T);
+    });
   return jqdom.append(divdom);
 }
 

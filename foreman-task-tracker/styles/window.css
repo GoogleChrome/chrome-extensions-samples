@@ -73,7 +73,7 @@ html, body {
   margin: 0;
   width: 100%;
   height: 100%;
-  font-family: Helvetica, Arial;
+  font-family: sans-serif;
 }
 
 h1 {
@@ -103,11 +103,11 @@ h1 {
   position: absolute;
   white-space: nowrap;
   z-index: 999;
-  width: auto;
-  padding: 2px;
+  padding: 0px;
   list-style: none;
   background: #eee;
   box-shadow: 3px 3px 2px #888888;
+  border: 1px solid #ccc;
 }
 
 .menu>ul.list li {
@@ -120,8 +120,4 @@ h1 {
 .menu>ul.list li:hover {
   background: #EC6603;
   color: #fff;
-}
-
-.menu>ul.list li:last-child {
-  border: none
 }
