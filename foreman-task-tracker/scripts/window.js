@@ -171,7 +171,7 @@ function tabclick() {
 
 function installMenu(jqdom) {
   var ITEMS = SNAPMENU_CMDS;
-  var T = 100;
+  var FADE_TIME = 100;
   var listdom = $('<ul class="list">');
   for (var i = 0; i < ITEMS.length; ++i) {
     var item = ITEMS[i];
@@ -179,28 +179,19 @@ function installMenu(jqdom) {
       .attr('id', item.id)
       .append(item.title)
       .click(function(e) {
-        listdom.fadeOut(T);
+        listdom.fadeOut(FADE_TIME);
         SNAPMENU_ACTIONS[this.id](jqdom, item);
-        return false;
       })
     );
   }
-  var divdom = $('<span>')
-    .addClass('menu')
-    .append(listdom);
-
-  jqdom.click(function() {
-    listdom.fadeIn(T);
-    return false;
-  });
+  var divdom = $('<span class="menu">').append(listdom);
+  jqdom.click(function() {listdom.fadeIn(FADE_TIME);});
   $(document)
     .keyup(function(event) { //fadeout on escape
       if (event.keyCode == 27)
-        listdom.fadeOut(T);
+        listdom.fadeOut(FADE_TIME);
     })
-    .mousedown(function(){
-      listdom.fadeOut(T);
-    });
+    .mousedown(function(){listdom.fadeOut(FADE_TIME);});
   return jqdom.before(divdom);
 }
 
@@ -723,11 +714,13 @@ function changeTrigger(changes, namespace) {
     for (key in changes) {
       var change = changes[key];
       kn = key;
-      vnn = change.newValue.text;
+      if (!change.newValue.text)
+        continue;
       if (!change.oldValue) {
         allmine = false;
         continue;
       }
+      vnn = change.newValue.text;
       vno = change.oldValue.text;
       if (change.newValue.text) {
         var idnum = idnumLookup[key];
