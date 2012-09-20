@@ -1,3 +1,12 @@
+/**
+ * API which opens the sockets and handles sending the data to
+ * and receiving the data from the AR Drone
+ *
+ * Additional thanks to Felix Geisendörfer (felixge) for the Node AR Drone lib
+ * which served as a helpful reference.
+ *
+ * @see https://github.com/felixge/node-ar-drone
+ */
 var DRONE = DRONE || {};
 DRONE.API = (function() {
 
