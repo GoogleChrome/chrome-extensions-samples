@@ -560,9 +560,13 @@ function modelReset(newmodel, src) {
     .appendTo('#tabcontainer');
 
   $('.settings-button', snapDOM).click(function() {
-    if (foreman.ui.settingsWindow) {
-      foreman.ui.settingsWindow.focus();
-      return;
+    try {
+      if (foreman.ui.settingsWindow) {
+        foreman.ui.settingsWindow.focus();
+        return;
+      }
+    } catch (e) {
+      console.log('note:,', e, 'making new settings window.');
     }
     chrome.app.window.create('settings.html', {
       'height': B.SETTINGS_HEIGHT,
