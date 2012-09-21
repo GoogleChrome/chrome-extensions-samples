@@ -43,9 +43,11 @@ var B = Object.freeze({
   DEFAULT_REGEX:
   [
     ['(http://code.google.com/p/chromium/issues/detail\\?id=)(\\d+)',
-     '<a href="$1$2">crbug/$2</a>'],
+     '<a href="$1$2">crbug/$2</a>',
+     'break'],
     ['(https://chromiumcodereview.appspot.com/)(\\d+)(/?)',
-     '<a href="$1$2$3">cl$2</a>'],
+     '<a href="$1$2$3">cl$2</a>',
+     'break'],
     ['(\\w*://)?(\\w+\\.\\S+)',
      '<a href="$1$2">$2</a>']
   ]
@@ -62,7 +64,12 @@ function setRegex(arg) {
 
 function applyRegex(s) {
   for (var i = 0; i < foreman.regex.length; ++i) {
-    s = s.replace(foreman.cregex[i], foreman.regex[i][1]);
+    var rep = s.replace(foreman.cregex[i], foreman.regex[i][1]);
+    if (rep != s) {
+      if (foreman.regex[i].length > 2 && foreman.regex[i][2] == 'break')
+        return rep;
+      s = rep;
+    }
   }
   return s;
 }
@@ -625,6 +632,7 @@ function modelReset(newmodel, src) {
         .append(' &middot; ')
         .append($('<a href="snapmenu.dummy" id="'+menuid+'">')
                 .append('menu')
+                .click(function(){return false;})
 /*
                 .on('mousedown', function(e) {
                   console.log('button = ' + e.button);
@@ -646,6 +654,7 @@ function modelReset(newmodel, src) {
       )
       .append($('<dd>').append(tableDOM))
       .appendTo('#tabsnapshots');
+      $('#tabsnapshots :not(a[href^="#"])').attr('target','_blank');
   });
   appendTab('new', {name: "New"}, function() {
     model.context.push({name:'',  notes:[]});
