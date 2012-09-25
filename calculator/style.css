@@ -65,23 +65,6 @@ body {
   z-index: 99;
 }
 
-.close {
-  background: url('img/x.png') center no-repeat;
-  background-size: 20px 20px;
-  height: 20px;
-  width: 20px;
-  margin: 4px;
-  opacity: 0.5;
-  position:absolute;
-  top: 0;
-  right: 0;
-  z-index: 100;
-}
-
-.close:hover {
-  opacity: 1;
-}
-
 .equation {
   width: 100%;
   position: relative;
