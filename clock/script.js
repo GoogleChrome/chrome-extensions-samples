@@ -374,6 +374,7 @@ function getCurrentPosSuccessFunction(position) {
 
 function getCurrentPosErrorFunction(error) {
   console.log("Geocoder failed");
+  local = -new Date().getTimezoneOffset()/60;
   setupClocks();
   setupAlarms();
   setupTimer();
