@@ -285,11 +285,13 @@ function performSnapshot() {
   modelReset(model, B.SRC_SNAPSHOT);
 }
 
-function saveModel(filter) {
+function saveModel(filter, store) {
+  if (!store)
+    store = foreman.store;
   if (filter && filter.note.storageKey) {
     var ob = {};
     ob[filter.note.storageKey] = filter.note;
-    chrome.storage.sync.set(ob, function() {
+    store.set(ob, function() {
         document.getElementById('status').innerHTML
               = 'sync ' + filter.note.storageKey + "@" + new Date();
     });
@@ -313,8 +315,8 @@ function saveModel(filter) {
   }
   var toRemove = Object.keys(untouchedNotes);
   if (toRemove.length > 0)
-    chrome.storage.sync.remove(Object.keys(untouchedNotes));
-  chrome.storage.sync.set(snapshot, function() {
+    store.remove(Object.keys(untouchedNotes));
+  store.set(snapshot, function() {
     document.getElementById('status').innerHTML
         = 'full sync at ' + new Date();
   });
@@ -687,7 +689,7 @@ function loadFromStorage(syncmodel) {
     var keys = noteid.split(B.STORESEP);
     if (noteid[0] != 'c' || keys.length != 2) {
       console.log("Deleting unknown/malformed key -- " + noteid);
-      chrome.storage.sync.remove(noteid);
+      foreman.store.remove(noteid);
       return;
     }
     keysFromStorage[noteid] = 1;
@@ -698,7 +700,7 @@ function loadFromStorage(syncmodel) {
     }
     context.notes[keys[1]] = note;
   });
-  modelReset(jsonmodel, 'storage.sync');
+  modelReset(jsonmodel, 'foreman.store');
 }
 
 function changeTrigger(changes, namespace) {
@@ -782,12 +784,19 @@ function changeTrigger(changes, namespace) {
 
 (function() {
   snapshotMenu();
+  foreman.store = chrome.storage.local;
   chrome.storage.sync.get(null, function(syncmodel) {
-    if (!syncmodel.meta) {
-      console.log(syncmodel);
-      loadSampleModel('"meta" not in model:');
-    } else {
+    if (syncmodel.useSync === true) {
+      foreman.store = chrome.storage.sync;
       loadFromStorage(syncmodel);
+    } else {
+      chrome.storage.local.get(null, function(localsync) {
+        if (!localsync.meta) {
+          loadSampleModel('"meta" not in local storage');
+        } else {
+          loadFromStorage(localsync);
+        }
+      });
     }
   });
   if (foreman.regex.length == 0)
