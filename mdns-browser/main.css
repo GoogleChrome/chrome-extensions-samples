@@ -8,12 +8,13 @@ body {
 
 div#main {
   position: absolute;
-  top: 40px;
+  top: 44px;
   bottom: 0;
   width: 100%;
   overflow-y: scroll;
   color: white;
   color: black;
+  -webkit-widget-region: region(control rectangle);
 }
 
 ul#results {
@@ -21,9 +22,21 @@ ul#results {
   font-family: Arial, Helvetica, Sans-Serif;
   font-size: 12px;
   line-height: 21px;
-  padding: 0.5em 0.5em;
+  padding: 0em 0.5em;
   padding-right: 2em;
   margin: 0;
+}
+
+ul.working#results {
+  background: url(img/working.gif) no-repeat center;
+  min-height: 80px;
+}
+
+ul strong.warning {
+  color: #D14836;
+  text-align: center;
+  display: block;
+  padding: 0.5em;
 }
 
 ul#results > ul {

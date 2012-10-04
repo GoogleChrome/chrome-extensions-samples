@@ -16,5 +16,3 @@ Analytics credentials.*
 * [CSP](http://developer.chrome.com/trunk/apps/app_csp.html)
 * [Sandbox](http://developer.chrome.com/trunk/apps/manifest.html#sandbox)
 
----
-Last updated: 2012-08-14 by miu

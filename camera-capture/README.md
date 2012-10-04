@@ -10,5 +10,3 @@ to be set in the manifest file.
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [videoCapture and audioCapture](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
 
----
-Last updated: 2012-08-17 by paullewis

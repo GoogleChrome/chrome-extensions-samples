@@ -22,9 +22,7 @@ serial-control-signals
 servo
 singleton
 storage
-telnet
 text-editor
-udp
 usb/adkjs/app
 webintents
 weather
