@@ -5,22 +5,20 @@ Use chrome.storage.sync to share small chunks of data among all of your Chrome d
 Important: needs "key" in manifest.json to support testing outside of CWS, so that sync storage is shared among different instances.
 
 
-```javascript
-// app.js
-chrome.storage.sync.set({"myValue": newValue}, mycallback);
-...
-chrome.storage.onChanged.addListener(
-  function(changes, namespace) {
-    // do something
-  }
-);
-...
-chrome.storage.sync.get("myValue", 
-  function(val) {
-    // do something
-  }
-);
-```
+    // app.js
+    chrome.storage.sync.set({"myValue": newValue}, mycallback);
+    ...
+    chrome.storage.onChanged.addListener(
+      function(changes, namespace) {
+        // do something
+      }
+    );
+    ...
+    chrome.storage.sync.get("myValue", 
+      function(val) {
+        // do something
+      }
+    );
 
 ## APIs
 

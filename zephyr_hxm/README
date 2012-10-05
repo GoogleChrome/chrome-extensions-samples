@@ -1,9 +1,0 @@
-- Very simple Zephyr HXM client
-- Uses the experimental bluetooth API to fetch heart rate data from a Zephyr HXM device
-- Uses http://www.highcharts.com/ to display the data inside of a sandboxed iframe
-
-Caveats:
-- The bluetooth API is only available on Chrom(e|ium)OS
-- Resource clean-up isn't happening properly yet: you will likely have to disable/enable bluetooth between runs of the program or the connection will fail
-
-Questions/comments: bryeung@chromium.org

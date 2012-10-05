@@ -1,3 +1,5 @@
+# Arduino LED toggle
+
 Note: on Mac OS X Lion, it's necessary to update USB Serial drivers:
 http://geekscape.posterous.com/mac-os-x-17-lion-upgrading-ftdi-usb-serial-dr
 
@@ -11,3 +13,9 @@ state of an LED connected to an Arduino.
 
 Future version: use the standard Firmata sketch and build a JS firmata driver
 for Chrome packaged apps.
+
+## APIs
+
+* [Serial API](http://developer.chrome.com/trunk/apps/app.hardware.html#serial)
+* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
