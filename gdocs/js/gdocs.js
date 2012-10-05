@@ -53,15 +53,14 @@ function GDocs(selector) {
 };
 
 GDocs.prototype.auth = function(opt_callback) {
-  var self = this;
   try {
     chrome.experimental.identity.getAuthToken({interactive: false}, function(token) {
       //document.querySelector('#authorize-button').disabled = true;
       if (token) {
-        self.accessToken = token;
+        this.accessToken = token;
         opt_callback && opt_callback();
       }
-    });
+    }.bind(this));
   } catch(e) {
     console.log(e);
   }
@@ -84,11 +83,10 @@ GDocs.prototype.makeRequest = function(method, url, callback, opt_data, opt_head
     xhr.setRequestHeader(key, headers[key]);
   }
 
-  var self = this;
   xhr.onload = function(e) {
-    self.lastResponse = this.response;
-    callback(self.lastResponse, this);
-  };
+    this.lastResponse = this.response;
+    callback(this.lastResponse, this);
+  }.bind(this);
   xhr.onerror = function(e) {
     console.log(this, this.status, this.response,
                 this.getAllResponseHeaders());
@@ -151,14 +149,13 @@ GDocs.prototype.upload = function(blob, callback) {
     //progressBar: document.getElementById('#progress')
   });
 
-  var self = this;
   uploader.uploadFile({
     resumableMediaLink: this.CREATE_SESSION_URI/*,entry: entry*/
   }, function(response) {
     var entry = JSON.parse(response).entry;
 console.log(entry, entry.docs$filename.$t, entry.docs$size.$t);
-    self.getDocumentList(null, callback);
-  });
+    this.getDocumentList(null, callback);
+  }.bind(this));
 };
 
 GDocs.prototype.render = function(lastResponse, xhr) {
