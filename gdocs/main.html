@@ -22,6 +22,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 <title>Google Drive Uploader</title>
 <link rel="stylesheet" media="all" href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" media="all" href="css/main.css">
+<base target="_blank">
 </head>
 <body>
 
@@ -40,8 +41,8 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 
   <ul>
     <li data-ng-repeat="doc in docs">
-      <!-- crbug.com/120693. These anchors shouldn't need target="_blank".-->
-      <img src="{{doc.icon}}"> <a href="{{doc.alternateLink}}" target="_blank">{{doc.title}}</a>  {{doc.size}}
+      <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->
+      <img src="{{doc.icon}}"> <a href="{{doc.alternateLink}}">{{doc.title}}</a>  {{doc.size}}
       <span class="date">{{doc.updatedDate}}</span>
     </li>
   </ul>
