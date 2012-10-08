@@ -7,8 +7,7 @@ chrome.app.runtime.onLaunched.addListener(function(data) {
       width: 700,
       height: 473,
       minWidth: 700,
-      minHeight: 473,
-      frame: 'none'
+      minHeight: 473
     }, function(win) {
       mainWindow = win;
       if (data && data.intent && data.intent.type.indexOf('image') === 0)

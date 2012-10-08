@@ -12,6 +12,6 @@
   },
 
   "permissions": [
-    "videoCapture"
+    "videoCapture", "serial"
   ]
 }
