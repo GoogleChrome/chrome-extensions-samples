@@ -16,7 +16,7 @@ limitations under the License.
 
 Author: Eric Bidelman (ericbidelman@chromium.org)
 -->
-<html data-ng-app>
+<html data-ng-app="gDriveApp">
 <head>
 <meta charset="utf-8" />
 <title>Google Drive Uploader</title>
@@ -24,13 +24,13 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 <link rel="stylesheet" media="all" href="css/main.css">
 <base target="_blank">
 </head>
-<body>
+<body data-ng-controller="DocsController">
 
 <div id="dropper">
   <div class="dropzone"><img src="img/upload.svg"></div>
 </div>
 
-<section id="main" data-ng-controller="DocsController">
+<section id="main">
   <nav>
     <h2>Google Drive Uploader</h2>
     <!--<button id="authorize-button" class="btn" onclick="auth()">Authorize</button>-->
@@ -52,7 +52,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 <script src="js/dnd.js"></script>
 <script src="js/resumableupload.js"></script>
 <script src="js/gdocs.js"></script>
-<script src="js/app.js"></script>
 <script src="js/angular-1.1.0.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
