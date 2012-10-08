@@ -67,20 +67,6 @@ gDriveApp.factory('gdocs', function() {
 function DocsController($scope, $http, gdocs) {
   $scope.docs = [];
 
-  function onResponse(doc, i, totalEntries, opt_inform) {
-    var inform = opt_inform || false;
-
-    $scope.docs.push(doc);
-
-    // Only want to sort and call $apply() when we have all entries.
-    if (totalEntries - 1 == i) {
-      $scope.docs.sort(Util.sortByDate);
-      if (inform) {
-        $scope.$apply(); // Inform angular that we made changes.
-      }
-    }
-  }
-
   // Response handler that caches file icons int he filesystem API.
   function successCallbackWithFsCaching(resp, status, headers, config) {
     var docs = [];
@@ -110,7 +96,13 @@ function DocsController($scope, $http, gdocs) {
 
         doc.icon = entry.toURL(); // should be === to fsURL, but whatevs.
 
-        onResponse(doc, i, totalEntries, true);
+        $scope.docs.push(doc);
+
+        // Only want to sort and call $apply() when we have all entries.
+        if (totalEntries - 1 == i) {
+          $scope.docs.sort(Util.sortByDate);
+          $scope.$apply(function($scope) {}); // Inform angular we made changes.
+        }
       }, function(e) {
 
         $http.get(doc.icon, {responseType: 'blob'}).success(function(blob) {
@@ -122,7 +114,10 @@ function DocsController($scope, $http, gdocs) {
 
           doc.icon = window.URL.createObjectURL(blob);
 
-          onResponse(doc, i, totalEntries);
+          $scope.docs.push(doc);
+          if (totalEntries - 1 == i) {
+            $scope.docs.sort(Util.sortByDate);
+          }
         });
 
       });
