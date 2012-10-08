@@ -42,7 +42,7 @@ function DnDFileController(selector, onDropCallback) {
 
     el_.classList.remove('dropping');
 
-    onDropCallback(e.dataTransfer.files)
+    onDropCallback.bind(this)(e.dataTransfer.files);
   };
 
   el_.addEventListener('dragenter', this.dragenter, false);

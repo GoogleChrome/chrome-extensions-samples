@@ -16,7 +16,9 @@ limitations under the License.
 Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
-var gdocs = new GDocs();
+function onError(e) {
+  console.log(e);
+}
 
 // FILESYSTEM SUPPORT ----------------------------------------------------------
 var fs = null;
@@ -42,85 +44,93 @@ function writeFile(blob) {
 }
 // -----------------------------------------------------------------------------
 
-function upload(blob) {
-  gdocs.upload(blob, function() {
-    console.log('Upload complete');
-  });
-}
+var gDriveApp = angular.module('gDriveApp', []);
 
-function onError(e) {
-  console.log(e);
-}
+gDriveApp.factory('gdocs', function() {
+  var gdocs = new GDocs();
+
+  var dnd = new DnDFileController('body', function(files) {
+    var $scope = angular.element(this).scope();
+    Util.toArray(files).forEach(function(file, i) {
+      gdocs.upload(file, function() {
+        $scope.fetchDocs();
+      });
+    });
+  });
+
+  return gdocs;
+});
+//gDriveApp.service('gdocs', GDocs);
+//gDriveApp.controller('DocsController', ['$scope', '$http', DocsController]);
 
 // Main Angular controller for app.
-function DocsController($scope, $http) {
+function DocsController($scope, $http, gdocs) {
   $scope.docs = [];
+
+  function onResponse(doc, i, totalEntries, opt_inform) {
+    var inform = opt_inform || false;
+
+    $scope.docs.push(doc);
+
+    // Only want to sort and call $apply() when we have all entries.
+    if (totalEntries - 1 == i) {
+      $scope.docs.sort(Util.sortByDate);
+      if (inform) {
+        $scope.$apply(); // Inform angular that we made changes.
+      }
+    }
+  }
+
+  // Response handler that caches file icons int he filesystem API.
+  function successCallbackWithFsCaching(resp, status, headers, config) {
+    var docs = [];
+
+    var totalEntries = resp.feed.entry.length;
+
+    resp.feed.entry.forEach(function(entry, i) {
+      var doc = {
+        title: entry.title.$t,
+        updatedDate: Util.formatDate(entry.updated.$t),
+        updatedDateFull: entry.updated.$t,
+        icon: gdocs.getLink(entry.link,
+                            'http://schemas.google.com/docs/2007#icon').href,
+        alternateLink: gdocs.getLink(entry.link, 'alternate').href,
+        size: entry.docs$size ? '( ' + entry.docs$size.$t + ' bytes)' : null
+      };
+
+      // 'http://gstatic.google.com/doc_icon_128.png' -> 'doc_icon_128.png'
+      doc.iconFilename = doc.icon.substring(doc.icon.lastIndexOf('/') + 1);
+
+      // If file exists, it we'll get back a FileEntry for the filesystem URL.
+      // Otherwise, the error callback will fire and we need to XHR it in and
+      // write it to the FS.
+      var fsURL = fs.root.toURL() + FOLDERNAME + '/' + doc.iconFilename;
+      window.webkitResolveLocalFileSystemURL(fsURL, function(entry) {
+        console.log('Fetched icon from the FS cache');
+
+        doc.icon = entry.toURL(); // should be === to fsURL, but whatevs.
+
+        onResponse(doc, i, totalEntries, true);
+      }, function(e) {
+
+        $http.get(doc.icon, {responseType: 'blob'}).success(function(blob) {
+          console.log('Fetched icon via XHR');
+
+          blob.name = doc.iconFilename; // Add icon filename to blob.
+
+          writeFile(blob); // Write is async, but that's ok.
+
+          doc.icon = window.URL.createObjectURL(blob);
+
+          onResponse(doc, i, totalEntries);
+        });
+
+      });
+    });
+  }
 
   $scope.fetchDocs = function() {
     $scope.docs = []; // Clear out old results.
-
-    var onResponse = function(doc, i, totalEntries, opt_inform) {
-      var inform = opt_inform || false;
-
-      $scope.docs.push(doc);
-
-      // Only want to sort and call $apply() when we have all entries.
-      if (totalEntries - 1 == i) {
-        $scope.docs.sort(Util.sortByDate);
-        if (inform) {
-          $scope.$apply(); // Inform angular that we made changes.
-        }
-      }
-    };
-
-
-    // Response handler that caches file icons int he filesystem API.
-    var successCallbackWithFsCaching = function(resp, status, headers, config) {
-      var docs = [];
-
-      var totalEntries = resp.feed.entry.length;
-
-      resp.feed.entry.forEach(function(entry, i) {
-        var doc = {
-          title: entry.title.$t,
-          updatedDate: Util.formatDate(entry.updated.$t),
-          updatedDateFull: entry.updated.$t,
-          icon: gdocs.getLink(entry.link,
-                              'http://schemas.google.com/docs/2007#icon').href,
-          alternateLink: gdocs.getLink(entry.link, 'alternate').href,
-          size: entry.docs$size ? '( ' + entry.docs$size.$t + ' bytes)' : null
-        };
-
-        // 'http://gstatic.google.com/doc_icon_128.png' -> 'doc_icon_128.png'
-        doc.iconFilename = doc.icon.substring(doc.icon.lastIndexOf('/') + 1);
-
-        // If file exists, it we'll get back a FileEntry for the filesystem URL.
-        // Otherwise, the error callback will fire and we need to XHR it in and
-        // write it to the FS.
-        var fsURL = fs.root.toURL() + FOLDERNAME + '/' + doc.iconFilename;
-        window.webkitResolveLocalFileSystemURL(fsURL, function(entry) {
-          console.log('Fetched icon from the FS cache');
-
-          doc.icon = entry.toURL(); // should be === to fsURL, but whatevs.
-
-          onResponse(doc, i, totalEntries, true);
-        }, function(e) {
-
-          $http.get(doc.icon, {responseType: 'blob'}).success(function(blob) {
-            console.log('Fetched icon via XHR');
-
-            blob.name = doc.iconFilename; // Add icon filename to blob.
-
-            writeFile(blob); // Write is async, but that's ok.
-
-            doc.icon = window.URL.createObjectURL(blob);
-
-            onResponse(doc, i, totalEntries);
-          });
-
-        });
-      });
-    };
 
     var config = {
       params: {'alt': 'json'},
@@ -133,28 +143,16 @@ function DocsController($scope, $http) {
     $http.get(gdocs.DOCLIST_FEED, config).success(successCallbackWithFsCaching);
   };
 
+  // Invoke on ctor call. Fetch docs after we have the oauth token.
   gdocs.auth(function() {
-    // Noop. Just invoke this on ctor call.
     $scope.fetchDocs();
   });
 }
 
-DocsController.$inject = ['$scope', '$http'];
+DocsController.$inject = ['$scope', '$http', 'gdocs']; // For code minifiers.
 
 // Init setup and attach event listeners.
 document.addEventListener('DOMContentLoaded', function(e) {
-  var dnd = new DnDFileController('body', function(files) {
-    Util.toArray(files).forEach(function(file, i) {
-      upload(file);
-    });
-  });
-
-  // var input = document.querySelector('input[type="file"]');
-  // input.addEventListener('change', function(e) {
-  //   var file = this.files[0]; // TODO: handle more than one file.
-  //   upload(file);
-  // });
-
   var closeButton = document.querySelector('#close-button');
   closeButton.addEventListener('click', function(e) {
     window.close();
