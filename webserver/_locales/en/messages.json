@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "HTTP Webserver - File",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "HTTP Webserver - File",
+    "description": "The description of the application"
+  }
+}
