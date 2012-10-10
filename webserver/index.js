@@ -3,7 +3,7 @@ onload = function() {
   var stop = document.getElementById("stop");
   var directory = document.getElementById("directory");
 
-  var socket = chrome.socket;
+  var socket = chrome.experimental.socket || chrome.socket;
   var socketInfo;
   var filesMap = {};
 
