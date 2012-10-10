@@ -4,6 +4,7 @@ body {
   background: rgba(102, 102, 119, 0.85);
   background: white;
   width: 100%;
+  -webkit-app-region: drag;
 }
 
 div#main {
@@ -14,7 +15,7 @@ div#main {
   overflow-y: scroll;
   color: white;
   color: black;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 ul#results {
