@@ -112,7 +112,7 @@ function updateContentStyle() {
     width -= titlebar.offsetWidth;
   }
 
-  var contentStyle = "position: absolute; -webkit-widget-region: region(control rectangle); ";
+  var contentStyle = "position: absolute; ";
   contentStyle += "left: " + left + "px; ";
   contentStyle += "top: " + top + "px; ";
   contentStyle += "width: " + width + "px; ";

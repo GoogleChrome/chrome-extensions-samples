@@ -15,18 +15,23 @@ body {
   text-align: center;
   height: 450px;
   width: 300px;
+  -webkit-app-region: drag;
+}
+
+a {
+  -webkit-app-region: no-drag;
 }
 
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
   border: 1px solid #fff;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #eee;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 
@@ -40,7 +45,7 @@ body {
   width: 17px;
   height: 17px;
   cursor: pointer;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
   visibility: hidden;
 }
 
@@ -72,6 +77,7 @@ body:hover .close {
   transition: all 0.218s;
   -webkit-transition: all 0.218s;
   white-space: nowrap;
+  -webkit-app-region: no-drag;
 }
 
 .button:hover {
@@ -129,6 +135,7 @@ input[type=radio] {
 	box-sizing: border-box;
 	cursor: default;
 	position: relative;
+	-webkit-app-region: no-drag;
 }
 
 input[type=checkbox]:active,
@@ -197,7 +204,7 @@ input[type=text] {
   vertical-align: middle;
   margin-bottom: 15px;
   width: 270px;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 input[type=text]:hover {
@@ -282,6 +289,7 @@ input[type=text].form-error{
 	position: absolute;
 	right: 0px;
 	width: 20px;
+	-webkit-app-region: no-drag;
 }
 
 #weather {
