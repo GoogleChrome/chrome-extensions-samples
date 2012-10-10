@@ -15,7 +15,7 @@ body {
   width: 17px;
   height: 17px;
   cursor: pointer;
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 .close:hover {

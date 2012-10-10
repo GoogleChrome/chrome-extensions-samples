@@ -12,6 +12,7 @@ header {
   z-index: 100;
   font-family: Arial, Helvetica, Sans-Serif;
   border-radius: 2px;
+  -webkit-app-region: drag;
 }
 
 header li,
@@ -36,7 +37,7 @@ header input[type="text"] {
 
 header button,
 header input[type="text"] {
-  -webkit-widget-region: region(control rectangle);
+  -webkit-app-region: no-drag;
 }
 
 header .small {
