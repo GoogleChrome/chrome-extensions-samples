@@ -90,7 +90,7 @@ onload = function() {
     socket.create("tcp", {}, function(_socketInfo) {
       socketInfo = _socketInfo;
       socket.listen(socketInfo.socketId, "127.0.0.1", 8080, 20, function(result) {
-        console.log("LISTING:", result);
+        console.log("LISTENING:", result);
         socket.accept(socketInfo.socketId, onAccept);
       });
     });
