@@ -4,6 +4,7 @@ html {
   margin: 0px;
   padding: 0px;
   font-weight: normal;
+  -webkit-app-region: drag;
 }
 
 body {
@@ -15,10 +16,9 @@ body {
   text-align: center;
   height: 450px;
   width: 300px;
-  -webkit-app-region: drag;
 }
 
-a {
+a, #places div {
   -webkit-app-region: no-drag;
 }
 
