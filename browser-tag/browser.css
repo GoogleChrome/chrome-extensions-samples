@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  font-family: Lucida Grande, Arial, sans-serif;
 }
 
 #controls {
@@ -19,8 +19,25 @@ body {
 
 button,
 input[type="submit"] {
-  border: solid 1px #ccc;
+  border: solid 1px transparent;
+  background: transparent;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  border-color: #ccc;
   background: -webkit-linear-gradient(top, #f2f2f2 0%, #cccccc 99%);
+}
+
+/* These glyphs are on the small side, make them look more natural when
+compared to the back/forward buttons */
+#controls #home,
+#controls #terminate {
+  font-size: 24px;
+}
+
+#controls #reload {
+  font-size: 20px;
 }
 
 #location {
@@ -45,3 +62,36 @@ input[type="submit"] {
   -webkit-flex: 1;
 }
 
+#sad-browser,
+browser {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* Due to http://crbug.com/156219 we can't use display: none */
+#sad-browser,
+.crashed browser {
+  visibility: hidden;
+  visibility: hidden;
+}
+
+.crashed #sad-browser {
+  visibility: visible;
+  background: #343f51;
+  text-align: center;
+  color: #fff;
+}
+
+#sad-browser h2 {
+  font-size: 14px;
+}
+
+#sad-browser p {
+  font-size: 11px;
+}
+
+#sad-browser-icon {
+  font-size: 96px;
+  margin-bottom: 10px;
+}

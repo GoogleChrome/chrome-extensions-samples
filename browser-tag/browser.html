@@ -6,8 +6,11 @@
   <body>
     <div id="controls">
 
-      <button id="new-browser">New Window</button>
-      <button id="home">Home</button>
+      <button id="back" title="Go Back">&#9664;</button>
+      <button id="forward" title="Go Forward">&#9654;</button>
+      <button id="home" title="Go Home">&#8962;</button>
+      <button id="reload" title="Reload">&#10227;</button>
+      <button id="terminate" title="Simulate Crash">&#9760;</button>
 
       <form id="location-form">
         <div id="center-column">
@@ -18,5 +21,13 @@
 
     </div>
     <browser src="http://www.google.com/" width="640" height="480"></browser>
+
+    <div id="sad-browser">
+      <div id="sad-browser-icon">&#9762;</div>
+      <h2>Aw, Snap!</h2>
+
+      <p>Something went wrong while displaying this webpage.
+      To continue, reload or go to another page.</p>
+    </div>
   </body>
 </html>
