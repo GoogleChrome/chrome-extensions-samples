@@ -10,7 +10,6 @@
     }
   },
   "permissions": [
-    "experimental",
     "app.window",
     "storage",
     "unlimitedStorage",
