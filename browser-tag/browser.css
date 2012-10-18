@@ -18,7 +18,8 @@ body {
 }
 
 button,
-input[type="submit"] {
+input[type="submit"],
+button[disabled]:hover {
   border: solid 1px transparent;
   background: transparent;
 }

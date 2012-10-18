@@ -67,6 +67,10 @@ function handleNavigation(event) {
   }
 
   document.querySelector('#location').value = event.url;
+
+  var browser = document.querySelector('browser');
+  document.querySelector('#back').disabled = !browser.canGoBack();
+  document.querySelector('#forward').disabled = !browser.canGoForward();
 }
 
 function handleLoadStart(event) {
