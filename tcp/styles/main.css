@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.connected-only {
+  color: #999;
+}
+
+.connected .connected-only {
+  color: #333;
+}
+
+.connected-only button {
+  visibility: hidden;
+}
+.connected .connected-only button {
+  visibility: visible;
+}
+
+#serverlog {
+	width: 400px;
+	height: 180px;
+	border: 1px solid #999;
+	padding: 3px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	
+}
