@@ -16,21 +16,43 @@ limitations under the License.
 Author: Renato Mangini (mangini@chromium.org)
 */
 
-Commands = Commands || {};
-
 (function(exports) {
-  var Command = function() {
 
-  };
+  function Commands() {
+  	this.commands={};
+  }
 
-  Command.prototype.run=function(args) {
-  	if (runImpl)
-  };
+  Commands.prototype.addCommand=function(name, help, runnable) {
+  	if (name in this.commands) {
+  		console.log("WARNING: ignoring duplicate command "+name);
+  		return;
+  	}
+  	this.commands[name] = {help: help, runnable: runnable};
+  }
 
-  Command.prototype.getHelp=function() {
+  Commands.prototype.help=function(name, args) {
+  	if (! (name in this.commands)) {
+  		return "Unknown command "+name;
+  	}
+  	var context={out: out};
+  	return this.commands[name].help.apply(context, args);
+  }
 
-  };
-  window.Command=Command;
+  Commands.prototype.run=function(name, args) {
+  	if (! (name in this.commands)) {
+  		throw "Unknown command "+name;
+  	}
+  	var context={};
+  	return this.commands[name].runnable.apply(context, args);
+  }
+
+  exports.Commands=new Commands();
+
 })(window);
 
-new Command();
+
+Commands.addCommand("echo", 
+	"Echoes the arguments", 
+	function(args) {
+		return args.join(' ');
+	});

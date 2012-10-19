@@ -167,23 +167,6 @@ const DEFAULT_MAX_CONNECTIONS=5;
   }
 
   /**
-   * Callback for when data has been successfully
-   * written to the socket.
-   *
-   * @private
-   * @param {Object} writeInfo The outgoing message
-   */
-  TcpServer.prototype._onWriteComplete = function(writeInfo) {
-    log('onWriteComplete');
-    // Call sent callback.
-    if (this.callbacks.sent) {
-      this.callbacks.sent(writeInfo);
-    }
-  };
-
-
-
-  /**
    * Holds a connection to a client
    *
    * @param {number} socketId The ID of the server<->client socket
@@ -285,6 +268,23 @@ const DEFAULT_MAX_CONNECTIONS=5;
       _arrayBufferToString(readInfo.data, this.callbacks.recv.bind(this));
     }
   };
+
+
+  /**
+   * Callback for when data has been successfully
+   * written to the socket.
+   *
+   * @private
+   * @param {Object} writeInfo The outgoing message
+   */
+  TcpConnection.prototype._onWriteComplete = function(writeInfo) {
+    log('onWriteComplete');
+    // Call sent callback.
+    if (this.callbacks.sent) {
+      this.callbacks.sent(writeInfo);
+    }
+  };
+
 
 
   /**

@@ -41,8 +41,14 @@ document.addEventListener('DOMContentLoaded',  function() {
         for (var i=0; i<lines.length; i++) {
           var line=lines[i];
           if (line.length>0) {
-            var info="["+socketInfo.peerAddress+":"+socketInfo.peerPort+"] "+lines[i];
+            var info="["+socketInfo.peerAddress+":"+socketInfo.peerPort+"] "+line;
             log.output(info);
+            var cmd=line.split(' ');
+            try {
+              tcpConnection.sendMessage(Commands.run(cmd[0], cmd));
+            } catch (ex) {
+              tcpConnection.sendMessage(ex);
+            }
           }
         }
       })
