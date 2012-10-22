@@ -21,7 +21,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 });
 
 
-// simple log holder simulation
+// event logger
 var log = (function(){
   var logLines = [];
   var logListener = null;
@@ -88,3 +88,8 @@ function stopServer() {
   }
 }
 
+function getServerState() {
+  return {isConnected: tcpServer.isConnected(), 
+    addr: tcpServer.addr,
+    port: tcpServer.port};
+}

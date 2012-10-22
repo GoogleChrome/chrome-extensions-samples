@@ -31,17 +31,26 @@ chrome.runtime.getBackgroundPage(function(bgPage) {
     };
   });
 
+  function setConnectedState(addr, port) {
+    document.querySelector(".serving-at").innerText=addr+":"+port;
+    document.querySelector("#server").className="connected";
+  }
+
   document.getElementById('serverStart').addEventListener('click', function() {
     var addr=document.getElementById("addresses").value;
     var port=parseInt(document.getElementById("serverPort").value);
-    document.querySelector(".serving-at").innerText=addr+":"+port;
+    setConnectedState(addr, port);
     bgPage.startServer(addr, port);
-    document.querySelector("#server").className="connected";
   });
 
   document.getElementById('serverStop').addEventListener('click', function() {
     document.querySelector("#server").className="";
     bgPage.stopServer();
   })
+
+  var currentState=bgPage.getServerState();
+  if (currentState.isConnected) {
+    setConnectedState(currentState.addr, currentState.port);
+  }
 
 })

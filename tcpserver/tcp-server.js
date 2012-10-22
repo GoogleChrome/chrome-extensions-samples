@@ -69,6 +69,9 @@ const DEFAULT_MAX_CONNECTIONS=5;
     socket.getNetworkList(callback);
   }
 
+  TcpServer.prototype.isConnected=function() {
+    return this.serverSocketId > 0;
+  }
 
   /**
    * Connects to the TCP socket, and creates an open socket.
