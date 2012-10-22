@@ -19,6 +19,13 @@ onload = function() {
   document.querySelector('#reload').onclick = function() {
     browser.reload();
   };
+  document.querySelector('#reload').addEventListener(
+    'webkitAnimationIteration',
+    function() {
+      if (!isLoading) {
+        document.body.classList.remove('loading');    
+      }
+    });
 
   document.querySelector('#terminate').onclick = function() {
     browser.terminate();
@@ -29,15 +36,16 @@ onload = function() {
     navigateTo(document.querySelector('#location').value);
   };
 
-  browser.addEventListener('crash', handleCrash);
-  browser.addEventListener('navigation', handleNavigation);
-  browser.addEventListener('loadStart', handleLoadStart);
-  browser.addEventListener('loadAbort', handleLoadAbort);
-  browser.addEventListener('loadRedirect', handleLoadRedirect);
+  browser.addEventListener('exit', handleExit);
+  browser.addEventListener('loadstart', handleLoadStart);
+  browser.addEventListener('loadstop', handleLoadStop);
+  browser.addEventListener('loadabort', handleLoadAbort);
+  browser.addEventListener('loadredirect', handleLoadRedirect);
+  browser.addEventListener('loadcommit', handleLoadCommit);
 };
 
 function navigateTo(url) {
-  document.body.classList.remove('crashed');
+  resetExitedState();
   document.querySelector('browser').src = url;
 }
 
@@ -56,12 +64,24 @@ function doLayout() {
   sadBrowser.style.paddingTop = browser.height/3 + 'px';
 }
 
-function handleCrash(event) {
-  document.body.classList.add('crashed');
+function handleExit(event) {
+  console.log(event.type);
+  document.body.classList.add('exited');
+  if (event.type == 'abnormal') {
+    document.body.classList.add('crashed');
+  } else if (event.type == 'killed') {
+    document.body.classList.add('killed');
+  }
 }
 
-function handleNavigation(event) {
+function resetExitedState() {
+  document.body.classList.remove('exited');
   document.body.classList.remove('crashed');
+  document.body.classList.remove('killed');
+}
+
+function handleLoadCommit(event) {
+  resetExitedState();
   if (!event.isTopLevel) {
     return;
   }
@@ -74,12 +94,21 @@ function handleNavigation(event) {
 }
 
 function handleLoadStart(event) {
-  document.body.classList.remove('crashed');
+  document.body.classList.add('loading');
+  isLoading = true;
+  
+  resetExitedState();
   if (!event.isTopLevel) {
     return;
   }
 
   document.querySelector('#location').value = event.url;
+}
+
+function handleLoadStop(event) {
+  // We don't remove the loading class immediately, instead we let the animation
+  // finish, so that the spinner doesn't jerkily reset back to the 0 position.
+  isLoading = false;
 }
 
 function handleLoadAbort(event) {
@@ -90,7 +119,7 @@ function handleLoadAbort(event) {
 }
 
 function handleLoadRedirect(event) {
-  document.body.classList.remove('crashed');
+  resetExitedState();
   if (!event.isTopLevel) {
     return;
   }

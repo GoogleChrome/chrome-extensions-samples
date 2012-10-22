@@ -70,14 +70,25 @@ browser {
   left: 0;
 }
 
+/* The reload button turns into a spinning trobber */
+.loading #reload {
+  -webkit-animation: spinner-animation .5s infinite linear;
+  -webkit-transform-origin: 50% 55.5%;
+}
+
+@-webkit-keyframes spinner-animation {
+  0% { -webkit-transform: rotate(0deg); }
+  100% {-webkit-transform: rotate(360deg); }
+}
+
 /* Due to http://crbug.com/156219 we can't use display: none */
 #sad-browser,
-.crashed browser {
+.exited browser {
   visibility: hidden;
   visibility: hidden;
 }
 
-.crashed #sad-browser {
+.exited #sad-browser {
   visibility: visible;
   background: #343f51;
   text-align: center;
@@ -95,4 +106,22 @@ browser {
 #sad-browser-icon {
   font-size: 96px;
   margin-bottom: 10px;
+}
+
+/* Variant of the crashed page when the process is intentionally killed (in that
+case we use a different background color and label). */
+.exited #sad-browser #killed-label {
+  display: none;
+}
+
+.killed #sad-browser {
+  background: #393058;
+}
+
+.killed #sad-browser #killed-label {
+  display: block;
+}
+
+.killed #sad-browser #crashed-label {
+  display: none;
 }
