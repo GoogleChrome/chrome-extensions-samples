@@ -1,4 +1,5 @@
 window.onresize = doLayout;
+var isLoading = false;
 
 onload = function() {
   var browser = document.querySelector('browser');
@@ -17,13 +18,17 @@ onload = function() {
   };
 
   document.querySelector('#reload').onclick = function() {
-    browser.reload();
+    if (isLoading) {
+      browser.stop();
+    } else {
+      browser.reload();
+    }
   };
   document.querySelector('#reload').addEventListener(
     'webkitAnimationIteration',
     function() {
       if (!isLoading) {
-        document.body.classList.remove('loading');    
+        document.body.classList.remove('loading');
       }
     });
 
@@ -96,7 +101,7 @@ function handleLoadCommit(event) {
 function handleLoadStart(event) {
   document.body.classList.add('loading');
   isLoading = true;
-  
+
   resetExitedState();
   if (!event.isTopLevel) {
     return;
