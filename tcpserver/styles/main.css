@@ -2,19 +2,16 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.connected-only {
-  color: #999;
+.hide-when-not-connected {
+  display: none;
 }
 
-.connected .connected-only {
-  color: #333;
+.connected .hide-when-not-connected {
+  display: block;
 }
 
-.connected-only button {
-  visibility: hidden;
-}
-.connected .connected-only button {
-  visibility: visible;
+.connected .hide-when-connected {
+  display: none;
 }
 
 #serverlog {

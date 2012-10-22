@@ -1,5 +1,4 @@
 
-var tcpClient;
 // quick terminal->textarea simulation
 var log = (function(){
   var area=document.querySelector("#serverlog");
@@ -8,15 +7,19 @@ var log = (function(){
       str+='\n'
     }
     area.innerText=str+area.innerText;
-    console.log(str);
+    if (console) console.log(str);
   };
   return {output: output};
 })();
 
 
-document.addEventListener('DOMContentLoaded',  function() {
+chrome.runtime.getBackgroundPage(function(bgPage) {
 
-  TcpServer.getNetworkAddresses(function(list) {
+ bgPage.log.addListener(function(str) {
+    log.output(str);
+  });
+
+ bgPage.TcpServer.getNetworkAddresses(function(list) {
     var addr=document.querySelector("#addresses");
     for (var i=0; i<list.length; i++) {
       if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(list[i].address)) {
@@ -29,29 +32,16 @@ document.addEventListener('DOMContentLoaded',  function() {
   });
 
   document.getElementById('serverStart').addEventListener('click', function() {
-    var addr='127.0.0.1'; //document.getElementById("clientIp").value;
+    var addr=document.getElementById("addresses").value;
     var port=parseInt(document.getElementById("serverPort").value);
-    tcpServer = new TcpServer(addr, port);
-    tcpServer.listen(function(tcpConnection, socketInfo) {
-      var info="["+socketInfo.peerAddress+":"+socketInfo.peerPort+"] Connection accepted!";
-      log.output(info);
-      console.log(socketInfo);
-      tcpConnection.addDataReceivedListener(function(data) {
-        var lines = data.split('\n');
-        for (var i=0; i<lines.length; i++) {
-          var line=lines[i];
-          if (line.length>0) {
-            var info="["+socketInfo.peerAddress+":"+socketInfo.peerPort+"] "+line;
-            log.output(info);
-            var cmd=line.split(' ');
-            try {
-              tcpConnection.sendMessage(Commands.run(cmd[0], cmd));
-            } catch (ex) {
-              tcpConnection.sendMessage(ex);
-            }
-          }
-        }
-      })
-    })
+    document.querySelector(".serving-at").innerText=addr+":"+port;
+    bgPage.startServer(addr, port);
+    document.querySelector("#server").className="connected";
+  });
+
+  document.getElementById('serverStop').addEventListener('click', function() {
+    document.querySelector("#server").className="";
+    bgPage.stopServer();
   })
+
 })

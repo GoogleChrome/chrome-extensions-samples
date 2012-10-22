@@ -8,14 +8,18 @@
 <body>
   <section id="server">
   <h1>Chrome Remote Commando</h1>
-  <div>Serve at <select id="addresses"><option>127.0.0.1</option></select>:
+  <div class="hide-when-connected">Serve at 
+    <select id="addresses"><option>127.0.0.1</option></select>:
     <input type="number" id="serverPort" value="8888"></input>
     <button id="serverStart">Start!</button>
   </div>
-  <div id="serverlog"></div>
+  <div class="hide-when-not-connected">
+    <p>Serving at <span class="serving-at"></span>
+      <button id="serverStop">Stop!</button></p>
+    <div id="serverlog"></div>
+  </div>
   </section>
-<script src="commands/BrowserCommands.js"></script>
-<script src="tcp-server.js"></script>
-<script src="server.js"></script>
+  <script src="server.js"></script>
 </body>
 </html>
+

@@ -89,8 +89,16 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
    */
   TcpServer.prototype.disconnect = function() {
-    socket.disconnect(this.socketId);
-    this.isConnected = false;
+    if (this.serverSocketId) socket.disconnect(this.serverSocketId);
+    for (var i=0; i<this.openSockets.length; i++) {
+      try {
+        this.openSockets[i].disconnect();
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
+    this.openSockets=[];
+    this.serverSocketId=0;
   };
 
   /**
@@ -103,9 +111,9 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * @param {Object} createInfo The socket details
    */
   TcpServer.prototype._onCreate = function(createInfo) {
-    this.socketId = createInfo.socketId;
-    if (this.socketId > 0) {
-      socket.listen(this.socketId, this.addr, this.port, null, 
+    this.serverSocketId = createInfo.socketId;
+    if (this.serverSocketId > 0) {
+      socket.listen(this.serverSocketId, this.addr, this.port, null, 
         this._onListenComplete.bind(this));
       this.isListening = true;
     } else {
@@ -122,7 +130,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
    */
   TcpServer.prototype._onListenComplete = function(resultCode) {
     if (resultCode===0) {
-      socket.accept(this.socketId, this._onAccept.bind(this));
+      socket.accept(this.serverSocketId, this._onAccept.bind(this));
     } else {
       error('Unable to listen to socket. Resultcode='+resultCode);
     }
@@ -130,7 +138,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
   TcpServer.prototype._onAccept = function(resultInfo) {
     // continue to accept other connections:
-    socket.accept(this.socketId, this._onAccept.bind(this));
+    socket.accept(this.serverSocketId, this._onAccept.bind(this));
 
     if (resultInfo.resultCode===0) {
       if (this.openSockets.length>=this.maxConnections) {
@@ -222,6 +230,16 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
     // Register sent callback.
     this.callbacks.sent = callback;
+  };
+
+
+  /**
+   * Disconnects from the remote side
+   *
+   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   */
+  TcpConnection.prototype.disconnect = function() {
+    if (this.socketId) socket.disconnect(this.socketId);
   };
 
 
@@ -334,12 +352,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
     console.error(msg);
   }
 
-
-
-
-
   exports.TcpServer = TcpServer;
   exports.TcpConnection = TcpConnection;
-
 
 })(window);

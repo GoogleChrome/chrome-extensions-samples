@@ -31,19 +31,27 @@ Author: Renato Mangini (mangini@chromium.org)
   }
 
   Commands.prototype.help=function(name, args) {
-  	if (! (name in this.commands)) {
+    var result='';
+    for (var command in this.commands) {
+      result+=command+'\t'+this.commands[command].help+"\n";
+    }
+    return result;
+  	/*if (! (name in this.commands)) {
   		return "Unknown command "+name;
   	}
   	var context={out: out};
-  	return this.commands[name].help.apply(context, args);
+  	return this.commands[name].help.apply(context, args);*/
   }
 
   Commands.prototype.run=function(name, args) {
+    if (name === 'help') {
+      return this.help(name, args);
+    }
   	if (! (name in this.commands)) {
   		throw "Unknown command "+name;
   	}
   	var context={};
-  	return this.commands[name].runnable.apply(context, args);
+  	return this.commands[name].runnable.call(context, args);
   }
 
   exports.Commands=new Commands();
@@ -52,7 +60,21 @@ Author: Renato Mangini (mangini@chromium.org)
 
 
 Commands.addCommand("echo", 
-	"Echoes the arguments", 
+	"Echo the arguments", 
 	function(args) {
 		return args.join(' ');
 	});
+
+Commands.addCommand("open", 
+  "Open the given URL", 
+  function(args) {
+    chrome.app.window.create('commands/browsertag.html', {width: 600, height: 400},
+      function(w) {
+        w.contentWindow.addEventListener("DOMContentLoaded", function() {
+          var doc=w.contentWindow.document;
+          var el=doc.querySelector("browser");
+          el.src=args[0];
+        });
+      });
+    return "ok, url "+args[0]+" open";
+  });
