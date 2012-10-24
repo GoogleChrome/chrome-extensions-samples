@@ -9,6 +9,7 @@ html, body {
 body.original {
   background: url("../img/original.png") center 75px no-repeat;
   position: relative;
+  -webkit-app-region: drag;
 }
 
 body.copycat {
@@ -21,7 +22,6 @@ h1 {
   padding: 0.6em 0;
   margin: 0;
   text-align: center;
-  border-top: 1px solid #CCC;
   border-bottom: 1px solid #CCC;
   background: #F2F2F2;
   font-size: 24px;
@@ -58,5 +58,4 @@ button {
 
 .copycat h1 {
   background: #444;
-  border-
 }

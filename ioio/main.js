@@ -24,7 +24,7 @@ function runAtInterval(socket) {
     view[3] = pin << 2 | level;
     level = (level == 0) ? 1 : 0;
 
-    chrome.experimental.bluetooth.write({socketId:socket.id, data:buffer},
+    chrome.bluetooth.write({socketId:socket.id, data:buffer},
         function(bytes) {
           if (chrome.runtime.lastError) {
             log('Write error: ' + chrome.runtime.lastError.message);
@@ -50,7 +50,7 @@ var connectCallback = function(socket) {
     // https://github.com/ytai/ioio/wiki/
     view[0] = 3;
     view[1] = pin << 2 | 2;
-    chrome.experimental.bluetooth.write({socketId:socket.id, data:buffer},
+    chrome.bluetooth.write({socketId:socket.id, data:buffer},
         function(bytes) {
           if (chrome.runtime.lastError) {
             log('Write error: ' + chrome.runtime.lastError.message);
@@ -77,10 +77,10 @@ var connectToDevice = function(result) {
   for (var i in result) {
     var device = result[i];
     log('Connecting to device: ' + device.name + ' @ ' + device.address);
-    chrome.experimental.bluetooth.connect(
+    chrome.bluetooth.connect(
         {deviceAddress: device.address, serviceUuid: kUUID}, connectCallback);
   }
 };
 
 log('Starting IOIO demo...');
-chrome.experimental.bluetooth.getDevices({uuid: kUUID}, connectToDevice);
+chrome.bluetooth.getDevices({uuid: kUUID}, connectToDevice);

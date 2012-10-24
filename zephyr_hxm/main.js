@@ -17,7 +17,7 @@ var kUUID = '00001101-0000-1000-8000-00805f9b34fb';
 var readIntervalId;
 var readInterval = function (socket) {
   return function() {
-    chrome.experimental.bluetooth.read({socketId:socket.id}, function(data) {
+    chrome.bluetooth.read({socketId:socket.id}, function(data) {
       if (chrome.extension.lastError) {
         log('Read error:');
         log(chrome.extension.lastError);
@@ -102,7 +102,7 @@ var connectToDevice = function(result) {
     var device = result[i];
     if (device.name == 'HXM014782') {
       log('Connecting to device: ' + device.name + ' @ ' + device.address);
-      chrome.experimental.bluetooth.connect(
+      chrome.bluetooth.connect(
           {deviceAddress: device.address, serviceUuid: kUUID}, connectCallback);
     }
   }
@@ -117,13 +117,13 @@ if (kSimulate) {
     updateHeartRate(60 + Math.floor((Math.random()*10)+1));
   }, 1000);
 } else {
-  chrome.experimental.bluetooth.getDevices({uuid: kUUID}, connectToDevice);
+  chrome.bluetooth.getDevices({uuid: kUUID}, connectToDevice);
 }
 
 document.getElementById('close').addEventListener('click',
     function() {
       if (!kSimulate) {
-        chrome.experimental.bluetooth.disconnect({socketId:socketId_});
+        chrome.bluetooth.disconnect({socketId:socketId_});
       }
       window.close();
     });

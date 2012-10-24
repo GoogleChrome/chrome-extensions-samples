@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Browser Tag",
+  "minimum_chrome_version": "24.0.1303.0",
   "version": "1.0",
   "icons": {
     "16": "icon_16.png",

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+  <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+  <section id="server">
+  <h1>Chrome Remote Commando</h1>
+  <div class="hide-when-connected">Serve at 
+    <select id="addresses"><option>127.0.0.1</option></select>:
+    <input type="number" id="serverPort" value="8888"></input>
+    <button id="serverStart">Start!</button>
+  </div>
+  <div class="hide-when-not-connected">
+    <p>Serving at <span class="serving-at"></span>
+      <button id="serverStop">Stop!</button></p>
+    <div id="serverlog"></div>
+  </div>
+  </section>
+  <script src="server.js"></script>
+</body>
+</html>
+

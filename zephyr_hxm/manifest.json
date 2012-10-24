@@ -10,7 +10,7 @@
     }
   },
   "permissions": [
-    "experimental"
+    "bluetooth"
   ],
   "sandbox": {
     "pages": ["graph.html"]
