@@ -4,6 +4,7 @@
  * found in the LICENSE file.
  **/
 
+initme = 'foo';
 
 /**
  * Listens for the app launching then creates the window
@@ -12,6 +13,7 @@
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('calculator.html', {
+    id: 'calc',
     width: 244,
     height: 380,
     maxWidth: 244,
