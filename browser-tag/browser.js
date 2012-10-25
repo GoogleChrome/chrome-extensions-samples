@@ -2,15 +2,15 @@ window.onresize = doLayout;
 var isLoading = false;
 
 onload = function() {
-  var browser = document.querySelector('browser');
+  var webview = document.querySelector('webview');
   doLayout();
 
   document.querySelector('#back').onclick = function() {
-    browser.back();
+    webview.back();
   };
 
   document.querySelector('#forward').onclick = function() {
-    browser.forward();
+    webview.forward();
   };
 
   document.querySelector('#home').onclick = function() {
@@ -19,9 +19,9 @@ onload = function() {
 
   document.querySelector('#reload').onclick = function() {
     if (isLoading) {
-      browser.stop();
+      webview.stop();
     } else {
-      browser.reload();
+      webview.reload();
     }
   };
   document.querySelector('#reload').addEventListener(
@@ -33,7 +33,7 @@ onload = function() {
     });
 
   document.querySelector('#terminate').onclick = function() {
-    browser.terminate();
+    webview.terminate();
   };
 
   document.querySelector('#location-form').onsubmit = function(e) {
@@ -41,32 +41,35 @@ onload = function() {
     navigateTo(document.querySelector('#location').value);
   };
 
-  browser.addEventListener('exit', handleExit);
-  browser.addEventListener('loadstart', handleLoadStart);
-  browser.addEventListener('loadstop', handleLoadStop);
-  browser.addEventListener('loadabort', handleLoadAbort);
-  browser.addEventListener('loadredirect', handleLoadRedirect);
-  browser.addEventListener('loadcommit', handleLoadCommit);
+  webview.addEventListener('exit', handleExit);
+  webview.addEventListener('loadstart', handleLoadStart);
+  webview.addEventListener('loadstop', handleLoadStop);
+  webview.addEventListener('loadabort', handleLoadAbort);
+  webview.addEventListener('loadredirect', handleLoadRedirect);
+  webview.addEventListener('loadcommit', handleLoadCommit);
 };
 
 function navigateTo(url) {
   resetExitedState();
-  document.querySelector('browser').src = url;
+  document.querySelector('webview').src = url;
 }
 
 function doLayout() {
-  var browser = document.querySelector('browser');
+  var webview = document.querySelector('webview');
   var controls = document.querySelector('#controls');
   var controlsHeight = controls.offsetHeight;
   var windowWidth = document.documentElement.clientWidth;
   var windowHeight = document.documentElement.clientHeight;
-  browser.width = windowWidth;
-  browser.height = windowHeight - controlsHeight;
+  var webviewWidth = windowWidth;
+  var webviewHeight = windowHeight - controlsHeight;
 
-  var sadBrowser = document.querySelector('#sad-browser');
-  sadBrowser.style.width = browser.width + 'px';
-  sadBrowser.style.height = browser.height * 2/3 + 'px';
-  sadBrowser.style.paddingTop = browser.height/3 + 'px';
+  webview.style.width = webviewWidth + 'px';
+  webview.style.height = webviewHeight + 'px';
+
+  var sadWebview = document.querySelector('#sad-webview');
+  sadWebview.style.width = webviewWidth + 'px';
+  sadWebview.style.height = webviewHeight * 2/3 + 'px';
+  sadWebview.style.paddingTop = webviewHeight/3 + 'px';
 }
 
 function handleExit(event) {
@@ -93,9 +96,9 @@ function handleLoadCommit(event) {
 
   document.querySelector('#location').value = event.url;
 
-  var browser = document.querySelector('browser');
-  document.querySelector('#back').disabled = !browser.canGoBack();
-  document.querySelector('#forward').disabled = !browser.canGoForward();
+  var webview = document.querySelector('webview');
+  document.querySelector('#back').disabled = !webview.canGoBack();
+  document.querySelector('#forward').disabled = !webview.canGoForward();
 }
 
 function handleLoadStart(event) {
