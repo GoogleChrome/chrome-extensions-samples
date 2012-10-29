@@ -3,7 +3,7 @@
   "name": "TCP server and client",
   "version": "1",
   "minimum_chrome_version": "24",
-  "permissions": [ "browserTag", { "socket" : ["tcp-listen"] }, "experimental"  ],
+  "permissions": [ "webview", { "socket" : ["tcp-listen"] }, "experimental"  ],
   "app": {
     "background": {
       "scripts": ["tcp-server.js", "commands/BrowserCommands.js", "main.js"]
