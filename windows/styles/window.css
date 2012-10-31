@@ -12,6 +12,10 @@ body.original {
   -webkit-app-region: drag;
 }
 
+button {
+  -webkit-app-region: no-drag;
+}
+
 body.copycat {
   background: #333 url("../img/copycat.png") center 75px no-repeat;
   position: relative;
