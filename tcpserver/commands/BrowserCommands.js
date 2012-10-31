@@ -48,7 +48,7 @@ Author: Renato Mangini (mangini@chromium.org)
       return this.help(name, args);
     }
   	if (! (name in this.commands)) {
-  		throw "Unknown command "+name;
+  		throw 'Unknown command '+name+'. Try "help"';
   	}
   	var context={};
   	return this.commands[name].runnable.call(context, args);
@@ -68,11 +68,11 @@ Commands.addCommand("echo",
 Commands.addCommand("open", 
   "Open the given URL", 
   function(args) {
-    chrome.app.window.create('commands/browsertag.html', {width: 600, height: 400},
+    chrome.app.window.create('commands/webview.html', {width: 600, height: 400},
       function(w) {
         w.contentWindow.addEventListener("DOMContentLoaded", function() {
           var doc=w.contentWindow.document;
-          var el=doc.querySelector("browser");
+          var el=doc.querySelector("webview");
           el.src=args[0];
         });
       });

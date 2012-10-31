@@ -63,8 +63,8 @@ compared to the back/forward buttons */
   -webkit-flex: 1;
 }
 
-#sad-browser,
-browser {
+#sad-webview,
+webview {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -82,46 +82,46 @@ browser {
 }
 
 /* Due to http://crbug.com/156219 we can't use display: none */
-#sad-browser,
-.exited browser {
+#sad-webview,
+.exited webview {
   visibility: hidden;
   visibility: hidden;
 }
 
-.exited #sad-browser {
+.exited #sad-webview {
   visibility: visible;
   background: #343f51;
   text-align: center;
   color: #fff;
 }
 
-#sad-browser h2 {
+#sad-webview h2 {
   font-size: 14px;
 }
 
-#sad-browser p {
+#sad-webview p {
   font-size: 11px;
 }
 
-#sad-browser-icon {
+#sad-webview-icon {
   font-size: 96px;
   margin-bottom: 10px;
 }
 
 /* Variant of the crashed page when the process is intentionally killed (in that
 case we use a different background color and label). */
-.exited #sad-browser #killed-label {
+.exited #sad-webview #killed-label {
   display: none;
 }
 
-.killed #sad-browser {
+.killed #sad-webview {
   background: #393058;
 }
 
-.killed #sad-browser #killed-label {
+.killed #sad-webview #killed-label {
   display: block;
 }
 
-.killed #sad-browser #crashed-label {
+.killed #sad-webview #crashed-label {
   display: none;
 }
