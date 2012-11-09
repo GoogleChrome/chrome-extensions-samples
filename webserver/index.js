@@ -25,6 +25,10 @@ onload = function() {
     return str;
   };
 
+  var logToScreen = function(log) {
+    logger.textContent += log + "\n";
+  }
+
   var writeErrorResponse = function(socketId, errorCode) {
     var file = { size: 0 };
     console.info("writeErrorResponse:: begin... ");
@@ -87,6 +91,7 @@ onload = function() {
           writeErrorResponse(acceptInfo.socketId, 404); /* File does not exist */ 
           return; 
         }
+        logToScreen("GET 200 " + uri);
         write200Response(acceptInfo.socketId, file);
       }
       else {
