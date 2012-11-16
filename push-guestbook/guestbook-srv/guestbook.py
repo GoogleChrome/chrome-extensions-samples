@@ -1,10 +1,14 @@
 #!/usr/bin/env python
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'third_party'))
+
 import cgi
 import collections
 import datetime
 import httplib2
 import logging
-import os
 import random
 import simplejson
 import webapp2
