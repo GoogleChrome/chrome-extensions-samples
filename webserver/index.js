@@ -1,6 +1,7 @@
 onload = function() {
   var start = document.getElementById("start");
   var stop = document.getElementById("stop");
+  var hosts = document.getElementById("hosts");
   var directory = document.getElementById("directory");
 
   var socket = chrome.experimental.socket || chrome.socket;
@@ -120,7 +121,7 @@ onload = function() {
   start.onclick = function() {
     socket.create("tcp", {}, function(_socketInfo) {
       socketInfo = _socketInfo;
-      socket.listen(socketInfo.socketId, "127.0.0.1", 8080, 20, function(result) {
+      socket.listen(socketInfo.socketId, hosts.value, 8080, 20, function(result) {
         console.log("LISTENING:", result);
         socket.accept(socketInfo.socketId, onAccept);
       });
@@ -134,7 +135,17 @@ onload = function() {
   stop.onclick = function() {
     directory.disabled = false;
     stop.disabled = true;
-
+    start.disabled = false;
     socket.destroy(socketInfo.socketId);
   };
+
+  socket.getNetworkList(function(interfaces) {
+    for(var i in interfaces) {
+      var interface = interfaces[i];
+      var opt = document.createElement("option");
+      opt.value = interface.address;
+      opt.innerText = interface.name + " - " + interface.address;
+      hosts.appendChild(opt);
+    }
+  });
 };
