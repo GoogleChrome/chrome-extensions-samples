@@ -10,5 +10,8 @@
     "background": {
       "scripts": ["main.js"]
     }
-  }
+  },
+  "permissions": [
+    "pointerLock"
+  ]
 }
