@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Step1",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "3rd Party Auth step1",
+    "description": "The description of the application"
+  }
+}
