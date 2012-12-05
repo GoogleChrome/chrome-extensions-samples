@@ -121,8 +121,8 @@ NodeJS modules:
 
 ## Other:
 
-WebGL:
-* [webgl](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webgl)
+WebGL and Pointer Lock:
+* [webgl-pointer-lock](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webgl-pointer-lock)
 
 ## Uncategorized:
 * [calculator](https://github.com/GoogleChrome/chrome-app-samples/tree/master/calculator)
