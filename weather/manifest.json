@@ -3,7 +3,7 @@
   "description": "A simple weather application.",
   "manifest_version": 2,
   "version": "1.0.5",
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "24",
   "app": {
     "background": {
       "scripts": ["main.js"]
