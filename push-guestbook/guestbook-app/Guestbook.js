@@ -21,7 +21,7 @@ var Guestbook = function() {
   this.listening = false;
   this.listeners = {};
 
-  this.wantsSubscription = false;
+  this.wantsSubscriptionVerification = false;
 };
 
 
@@ -116,7 +116,7 @@ Guestbook.prototype.onGotChannelId = function(message) {
   }
   console.log('Channel ID discovered. Value: ' + message.channelId);
   this.channelId = message.channelId;
-  this.wantsVerification = true;
+  this.wantsSubscriptionVerification = true;
   this.tellServer({ channelId: this.channelId });
   if (this.ready() && this.onReady) {
     this.onReady();
@@ -166,7 +166,7 @@ Guestbook.prototype.onGuestbookEntry = function(message) {
  * @param {Object} message The payload sent from the server.
  */
 Guestbook.prototype.onSubscriptionVerification = function(message) {
-  if (this.wantsSubscription) {
+  if (this.wantsSubscriptionVerification) {
     this.sendVerificationMessage(message.payload);
   }
 };

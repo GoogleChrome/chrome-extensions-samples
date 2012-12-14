@@ -4,9 +4,6 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'third_party'))
 
-import cgi
-import collections
-import datetime
 import httplib2
 import logging
 import random
@@ -32,7 +29,6 @@ class AdminCredentialsModel(CredentialsModel):
 def send_messages(post_data):
   storage = StorageByKeyName(AdminCredentialsModel, 'theadminaccount', 'credentials')
   credentials = storage.get()
-  logger.warning("Credentials: %r" % credentials.to_json())
   if credentials:
     try:
       api_http = credentials.authorize(httplib2.Http())
