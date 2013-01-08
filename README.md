@@ -108,6 +108,9 @@ Monitor system info:
 
 ## Integration with other stuff:
 
+Sending messages to other installed apps or extensions:
+* [messaging](https://github.com/GoogleChrome/chrome-app-samples/tree/master/messaging)
+
 Webintents:
 * [explicit-webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/explicit-webintents)
 * [webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webintents)
