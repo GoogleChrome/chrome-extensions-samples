@@ -589,7 +589,6 @@ input[type=text].form-error{
 }
 
 .hidden {
-  /*display: none;*/
   visibility: hidden;
 }
 
