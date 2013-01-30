@@ -84,23 +84,21 @@ SerialConnection.prototype.onWrite = function(writeInfo) {
 
 /** From tcp-client */
 SerialConnection.prototype._arrayBufferToString = function(buf, callback) {
-  var bb = new WebKitBlobBuilder();
-  bb.append(buf);
+  var blob = new Blob([buf]);
   var f = new FileReader();
   f.onload = function(e) {
     callback(e.target.result)
   }
-  f.readAsText(bb.getBlob());
+  f.readAsText(blob);
 }
 
 SerialConnection.prototype._stringToArrayBuffer = function(str, callback) {
-  var bb = new WebKitBlobBuilder();
-  bb.append(str);
+  var blob = new Blob([str]);
   var f = new FileReader();
   f.onload = function(e) {
     callback(e.target.result);
   }
-  f.readAsArrayBuffer(bb.getBlob());
+  f.readAsArrayBuffer(blob);
 }
 
 
