@@ -3,9 +3,6 @@ onload = function() {
 	var $ = function(sel) {
 		return document.querySelector(sel);
 	};
-	var $$ = function(sel) {
-		return document.querySelectorAll(sel);
-	};
 
 	var wv1=$('#wv1');
 	var wv2=$('#wv2');
