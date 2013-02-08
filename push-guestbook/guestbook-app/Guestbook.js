@@ -132,6 +132,10 @@ Guestbook.prototype.onGotChannelId = function(message) {
  */
 Guestbook.prototype.onMessage = function(message) {
   this.log('Got Message', message);
+  if (typeof message.payload === "string" && message.payload.length == 0) {
+    return;
+  }
+
   var routes = {
     0: 'onGuestbookEntry',
     1: 'onSubscriptionVerification'

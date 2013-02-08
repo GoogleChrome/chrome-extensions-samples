@@ -118,7 +118,9 @@ class Monitor(webapp2.RequestHandler):
       elif follower.verified == False:
         self.send_verification_message(follower)
       response = { 'status': 'ok' }
-      response['lastMessage'] = Greeting.all().order('-date').fetch(1)[0].content
+      last_message = Greeting.all().order('-date').fetch(1)
+      if len(last_message) > 0:
+        response['lastMessage'] = last_message[0].content
       self.response.out.write(simplejson.dumps(response))
       return
     self.response.out.write(simplejson.dumps(dict(status='err')))
