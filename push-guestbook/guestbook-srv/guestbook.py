@@ -19,7 +19,7 @@ from oauth2client.client import flow_from_clientsecrets, AccessTokenRefreshError
 
 CLIENTSECRETS_LOCATION = 'client_secrets.json'
 REDIRECT_URI = 'http://localhost:8080/oauth2callback'
-SCOPES = [ 'https://www.googleapis.com/auth/chromewebstore' ]
+SCOPES = [ 'https://www.googleapis.com/auth/gcm_for_chrome' ]
 
 logger = logging.getLogger(__name__)
 
@@ -33,10 +33,11 @@ def send_messages(post_data):
     try:
       api_http = credentials.authorize(httplib2.Http())
       for data in post_data:
-        resp, content = api_http.request('https://www.googleapis.com/chromewebstore/v1.1/notifications',
-                         'POST',
-                         body=simplejson.dumps(data),
-                         headers={'Content-Type': 'application/json'})
+        resp, content = api_http.request(
+            'https://www.googleapis.com/gcm_for_chrome/v1/messages',
+            'POST',
+            body=simplejson.dumps(data),
+            headers={'Content-Type': 'application/json'})
     except AccessTokenRefreshError:
       logger.warning("Unable to refresh the Push Messaging access token!")
 
