@@ -34,6 +34,9 @@ Identity/OAuth:
 
 ## Storage related:
 
+Syncable filesystem (useful for media and files that need to be synced among different devices):
+* [syncfs-editor](https://github.com/GoogleChrome/chrome-app-samples/tree/master/syncfs-editor)
+
 Syncable storage (useful for saving settings and application state):
 * [diff](https://github.com/GoogleChrome/chrome-app-samples/tree/master/diff)
 * [hello-world-sync](https://github.com/GoogleChrome/chrome-app-samples/tree/master/hello-world-sync)
