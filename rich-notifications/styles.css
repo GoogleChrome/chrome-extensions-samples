@@ -1,0 +1,23 @@
+#settings {
+	padding: 10px;
+	border: 1px solid silver;
+	margin-bottom: 5px;
+}
+
+h1, h3 {
+	margin-top: 0
+}
+
+body {
+	font-family: "Open Sans", Helvetica, Arial;
+	font-size: 10pt;
+}
+
+button {
+	width: 140px;
+	margin-right: 20px;
+}
+
+.sample {
+	margin-bottom:5px;
+}
