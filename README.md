@@ -114,6 +114,9 @@ Monitor system info:
 Sending messages to other installed apps or extensions:
 * [messaging](https://github.com/GoogleChrome/chrome-app-samples/tree/master/messaging)
 
+System tray rich notifications:
+* [rich-notifications](https://github.com/GoogleChrome/chrome-app-samples/tree/master/rich-notifications)
+
 Webintents:
 * [explicit-webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/explicit-webintents)
 * [webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webintents)
