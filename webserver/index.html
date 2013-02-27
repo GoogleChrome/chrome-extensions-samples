@@ -46,7 +46,17 @@
             box-shadow: none;
           }
 
+          #logger {
+            border: solid 1px #c6c6c6;
+            border-radius: 5px;
+            box-shadow: inset 0px 0px 5px #c6c6c6;
+            height: 100px;
+            overflow-y: auto;
+          }
 
+          select { 
+            display: block;
+          }
         </style>
     </head>
     <body>
@@ -55,12 +65,13 @@
          <p>Serving you locally</p>
          <p>
            <input type="file" webkitdirectory id="directory"/><br />
+           <select id="hosts">
+             <option value="127.0.0.1">lo - 127.0.0.1</option> 
+           </select>
            <button id="start" class="btn btn-primary btn-large" disabled>Start</button>
            <button id="stop" class="btn btn-warning btn-large"  disabled>Stop</button>
          </p>
       </div>
-
-
-
+      <pre id="logger"></pre>
     </body>
 </html>

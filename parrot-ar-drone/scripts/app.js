@@ -9,8 +9,8 @@ function clearLog() {
 }
 
 function log(msg) {
-  logEl.textContent = logEl.textContent + msg + "\n";
-  logEl.scrollTop = 10000000;
+  logEl.textContent = msg;
+//  logEl.scrollTop = 10000000;
 }
 
 function onDroneConnected() {

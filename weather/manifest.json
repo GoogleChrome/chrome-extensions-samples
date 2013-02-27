@@ -9,7 +9,6 @@
       "scripts": ["main.js"]
     }
   },
-
   "icons": {
     "16": "img/icon.png",
     "64": "img/icon.png",

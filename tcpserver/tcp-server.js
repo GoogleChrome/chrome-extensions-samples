@@ -196,7 +196,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
     log('Established client connection. Listening...');
 
     // Start polling for reads.
-    setInterval(this._periodicallyRead.bind(this, socketId), 500);
+    this._onDataRead();
   };
 
   TcpConnection.prototype.setSocketInfo = function(socketInfo) {
@@ -252,9 +252,6 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * @see http://developer.chrome.com/trunk/apps/socket.html#method-read
    * @private
    */
-  TcpConnection.prototype._periodicallyRead = function(socketId) {
-    socket.read(socketId, null, this._onDataRead.bind(this));
-  };
 
   /**
    * Callback function for when socket details (socketInfo) is received.
@@ -283,11 +280,12 @@ const DEFAULT_MAX_CONNECTIONS=5;
    */
   TcpConnection.prototype._onDataRead = function(readInfo) {
     // Call received callback if there's data in the response.
-    if (readInfo.resultCode > 0 && this.callbacks.recv) {
+    if (readInfo && readInfo.resultCode > 0 && this.callbacks.recv) {
       log('onDataRead');
       // Convert ArrayBuffer to string.
       _arrayBufferToString(readInfo.data, this.callbacks.recv.bind(this));
     }
+    socket.read(this.socketId, null, this._onDataRead.bind(this));
   };
 
 

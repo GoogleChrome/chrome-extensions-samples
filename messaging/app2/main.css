@@ -1,0 +1,13 @@
+input[type="text"] {
+  width: 240px;
+}
+
+#log {
+  background-color: rgb(226, 226, 250);
+  padding: 10px 20px;
+  margin-top: 10px;
+  height: 300px;
+  border: 1px solid black;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

@@ -1,0 +1,65 @@
+/* Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file */
+/* for details. All rights reserved. Use of this source code is governed by a */
+/* BSD-style license that can be found in the LICENSE file. */
+
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+p {
+  color: #333;
+}
+
+#canvas-content {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+#summary {
+  float: left;
+}
+
+#notes {
+  float: right;
+  width: 120px;
+  text-align: right;
+}
+
+.error {
+  font-style: italic;
+  color: red;
+}
+
+#container2 {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: auto;
+}
+
+#target {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#target figure {
+  display: block;
+  position: absolute;
+  width: 150px;
+  height: 80px;
+  border: 1px solid #333;
+  font-size: 36px;
+  color: #222;
+  background: #3291d8;
+  text-align: center;
+  line-height: 2em;
+}

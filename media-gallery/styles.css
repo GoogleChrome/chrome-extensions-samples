@@ -1,0 +1,39 @@
+body {
+   background: #555;
+   color: #eee;
+   font-family: "Open Sans", Arial, sans-serif;
+}
+
+h1 {
+	font-weight: 200;
+	color: white;
+}
+
+#content {
+	height: 75%;
+	width: 74%;
+	overflow-y: scroll;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	display: inline-block;
+	background-color: #777;
+}
+
+#list {
+	height: 75%;
+	width: 25%;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #777;
+}
+
+#info {
+	border: 1px solid #aaa;
+	background-color: #777;
+	width: auto;
+	border-radius: 5px;
+	overflow: hidden;
+	padding: 5px;
+}

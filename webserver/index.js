@@ -1,6 +1,7 @@
 onload = function() {
   var start = document.getElementById("start");
   var stop = document.getElementById("stop");
+  var hosts = document.getElementById("hosts");
   var directory = document.getElementById("directory");
 
   var socket = chrome.experimental.socket || chrome.socket;
@@ -24,6 +25,33 @@ onload = function() {
     }
     return str;
   };
+
+  var logToScreen = function(log) {
+    logger.textContent += log + "\n";
+  }
+
+  var writeErrorResponse = function(socketId, errorCode) {
+    var file = { size: 0 };
+    console.info("writeErrorResponse:: begin... ");
+    console.info("writeErrorResponse:: file = " + file);
+    var contentType = "text/plain";  //(file.type === "") ? "text/plain" : file.type;
+    var contentLength = file.size;
+    var header = stringToUint8Array("HTTP/1.0 " +errorCode+ " Not Found\nContent-length: " + file.size + "\nContent-type:" + contentType + "\n\n");
+    console.info("writeErrorResponse:: Done setting header...");
+    var outputBuffer = new ArrayBuffer(header.byteLength + file.size);
+    var view = new Uint8Array(outputBuffer)
+    view.set(header, 0);
+    console.info("writeErrorResponse:: Done setting view...");
+    socket.write(socketId, outputBuffer, function(writeInfo) {
+      console.log("WRITE", writeInfo);
+      socket.destroy(socketId);
+      socket.accept(socketInfo.socketId, onAccept);
+    });
+    console.info("writeErrorResponse::filereader:: end onload...");
+
+    console.info("writeErrorResponse:: end...");
+  };
+
 
   var write200Response = function(socketId, file) {
     var contentType = (file.type === "") ? "text/plain" : file.type;
@@ -59,14 +87,18 @@ onload = function() {
         if(uriEnd < 0) { /* throw a wobbler */ return; }
         var uri = data.substring(4, uriEnd);
         var file = filesMap[uri];
-        if(!!file == false) { /* File does not exist */ return; }
+        if(!!file == false) { 
+          console.warn("File does not exist..."); 
+          writeErrorResponse(acceptInfo.socketId, 404); /* File does not exist */ 
+          return; 
+        }
+        logToScreen("GET 200 " + uri);
         write200Response(acceptInfo.socketId, file);
-     }
+      }
       else {
         // Throw an error
         socket.destroy(acceptInfo.socketId); 
       }
-
     }); 
   };
 
@@ -89,7 +121,7 @@ onload = function() {
   start.onclick = function() {
     socket.create("tcp", {}, function(_socketInfo) {
       socketInfo = _socketInfo;
-      socket.listen(socketInfo.socketId, "127.0.0.1", 8080, 20, function(result) {
+      socket.listen(socketInfo.socketId, hosts.value, 8080, 20, function(result) {
         console.log("LISTENING:", result);
         socket.accept(socketInfo.socketId, onAccept);
       });
@@ -103,7 +135,17 @@ onload = function() {
   stop.onclick = function() {
     directory.disabled = false;
     stop.disabled = true;
-
+    start.disabled = false;
     socket.destroy(socketInfo.socketId);
   };
+
+  socket.getNetworkList(function(interfaces) {
+    for(var i in interfaces) {
+      var interface = interfaces[i];
+      var opt = document.createElement("option");
+      opt.value = interface.address;
+      opt.innerText = interface.name + " - " + interface.address;
+      hosts.appendChild(opt);
+    }
+  });
 };
