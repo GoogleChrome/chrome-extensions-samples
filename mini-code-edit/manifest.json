@@ -21,5 +21,14 @@
     "32":  "img/32x32/file_edit.png",
     "64":  "img/64x64/file_edit.png",
     "128": "img/128x128/file_edit.png"
+  },
+
+  "commands" : {
+    "cmdNew": {
+        "suggested_key": {
+          "default": "Ctrl+N"
+        },
+        "description": "Create new window"
+    }
   }
 }
