@@ -130,7 +130,7 @@ function handleNewButton() {
 }
 
 function handleOpenButton() {
-  chrome.fileSystem.chooseEntry({ type: 'openFile' }, onChosenFileToOpen);
+  chrome.fileSystem.chooseEntry({ type: 'openFile' }, onWritableFileToOpen);
 }
 
 function handleSaveButton() {
@@ -179,6 +179,7 @@ onload = function() {
       mode: {name: "javascript", json: true },
       lineNumbers: true,
       theme: "lesser-dark",
+      fixedGutter: true,
       extraKeys: {
         "Cmd-S": function(instance) { handleSaveButton() },
         "Ctrl-S": function(instance) { handleSaveButton() },
