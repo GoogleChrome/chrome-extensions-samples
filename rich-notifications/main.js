@@ -19,23 +19,23 @@ var asURLs = [
 // in the code according the UI settings.
 var notOptions = [
 	{
-		templateType : "simple",
+		type : "simple",
 		title: "Simple Notification",
 		message: "Just a text message and icon"
 	},
 	{
-		templateType : "basic",
+		type : "basic",
 		title: "Basic Notification",
 		message: "Short message part",
 		expandedMessage: "Longer part of the message",
 	},
 	{
-		templateType : "image",
+		type : "image",
 		title: "Image Notification",
 		message: "Short message plus an image",
 	},
 	{
-		templateType : "list",
+		type : "list",
 		title: "List Notification",
 		message: "List of items in a message",
 		items: [
@@ -57,10 +57,10 @@ window.addEventListener("load", function() {
 	document.getElementById("list").addEventListener("click", doNotify);
 
 	// set up the event listeners
-	chrome.experimental.notification.onDisplayed.addListener(notificationDisplayed);
-	chrome.experimental.notification.onClosed.addListener(notificationClosed);
-	chrome.experimental.notification.onClicked.addListener(notificationClicked);
-	chrome.experimental.notification.onButtonClicked.addListener(notificationBtnClick);
+	chrome.notifications.onDisplayed.addListener(notificationDisplayed);
+	chrome.notifications.onClosed.addListener(notificationClosed);
+	chrome.notifications.onClicked.addListener(notificationClicked);
+	chrome.notifications.onButtonClicked.addListener(notificationBtnClick);
 });
 
 // Create the notification with the given parameters as they are set in the UI
@@ -95,7 +95,7 @@ function doNotify(evt) {
 	if (sBtn2.length)
 		options.buttons.push({ title: sBtn2 });
 		
-	chrome.experimental.notification.create("id"+notID++, options, creationCallback);
+	chrome.notifications.create("id"+notID++, options, creationCallback);
 }
 
 function creationCallback(notID) {
