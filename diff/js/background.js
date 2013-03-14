@@ -6,8 +6,10 @@
 
 function onLaunched(launchData) {
   chrome.app.window.create('main.html', {
-    width: 1270,
-    height: 800
+    bounds: {
+      width: 1270,
+      height: 800
+    }
   });
 }
 

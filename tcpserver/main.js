@@ -13,7 +13,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 		commandWindow.focus();
 	} else {
 		chrome.app.window.create('index.html',
-			{width: 500, height: 309, left: 0},
+			{bounds: {width: 500, height: 309, left: 0}},
 			function(w) {
 				commandWindow = w;
 			});
