@@ -6,5 +6,5 @@
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('clock.html',
-    {id: 'clock', width: 800, height: 550});
+    {id: 'clock', bounds: {width: 800, height: 550}});
 });

@@ -16,8 +16,10 @@ chrome.app.runtime.onLaunched.addListener(function() {
   } else {
     console.log('Creating singleton window');
     chrome.app.window.create('singleton.html', {
-      width: 500,
-      height: 309,
+      bounds: {
+        width: 500,
+        height: 309
+      },
 
       maxWidth: 500,
       maxHeight: 309,
