@@ -29,10 +29,12 @@ function launch() {
 
   // create the original window
   chrome.app.window.create('original.html', {
-      top: 128,
-      left: 128,
-      width: 300,
-      height: 300,
+      bounds: {
+        top: 128,
+        left: 128,
+        width: 300,
+        height: 300
+      },
       minHeight: 300,
       maxWidth: 500,
       minWidth: 300,
@@ -46,10 +48,12 @@ function launch() {
       windows.push(originalWindow);
 
       chrome.app.window.create('copycat.html', {
-        top: 128,
-        left: 428 + 5,
-        width: 300,
-        height: 300,
+        bounds: {
+          top: 128,
+          left: 428 + 5,
+          width: 300,
+          height: 300
+        },
         minHeight: 300,
         maxWidth: 500,
         minWidth: 300,

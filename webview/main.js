@@ -6,9 +6,9 @@
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
     id: 'embedder',
-    width: 1430,
-    height: 870
+    bounds: {
+      width: 1430,
+      height: 870
+    }
   });
 });
-      
-	

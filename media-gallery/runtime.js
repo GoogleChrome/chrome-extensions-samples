@@ -3,7 +3,7 @@
 
 chrome.app.runtime.onLaunched.addListener(function(data) {
     chrome.app.window.create('page.html', 
-    	{width:900, height:600, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
+    	{bounds: {width:900, height:600}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
     	function(app_win) {
     		app_win.contentWindow.__MGA__bRestart = false;
     	}
@@ -13,7 +13,7 @@ chrome.app.runtime.onLaunched.addListener(function(data) {
 
 chrome.app.runtime.onRestarted.addListener(function() {
     chrome.app.window.create('page.html', 
-    	{width:900, height:600, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
+    	{bounds: {width:900, height:600}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
     	function(app_win) {
     		app_win.contentWindow.__MGA__bRestart = true;
     	}

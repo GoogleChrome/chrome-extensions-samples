@@ -6,7 +6,9 @@
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('terminal.html', {
-    width: 880,
-    height: 480
+    bounds: {
+      width: 880,
+      height: 480
+    }
   });
 });
