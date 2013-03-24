@@ -130,7 +130,7 @@ function handleNewButton() {
 }
 
 function handleOpenButton() {
-  chrome.fileSystem.chooseEntry({ type: 'openFile' }, onWritableFileToOpen);
+  chrome.fileSystem.chooseEntry({ type: 'openWritableFile' }, onWritableFileToOpen);
 }
 
 function handleSaveButton() {
