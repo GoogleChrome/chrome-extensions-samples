@@ -366,6 +366,7 @@ function attemptAddCurrentLocation() {
     function(error) {
       console.warn("Geocoder failed");
       showSettings();
+      hideLoading();
     }); 
 }
 
