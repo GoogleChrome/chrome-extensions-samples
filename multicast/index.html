@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multicast Chat App</title>
+    <link href="index.css" rel="stylesheet"/>
+    <script src="Collection.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+<div id="title-bar">
+    <img src="128.png"/><div id="title" style="-webkit-flex: 1">Multicast Chat App</div>
+    <button id="close" href="#">&times;</button>
+</div>
+<div id="container">
+    <div id="main-block">
+        <div id="message-container">
+            <ul id="messages">
+                <h3>Welcome to use Multicast Chat App!</h3>
+                <li class="info">Double click on your name to edit it.</li>
+                <li class="info warning">[Warning] Messages are transferred in
+                    plain
+                    text.
+                </li>
+                <li class="info warning">[Warning] Due to the nature of UDP
+                    protocol,
+                    your message could be lost randomly.
+                </li>
+                <li>
+            </ul>
+        </div>
+        <div id="input-panel">
+            <div id="splitter">
+            </div>
+            <div id="client-id-line">
+                <div id="client-id" title="Double click to change."></div>
+                :
+            </div>
+            <div class="text-input">
+                <textarea id="input-box"
+                          title="Press Enter to send."></textarea>
+            </div>
+        </div>
+    </div>
+    <div id="user-panel">
+        <div class="list-cnt">
+            <ul id="user-list">
+                <li>(No user found)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
