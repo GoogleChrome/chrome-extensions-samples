@@ -249,7 +249,13 @@ function refreshIScroll() {
 }
 
 function hideLoading() {
-  $('#loading').addClass('hidden');
+  if ($('#loading').hasClass('fadeOut')) {
+    return;
+  }
+  $('#loading').css('opacity', 0);
+  setTimeout(function() {
+    $('#loading').addClass('hidden');
+  }, 500); // 500 comes from the fade out time in css
 }
 
 function hideSettings() {
@@ -309,16 +315,14 @@ function attemptAddCity(searchurl, onsuccess, onerror) {
     }
 
     if (!formatted_address) {
-      if (onerror !== undefined && onerror !== null)
-        onerror();
+      onerror && onerror();
       return;
     }
 
     getWeatherData(formatted_address, function(current_condition, forecast) {
       var city = addCity(formatted_address);
       addWeatherData(city, current_condition, forecast);
-      if (onsuccess !== undefined && onsuccess !== null)
-        onsuccess(city);
+      onsuccess && onsuccess(city);
     }, onerror);
   }, 'json');
 }
@@ -329,20 +333,19 @@ function getWeatherData(address, onsuccess, onerror) {
     if (!data.data.error) {
       var current_condition = data.data.current_condition[0];
       var forecast = data.data.weather;
-      if (onsuccess !== undefined && onsuccess !== null)
-        onsuccess(current_condition, forecast);
+      onsuccess && onsuccess(current_condition, forecast);
     } else {
-      if (onerror !== undefined && onerror !== null)
-        onerror();
+      onerror && onerror();
     }
   }, 'json');
 };
 
-function updateAllWeatherData() {
+function updateAllWeatherData(onfirstsuccessfulupdate) {
   cities.asArray().forEach(function(city) {
     getWeatherData(city.address,
       function(current_condition, forecast) {
         addWeatherData(city, current_condition, forecast);
+        onfirstsuccessfulupdate && onfirstsuccessfulupdate();
       }, null); // TODO: handle error?
   });
 }
@@ -350,24 +353,27 @@ function updateAllWeatherData() {
 function attemptAddCurrentLocation() {
   // TODO: we always permanentally add your current location.  Should keep a history of all places, but only display "pinned" places
   // and the current location
+  var onfail = function(reason) {
+    console.warn(reason);
+    if (cities.length() != 0) {
+      return;
+    }
+    showSettings();
+    hideLoading();
+  };
   navigator.geolocation.getCurrentPosition(
     function(position) {
       var searchurl = base_geolocation_url + position.coords.latitude + ',' + position.coords.longitude;
       attemptAddCity(searchurl,
         function(city) {
           selectCity(city);
+          hideSettings();
         },
-        function() {
-          console.warn("Could not add city using geolocation");
-          if (cities.length() === 0)
-            showSettings();
-        });
+        onfail.bind(null, "Could not find current location")
+      );
     },
-    function(error) {
-      console.warn("Geocoder failed");
-      showSettings();
-      hideLoading();
-    }); 
+    onfail.bind(null, "Geocoder failed")
+  );
 }
 
 /******************************************************************************/
@@ -383,7 +389,6 @@ function refresh() {
     }
   });
   refreshIScroll();
-  hideLoading();
 }
 
 function updateCityDisplay(city, current_condition, forecast) {
@@ -617,7 +622,9 @@ function init() {
     temp = items.temp;
     if (!temp) temp = 'F';
     $('input[name="temp-type"].' + temp).attr('checked', true);
-    updateAllWeatherData();
+    updateAllWeatherData(function() {
+      setTimeout(hideLoading, 300); // 300ms comes from the amount of time we want to give other cities to load weather
+    });
   });
 
   attemptAddCurrentLocation();

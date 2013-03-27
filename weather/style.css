@@ -309,6 +309,7 @@ input[type=text].form-error{
   -webkit-box-sizing: border-box;
   background-color: pink;
   z-index: 10000;
+  -webkit-transition: opacity 0.5s ease-in;
 }
 
 #loading > div
@@ -316,9 +317,20 @@ input[type=text].form-error{
   position: absolute;
   width: 100%;
   top: 50%;
-  margin-top: -150px;
+  margin-top: -100px;
   text-align: center;
+}
+
+#loading > div > p
+{
   font-size: 2em;
+}
+
+#loading > div > img {
+  -webkit-animation-name: spinnerRotate;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
 }
 
 @-webkit-keyframes spinnerRotate {
@@ -328,14 +340,6 @@ input[type=text].form-error{
   to {
     -webkit-transform:rotate(360deg);
   }
-}
-
-#loading > div > img {
-  -webkit-transform: translateZ(0);
-  -webkit-animation-name: spinnerRotate;
-  -webkit-animation-duration: 5s;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
 }
 
 #wrapper {
