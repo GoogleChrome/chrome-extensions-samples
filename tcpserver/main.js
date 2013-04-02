@@ -93,8 +93,7 @@ function getServerState() {
     return {isConnected: tcpServer.isConnected(),
       addr: tcpServer.addr,
       port: tcpServer.port};
-  }
-  else {
+  } else {
     return {isConnected: false};
   }
 }
