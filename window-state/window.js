@@ -3,9 +3,35 @@
 var hiddenWindowDelay = 3000;
 var fullscreenchangeCount = 0;
 var fullscreenerrorCount = 0;
+var newWindowOffset = 100;
 
 // Helper functions
 $ = function(selector) { return document.querySelector(selector); }
+
+function createNewWindow(optionsDictionary, callback) {
+  optionsDictionary = optionsDictionary || {};
+
+  // Set new window to be offset from current window.
+  var bounds = chrome.app.window.current().getBounds();
+  bounds.left = (bounds.left + newWindowOffset) % (screen.width - bounds.width);
+  bounds.top = (bounds.top + newWindowOffset) % (screen.height - bounds.height);
+  optionsDictionary.left = bounds.left;
+  optionsDictionary.top = bounds.top;
+  optionsDictionary.width = bounds.width;
+  optionsDictionary.height = bounds.height;
+
+  chrome.app.window.create('window.html', optionsDictionary, callback);
+};
+
+function createNewWindowHidden(optionsDictionary) {
+  optionsDictionary = optionsDictionary || {};
+  optionsDictionary.hidden = true;
+  createNewWindow(optionsDictionary,
+    function (createdWindow) {
+      setTimeout(function () { createdWindow.show(); }, hiddenWindowDelay);
+    }
+  );
+}
 
 // Log events:
 
@@ -29,22 +55,6 @@ document.onwebkitfullscreenerror = function () {
 }
 
 // Button handlers:
-
-$('#newWindow').onclick = function(e) {
-  chrome.app.window.create('window.html', { state: 'normal'});
-};
-
-$('#newWindowFullscreen').onclick = function(e) {
-  chrome.app.window.create('window.html', { state: 'fullscreen'});
-};
-
-$('#newWindowFullscreenHidden').onclick = function(e) {
-  chrome.app.window.create('window.html', { state: 'fullscreen', hidden: true},
-    function (createdWindow) {
-      setTimeout(function () { createdWindow.show(); }, hiddenWindowDelay);
-    }
-  );
-};
 
 $('#html-fullscreen-enter').onclick = function(e) {
   $('#fullscreen-area').webkitRequestFullscreen();
@@ -84,4 +94,36 @@ var updateDelaySiderText = function updateDelaySiderText() {
 
 $('#delay-slider').onchange = updateDelaySiderText;
 updateDelaySiderText();  // Initial text update.
+
+$('#newWindow').onclick = function(e) {
+  createNewWindow();
+};
+
+$('#newWindowFullscreen').onclick = function(e) {
+  createNewWindow({ state: 'fullscreen'});
+};
+
+$('#newWindowMaximized').onclick = function(e) {
+  createNewWindow({ state: 'maximized'});
+};
+
+$('#newWindowMinimized').onclick = function(e) {
+  createNewWindow({ state: 'minimized'});
+};
+
+$('#newWindowHidden').onclick = function(e) {
+  createNewWindowHidden();
+};
+
+$('#newWindowFullscreenHidden').onclick = function(e) {
+  createNewWindowHidden({ state: 'fullscreen'});
+};
+
+$('#newWindowMaximizedHidden').onclick = function(e) {
+  createNewWindowHidden({ state: 'maximized'});
+};
+
+$('#newWindowMinimizedHidden').onclick = function(e) {
+  createNewWindowHidden({ state: 'minimized'});
+};
 
