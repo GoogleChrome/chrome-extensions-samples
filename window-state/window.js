@@ -127,3 +127,38 @@ $('#newWindowMinimizedHidden').onclick = function(e) {
   createNewWindowHidden({ state: 'minimized'});
 };
 
+// Current window state readout:
+
+// Arrays that store previous state values, which are cleared after a delay.
+var wasFullscreen = [];
+var wasMaximized = [];
+var wasMinimized = [];
+var wasStateDelay = 10 * 1000;
+
+// Stash values into 'was' variables and clear them out after a delay.
+function setWasState(wasStateArray, state) {
+  if (state) {
+    wasStateArray.push(true);
+    setTimeout(function () { wasStateArray.pop() }, wasStateDelay);
+  }
+}
+
+function updateCurrentStateReadout() {
+  $('#isFullscreen').checked = chrome.app.window.current().isFullscreen();
+  $('#isMaximized' ).checked = chrome.app.window.current().isMaximized();
+  $('#isMinimized' ).checked = chrome.app.window.current().isMinimized();
+
+  // Stash values into 'was' variables and clear them out after a delay.
+  setWasState(wasFullscreen, chrome.app.window.current().isFullscreen());
+  setWasState(wasMaximized, chrome.app.window.current().isMaximized());
+  setWasState(wasMinimized, chrome.app.window.current().isMinimized());
+
+  // Display the current 'was' variables.
+  $('#wasFullscreen').checked = wasFullscreen.length > 0;
+  $('#wasMaximized' ).checked = wasMaximized.length > 0;
+  $('#wasMinimized' ).checked = wasMinimized.length > 0;
+}
+// Update window state display on bounds change, but also on regular interval
+// just to be paranoid.
+chrome.app.window.current().onBoundsChanged.addListener(updateCurrentStateReadout);
+setInterval(updateCurrentStateReadout, 1000);
