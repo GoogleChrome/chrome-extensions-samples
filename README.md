@@ -72,6 +72,7 @@ Media Gallery API:
 Window
 * [restarted-demo](https://github.com/GoogleChrome/chrome-app-samples/tree/master/restarted-demo)
 * [singleton](https://github.com/GoogleChrome/chrome-app-samples/tree/master/singleton)
+* [window-state](https://github.com/GoogleChrome/chrome-app-samples/tree/master/window-state)
 * [windows](https://github.com/GoogleChrome/chrome-app-samples/tree/master/windows)
 
 Context menu:
@@ -81,8 +82,8 @@ Frameless window:
 * [frameless-window](https://github.com/GoogleChrome/chrome-app-samples/tree/master/frameless-window)
 * [weather](https://github.com/GoogleChrome/chrome-app-samples/tree/master/weather)
 
-Fullscreen API:
-* [fullscreen](https://github.com/GoogleChrome/chrome-app-samples/tree/master/fullscreen)
+HTML Fullscreen API:
+* [window-state](https://github.com/GoogleChrome/chrome-app-samples/tree/master/window-state)
 
 Optional permissions:
 * [optional-permissions](https://github.com/GoogleChrome/chrome-app-samples/tree/master/optional-permissions)
