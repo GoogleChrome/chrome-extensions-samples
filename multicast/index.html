@@ -9,7 +9,9 @@
 </head>
 <body>
 <div id="title-bar">
-    <img src="128.png"/><div id="title" style="-webkit-flex: 1">Multicast Chat App</div>
+    <img src="128.png"/>
+
+    <div id="title" style="-webkit-flex: 1">Multicast Chat App</div>
     <button id="close" href="#">&times;</button>
 </div>
 <div id="container">
@@ -17,14 +19,28 @@
         <div id="message-container">
             <ul id="messages">
                 <h3>Welcome to use Multicast Chat App!</h3>
-                <li class="info">Double click on your name to edit it.</li>
-                <li class="info warning">[Warning] Messages are transferred in
-                    plain
-                    text.
+                <li>This app allows you to send messages to you local network
+                    without help of any server.
                 </li>
-                <li class="info warning">[Warning] Due to the nature of UDP
-                    protocol,
-                    your message could be lost randomly.
+                <li id="help" class="hide-help help">
+                    <a href="#help" id="toggle-help">[Show help]</a>
+                    <ul class="help-text">
+                        <li>Whoever installed this app in your local network can
+                            see the messages you send. They are listed on the
+                            right panel.
+                        </li>
+                        <li>Press <span style="font-weight: bold">Enter</span>
+                            to send message; Press <span
+                                    style="font-weight: bold">Shift+Enter</span>
+                            for new lines.
+                        </li>
+                        <li>Double click on your name to edit it.</li>
+                        <li class="info warning">[Warning] Messages are
+                            transferred in public with plain text. Due to the
+                            nature of UDP protocol, your message could be lost
+                            randomly.
+                        </li>
+                    </ul>
                 </li>
                 <li>
             </ul>
@@ -42,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div id="user-panel">
+    <div id="user-panel" title="People in you local network.">
         <div class="list-cnt">
             <ul id="user-list">
                 <li>(No user found)</li>

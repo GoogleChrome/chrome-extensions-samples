@@ -120,6 +120,13 @@ function init(clientId) {
       sendMessage();
     }
   });
+
+  var toggleHelp = document.getElementById('toggle-help');
+  toggleHelp.onclick = function () {
+    var helpText = document.getElementById('help');
+    helpText.classList.toggle('hide-help');
+  };
+
   var closeBox = document.getElementById('close');
   closeBox.onclick = function () {
     chrome.app.window.current().close();

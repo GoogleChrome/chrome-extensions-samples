@@ -103,23 +103,48 @@ input {
     -webkit-user-drag: text;
 }
 
+.help-text {
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    margin-top: 7px;
+    padding: 12px;
+    padding-left: 25px;
+    background: rgba(255,255,255,0.3);
+    overflow: hidden; /* This helps constraint the selection highlights. */
+}
+
+#messages .help {
+    margin-left: -14px;
+}
+
+#messages .help > ul {
+}
+
+#messages .help > ul > li {
+    margin-left: 0;
+}
+
+#messages .hide-help > ul {
+    display: none;
+}
+
 #messages > li {
     text-indent: 0;
     margin-bottom: 6px;
     -webkit-user-drag: none;
 }
 
-#messages > li.info {
+#messages li.info {
     color: #494;
     margin-left: -14px;
 }
 
-#messages > li.warning {
+#messages li.warning {
     color: #B89D11;
     font-weight: bold;
 }
 
-#messages > li.error {
+#messages li.error {
     color: #b82a05;
     font-weight: bold;
 }
