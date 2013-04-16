@@ -13,5 +13,5 @@
       "scripts": ["js/background.js"]
     }
   },
-  "permissions": ["syncFileSystem"]
+  "permissions": ["syncFileSystem", "unlimitedStorage"]
 }
