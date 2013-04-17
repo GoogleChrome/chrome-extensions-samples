@@ -30,11 +30,6 @@
 	    	</div>
 		</div>
 
-		<div>
-			Predefined:
-			<button>Small Webview</button>
-			<button>Big Webview</button>
-		</div>
 	</div>
 
 	<div class="section"><h2>Messages and events to/from webview #1</h2>
@@ -47,19 +42,21 @@
 		<div class="blocks webviews">
 	    	<div>
 	    		<label>(autosize=true, non-persistent)</label>
-			    <webview id="wv1" style="width:200px; height:130px;" autosize="true"
-			    	src="http://google.com"></webview>
+			    <webview id="wv1" style="width:250px; height:200px;" autosize="true"
+			    	src="https://googledrive.com/host/0B6-v_MWWvdqWSXpkMTZhQVBvMjg/page_hosted_in_external_server.html"></webview>
 	    	</div>
 	    	<div>
 	    		<label>(persistent at partition2)</label>
-			    <webview id="wv2" style="width:200px; height:130px;" 
-			    	src="http://google.com"></webview>
+			    <webview id="wv2" style="width:250px; height:200px;"
+			    	src="https://googledrive.com/host/0B6-v_MWWvdqWSXpkMTZhQVBvMjg/page_hosted_in_external_server.html"
+			    	partition="persist:partition2"></webview>
 	    		<div class="note">try signing in at google.com, reload the app and webview 3 should be signed too,because they both share the same persistance partition</div>
 	    	</div>
 	    	<div>
 	    		<label>(persistent at partition2)</label>
-			    <webview id="wv3" style="width:200px; height:130px;" 
-			    	src="http://google.com"></webview>
+			    <webview id="wv3" style="width:250px; height:200px;"
+			    	src="https://googledrive.com/host/0B6-v_MWWvdqWSXpkMTZhQVBvMjg/page_hosted_in_external_server.html"
+			    	partition="persist:partition2"></webview>
 	    	</div>
 
     <script src="index.js"></script>
