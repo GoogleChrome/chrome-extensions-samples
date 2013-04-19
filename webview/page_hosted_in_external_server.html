@@ -46,6 +46,7 @@ function doCaptureImage() {
   if (!video) {
     video = document.createElement('video');
     video.style.width="200px";
+    video.autoplay = true;
     document.body.appendChild(video);
   }
   navigator.webkitGetUserMedia(
