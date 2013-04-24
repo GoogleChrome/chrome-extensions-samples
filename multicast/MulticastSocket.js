@@ -26,25 +26,30 @@ mc_proto.connect = function (callback) {
   var me = this;
   chrome.socket.create('udp', function (socket) {
     var socketId = socket.socketId;
-    chrome.socket.bind(socketId, "0.0.0.0", me.config.port, function (result) {
+    chrome.socket.setMulticastTimeToLive(socketId, 12, function (result) {
       if (result != 0) {
-        chrome.socket.destroy(socketId);
-        me.handleError("Error on bind(): ", result);
-      } else {
-        chrome.socket.joinGroup(socketId, me.config.address, function (result) {
-          if (result != 0) {
-            chrome.socket.destroy(socketId);
-            me.handleError("Error on joinGroup(): ", result);
-          } else {
-            me.socketId = socketId;
-            me._poll();
-            me.onConnected();
-            if (callback) {
-              callback.call(me);
-            }
-          }
-        });
+        me.handleError("Set TTL Error: ", "Unkown error");
       }
+      chrome.socket.bind(socketId, "0.0.0.0", me.config.port, function (result) {
+        if (result != 0) {
+          chrome.socket.destroy(socketId);
+          me.handleError("Error on bind(): ", result);
+        } else {
+          chrome.socket.joinGroup(socketId, me.config.address, function (result) {
+            if (result != 0) {
+              chrome.socket.destroy(socketId);
+              me.handleError("Error on joinGroup(): ", result);
+            } else {
+              me.socketId = socketId;
+              me._poll();
+              me.onConnected();
+              if (callback) {
+                callback.call(me);
+              }
+            }
+          });
+        }
+      });
     });
   });
 };
@@ -95,7 +100,7 @@ mc_proto.stringToArrayBuffer = function (string) {
   return buf;
 };
 
-mc_proto.sendDiagram = function (message, callback) {
+mc_proto.sendDiagram = function (message, callback, errCallback) {
   if (typeof message === 'string') {
     message = this.stringToArrayBuffer(message);
   }
@@ -112,8 +117,14 @@ mc_proto.sendDiagram = function (message, callback) {
               callback.call(me);
             }
           } else {
-            me.handleError("", result.resultCode);
-            me.disconnect();
+            if (errCallback) {
+              errCallback()
+            } else {
+              me.handleError("");
+              if (result.bytesWritten == -15) {
+                me.disconnect();
+              }
+            }
           }
         });
     } catch (e) {

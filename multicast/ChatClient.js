@@ -17,12 +17,6 @@ proto.onError = function (err) {
 
 proto.onConnected = function () {
   var me = this;
-  chrome.socket.setMulticastTimeToLive(
-    this.socketId, 12, function (result) {
-      if (result != 0) {
-        me.handleError("Set TTL Error: ", "Unkown error");
-      }
-    });
   this.onInfo("Connected as [" + this.name + "]");
   this.connected = true;
 };
@@ -169,9 +163,16 @@ proto.renameTo = function (newName, callback) {
 };
 
 proto.sendMessage = function (message, callback) {
+  var me = this;
   this.sendDiagram(JSON.stringify({
     type: 'message',
     name: this.name,
     message: message
-  }), callback);
+  }), callback, function() {
+    me.onError("Error sending message (probably too large). Reconnecting soon.");
+    me.disconnect();
+    setTimeout(function() {
+      me.enter(callback);
+    }, 100);
+  });
 };
