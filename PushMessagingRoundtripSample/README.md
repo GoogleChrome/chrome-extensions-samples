@@ -3,14 +3,9 @@
 Sample that shows how to use the [Push Messaging
 API](http://developer.chrome.com/trunk/apps/pushMessaging.html) in an app.
 
-That will install the sample app, you can launch it from the new tab page.
-Choose the apps view at the bottom if it is not already selected, and click on
-the Push Messaging Roundtrip Sample app.  It will launch an app which sends and
-receives push messages.
-
 Normally we don't expect you to send push messages from JS code, we normally
-expect that you will want to write a server which does the sending, but this may
-help you with debugging your client app, and understanding the whole flow of the
+expect that you will want to write a server which does the sending, but this app may
+help you with debugging your client app, understanding the whole flow of the
 push messaging scenario, and testing push messaging end to end with your
 credentials.
 
