@@ -142,6 +142,11 @@ Dart:
 NodeJS modules:
 * [nodejs-net.coffee](https://github.com/GoogleChrome/chrome-app-samples/tree/master/nodejs-net.coffee)
 
+## Push Messaging
+Client side sample
+[PushSampleApp](https://github.com/GoogleChrome/chrome-app-samples/tree/master/PushSampleApp)
+Roundtrip sample
+[PushMessagingRoundtripSample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/PushMessagingRoundtripSample)
 
 ## Other:
 
