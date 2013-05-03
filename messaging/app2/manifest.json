@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Messaging App2",
+  "version": "1",
+  "minimum_chrome_version": "23",
+  "icons": {
+    "16": "icon_16.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}

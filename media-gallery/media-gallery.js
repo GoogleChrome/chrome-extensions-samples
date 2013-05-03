@@ -1,7 +1,7 @@
 var gGalleryIndex = 0;     // gallery currently being iterated
 var gGalleryReader = null; // the filesytem reader for the current gallery
 var gDirectories = [];     // used to process subdirectories
-var gGalleryArray = [];    // holds information about all top-level Galleries found
+var gGalleryArray = [];    // holds information about all top-level Galleries found - list of DomFileSystem
 var gGalleryData = [];     // hold computed information about each Gallery
 var gCurOptGrp = null;
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
@@ -97,9 +97,8 @@ function updateSelection(e) {
 
    // get the filesystem that the selected file belongs to
    for (var i=0; i < gGalleryArray.length; i++) {
-      var galInfo = JSON.parse(gGalleryArray[i].name);
-
-      if (galInfo.galleryId == fsId) {
+      var mData = chrome.mediaGalleries.getMediaFileSystemMetadata(gGalleryArray[i]);
+      if (mData.galleryId == fsId) {
          fs = gGalleryArray[i];
          break;
       }
@@ -148,8 +147,8 @@ function addItem(itemEntry) {
    if (itemEntry.isFile) {
       opt.setAttribute("data-fullpath", itemEntry.fullPath);
 
-      var galInfo = JSON.parse(itemEntry.filesystem.name);
-      opt.setAttribute("data-fsid", galInfo.galleryId);
+      var mData = chrome.mediaGalleries.getMediaFileSystemMetadata(itemEntry.filesystem);
+      opt.setAttribute("data-fsid", mData.galleryId);
    }
    opt.appendChild(document.createTextNode(itemEntry.name));
    gCurOptGrp.appendChild(opt);
@@ -198,10 +197,11 @@ function scanGallery(entries) {
 }
 
 function scanGalleries(fs) {
-   console.log('Reading gallery: ' + fs.name);
-   var galInfo = JSON.parse(fs.name);
-   gCurOptGrp = addGallery(galInfo.name, galInfo.galleryId);
-   gGalleryData[gGalleryIndex] = new GalleryData(galInfo.galleryId);
+   var mData = chrome.mediaGalleries.getMediaFileSystemMetadata(fs);
+
+   console.log('Reading gallery: ' + mData.name);
+   gCurOptGrp = addGallery(mData.name, mData.galleryId);
+   gGalleryData[gGalleryIndex] = new GalleryData(mData.galleryId);
    gGalleryReader = fs.root.createReader();
    gGalleryReader.readEntries(scanGallery, errorPrintFactory('readEntries'));
 }
@@ -211,12 +211,14 @@ function getGalleriesInfo(results) {
    if (results.length) {
       var str = 'Gallery count: ' + results.length + ' ( ';
       results.forEach(function(item, indx, arr) {
-         // the gallery name is a JSON string containing and id and a name
-         var gallery = JSON.parse(item.name);
-         str += gallery.name;
-         if (indx < arr.length-1)
-            str += ",";
-         str += " ";
+         var mData = chrome.mediaGalleries.getMediaFileSystemMetadata(item);
+
+         if (mData) {
+            str += mData.name;
+            if (indx < arr.length-1)
+               str += ",";
+            str += " ";
+         }
       });
       str += ')';
       document.getElementById("filename").innerText = str;

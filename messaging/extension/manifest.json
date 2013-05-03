@@ -1,0 +1,16 @@
+{
+  "name": "Messaging extension",
+  "version": "1.2",
+  "description": "send message to other apps and extensions.",
+  "browser_action": {
+    "default_title": "Send message to other apps",
+    "default_icon": "icon_16.png",
+    "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": ["eventPage.js"],
+    "persistent": false
+  },
+  "permissions": ["notifications"],
+  "manifest_version": 2
+}

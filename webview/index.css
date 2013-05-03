@@ -1,0 +1,109 @@
+/* Basic styling */
+body {
+	font-family: Verdana, Arial;
+	color: #333;
+	padding: 20px;
+}
+
+.section {
+	margin-top: 20px;
+}
+
+.section h2 {
+	font-size: 1.2em;
+	color: rgb(197, 65, 65);
+	border-bottom: 1px solid #ddd;
+}
+
+button {
+	background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+	color: white;
+	padding: 5px 10px;
+	font-weight: bold;
+	border-radius: 2px;
+	border: 1px solid #3079ed;
+	cursor: pointer;    		
+}
+button:hover {
+	background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
+	border: 1px solid #2f5bb7;
+}
+
+
+/* Flexbox boxes */
+div.blocks, div.blocks > div {
+	display: -webkit-flex;
+	display: flex;
+}
+
+div.blocks {
+	flex-flow: row;
+	-webkit-flex-flow: row;
+}
+
+div.blocks > div {
+	flex-flow: column;
+	-webkit-flex-flow: column;
+	-webkit-flex:1 1 auto;
+	flex:1 1 auto;
+}
+div.blocks > div > * {
+	-webkit-flex:1 1 auto;
+	flex:1 1 auto;
+}
+
+div.blocks > div > :nth-child(2n) {
+	-webkit-flex:1 1 auto;
+	flex:1 1 auto;
+}
+
+
+/* Webview styling */
+.webviews label, .note {
+	font-size: 0.7em;
+	color: #aaa;
+	max-width: 200px;
+	-webkit-flex:0 0 auto !important;
+	flex:0 0 auto !important;
+}
+
+webview {
+	border: 1px solid rgb(197, 65, 65);
+}
+
+
+/* Sliders and other controllers styling */
+div.props, div.props > div {
+	text-align: right;
+}
+
+div.props > div > div > * {
+	vertical-align: middle;
+}
+div.props > div:nth-child(2n) {
+	margin-right: 30px;
+	color: #999;
+	text-align: left;
+	padding-left: 10px;
+}
+div.props input[type="range"] {
+	margin-left: 10px;
+}
+div.props input[type="text"] {
+	width: 60px;
+	height: 1.5em;
+	border: 1px solid #CCC;
+	margin-right: 5px;
+	text-align: right;
+}
+div.props > div:nth-child(2n) {
+	-webkit-flex:2 1 auto;
+	flex:2 1 auto;
+}
+textarea {
+	width: 100%;
+	border: 1px solid #CCC;
+	font-size: 0.9em;
+	color: #aaa;
+	height: 100px;
+}

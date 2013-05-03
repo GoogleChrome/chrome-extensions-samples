@@ -124,13 +124,13 @@ function handleNewButton() {
     editor.setValue("");
   } else {
     chrome.app.window.create('main.html', {
-      frame: 'chrome', width: 720, height: 400
+      frame: 'chrome', bounds: { width: 720, height: 400}
     });
   }
 }
 
 function handleOpenButton() {
-  chrome.fileSystem.chooseEntry({ type: 'openFile' }, onChosenFileToOpen);
+  chrome.fileSystem.chooseEntry({ type: 'openWritableFile' }, onWritableFileToOpen);
 }
 
 function handleSaveButton() {
@@ -179,6 +179,7 @@ onload = function() {
       mode: {name: "javascript", json: true },
       lineNumbers: true,
       theme: "lesser-dark",
+      fixedGutter: true,
       extraKeys: {
         "Cmd-S": function(instance) { handleSaveButton() },
         "Ctrl-S": function(instance) { handleSaveButton() },

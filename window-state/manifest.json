@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "Window State Sample",
+  "version": "1",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": ["fullscreen"]
+}

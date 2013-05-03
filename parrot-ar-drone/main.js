@@ -4,16 +4,18 @@ chrome.app.runtime.onLaunched.addListener(function() {
       appWindow = null;
 
   isAliveCheck = setInterval(function() {
-    if(appWindow) {
-      if(appWindow.closed && appWindow.DRONE) {
-        appWindow.DRONE.API.shutdown();
-      }
+    if(appWindow && appWindow.closed && appWindow.DRONE) {
+      appWindow.DRONE.API.shutdown();
+      appWindow=null;
+      if (isAliveCheck) clearInterval(isAliveCheck);
     }
   }, 1000);
 
   chrome.app.window.create('index.html', {
-    width: 565,
-    height: 400
+    bounds: {
+      width: 565,
+      height: 400
+    }
   }, function(createdWindow) {
     appWindow = createdWindow.dom;
   });

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="window.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Window State Sample</h1>
+  <div id="fullscreen-area">
+    <p>HTML5 Fullscreen:
+      <button id="html-fullscreen-enter">Enter</button>
+      <button id="html-fullscreen-exit">Exit</button>
+      <br>
+      <span id="html-fullscreen-label"></span>
+    </p>
+    <p>Delayed app.window actions:
+      <br>
+      <button id="fullscreen">Fullscreen</button>
+      <button id="maximize">Maximize</button>
+      <button id="minimize">Minimize</button>
+      <button id="restore">Restore</button>
+      <button id="hide">Hide</button>
+      <button id="show">Show</button>
+      <br>
+      Delay: <input id="delay-slider" type ="range" min ="0000" max="10000" step="1000" value="2000"/>
+      <span id="delay-label"></span>
+    </p>
+    <p>Create a new window:<br>
+      <button id="newWindow">Normal</button>
+      <button id="newWindowFullscreen">Fullscreen</button>
+      <button id="newWindowMaximized">Maximized</button>
+      <button id="newWindowMinimized">Minimized</button>
+    </p>
+    <p>Create a hidden window, shown after a delay:<br>
+      <button id="newWindowHidden">Normal</button>
+      <button id="newWindowFullscreenHidden">Fullscreen</button>
+      <button id="newWindowMaximizedHidden">Maximized</button>
+      <button id="newWindowMinimizedHidden">Minimized</button>
+    </p>
+    <p>Current window state:
+      <input type="checkbox" id="isFullscreen">isFullscreen
+      <input type="checkbox" id="isMaximized" >isMaximized
+      <input type="checkbox" id="isMinimized" >isMinimized
+    </p>
+    <p>Last 10 seconds state:
+      <input type="checkbox" id="wasFullscreen">wasFullscreen
+      <input type="checkbox" id="wasMaximized" >wasMaximized
+      <input type="checkbox" id="wasMinimized" >wasMinimized
+    </p>
+  </div>
+  This text is outside of the HTML5 fullscreen area.
+</body>
+<script src="window.js"></script>
+</html>

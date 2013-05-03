@@ -62,7 +62,7 @@ var serial_lib=(function() {
   };
   
   var openSerial=function(serialPort, callback) {
-    chrome.serial.open(serialPort, function(cInfo) {
+    chrome.serial.open(serialPort, {bitrate: 57600}, function(cInfo) {
      onOpen(cInfo, callback)
     });
   };
