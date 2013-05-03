@@ -6,7 +6,7 @@
   "icons": {"128": "images/dart_icon.png"},
   "app": {
     "background": {
-      "scripts": ["js/main.js"]
+      "scripts": ["build/main.dart.js"]
     }
   }
 }
