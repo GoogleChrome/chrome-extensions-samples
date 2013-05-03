@@ -19,7 +19,7 @@ from oauth2client.appengine import CredentialsModel
 from oauth2client.appengine import StorageByKeyName
 from oauth2client.client import AccessTokenRefreshError
 from oauth2client.client import flow_from_clientsecrets
-import simplejson
+import json as simplejson
 import webapp2
 
 from google.appengine.api import users
