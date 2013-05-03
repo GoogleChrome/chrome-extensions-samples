@@ -5,7 +5,7 @@ API](http://developer.chrome.com/trunk/apps/pushMessaging.html) in an app.
 
 How to install on your local machine:
 
-You can either install this from the Chrome Web Store at https://chrome.google.com/webstore/detail/push-messaging-sample-cli/fboilmbenheemaomgaeehigklolhkhnf
+You can either install this from the Chrome Web Store at https://chrome.google.com/webstore/detail/push-messaging-sample-cli/bafimiidcfafikaonocgmmcpbbhfjjik
 or put this into a directory on your machine, and go to chrome://extensions,
 click on the "Load unpacked extension..." button, and choose the directory where
 you downloaded this sample.
