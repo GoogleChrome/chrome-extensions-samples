@@ -132,9 +132,9 @@ Sending messages to other installed apps or extensions:
 System tray rich notifications:
 * [rich-notifications](https://github.com/GoogleChrome/chrome-app-samples/tree/master/rich-notifications)
 
-Webintents:
-* [explicit-webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/explicit-webintents)
-* [webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webintents)
+~~Webintents:~~ [(depricated)](http://lists.w3.org/Archives/Public/public-web-intents/2012Nov/0000.html)
+* ~~[explicit-webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/explicit-webintents)~~
+* ~~[webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webintents)~~
 
 Dart:
 * [dart](https://github.com/GoogleChrome/chrome-app-samples/tree/master/dart)
