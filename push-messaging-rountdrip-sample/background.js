@@ -5,7 +5,5 @@
 // This function gets called in the packaged app model on launch.
 chrome.app.runtime.onLaunched.addListener(function() {
   console.log("Push Messaging Roundtrip Sample App Launched!");
-
+  chrome.app.window.create('push_messaging_roundtrip_sample.html');
 });
-
-chrome.app.window.create('push_messaging_roundtrip_sample.html');
