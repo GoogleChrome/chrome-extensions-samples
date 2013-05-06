@@ -33,9 +33,9 @@ const DEFAULT_MAX_CONNECTIONS=5;
   function TcpServer(addr, port, options) {
     this.addr = addr;
     this.port = port;
-    this.maxConnections = typeof(options) != 'undefined' 
+    this.maxConnections = typeof(options) != 'undefined'
         && options.maxConnections || DEFAULT_MAX_CONNECTIONS;
-    
+
     // Callback functions.
     this.callbacks = {
       listen: null,    // Called when socket is connected.
@@ -57,11 +57,11 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
   /**
    * Static method to return available network interfaces.
-   * 
+   *
    * @see http://developer.chrome.com/trunk/apps/socket.html#method-getNetworkList
-   * 
-   * @param {Function} callback The function to call with the available network 
-   * interfaces. The callback parameter is an array of 
+   *
+   * @param {Function} callback The function to call with the available network
+   * interfaces. The callback parameter is an array of
    * {name(string), address(string)} objects. Use the address property of the
    * preferred network as the addr parameter on TcpServer contructor.
    */
@@ -116,7 +116,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   TcpServer.prototype._onCreate = function(createInfo) {
     this.serverSocketId = createInfo.socketId;
     if (this.serverSocketId > 0) {
-      socket.listen(this.serverSocketId, this.addr, this.port, null, 
+      socket.listen(this.serverSocketId, this.addr, this.port, null,
         this._onListenComplete.bind(this));
       this.isListening = true;
     } else {
@@ -204,7 +204,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   };
 
   TcpConnection.prototype.requestSocketInfo = function(callback) {
-    socket.getInfo(this.socketId, 
+    socket.getInfo(this.socketId,
       this._onSocketInfo.bind(this, callback));
   };
 
@@ -279,8 +279,15 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * @param {Object} readInfo The incoming message
    */
   TcpConnection.prototype._onDataRead = function(readInfo) {
+    // Any read error is considered a disconnect from the remote host.
+    // Disconnect our socket in that case.
+    if (readInfo && readInfo.resultCode < 0) {
+      this.disconnect();
+      return;
+    }
+
     // Call received callback if there's data in the response.
-    if (readInfo && readInfo.resultCode > 0 && this.callbacks.recv) {
+    if (this.callbacks.recv) {
       log('onDataRead');
       // Convert ArrayBuffer to string.
       _arrayBufferToString(readInfo.data, this.callbacks.recv.bind(this));
