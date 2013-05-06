@@ -1,7 +1,7 @@
-Filer = function(filesystem, container, editor) {
+Filer = function(filesystem, container, editor, isSyncable) {
   this.filesystem = filesystem;
   this.editor = editor;
-  this.isSyncable = (filesystem.name.indexOf('Syncable') != -1);
+  this.isSyncable = isSyncable;
 
   // Directory path => ul node mapping.
   var nodes = {};
