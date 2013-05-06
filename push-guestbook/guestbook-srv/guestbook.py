@@ -19,7 +19,7 @@ from oauth2client.appengine import CredentialsModel
 from oauth2client.appengine import StorageByKeyName
 from oauth2client.client import AccessTokenRefreshError
 from oauth2client.client import flow_from_clientsecrets
-import json as simplejson
+import json
 import webapp2
 
 from google.appengine.api import users
@@ -49,7 +49,7 @@ def SendMessages(post_data):
         api_http.request(
             'https://www.googleapis.com/gcm_for_chrome/v1/messages',
             'POST',
-            body=simplejson.dumps(data),
+            body=json.dumps(data),
             headers={'Content-Type': 'application/json'})
     except AccessTokenRefreshError:
       logger.warning('Unable to refresh the Push Messaging access token!')
@@ -121,7 +121,7 @@ class Monitor(webapp2.RequestHandler):
     SendMessages([post_data])
 
   def post(self):
-    args = simplejson.loads(self.request.body)
+    args = json.loads(self.request.body)
     channelId = args.get('channelId')
     verifier = args.get('verifier')
     if channelId is not None:
@@ -138,9 +138,9 @@ class Monitor(webapp2.RequestHandler):
       last_message = Greeting.all().order('-date').fetch(1)
       if last_message:
         response['lastMessage'] = last_message[0].content
-      self.response.out.write(simplejson.dumps(response))
+      self.response.out.write(json.dumps(response))
       return
-    self.response.out.write(simplejson.dumps(dict(status='err')))
+    self.response.out.write(json.dumps(dict(status='err')))
 
 
 class StartPushOAuth(webapp2.RequestHandler):

@@ -9,7 +9,7 @@ How to install on your local machine:
   Python](https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python).
 * Ensure that <code>dev\_appserver.py</code> is in your PATH
 * Go to the [Developer Console](https://code.google.com/apis/console/), and request a "Client ID for Web Applications"
-  using the " API Access" nav bar item, click on "Create an OAuth2 client ID".
+  using the "API Access" nav bar item, click on "Create an OAuth2 client ID".
 * Use the "Web Application" type in the Create Client ID dialog.
 * Use "localhost" for the URL.
 * Click on "Edit settings" to edit the redirect URIs.
@@ -27,16 +27,14 @@ How to install on your local machine:
 
 ## How to enable push messaging:
 
-* Upload the app in <code>$PROJECT\_ROOT/guestbook-app</code> to the Chrome Web Store.
-* Go to the Chrome Web Store, click the "gear" icon, and choose "Developer Dashboard".
-* click "Add new item"
-* Download it back to your browser, and click the icon to open the main window.
-  it should have a message like "The last Guestbook message was".
-* Don't launch the client app until the server is running, and you have done the startpush command in the browser.  It registers with the server.  If you do end up starting the client app too early, you can try first killling it from the chrome://extensions page, and if that doesn't work, you can restart the dev_appserver with the --clear_datastore argument.
+* Upload the app in <code>$PROJECT\_ROOT/guestbook-app</code> to the Chrome Web Store.  
+** When you go to the Chrome Web Store, Click the "gear" icon, and choose "Developer Dashboard".
+** click "Add new item"
+* Download he app back to your browser.
+* Don't launch the client app yet!  Wait until the server is running, and you have navigated to localhost:8080/startpush and authorized your appserver to send messages.  The client registers with the server on startup.  If you do end up starting the client app too early, you can try first killling it from the chrome://extensions page, and if that doesn't work, you can restart the dev_appserver with the --clear_datastore argument.
 * Navigate to <code>http://localhost:8080/startpush</code> and login with the account with push.  You should only have to do this once, not every time.
-  message permission
-* Now launch the push messaging sample app
-* Send push messages <code>http://localhost:8080</code>
+* Launch the push messaging sample app. It should have a message like "The last Guestbook message was "..."
+* Send push messages <code>http://localhost:8080</code> by signing the guestbook web page.  After you leave a message and press sign, the server will send the push message.
 * You should now see the payload of the push message appear in the push guestbook app.
 
 ## APIs
