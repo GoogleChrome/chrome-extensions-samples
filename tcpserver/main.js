@@ -89,7 +89,11 @@ function stopServer() {
 }
 
 function getServerState() {
-  return {isConnected: tcpServer.isConnected(), 
-    addr: tcpServer.addr,
-    port: tcpServer.port};
+  if (tcpServer) {
+    return {isConnected: tcpServer.isConnected(),
+      addr: tcpServer.addr,
+      port: tcpServer.port};
+  } else {
+    return {isConnected: false};
+  }
 }
