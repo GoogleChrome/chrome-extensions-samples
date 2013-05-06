@@ -7,6 +7,8 @@ write your own Push Messaging server in Java.
 The client is a chrome app that will recieve push messages and display them as
 notifications.
 
+You can use the push messaging sample app as a client.  You can either get the sample or install it from the chrome web store: https://chrome.google.com/webstore/detail/push-messaging-sample-cli/bafimiidcfafikaonocgmmcpbbhfjjik
+
 To run the client, you need to go to chrome://extensions, click on the
 "Load Unpacked Extension..." button, and choose the directory where you
 downloaded the client file for this sample.  This will install the app into

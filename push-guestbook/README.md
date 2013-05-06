@@ -32,15 +32,12 @@ How to install on your local machine:
 * click "Add new item"
 * Download it back to your browser, and click the icon to open the main window.
   it should have a message like "The last Guestbook message was".
-** Don't launch the client app until the server is running, it registers with the server.
+* Don't launch the client app until the server is running, and you have done the startpush command in the browser.  It registers with the server.  If you do end up starting the client app too early, you can try first killling it from the chrome://extensions page, and if that doesn't work, you can restart the dev_appserver with the --clear_datastore argument.
 * Navigate to <code>http://localhost:8080/startpush</code> and login with the account with push.  You should only have to do this once, not every time.
   message permission
-* Begin sending push messages by signing the guestbook at <code>http://localhost:8080</code>
-** Before I could get this to work, we had to go to the admin page, and set the app to validated:
-* go to http://localhost:8000
-* select datastore viewer, set entity type to "follower"
-* click on the blue link wiht the random looking name
-* set validated to "true"
+* Now launch the push messaging sample app
+* Send push messages <code>http://localhost:8080</code>
+* You should now see the payload of the push message appear in the push guestbook app.
 
 ## APIs
 
