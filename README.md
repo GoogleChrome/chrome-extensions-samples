@@ -146,6 +146,9 @@ NodeJS modules:
 Client side sample
 * [PushSampleApp](https://github.com/GoogleChrome/chrome-app-samples/tree/master/PushSampleApp)
 
+Guestbook sample
+* [PushGuestbook](https://github.com/GoogleChrome/chrome-app-samples/tree/master/PushGuestbook)
+
 Roundtrip sample
 * [PushMessagingRoundtripSample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/PushMessagingRoundtripSample)
 
