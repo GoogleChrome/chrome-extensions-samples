@@ -1,0 +1,26 @@
+{
+  "name": "Multicast Chat Demo App",
+  "version": "0.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "27",
+  "description": "Sending/Receiving multicast diagrams.",
+  "app": {
+    "background": {
+      "scripts": [
+        "MulticastSocket.js",
+        "ChatClient.js",
+        "background.js"]
+    }
+  },
+
+  "icons": {
+    "128": "128.png"
+  },
+
+  "permissions": [
+    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership"]
+    }
+  ]
+}
