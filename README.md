@@ -144,13 +144,13 @@ NodeJS modules:
 
 ## Push Messaging
 Client side sample
-* [PushSampleApp](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-sample-app)
+* [push-sample-app](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-sample-app)
 
 Guestbook sample
-* [PushGuestbook](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-guestbook)
+* [push-guestbook](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-guestbook)
 
 Roundtrip sample
-* [PushMessagingRoundtripSample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-messaging-roundtrip-sample)
+* [push-messaging-roundtrip-sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-messaging-roundtrip-sample)
 
 ## Other:
 
