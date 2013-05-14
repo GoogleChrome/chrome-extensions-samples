@@ -40,7 +40,7 @@ var startDoc = resetSequence.concat(setResolution, tabData, qualityData,
 var endDoc = [ESC, 0x45]; // Form feed
 
 var logoImg = new Image();
-logoImg.src = "chrome_pony.png";
+logoImg.src = "chrome_logo.png";
 
 
 function requestPermission(callback) {
