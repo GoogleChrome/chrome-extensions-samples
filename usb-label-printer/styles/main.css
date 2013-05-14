@@ -1,0 +1,104 @@
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  line-height: 120%;
+  color: rgb(66,66,66);
+  letter-spacing: -0.05em;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.preview, .settings {
+  border: 1px solid #999;
+  margin-left: 32px; margin-right: 32px;
+  margin-top: 32px;
+  padding: 25px;
+  position: relative;
+}
+
+.preview:hover .content input {
+  visibility: visible;
+}
+
+.content input:focus {
+  z-index: 20;
+}
+.content input {
+  visibility: hidden;
+  position: absolute;
+  width: 570px;
+  font-size: 50px;
+  z-index: 10;
+  border-color: transparent;
+}
+
+.photooverlay {
+  position: absolute;
+  width: 310px;
+  height: 300px;
+  z-index: 10;
+}
+
+#video {
+  display: none;
+  width: 100%;
+  height: 100%; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  margin: 1px;
+  background: white;
+}
+
+.photooverlay > div {
+  visibility: hidden;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+  position: absolute;
+  padding: 20px 0;
+}
+.photooverlay:hover > div {
+  background-color: rgba(255,255,255,0.7);
+  visibility: visible;
+}
+
+button {
+  cursor: pointer;
+}
+
+.photooverlay button {
+  border: none;
+  background: none;
+  margin: 0 10px;
+}
+
+#name {
+  font-size: 64px;
+  top: 114px;
+  left: 345px;
+}
+
+#nick {
+  font-size: 48px;
+  top: 191px;
+  left: 345px;
+}
+
+#previewCanvas {
+  border: 1px solid #999;
+}
+
+#ditheredCanvas {
+  display: none;
+}
+

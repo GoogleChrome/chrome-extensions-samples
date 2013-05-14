@@ -108,6 +108,7 @@ Serial API:
 
 USB raw access:
 * [usb/knob](https://github.com/GoogleChrome/chrome-app-samples/tree/master/usb/knob)
+* [usb-label-printer](https://github.com/GoogleChrome/chrome-app-samples/tree/master/usb-label-printer)
 
 Bluetooth API:
 * [ioio](https://github.com/GoogleChrome/chrome-app-samples/tree/master/ioio)
