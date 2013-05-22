@@ -15,7 +15,7 @@
  *
  */
 /**
- * gapi-chrome-apps version 0.0
+ * gapi-chrome-apps version 0.001
  *
  * Provides the Google API javascript client 'gapi' as
  * appropriate for hosted websites, or if in a Chrome packaged
@@ -91,11 +91,12 @@
     var xhr = new XMLHttpRequest();
     xhr.open(args.method || 'GET', path);
     xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-    xhr.setRequestHeader('content-type', 'application/json');
-    if (typeof args.body !== 'undefined')
+    if (typeof args.body !== 'undefined') {
+      xhr.setRequestHeader('content-type', 'application/json');
       xhr.send(JSON.stringify(args.body));
-    else
+    } else {
       xhr.send();
+    }
 
     xhr.onerror = function () {
       // TODO, error handling.
