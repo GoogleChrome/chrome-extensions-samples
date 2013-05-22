@@ -160,3 +160,7 @@ WebGL and Pointer Lock:
 * [hello-world](https://github.com/GoogleChrome/chrome-app-samples/tree/master/hello-world)
 * [io2012-presentation](https://github.com/GoogleChrome/chrome-app-samples/tree/master/io2012-presentation)
 
+# Libraries
+
+Google APIs client library for packaged apps:
+* [gapi-chrome-apps-lib](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gapi-chrome-apps-lib)
