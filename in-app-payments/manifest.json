@@ -3,6 +3,7 @@
   "description": "App to test CWA.",
   "manifest_version": 2,
   "version": "0.0.1",
+  "minimum_chrome_version": "29",
   "app": {
     "background": {
       "scripts": ["background.js"]
