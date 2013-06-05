@@ -30,12 +30,9 @@ function runApp() {
   
   var win = chrome.app.window.create('ttsdemo.html', {
    
-   frame: "none", 
    bounds: {
-   	  'left':0,
-   	  'top':0,
-      'width': screen.availWidth,
-      'height': screen.availHeight
+   	  'width': 1024,
+      'height': 768
     }
   });
 

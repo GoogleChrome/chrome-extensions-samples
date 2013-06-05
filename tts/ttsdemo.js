@@ -101,6 +101,9 @@ function speak(str, options, highlightText) {
   console.log(utteranceIndex + ': ' + JSON.stringify(options));
   options.onEvent = function(event) {
     console.log(utteranceIndex + ': ' + JSON.stringify(event));
+    if (event.type == 'error') {
+      console.log('Error: ' + event.errorMessage);
+    }
     if (highlightText) {
       text.setSelectionRange(0, event.charIndex);
     }
@@ -116,12 +119,13 @@ function speak(str, options, highlightText) {
       });
     }
   };
+  
   chrome.tts.speak(
       str, options, function() {
-    if (chrome.extension.lastError) {
-      console.log('TTS Error: ' + chrome.extension.lastError.message);
-    }
+      
   });
+
+
   ttsStatus.innerHTML = 'Busy';
   ttsStatusBox.style.background = '#ffc';
 }
