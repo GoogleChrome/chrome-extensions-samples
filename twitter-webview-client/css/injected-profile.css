@@ -1,0 +1,176 @@
+.tweet {
+    font-size: 13px;
+}
+
+.front-welcome {
+    display: none;
+}
+.front-signin {
+    position: relative;
+    left: 0px;
+    top: 50px;
+    margin: 0 auto;
+}
+.front-signup {
+    position: relative;
+    top: 70px;
+    left: 0px;
+    margin: 0 auto;
+}
+.global-nav .container {
+    width: auto;
+    min-width: 450px;
+}
+
+.front-card {
+    width: auto;
+    margin: 0 auto;
+    left: 0px;
+    top: 0px;
+    position: relative;
+}
+
+.front-warning {
+    width: auto;
+}
+
+.footer {
+    display: none;
+}
+
+/*
+.dashboard {
+    display: none;
+}
+*/
+
+.wrapper-home .dashboard {
+    display: none;
+}
+
+.wrapper-connect .dashboard {
+    display: none;
+}
+
+.wrapper-discover .dashboard {
+    display: none;
+}
+
+.wrapper-profile .dashboard {
+    display: none;
+}
+
+.wrapper-search .dashboard {
+    display: none;
+}
+
+.search-title {
+  width: auto;
+}
+
+.js-search-dropdown {
+  display: none;
+}
+
+.search-assist-related-queries {
+  width: auto;
+}
+
+#page-container {
+    width: auto;
+}
+
+#timeline {
+    float: none;
+    width: auto;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+#discover-stories {
+    float: none;
+    width: auto;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+#tweet-box-template {
+    max-width: 420px;
+    width: auto;
+}
+
+.profile-header.profile-card {
+    width: auto;
+    max-width: 520px;
+    float: none;
+    margin: 0 auto;
+}
+
+.profile-header-inner-overlay {
+    width: auto;
+    max-width: 520px;
+}
+
+.expand-stream-item {
+    display: none;
+}
+
+.collapse-stream-item {
+    display: none;
+}
+
+.modal {
+    width: 430px;
+    max-width: 520px;
+    margin: 0 auto;
+    left: 0px;
+}
+
+.wrapper-settings {
+    width: auto;
+    max-width: 520px;
+}
+
+.form-horizontal .control-label {
+    80px;
+}
+
+/*
+#user-dropdown {
+    display: none;
+}
+*/
+
+.dm-dialog .dm-tweetbox .tweet-content .tweet-box {
+    width: 380px;
+}
+
+.tweet-form .tweet-box {
+    width: 380px;
+}
+
+#user-dropdown-toggle .caret {
+    display: none;
+}
+
+#user-dropdown {
+    width: 44px;
+}
+
+.profile-card.profile-header {
+    width: auto;
+    max-width: 520px;
+}
+
+.profile-header-inner-overlay {
+    width: auto;
+    max-width: 520px;
+}
+
+.topbar {
+    display: none;
+}
+
+.site-footer {
+    display: none;
+}
