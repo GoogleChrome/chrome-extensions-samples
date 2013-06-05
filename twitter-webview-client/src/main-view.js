@@ -8,7 +8,6 @@ var loaded = function() {
     var webView = $('#main-webview')
     console.log('trying? ' + webView + ' ' + webView.get(0));
     
-    webView.get(0).partition = 'persist:twitterapp';
     webView.attr('src', 'http://www.twitter.com/');
     webView.on('loadstop', function() {
         console.log('trying to inject');
