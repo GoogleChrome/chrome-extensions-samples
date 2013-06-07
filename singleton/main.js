@@ -10,24 +10,13 @@ var singletonWindow;
  * @see http://developer.chrome.com/trunk/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
-  if (singletonWindow && !singletonWindow.contentWindow.closed) {
-    console.log('Focusing singleton window');
-    singletonWindow.focus();
-  } else {
-    console.log('Creating singleton window');
-    chrome.app.window.create('singleton.html', {
-      bounds: {
-        width: 500,
-        height: 309
-      },
-
-      maxWidth: 500,
-      maxHeight: 309,
-
-      minWidth: 500,
-      minHeight: 309
-    }, function(w) {
-      singletonWindow = w;
-    });
-  }
+  chrome.app.window.create('singleton.html', {
+    id: "singleton window",
+    singleton: true,
+    bounds: {
+      width: 500,
+      height: 309
+    },
+    resizable: false
+  });
 });
