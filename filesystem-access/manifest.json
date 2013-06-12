@@ -13,16 +13,15 @@
     }
   },
   "permissions": [
-    {"fileSystem": ["write"]}
+    {"fileSystem": ["write", "retainFiles"]},
+    "storage"
   ],
-  "intents": {
-    "http://webintents.org/view" : [{
-      "title" : "Txt Reader",
-      "type" : ["text/*"]
-    }],
-    "http://webintents.org/edit" : [{
-      "title" : "Txt Reader",
-      "type" : ["text/*"]
-    }]
+  "file_handlers": {
+    "text": {
+      "types": [
+          "text/*"
+      ],
+      "title": "Text editor"
+    }
   }
 }
