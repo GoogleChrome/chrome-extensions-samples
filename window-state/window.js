@@ -8,8 +8,23 @@ var newWindowOffset = 100;
 // Helper functions
 $ = function(selector) { return document.querySelector(selector); }
 
-function createNewWindow(optionsDictionary, callback) {
+function createNewWindow(optionsDictionary) {
   optionsDictionary = optionsDictionary || {};
+
+  if ($('[value=ID1]').checked)
+    optionsDictionary.id = "ID1";
+  else if ($('[value=ID2]').checked)
+    optionsDictionary.id = "ID2";
+  else
+    optionsDictionary.id = undefined;
+
+  optionsDictionary.singleton = $('[value=singleton]').checked;
+
+  optionsDictionary.hidden = $('[value=hidden]').checked;
+  var showAfterCreated = function (win) {
+    setTimeout(function () { win.show(); }, hiddenWindowDelay);
+  }
+  var callback = optionsDictionary.hidden ? showAfterCreated : undefined;
 
   // Set new window to be offset from current window.
   var bounds = chrome.app.window.current().getBounds();
@@ -22,16 +37,6 @@ function createNewWindow(optionsDictionary, callback) {
 
   chrome.app.window.create('window.html', optionsDictionary, callback);
 };
-
-function createNewWindowHidden(optionsDictionary) {
-  optionsDictionary = optionsDictionary || {};
-  optionsDictionary.hidden = true;
-  createNewWindow(optionsDictionary,
-    function (createdWindow) {
-      setTimeout(function () { createdWindow.show(); }, hiddenWindowDelay);
-    }
-  );
-}
 
 // Log events:
 
@@ -95,7 +100,7 @@ var updateDelaySiderText = function updateDelaySiderText() {
 $('#delay-slider').onchange = updateDelaySiderText;
 updateDelaySiderText();  // Initial text update.
 
-$('#newWindow').onclick = function(e) {
+$('#newWindowNormal').onclick = function(e) {
   createNewWindow();
 };
 
@@ -109,22 +114,6 @@ $('#newWindowMaximized').onclick = function(e) {
 
 $('#newWindowMinimized').onclick = function(e) {
   createNewWindow({ state: 'minimized'});
-};
-
-$('#newWindowHidden').onclick = function(e) {
-  createNewWindowHidden();
-};
-
-$('#newWindowFullscreenHidden').onclick = function(e) {
-  createNewWindowHidden({ state: 'fullscreen'});
-};
-
-$('#newWindowMaximizedHidden').onclick = function(e) {
-  createNewWindowHidden({ state: 'maximized'});
-};
-
-$('#newWindowMinimizedHidden').onclick = function(e) {
-  createNewWindowHidden({ state: 'minimized'});
 };
 
 // Current window state readout:
