@@ -6,12 +6,14 @@
 <body>
   <h1>Window State Sample</h1>
   <div id="fullscreen-area">
-    <p>HTML5 Fullscreen:
+    <p><b>HTML5 Fullscreen</b>:
       <button id="html-fullscreen-enter">Enter</button>
       <button id="html-fullscreen-exit">Exit</button>
       <span id="html-fullscreen-label"></span>
     </p>
-    <p>Delayed app.window actions:
+    <p>chrome.app.<b>window actions</b>, delayed:
+      <input id="delay-slider" type ="range" min ="0000" max="10000" step="1000" value="2000"/>
+      <span id="delay-label"></span>
       <br>
       <button id="fullscreen">Fullscreen</button>
       <button id="maximize">Maximize</button>
@@ -19,11 +21,8 @@
       <button id="restore">Restore</button>
       <button id="hide">Hide</button>
       <button id="show">Show</button>
-      <br>
-      Delay: <input id="delay-slider" type ="range" min ="0000" max="10000" step="1000" value="2000"/>
-      <span id="delay-label"></span>
     </p>
-    <p>Create a new window:<br>
+    <p><b>Create</b> a new window:<br>
       <label><input type="radio" name="newWindowId" value="ID1" checked/>id = ID1</label>
       <label><input type="radio" name="newWindowId" value="ID2" />id = ID2</label>
       <label><input type="radio" name="newWindowId" value="none" />Without id</label>
