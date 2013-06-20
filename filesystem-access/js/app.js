@@ -129,7 +129,7 @@ function loadFileEntry(chosenFileEntry) {
 function loadInitialFile(launchData) {
   if (launchData && launchData.items && launchData.items[0]) {
     loadFileEntry(launchData.items[0].entry);
-  } else if (chrome.fileSystem.restoreEntry) {
+  } else {
     chrome.storage.local.get('chosenFile', function(items) {
       if (items.chosenFile) {
         chrome.fileSystem.restoreEntry(items.chosenFile, function(chosenEntry) {
@@ -154,10 +154,8 @@ chooseFileButton.addEventListener('click', function(e) {
       output.textContent = 'No file selected.';
       return;
     }
-    if (chrome.fileSystem.retainEntry) {
-      chrome.storage.local.set(
-          {'chosenFile': chrome.fileSystem.retainEntry(readOnlyEntry)});
-    }
+    chrome.storage.local.set(
+        {'chosenFile': chrome.fileSystem.retainEntry(readOnlyEntry)});
     loadFileEntry(readOnlyEntry);
   });
 });
