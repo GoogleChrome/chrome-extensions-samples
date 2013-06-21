@@ -114,6 +114,33 @@ var saveFileButton = document.querySelector('#save_file');
 var output = document.querySelector('output');
 var textarea = document.querySelector('textarea');
 
+function loadFileEntry(chosenFileEntry) {
+  chosenFileEntry.file(function(file) {
+    readAsText(chosenFileEntry, function(result) {
+      textarea.value = result;
+    });
+    // Update display.
+    writeFileButton.disabled = false;
+    saveFileButton.disabled = false;
+    displayPath(chosenFileEntry);
+  });
+}
+
+function loadInitialFile(launchData) {
+  if (launchData && launchData.items && launchData.items[0]) {
+    loadFileEntry(launchData.items[0].entry);
+  } else {
+    chrome.storage.local.get('chosenFile', function(items) {
+      if (items.chosenFile) {
+        chrome.fileSystem.restoreEntry(items.chosenFile, function(chosenEntry) {
+          if (chosenEntry) {
+            loadFileEntry(chosenEntry);
+          }
+        });
+      }
+    });
+  }
+}
 
 chooseFileButton.addEventListener('click', function(e) {
   // "type/*" mimetypes aren't respected. Explicitly use extensions for now.
@@ -127,18 +154,9 @@ chooseFileButton.addEventListener('click', function(e) {
       output.textContent = 'No file selected.';
       return;
     }
-
-    chosenFileEntry = readOnlyEntry;
-
-    chosenFileEntry.file(function(file) {
-      readAsText(readOnlyEntry, function(result) {
-        textarea.value = result;
-      });
-      // Update display.
-      writeFileButton.disabled = false;
-      saveFileButton.disabled = false;
-      displayPath(chosenFileEntry);
-    });
+    chrome.storage.local.set(
+        {'chosenFile': chrome.fileSystem.retainEntry(readOnlyEntry)});
+    loadFileEntry(readOnlyEntry);
   });
 });
 
@@ -179,3 +197,5 @@ var dnd = new DnDFileController('body', function(data) {
   saveFileButton.disabled = false;
   displayPath(chosenFileEntry);
 });
+
+loadInitialFile(launchData);
