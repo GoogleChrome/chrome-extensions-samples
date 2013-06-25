@@ -39,7 +39,9 @@ function onGetAuthToken(auth_token) {
     signinButton.id = 'signin';
     signinButton.appendChild(document.createTextNode('Sign In'));
     signinButton.onclick = getUserInfoInteractive;
-    userInfoDiv.appendChild(signinButton);
+    if (!userInfoDiv.firstChild) {
+      userInfoDiv.appendChild(signinButton);
+    }
     return;
   }
   // Remove the sign in button if it exists.
@@ -55,11 +57,11 @@ function onGetAuthToken(auth_token) {
 }
 
 function getUserInfo() {
-  chrome.experimental.identity.getAuthToken({ 'interactive': false }, onGetAuthToken);
+  chrome.identity.getAuthToken({ 'interactive': false }, onGetAuthToken);
 }
 
 function getUserInfoInteractive() {
-  chrome.experimental.identity.getAuthToken({ 'interactive': true }, onGetAuthToken);
+  chrome.identity.getAuthToken({ 'interactive': true }, onGetAuthToken);
 }
 
 window.onload = getUserInfo;

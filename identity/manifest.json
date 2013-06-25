@@ -9,7 +9,7 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["experimental"],
+  "permissions": ["identity"],
   "oauth2": {
     "client_id": "503955758982.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.profile"]
