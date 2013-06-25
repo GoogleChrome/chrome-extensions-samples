@@ -16,5 +16,6 @@ The key *must* be removed before uploading it to the store.
 
 ## Resources
 
+* [Identity](http://developer.chrome.com/trunk/apps/app.identity.html)
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
