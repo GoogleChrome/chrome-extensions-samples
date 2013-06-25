@@ -1,0 +1,13 @@
+{
+  "name": "Google Wallet Test App",
+  "description": "App to test CWA.",
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "minimum_chrome_version": "29",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "icon_16.png", "128": "icon_128.png" }
+}

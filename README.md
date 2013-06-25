@@ -127,6 +127,10 @@ Monitor system info:
 
 ## Integration with other stuff:
 
+In-app payments:
+* [in-app-payments](https://github.com/GoogleChrome/chrome-app-samples/tree/master/in-app-payments)
+* [in-app-payments-with-server-validation](https://github.com/GoogleChrome/chrome-app-samples/tree/master/in-app-payments-with-server-validation)
+
 Sending messages to other installed apps or extensions:
 * [messaging](https://github.com/GoogleChrome/chrome-app-samples/tree/master/messaging)
 

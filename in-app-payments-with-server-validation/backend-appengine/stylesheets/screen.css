@@ -1,0 +1,49 @@
+/**
+ * Copyright 2011 Google Inc. All Rights Reserved
+ */
+
+body {
+  font-family: Verdana;
+  font-size: 10pt;
+  text-align: center;
+}
+
+li {
+  list-style: none;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul {
+  margin-top: 0px;
+  padding-left: 0px;
+}
+
+table {
+  text-align: left;
+}
+
+img {
+  display: block;
+  width: 230px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px; 
+  margin-bottom: 5px;  
+  border: 2px solid green;
+  padding: 2px 2px 2px 2px;
+}
+
+.buy-button {
+  display: block;
+  width: 120px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  height: 35px;
+  background-color: blue;
+  margin: auto;
+}
