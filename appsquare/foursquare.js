@@ -39,8 +39,8 @@ var foursquare = {};
     chrome.identity.launchWebAuthFlow(
         { url: authUrl, interactive: true },
         function(responseUrl) {
-          if (!responseUrl) {
-            errorCallback('Missing reponseUrl');
+          if (chrome.runtime.lastError) {
+            errorCallback(chrome.runtime.lastError.message);
             return;
           }
 
