@@ -3,12 +3,24 @@ onload = function() {
   var output = document.getElementById("output");
 
   login.onclick = function() {
+    var clientId = 'YOUR CLIENT ID HERE'; 
     var identityDetails = {
-      url: "https://instagram.com/oauth/authorize/?client_id=dd49c144e7914b99aca3bc1fa2735b8d&redirect_uri=chrome-extension://gghhbcbhogmipjcfkkondjepmoaobhph/auth.html&response_type=token",
+      url: "https://api.instagram.com/oauth/authorize/?client_id=" + clientId +
+          "&redirect_uri=chrome-extension://gghhbcbhogmipjcfkkondjepmoaobhph/auth.html&response_type=token",
       interactive: true
     };   
  
-    chrome.experimental.identity.launchWebAuthFlow(identityDetails, function(responseUrl) {
+    chrome.identity.launchWebAuthFlow(identityDetails, function(responseUrl) {
+      if (chrome.runtime.lastError) {
+        console.log('Authorization error: ' + chrome.runtime.lastError.message);
+        return;
+      }
+
+      if (!responseUrl) {
+        console.log("Missing response URL");
+        return;
+      }
+ 
       console.log(responseUrl);
       var accessToken = responseUrl.substring(responseUrl.indexOf("=") + 1);
       console.log(accessToken);
@@ -17,8 +29,6 @@ onload = function() {
       api.request("users/self/feed", undefined, function(data) {  
         console.log(data);
         output.textContent = JSON.stringify(data, null, 4);
-        
-
       });
     });
   };
