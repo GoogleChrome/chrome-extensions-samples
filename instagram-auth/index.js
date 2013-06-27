@@ -6,7 +6,7 @@ onload = function() {
     var clientId = 'YOUR CLIENT ID HERE'; 
     var identityDetails = {
       url: "https://api.instagram.com/oauth/authorize/?client_id=" + clientId +
-          "&redirect_uri=chrome-extension://gghhbcbhogmipjcfkkondjepmoaobhph/auth.html&response_type=token",
+          "&redirect_uri=https://gghhbcbhogmipjcfkkondjepmoaobhph.chromiumapp.org/auth.html&response_type=token",
       interactive: true
     };   
  
@@ -41,7 +41,8 @@ var InstagramAPI = function(accessToken) {
       callback(JSON.parse(xhr.response));
     };
 
-    xhr.open("GET", "https://api.instagram.com/v1/" + method + "?access_token=" + accessToken);
+    xhr.open("GET", "https://api.instagram.com/v1/" + method + "?access_token="
+        + accessToken);
     xhr.send();
   };
 }
