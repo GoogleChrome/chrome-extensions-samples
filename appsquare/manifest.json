@@ -17,9 +17,7 @@
     "geolocation",
     "storage",
 
-    // API requests
     "https://api.foursquare.com/",
-    // User images
     "https://*.4sqi.net/",
     "https://foursquare.com/"
   ]

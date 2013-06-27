@@ -12,8 +12,6 @@
     "16": "icon.png",
     "24": "icon24.png"
    },
-   // This key corresponds to appid of mfaehphpebmlbfdiegjnpidmibldjbjk
-   // remove the key and this comment before resubmitting to CWS.
    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDF8c38r6qt6c9/X2hyL+HTWjmzdCkp/pOEGNT5qsf/6JN4QkwIix6f3vINN0n7ad+l7lm3yTYbWvVokmFB24eAf+Fz6ZGcd3GQNAzcAJ3dl8IFtef5s0qbp7S8kx4NHMe9YpuavirP7jNdH3MWP87hjp/8MHMGS3mz6V53+I4dGwIDAQAB",
   "manifest_version": 2,
   "permissions": [
