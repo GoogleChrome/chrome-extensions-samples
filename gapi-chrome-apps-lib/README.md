@@ -16,6 +16,10 @@ To be expanded upon, but essentially:
 - Reference this script instead of the apis.google.com online version.
 - Call gapi methods as usual.
 
+## Examples:
+
+* [Tasks app using GAPI](https://github.com/GoogleChrome/chrome-app-samples/tree/master/tasks)
+
 ## Resources
 
 * [JavaScript Client Library Reference](https://developers.google.com/api-client-library/javascript/reference/referencedocs)
