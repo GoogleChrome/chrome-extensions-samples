@@ -14,7 +14,8 @@ function initUi() {
 document.getElementById('sign-in-button').onclick = function() {
   foursquare.signIn(
       location.hostname, // the app's ID
-      'JP3SRNV00FA1P11W0PHONEUDRQJVSCNODBTCGBKSOPSXIVMX', // Foursquare API client ID
+      // Foursquare API client ID. Replace with one specifc for your application.
+      'JP3SRNV00FA1P11W0PHONEUDRQJVSCNODBTCGBKSOPSXIVMX',
       initUi,
       function(error) {
         console.log('Sign-in error: ' + error);

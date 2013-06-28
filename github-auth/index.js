@@ -8,6 +8,8 @@ var gh = {};
   var user_info_div;
 
   var tokenFetcher = (function() {
+    // Replace clientId and clientSecret with values obtained by you for your
+    // application https://github.com/settings/applications. 
     var clientId = '8834760dc83df6712c33';
     var clientSecret = 'e7f07a72d810a1161258d65bb89a087624af4c0b';
     var redirectUri = 'https://' + chrome.runtime.id +

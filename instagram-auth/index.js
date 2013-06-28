@@ -3,7 +3,8 @@ onload = function() {
   var output = document.getElementById("output");
 
   login.onclick = function() {
-    var clientId = 'YOUR CLIENT ID HERE'; 
+    // Replace with your Client ID from http://instagram.com/developer.
+    var clientId = '86588d54e78046baa2ce9876d60ecb51'; 
     var identityDetails = {
       url: "https://api.instagram.com/oauth/authorize/?client_id=" + clientId +
           "&redirect_uri=https://gghhbcbhogmipjcfkkondjepmoaobhph.chromiumapp.org/auth.html&response_type=token",
