@@ -138,10 +138,19 @@ function DocsController($scope, $http, gdocs) {
     $http.get(gdocs.DOCLIST_FEED, config).success(successCallbackWithFsCaching);
   };
 
-  // Invoke on ctor call. Fetch docs after we have the oauth token.
-  gdocs.auth(function() {
-    $scope.fetchDocs();
-  });
+  // Function that toggle the authorization state.
+  $scope.auth = function() {
+    if (!gdocs.accessToken) {
+      gdocs.auth(function() {
+        document.querySelector('#authorize-button').textContent = 'Deauthorize';
+        $scope.fetchDocs();
+      });
+    } else {
+      gdocs.revokeAuthToken(function() {
+        document.querySelector('#authorize-button').textContent = "Authorize";
+      });
+    }
+  }
 }
 
 DocsController.$inject = ['$scope', '$http', 'gdocs']; // For code minifiers.

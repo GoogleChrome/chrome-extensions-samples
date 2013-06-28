@@ -1,6 +1,4 @@
-var gh = {};
-
-(function(api) {
+var gh = (function() {
   'use strict';
 
   var signin_button;
@@ -118,7 +116,7 @@ var gh = {};
 
       removeCachedToken: function(token_to_remove) {
         if (access_token == token_to_remove)
-          acecss_token = null;
+          access_token = null;
       }
     }
   })();
@@ -232,21 +230,23 @@ var gh = {};
     showButton(signin_button);
   }
 
-  gh.onload = function () {
-    signin_button = document.querySelector('#signin');
-    signin_button.onclick = interactiveSignIn;
+  return {
+    onload: function () {
+      signin_button = document.querySelector('#signin');
+      signin_button.onclick = interactiveSignIn;
 
-    revoke_button = document.querySelector('#revoke');
-    revoke_button.onclick = revokeToken;
+      revoke_button = document.querySelector('#revoke');
+      revoke_button.onclick = revokeToken;
 
-    user_info_div = document.querySelector('#user_info');
+      user_info_div = document.querySelector('#user_info');
 
-    console.log(signin_button, revoke_button, user_info_div);
+      console.log(signin_button, revoke_button, user_info_div);
 
-    showButton(signin_button);
-    getUserInfo(false);
-  }
-})(gh);
+      showButton(signin_button);
+      getUserInfo(false);
+    }
+  };
+})();
 
 
 window.onload = function () {

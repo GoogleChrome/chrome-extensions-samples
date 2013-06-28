@@ -23,4 +23,4 @@ The key *must* be removed before uploading it to the store.
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-* [Indetity](http://developer.chrome.com/trunk/apps/identity.html)
+* [Identity](http://developer.chrome.com/trunk/apps/identity.html)

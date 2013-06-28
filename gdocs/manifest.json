@@ -28,6 +28,7 @@
     "https://docs.googleusercontent.com/",
     "https://spreadsheets.google.com/feeds/",
     "https://ssl.gstatic.com/",
-    "https://www.googleapis.com/"
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
   ]
 }

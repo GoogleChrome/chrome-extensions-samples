@@ -1,6 +1,4 @@
-var plus = {};
-
-(function(api) {
+var plus = (function() {
   var signin_button;
   var revoke_button;
   var revoke_button_token;
@@ -12,8 +10,7 @@ var plus = {};
   }
 
   function hideButton(button) {
-    if (button.style.display != 'none')
-      button.style.display = 'none';
+    button.style.display = 'none';
   }
 
   function disableButton(button) {
@@ -135,24 +132,24 @@ var plus = {};
     }
   }
 
-  plus.onload = function () {
-    signin_button = document.querySelector('#signin');
-    signin_button.onclick = interactiveSignIn;
+  return {
+    onload: function () {
+      signin_button = document.querySelector('#signin');
+      signin_button.onclick = interactiveSignIn;
 
-    revoke_button = document.querySelector('#revoke');
-    revoke_button.onclick = revokeToken;
+      revoke_button = document.querySelector('#revoke');
+      revoke_button.onclick = revokeToken;
 
-    user_info_div = document.querySelector('#user_info');
+      user_info_div = document.querySelector('#user_info');
 
-    console.log(signin_button, revoke_button, user_info_div);
+      console.log(signin_button, revoke_button, user_info_div);
 
-    // Trying to get user's info without signing in, it will work if the
-    // Application was previously authorized by the user.
-    getUserInfo(false);
-  }
+      // Trying to get user's info without signing in, it will work if the
+      // Application was previously authorized by the user.
+      getUserInfo(false);
+    }
+  };
 
-})(plus);
+})();
 
-window.onload = function() {
-  plus.onload();
-};
+window.onload = plus.onload;
