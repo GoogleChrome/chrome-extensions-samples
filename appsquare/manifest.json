@@ -1,8 +1,7 @@
 {
   "name": "Appsquare",
-  "version": "6",
+  "version": "7",
   "manifest_version": 2,
-  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnyZBBnfu+qNi1x5C0YKIob4ACrA84HdMArTGobttMHIxM2Z6aLshFmoKZa/pbyQS6D5yNywr4KM/llWiY2aV2puIflUxRT8SjjPehswCvm6eWQM+r3mB755m48x+diDl8URJsX4AJ3pQHnKWEvitZcuBh0GTfsLzKU/BfHEaH7QIDAQAB",
   "app": {
     "background": {
       "scripts": ["background.js"]

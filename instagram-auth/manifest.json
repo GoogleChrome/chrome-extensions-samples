@@ -14,5 +14,5 @@
     }
   },
   "key": "UEFVTCBST0NLUw==",
-  "permissions": ["experimental", "identity", "https://api.instagram.com/*"]
+  "permissions": ["identity", "https://api.instagram.com/*"]
 }
