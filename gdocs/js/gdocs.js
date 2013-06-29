@@ -54,7 +54,7 @@ function GDocs(selector) {
 
 GDocs.prototype.auth = function(opt_callback) {
   try {
-    chrome.experimental.identity.getAuthToken({interactive: false}, function(token) {
+    chrome.identity.getAuthToken({interactive: true}, function(token) {
       //document.querySelector('#authorize-button').disabled = true;
       if (token) {
         this.accessToken = token;
@@ -65,6 +65,23 @@ GDocs.prototype.auth = function(opt_callback) {
     console.log(e);
   }
 };
+
+GDocs.prototype.revokeAuthToken = function(opt_callback) {
+  if (this.accessToken) {
+    // Make a request to revoke token
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://accounts.google.com/o/oauth2/revoke?token=' +
+             this.accessToken);
+    xhr.send();
+    // Remove token from the token cache.
+    chrome.identity.removeCachedAuthToken({ 
+      token: this.accessToken
+    }, function() {
+      opt_callback && opt_callback();
+    });
+    this.accessToken = null;
+  }
+}
 
 /*
  * Generic HTTP AJAX request handler.

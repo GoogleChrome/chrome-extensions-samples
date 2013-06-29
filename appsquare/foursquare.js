@@ -36,26 +36,26 @@ var foursquare = {};
         'client_id=' + clientId + '&' +
         'response_type=token&' +
         'redirect_uri=' + encodeURIComponent(redirectUrl);
-    chrome.experimental.identity.launchWebAuthFlow(
-        {url: authUrl},
+    chrome.identity.launchWebAuthFlow(
+        { url: authUrl, interactive: true },
         function(responseUrl) {
-        if (chrome.extension.lastError) {
-          errorCallback(chrome.extension.lastError.message);
-          return;
-        }
+          if (chrome.runtime.lastError) {
+            errorCallback(chrome.runtime.lastError.message);
+            return;
+          }
 
-        var accessTokenStart = responseUrl.indexOf(ACCESS_TOKEN_PREFIX);
+          var accessTokenStart = responseUrl.indexOf(ACCESS_TOKEN_PREFIX);
 
-        if (!accessTokenStart) {
-          errorCallback('Unexpected responseUrl: ' + responseUrl);
-          return;
-        }
+          if (!accessTokenStart) {
+            errorCallback('Unexpected responseUrl: ' + responseUrl);
+            return;
+          }
 
-        var accessToken = responseUrl.substring(
-            accessTokenStart + ACCESS_TOKEN_PREFIX.length);
+          var accessToken = responseUrl.substring(
+              accessTokenStart + ACCESS_TOKEN_PREFIX.length);
 
-        setAccessToken(accessToken, successCallback);
-      });
+          setAccessToken(accessToken, successCallback);
+        });
   };
   api.signOut = function(callback) {
     clearAccessToken(callback);

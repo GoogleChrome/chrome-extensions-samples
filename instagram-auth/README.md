@@ -1,8 +1,13 @@
-# AppSquare
+# Instagram-Auth
 
-This is a basic Instagram client implemented as a packaged app.  This demonstration simply displays the users logged-in view as raw JSON.
+This is a basic Instagram client implemented as a packaged app.  This
+demonstration simply displays the users logged-in view as raw JSON.
 
-To log into Instagram, it uses the [identity API](http://developer.chrome.com/trunk/apps/experimental.identity.html) (specfically, the `launchWebAuthFlow` method). Once it gets the OAuth token it makes a request to an authenticated endpoint to get the JSON feed of the user's view.
+To log into Instagram, it uses the
+[identity API](http://developer.chrome.com/trunk/apps/identity.html)
+(specfically, the `launchWebAuthFlow` method). Once it gets the OAuth token it
+makes a request to an authenticated endpoint to get the JSON feed of the user's
+view.
 
 When running it unpacked, it will normally have a different ID (the unpacked
 extension ID is a hash of the path on disk). However, this will result in the
@@ -18,4 +23,4 @@ The key *must* be removed before uploading it to the store.
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-* [Indetity](http://developer.chrome.com/trunk/apps/experimental.identity.html)
+* [Identity](http://developer.chrome.com/trunk/apps/identity.html)

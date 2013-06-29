@@ -3,12 +3,25 @@ onload = function() {
   var output = document.getElementById("output");
 
   login.onclick = function() {
+    // Replace with your Client ID from http://instagram.com/developer.
+    var clientId = '86588d54e78046baa2ce9876d60ecb51'; 
     var identityDetails = {
-      url: "https://instagram.com/oauth/authorize/?client_id=dd49c144e7914b99aca3bc1fa2735b8d&redirect_uri=chrome-extension://gghhbcbhogmipjcfkkondjepmoaobhph/auth.html&response_type=token",
+      url: "https://api.instagram.com/oauth/authorize/?client_id=" + clientId +
+          "&redirect_uri=https://gghhbcbhogmipjcfkkondjepmoaobhph.chromiumapp.org/auth.html&response_type=token",
       interactive: true
     };   
  
-    chrome.experimental.identity.launchWebAuthFlow(identityDetails, function(responseUrl) {
+    chrome.identity.launchWebAuthFlow(identityDetails, function(responseUrl) {
+      if (chrome.runtime.lastError) {
+        console.log('Authorization error: ' + chrome.runtime.lastError.message);
+        return;
+      }
+
+      if (!responseUrl) {
+        console.log("Missing response URL");
+        return;
+      }
+ 
       console.log(responseUrl);
       var accessToken = responseUrl.substring(responseUrl.indexOf("=") + 1);
       console.log(accessToken);
@@ -17,8 +30,6 @@ onload = function() {
       api.request("users/self/feed", undefined, function(data) {  
         console.log(data);
         output.textContent = JSON.stringify(data, null, 4);
-        
-
       });
     });
   };
@@ -31,7 +42,8 @@ var InstagramAPI = function(accessToken) {
       callback(JSON.parse(xhr.response));
     };
 
-    xhr.open("GET", "https://api.instagram.com/v1/" + method + "?access_token=" + accessToken);
+    xhr.open("GET", "https://api.instagram.com/v1/" + method + "?access_token="
+        + accessToken);
     xhr.send();
   };
 }
