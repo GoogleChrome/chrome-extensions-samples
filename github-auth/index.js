@@ -92,8 +92,8 @@ var gh = (function() {
             if (this.status === 200) {
               var response = JSON.parse(this.responseText);
               console.log(response);
-              // Again, assuming that responseefresh_token is available when
-              // access_token is presponseesent.
+              // Again, assuming that refresh_token is available when
+              // access_token is present.
               if (response.hasOwnProperty('access_token')) {
                 setAccessToken(response.access_token);
               } else {
