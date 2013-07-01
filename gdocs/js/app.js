@@ -67,7 +67,7 @@ gDriveApp.factory('gdocs', function() {
 function DocsController($scope, $http, gdocs) {
   $scope.docs = [];
 
-  // Response handler that caches file icons int he filesystem API.
+  // Response handler that caches file icons in the filesystem API.
   function successCallbackWithFsCaching(resp, status, headers, config) {
     var docs = [];
 
@@ -124,24 +124,58 @@ function DocsController($scope, $http, gdocs) {
     });
   }
 
-  $scope.fetchDocs = function() {
+  $scope.clearDocs = function() {
     $scope.docs = []; // Clear out old results.
-
-    var config = {
-      params: {'alt': 'json'},
-      headers: {
-        'Authorization': 'Bearer ' + gdocs.accessToken,
-        'GData-Version': '3.0'
-      }
-    };
-
-    $http.get(gdocs.DOCLIST_FEED, config).success(successCallbackWithFsCaching);
   };
 
-  // Invoke on ctor call. Fetch docs after we have the oauth token.
-  gdocs.auth(function() {
-    $scope.fetchDocs();
-  });
+  $scope.fetchDocs = function(retry) {
+    this.clearDocs();
+    if (typeof retry === 'undefined') {
+      retry = true;
+    }      
+
+    if (gdocs.accessToken) {
+      var config = {
+        params: {'alt': 'json'},
+        headers: {
+          'Authorization': 'Bearer ' + gdocs.accessToken,
+          'GData-Version': '3.0'
+        }
+      };
+
+      $http.get(gdocs.DOCLIST_FEED, config).
+        success(successCallbackWithFsCaching).
+        error(function(data, status, headers, config) {
+          if (status == 401 && retry) {
+            gdocs.removeCachedAuthToken(
+                gdocs.auth.bind(gdocs, true, 
+                    $scope.fetchDocs.bind($scope, false)));
+          }
+        });
+    }
+  };
+
+  // Toggles the authorization state.
+  $scope.toggleAuth = function(interactive) {
+    if (!gdocs.accessToken) {
+      gdocs.auth(interactive, function() {
+        $scope.fetchDocs();
+      });
+    } else {
+      gdocs.revokeAuthToken(function() {});
+      this.clearDocs();
+    }
+  }
+
+  // Controls the label of the authorize/deauthorize button.
+  $scope.authButtonLabel = function() {
+    if (gdocs.accessToken)
+      return 'Deauthorize';
+    else
+      return 'Authorize';
+  };
+
+  $scope.toggleAuth(false);
 }
 
 DocsController.$inject = ['$scope', '$http', 'gdocs']; // For code minifiers.
