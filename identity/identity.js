@@ -1,4 +1,4 @@
-var plus = (function() {
+var googlePlusUserLoader = (function() {
   var signin_button;
   var revoke_button;
   var revoke_button_token;
@@ -152,4 +152,4 @@ var plus = (function() {
 
 })();
 
-window.onload = plus.onload;
+window.onload = googlePlusUserLoader.onload;
