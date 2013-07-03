@@ -50,7 +50,7 @@ function ResumableUploader(initObj) {
     }
   };
 
-  this.initSession = function(sessionObj, callback) {
+  this.initSession = function(sessionObj, callback, onUnauthorized) {
     var url = sessionObj.resumableMediaLink;
     var entry = sessionObj.entry || null;
     var headers = sessionObj.headers || {};
@@ -61,6 +61,8 @@ function ResumableUploader(initObj) {
       if (this.status == 200) {
         uploadUri_ = this.getResponseHeader('Location');
         callback(uploadUri_);
+      } else if (this.status == 401) {
+        onUnauthorized();
       } else {
         throw new Error('Error: HTTP ' + this.status + ' returned');
       }
@@ -84,7 +86,7 @@ function ResumableUploader(initObj) {
     xhr.send(entry);
   };
 
-  this.uploadChunk = function(startByte, fileChunk, onComplete) {
+  this.uploadChunk = function(startByte, fileChunk, onComplete, onUnauthorized) {
     if (!uploadUri_) {
       throw new Error('Resumable upload request not initialized.');
     }
@@ -112,6 +114,8 @@ function ResumableUploader(initObj) {
     xhr.onload = function(e) {
       if (this.status == 201) {  // Done. <entry> created on server.
         onComplete(this.response);
+      } else if (this.status == 401) {
+        onUnauthorized();
       } else if (this.status != 308) {
         throw new Error('Error: HTTP ' + this.status + ' returned');
       }
@@ -131,7 +135,7 @@ console.log(headers['Content-Range']);
     xhr.send(fileChunk);
   };
 
-  this.uploadFile = function(initObj, callback) {
+  this.uploadFile = function(initObj, callback, onUnauthorized) {
 
     this.initSession(initObj, function(location) {
       var startByte = 0
@@ -145,10 +149,10 @@ console.log(startByte, startByte + chunkSize_);
 
 console.log(chunk, chunk.size);
 
-        this.uploadChunk(startByte, chunk, callback);
+        this.uploadChunk(startByte, chunk, callback, onUnauthorized);
         startByte += chunkSize_;
       }
-    }.bind(this));
+    }.bind(this), onUnauthorized);
   };
 
 }

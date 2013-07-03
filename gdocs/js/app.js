@@ -53,8 +53,8 @@ gDriveApp.factory('gdocs', function() {
     var $scope = angular.element(this).scope();
     Util.toArray(files).forEach(function(file, i) {
       gdocs.upload(file, function() {
-        $scope.fetchDocs();
-      });
+        $scope.fetchDocs(true);
+      }, true);
     });
   });
 
@@ -130,9 +130,6 @@ function DocsController($scope, $http, gdocs) {
 
   $scope.fetchDocs = function(retry) {
     this.clearDocs();
-    if (typeof retry === 'undefined') {
-      retry = true;
-    }      
 
     if (gdocs.accessToken) {
       var config = {
@@ -159,7 +156,7 @@ function DocsController($scope, $http, gdocs) {
   $scope.toggleAuth = function(interactive) {
     if (!gdocs.accessToken) {
       gdocs.auth(interactive, function() {
-        $scope.fetchDocs();
+        $scope.fetchDocs(false);
       });
     } else {
       gdocs.revokeAuthToken(function() {});

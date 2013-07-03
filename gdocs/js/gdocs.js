@@ -75,6 +75,8 @@ GDocs.prototype.removeCachedAuthToken = function(opt_callback) {
     }, function() {
       opt_callback && opt_callback();
     });
+  } else {
+    opt_callback && opt_callback();
   }
 };
 
@@ -164,7 +166,7 @@ GDocs.prototype.getDocumentList = function(opt_url, opt_callback) {
 /**
  * Uploads a file to Google Docs.
  */
-GDocs.prototype.upload = function(blob, callback) {
+GDocs.prototype.upload = function(blob, callback, retry) {
   var uploader = new ResumableUploader({
     accessToken: this.accessToken,
     file: blob,
@@ -178,6 +180,14 @@ GDocs.prototype.upload = function(blob, callback) {
     var entry = JSON.parse(response).entry;
 console.log(entry, entry.docs$filename.$t, entry.docs$size.$t);
     this.getDocumentList(null, callback);
+  }.bind(this), function() {
+    if (retry) {
+      this.removeCachedAuthToken(
+          this.auth.bind(this, true, 
+              this.upload.bind(this, blob, callback, false)));
+    } else {
+      throw new Error('Error: HTTP 401 returned');
+    }
   }.bind(this));
 };
 
