@@ -13,7 +13,7 @@
     }
   },
   "permissions": [
-    {"fileSystem": ["write", "retainFiles"]},
+    {"fileSystem": ["write", "retainEntries"]},
     "storage"
   ],
   "file_handlers": {
