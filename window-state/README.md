@@ -1,7 +1,9 @@
-# Window State sample
+# Window State Sample
 
 Demonstrates transitioning the window into minimized, maximized, fullscreen
 and hidden states. Includes HTML5 requestFullscreen and app.window.fullscreen().
+
+## Try it: [Window State Sample](https://chrome.google.com/webstore/detail/window-state-sample/hcbhfbnaaancmblfhdknlnojpafjohbi)
 
 ## Resources
 

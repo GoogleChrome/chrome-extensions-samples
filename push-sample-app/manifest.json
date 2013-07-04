@@ -1,0 +1,19 @@
+{
+   "app": {
+      "background": {
+         "scripts": [ "background.js" ]
+      }
+   },
+   "description": "A sample to demonstrate how to use Chrome Push Messaging.",
+   "icons": {
+      "128": "icon128.png",
+      "16": "icon.png",
+      "24": "icon24.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+bWKZcs5X6I2qF3QC4Pm8syvhrMyg8DaCPtymha0cjjKrTHLHKjAa8pO05fnO7BTxZE+D8qKT28JgZKw01Fuv1fKtluIQwCA5n3BXymAeFtJA2nKl8XIOsraUWNf9pQ0ZENp863FOJJHoreUTYwKtKnjdGaUfeZ8Pu6azCXj7xwIDAQAB",
+   "manifest_version": 2,
+   "name": "Push Messaging Sample Client App",
+   "permissions": [ "notifications", "pushMessaging" ],
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "1.3"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Twitter Client in a WebView",
+  "description": "Twitter Client in a WebView.",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["src/background.js"]
+    }
+  },
+  "permissions": [ "webview" ]
+}

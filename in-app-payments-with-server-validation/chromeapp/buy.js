@@ -1,0 +1,2 @@
+(function() { var a=function(b){var f=chrome.runtime.connect("nmmhkkegccagdldgiimedpiccmgmieda",{}),g=!1;f.onMessage.addListener(function(e){g=!0;"response"in e&&!("errorType"in e.response)?b.success&&b.success(e):b.failure&&b.failure(e)});f.onDisconnect.addListener(function(){!g&&b.failure&&b.failure({request:{},response:{errorType:"INTERNAL_SERVER_ERROR"}})});f.postMessage(b)},c=["google","payments","inapp","buy"],d=window||this;!(c[0]in d)&&d.execScript&&d.execScript("var "+c[0]);
+for(var h;c.length&&(h=c.shift());)!c.length&&void 0!==a?d[h]=a:d=d[h]?d[h]:d[h]={}; })();

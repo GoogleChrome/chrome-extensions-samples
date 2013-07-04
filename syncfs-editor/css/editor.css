@@ -21,6 +21,11 @@ body {
   clear: both;
 }
 
+#conflict-policy {
+  float: right;
+  font-size: 12px;
+}
+
 #log {
   color: #666;
   font-size: 12px;

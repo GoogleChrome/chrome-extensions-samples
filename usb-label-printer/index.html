@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+<h1>Label maker</h1>
+<div class="settings">
+  <div>Page width: <input type="text" id="pageWidth" value="900"> Page height: <input type="text" id="pageHeight" value="304"></div>
+</div>
+<div class="controls">
+  <button id="print">Print</button>
+  <button id="previewBtn">Preview dithering</button>
+</div>
+<div class="preview">
+  <div class="photooverlay">
+    <div>
+      <button id="camera"><img src='camera.svg' width='64px'></img></button>
+      <button id="setImage"><img src='upload.svg' width='64px'></img></button>
+    </div>
+    <video id="video"></video>
+  </div>
+  <div class="content">
+     <input type="text" id="name" value="Your name here">
+     <input type="text" id="nick" value="nick">
+  </div>
+  <canvas id="previewCanvas" width=900 height=304></canvas>
+  <canvas id="ditheredCanvas" width=900 height=304></canvas>
+  <canvas id="tempCanvas" style="display:none;" width=500 height=300></canvas>
+</div>
+<script src="index.js"></script>
+</body>
+</html>

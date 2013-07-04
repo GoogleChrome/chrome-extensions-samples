@@ -108,6 +108,7 @@ Serial API:
 
 USB raw access:
 * [usb/knob](https://github.com/GoogleChrome/chrome-app-samples/tree/master/usb/knob)
+* [usb-label-printer](https://github.com/GoogleChrome/chrome-app-samples/tree/master/usb-label-printer)
 
 Bluetooth API:
 * [ioio](https://github.com/GoogleChrome/chrome-app-samples/tree/master/ioio)
@@ -126,15 +127,15 @@ Monitor system info:
 
 ## Integration with other stuff:
 
+In-app payments:
+* [in-app-payments](https://github.com/GoogleChrome/chrome-app-samples/tree/master/in-app-payments)
+* [in-app-payments-with-server-validation](https://github.com/GoogleChrome/chrome-app-samples/tree/master/in-app-payments-with-server-validation)
+
 Sending messages to other installed apps or extensions:
 * [messaging](https://github.com/GoogleChrome/chrome-app-samples/tree/master/messaging)
 
 System tray rich notifications:
 * [rich-notifications](https://github.com/GoogleChrome/chrome-app-samples/tree/master/rich-notifications)
-
-Webintents:
-* [explicit-webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/explicit-webintents)
-* [webintents](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webintents)
 
 Dart:
 * [dart](https://github.com/GoogleChrome/chrome-app-samples/tree/master/dart)
@@ -142,6 +143,15 @@ Dart:
 NodeJS modules:
 * [nodejs-net.coffee](https://github.com/GoogleChrome/chrome-app-samples/tree/master/nodejs-net.coffee)
 
+## Push Messaging
+Client side sample
+* [push-sample-app](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-sample-app)
+
+Guestbook sample
+* [push-guestbook](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-guestbook)
+
+Roundtrip sample
+* [push-messaging-roundtrip-sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-messaging-roundtrip-sample)
 
 ## Other:
 
@@ -154,3 +164,7 @@ WebGL and Pointer Lock:
 * [hello-world](https://github.com/GoogleChrome/chrome-app-samples/tree/master/hello-world)
 * [io2012-presentation](https://github.com/GoogleChrome/chrome-app-samples/tree/master/io2012-presentation)
 
+# Libraries
+
+Google APIs client library for packaged apps:
+* [gapi-chrome-apps-lib](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gapi-chrome-apps-lib)
