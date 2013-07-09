@@ -32,6 +32,13 @@
       <label><input type="radio" name="newWindowSingleton" value="notsingleton" />Not a singleton</label>
       : Only create one window (requires an id).
       <br>
+      <label>Min<input type="number" class="size" id="newWindowWidthMin" step=1 /></label>
+      <label><input type="number" class="size" id="newWindowWidthMax" step=1 />Max Width</label>
+      <br>
+      <label>Min<input type="number" class="size" id="newWindowHeightMin" step=1 /></label>
+      <label><input type="number" class="size" id="newWindowHeightMax" step=1 />Max Height</label>
+      <label><input type="checkbox" id="newWindowResizable" checked/>Resizable</label>
+      <br>
       <label><input type="radio" name="newWindowHidden" value="visible" checked/>Visible</label>
       <label><input type="radio" name="newWindowHidden" value="hidden" />Hidden, then shown</label>
       <br>
@@ -41,14 +48,14 @@
       <button id="newWindowMinimized">Minimized</button>
     </p>
     <p>Current window state:
-      <input type="checkbox" id="isFullscreen">isFullscreen
-      <input type="checkbox" id="isMaximized" >isMaximized
-      <input type="checkbox" id="isMinimized" >isMinimized
+      <input type="checkbox" id="isFullscreen" disabled>isFullscreen
+      <input type="checkbox" id="isMaximized"  disabled>isMaximized
+      <input type="checkbox" id="isMinimized"  disabled>isMinimized
     </p>
     <p>Last 10 seconds state:
-      <input type="checkbox" id="wasFullscreen">wasFullscreen
-      <input type="checkbox" id="wasMaximized" >wasMaximized
-      <input type="checkbox" id="wasMinimized" >wasMinimized
+      <input type="checkbox" id="wasFullscreen" disabled>wasFullscreen
+      <input type="checkbox" id="wasMaximized"  disabled>wasMaximized
+      <input type="checkbox" id="wasMinimized"  disabled>wasMinimized
     </p>
   </div>
   This text is outside of the HTML5 fullscreen area.

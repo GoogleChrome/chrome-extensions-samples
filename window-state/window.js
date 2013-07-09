@@ -8,6 +8,12 @@ var newWindowOffset = 100;
 // Helper functions
 $ = function(selector) { return document.querySelector(selector); }
 
+function setIfANumber(dictionary, field, number) {
+  if (isNaN(number))
+    return;
+  dictionary[field] = number
+}
+
 function createNewWindow(optionsDictionary) {
   optionsDictionary = optionsDictionary || {};
 
@@ -19,6 +25,12 @@ function createNewWindow(optionsDictionary) {
     optionsDictionary.id = undefined;
 
   optionsDictionary.singleton = $('[value=singleton]').checked;
+
+  setIfANumber(optionsDictionary, 'minWidth', parseInt($('#newWindowWidthMin').value));
+  setIfANumber(optionsDictionary, 'maxWidth', parseInt($('#newWindowWidthMax').value));
+  setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));
+  setIfANumber(optionsDictionary, 'maxHeight', parseInt($('#newWindowHeightMax').value));
+  optionsDictionary.resizable = $('#newWindowResizable').checked;
 
   optionsDictionary.hidden = $('[value=hidden]').checked;
   var showAfterCreated = function (win) {
@@ -146,6 +158,12 @@ function updateCurrentStateReadout() {
   $('#wasFullscreen').checked = wasFullscreen.length > 0;
   $('#wasMaximized' ).checked = wasMaximized.length > 0;
   $('#wasMinimized' ).checked = wasMinimized.length > 0;
+
+  // Also update the hinted window size
+  $('#newWindowWidthMin').placeholder = chrome.app.window.current().getBounds().width;
+  $('#newWindowWidthMax').placeholder = chrome.app.window.current().getBounds().width;
+  $('#newWindowHeightMin').placeholder = chrome.app.window.current().getBounds().height;
+  $('#newWindowHeightMax').placeholder = chrome.app.window.current().getBounds().height;
 }
 // Update window state display on bounds change, but also on regular interval
 // just to be paranoid.
