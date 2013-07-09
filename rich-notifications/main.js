@@ -51,7 +51,6 @@ window.addEventListener("load", function() {
 	document.getElementById("list").addEventListener("click", doNotify);
 
 	// set up the event listeners
-	chrome.notifications.onDisplayed.addListener(notificationDisplayed);
 	chrome.notifications.onClosed.addListener(notificationClosed);
 	chrome.notifications.onClicked.addListener(notificationClicked);
 	chrome.notifications.onButtonClicked.addListener(notificationBtnClick);
