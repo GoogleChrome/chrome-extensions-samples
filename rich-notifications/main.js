@@ -19,11 +19,6 @@ var asURLs = [
 // in the code according the UI settings.
 var notOptions = [
 	{
-		type : "simple",
-		title: "Simple Notification",
-		message: "Just a text message and icon"
-	},
-	{
 		type : "basic",
 		title: "Basic Notification",
 		message: "Short message part",
@@ -51,7 +46,6 @@ var notOptions = [
 
 // Window initialization code. Set up the various event handlers
 window.addEventListener("load", function() {
-	document.getElementById("simple").addEventListener("click", doNotify);
 	document.getElementById("basic").addEventListener("click", doNotify);
 	document.getElementById("image").addEventListener("click", doNotify);
 	document.getElementById("list").addEventListener("click", doNotify);
@@ -70,18 +64,15 @@ function doNotify(evt) {
 	var sBtn1 = document.getElementById("btn1").value;
 	var sBtn2 = document.getElementById("btn2").value;
 	// Create the right notification for the selected type
-	if (evt.srcElement.id == "simple") {
+	if (evt.srcElement.id == "basic") {
 		options = notOptions[0];
 	}
-	else if (evt.srcElement.id == "basic") {
-		options = notOptions[1];
-	}
 	else if (evt.srcElement.id == "image") {
-		options = notOptions[2];
+		options = notOptions[1];
 		options.imageUrl = chrome.runtime.getURL("/images/tahoe-320x215.png");
 	}
 	else if (evt.srcElement.id == "list") {
-		options = notOptions[3];
+		options = notOptions[2];
 	}
 	options.iconUrl = path;
 	// priority is from -2 to 2. The API makes no guarantee about how notifications are
