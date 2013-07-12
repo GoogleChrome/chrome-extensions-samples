@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
+
+#log {
+  -webkit-box-flex: 1;
+}
+
+#log,
+#input {
+  display: block;
+}
