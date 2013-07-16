@@ -1,5 +1,4 @@
 {
-  // https://chrome.google.com/webstore/detail/identity-api-sample/fiffibkcdmggceilhbbiifajfcmppinc
   "name": "GitHub Auth Sample",
   "version": "1",
   "manifest_version": 2,
