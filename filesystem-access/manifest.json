@@ -2,7 +2,7 @@
   "name": "Filesystem Access Example",
   "version": "1",
   "manifest_version": 2,
-  "minimum_chrome_version": "29",
+  "minimum_chrome_version": "30",
   "icons": {
     "16": "camera.png",
     "128": "camera.png"
@@ -13,7 +13,7 @@
     }
   },
   "permissions": [
-    {"fileSystem": ["write", "retainFiles"]},
+    {"fileSystem": ["write", "retainEntries"]},
     "storage"
   ],
   "file_handlers": {

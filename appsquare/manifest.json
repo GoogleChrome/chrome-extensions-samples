@@ -2,6 +2,7 @@
   "name": "Appsquare",
   "version": "6",
   "manifest_version": 2,
+  "minimum_chrome_version": "29",
   "app": {
     "background": {
       "scripts": ["background.js"]
@@ -13,7 +14,7 @@
     "128": "icon128.png"
   },
   "permissions": [
-    "experimental",
+    "identity",
     "geolocation",
     "storage",
 
