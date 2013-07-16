@@ -36,11 +36,11 @@ var foursquare = {};
         'client_id=' + clientId + '&' +
         'response_type=token&' +
         'redirect_uri=' + encodeURIComponent(redirectUrl);
-    chrome.experimental.identity.launchWebAuthFlow(
-        {url: authUrl},
+    chrome.identity.launchWebAuthFlow(
+        {url: authUrl, interactive: true},
         function(responseUrl) {
-        if (chrome.extension.lastError) {
-          errorCallback(chrome.extension.lastError.message);
+        if (chrome.runtime.lastError) {
+          errorCallback(chrome.runtime.lastError.message);
           return;
         }
 
