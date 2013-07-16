@@ -93,10 +93,6 @@ function creationCallback(notID) {
 }
 
 // Event handlers for the various notification events
-function notificationDisplayed(notID) {
-	console.log("The notification '" + notID + "' was displayed to the user");
-}
-
 function notificationClosed(notID, bByUser) {
 	console.log("The notification '" + notID + "' was closed" + (bByUser ? " by the user" : ""));
 }
