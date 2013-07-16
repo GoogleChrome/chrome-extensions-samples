@@ -54,7 +54,7 @@ function GDocs(selector) {
 
 GDocs.prototype.auth = function(opt_callback) {
   try {
-    chrome.experimental.identity.getAuthToken({interactive: false}, function(token) {
+    chrome.identity.getAuthToken({interactive: true}, function(token) {
       //document.querySelector('#authorize-button').disabled = true;
       if (token) {
         this.accessToken = token;

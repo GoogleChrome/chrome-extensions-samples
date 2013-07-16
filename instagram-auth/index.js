@@ -3,12 +3,15 @@ onload = function() {
   var output = document.getElementById("output");
 
   login.onclick = function() {
-    var identityDetails = {
-      url: "https://instagram.com/oauth/authorize/?client_id=dd49c144e7914b99aca3bc1fa2735b8d&redirect_uri=chrome-extension://gghhbcbhogmipjcfkkondjepmoaobhph/auth.html&response_type=token",
-      interactive: true
-    };   
+    var redirectUrl = "https://" + chrome.runtime.id + ".chromiumapp.org/";
+    var clientId = "1ac94815c30440efa6f7de3c0d529515";
+    var authUrl = "https://instagram.com/oauth/authorize/?" +
+        "client_id=" + clientId + "&" +
+        "response_type=token&" +
+        "redirect_uri=" + encodeURIComponent(redirectUrl);
  
-    chrome.experimental.identity.launchWebAuthFlow(identityDetails, function(responseUrl) {
+    chrome.identity.launchWebAuthFlow({url: authUrl, interactive: true},
+        function(responseUrl) {
       console.log(responseUrl);
       var accessToken = responseUrl.substring(responseUrl.indexOf("=") + 1);
       console.log(accessToken);
