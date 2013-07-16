@@ -2,14 +2,14 @@
   "name": "Identity API",
   "version": "1",
   "manifest_version": 2,
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "29",
   "key": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefgh",
   "app": {
     "background": {
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["experimental"],
+  "permissions": ["identity"],
   "oauth2": {
     "client_id": "503955758982.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/userinfo.profile"]

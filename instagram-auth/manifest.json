@@ -2,6 +2,7 @@
   "name": "__MSG_appName__",
   "version": "1",
   "manifest_version": 2,
+  "minimum_chrome_version": "29",
   "description": "__MSG_appDescription__",
   "icons": {
     "16": "icon-16.png",
@@ -13,6 +14,5 @@
       "scripts": ["main.js"]
     }
   },
-  "key": "UEFVTCBST0NLUw==",
-  "permissions": ["experimental", "identity", "https://api.instagram.com/*"]
+  "permissions": ["identity", "https://api.instagram.com/*"]
 }

@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "Step1",
+    "message": "Instagram Demo",
     "description": "The name of the application"
   },
   "appDescription": {
-    "message": "3rd Party Auth step1",
+    "message": "Displays the users logged-in view as raw JSON",
     "description": "The description of the application"
   }
 }
