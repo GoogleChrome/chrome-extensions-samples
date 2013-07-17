@@ -9,4 +9,4 @@ in the system tray. This API is still in experimental state.
 
 ## Resources
 
-* Notification API (no documentation yet)
+* [Notification API documentation](http://developer.chrome.com/trunk/apps/notifications.html)
