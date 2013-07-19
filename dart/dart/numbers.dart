@@ -43,7 +43,7 @@ class ClockNumber {
 
         if (pixels != null) {
           if ((pixels[y][x] != 0) && (px[y][x] == 0)) {
-            window.requestLayoutFrame(() {
+            window.setImmediate(() {
               var r = img.getBoundingClientRect();
               double absx = r.left;
               double absy = r.top;

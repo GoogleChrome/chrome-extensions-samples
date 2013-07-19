@@ -30,7 +30,7 @@ void showFps(num fps) {
 }
 
 class CountDownClock {
-  static const int NUMBER_SPACING = 19;
+  static const int NUMBER_SPACING = 19.0;
   static const double BALL_WIDTH = 19.0;
   static const double BALL_HEIGHT = 19.0;
 
@@ -47,18 +47,18 @@ class CountDownClock {
 
     createNumbers(parent, parent.clientWidth, parent.clientHeight);
 
-    updateTime(new Date.now());
+    updateTime(new DateTime.now());
 
     window.requestAnimationFrame(tick);
   }
 
   void tick(num time) {
-    updateTime(new Date.now());
+    updateTime(new DateTime.now());
     balls.tick(time);
     window.requestAnimationFrame(tick);
   }
 
-  void updateTime(Date now) {
+  void updateTime(DateTime now) {
     if (now.hour != displayedHour) {
       setDigits(pad2(now.hour), hours);
       displayedHour = now.hour;
@@ -77,7 +77,7 @@ class CountDownClock {
 
   void setDigits(String digits, List<ClockNumber> numbers) {
     for (int i = 0; i < numbers.length; ++i) {
-      int digit = digits.charCodeAt(i) - '0'.charCodeAt(0);
+      int digit = digits.codeUnitAt(i) - '0'.codeUnitAt(0);
       numbers[i].setPixels(ClockNumbers.PIXELS[digit]);
     }
   }

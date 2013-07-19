@@ -31,7 +31,7 @@ class Balls {
   List<Ball> balls;
 
   Balls() :
-      lastTime = new Date.now().millisecondsSinceEpoch,
+      lastTime = new DateTime.now().millisecondsSinceEpoch,
       balls = new List<Ball>() {
     root = new DivElement();
     document.body.nodes.add(root);
@@ -46,7 +46,7 @@ class Balls {
     lastTime = now;
 
     // incrementally move each ball, removing balls that are offscreen
-    balls = balls.filter((ball) => ball.tick(delta));
+    balls = balls.where((ball) => ball.tick(delta));
     collideBalls(delta);
   }
 
