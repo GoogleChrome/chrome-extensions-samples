@@ -3,7 +3,7 @@
   "version": "1",
   "manifest_version": 2,
   "minimum_chrome_version": "29",
-  "key": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefgh",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCPZPLeXCmc7wl3qYdOMhhn+NudVFGLamgy7o7eO0p9N8RlYRbCQd69zFccioAMQEO4OwJdcnGA/3eCjOxqpaIYZcwNa0bbaAvOQtSLNIJGXHHtRZ1GnEvwwWDW5OtPDV5btCuud1u64/TYXzTBB3qVHC8DWsEH8Z2H65TALa+vEwIDAQAB",
   "app": {
     "background": {
       "scripts": ["main.js"]
@@ -11,7 +11,9 @@
   },
   "permissions": ["identity"],
   "oauth2": {
-    "client_id": "503955758982.apps.googleusercontent.com",
-    "scopes": ["https://www.googleapis.com/auth/userinfo.profile"]
+    // client_id below is specifc to the application key. Follow the
+    // documentation to obtain one for your app.
+    "client_id": "856497584538.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/plus.login"]
   }
 }
