@@ -1,0 +1,43 @@
+<html>
+  <head>
+      <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <script type='text/javascript' src="channel_in_a_webview.js"></script>
+    <script type='text/javascript' src="game.js"></script>
+    <div id='display-area'>
+      <h2>Channel-based Tic Tac Toe</h2>
+      <div id='other-player' style='display:none'>
+        Waiting for another player to join.<br>
+        Send them this game ID to play:<br>
+        <div id='game-link' style="-webkit-user-select: initial;" class="gamelink"></div>
+        or enter a game ID another player sent you:
+        <input type="text" id="another_game_key"></input>
+        <button id="go">go</button>
+      </div>
+      <div id='your-move' style='display:none'>
+        Your move! Click a square to place your piece.
+      </div>
+      <div id='their-move' style='display:none'>
+        Waiting for other player to move...
+      </div>
+      <div id='you-won'>
+        You won this game!
+      </div>
+      <div id='you-lost'>
+        You lost this game.
+      </div>
+      <div id='board'>
+        <div class='t l cell'><table><tr><td id='0'></td></tr></td></table></div>
+        <div class='t c cell'><table><tr><td id='1'></td></tr></td></table></div>
+        <div class='t r cell'><table><tr><td id='2'></td></tr></td></table></div>
+        <div class='m l cell'><table><tr><td id='3'></td></tr></td></table></div>
+        <div class='m c cell'><table><tr><td id='4'></td></tr></td></table></div>
+        <div class='m r cell'><table><tr><td id='5'></td></tr></td></table></div>
+        <div class='b l cell'><table><tr><td id='6'></td></tr></td></table></div>
+        <div class='b c cell'><table><tr><td id='7'></td></tr></td></table></div>
+        <div class='b r cell'><table><tr><td id='8'></td></tr></td></table></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<html>
+<!-- This file goes into your web application folder, and is accessed through a webview -->
+  <head>
+      <script src='/_ah/channel/jsapi'></script>
+  </head>
+  <body>
+    <script type='text/javascript'>
+
+var appWindow, appOrigin;
+
+function onWindowMessageReceived(e) {
+  // sanity check for origin
+  if ( e.origin.indexOf('chrome-extension://')!=0 ) {
+    console.error("Invalid origin of message, ignoring");
+    return;
+  }
+  if (!appWindow || !appOrigin) {
+    appWindow = e.source;
+    appOrigin = e.origin;
+  }
+  if ( e.data && 'openChannel' in e.data ) {
+    openChannel(e.data['openChannel']);
+  }
+}
+
+window.addEventListener('message', onWindowMessageReceived);
+
+function doSendWindowMessage(m) {
+  if (appWindow && appOrigin) {
+    appWindow.postMessage(m, appOrigin)
+  } else {
+    console.log("ERROR: don't have container app info - no initial message received");
+  }
+}
+
+
+function openChannel(token) {
+  var channel = new goog.appengine.Channel(token);
+  var onopen = function(m) { doSendWindowMessage({'onOpened': m}); };
+  var onmessage = function (m) { doSendWindowMessage({'onMessage': m}); };
+  var handler = {
+    'onopen': onopen,
+    'onmessage': onmessage,
+    'onerror': function() {},
+    'onclose': function() {}
+  };
+  var socket = channel.open(handler);
+  socket.onopen = onopen;
+  socket.onmessage = onmessage;
+}
+
+    </script>
+  </body>
+</html>

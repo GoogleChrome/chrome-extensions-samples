@@ -1,0 +1,12 @@
+{
+  "manifest_version": 2,
+  "name": "Channel API test",
+  "version": "1",
+  "minimum_chrome_version": "27",
+  "permissions": ["webview", "http://localhost:8080/*"],
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}

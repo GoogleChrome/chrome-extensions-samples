@@ -144,6 +144,10 @@ Dart:
 NodeJS modules:
 * [nodejs-net.coffee](https://github.com/GoogleChrome/chrome-app-samples/tree/master/nodejs-net.coffee)
 
+Channel API - AppEngine:
+* [appengine\_channelapi](https://github.com/GoogleChrome/chrome-app-samples/tree/master/appengine_channelapi)
+
+
 ## Push Messaging
 Client side sample
 * [push-sample-app](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-sample-app)
@@ -153,6 +157,7 @@ Guestbook sample
 
 Roundtrip sample
 * [push-messaging-roundtrip-sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/push-messaging-roundtrip-sample)
+
 
 ## Other:
 
