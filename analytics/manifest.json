@@ -1,16 +1,17 @@
 {
-  "name": "Google Analytics Sample",
-  "version": "1",
+  "name": "Analytics Sample App",
+  "description": "An example app using Google Analytics without the Closure library",
+  "version": "1.2.3",
   "manifest_version": 2,
+  "icons": {"128": "icon_128.png"},
   "app": {
     "background": {
-      "scripts": ["launch.js"]
+      "scripts": ["background.js"]
     }
   },
-  "icons": {
-    "128": "icon_128.png"
-  },
-  "sandbox": {
-    "pages": ["embedded_ga_host.html"]
-  }
+  "permissions": [
+    "https://www.google-analytics.com/",
+    "storage"
+  ],
+  "offline_enabled": true
 }

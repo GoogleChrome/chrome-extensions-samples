@@ -1,18 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
+  <head>
+    <title>Analytics sample app</title>
+  </head>
+  <body>
+    <div>
+      <button id="chocolate">Chocolate</button>
+      <button id="vanilla">Vanilla</button>
 
-    <script type="text/javascript" src="ga_details.js"></script>
-    <script type="text/javascript" src="embedded_ga_host.js"></script>
-    <link rel="stylesheet" media="all" href="main.css"></link>
-    <link rel="stylesheet" media="all" href="embedded_ga_host.css"></link>
-</head>
-<body>
-    <h1>Google Analytics Sample</h1>
-    <p>There is a hidden iframe in this page which loads an HTML file
-      with the privileges to load Google Analytics.</p>
-    <iframe id="embedded_ga" seamless="seamless" src="embedded_ga_host.html"></iframe>
-</body>
+      <div id=out></div>
+    </div>
+    <div id="settings">
+      <h1>Settings</h1>
+      <div id="settings-loading">
+        Loading settings...
+      </div>
+      <div id="settings-loaded" hidden>
+        <label>
+          <input id="analytics" type="checkbox" />
+          Send anonymous usage data.
+        </label>
+      </div>
+    </div>
+    <script src="google-analytics-bundle.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
