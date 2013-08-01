@@ -16,23 +16,6 @@ limitations under the License.
 Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
-// document.addEventListener('load', function() {
-//  if(!!window.webkitIntent) {
-//    var action = window.webkitIntent.action;
-//    var data = window.webkitIntent.data;
-//    var type = window.webkitIntent.type;
-// //window.webkitIntent.postResult(data); 
-// //window.webkitIntent.postError();
-// console.log(webkitIntent, action, data, type)
-//  }
-// }, false);
-
-// // var intent = new WebKitIntent("http://webintents.org/edit", "image/png", "dataUri://");
-
-// // window.navigator.webkitStartActivity(intent, function(data) {
-// // // The data from the remote application is returned here.
-// // });
-
 function errorHandler(e) {
   console.error(e);
 }
@@ -114,7 +97,8 @@ var saveFileButton = document.querySelector('#save_file');
 var output = document.querySelector('output');
 var textarea = document.querySelector('textarea');
 
-function loadFileEntry(chosenFileEntry) {
+function loadFileEntry(_chosenFileEntry) {
+  chosenFileEntry = _chosenFileEntry;
   chosenFileEntry.file(function(file) {
     readAsText(chosenFileEntry, function(result) {
       textarea.value = result;
