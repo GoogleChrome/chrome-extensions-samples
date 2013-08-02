@@ -4,10 +4,6 @@
   "manifest_version": 2,
   "minimum_chrome_version": "29",
   "description": "__MSG_appDescription__",
-  "icons": {
-    "16": "icon-16.png",
-    "128": "icon-128.png"
-  },
   "default_locale": "en",
   "app": {
     "background": {
