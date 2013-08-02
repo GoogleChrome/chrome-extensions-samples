@@ -73,12 +73,13 @@ function launch() {
             return;
           }
 
-          copycatWindow.moveTo(
-              originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
-              originalWindow.contentWindow.screenY);
-          copycatWindow.resizeTo(
-              originalWindow.contentWindow.outerWidth,
-              originalWindow.contentWindow.outerHeight);
+          copycatWindow.setBounds( 
+            {
+              left: originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
+              top: originalWindow.contentWindow.screenY,
+              width: originalWindow.contentWindow.outerWidth,
+              height: originalWindow.contentWindow.outerHeight
+            });
         }, 10);
 
         originalWindow.focus();
