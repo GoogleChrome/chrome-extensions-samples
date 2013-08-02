@@ -189,6 +189,7 @@ var gh = (function() {
       populateUserInfo(user_info);
       hideButton(signin_button);
       showButton(revoke_button);
+      fetchUserRepos(user_info["repos_url"]);
     } else {
       console.log('infoFetch failed', error, status);
       showButton(signin_button);
@@ -199,8 +200,34 @@ var gh = (function() {
     var elem = user_info_div;
     var nameElem = document.createElement('div');
     nameElem.innerHTML = "<b>Hello " + user_info.name + "</b><br>"
-    	+ "Your email is: " + user_info.email;
+    	+ "Your github page is: " + user_info.html_url;
     elem.appendChild(nameElem);
+  }
+
+
+
+  function fetchUserRepos(repoUrl) {
+    xhrWithAuth('GET', repoUrl, false, onUserReposFetched);
+  }
+
+  function onUserReposFetched(error, status, response) {
+    var elem = document.querySelector('#user_repos');
+    elem.value='';
+    if (!error && status == 200) {
+      console.log("Got the following user repos:", response);
+      var user_repos = JSON.parse(response);
+      user_repos.forEach(function(repo) {
+        if (repo.private) {
+          elem.value += "[private repo]";
+        } else {
+          elem.value += repo.name;
+        }
+        elem.value += '\n';
+      });
+    } else {
+      console.log('infoFetch failed', error, status);
+    }
+    
   }
 
   // Handlers for the buttons's onclick events.
