@@ -10,14 +10,6 @@
     "48": "icons/texteditor_48.png",
     "128": "icons/texteditor_128.png"
   },
-  "intents": {
-    "http://webintents.org/view": {
-      "type": [
-        "text/*"
-      ],
-      "title": "Simple Text Editor (Packaged app)"
-    }
-  },
   "permissions": [
     "clipboardRead",
     "clipboardWrite",
