@@ -39,7 +39,8 @@ to write your client code.
 ## APIs
 
 * [Push Messaging API](http://developer.chrome.com/trunk/apps/pushMessaging.html)
-*[GCM for Chrome serverf API](http://developer.chrome.com/trunk/apps/cloudMessaging.html)     
+* [GCM for Chrome server API](http://developer.chrome.com/trunk/apps/cloudMessaging.html)     
+
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-messaging-roundtrip-sample/assets/screenshot_1280_800.png)
 
