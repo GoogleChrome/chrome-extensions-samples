@@ -8,3 +8,7 @@ This app shows to use the permissions API to request optional permissions. It ca
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
 * [Permissions](http://developer.chrome.com/apps/permissions.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/optional-permissions/assets/screenshot_1280_800.png)
+

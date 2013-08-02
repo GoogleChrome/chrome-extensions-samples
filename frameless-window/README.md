@@ -9,3 +9,7 @@ Caveat: `-webkit-app-region: drag;` *will* disable some customizations such as c
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/frameless-window/assets/screenshot_1280_800.png)
+

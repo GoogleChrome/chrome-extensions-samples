@@ -16,3 +16,7 @@ reliability of your application.
 * [Webview](http://developer.chrome.com/trunk/apps/app_external.html#webview)
 * [Permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/browser/assets/screenshot_1280_800.png)
+

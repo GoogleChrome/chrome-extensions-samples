@@ -8,3 +8,7 @@ A non-trivial sample with basic features of a code editor, like syntax detection
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/mini-code-edit/assets/screenshot_1280_800.png)
+

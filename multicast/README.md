@@ -13,3 +13,7 @@ __Warning: This is a simple chatting app demonstrating the usage of multicast so
 * [Storage](http://developer.chrome.com/trunk/apps/storage.html)
 * [Socket](http://developer.chrome.com/trunk/apps/socket.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/multicast/assets/screenshot_1280_800.png)
+

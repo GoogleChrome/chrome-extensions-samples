@@ -14,3 +14,7 @@ Offline is also supported. See more at the [project wiki](https://github.com/Goo
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [chrome-platform-analytics](https://github.com/GoogleChrome/chrome-platform-analytics/wiki)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/analytics/assets/screenshot_1280_800.png)
+

@@ -19,3 +19,7 @@ To run:
 * [Appengine Channel API](https://developers.google.com/appengine/docs/python/channel)
 * [Webview](http://developer.chrome.com/apps/webview_tag.html)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/appengine_channelapi/assets/screenshot_1280_800.png)
+

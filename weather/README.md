@@ -13,3 +13,7 @@ that the user has chosen
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [Storage](http://developer.chrome.com/trunk/apps/storage.html)
 * [Geolocation](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/weather/assets/screenshot_1280_800.png)
+

@@ -7,3 +7,7 @@ This is a sample that shows how you can run a network TCP server in a packaged a
 * [Socket API](http://developer.chrome.com/trunk/apps/socket.html)
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tcpserver/assets/screenshot_1280_800.png)
+

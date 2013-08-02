@@ -16,3 +16,7 @@ Account check out the [Identity sample application](https://github.com/GoogleChr
 * [Runtime](https://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](https://developer.chrome.com/trunk/apps/app.window.html)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/github-auth/assets/screenshot_1280_800.png)
+

@@ -29,3 +29,7 @@ In the `server` directory, you will find a Node echo server that intentionally d
 * [UDP Network](http://developer.chrome.com/trunk/apps/app_network.html#udp)
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/udp/assets/screenshot_1280_800.png)
+

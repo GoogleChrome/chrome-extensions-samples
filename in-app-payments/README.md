@@ -15,3 +15,7 @@ When testing with the sandbox, you can use the following credit card numbers, wh
 
 https://developers.google.com/commerce/wallet/digital/docs/testing
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/in-app-payments/assets/screenshot_1280_800.png)
+

@@ -19,3 +19,7 @@ The key *must* be removed before uploading it to the store.
 * [Identity](http://developer.chrome.com/trunk/apps/app.identity.html)
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/appsquare/assets/screenshot_1280_800.png)
+

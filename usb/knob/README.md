@@ -7,3 +7,7 @@ This demo interfaces with a [Griffin PowerMate](http://en.wikipedia.org/wiki/Gri
 * [USB raw access](http://developer.chrome.com/trunk/apps/app_hardware.html#usb)
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/usb/knob/assets/screenshot_1280_800.png)
+

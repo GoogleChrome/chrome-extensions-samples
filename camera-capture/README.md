@@ -10,3 +10,7 @@ to be set in the manifest file.
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
 * [videoCapture and audioCapture](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
 
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/camera-capture/assets/screenshot_1280_800.png)
+
