@@ -7,6 +7,5 @@
     "background": {
       "scripts": ["background.js"]
     }
-  },
-  "icons": { "128": "icon_128.png" }
+  }
 }
