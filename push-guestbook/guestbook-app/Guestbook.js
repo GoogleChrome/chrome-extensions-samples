@@ -216,8 +216,8 @@ Guestbook.prototype.stopListening = function() {
  */
 Guestbook.prototype.onXHR = function(xhrEvent) {
   var xhr = xhrEvent.target;
-  if (xhr.readyState == 4 && xhr.status == 200) {
-    this.log('Got a 200 response');
+  if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 300) {
+    this.log('Got a 2xx response');
     this.log(xhr.responseText);
 
     this.xhrResponse = JSON.parse(xhr.responseText);

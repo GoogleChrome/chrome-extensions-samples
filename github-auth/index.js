@@ -149,7 +149,7 @@ var gh = (function() {
 
     function requestComplete() {
       console.log('requestComplete', this.status, this.response);
-      if (this.status != 200 && retry) {
+      if ( ( this.status < 200 || this.status >=300 ) && retry) {
         retry = false;
         tokenFetcher.removeCachedToken(access_token);
         access_token = null;

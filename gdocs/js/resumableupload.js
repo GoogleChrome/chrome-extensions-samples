@@ -58,7 +58,7 @@ function ResumableUploader(initObj) {
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function(e) {
-      if (this.status == 200) {
+      if (this.status >= 200 && this.status <= 300) {
         uploadUri_ = this.getResponseHeader('Location');
         callback(uploadUri_);
       } else if (this.status == 401) {
