@@ -18,10 +18,12 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 
 function DnDFileController(selector, onDropCallback) {
   var el_ = document.querySelector(selector);
+  var overCount = 0;
 
   this.dragenter = function(e) {
     e.stopPropagation();
     e.preventDefault();
+    overCount++;
     el_.classList.add('dropping');
   };
 
@@ -33,7 +35,11 @@ function DnDFileController(selector, onDropCallback) {
   this.dragleave = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    //el_.classList.remove('dropping');
+    if (--overCount <= 0) {
+      el_.classList.remove('dropping');
+      overCount = 0;
+    }
+    console.log('leave', overCount);
   };
 
   this.drop = function(e) {
