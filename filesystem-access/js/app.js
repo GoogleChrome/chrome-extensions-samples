@@ -166,13 +166,24 @@ saveFileButton.addEventListener('click', function(e) {
 
 // Support dropping a single file onto this app.
 var dnd = new DnDFileController('body', function(data) {
-  var item = data.items[0];
-  if (!item.type.match('text/*')) {
+  chosenFileEntry = null;
+  for (var i = 0; i < data.items.length; i++) {
+    var item = data.items[i];
+    if (item.kind == 'file' &&
+        item.type.match('text/*') &&
+        item.webkitGetAsEntry()) {
+      chosenFileEntry = item.webkitGetAsEntry();
+      break;
+    }
+  };
+
+  if (!chosenFileEntry) {
     output.textContent = "Sorry. That's not a text file.";
     return;
+  } else {
+        output.textContent = "";
   }
 
-  chosenFileEntry = item.webkitGetAsEntry();
   readAsText(chosenFileEntry, function(result) {
     textarea.value = result;
   });
