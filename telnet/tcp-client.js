@@ -19,8 +19,7 @@ Author: Boris Smus (smus@chromium.org)
 (function(exports) {
 
   // Define some local variables here.
-  var socket = chrome.socket || chrome.experimental.socket;
-  var dns = chrome.experimental.dns;
+  var socket = chrome.socket;
 
   /**
    * Creates an instance of the client
@@ -54,14 +53,10 @@ Author: Boris Smus (smus@chromium.org)
    * @param {Function} callback The function to call on connection
    */
   TcpClient.prototype.connect = function(callback) {
-    // First resolve the hostname to an IP.
-    dns.resolve(this.host, function(result) {
-      this.addr = result.address;
-      socket.create('tcp', {}, this._onCreate.bind(this));
+    socket.create('tcp', {}, this._onCreate.bind(this));
 
-      // Register connect callback.
-      this.callbacks.connect = callback;
-    }.bind(this));
+    // Register connect callback.
+    this.callbacks.connect = callback;
   };
 
   /**
@@ -112,7 +107,7 @@ Author: Boris Smus (smus@chromium.org)
   TcpClient.prototype._onCreate = function(createInfo) {
     this.socketId = createInfo.socketId;
     if (this.socketId > 0) {
-      socket.connect(this.socketId, this.addr, this.port, this._onConnectComplete.bind(this));
+      socket.connect(this.socketId, this.host, this.port, this._onConnectComplete.bind(this));
       this.isConnected = true;
     } else {
       error('Unable to create socket');
