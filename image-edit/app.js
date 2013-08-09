@@ -185,7 +185,7 @@ var dnd = new DnDFileController('body', function(data) {
         output.textContent = "";
   }
 
-  loadImage(chosenFileEntry);
+  loadFileEntry(chosenFileEntry);
   // Update display.
   writeFileButton.disabled = false;
   saveFileButton.disabled = false;
