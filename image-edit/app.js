@@ -26,16 +26,19 @@ function displayPath(fileEntry) {
   });
 }
 
-function readAsText(fileEntry, callback) {
-  fileEntry.file(function(file) {
-    var reader = new FileReader();
+function imgFromFile(file, callback) {
+  var img = new Image();
+  img.onload = function() {
+    callback(img);
+  }
+  img.src = URL.createObjectURL(file);
+}
 
-    reader.onerror = errorHandler;
-    reader.onload = function(e) {
-      callback(e.target.result);
-    };
-
-    reader.readAsText(file);
+function loadImage(file) {
+  imgFromFile(file, function (img) {
+    var image_display = document.querySelector('#image_display');
+    image_display.innerHTML = '';
+    image_display.appendChild(img);
   });
 }
 
@@ -100,9 +103,7 @@ var textarea = document.querySelector('textarea');
 function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry = _chosenFileEntry;
   chosenFileEntry.file(function(file) {
-    readAsText(chosenFileEntry, function(result) {
-      textarea.value = result;
-    });
+    loadImage(file);
     // Update display.
     writeFileButton.disabled = false;
     saveFileButton.disabled = false;
@@ -127,8 +128,6 @@ function loadInitialFile(launchData) {
 }
 
 chooseFileButton.addEventListener('click', function(e) {
-  // "type/*" mimetypes aren't respected. Explicitly use extensions for now.
-  // See crbug.com/145112.
   var accepts = [{
     mimeTypes: ['image/*'],
     extensions: ['jpeg', 'png']
@@ -186,9 +185,7 @@ var dnd = new DnDFileController('body', function(data) {
         output.textContent = "";
   }
 
-  readAsText(chosenFileEntry, function(result) {
-    textarea.value = result;
-  });
+  loadImage(chosenFileEntry);
   // Update display.
   writeFileButton.disabled = false;
   saveFileButton.disabled = false;
