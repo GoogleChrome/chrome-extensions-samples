@@ -1,0 +1,26 @@
+{
+  "name": "Crop Tool",
+  "version": "1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "28",
+  "description": "A tool to crop images.",
+  "offline_enabled": true,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    {"fileSystem": ["write", "retainEntries"]},
+    "storage"
+  ],
+  "file_handlers": {
+    "text": {
+      "types": [
+        "image/png",
+        "image/jpeg"
+      ],
+      "title": "Crop It"
+    }
+  }
+}
