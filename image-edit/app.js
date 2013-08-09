@@ -143,16 +143,6 @@ chooseFileButton.addEventListener('click', function(e) {
   });
 });
 
-// writeFileButton.addEventListener('click', function(e) {
-//   if (chosenFileEntry) {
-//    chrome.fileSystem.getWritableEntry(chosenFileEntry, function(writableEntry) {
-//       writeFileEntry(writableEntry, null, function(e) {
-//         output.textContent = 'Write complete :)';
-//       });
-//    });
-//   }
-// });
-
 saveFileButton.addEventListener('click', function(e) {
   var config = {type: 'saveFile', suggestedName: chosenFileEntry.name};
   chrome.fileSystem.chooseEntry(config, function(writableEntry) {
