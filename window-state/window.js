@@ -105,6 +105,39 @@ $('#show').onclick = function(e) {
   setTimeout(chrome.app.window.current().show, $('#delay-slider').value);
 };
 
+$('#move').onclick = function(e) {
+  var x = parseInt($('#moveWindowLeft').value);
+  var y = parseInt($('#moveWindowTop').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().moveTo(x, y);
+    },
+    $('#delay-slider').value);
+};
+
+$('#resize').onclick = function(e) {
+  var w = parseInt($('#resizeWindowWidth').value);
+  var h = parseInt($('#resizeWindowHeight').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().resizeTo(w, h);
+    },
+    $('#delay-slider').value);
+};
+
+$('#setbounds').onclick = function(e) {
+  var bounds = {};
+  setIfANumber(bounds, 'left', parseInt($('#moveWindowLeft').value));
+  setIfANumber(bounds, 'top', parseInt($('#moveWindowTop').value));
+  setIfANumber(bounds, 'width', parseInt($('#resizeWindowWidth').value));
+  setIfANumber(bounds, 'height', parseInt($('#resizeWindowHeight').value));
+  setTimeout(
+    function() {
+      chrome.app.window.current().setBounds(bounds);
+    },
+    $('#delay-slider').value);
+};
+
 var updateDelaySiderText = function updateDelaySiderText() {
   $('#delay-label').innerText = $('#delay-slider').value / 1000 + " seconds.";
 }
@@ -160,6 +193,10 @@ function updateCurrentStateReadout() {
   $('#wasMinimized' ).checked = wasMinimized.length > 0;
 
   // Also update the hinted window size
+  $('#moveWindowLeft').placeholder = chrome.app.window.current().getBounds().left;
+  $('#moveWindowTop').placeholder = chrome.app.window.current().getBounds().top;
+  $('#resizeWindowWidth').placeholder = chrome.app.window.current().getBounds().width;
+  $('#resizeWindowHeight').placeholder = chrome.app.window.current().getBounds().height;
   $('#newWindowWidthMin').placeholder = chrome.app.window.current().getBounds().width;
   $('#newWindowWidthMax').placeholder = chrome.app.window.current().getBounds().width;
   $('#newWindowHeightMin').placeholder = chrome.app.window.current().getBounds().height;

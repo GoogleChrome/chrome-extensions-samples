@@ -6,13 +6,15 @@
 <body>
   <h1>Window State Sample</h1>
   <div id="fullscreen-area">
+
     <p><b>HTML5 Fullscreen</b>:
       <button id="html-fullscreen-enter">Enter</button>
       <button id="html-fullscreen-exit">Exit</button>
       <span id="html-fullscreen-label"></span>
     </p>
+
     <p>chrome.app.<b>window actions</b>, delayed:
-      <input id="delay-slider" type ="range" min ="0000" max="10000" step="1000" value="2000"/>
+      <input id="delay-slider" type ="range" min ="0000" max="20000" step="1000" value="2000"/>
       <span id="delay-label"></span>
       <br>
       <button id="fullscreen">Fullscreen</button>
@@ -21,7 +23,17 @@
       <button id="restore">Restore</button>
       <button id="hide">Hide</button>
       <button id="show">Show</button>
+      <br>
+      <button id="move">Move To (L,T)</button> /
+      <button id="resize">Resize To (W,H)</button> /
+      <button id="setbounds">Set Bounds (L,T,W,H)</button>:
+      <br>
+      Left, Top: <input type="number" class="size" id="moveWindowLeft" step=1 />
+      <input type="number" class="size" id="moveWindowTop" step=1 />
+      Width, Height: <input type="number" class="size" id="resizeWindowWidth" step=1 />
+      <input type="number" class="size" id="resizeWindowHeight" step=1 />
     </p>
+
     <p><b>Create</b> a new window:<br>
       <label><input type="radio" name="newWindowId" value="ID1" checked/>id = ID1</label>
       <label><input type="radio" name="newWindowId" value="ID2" />id = ID2</label>
@@ -47,11 +59,13 @@
       <button id="newWindowMaximized">Maximized</button>
       <button id="newWindowMinimized">Minimized</button>
     </p>
+
     <p>Current window state:
       <input type="checkbox" id="isFullscreen" disabled>isFullscreen
       <input type="checkbox" id="isMaximized"  disabled>isMaximized
       <input type="checkbox" id="isMinimized"  disabled>isMinimized
     </p>
+
     <p>Last 10 seconds state:
       <input type="checkbox" id="wasFullscreen" disabled>wasFullscreen
       <input type="checkbox" id="wasMaximized"  disabled>wasMaximized
