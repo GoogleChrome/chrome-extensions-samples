@@ -42,9 +42,7 @@ function drawCanvas() {
   var cc = canvas_context;
   cc.scale(canvas.width, canvas.height);
 
-  cc.beginPath();
-  cc.arc(0.5, 0.5, .5, 0, 2*Math.PI);
-  cc.fill();
+  cc.drawImage(img, 0, 0, 1, 1);
 }
 
 function imgFromFile(file, callback) {
