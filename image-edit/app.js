@@ -16,6 +16,8 @@ limitations under the License.
 Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
+var canvas = document.querySelector('canvas');
+var canvas_context = canvas.getContext("2d");
 var chooseFileButton = document.querySelector('#choose_file');
 var chosenFileEntry = null;
 var image_display = document.querySelector('#image_display');
@@ -34,21 +36,27 @@ function displayPath(fileEntry) {
   });
 }
 
-function resetEditorState() {
+function drawCanvas() {
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+  var cc = canvas_context;
+  cc.scale(canvas.width, canvas.height);
 
+  cc.beginPath();
+  cc.arc(0.5, 0.5, .5, 0, 2*Math.PI);
+  cc.fill();
 }
 
 function imgFromFile(file, callback) {
   img.onload = function() {
-    callback(img);
+    callback();
   }
   img.src = URL.createObjectURL(file);
 }
 
 function loadImage(file) {
-  imgFromFile(file, function (img) {
-    image_display.innerHTML = '';
-    image_display.appendChild(img);
+  imgFromFile(file, function () {
+    drawCanvas();
   });
 }
 
