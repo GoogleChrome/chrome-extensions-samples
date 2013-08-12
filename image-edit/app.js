@@ -16,10 +16,12 @@ limitations under the License.
 Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
-var chosenFileEntry = null;
-var writeFileButton = document.querySelector('#write_file');
 var chooseFileButton = document.querySelector('#choose_file');
+var chosenFileEntry = null;
+var image_display = document.querySelector('image_display');
+var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
+var writeFileButton = document.querySelector('#write_file');
 
 function errorHandler(e) {
   console.error(e);
