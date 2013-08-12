@@ -16,6 +16,11 @@ limitations under the License.
 Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
+var chosenFileEntry = null;
+var writeFileButton = document.querySelector('#write_file');
+var chooseFileButton = document.querySelector('#choose_file');
+var saveFileButton = document.querySelector('#save_file');
+
 function errorHandler(e) {
   console.error(e);
 }
@@ -36,7 +41,6 @@ function imgFromFile(file, callback) {
 
 function loadImage(file) {
   imgFromFile(file, function (img) {
-    var image_display = document.querySelector('#image_display');
     image_display.innerHTML = '';
     image_display.appendChild(img);
   });
@@ -92,13 +96,6 @@ function waitForIO(writer, callback) {
   };
   setTimeout(reentrant, 100);
 }
-
-var chosenFileEntry = null;
-var writeFileButton = document.querySelector('#write_file');
-var chooseFileButton = document.querySelector('#choose_file');
-var saveFileButton = document.querySelector('#save_file');
-var output = document.querySelector('output');
-var textarea = document.querySelector('textarea');
 
 function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry = _chosenFileEntry;
