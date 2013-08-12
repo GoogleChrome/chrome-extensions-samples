@@ -18,7 +18,8 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 
 var chooseFileButton = document.querySelector('#choose_file');
 var chosenFileEntry = null;
-var image_display = document.querySelector('image_display');
+var image_display = document.querySelector('#image_display');
+var img = new Image();
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 var writeFileButton = document.querySelector('#write_file');
@@ -33,8 +34,11 @@ function displayPath(fileEntry) {
   });
 }
 
+function resetEditorState() {
+
+}
+
 function imgFromFile(file, callback) {
-  var img = new Image();
   img.onload = function() {
     callback(img);
   }
