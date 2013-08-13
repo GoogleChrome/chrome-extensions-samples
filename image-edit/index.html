@@ -2,6 +2,11 @@
 <head>
 <style>
 body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: -webkit-flex;
   -webkit-flex-direction: column;
   -webkit-align-items: stretch;
@@ -87,8 +92,9 @@ canvas {
 
   <output></output>
 
-  <div id="image_display"><canvas></canvas></div>
-
+  <div id="image_display">
+    <canvas></canvas>
+  </div>
 
   <p><button id="save_file" disabled>Save As</button></p>
 

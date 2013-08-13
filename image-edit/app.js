@@ -42,7 +42,14 @@ function drawCanvas() {
   var cc = canvas_context;
   cc.scale(canvas.width, canvas.height);
 
-  cc.drawImage(img, 0, 0, 1, 1);
+  try {
+    cc.drawImage(img, 0, 0, 1, 1);
+  } catch (e) {}
+
+}
+
+window.onresize = function () {
+  drawCanvas();
 }
 
 function imgFromFile(file, callback) {
