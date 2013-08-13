@@ -146,8 +146,10 @@ chooseFileButton.addEventListener('click', function(e) {
       output.textContent = 'No file selected.';
       return;
     }
+    try { // TODO remove try once retain is in stable.
     chrome.storage.local.set(
         {'chosenFile': chrome.fileSystem.retainEntry(readOnlyEntry)});
+    } catch (e) {}
     loadFileEntry(readOnlyEntry);
   });
 });
