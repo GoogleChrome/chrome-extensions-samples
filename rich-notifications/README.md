@@ -10,3 +10,8 @@ in the system tray. This API is still in experimental state.
 ## Resources
 
 * [Notification API documentation](http://developer.chrome.com/trunk/apps/notifications.html)
+
+## Screenshot
+
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/rich-notifications/assets/screenshot_1280_800.png)
+

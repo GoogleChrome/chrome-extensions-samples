@@ -10,3 +10,7 @@ as CPU, memory and disk storage etc.
 * [Memory](http://developer.chrome.com/trunk/apps/experimental.systemInfo.memory.html)
 * [Storage](http://developer.chrome.com/trunk/apps/experimental.systemInfo.storage.html)
 
+## Screenshot
+
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/systemInfo/assets/screenshot_1280_800.png)
+
