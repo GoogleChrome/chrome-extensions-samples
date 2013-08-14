@@ -1,7 +1,7 @@
 {
   "name": "Sample Messaging extension",
   "version": "1.2",
-  "description": "send message to other apps and extensions.",
+  "description": "This sample shows how to communicate between two apps or one app and one extension. Add Sample Messaging App1, Sample Messaging App2 and Sample Messaging Extension to Chrome and play with sending messages between them.",
   "browser_action": {
     "default_title": "Send message to other apps",
     "default_icon": "icon_16.png",
