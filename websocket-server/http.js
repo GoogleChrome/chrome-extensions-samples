@@ -32,7 +32,12 @@ var responseMap = {
  * @return {string} The textual representation of the array.
  */
 var arrayBufferToString = function(buffer) {
-  return String.fromCharCode.apply(null, new Uint8Array(buffer));
+  var array = new Uint8Array(buffer);
+  var str = '';
+  for (var i = 0; i < array.length; ++i) {
+    str += String.fromCharCode(array[i]);
+  }
+  return str;
 };
 
 /**
@@ -247,7 +252,7 @@ HttpRequest.prototype = {
       socket.destroy(this.socketId_);
     }
     this.socketId_ = 0;
-    this.readyState == 3;
+    this.readyState = 3;
   },
 
   /**
