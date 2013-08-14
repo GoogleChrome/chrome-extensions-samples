@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Label printer",
+  "name": "Label USB Printer Sample",
   "version": "1",
   "minimum_chrome_version": "25",
   "icons": {

@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Hello Dart!",
+  "name": "Hello Dart! Sample",
   "version": "1",
   "minimum_chrome_version": "23",
   "icons": {"128": "images/dart_icon.png"},

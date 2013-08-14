@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Messaging App2",
+  "name": "Sample Messaging App2",
   "version": "1",
   "minimum_chrome_version": "23",
   "icons": {

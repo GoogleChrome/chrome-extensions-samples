@@ -1,5 +1,5 @@
 {
-  "name": "Google Wallet Test App",
+  "name": "Google Wallet Server Validation Sample",
   "description": "App to test CWA.",
   "manifest_version": 2,
   "version": "0.0.1",

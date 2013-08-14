@@ -1,5 +1,5 @@
 {
-  "name": "Simple Text Editor (Packaged app)",
+  "name": "Simple Text Editor",
   "description": "Syntax highlighting text editor",
   "version": "0.20",
   "manifest_version": 2,

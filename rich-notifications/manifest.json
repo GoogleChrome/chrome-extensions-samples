@@ -1,5 +1,5 @@
 {
-  "name": "Notify Test App",
+  "name": "Notification API Sample",
   "description": "Tests the notification API",
   "manifest_version" : 2,
   "version" : "0.1",
@@ -7,7 +7,7 @@
     "background" : {
 	  "scripts" : ["app.js"]
     }
-  }, 
+  },
   "permissions" : [
      "notifications"
   ]

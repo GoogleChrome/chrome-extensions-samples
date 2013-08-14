@@ -1,5 +1,5 @@
 {
-  "name": "Chrome ADK control",
+  "name": "ADK Controller Sample",
   "version": "1.0",
   "app": {
     "background": {

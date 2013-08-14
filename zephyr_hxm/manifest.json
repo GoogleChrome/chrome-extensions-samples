@@ -1,5 +1,5 @@
 {
-  "name": "Zephyr HXM Demo",
+  "name": "Heart Rate Monitor Integration Sample",
   "description": "Demo of Zephyr HXM Heart Rate Monitor interaction",
   "version": "1.0",
   "manifest_version": 2,

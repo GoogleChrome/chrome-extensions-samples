@@ -1,5 +1,5 @@
 {
-  "name": "Messaging extension",
+  "name": "Sample Messaging extension",
   "version": "1.2",
   "description": "send message to other apps and extensions.",
   "browser_action": {

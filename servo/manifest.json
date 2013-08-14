@@ -1,5 +1,5 @@
 {
-  "name": "Servo",
+  "name": "Servo Serial Sample",
   "version": "0.3",
   "manifest_version": 2,
   "minimum_chrome_version": "23",

@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Webview test",
+  "name": "Webview Sample",
   "version": "1",
   "permissions": ["webview", "pointerLock", "geolocation", "videoCapture"],
   "app": {
