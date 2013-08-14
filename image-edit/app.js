@@ -177,7 +177,11 @@ function loadInitialFile(launchData) {
   }
 }
 
-chooseFileButton.addEventListener('click', function(e) {
+function crop () {
+
+}
+
+function chooseFile () {
   var accepts = [{
     mimeTypes: ['image/*'],
     extensions: ['jpeg', 'png']
@@ -193,9 +197,9 @@ chooseFileButton.addEventListener('click', function(e) {
     } catch (e) {}
     loadFileEntry(readOnlyEntry);
   });
-});
+}
 
-saveFileButton.addEventListener('click', function(e) {
+function saveFile() {
   var config = {type: 'saveFile', suggestedName: chosenFileEntry.name};
   chrome.fileSystem.chooseEntry(config, function(writableEntry) {
     var blob = new Blob([textarea.value], {type: 'text/plain'});
@@ -203,10 +207,10 @@ saveFileButton.addEventListener('click', function(e) {
       output.textContent = 'Write complete :)';
     });
   });
-});
+}
 
 // Support dropping a single file onto this app.
-var dnd = new DnDFileController('body', function(data) {
+function draggedDataDropped(data) {
   items = data.items;
   chosenFileEntry = null;
   for (var i = 0; i < data.items.length; i++) {
@@ -227,6 +231,12 @@ var dnd = new DnDFileController('body', function(data) {
   }
 
   loadFileEntry(chosenFileEntry);
-});
+}
+
+
+chooseFileButton.addEventListener('click', chooseFile);
+cropButton.addEventListener('click', crop);
+saveFileButton.addEventListener('click', saveFile);
+new DnDFileController('body', draggedDataDropped);
 
 loadInitialFile(launchData);
