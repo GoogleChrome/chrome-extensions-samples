@@ -247,9 +247,15 @@ function dataURItoBlob(dataURI) {
 };
 
 function saveFile() {
+  if (!cropCanvas || !img.width || !img.height)
+    return;
+  cropCanvas.width = img.width;
+  cropCanvas.height = img.height;
+  cropCanvasContext.drawImage(img, 0, 0);
+  var blob = dataURItoBlob(cropCanvas.toDataURL());
+
   var config = {type: 'saveFile', suggestedName: chosenFileEntry.name};
   chrome.fileSystem.chooseEntry(config, function(writableEntry) {
-    var blob = dataURItoBlob(canvas.toDataURL());
     writeFileEntry(writableEntry, blob, function(e) {
       output.textContent = 'Write complete :)';
     });
