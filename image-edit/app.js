@@ -61,16 +61,16 @@ function drawCanvas() {
   // Work in the coordinate space of the image.
   // Scale and translate for optimal display on the canvas.
   {
-    // offset such that image is centered.
-    cc.translate(
-      Math.max(0, canvas.width - img.width) / 2,
-      Math.max(0, canvas.height - img.height) / 2);
-
     // scale such that image fits on canvas.
     var scale = Math.min(
       canvas.width / img.width,
       canvas.height / img.height);
     cc.scale(scale, scale);
+
+    // offset such that image is centered.
+    cc.translate(
+      Math.max(0, canvas.width / scale - img.width) / 2,
+      Math.max(0, canvas.height / scale - img.height) / 2);
   }
 
 
