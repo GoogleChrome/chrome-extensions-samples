@@ -26,6 +26,8 @@ var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 var writeFileButton = document.querySelector('#write_file');
 var scale = 1;
+var cropSquare = undefined;
+var cropStyle = "rgba(0, 0, 0, 0.5)";
 
 function errorHandler(e) {
   console.error(e);
@@ -43,6 +45,15 @@ function updateScale() {
     canvas.height / img.height);
 }
 
+function resetCrop() {
+  cropSquare = {
+    x: img.width * 0.5,
+    y: img.height * 0.1,
+    w: img.width * 0.8,
+    h: img.height * 0.8
+  };
+}
+
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -54,27 +65,39 @@ function drawCanvas() {
   updateScale();
   cc.scale(scale, scale);
 
-  try {
-    cc.drawImage(img, 0, 0, img.width, img.height);
-  } catch (e) {}
+  cc.drawImage(img, 0, 0, img.width, img.height);
 
+  {  // Draw crop window.
+    cc.save();
+    cc.fillStyle = cropStyle;
+    cc.beginPath();
+    { // Fill whole canvas with a rect
+      cc.save();
+      cc.setTransform(1, 0, 0, 1, 0, 0);
+      cc.rect(0, 0, canvas.width, canvas.height);
+      cc.restore();
+    }
+    // Cut out the crop area with an inverted rect.
+    cc.rect(
+      cropSquare.x, cropSquare.y + cropSquare.h,
+      cropSquare.w, -cropSquare.h);
+    cc.fill();
+    cc.restore();
+  }
 }
 
 window.onresize = function () {
   drawCanvas();
 }
 
-function imgFromFile(file, callback) {
-  img.onload = function() {
-    callback();
-  }
+function loadImage(file) {
+  img.onload = imageHasLoaded;
   img.src = URL.createObjectURL(file);
 }
 
-function loadImage(file) {
-  imgFromFile(file, function () {
+function imageHasLoaded() {
+    resetCrop();
     drawCanvas();
-  });
 }
 
 function writeFileEntry(writableEntry, opt_blob, callback) {
