@@ -17,10 +17,12 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 */
 
 var canvas = document.querySelector('canvas');
-var canvas_context = canvas.getContext("2d");
+var canvasContext = canvas.getContext('2d');
 var chooseFileButton = document.querySelector('#choose_file');
 var chosenFileEntry = null;
 var cropButton = document.querySelector('#crop');
+var cropCanvas = document.createElement('canvas');
+var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
 var image_display = document.querySelector('#image_display');
@@ -57,7 +59,7 @@ function resetCrop() {
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
-  var cc = canvas_context;
+  var cc = canvasContext;
 
   if (!img.width || !img.height || !canvas.width || !canvas.height)
     return;  // No img, so just leave canvas cleared.
@@ -90,9 +92,13 @@ window.onresize = function () {
   drawCanvas();
 }
 
-function loadImage(file) {
+function loadImageFromFile(file) {
+  loadImageFromURL(URL.createObjectURL(file));
+}
+
+function loadImageFromURL(url) {
   img.onload = imageHasLoaded;
-  img.src = URL.createObjectURL(file);
+  img.src = url;
 }
 
 function imageHasLoaded() {
@@ -156,7 +162,7 @@ function waitForIO(writer, callback) {
 function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry = _chosenFileEntry;
   chosenFileEntry.file(function(file) {
-    loadImage(file);
+    loadImageFromFile(file);
     displayPath(chosenFileEntry);
   });
 }
@@ -178,7 +184,16 @@ function loadInitialFile(launchData) {
 }
 
 function crop () {
-
+  if (!cropCanvas ||
+      !cropSquare.w || !cropSquare.h ||
+      !img.width || !img.height)
+    return;
+  cropCanvas.width = cropSquare.w;
+  cropCanvas.height = cropSquare.h;
+  cropCanvasContext.drawImage(img,
+                              -cropSquare.x, -cropSquare.y,
+                              img.width, img.height);
+  loadImageFromURL(cropCanvas.toDataURL());
 }
 
 function chooseFile () {
