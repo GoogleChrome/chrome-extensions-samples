@@ -21,5 +21,5 @@ To run:
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/appengine_channelapi/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/appengine_channelapi/app/assets/screenshot_1280_800.png)
 
