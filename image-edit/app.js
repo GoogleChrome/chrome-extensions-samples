@@ -20,14 +20,14 @@ var canvas = document.querySelector('canvas');
 var canvas_context = canvas.getContext("2d");
 var chooseFileButton = document.querySelector('#choose_file');
 var chosenFileEntry = null;
+var cropButton = document.querySelector('#crop');
+var cropSquare = undefined;
+var cropStyle = "rgba(0, 0, 0, 0.5)";
 var image_display = document.querySelector('#image_display');
 var img = new Image();
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
-var writeFileButton = document.querySelector('#write_file');
 var scale = 1;
-var cropSquare = undefined;
-var cropStyle = "rgba(0, 0, 0, 0.5)";
 
 function errorHandler(e) {
   console.error(e);
@@ -98,6 +98,8 @@ function loadImage(file) {
 function imageHasLoaded() {
     resetCrop();
     drawCanvas();
+    cropButton.disabled = false;
+    saveFileButton.disabled = false;
 }
 
 function writeFileEntry(writableEntry, opt_blob, callback) {
@@ -155,9 +157,6 @@ function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry = _chosenFileEntry;
   chosenFileEntry.file(function(file) {
     loadImage(file);
-    // Update display.
-    writeFileButton.disabled = false;
-    saveFileButton.disabled = false;
     displayPath(chosenFileEntry);
   });
 }
@@ -228,9 +227,6 @@ var dnd = new DnDFileController('body', function(data) {
   }
 
   loadFileEntry(chosenFileEntry);
-  // Update display.
-  writeFileButton.disabled = false;
-  saveFileButton.disabled = false;
 });
 
 loadInitialFile(launchData);

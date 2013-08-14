@@ -85,7 +85,6 @@ canvas {
 <body>
   <nav>
     <button id="choose_file">Choose File</button>
-    <button id="write_file" hidden disabled>Write File</button>
   </nav>
 
   Path: <input type="text" id="file_path" readonly>
@@ -96,7 +95,10 @@ canvas {
     <canvas></canvas>
   </div>
 
-  <p><button id="save_file" disabled>Save As</button></p>
+  <nav>
+    <button id="crop" disabled>Apply Crop</button>
+    <button id="save_file" disabled>Save As</button>
+  </nav>
 
   <script src="dnd.js"></script>
   <script src="app.js"></script>
