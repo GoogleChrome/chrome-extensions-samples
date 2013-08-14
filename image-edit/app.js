@@ -30,7 +30,6 @@ var image_display = document.querySelector('#image_display');
 var img = new Image();
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
-var scale = 1;
 
 function errorHandler(e) {
   console.error(e);
@@ -40,12 +39,6 @@ function displayPath(fileEntry) {
   chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
     filePath.value = path;
   });
-}
-
-function updateScale() {
-  scale = Math.min(
-    canvas.width / img.width,
-    canvas.height / img.height);
 }
 
 function resetCrop() {
@@ -65,8 +58,21 @@ function drawCanvas() {
   if (!img.width || !img.height || !canvas.width || !canvas.height)
     return;  // No img, so just leave canvas cleared.
 
-  updateScale();
-  cc.scale(scale, scale);
+  // Work in the coordinate space of the image.
+  // Scale and translate for optimal display on the canvas.
+  {
+    // offset such that image is centered.
+    cc.translate(
+      Math.max(0, canvas.width - img.width) / 2,
+      Math.max(0, canvas.height - img.height) / 2);
+
+    // scale such that image fits on canvas.
+    var scale = Math.min(
+      canvas.width / img.width,
+      canvas.height / img.height);
+    cc.scale(scale, scale);
+  }
+
 
   cc.drawImage(img, 0, 0, img.width, img.height);
 
