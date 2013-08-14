@@ -212,7 +212,6 @@ var dnd = new DnDFileController('body', function(data) {
   chosenFileEntry = null;
   for (var i = 0; i < data.items.length; i++) {
     var item = data.items[i];
-    console.log(item)
     if (item.kind == 'file' &&
         item.type.match('image/*') &&
         item.webkitGetAsEntry()) {
@@ -232,7 +231,6 @@ var dnd = new DnDFileController('body', function(data) {
   // Update display.
   writeFileButton.disabled = false;
   saveFileButton.disabled = false;
-  displayPath(chosenFileEntry);
 });
 
 loadInitialFile(launchData);
