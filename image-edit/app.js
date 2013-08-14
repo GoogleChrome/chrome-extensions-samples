@@ -25,6 +25,7 @@ var cropCanvas = document.createElement('canvas');
 var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
+var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
 var output = document.querySelector('output');
@@ -37,7 +38,7 @@ function errorHandler(e) {
 
 function displayPath(fileEntry) {
   chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
-    document.querySelector('#file_path').value = path;
+    filePath.value = path;
   });
 }
 
@@ -92,11 +93,19 @@ window.onresize = function () {
   drawCanvas();
 }
 
+function clearState() {
+  img.src = "";
+  drawCanvas(); // clear it.
+  resetCrop();
+  filePath.value = "";
+}
+
 function loadImageFromFile(file) {
   loadImageFromURL(URL.createObjectURL(file));
 }
 
 function loadImageFromURL(url) {
+  clearState();
   img.onload = imageHasLoaded;
   img.src = url;
 }
