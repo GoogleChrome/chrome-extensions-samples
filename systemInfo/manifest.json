@@ -1,10 +1,10 @@
 {
  "name": "SystemInfo Sample",
  "version": "0.1",
- "permissions": ["experimental"],
- "minimum_chrome_version": "23",
+ "permissions": ["system.cpu", "system.memory", "system.storage"],
+ "minimum_chrome_version": "29",
  "manifest_version": 2,
- "description": "Show disk capacity via SystemInfo API",
+ "description": "Show several system information via SystemInfo API",
  "app": {
    "background": {
      "scripts": ["main.js"]
