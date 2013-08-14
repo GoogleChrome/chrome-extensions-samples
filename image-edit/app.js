@@ -42,8 +42,15 @@ function drawCanvas() {
   var cc = canvas_context;
   cc.scale(canvas.width, canvas.height);
 
+  if (!img.width || !img.height || !canvas.width || !canvas.height)
+    return;  // No img, so just leave canvas cleared.
+
+  var img_wh_aspect = img.width / img.height;
+  var canvas_wh_aspect = canvas.width / canvas.height;
+  var render_wh_aspect = img_wh_aspect / canvas_wh_aspect;
+
   try {
-    cc.drawImage(img, 0, 0, 1, 1);
+    cc.drawImage(img, 0, 0, render_wh_aspect, 1);
   } catch (e) {}
 
 }
