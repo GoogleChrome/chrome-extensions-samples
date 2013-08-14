@@ -25,6 +25,7 @@ var img = new Image();
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 var writeFileButton = document.querySelector('#write_file');
+var scale = 1;
 
 function errorHandler(e) {
   console.error(e);
@@ -36,24 +37,25 @@ function displayPath(fileEntry) {
   });
 }
 
+function updateScale() {
+  scale = Math.min(
+    canvas.width / img.width,
+    canvas.height / img.height);
+}
+
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
   var cc = canvas_context;
-  cc.scale(canvas.width, canvas.height);
 
   if (!img.width || !img.height || !canvas.width || !canvas.height)
     return;  // No img, so just leave canvas cleared.
 
-  var img_wh_ratio = img.width / img.height;
-  var canvas_wh_ratio = canvas.width / canvas.height;
-  var render_wh_ratio = img_wh_ratio / canvas_wh_ratio;
-  var render_hw_ratio = 1 / render_wh_ratio;
-  var render_w = render_wh_ratio > 1 ? 1 : render_wh_ratio;
-  var render_h = render_hw_ratio > 1 ? 1 : render_hw_ratio;
+  updateScale();
+  cc.scale(scale, scale);
 
   try {
-    cc.drawImage(img, 0, 0, render_w, render_h);
+    cc.drawImage(img, 0, 0, img.width, img.height);
   } catch (e) {}
 
 }
