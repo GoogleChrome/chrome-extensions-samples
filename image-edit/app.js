@@ -24,7 +24,7 @@ var cropButton = document.querySelector('#crop');
 var cropCanvas = document.createElement('canvas');
 var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
-var cropSquareHandlesSize = 20;
+var cropSquareHandlesSize = 50;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
 var displayOffset = undefined;
 var displayScale = undefined;
@@ -70,7 +70,7 @@ function canvasMouseDown (e) {
   var y = e.clientY - canvasRect.top;
 
   var inner = getRectInCanvasCoords(cropSquare);
-  var outer = getRectInCanvasCoords(getCropSquareHandles());
+  var outer = getCropSquareHandlesInCanvasCoords();
   addRightAndBottomToRect(inner);
   addRightAndBottomToRect(outer);
 
@@ -156,12 +156,13 @@ function addRightAndBottomToRect(rect) {
   rect.b = rect.y + rect.h;
 }
 
-function getCropSquareHandles() {
+function getCropSquareHandlesInCanvasCoords() {
+  var cropSquareInCanvasCoords = getRectInCanvasCoords(cropSquare);
   return {
-      x: cropSquare.x - cropSquareHandlesSize,
-      y: cropSquare.y - cropSquareHandlesSize,
-      w: cropSquare.w + 2 * cropSquareHandlesSize,
-      h: cropSquare.h + 2 * cropSquareHandlesSize
+      x: cropSquareInCanvasCoords.x - cropSquareHandlesSize,
+      y: cropSquareInCanvasCoords.y - cropSquareHandlesSize,
+      w: cropSquareInCanvasCoords.w + 2 * cropSquareHandlesSize,
+      h: cropSquareInCanvasCoords.h + 2 * cropSquareHandlesSize
   };
 }
 
@@ -185,7 +186,7 @@ function drawCanvas() {
     w: cropSquareXformed.w,
     h: -cropSquareXformed.h
   };
-  var cropSquareHandlesXformed = getRectInCanvasCoords(getCropSquareHandles());
+  var cropSquareHandlesXformed = getCropSquareHandlesInCanvasCoords();
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
