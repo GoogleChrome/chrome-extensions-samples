@@ -72,19 +72,23 @@ function stopTrackingMouseDrag () {
 function canvasMouseMove(e) {
   if (mouseLastScreenCoords) {
     moveCrop(
+      e.screenX,
+      e.screenY,
       e.screenX - mouseLastScreenCoords.x,
       e.screenY - mouseLastScreenCoords.y);
     mouseLastScreenCoords = { x: e.screenX, y: e.screenY };
   }
 }
 
-function moveCrop(x, y) {
-  if (!displayScale || !displayOffset)
+function moveCrop(x, y, dx, dy) {
+  if (!displayScale || !displayOffset || !cropSquare)
     return;
-  try {
-    cropSquare.x += x / displayScale;
-    cropSquare.y += y / displayScale;
-  } catch (e) {}
+
+  var handlesRect = cropSquareHandles();
+
+  cropSquare.x += dx / displayScale;
+  cropSquare.y += dy / displayScale;
+
   webkitRequestAnimationFrame(drawCanvas);
 }
 
@@ -109,6 +113,16 @@ function offsetThenScaleRect(rect, scale, offset) {
     h: scale * rect.h
   };
 }
+
+function cropSquareHandles() {
+  return {
+      x: cropSquare.x - cropSquareHandlesSize,
+      y: cropSquare.y - cropSquareHandlesSize,
+      w: cropSquare.w + 2 * cropSquareHandlesSize,
+      h: cropSquare.h + 2 * cropSquareHandlesSize
+  };
+}
+
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -131,6 +145,7 @@ function drawCanvas() {
     w: cropSquareXformed.w,
     h: -cropSquareXformed.h
   };
+  var cropSquareHandlesXformed = offsetThenScaleRect(cropSquareHandles(), s, o);
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
@@ -147,11 +162,7 @@ function drawCanvas() {
 
     cc.beginPath();
     // Fill just handles area with a rect
-    cc.rect(
-      cropSquareXformed.x - cropSquareHandlesSize,
-      cropSquareXformed.y - cropSquareHandlesSize,
-      cropSquareXformed.w + 2 * cropSquareHandlesSize,
-      cropSquareXformed.h + 2 * cropSquareHandlesSize);
+    cc.rect(cropSquareHandlesXformed.x, cropSquareHandlesXformed.y, cropSquareHandlesXformed.w, cropSquareHandlesXformed.h);
     // Cut out the crop area with an inverted rect.
     cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
     cc.fill();
