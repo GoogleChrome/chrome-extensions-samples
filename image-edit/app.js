@@ -232,16 +232,44 @@ function loadInitialFile(launchData) {
   }
 }
 
+// Returns intersecting rect { x, y, w, h } of two inputs.
+function intersectRects(a, b) {
+  var out = {
+    x: Math.max(a.x, b.x),
+    y: Math.max(a.y, b.y),
+    w: 0,
+    h: 0
+  };
+  out.w = Math.min(a.x + a.w, b.x + b.w) - out.x;
+  out.h = Math.min(a.y + a.h, b.y + b.h) - out.y;
+  out.w = Math.max(out.w, 0);
+  out.w = Math.max(out.w, 0);
+  return out;
+}
+
+// Rounds a rect { x, y, w, h } to integers.
+function copyAsIntegerRect(sourceRect) {
+  var out = {
+    x: Math.round(sourceRect.x),
+    y: Math.round(sourceRect.y),
+    w: Math.round(sourceRect.w),
+    h: Math.round(sourceRect.h)
+  };
+  return out;
+}
+
 function crop () {
   if (!cropCanvas ||
       !cropSquare.w || !cropSquare.h ||
       !img.width || !img.height)
     return;
-  cropCanvas.width = cropSquare.w;
-  cropCanvas.height = cropSquare.h;
-  cropCanvasContext.drawImage(img,
-                              -cropSquare.x, -cropSquare.y,
-                              img.width, img.height);
+  var clippedRect = intersectRects(
+    {x: 0, y: 0, w: img.width, h: img.height },
+    cropSquare);
+  var intRect = copyAsIntegerRect(clippedRect);
+  cropCanvas.width = intRect.w;
+  cropCanvas.height = intRect.h;
+  cropCanvasContext.drawImage(img, -intRect.x, -intRect.y);
   loadImageFromURL(cropCanvas.toDataURL());
 }
 
