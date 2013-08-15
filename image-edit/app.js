@@ -30,7 +30,7 @@ var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
-var mouseDown = false;
+var mouseLastScreenCoords = undefined;
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 
@@ -61,20 +61,20 @@ function resetCrop() {
 }
 
 function canvasMouseDown (e) {
-  mouseDown = true;
+  mouseLastScreenCoords = { x: e.screenX, y: e.screenY };
 }
 
-function canvasMouseUp (e) {
-  mouseDown = false;
-}
-
-function bodyBlur () {
-  mouseDown = false;
+function stopTrackingMouseDrag () {
+  mouseLastScreenCoords = undefined;
 }
 
 function canvasMouseMove(e) {
-  if (mouseDown)
-    moveCrop(e.webkitMovementX, e.webkitMovementY);
+  if (mouseLastScreenCoords) {
+    moveCrop(
+      e.screenX - mouseLastScreenCoords.x,
+      e.screenY - mouseLastScreenCoords.y);
+    mouseLastScreenCoords = { x: e.screenX, y: e.screenY };
+  }
 }
 
 function moveCrop(x, y) {
@@ -329,8 +329,9 @@ function draggedDataDropped(data) {
 
 chooseFileButton.addEventListener('click', chooseFile);
 canvas.addEventListener('mousedown', canvasMouseDown);
-canvas.addEventListener('mouseup', canvasMouseUp);
-document.body.addEventListener('blur', bodyBlur);
+canvas.addEventListener('mouseup', stopTrackingMouseDrag);
+canvas.addEventListener('mouseleave', stopTrackingMouseDrag);
+window.addEventListener('blur', stopTrackingMouseDrag);
 canvas.addEventListener('mousemove', canvasMouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
