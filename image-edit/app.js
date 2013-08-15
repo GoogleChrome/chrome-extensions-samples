@@ -328,11 +328,10 @@ function draggedDataDropped(data) {
 
 
 chooseFileButton.addEventListener('click', chooseFile);
-canvas.addEventListener('mousedown', canvasMouseDown);
-canvas.addEventListener('mouseup', stopTrackingMouseDrag);
-canvas.addEventListener('mouseleave', stopTrackingMouseDrag);
+window.addEventListener('mousedown', canvasMouseDown);
+window.addEventListener('mouseup', stopTrackingMouseDrag);
 window.addEventListener('blur', stopTrackingMouseDrag);
-canvas.addEventListener('mousemove', canvasMouseMove);
+window.addEventListener('mousemove', canvasMouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
 new DnDFileController('body', draggedDataDropped);
