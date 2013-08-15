@@ -24,6 +24,7 @@ var cropButton = document.querySelector('#crop');
 var cropCanvas = document.createElement('canvas');
 var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
+var cropSquareHandlesSize = 20;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
 var displayOffset = undefined;
 var displayScale = undefined;
@@ -111,27 +112,41 @@ function drawCanvas() {
   // Work in the coordinate space of the image.
   // Scale and translate for optimal display on the canvas.
   updateScaleAndOffset();
-  cc.scale(displayScale, displayScale);
-  cc.translate(displayOffset.x, displayOffset.y);
+  var s = displayScale;
+  var o = displayOffset;
 
-
-  cc.drawImage(img, 0, 0, img.width, img.height);
+  cc.drawImage(img, s * o.x, s * o.y, s * img.width, s * img.height);
 
   {  // Draw crop window.
     cc.save();
     cc.fillStyle = cropStyle;
+
     cc.beginPath();
-    { // Fill whole canvas with a rect
-      cc.save();
-      cc.setTransform(1, 0, 0, 1, 0, 0);
-      cc.rect(0, 0, canvas.width, canvas.height);
-      cc.restore();
-    }
+    // Fill whole canvas with a rect
+    cc.rect(0, 0, canvas.width, canvas.height);
     // Cut out the crop area with an inverted rect.
     cc.rect(
-      cropSquare.x, cropSquare.y + cropSquare.h,
-      cropSquare.w, -cropSquare.h);
+      s * (o.x + cropSquare.x),
+      s * (o.y + cropSquare.y + cropSquare.h),
+      s * (cropSquare.w),
+      s * (-cropSquare.h));
     cc.fill();
+
+    cc.beginPath();
+    // Fill just handles area with a rect
+    cc.rect(
+      s * (o.x + cropSquare.x) - cropSquareHandlesSize,
+      s * (o.y + cropSquare.y) - cropSquareHandlesSize,
+      s * (cropSquare.w) + 2 * cropSquareHandlesSize,
+      s * (cropSquare.h) + 2 * cropSquareHandlesSize);
+    // Cut out the crop area with an inverted rect.
+    cc.rect(
+      s * (o.x + cropSquare.x),
+      s * (o.y + cropSquare.y + cropSquare.h),
+      s * (cropSquare.w),
+      s * (-cropSquare.h));
+    cc.fill();
+
     cc.restore();
   }
 }
