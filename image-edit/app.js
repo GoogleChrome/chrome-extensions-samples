@@ -31,6 +31,7 @@ var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
+var mouseMovingCropParameter = undefined;
 var mouseLastCoords = undefined;
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
@@ -54,7 +55,7 @@ function displayPath(fileEntry) {
 
 function resetCrop() {
   cropSquare = {
-    x: img.width * 0.5,
+    x: img.width * 0.1,
     y: img.height * 0.1,
     w: img.width * 0.8,
     h: img.height * 0.8
@@ -63,56 +64,67 @@ function resetCrop() {
 
 function canvasMouseDown (e) {
   mouseLastCoords = { x: e.clientX, y: e.clientY };
-}
 
-function stopTrackingMouseDrag () {
-  mouseLastCoords = undefined;
-}
-
-function canvasMouseMove(e) {
-  if (mouseLastCoords) {
-    var canvasRect = canvas.getBoundingClientRect();
-    moveCrop(
-      e.clientX - canvasRect.left,
-      e.clientY - canvasRect.top,
-      e.clientX - mouseLastCoords.x,
-      e.clientY - mouseLastCoords.y);
-    mouseLastCoords = { x: e.clientX, y: e.clientY };
-  }
-}
-
-// x, y, in canvas coordinates.
-function moveCrop(x, y, dx, dy) {
-  var dxs = dx / displayScale;
-  var dys = dy / displayScale;
-
-  if (!displayScale || !displayOffset || !cropSquare)
-    return;
+  var canvasRect = canvas.getBoundingClientRect();
+  var x = e.clientX - canvasRect.left;
+  var y = e.clientY - canvasRect.top;
 
   var inner = getRectInCanvasCoords(cropSquare);
   var outer = getRectInCanvasCoords(getCropSquareHandles());
   addRightAndBottomToRect(inner);
   addRightAndBottomToRect(outer);
 
-  var adjustCropBy = { x: 0, y: 0, w: 0, h: 0 };
+  mouseMovingCropParameter = {
+    x: x >= outer.x && x <= inner.x,
+    y: y >= outer.y && y <= inner.y,
+    w: x >= inner.r && x <= outer.r,
+    h: y >= inner.b && y <= outer.b
+  };
+}
 
-  if (x >= outer.x && x <= inner.x) {
-    adjustCropBy.x += dxs;
-    adjustCropBy.w -= dxs;
-  }
-  if (y >= outer.y && y <= inner.y) {
-    adjustCropBy.y += dys;
-    adjustCropBy.h -= dys;
-  }
-  if (x >= inner.r && x <= outer.r)
-    adjustCropBy.w += dxs;
-  if (y >= inner.b && y <= outer.b)
-    adjustCropBy.h += dys;
+function stopTrackingMouseDrag () {
+  mouseLastCoords = undefined;
+  mouseMovingCropParameter = undefined;
+}
 
-  cropSquare.x += adjustCropBy.x;
-  cropSquare.y += adjustCropBy.y;
-  cropSquare.w += adjustCropBy.w;
-  cropSquare.h += adjustCropBy.h;
+function canvasMouseMove(e) {
+  if (mouseLastCoords) {
+    moveCrop(e.clientX - mouseLastCoords.x,
+             e.clientY - mouseLastCoords.y);
+    mouseLastCoords = { x: e.clientX, y: e.clientY };
+  }
+}
+
+// x, y, in canvas coordinates.
+function moveCrop(dx, dy) {
+  if (!displayScale || !cropSquare || !mouseMovingCropParameter)
+    return;
+
+  var dxs = dx / displayScale;
+  var dys = dy / displayScale;
+
+  if (mouseMovingCropParameter.x) {
+    cropSquare.x += dxs;
+    cropSquare.w = Math.max(cropSquare.w - dxs, 0);
+  }
+  if (mouseMovingCropParameter.y) {
+    cropSquare.y += dys;
+    cropSquare.h = Math.max(cropSquare.h - dys, 0);
+  }
+  if (mouseMovingCropParameter.w) {
+    cropSquare.w += dxs;
+    if (cropSquare.w < 0) {
+      cropSquare.x += cropSquare.w;
+      cropSquare.w = 0;
+    }
+  }
+  if (mouseMovingCropParameter.h) {
+    cropSquare.h += dys;
+    if (cropSquare.h < 0) {
+      cropSquare.y += cropSquare.h;
+      cropSquare.h = 0;
+    }
+  }
 
   webkitRequestAnimationFrame(drawCanvas);
 }
