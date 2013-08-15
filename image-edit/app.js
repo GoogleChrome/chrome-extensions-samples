@@ -212,14 +212,13 @@ function drawCanvas() {
     cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
     cc.fill();
 
+
     var gradient = cc.createRadialGradient(
-      cropSquareXformed.x + cropSquareXformed.w / 2,
-      cropSquareXformed.y + cropSquareXformed.h / 2,
+      0, 0,
       Math.sqrt(
         Math.pow(cropSquareXformed.w / 2, 2) +
         Math.pow(cropSquareXformed.h / 2, 2)),
-      cropSquareHandlesXformed.x + cropSquareHandlesXformed.w / 2,
-      cropSquareHandlesXformed.y + cropSquareHandlesXformed.h / 2,
+      0, 0,
       Math.sqrt(
         Math.pow(cropSquareHandlesXformed.w / 2, 2) +
         Math.pow(cropSquareHandlesXformed.h / 2, 2)));
@@ -232,7 +231,12 @@ function drawCanvas() {
     cc.rect(cropSquareHandlesXformed.x, cropSquareHandlesXformed.y, cropSquareHandlesXformed.w, cropSquareHandlesXformed.h);
     // Cut out the crop area with an inverted rect.
     cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
+    cc.save();
+    cc.translate(
+      cropSquareXformed.x + cropSquareXformed.w / 2,
+      cropSquareXformed.y + cropSquareXformed.h / 2);
     cc.fill();
+    cc.restore();
 
     cc.restore();
   }
