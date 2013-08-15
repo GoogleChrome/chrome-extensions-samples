@@ -31,7 +31,7 @@ var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
-var mouseLastScreenCoords = undefined;
+var mouseLastCoords = undefined;
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 
@@ -62,32 +62,57 @@ function resetCrop() {
 }
 
 function canvasMouseDown (e) {
-  mouseLastScreenCoords = { x: e.screenX, y: e.screenY };
+  mouseLastCoords = { x: e.clientX, y: e.clientY };
 }
 
 function stopTrackingMouseDrag () {
-  mouseLastScreenCoords = undefined;
+  mouseLastCoords = undefined;
 }
 
 function canvasMouseMove(e) {
-  if (mouseLastScreenCoords) {
+  if (mouseLastCoords) {
+    var canvasRect = canvas.getBoundingClientRect();
     moveCrop(
-      e.screenX,
-      e.screenY,
-      e.screenX - mouseLastScreenCoords.x,
-      e.screenY - mouseLastScreenCoords.y);
-    mouseLastScreenCoords = { x: e.screenX, y: e.screenY };
+      e.clientX - canvasRect.left,
+      e.clientY - canvasRect.top,
+      e.clientX - mouseLastCoords.x,
+      e.clientY - mouseLastCoords.y);
+    mouseLastCoords = { x: e.clientX, y: e.clientY };
   }
 }
 
+// x, y, in canvas coordinates.
 function moveCrop(x, y, dx, dy) {
+  var dxs = dx / displayScale;
+  var dys = dy / displayScale;
+
   if (!displayScale || !displayOffset || !cropSquare)
     return;
 
-  var handlesRect = cropSquareHandles();
+  var inner = getRectInCanvasCoords(cropSquare);
+  var outer = getRectInCanvasCoords(getCropSquareHandles());
+  addRightAndBottomToRect(inner);
+  addRightAndBottomToRect(outer);
 
-  cropSquare.x += dx / displayScale;
-  cropSquare.y += dy / displayScale;
+  var adjustCropBy = { x: 0, y: 0, w: 0, h: 0 };
+
+  if (x >= outer.x && x <= inner.x) {
+    adjustCropBy.x += dxs;
+    adjustCropBy.w -= dxs;
+  }
+  if (y >= outer.y && y <= inner.y) {
+    adjustCropBy.y += dys;
+    adjustCropBy.h -= dys;
+  }
+  if (x >= inner.r && x <= outer.r)
+    adjustCropBy.w += dxs;
+  if (y >= inner.b && y <= outer.b)
+    adjustCropBy.h += dys;
+
+  cropSquare.x += adjustCropBy.x;
+  cropSquare.y += adjustCropBy.y;
+  cropSquare.w += adjustCropBy.w;
+  cropSquare.h += adjustCropBy.h;
 
   webkitRequestAnimationFrame(drawCanvas);
 }
@@ -105,16 +130,21 @@ function updateScaleAndOffset() {
   };
 }
 
-function offsetThenScaleRect(rect, scale, offset) {
+function getRectInCanvasCoords(rect) {
   return {
-    x: scale * (offset.x + rect.x),
-    y: scale * (offset.y + rect.y),
-    w: scale * rect.w,
-    h: scale * rect.h
+    x: displayScale * (displayOffset.x + rect.x),
+    y: displayScale * (displayOffset.y + rect.y),
+    w: displayScale * rect.w,
+    h: displayScale * rect.h
   };
 }
 
-function cropSquareHandles() {
+function addRightAndBottomToRect(rect) {
+  rect.r = rect.x + rect.w;
+  rect.b = rect.y + rect.h;
+}
+
+function getCropSquareHandles() {
   return {
       x: cropSquare.x - cropSquareHandlesSize,
       y: cropSquare.y - cropSquareHandlesSize,
@@ -134,18 +164,16 @@ function drawCanvas() {
   // Work in the coordinate space of the image.
   // Scale and translate for optimal display on the canvas.
   updateScaleAndOffset();
-  var s = displayScale;
-  var o = displayOffset;
   var imgRect = { x: 0, y: 0, w: img.width, h: img.height };
-  var imgRectXformed = offsetThenScaleRect(imgRect, s, o);
-  var cropSquareXformed = offsetThenScaleRect(cropSquare, s, o);
+  var imgRectXformed = getRectInCanvasCoords(imgRect);
+  var cropSquareXformed = getRectInCanvasCoords(cropSquare);
   var cropSquareXformedInverted = {
     x: cropSquareXformed.x,
     y: cropSquareXformed.y + cropSquareXformed.h,
     w: cropSquareXformed.w,
     h: -cropSquareXformed.h
   };
-  var cropSquareHandlesXformed = offsetThenScaleRect(cropSquareHandles(), s, o);
+  var cropSquareHandlesXformed = getRectInCanvasCoords(getCropSquareHandles());
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
