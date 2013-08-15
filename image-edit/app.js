@@ -101,6 +101,14 @@ function updateScaleAndOffset() {
   };
 }
 
+function offsetThenScaleRect(rect, scale, offset) {
+  return {
+    x: scale * (offset.x + rect.x),
+    y: scale * (offset.y + rect.y),
+    w: scale * rect.w,
+    h: scale * rect.h
+  };
+}
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -114,8 +122,17 @@ function drawCanvas() {
   updateScaleAndOffset();
   var s = displayScale;
   var o = displayOffset;
+  var imgRect = { x: 0, y: 0, w: img.width, h: img.height };
+  var imgRectXformed = offsetThenScaleRect(imgRect, s, o);
+  var cropSquareXformed = offsetThenScaleRect(cropSquare, s, o);
+  var cropSquareXformedInverted = {
+    x: cropSquareXformed.x,
+    y: cropSquareXformed.y + cropSquareXformed.h,
+    w: cropSquareXformed.w,
+    h: -cropSquareXformed.h
+  };
 
-  cc.drawImage(img, s * o.x, s * o.y, s * img.width, s * img.height);
+  cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
   {  // Draw crop window.
     cc.save();
@@ -125,26 +142,18 @@ function drawCanvas() {
     // Fill whole canvas with a rect
     cc.rect(0, 0, canvas.width, canvas.height);
     // Cut out the crop area with an inverted rect.
-    cc.rect(
-      s * (o.x + cropSquare.x),
-      s * (o.y + cropSquare.y + cropSquare.h),
-      s * (cropSquare.w),
-      s * (-cropSquare.h));
+    cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
     cc.fill();
 
     cc.beginPath();
     // Fill just handles area with a rect
     cc.rect(
-      s * (o.x + cropSquare.x) - cropSquareHandlesSize,
-      s * (o.y + cropSquare.y) - cropSquareHandlesSize,
-      s * (cropSquare.w) + 2 * cropSquareHandlesSize,
-      s * (cropSquare.h) + 2 * cropSquareHandlesSize);
+      cropSquareXformed.x - cropSquareHandlesSize,
+      cropSquareXformed.y - cropSquareHandlesSize,
+      cropSquareXformed.w + 2 * cropSquareHandlesSize,
+      cropSquareXformed.h + 2 * cropSquareHandlesSize);
     // Cut out the crop area with an inverted rect.
-    cc.rect(
-      s * (o.x + cropSquare.x),
-      s * (o.y + cropSquare.y + cropSquare.h),
-      s * (cropSquare.w),
-      s * (-cropSquare.h));
+    cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
     cc.fill();
 
     cc.restore();
