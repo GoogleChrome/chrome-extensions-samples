@@ -26,6 +26,8 @@ var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
 var cropSquareHandlesSize = 50;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
+var cropStyleColorInner = "rgba(0, 0, 0, 0.5)";
+var cropStyleColorOuter = "rgba(255, 255, 255, 0.5)";
 var displayOffset = undefined;
 var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
@@ -209,6 +211,21 @@ function drawCanvas() {
     // Cut out the crop area with an inverted rect.
     cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
     cc.fill();
+
+    var gradient = cc.createRadialGradient(
+      cropSquareXformed.x + cropSquareXformed.w / 2,
+      cropSquareXformed.y + cropSquareXformed.h / 2,
+      Math.sqrt(
+        Math.pow(cropSquareXformed.w / 2, 2) +
+        Math.pow(cropSquareXformed.h / 2, 2)),
+      cropSquareHandlesXformed.x + cropSquareHandlesXformed.w / 2,
+      cropSquareHandlesXformed.y + cropSquareHandlesXformed.h / 2,
+      Math.sqrt(
+        Math.pow(cropSquareHandlesXformed.w / 2, 2) +
+        Math.pow(cropSquareHandlesXformed.h / 2, 2)));
+    gradient.addColorStop(0, cropStyleColorInner);
+    gradient.addColorStop(1, cropStyleColorOuter);
+    cc.fillStyle = gradient;
 
     cc.beginPath();
     // Fill just handles area with a rect
