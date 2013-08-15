@@ -30,6 +30,7 @@ var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
+var mouseDown = false;
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
 
@@ -59,6 +60,23 @@ function resetCrop() {
   };
 }
 
+function canvasMouseDown (e) {
+  mouseDown = true;
+}
+
+function canvasMouseUp (e) {
+  mouseDown = false;
+}
+
+function bodyBlur () {
+  mouseDown = false;
+}
+
+function canvasMouseMove(e) {
+  if (mouseDown)
+    moveCrop(e.webkitMovementX, e.webkitMovementY);
+}
+
 function moveCrop(x, y) {
   if (!displayScale || !displayOffset)
     return;
@@ -67,10 +85,6 @@ function moveCrop(x, y) {
     cropSquare.y += y / displayScale;
   } catch (e) {}
   webkitRequestAnimationFrame(drawCanvas);
-}
-
-function canvasMouseMove(e) {
-  moveCrop(e.webkitMovementX, e.webkitMovementY);
 }
 
 function updateScaleAndOffset() {
@@ -314,6 +328,9 @@ function draggedDataDropped(data) {
 
 
 chooseFileButton.addEventListener('click', chooseFile);
+canvas.addEventListener('mousedown', canvasMouseDown);
+canvas.addEventListener('mouseup', canvasMouseUp);
+document.body.addEventListener('blur', bodyBlur);
 canvas.addEventListener('mousemove', canvasMouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
