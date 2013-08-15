@@ -126,6 +126,15 @@ function moveCrop(dx, dy) {
     }
   }
 
+  // If not moving a particular element, move the whole frame.
+  if (!mouseMovingCropParameter.x &&
+      !mouseMovingCropParameter.y &&
+      !mouseMovingCropParameter.w &&
+      !mouseMovingCropParameter.h) {
+    cropSquare.x += dxs;
+    cropSquare.y += dys;
+  }
+
   webkitRequestAnimationFrame(drawCanvas);
 }
 
