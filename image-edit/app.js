@@ -162,6 +162,15 @@ function getRectInCanvasCoords(rect) {
   };
 }
 
+function getRectInverted(rect) {
+  return {
+    x: rect.x,
+    y: rect.y + rect.h,
+    w: rect.w,
+    h: -rect.h
+  };
+}
+
 function addRightAndBottomToRect(rect) {
   rect.r = rect.x + rect.w;
   rect.b = rect.y + rect.h;
@@ -177,6 +186,11 @@ function getCropSquareHandlesInCanvasCoords() {
   };
 }
 
+function canvasRect(rect) {
+  var rectAsInts = copyAsIntegerRect(rect);
+  canvasContext.rect(rectAsInts.x, rectAsInts.y, rectAsInts.w, rectAsInts.h);
+}
+
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -190,14 +204,10 @@ function drawCanvas() {
   updateScaleAndOffset();
   var imgRect = { x: 0, y: 0, w: img.width, h: img.height };
   var imgRectXformed = getRectInCanvasCoords(imgRect);
-  var cropSquareXformed = getRectInCanvasCoords(cropSquare);
-  var cropSquareXformedInverted = {
-    x: cropSquareXformed.x,
-    y: cropSquareXformed.y + cropSquareXformed.h,
-    w: cropSquareXformed.w,
-    h: -cropSquareXformed.h
-  };
-  var cropSquareHandlesXformed = getCropSquareHandlesInCanvasCoords();
+  var cropXformed = getRectInCanvasCoords(cropSquare);
+  var cropCutout = getRectInverted(cropXformed);
+  var handlesXformed = getCropSquareHandlesInCanvasCoords();
+  var handlesCutout = getRectInverted(handlesXformed);
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
@@ -205,38 +215,43 @@ function drawCanvas() {
     cc.save();
     cc.fillStyle = cropStyle;
 
+    // Fill whole canvas.
     cc.beginPath();
-    // Fill whole canvas with a rect
-    cc.rect(0, 0, canvas.width, canvas.height);
-    // Cut out the crop area with an inverted rect.
-    cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
+    cc.rect(0, 0, canvas.width, canvas.height); // Fill whole canvas.
+    canvasRect(handlesCutout); // Cut out handles area.
     cc.fill();
 
-
-    var gradient = cc.createRadialGradient(
-      0, 0,
-      Math.sqrt(
-        Math.pow(cropSquareXformed.w / 2, 2) +
-        Math.pow(cropSquareXformed.h / 2, 2)),
-      0, 0,
-      Math.sqrt(
-        Math.pow(cropSquareHandlesXformed.w / 2, 2) +
-        Math.pow(cropSquareHandlesXformed.h / 2, 2)));
-    gradient.addColorStop(0, cropStyleColorInner);
-    gradient.addColorStop(1, cropStyleColorOuter);
-    cc.fillStyle = gradient;
-
+    // Handles.
     cc.beginPath();
-    // Fill just handles area with a rect
-    cc.rect(cropSquareHandlesXformed.x, cropSquareHandlesXformed.y, cropSquareHandlesXformed.w, cropSquareHandlesXformed.h);
-    // Cut out the crop area with an inverted rect.
-    cc.rect(cropSquareXformedInverted.x, cropSquareXformedInverted.y, cropSquareXformedInverted.w, cropSquareXformedInverted.h);
+    canvasRect(handlesXformed); // Fill handles.
+    canvasRect(cropCutout); // Cut out the crop area.
+    cc.fill();
+    cc.fill();
+
+    // Blur into handles.
     cc.save();
-    cc.translate(
-      cropSquareXformed.x + cropSquareXformed.w / 2,
-      cropSquareXformed.y + cropSquareXformed.h / 2);
+    cc.beginPath();
+    canvasRect(handlesXformed); // Fill handles.
+    cc.clip();
+    cc.beginPath();
+    cc.rect(0, 0, canvas.width, canvas.height); // Fill whole canvas.
+    canvasRect(handlesCutout); // Cut out handles.
+    cc.shadowBlur = cropSquareHandlesSize;
+    cc.shadowColor = "white";
     cc.fill();
     cc.restore();
+
+    // // Blur out of handles.
+    // cc.save();
+    // cc.beginPath();
+    // canvasRect(handlesXformed); // Fill handles.
+    // cc.clip();
+    // cc.beginPath();
+    // canvasRect(handlesXformed); // Cut out handles.
+    // cc.shadowBlur = 10;
+    // cc.shadowColor = "black";
+    // cc.fill();
+    // cc.restore();
 
     cc.restore();
   }
