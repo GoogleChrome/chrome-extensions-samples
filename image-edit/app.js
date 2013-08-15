@@ -25,11 +25,20 @@ var cropCanvas = document.createElement('canvas');
 var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
 var cropStyle = "rgba(0, 0, 0, 0.5)";
+var displayOffset = undefined;
+var displayScale = undefined;
 var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
 var output = document.querySelector('output');
 var saveFileButton = document.querySelector('#save_file');
+
+function clearState() {
+  img.src = "";
+  drawCanvas(); // clear it.
+  resetCrop();
+  filePath.value = "";
+}
 
 function errorHandler(e) {
   console.error(e);
@@ -50,6 +59,33 @@ function resetCrop() {
   };
 }
 
+function moveCrop(x, y) {
+  if (!displayScale || !displayOffset)
+    return;
+  try {
+    cropSquare.x += x / displayScale;
+    cropSquare.y += y / displayScale;
+  } catch (e) {}
+  webkitRequestAnimationFrame(drawCanvas);
+}
+
+function canvasMouseMove(e) {
+  moveCrop(e.webkitMovementX, e.webkitMovementY);
+}
+
+function updateScaleAndOffset() {
+  // scale such that image fits on canvas.
+  displayScale = Math.min(
+    canvas.width / img.width,
+    canvas.height / img.height);
+
+  // offset such that image is centered.
+  displayOffset = {
+    x: Math.max(0, canvas.width / displayScale - img.width) / 2,
+    y: Math.max(0, canvas.height / displayScale - img.height) / 2
+  };
+}
+
 function drawCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -60,18 +96,9 @@ function drawCanvas() {
 
   // Work in the coordinate space of the image.
   // Scale and translate for optimal display on the canvas.
-  {
-    // scale such that image fits on canvas.
-    var scale = Math.min(
-      canvas.width / img.width,
-      canvas.height / img.height);
-    cc.scale(scale, scale);
-
-    // offset such that image is centered.
-    cc.translate(
-      Math.max(0, canvas.width / scale - img.width) / 2,
-      Math.max(0, canvas.height / scale - img.height) / 2);
-  }
+  updateScaleAndOffset();
+  cc.scale(displayScale, displayScale);
+  cc.translate(displayOffset.x, displayOffset.y);
 
 
   cc.drawImage(img, 0, 0, img.width, img.height);
@@ -97,13 +124,6 @@ function drawCanvas() {
 
 window.onresize = function () {
   drawCanvas();
-}
-
-function clearState() {
-  img.src = "";
-  drawCanvas(); // clear it.
-  resetCrop();
-  filePath.value = "";
 }
 
 function loadImageFromFile(file) {
@@ -294,6 +314,7 @@ function draggedDataDropped(data) {
 
 
 chooseFileButton.addEventListener('click', chooseFile);
+canvas.addEventListener('mousemove', canvasMouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
 new DnDFileController('body', draggedDataDropped);
