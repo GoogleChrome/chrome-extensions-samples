@@ -25,9 +25,6 @@ var cropCanvas = document.createElement('canvas');
 var cropCanvasContext = cropCanvas.getContext('2d');
 var cropSquare = undefined;
 var cropSquareHandlesSize = 50;
-var cropStyle = "rgba(0, 0, 0, 0.5)";
-var cropStyleColorInner = "rgba(0, 0, 0, 0.5)";
-var cropStyleColorOuter = "rgba(255, 255, 255, 0.5)";
 var displayOffset = undefined;
 var displayScale = undefined;
 var image_display = document.querySelector('#image_display');
@@ -57,10 +54,10 @@ function displayfileEntryPath(fileEntry) {
 
 function resetCrop() {
   cropSquare = {
-    x: img.width * 0.1,
-    y: img.height * 0.1,
-    w: img.width * 0.8,
-    h: img.height * 0.8
+    x: 0,
+    y: 0,
+    w: img.width,
+    h: img.height
   };
 }
 
@@ -255,6 +252,14 @@ function drawCanvas() {
   if (displayScale >= 1)
     cc.imageSmoothingEnabled = false;
   console.log(cc.imageSmoothingEnabled);
+
+  // Dim area under image.
+  cc.save();
+  cc.beginPath();
+  cc.fillStyle = "rgba(0, 0, 0, 0.1)";
+  canvasRect(imgRectXformed);
+  cc.fill();
+  cc.restore();
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
