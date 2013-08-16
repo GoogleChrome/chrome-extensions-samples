@@ -1,6 +1,6 @@
 {
   "name": "Crop Tool - Image Edit",
-  "version": "4",
+  "version": "5",
   "manifest_version": 2,
   "minimum_chrome_version": "28",
   "description": "A tool to crop images.",
