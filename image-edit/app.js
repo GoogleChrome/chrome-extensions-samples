@@ -30,7 +30,6 @@ var cropStyleColorInner = "rgba(0, 0, 0, 0.5)";
 var cropStyleColorOuter = "rgba(255, 255, 255, 0.5)";
 var displayOffset = undefined;
 var displayScale = undefined;
-var filePath = document.querySelector('#file_path');
 var image_display = document.querySelector('#image_display');
 var img = new Image();
 var mouseMovingCropParameter = undefined;
@@ -42,17 +41,10 @@ function clearState() {
   img.src = "";
   drawCanvas(); // clear it.
   resetCrop();
-  filePath.value = "";
 }
 
 function errorHandler(e) {
   console.error(e);
-}
-
-function displayPath(fileEntry) {
-  chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
-    filePath.value = path;
-  });
 }
 
 function resetCrop() {
@@ -339,7 +331,6 @@ function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry.file(function(file) {
     saveFileButton.disabled = true;
     loadImageFromFile(file);
-    displayPath(chosenFileEntry);
   });
 }
 
