@@ -252,6 +252,10 @@ function drawCanvas() {
   var imgRectXformed = getRectInCanvasCoords(imgRect);
   var cropXformed = getRectInCanvasCoords(cropSquare);
 
+  if (displayScale >= 1)
+    cc.imageSmoothingEnabled = false;
+  console.log(cc.imageSmoothingEnabled);
+
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
   // Draw crop window.
