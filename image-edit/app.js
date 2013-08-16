@@ -47,6 +47,14 @@ function errorHandler(e) {
   console.error(e);
 }
 
+function displayText(text) {
+    output.textContent = text;
+}
+
+function displayfileEntryPath(fileEntry) {
+  chrome.fileSystem.getDisplayPath(fileEntry, displayText);
+}
+
 function resetCrop() {
   cropSquare = {
     x: img.width * 0.1,
@@ -268,6 +276,7 @@ function imageHasLoaded() {
   if (img.width && img.height) {
     cropButton.disabled = false;
   } else {
+    displayText("Image failed to load.");
     saveFileButton.disabled = true;
     cropButton.disabled = true;
   }
@@ -277,7 +286,7 @@ function imageHasLoaded() {
 
 function writeFileEntry(writableEntry, opt_blob, callback) {
   if (!writableEntry) {
-    output.textContent = 'Nothing selected.';
+    displayText('Nothing selected.');
     return;
   }
 
@@ -331,6 +340,7 @@ function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry.file(function(file) {
     saveFileButton.disabled = true;
     loadImageFromFile(file);
+    displayfileEntryPath(chosenFileEntry);
   });
 }
 
@@ -381,6 +391,7 @@ function crop () {
       !cropSquare.w || !cropSquare.h ||
       !img.width || !img.height)
     return;
+  displayText("Cropped.");
   saveFileButton.disabled = false;
   var clippedRect = intersectRects(
     {x: 0, y: 0, w: img.width, h: img.height },
@@ -399,7 +410,7 @@ function chooseFile () {
   }];
   chrome.fileSystem.chooseEntry({type: 'openFile', accepts: accepts}, function(readOnlyEntry) {
     if (!readOnlyEntry) {
-      output.textContent = 'No file selected.';
+      displayText('No file selected.');
       return;
     }
     try { // TODO remove try once retain is in stable.
@@ -444,7 +455,7 @@ function saveFile() {
   var config = {type: 'saveFile', suggestedName: chosenFileEntry.name};
   chrome.fileSystem.chooseEntry(config, function(writableEntry) {
     writeFileEntry(writableEntry, blob, function(e) {
-      output.textContent = 'Write complete :)';
+      displayText('Write complete :)');
     });
   });
 }
@@ -464,10 +475,10 @@ function draggedDataDropped(data) {
   };
 
   if (!chosenFileEntry) {
-    output.textContent = "Sorry. That's not a text file.";
+    displayText("Sorry, could not load file.");
     return;
   } else {
-        output.textContent = "";
+    displayText("Loading dropped file.");
   }
 
   loadFileEntry(chosenFileEntry);
