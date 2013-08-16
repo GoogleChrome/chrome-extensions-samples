@@ -1,10 +1,11 @@
 {
-  "name": "Crop Tool",
+  "name": "Crop Tool - Image Edit",
   "version": "1",
   "manifest_version": 2,
   "minimum_chrome_version": "28",
   "description": "A tool to crop images.",
   "offline_enabled": true,
+  "icons": { "128": "assets\\icon_128.png" },
   "app": {
     "background": {
       "scripts": ["background.js"]
@@ -15,12 +16,12 @@
     "storage"
   ],
   "file_handlers": {
-    "text": {
+    "image": {
       "types": [
         "image/png",
         "image/jpeg"
       ],
-      "title": "Crop It"
+      "title": "Crop Tool - Image Edit"
     }
   }
 }
