@@ -251,38 +251,22 @@ function drawCanvas() {
   var imgRect = { x: 0, y: 0, w: img.width, h: img.height };
   var imgRectXformed = getRectInCanvasCoords(imgRect);
   var cropXformed = getRectInCanvasCoords(cropSquare);
-  var cropCutout = getRectInverted(cropXformed);
-  var handlesXformed = getCropSquareHandlesInCanvasCoords();
-  var handlesCutout = getRectInverted(handlesXformed);
 
   cc.drawImage(img, imgRectXformed.x, imgRectXformed.y, imgRectXformed.w, imgRectXformed.h);
 
-  {  // Draw crop window.
-    cc.save();
-    cc.fillStyle = cropStyle;
-
-    // Handles.
-    cc.beginPath();
-    canvasRect(handlesXformed); // Fill handles.
-    canvasRect(cropCutout); // Cut out the crop area.
-    cc.fill();
-    cc.fill();
-
-    // Blur into handles.
-    cc.save();
-    cc.beginPath();
-    canvasRect(handlesXformed); // Fill handles.
-    cc.clip();
-    cc.beginPath();
-    cc.rect(0, 0, canvas.width, canvas.height); // Fill whole canvas.
-    canvasRect(handlesCutout); // Cut out handles.
-    cc.shadowBlur = cropSquareHandlesSize;
-    cc.shadowColor = "white";
-    cc.fill();
-    cc.restore();
-
-    cc.restore();
-  }
+  // Draw crop window.
+  cc.save();
+  cc.translate(0.5, 0.5); // draw lines directly on pixels, no anti-aliasing.
+  cc.beginPath();
+  canvasRect(cropXformed);
+  cc.lineWidth = 1;
+  cc.strokeStyle = "rgba(255, 255, 255, 0.5)";
+  cc.stroke(); // File whole line white.
+  cc.setLineDash([5]);
+  cc.strokeStyle = "rgba(0, 0, 0, 0.5)";
+  cc.strokeStyle = "black"; // Dash the line black.
+  cc.stroke();
+  cc.restore();
 }
 
 window.onresize = function () {
@@ -511,7 +495,6 @@ function draggedDataDropped(data) {
 
   loadFileEntry(chosenFileEntry);
 }
-
 
 chooseFileButton.addEventListener('click', chooseFile);
 // mousedown on canvas so that interaction only ever starts from the work area.
