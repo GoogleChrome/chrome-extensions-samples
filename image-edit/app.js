@@ -64,24 +64,31 @@ function resetCrop() {
   };
 }
 
-function mouseDown (e) {
-  mouseLastCoords = { x: e.clientX, y: e.clientY };
+function getHandleHoverData(clientX, clientY) {
+  if (!img.width || !img.height)
+    return undefined;
 
   var canvasRect = canvas.getBoundingClientRect();
-  var x = e.clientX - canvasRect.left;
-  var y = e.clientY - canvasRect.top;
+  var x = clientX - canvasRect.left;
+  var y = clientY - canvasRect.top;
 
   var inner = getRectInCanvasCoords(cropSquare);
   var outer = getCropSquareHandlesInCanvasCoords();
   addRightAndBottomToRect(inner);
   addRightAndBottomToRect(outer);
 
-  mouseMovingCropParameter = {
-    x: x >= outer.x && x <= inner.x,
-    y: y >= outer.y && y <= inner.y,
-    w: x >= inner.r && x <= outer.r,
-    h: y >= inner.b && y <= outer.b
+  var movingParams = {
+    x: x >= outer.x && x <= inner.x && y >= outer.y && y <= outer.b,
+    w: x >= inner.r && x <= outer.r && y >= outer.y && y <= outer.b,
+    y: y >= outer.y && y <= inner.y && x >= outer.x && x <= outer.r,
+    h: y >= inner.b && y <= outer.b && x >= outer.x && x <= outer.r
   };
+  return movingParams;
+}
+
+function mouseDown (e) {
+  mouseLastCoords = { x: e.clientX, y: e.clientY };
+  mouseMovingCropParameter = getHandleHoverData(e.clientX, e.clientY);
 }
 
 function stopTrackingMouseDrag () {
@@ -94,6 +101,35 @@ function mouseMove(e) {
     moveCrop(e.clientX - mouseLastCoords.x,
              e.clientY - mouseLastCoords.y);
     mouseLastCoords = { x: e.clientX, y: e.clientY };
+  } else {
+    // Set mouse cursor.
+    var x = false;
+    var y = false;
+    var movingParams = getHandleHoverData(e.clientX, e.clientY);
+    var moveParamsString =
+        movingParams === undefined ? "undefined" :
+        (movingParams.y ? "n" : "") +
+        (movingParams.h ? "s" : "") +
+        (movingParams.x ? "w" : "") +
+        (movingParams.w ? "e" : "");
+    switch (moveParamsString) {
+      case "n":
+      case "nw":
+      case "ne":
+      case "s":
+      case "sw":
+      case "se":
+      case "w":
+      case "e":
+        moveParamsString += "-resize";
+        break;
+      case "undefined":
+        moveParamsString = "auto";
+        break;
+      default:
+        moveParamsString = "move";
+    };
+    canvas.style.cursor = moveParamsString;
   }
 }
 
@@ -141,6 +177,12 @@ function moveCrop(dx, dy) {
 }
 
 function updateScaleAndOffset() {
+  if (!img.width || !img.height) {
+    displayScale = undefined;
+    displayOffset = undefined;
+    return;
+  }
+
   // scale such that image fits on canvas.
   displayScale = 0.9 * Math.min(
     canvas.width / img.width,
@@ -154,6 +196,10 @@ function updateScaleAndOffset() {
 }
 
 function getRectInCanvasCoords(rect) {
+  updateScaleAndOffset();
+  if (!displayScale || !displayOffset)
+    return rect;
+
   return {
     x: displayScale * (displayOffset.x + rect.x),
     y: displayScale * (displayOffset.y + rect.y),
