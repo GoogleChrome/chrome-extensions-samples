@@ -514,9 +514,12 @@ function draggedDataDropped(data) {
 
 
 chooseFileButton.addEventListener('click', chooseFile);
-window.addEventListener('mousedown', mouseDown);
+// mousedown on canvas so that interaction only ever starts from the work area.
+canvas.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', stopTrackingMouseDrag);
 window.addEventListener('blur', stopTrackingMouseDrag);
+// mousemove on window so that mouse is captured during a drag, keeping
+// updates coming to the window and updating the app.
 window.addEventListener('mousemove', mouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
