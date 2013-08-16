@@ -142,7 +142,7 @@ function moveCrop(dx, dy) {
 
 function updateScaleAndOffset() {
   // scale such that image fits on canvas.
-  displayScale = Math.min(
+  displayScale = 0.9 * Math.min(
     canvas.width / img.width,
     canvas.height / img.height);
 
@@ -215,12 +215,6 @@ function drawCanvas() {
     cc.save();
     cc.fillStyle = cropStyle;
 
-    // Fill whole canvas.
-    cc.beginPath();
-    cc.rect(0, 0, canvas.width, canvas.height); // Fill whole canvas.
-    canvasRect(handlesCutout); // Cut out handles area.
-    cc.fill();
-
     // Handles.
     cc.beginPath();
     canvasRect(handlesXformed); // Fill handles.
@@ -240,18 +234,6 @@ function drawCanvas() {
     cc.shadowColor = "white";
     cc.fill();
     cc.restore();
-
-    // // Blur out of handles.
-    // cc.save();
-    // cc.beginPath();
-    // canvasRect(handlesXformed); // Fill handles.
-    // cc.clip();
-    // cc.beginPath();
-    // canvasRect(handlesXformed); // Cut out handles.
-    // cc.shadowBlur = 10;
-    // cc.shadowColor = "black";
-    // cc.fill();
-    // cc.restore();
 
     cc.restore();
   }
