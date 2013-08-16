@@ -39,7 +39,6 @@ function DnDFileController(selector, onDropCallback) {
       el_.classList.remove('dropping');
       overCount = 0;
     }
-    console.log('leave', overCount);
   };
 
   this.drop = function(e) {
