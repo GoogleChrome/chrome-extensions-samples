@@ -64,7 +64,7 @@ function resetCrop() {
   };
 }
 
-function canvasMouseDown (e) {
+function mouseDown (e) {
   mouseLastCoords = { x: e.clientX, y: e.clientY };
 
   var canvasRect = canvas.getBoundingClientRect();
@@ -89,7 +89,7 @@ function stopTrackingMouseDrag () {
   mouseMovingCropParameter = undefined;
 }
 
-function canvasMouseMove(e) {
+function mouseMove(e) {
   if (mouseLastCoords) {
     moveCrop(e.clientX - mouseLastCoords.x,
              e.clientY - mouseLastCoords.y);
@@ -468,10 +468,10 @@ function draggedDataDropped(data) {
 
 
 chooseFileButton.addEventListener('click', chooseFile);
-window.addEventListener('mousedown', canvasMouseDown);
+window.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', stopTrackingMouseDrag);
 window.addEventListener('blur', stopTrackingMouseDrag);
-window.addEventListener('mousemove', canvasMouseMove);
+window.addEventListener('mousemove', mouseMove);
 cropButton.addEventListener('click', crop);
 saveFileButton.addEventListener('click', saveFile);
 new DnDFileController('body', draggedDataDropped);
