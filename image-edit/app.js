@@ -268,14 +268,19 @@ function loadImageFromFile(file) {
 function loadImageFromURL(url) {
   clearState();
   img.onload = imageHasLoaded;
+  img.onerror = imageHasLoaded;
   img.src = url;
 }
 
 function imageHasLoaded() {
-    resetCrop();
-    drawCanvas();
+  if (img.width && img.height) {
     cropButton.disabled = false;
-    saveFileButton.disabled = false;
+  } else {
+    saveFileButton.disabled = true;
+    cropButton.disabled = true;
+  }
+  resetCrop();
+  drawCanvas();
 }
 
 function writeFileEntry(writableEntry, opt_blob, callback) {
@@ -332,6 +337,7 @@ function waitForIO(writer, callback) {
 function loadFileEntry(_chosenFileEntry) {
   chosenFileEntry = _chosenFileEntry;
   chosenFileEntry.file(function(file) {
+    saveFileButton.disabled = true;
     loadImageFromFile(file);
     displayPath(chosenFileEntry);
   });
@@ -384,6 +390,7 @@ function crop () {
       !cropSquare.w || !cropSquare.h ||
       !img.width || !img.height)
     return;
+  saveFileButton.disabled = false;
   var clippedRect = intersectRects(
     {x: 0, y: 0, w: img.width, h: img.height },
     cropSquare);
