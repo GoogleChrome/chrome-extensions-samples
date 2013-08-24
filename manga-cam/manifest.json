@@ -1,0 +1,19 @@
+{
+  "name": "Manga Cam",
+  "version": "0.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "28",
+  "description": "Take photos and turn it into manga-style.",
+  "offline_enabled": true,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": {
+    "16": "assets/camera-128.png",
+    "48": "assets/camera-128.png",
+    "128": "assets/camera-128.png"
+  },
+  "permissions": [ "videoCapture", "syncFileSystem" ]
+}

@@ -1,0 +1,95 @@
+html, div, body, canvas {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  -webkit-app-region: drag;
+  background: black;
+  overflow: hidden;
+}
+
+#container {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  text-align: center;
+}
+
+canvas {
+  height: 480px;
+  -webkit-transition: 1s opacity;
+}
+
+#main {
+  position: relative;
+  background: white;
+  height: 480px;
+}
+
+#list {
+  text-align: left;
+  padding: 10px;
+  padding-bottom: 15px;
+  height: 145px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: white;
+  border-top: 2px solid black;
+}
+
+#list img {
+  height: 120px;
+  background: black;
+  margin-left: 10px;
+  -webkit-transition: 1s opacity;
+  border: 1px solid black;
+  -webkit-app-region: no-drag;
+}
+
+.invisible {
+  -webkit-transition: 0s opacity;
+  opacity: 0;
+}
+
+#list img:first-child {
+  margin-left: 0;
+}
+
+button {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px none;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  outline: none;
+  cursor: pointer;
+  background: url(camera-button.png) center center, white;
+  background-size: 44px 44px;
+  position: absolute;
+  bottom: -22px;
+  margin-left: -22px;
+  z-index: 1000;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+button:disabled {
+  opacity: 0.7;
+}
+
+button:hover {
+  border-color: black;
+}
+
+button:active {
+  border-color: black;
+  -webkit-transform: translate3d(1px, 1px, 0);
+}
