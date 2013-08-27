@@ -6,7 +6,7 @@
   scripts = null;
   var include_re = /^#include\s*"([\w\.]+?)"\s*$/m;
   var rel_re = /(\/[^\/]+\/\.\.)|([^\/]+\/\.\.\/?)/g;
-  var root_re = /^[\w\-]*:\/\/[\w\-\.]+/;
+  var root_re = /^[\w\-]*:\/\/\/?[\w\-\.]+/;
   var loadingCache = {};
 
   function resolveShader(code, file, callback) {
@@ -31,6 +31,7 @@
       file = nf;
       nf = file.replace(rel_re, '');
     }
+
     if (root_re.exec(file)) {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", file, true);

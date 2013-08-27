@@ -35,15 +35,18 @@ canvas {
 }
 
 #list {
+  position: absolute;
   text-align: left;
   padding: 10px;
-  padding-bottom: 15px;
-  height: 145px;
+  padding-bottom: 25px;
+  height: 155px;
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   background: white;
+  width: 640px;
   border-top: 2px solid black;
+  -webkit-app-region: no-drag;
 }
 
 #list img {
@@ -79,6 +82,7 @@ button {
   margin-left: -22px;
   z-index: 1000;
   -webkit-transform: translate3d(0, 0, 0);
+  -webkit-app-region: no-drag;
 }
 
 button:disabled {
@@ -92,4 +96,20 @@ button:hover {
 button:active {
   border-color: black;
   -webkit-transform: translate3d(1px, 1px, 0);
+}
+
+#close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: white;
+  z-index: 1000;
+  -webkit-app-region: no-drag;
+}
+
+#close-button:hover {
+  font-weight: bold;
 }

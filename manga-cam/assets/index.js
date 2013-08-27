@@ -5,8 +5,9 @@ function createBlobFromeDataURL(base64DataURL) {
       base64DataURL.indexOf(';base64,') + ';base64,'.length);
   strippedData = atob(strippedData);
   var rawData = new Uint8Array(strippedData.length);
-  for (var i = 0; i < strippedData.length; i++)
+  for (var i = 0; i < strippedData.length; i++) {
     rawData[i] = strippedData.charCodeAt(i);
+  }
   return new Blob([rawData.buffer], {type: 'image/png'});
 }
 
@@ -126,6 +127,10 @@ function init(saveImage) {
         }
       };
       button.disabled = false;
+
+      document.querySelector('#close-button').onclick = function() {
+        chrome.app.window.current().close();
+      };
     }
 
     navigator.webkitGetUserMedia({video: true}, function (stream) {
@@ -147,12 +152,8 @@ function init(saveImage) {
   });
 }
 
-var saveImage = function (blob) {
-      imagesToSave.push([Date.now(), blob]);
-    },
-    imagesToSave = [];
-
-chrome.syncFileSystem.requestFileSystem(function (fileSystem) {
+window.onCreatedFileSystem = function (fileSystem) {
+  console.log('LOAD');
   if (chrome.runtime.lastError) {
     console.error(chrome.runtime.lastError);
     return;
@@ -169,6 +170,9 @@ chrome.syncFileSystem.requestFileSystem(function (fileSystem) {
         img.className = "invisible";
         img.draggable = true;
         img.src = this.result;
+        img.addEventListener('dragstart', function (event) {
+          event.dataTransfer.setData("image/png", file);
+        });
         var list = document.querySelector('#list');
         list.appendChild(img);
         list.scrollLeft = 0;
@@ -215,8 +219,13 @@ chrome.syncFileSystem.requestFileSystem(function (fileSystem) {
   }
 
   readEntries();
-});
+};
+
+
+var saveImage = function (blob) { imagesToSave.push([Date.now(), blob]); },
+    imagesToSave = [];
 
 init(function (blob) {
   saveImage(blob);
 });
+
