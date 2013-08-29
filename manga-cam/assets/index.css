@@ -26,12 +26,14 @@ body {
 canvas {
   height: 480px;
   -webkit-transition: 1s opacity;
+  background: black;
 }
 
 #main {
   position: relative;
   background: white;
   height: 480px;
+  text-align: center;
 }
 
 #list {
@@ -86,7 +88,7 @@ button {
 }
 
 button:disabled {
-  opacity: 0.7;
+  opacity: 0.3;
 }
 
 button:hover {
@@ -112,4 +114,16 @@ button:active {
 
 #close-button:hover {
   font-weight: bold;
+}
+
+#no-camera {
+  top: 330px;
+  font-family: Impact;
+  font-size: 35px;
+  position: relative;
+  z-index: 1000;
+  height: 0;
+  color: white;
+  text-shadow: 0 0 2px black;
+  display: none;
 }

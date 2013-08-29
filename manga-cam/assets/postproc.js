@@ -90,10 +90,9 @@ PostProcessor.prototype.createProgram = function (calculation, uniforms) {
     program.uniforms.width = this.width;
     program.uniforms.height = this.height;
     if (uniforms) {
-      var self = this;
-      uniforms.forEach(function (uniform, i) {
-        self.installUniform(program, uniform[0], uniform[1]);
-      });
+      for (var name in uniforms) {
+        this.installUniform(program, name, uniforms[name]);
+      }
     }
     success = true;
     return program;

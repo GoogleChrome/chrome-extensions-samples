@@ -18,7 +18,8 @@ function init(saveImage) {
     'shaders/sobel.fs.glsl',
     'shaders/copy.fs.glsl',
     'shaders/merge.fs.glsl',
-    'shaders/toonize.fs.glsl'
+    'shaders/toonize.fs.glsl',
+    'shaders/flake.fs.glsl'
   ], function (shaders) {
     var srcCanvas = document.createElement('canvas');
     srcCanvas.width = 1024;
@@ -33,17 +34,37 @@ function init(saveImage) {
     var copyProgram = postproc.createProgram(shaders[3]);
     var mergeProgram = postproc.createProgram(shaders[4]);
     var toonizeProgram = postproc.createProgram(shaders[5]);
+    var flakeProgram = postproc.createProgram(shaders[6], {time: '1f'});
 
     var origin = postproc.createInput();
     var blurred1 = postproc.createInput();
     var blurred2 = postproc.createInput();
     var sobel = postproc.createInput();
+    var oagTexture= postproc.createInput();
     var output = postproc.createInput();
 
-    var WIDTH = 800;
-    var HEIGHT = 600;
+
+    var WIDTH = 640;
+    var HEIGHT = 480;
     var video = document.createElement('video');
     var waitForPreview = 0;
+
+    var oagImage = new Image();
+    oagImage.src = "oag.jpg";
+    oagImage.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1024;
+      var ctx = canvas.getContext('2d');
+      ctx.translate(WIDTH, HEIGHT);
+      ctx.scale(-1, -1);
+      ctx.drawImage(oagImage, 0, 0, oagImage.width, oagImage.height, 0, 0, WIDTH, HEIGHT);
+      postproc.gl.bindTexture(postproc.gl.TEXTURE_2D, oagTexture);
+      postproc.gl.texImage2D(postproc.gl.TEXTURE_2D, 0, postproc.gl.RGBA, postproc.gl.RGBA, postproc.gl.UNSIGNED_BYTE, canvas);
+    };
+
+    document.querySelector('#close-button').onclick = function() {
+      chrome.app.window.current().close();
+    };
 
     function tick() {
       if (Date.now() < waitForPreview) {
@@ -71,6 +92,12 @@ function init(saveImage) {
 
       postproc.renderTexture(output);
       webkitRequestAnimationFrame(tick);
+    }
+
+    function flake() {
+      postproc.callProgram(flakeProgram, [oagTexture], output, {time: performance.now()});
+      postproc.renderTexture(output);
+      webkitRequestAnimationFrame(flake);
     }
 
     function prependNewPicture(dataUrl) {
@@ -127,10 +154,6 @@ function init(saveImage) {
         }
       };
       button.disabled = false;
-
-      document.querySelector('#close-button').onclick = function() {
-        chrome.app.window.current().close();
-      };
     }
 
     navigator.webkitGetUserMedia({video: true}, function (stream) {
@@ -148,12 +171,19 @@ function init(saveImage) {
       }, 100);
 
       bindEvents();
+    }, function () {
+      console.error("Cannot acquire user media.");
+      document.querySelector('#no-camera').style.display = 'block';
+      dstCanvas.width = WIDTH;
+      dstCanvas.height = HEIGHT;
+      srcCtx.translate(WIDTH, HEIGHT);
+      srcCtx.scale(-1, -1);
+      webkitRequestAnimationFrame(flake);
     });
   });
 }
 
 window.onCreatedFileSystem = function (fileSystem) {
-  console.log('LOAD');
   if (chrome.runtime.lastError) {
     console.error(chrome.runtime.lastError);
     return;
