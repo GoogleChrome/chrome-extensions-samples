@@ -15,5 +15,10 @@
     "48": "assets/camera-128.png",
     "128": "assets/camera-128.png"
   },
+  "requirements": {
+    "3D": {
+      "features": ["webgl"]
+    }
+  },
   "permissions": [ "videoCapture", "syncFileSystem" ]
 }
