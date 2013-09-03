@@ -10,7 +10,7 @@ is for them.
 ## Try it: [Keyboard Handler Sample](https://chrome.google.com/webstore/detail/keyboard-handler-sample/pcbbaldjljokfnnkphllabnpolciapjc)
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/hello-world/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/keyboard-handler/assets/screenshot_1280_800.png)
 
 ## Credit
 
