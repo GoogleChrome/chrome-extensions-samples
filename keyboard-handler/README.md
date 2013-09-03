@@ -1,0 +1,17 @@
+# Keyboard Handler Sample
+
+This sample handles all keyboard events (preventing default behavior) and
+maintains a dictionary of the state of each key.
+
+It provides an easy way to check if the key strokes you are interested in can
+be captured by a chrome packaged app, and learn what the appropriate keyCode
+is for them.
+
+## Try it: [Keyboard Handler Sample](https://chrome.google.com/webstore/detail/keyboard-handler-sample/pcbbaldjljokfnnkphllabnpolciapjc)
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/hello-world/assets/screenshot_1280_800.png)
+
+## Credit
+
+Icon image adapted from [David Peters, Wikimedia Foundation](http://commons.wikimedia.org/wiki/File:Keyboard-icon_Wikipedians.svg)

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- Simple keyboard state handler, Vincent Scheib. -->
+<!-- Adapted from http://www.cryer.co.uk/resources/javascript/script20_respond_to_keypress.htm -->
+<html>
+<head>
+  <style>
+    body {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Last events:</h1>
+  <table border="1" cellspacing="0">
+    <tbody>
+      <tr>
+        <th>KeyDown</th>
+        <th>KeyUp</th>
+        <th>KeyPress</th>
+      </tr>
+      <tr>
+        <td id="td-keydown" style="width: 12em" class="center">.</td>
+        <td id="td-keyup" style="width: 12em" class="center">.</td>
+        <td id="td-keypress" style="width: 12em" class="center">.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1>Dictionary of all key's state:</h1>
+  <pre id="keyStateDisplay">No key events captured yet.</pre>
+
+  <h1>Log of events:</h1>
+  <div id="keyLog"></div>
+  <script src="window.js"></script>
+</body>
+</html>
