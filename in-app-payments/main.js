@@ -40,19 +40,17 @@ document.getElementById('buyBtn').addEventListener('click', function() {
 document.getElementById('buyBtnProd').addEventListener('click', function() {
   google.payments.inapp.buy({
     parameters: {env: 'prod'},
-    jwt: 'eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9' +
-         '.eyJhdWQiOiAiR29vZ2xlIiwgImlzcyI6ICIwMjA' +
-         '1NTA5MDM4OTY2NTMxMzk3MSIsICJyZXF1ZXN0Ijo' +
-         'geyJwcmljZSI6ICIxLjk5IiwgImN1cnJlbmN5Q29' +
-         'kZSI6ICJVU0QiLCAic2VsbGVyRGF0YSI6ICJfc2V' +
-         'sbGVyX2RhdGFfIiwgIm5hbWUiOiAiU2FmZXR5bW9' +
-         '1c2UgUGF0Y2giLCAiZGVzY3JpcHRpb24iOiAiVGh' +
-         'lIHNhZmV0aWVzdCB3YXkgdG8gZGlzcGxheSB5b3V' +
-         'yIGZsYWlyIn0sICJleHAiOiAyNDY1NjMyODU2LCA' +
-         'iaWF0IjogMTM2NTYzMjg3NSwgInR5cCI6ICJnb29' +
-         'nbGUvcGF5bWVudHMvaW5hcHAvaXRlbS92MSJ9.nG' +
-         'U9n_DtjFTrTVWo20LcxVHhqh29fRh-BjICC9Vjma' +
-         '8',
+    jwt: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwMjA1NTA' +
+         '5MDM4OTY2NTMxMzk3MSIsImF1ZCI6Ikdvb2dsZSI' +
+         'sImlhdCI6MTM3ODgzNzI2MiwiZXhwIjoyMzc4ODM' +
+         '3MjYyLCJ0eXAiOiJnb29nbGUvcGF5bWVudHMvaW5' +
+         'hcHAvaXRlbS92MSIsInJlcXVlc3QiOnsibmFtZSI' +
+         '6IlZpcnR1YWwgQmFjb24iLCJkZXNjcmlwdGlvbiI' +
+         '6Ikp1c3Qgc29tZSB2aXJ0dWFsIGJhY29uLiIsInB' +
+         'yaWNlIjoiNS4wMCIsImN1cnJlbmN5Q29kZSI6IlV' +
+         'TRCIsInNlbGxlckRhdGEiOiJfc2VsbGVyX2RhdGF' +
+         'fIn19.utZ0Gop538zuXoE4bXAfctWabBWvjOxHVv' +
+         '89nUp/YrY=',
     success: logSuccess,
     failure: logFailure
   });
