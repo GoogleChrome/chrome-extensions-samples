@@ -33,7 +33,7 @@ function DnDFileController(selector, onDropCallback) {
   this.dragleave = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    //el_.classList.remove('dropping');
+    el_.classList.remove('dropping');
   };
 
   this.drop = function(e) {

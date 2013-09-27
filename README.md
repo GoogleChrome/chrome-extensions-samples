@@ -41,7 +41,7 @@ Webview:
 
 Identity/OAuth:
 * [appsquare](https://github.com/GoogleChrome/chrome-app-samples/tree/master/appsquare)
-* [gdocs](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gdocs)
+* [gdrive](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gdrive)
 * [github-auth](https://github.com/GoogleChrome/chrome-app-samples/tree/master/github-auth)
 * [identity](https://github.com/GoogleChrome/chrome-app-samples/tree/master/identity)
 * [instagram-auth](https://github.com/GoogleChrome/chrome-app-samples/tree/master/instagram-auth)

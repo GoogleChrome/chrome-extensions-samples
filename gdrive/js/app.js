@@ -71,17 +71,16 @@ function DocsController($scope, $http, gdocs) {
   function successCallbackWithFsCaching(resp, status, headers, config) {
     var docs = [];
 
-    var totalEntries = resp.feed.entry.length;
+    var totalEntries = resp.items.length;
 
-    resp.feed.entry.forEach(function(entry, i) {
+    resp.items.forEach(function(entry, i) {
       var doc = {
-        title: entry.title.$t,
-        updatedDate: Util.formatDate(entry.updated.$t),
-        updatedDateFull: entry.updated.$t,
-        icon: gdocs.getLink(entry.link,
-                            'http://schemas.google.com/docs/2007#icon').href,
-        alternateLink: gdocs.getLink(entry.link, 'alternate').href,
-        size: entry.docs$size ? '( ' + entry.docs$size.$t + ' bytes)' : null
+        title: entry.title,
+        updatedDate: Util.formatDate(entry.modifiedDate),
+        updatedDateFull: entry.modifiedDate,
+        icon: entry.iconLink,
+        alternateLink: entry.alternateLink,
+        size: entry.fileSize ? '( ' + entry.fileSize + ' bytes)' : null
       };
 
       // 'http://gstatic.google.com/doc_icon_128.png' -> 'doc_icon_128.png'
