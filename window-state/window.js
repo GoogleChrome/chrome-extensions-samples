@@ -42,10 +42,11 @@ function createNewWindow(optionsDictionary) {
   var bounds = chrome.app.window.current().getBounds();
   bounds.left = (bounds.left + newWindowOffset) % (screen.width - bounds.width);
   bounds.top = (bounds.top + newWindowOffset) % (screen.height - bounds.height);
-  optionsDictionary.left = bounds.left;
-  optionsDictionary.top = bounds.top;
-  optionsDictionary.width = bounds.width;
-  optionsDictionary.height = bounds.height;
+  optionsDictionary.bounds = {};
+  optionsDictionary.bounds.left = bounds.left;
+  optionsDictionary.bounds.top = bounds.top;
+  optionsDictionary.bounds.width = bounds.width;
+  optionsDictionary.bounds.height = bounds.height;
 
   chrome.app.window.create('window.html', optionsDictionary, callback);
 };
