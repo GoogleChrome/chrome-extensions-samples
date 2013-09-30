@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="dialog.js"></script>
+</head>
+<body>
+	<!-- The dialog element can be enabled in Chrome 31 and higher using a setting in chrome://flags.
+		Look for the "Enable experimental Web Platform features" flag and make sure it is enabled -->
+	<dialog id="dialog1">
+		<h1>Dialog Title</h1>
+		<div>
+			<p>This is the dialog content</p>
+			<button id="close">Close</button>
+		</div>
+	</dialog>
+	<h1>Dialog Element Example</h1>
+
+	<p>Demonstrates how to use the &lt;dialog&gt; element in a Chrome App to implement in-app dialogs</p>
+	<button id="show">Open Modal Dialog</button>    
+	<p id="result"></p>
+</body>
+</html>
