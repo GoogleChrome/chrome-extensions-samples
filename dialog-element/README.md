@@ -1,36 +1,30 @@
-# Hello World
+# Dialog Element
 
-This is a starter application. It contains a basic manifest file with no
-additional permissions. The manifest denotes a background script, main.js,
-detailed below:
+The WHATWG defines a new element called `<dialog>` that can be used to define modal and modeless dialogs within an HTML page. This example shows how to use this new element.
+
+NOTE: This sample requires M31 or later in Chrome, and if necessary you might have to enable experimental web features in the chrome://flags page.
 
 ```javascript
-chrome.app.runtime.onLaunched.addListener(function() {
-  // Center window on screen.
-  var screenWidth = screen.availWidth;
-  var screenHeight = screen.availHeight;
-  var width = 500;
-  var height = 300;
+var dialog = document.querySelector('#dialog1');
+document.querySelector('#show').addEventListener("click", function(evt) {
+  dialog.showModal();
+});
+document.querySelector('#close').addEventListener("click", function(evt) {
+  dialog.close("thanks!");
+});
 
-  chrome.app.window.create('index.html', {
-    bounds: {
-      width: width,
-      height: height,
-      left: Math.round((screenWidth-width)/2),
-      top: Math.round((screenHeight-height)/2)
-    }
-  });
+dialog.addEventListener("close", function(evt) {
+  document.querySelector('#result').textContent = "You closed the dialog with: " + dialog.returnValue;
+});
+
+// called when the user Cancels the dialog, for example by hitting the ESC key
+dialog.addEventListener("cancel", function(evt) {
+  dialog.close("canceled");
 });
 ```
-
-This simply waits for the launch event for the application (`chrome.app.runtime.onLaunched.addListener`)
-and, at that point, creates a window using a basic HTML page, index.html, as the source.
 
 ## Resources
 
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
      
-## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/hello-world/assets/screenshot_1280_800.png)
-
