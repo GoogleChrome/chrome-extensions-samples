@@ -6,15 +6,11 @@
   "oauth2": {
     "client_id": "665859454684.apps.googleusercontent.com",
     "scopes": [
-      "https://docs.google.com/feeds/",
-      "https://docs.googleusercontent.com/",
-      "https://spreadsheets.google.com/feeds/",
       "https://www.googleapis.com/auth/drive"
     ]
   },
   "icons": {
-    "16": "img/google_drive_logo.jpg",
-    "128": "img/google_drive_logo.jpg"
+    "128": "icon_128.png"
   },
   "key": "aabbccopbagaaaaahnncndkckdpmpado",
   "app": {

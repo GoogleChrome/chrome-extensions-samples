@@ -41,9 +41,9 @@ body ::-webkit-scrollbar-corner {
 }
 
 body {
-  padding: 15px;
+  padding: 0 15px 15px 15px;
   overflow: hidden;
-  background: url(../img/google_drive_logo.jpg) no-repeat 80% 20%,
+  background: url(../img/google_drive_bg.png) no-repeat center center,
               -webkit-linear-gradient(bottom, #eee, rgba(255,255,255,0));
   background-size: 270px 215px, 100%;
   font-family: 'Droid Sans', sans-serif;
@@ -53,7 +53,11 @@ body.dropping > #main {
   -webkit-filter: blur(2px);
 }
 
+#dropper {
+  visibility: hidden;
+}
 .dropping #dropper {
+  visibility: visible;
   display: -webkit-flex;
   opacity: 1;
   pointer-events: all;
@@ -107,8 +111,14 @@ li {
 }
 
 #main > nav {
+  padding-top: 15px;
   margin-bottom: 10px;
+  -webkit-app-region: drag;
 }
+
+#main > nav button {
+  -webkit-app-region: no-drag;
+} 
 
 nav > h2 {
   display: inline-block;
@@ -126,6 +136,15 @@ nav:hover #close-button {
   font-weight: bold;
   opacity: 0;
   -webkit-transition: all 0.3s ease-in-out;
+}
+
+.uploading progress {
+  visibility: visible;
+}
+
+progress {
+  visibility: hidden;
+  width: 100%;
 }
 
 .date {

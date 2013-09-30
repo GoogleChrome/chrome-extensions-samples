@@ -27,7 +27,7 @@ function ResumableUploader(initObj) {
   var chunkSize_ = initObj.chunkSize || this.DEFAULT_CHUNK_SIZE;
   var uploadUri_ = null;
   var token_ = initObj.accessToken;
-  //var progressBar_ = initObj.progressBar || null;
+  var progressBar_ = initObj.progressBar || null;
 
   var commonHeaders_ = {
     'GData-Version': '3.0',
@@ -69,16 +69,13 @@ function ResumableUploader(initObj) {
     };
 
     if (!entry) {
-      entry = "<?xml version='1.0' encoding='UTF-8'?>\
-          <entry xmlns='http://www.w3.org/2005/Atom' xmlns:docs='http://schemas.google.com/docs/2007'>\
-            <title>" + this.file.name + "</title>\
-          </entry>";
+      entry = JSON.stringify({"title": this.file.name});
     }
 
     headers = Util.merge(commonHeaders_, Util.merge({
       'X-Upload-Content-Type': contentType_,
       'X-Upload-Content-Length': totalFileSize_,
-      'Content-Type': 'application/atom+xml'
+      'Content-Type': 'application/json'
     }, headers));
 
     xhr.open('POST', url);
@@ -99,20 +96,16 @@ function ResumableUploader(initObj) {
 
     var xhr = new XMLHttpRequest();
 
-/*
-    // FF needs to set event before xhr.open.
     xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
+      console.log(e);
+      if (progressBar_ && e.lengthComputable) {
         var percentComplete = (e.loaded / e.total) * 100;
-        if (progressBar_) {
-          progressBar_.value = percentComplete;
-        }
+        progressBar_.setAttribute('value', percentComplete);
       }
     };
-*/
 
     xhr.onload = function(e) {
-      if (this.status == 201) {  // Done. <entry> created on server.
+      if (this.status === 201 || this.status === 200) {  // Done. <entry> created on server.
         onComplete(this.response);
       } else if (this.status == 401) {
         onUnauthorized();

@@ -20,7 +20,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 <head>
 <meta charset="utf-8" />
 <title>Google Drive Uploader</title>
-<link rel="stylesheet" media="all" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" media="all" href="css/bootstrap.css">
 <link rel="stylesheet" media="all" href="css/main.css">
 <base target="_blank">
 </head>
@@ -36,9 +36,9 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
     <button id="authorize-button" class="btn" data-ng-click="toggleAuth(true)">{{authButtonLabel()}}</button>
     <button class="btn" data-ng-click="fetchDocs(flase)">Refresh</button>
     <button class="btn" id="close-button" title="Close">x</button>
-    <!--<input type="file" name="file">-->
   </nav>
 
+  <progress value="0" min="0" max="100"></progress>
   <ul>
     <li data-ng-repeat="doc in docs">
       <!-- crbug.com/120693. Anchors need target="_blank", but <base> is taking care of this for us :) -->

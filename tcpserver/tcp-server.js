@@ -22,7 +22,6 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
   // Define some local variables here.
   var socket = chrome.socket || chrome.experimental.socket;
-  var dns = chrome.experimental.dns;
 
   /**
    * Creates an instance of the client
