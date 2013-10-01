@@ -167,6 +167,7 @@ $('#newWindowMinimized').onclick = function(e) {
 var wasFullscreen = [];
 var wasMaximized = [];
 var wasMinimized = [];
+var wasHidden = [];
 var wasStateDelay = 10 * 1000;
 
 // Stash values into 'was' variables and clear them out after a delay.
@@ -181,16 +182,19 @@ function updateCurrentStateReadout() {
   $('#isFullscreen').checked = chrome.app.window.current().isFullscreen();
   $('#isMaximized' ).checked = chrome.app.window.current().isMaximized();
   $('#isMinimized' ).checked = chrome.app.window.current().isMinimized();
+  $('#isHidden'    ).checked = document.webkitHidden;
 
   // Stash values into 'was' variables and clear them out after a delay.
   setWasState(wasFullscreen, chrome.app.window.current().isFullscreen());
   setWasState(wasMaximized, chrome.app.window.current().isMaximized());
   setWasState(wasMinimized, chrome.app.window.current().isMinimized());
+  setWasState(wasHidden, document.webkitHidden);
 
   // Display the current 'was' variables.
   $('#wasFullscreen').checked = wasFullscreen.length > 0;
   $('#wasMaximized' ).checked = wasMaximized.length > 0;
   $('#wasMinimized' ).checked = wasMinimized.length > 0;
+  $('#wasHidden'    ).checked = wasHidden.length > 0;
 
   // Also update the hinted window size
   $('#moveWindowLeft').placeholder = chrome.app.window.current().getBounds().left;
