@@ -15,5 +15,5 @@
    "name": "Push Messaging Sample",
    "permissions": [ "notifications", "pushMessaging" ],
    "update_url": "http://clients2.google.com/service/update2/crx",
-   "version": "1.3"
+   "version": "1.4"
 }

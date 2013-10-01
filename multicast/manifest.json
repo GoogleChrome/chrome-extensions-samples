@@ -1,6 +1,6 @@
 {
   "name": "Multicast Chat Sample",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 2,
   "minimum_chrome_version": "27",
   "description": "Sending/Receiving multicast diagrams.",

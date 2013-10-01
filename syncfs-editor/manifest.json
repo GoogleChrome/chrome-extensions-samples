@@ -1,6 +1,6 @@
 {
   "name": "Sync FileSystem Sample",
-  "version": "0.287",
+  "version": "0.288",
   "manifest_version": 2,
   "description": "SyncFS editor (syncFileSystem sample)",
   "icons": {

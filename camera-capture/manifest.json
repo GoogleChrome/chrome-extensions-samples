@@ -1,6 +1,6 @@
 {
   "name": "Camera Capture Sample",
-  "version": "1",
+  "version": "2",
   "manifest_version": 2,
   "icons": {
     "16": "camera.png",

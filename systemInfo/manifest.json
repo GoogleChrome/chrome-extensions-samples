@@ -1,6 +1,6 @@
 {
  "name": "SystemInfo Sample",
- "version": "0.1",
+ "version": "0.2",
  "permissions": ["system.cpu", "system.memory", "system.storage"],
  "minimum_chrome_version": "29",
  "manifest_version": 2,

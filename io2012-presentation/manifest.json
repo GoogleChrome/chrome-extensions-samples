@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Apps I/O 2012 Presentation",
   "description": "Chrome Apps IO 2012 presentation.",
-  "version": "1.1",
+  "version": "1.2",
   "minimum_chrome_version": "23",
   "app": {
     "background": {

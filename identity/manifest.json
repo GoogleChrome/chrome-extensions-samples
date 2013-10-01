@@ -1,6 +1,6 @@
 {
   "name": "Identity API Sample",
-  "version": "1",
+  "version": "2",
   "manifest_version": 2,
   "minimum_chrome_version": "29",
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCPZPLeXCmc7wl3qYdOMhhn+NudVFGLamgy7o7eO0p9N8RlYRbCQd69zFccioAMQEO4OwJdcnGA/3eCjOxqpaIYZcwNa0bbaAvOQtSLNIJGXHHtRZ1GnEvwwWDW5OtPDV5btCuud1u64/TYXzTBB3qVHC8DWsEH8Z2H65TALa+vEwIDAQAB",

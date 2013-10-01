@@ -1,7 +1,7 @@
 {
   "name": "Heart Rate Monitor Integration Sample",
   "description": "Demo of Zephyr HXM Heart Rate Monitor interaction",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "minimum_chrome_version": "23",
   "app": {

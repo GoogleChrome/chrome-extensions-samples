@@ -2,7 +2,7 @@
   "name": "Chrome In-App Payments Sample",
   "description": "App to test Chrome In-App Payments.",
   "manifest_version": 2,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "minimum_chrome_version": "29",
   "app": {
     "background": {

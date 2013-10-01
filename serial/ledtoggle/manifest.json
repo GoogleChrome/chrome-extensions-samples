@@ -1,6 +1,6 @@
 {
   "name": "Serial Test",
-  "version": "1",
+  "version": "2",
   "manifest_version": 2,
   "permissions": ["serial"],
   "minimum_chrome_version": "23",
