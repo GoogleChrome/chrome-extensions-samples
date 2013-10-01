@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ajjcafkkflbcealbcfjajolnkogffgcb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Hello World storage.sync
 
 Use chrome.storage.sync to share small chunks of data among all of your Chrome devices. To test, open this app in two different devices, both signed in with the same user.

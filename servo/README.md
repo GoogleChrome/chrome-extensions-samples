@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lhedgapiolhajjkgokaplenafmdppmak">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Arduino servo control
 
 Note: on Mac OS X Lion, it's necessary to update USB Serial drivers:

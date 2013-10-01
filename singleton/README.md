@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/amimibkjbhghkicjojoapmhdpmklooen">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Singleton window
 
 Sample that shows how to use the [window API](http://developer.chrome.com/trunk/apps/appWindow.html) in an app to have a "singleton" window app.

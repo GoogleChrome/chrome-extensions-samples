@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lfkebofdngpbnooppdhiibpdpepgjoch">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # SystemInfo Sample
 
 Shows how to use experimental systemInfo APIs to query system information, such

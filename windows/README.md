@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ldenchfohdfgggloeimambnckhjpedgc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Copycat Window
 
 Sample that shows how to use the [window API](http://developer.chrome.com/trunk/apps/app.window.html) to create a window with a custom frame and manipulate its properties.

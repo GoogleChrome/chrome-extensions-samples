@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lhdfniaagbjbipjmgfbnlbcmlbcgklkh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Parrot AR.Drone 2.0 Controller
 
 This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/) and the [chrome.socket API](http://developer.chrome.com/apps/socket.html) to communicate with

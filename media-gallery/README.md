@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lidepfgfmameopopgagobnpndcnfgbnk">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Media Gallery
 
 This is a sample application that uses the [media gallery](http://developer.chrome.com/apps/mediaGalleries.html) API to read and show user's media without requiring direct filesystem permission.

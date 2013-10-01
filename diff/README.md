@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/neifiophhpiohjlhiohlhlekkfokcepk">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Diff
 
 A non-trivial application to diff two files choosen by the user. This app shows how you can open for reading and for writing files in the user's computer, as long as the file was explicitly selected by the user. It uses the Filesystem API, which is an extension of the HTML5 Filesystem API.

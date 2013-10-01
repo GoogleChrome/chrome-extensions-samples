@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/bpncolcpekidijienghhkibflikohggn">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Storage simple test
 
 A very basic application that demonstrates the Filesystem API. It allows you to request a filesystem, write a sample file to it and query how many bytes are available.

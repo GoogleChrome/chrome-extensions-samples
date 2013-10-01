@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/jpabeekbjicamajjcfejnochhmlbpgjh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Google Drive Uploader
 
 Uses the `chrome.identity.getAuthToken()` API to perform OAuth2 and

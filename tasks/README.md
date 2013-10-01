@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/licakmgdnppmfjlkgijcbnobnkoaegko">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Tasks app using GAPI
 
 Demonstrates the usage of GAPI by listing user's Google Tasks. It can be either

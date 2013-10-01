@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/hknlnnbpihcamokfeggmahjgldbcpkof">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # IOIO Bluetooth device
 
 Very simple IOIO client. Tested with [this hardware](http://www.adafruit.com/blog/2012/06/15/new-product-ioio-mint-portable-android-development-kit/)

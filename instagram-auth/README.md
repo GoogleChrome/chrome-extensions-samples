@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/baaenjnmlaejajnalldcecpdafeggelb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Instagram Demo
 
 This is a basic Instagram client implemented as a packaged app.  This demonstration simply displays the users logged-in view as raw JSON.
