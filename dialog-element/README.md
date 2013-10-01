@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/mikhnkopoddcomlgmcjgfnaccjhibiec">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Dialog Element
 
 The WHATWG defines a new element called `<dialog>` that can be used to define modal and modeless dialogs within an HTML page. This example shows how to use this new element.
