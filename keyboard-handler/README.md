@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/jgieggggglldojfkjgghidmkfpbcamml">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/keyboard-handler-sample/pcbbaldjljokfnnkphllabnpolciapjc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Keyboard Handler Sample
@@ -9,8 +9,6 @@ maintains a dictionary of the state of each key.
 It provides an easy way to check if the key strokes you are interested in can
 be captured by a chrome packaged app, and learn what the appropriate keyCode
 is for them.
-
-## Try it: [Keyboard Handler Sample](https://chrome.google.com/webstore/detail/keyboard-handler-sample/pcbbaldjljokfnnkphllabnpolciapjc)
 
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/keyboard-handler/assets/screenshot_1280_800.png)

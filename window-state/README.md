@@ -1,12 +1,10 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/gjijpbgljcllmmhmbcdcaegdandpgpml">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/window-state-sample/hcbhfbnaaancmblfhdknlnojpafjohbi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Window State Sample
 
 Demonstrates transitioning the window into minimized, maximized, fullscreen
 and hidden states. Includes HTML5 requestFullscreen and app.window.fullscreen().
-
-## Try it: [Window State Sample](https://chrome.google.com/webstore/detail/window-state-sample/hcbhfbnaaancmblfhdknlnojpafjohbi)
 
 ## Resources
 
