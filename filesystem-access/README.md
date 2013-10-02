@@ -3,7 +3,9 @@
 
 # Filesystem access
 
-Shows basic usage of accessing (read/write) files using the `chrome.fileSystem` API.
+Shows basic usage of accessing (read/write) files and directories using the `chrome.fileSystem` API.
+
+NOTE: This sample requires Milestone 31 or later of Chrome, since it uses the new directory permission.
 
 ## Try it: [Filesystem Access Example](https://chrome.google.com/webstore/detail/filesystem-access-example/lgagklodbbhcljogcdhmjfpgpcohedcp)
 
