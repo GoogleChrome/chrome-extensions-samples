@@ -23,6 +23,7 @@ function setUpContextMenus(sContext) {
 		    CONTEXT_MENU_CONTENTS.forWindows.forEach(function(commandId) {
 		      chrome.contextMenus.create({
 		        title: 'A: ' + commandId,
+		        type: 'radio',
 		        id: commandId,
 		        contexts: ['all']
 		      });
@@ -44,6 +45,7 @@ function setUpContextMenus(sContext) {
 		    CONTEXT_MENU_CONTENTS.forWindows.forEach(function(commandId) {
 		      chrome.contextMenus.create({
 		        title: 'B: ' + commandId,
+		        type: 'checkbox',
 		        id: commandId,
 		        contexts: ['all']
 		      });

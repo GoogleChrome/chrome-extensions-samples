@@ -63,7 +63,7 @@ textarea {
   height: 200px;
   outline: none;
   padding: 1px;
-  font-size: 20px;
+  font-size: 14pt;
   padding: 1em;
 }
 output {
@@ -77,10 +77,11 @@ output {
 
 <nav>
   <button id="choose_file">Choose File</button>
-  <button id="write_file" hidden disabled>Write File</button>
+  <button id="choose_dir">Choose Directory</button>
 </nav>
 
 Path: <input type="text" id="file_path" readonly>
+<span>Size: <span id="file_size"></span> bytes</span>
 
 <output></output>
 
