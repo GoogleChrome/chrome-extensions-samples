@@ -19,6 +19,8 @@ var Guestbook = function() {
   this.registered = false;
   this.verified = false;
   this.listening = false;
+  this.creatingWindow = false;
+  this.hasWindow = false;
   this.listeners = {};
 
   this.wantsSubscriptionVerification = false;
@@ -40,7 +42,6 @@ Guestbook.prototype.log = function(message, data) {
   }
 };
 
-
 /**
  * Returns a callback bound to the guestbook object.  The
  * callback must be an attribute of the guestbook object.
@@ -53,13 +54,12 @@ Guestbook.prototype.log = function(message, data) {
  */
 Guestbook.prototype.cb = function(eventName, otherArgs) {
   var bindArgs = [this];
-  if (typeof otherArgs !== 'array') {
+  if (Object.prototype.toString.call(otherArgs) !== '[object Array]') {
     otherArgs = [];
   }
   var bind = Function.prototype.bind;
   return bind.apply(this[eventName], bindArgs.concat(otherArgs));
 };
-
 
 /**
  * Sets up the Remote Alarm.
@@ -76,7 +76,6 @@ Guestbook.prototype.initialize = function() {
   chrome.app.runtime.onLaunched.addListener(this.cb('onLaunched'));
 };
 
-
 /**
  * Determines if everything required has been done to listen to messages.
  *
@@ -86,11 +85,10 @@ Guestbook.prototype.initialize = function() {
  */
 Guestbook.prototype.ready = function() {
   return (typeof this.channelId !== 'undefined') &&
-         typeof this.verified &&
+         this.verified &&
          this.registered &&
          this.listening;
 };
-
 
 /**
  * Executed once everything has been done to start receiving messages
@@ -101,7 +99,6 @@ Guestbook.prototype.onReady = function() {
   this.log("Whew! We're ready to roll!");
 };
 
-
 /**
  * Event handler fired when the channel ID has been returned from Chrome.
  *
@@ -109,18 +106,36 @@ Guestbook.prototype.onReady = function() {
  * @param {?Object} message An object containing the channel id.
  */
 Guestbook.prototype.onGotChannelId = function(message) {
-  if (!message || !message.channelId) {
-    // XXX: retry on error?
-    this.log('Channel ID not found. Eek!');
-    return;
+  // This could be called again on error posting the channel ID to the server.
+  if (typeof this.channelId !== 'string') {
+    if (!message || !message.channelId) {
+      // XXX: retry on error?
+      this.log('Channel ID not found. Eek!');
+      return;
+    }
+    console.log('Channel ID discovered. Value: ' + message.channelId);
+    this.channelId = message.channelId;
+    this.wantsSubscriptionVerification = true;
   }
-  console.log('Channel ID discovered. Value: ' + message.channelId);
-  this.channelId = message.channelId;
-  this.wantsSubscriptionVerification = true;
-  this.tellServer({ channelId: this.channelId });
+
+  this.tellServer({ channelId: this.channelId },
+      this.cb('sendChannelIdToServerFailed', [message]));
   if (this.ready() && this.onReady) {
     this.onReady();
   }
+};
+
+/**
+ * Retries sending the channel id to the server if it fails.
+ *
+ * @this Guestbook
+ * @param {?Object} message An object containing the channel id.
+ */
+Guestbook.prototype.sendChannelIdToServerFailed = function(message) {
+  var ms = 5000;
+  var onTimeout = this.cb('onGotChannelId', [message]);
+  console.log('Got error sending the channel id. Retrying in ' + ms + ' ms.');
+  setTimeout(onTimeout, ms);
 };
 
 /**
@@ -132,7 +147,7 @@ Guestbook.prototype.onGotChannelId = function(message) {
  */
 Guestbook.prototype.onMessage = function(message) {
   this.log('Got Message', message);
-  if (typeof message.payload === "string" && message.payload.length == 0) {
+  if (typeof message.payload === 'string' && message.payload.length == 0) {
     return;
   }
 
@@ -155,8 +170,9 @@ Guestbook.prototype.onMessage = function(message) {
 Guestbook.prototype.onGuestbookEntry = function(message) {
   this.log('Normal message', message);
   this.theLastMessage = message.payload;
-  if (this.theWindow) {
-    var doc = this.theWindow.contentWindow.document;
+  if (this.hasWindow) {
+    var win = chrome.app.window.current();
+    var doc = win.contentWindow.document;
     var messageContainer = doc.getElementById('last-message');
     messageContainer.innerText = message.payload;
   }
@@ -192,7 +208,6 @@ Guestbook.prototype.startListening = function() {
   }
 };
 
-
 /**
  * Notifies Chrome to stop sending messages to this Guestbook
  *
@@ -212,16 +227,25 @@ Guestbook.prototype.stopListening = function() {
  * Handles the server response to our subscription request.
  *
  * @this Guestbook
- * @param {Object} xhrEvent The event on XHR state change.
+ * @param {Object} xhr The XHR object
+ * @param {Function} onerror The event on XHR state change.
  */
-Guestbook.prototype.onXHR = function(xhrEvent) {
-  var xhr = xhrEvent.target;
-  if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status <= 300) {
+Guestbook.prototype.onXHR = function(xhr, onerror) {
+  if (xhr.readyState !== 4)
+    return;
+
+  if (xhr.status >= 200 && xhr.status <= 300) {
     this.log('Got a 2xx response');
     this.log(xhr.responseText);
 
     this.xhrResponse = JSON.parse(xhr.responseText);
     this.theLastMessage = this.xhrResponse.lastMessage;
+    if (this.hasWindow) {
+      var win = chrome.app.window.current();
+      var doc = win.contentWindow.document;
+      var messageContainer = doc.getElementById('last-message');
+      messageContainer.innerText = this.theLastMessage;
+    }
 
     this.registered = true;
     if (this.ready() && this.onReady) {
@@ -229,10 +253,24 @@ Guestbook.prototype.onXHR = function(xhrEvent) {
     }
   } else {
     this.log('Unknown response.');
+    if (onerror && typeof(onerror) == 'function')
+      onerror(xhr);
   }
 };
 
-
+/**
+ * Retries the verification message if there is an error.
+ *
+ * @this Guestbook
+ * @param {String} verifier The code that will tell the server we can receive
+ *                 messages for this channel ID.
+ */
+Guestbook.prototype.onVerificationError = function(verifier) {
+  this.verified = false;
+  var ms = 5000;
+  console.log('Got verification error. Retrying in ' + ms + ' ms.');
+  setTimeout(function() { this.sendVerificationMessage(verifier); }, ms);
+};
 
 /**
  * Dispatches the verification message to the server.
@@ -245,10 +283,9 @@ Guestbook.prototype.sendVerificationMessage = function(verifier) {
   this.tellServer({
     channelId: this.channelId,
     verifier: verifier
-  });
+  }, this.cb('onVerificationError', [verifier]));
   this.verified = true;
 };
-
 
 /**
  * Dispatches a request to a remote application server.
@@ -260,22 +297,21 @@ Guestbook.prototype.sendVerificationMessage = function(verifier) {
  *
  * @this Guestbook
  * @param {Object} params The things to tell the server.
+ * @param {Function} onerror Callback if there is a problem telling the server.
  */
-Guestbook.prototype.tellServer = function(params) {
+Guestbook.prototype.tellServer = function(params, onerror) {
   var xhr = new XMLHttpRequest();
 
   this.log('Notifying the server');
-  xhr.open('POST', 'http://localhost:8080/monitor');
-  xhr.onreadystatechange = this.cb('onXHR', [xhr]);
+  xhr.open('POST', 'http://dewittj2.kir:8080/monitor');
+  xhr.onreadystatechange = this.cb('onXHR', [xhr, onerror]);
   xhr.send(JSON.stringify(params));
 };
-
 
 /**
  * TODO - application level request to cancel push messages.
  */
 Guestbook.prototype.unsubscribe = function() { };
-
 
 /**
  * Removes the reference to a closed window.
@@ -283,9 +319,8 @@ Guestbook.prototype.unsubscribe = function() { };
  * @this Guestbook
  */
 Guestbook.prototype.onWindowClosed = function() {
-  this.theWindow = undefined;
+  this.hasWindow = false;
 };
-
 
 /**
  * Responds to the app window being created by setting the message and tracking
@@ -295,8 +330,8 @@ Guestbook.prototype.onWindowClosed = function() {
  * @param {Object} theWindow the window object that was created.
  */
 Guestbook.prototype.onWindowCreated = function(theWindow) {
-  this.theWindow = theWindow;
-  this.theWindow.onClosed.addListener(this.cb('onWindowClosed'));
+  this.creatingWindow = false;
+  this.hasWindow = true;
   var message = this.theLastMessage;
   if (message) {
     var doc = theWindow.contentWindow.document;
@@ -316,10 +351,16 @@ Guestbook.prototype.onWindowCreated = function(theWindow) {
  */
 Guestbook.prototype.onLaunched = function() {
   console.log('Application launched.');
-  if (this.theWindow) {
-    this.theWindow.show();
-  } else {
-    var win = chrome.app.window;
-    win.create('last.html', {id: 'last-window'}, this.cb('onWindowCreated'));
+  var opt = {id: 'last-window'};
+
+  if (this.creatingWindow)
+    return;
+
+  if (this.hasWindow) {
+    chrome.app.window.current.show();
+    return;
   }
+
+  this.creatingWindow = true;
+  chrome.app.window.create('last.html', opt, this.cb('onWindowCreated'));
 };
