@@ -134,8 +134,7 @@ function DocsController($scope, $http, gdocs) {
       var config = {
         params: {'alt': 'json'},
         headers: {
-          'Authorization': 'Bearer ' + gdocs.accessToken,
-          'GData-Version': '3.0'
+          'Authorization': 'Bearer ' + gdocs.accessToken
         }
       };
 

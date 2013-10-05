@@ -93,7 +93,6 @@ GDocs.prototype.makeRequest = function(method, url, callback, opt_data, opt_head
 
   // Include common headers (auth and version) and add rest. 
   xhr.setRequestHeader('Authorization', 'Bearer ' + this.accessToken);
-  xhr.setRequestHeader('GData-Version', '3.0');
   for (var key in headers) {
     xhr.setRequestHeader(key, headers[key]);
   }
@@ -115,32 +114,34 @@ GDocs.prototype.makeRequest = function(method, url, callback, opt_data, opt_head
  * Uploads a file to Google Docs.
  */
 GDocs.prototype.upload = function(blob, callback, retry) {
-  var uploader = new ResumableUploader({
-    accessToken: this.accessToken,
-    file: blob,
-    //chunkSize: 1024*1024,
-    progressBar: document.getElementById('#progress')
-  });
 
-  document.getElementById('main').classList.add('uploading');
-
-  uploader.uploadFile(
-    { resumableMediaLink: this.CREATE_SESSION_URI }, 
-    function(response) {
+  var onComplete = function(response) {
       document.getElementById('main').classList.remove('uploading');
       var entry = JSON.parse(response).entry;
       callback.apply(this, [entry]);
-    }.bind(this), 
-    function() {
+    }.bind(this);
+  var onError = function(response) {
       if (retry) {
         this.removeCachedAuthToken(
             this.auth.bind(this, true, 
                 this.upload.bind(this, blob, callback, false)));
       } else {
         document.getElementById('main').classList.remove('uploading');
-        throw new Error('Error: HTTP 401 returned');
+        throw new Error('Error: '+response);
       }
-    }.bind(this));
+    }.bind(this);
+
+
+  var uploader = new MediaUploader({
+    token: this.accessToken,
+    file: blob,
+    onComplete: onComplete,
+    onError: onError
+  });
+
+  document.getElementById('main').classList.add('uploading');
+  uploader.upload();
+
 };
 
 
