@@ -9,9 +9,9 @@ as CPU, memory and disk storage etc.
 ## APIs
 * [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-* [CPU](http://developer.chrome.com/trunk/apps/experimental.systemInfo.cpu.html)
-* [Memory](http://developer.chrome.com/trunk/apps/experimental.systemInfo.memory.html)
-* [Storage](http://developer.chrome.com/trunk/apps/experimental.systemInfo.storage.html)
+* [CPU](http://developer.chrome.com/trunk/apps/system_cpu.html)
+* [Memory](http://developer.chrome.com/trunk/apps/system_memory.html)
+* [Storage](http://developer.chrome.com/trunk/apps/system_storage.html)
 
 ## Screenshot
 
