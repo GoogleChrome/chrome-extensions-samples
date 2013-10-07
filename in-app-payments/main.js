@@ -31,18 +31,7 @@ var jwts = {
     'gY2FrZSIsInNlbGxlckRhdGEiOiJZb3VyIERhdGE' +
     'gSGVyZSJ9fQ.sXd39R7MNNfDFa-jnlTNu2C2te-_' +
     'x9--87Phfdr5GrE',
-  'prod':
-    'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIwMjA1NTA' +
-    '5MDM4OTY2NTMxMzk3MSIsImF1ZCI6Ikdvb2dsZSI' +
-    'sImlhdCI6MTM3ODgzNzI2MiwiZXhwIjoyMzc4ODM' +
-    '3MjYyLCJ0eXAiOiJnb29nbGUvcGF5bWVudHMvaW5' +
-    'hcHAvaXRlbS92MSIsInJlcXVlc3QiOnsibmFtZSI' +
-    '6IlZpcnR1YWwgQmFjb24iLCJkZXNjcmlwdGlvbiI' +
-    '6Ikp1c3Qgc29tZSB2aXJ0dWFsIGJhY29uLiIsInB' +
-    'yaWNlIjoiNS4wMCIsImN1cnJlbmN5Q29kZSI6IlV' +
-    'TRCIsInNlbGxlckRhdGEiOiJfc2VsbGVyX2RhdGF' +
-    'fIn19.utZ0Gop538zuXoE4bXAfctWabBWvjOxHVv' +
-    '89nUp/YrY='};
+  'prod': ''};
 
 document.getElementById('jwt').value = jwts['sandbox'];
 var currentEnv = 'sandbox';
