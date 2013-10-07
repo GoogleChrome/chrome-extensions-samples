@@ -3,8 +3,10 @@
 <head></head>
 <body>
   <div>Wallet test!</div>
-  <button id="buyBtnProd">Purchase (prod)!</button>
-  <button id="buyBtn">Purchase (sandbox)!</button>
+  <div><label><input type="radio" name="env" value="sandbox" checked> Sandbox</label> <label><input type="radio" name="env" value="prod"> Prod</label></div>
+  <div>JWT:<br/>
+  <textarea id="jwt" style="height:100px; width: 480px;"></textarea><br/>
+  <button id="buyJwt">Buy</button></div>
   <div id="log"></div>
   <script src="buy.js"></script>
   <script src="main.js"></script>
