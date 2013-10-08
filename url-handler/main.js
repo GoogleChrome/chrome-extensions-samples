@@ -8,7 +8,7 @@ function getArticleUrl_(launchData) {
   } else if (launchData && launchData.id === 'mobile_wiki_article') {
     return launchData.url;
   }
-  return "http://www.wikipedia.org";
+  return "http://en.m.wikipedia.org";
 }
 
 function loadArticle_(url) {

@@ -1,4 +1,4 @@
-# Wikipedia viewer
+# Wikipedia Viewer
 
 This is a basic Wikipedia viewer implemented as a packaged app.
 
