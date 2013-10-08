@@ -1,5 +1,5 @@
 {
-  "name": "Wiki Viewer",
+  "name": "Wikipedia Viewer",
   "version": "1",
   "manifest_version": 2,
   "minimum_chrome_version": "31.0.1650.4",
@@ -19,20 +19,16 @@
 
   "url_handlers": {
     "wiki_article": {
-      "title": "View Wiki article",
+      "title": "View Wikipedia article",
       "matches": [
         "*://en.wikipedia.org/wiki/*"
       ]
     },
     "mobile_wiki_article": {
-      "title": "View Wiki article",
+      "title": "View Wikipedia article",
       "matches": [
         "*://en.m.wikipedia.org/wiki/*"
       ]
-    },
-    "maps": {
-      "title": "",
-      "matches": [ "*://maps.google.com/*" ]
     }
   }
 }
