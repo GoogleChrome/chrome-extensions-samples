@@ -1,15 +1,10 @@
 var windows = [];
-var updateInterval;
 
 /**
  * Resets the windows and removes
  * any interval that is running
  */
 function reset() {
-
-  if (updateInterval) {
-    clearInterval(updateInterval);
-  }
 
   windows.forEach( function (w) {
     w.contentWindow.close();
@@ -67,20 +62,15 @@ function launch() {
 
         // now have the copycat watch the
         // original window for changes
-        updateInterval = setInterval(function() {
-          if (originalWindow.contentWindow.closed || copycatWindow.contentWindow.closed) {
-            reset();
-            return;
-          }
+        originalWindow.onMinimized.addListener(minimizeAll);
+        originalWindow.onClosed.addListener(reset);
+        copycatWindow.onClosed.addListener(reset);
 
-          copycatWindow.setBounds( 
-            {
-              left: originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
-              top: originalWindow.contentWindow.screenY,
-              width: originalWindow.contentWindow.outerWidth,
-              height: originalWindow.contentWindow.outerHeight
-            });
-        }, 10);
+        originalWindow.onBoundsChanged.addListener(function() {
+          var bounds = originalWindow.getBounds();
+          bounds.left = bounds.left + bounds.width + 5;
+          copycatWindow.setBounds(bounds);
+        });
 
         originalWindow.focus();
 
