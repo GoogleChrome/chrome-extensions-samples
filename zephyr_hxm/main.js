@@ -100,7 +100,7 @@ var connectToDevice = function(result) {
   }
   for (var i in result) {
     var device = result[i];
-    if (device.name == 'HXM014782') {
+    if (device.name.indexOf("HXM") === 0) {
       log('Connecting to device: ' + device.name + ' @ ' + device.address);
       chrome.bluetooth.connect(
           {device: {address: device.address}, profile: {uuid: kUUID}}, connectCallback);
