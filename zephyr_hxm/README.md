@@ -6,8 +6,8 @@
 Very simple Zephyr HXM heart rate monitor driver. This sample uses the bluetooth API to fetch heart rate data from a Zephyr HXM device
 
 ## Caveats:
-- The bluetooth API is only available on dev-channel Chrom(e|ium)OS
-- Resource clean-up isn't happening properly yet: you will likely have to disable/enable bluetooth between runs of the program or the connection will fail
+- The bluetooth API is only available on dev-channel
+
 
 ## APIs
 
