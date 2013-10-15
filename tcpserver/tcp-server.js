@@ -21,7 +21,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
 (function(exports) {
 
   // Define some local variables here.
-  var socket = chrome.socket || chrome.experimental.socket;
+  var socket = chrome.socket;
 
   /**
    * Creates an instance of the client
