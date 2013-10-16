@@ -1,18 +1,19 @@
 {
   "name": "Heart Rate Monitor Integration Sample",
   "description": "Demo of Zephyr HXM Heart Rate Monitor interaction",
-  "version": "1.1",
+  "version": "1.2",
   "manifest_version": 2,
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "30",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
   "permissions": [
-    "bluetooth"
+    {"bluetooth":[{"uuid": "00001101-0000-1000-8000-00805f9b34fb"}]}
   ],
   "sandbox": {
     "pages": ["graph.html"]
-  }
+  },
+  "offline_enabled": true
 }
