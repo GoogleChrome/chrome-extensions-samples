@@ -43,6 +43,7 @@ AppWindow.prototype.createWindow_ = function(settings) {
   chrome.app.window.create(
     'main.html',
     {
+      id: "mainwin",
       bounds: { width: settings.width, height: settings.height },
       frame: 'chrome'
     },
