@@ -1,8 +1,11 @@
 # Chrome packaged apps samples
 
-This is the Google Chrome official repository for Chrome packaged apps samples. We have tried to demonstrate most of the [Chrome packaged apps APIs](http://developer.chrome.com/apps/about_apps.html).
+Official samples for Chrome Apps platform. If you want to learn about the platform, you can:
+1. look at the source code of the samples below. Most samples have a "Try it now" button that allows you to install and play with it.
+2. read the [official docs](http://developer.chrome.com/apps)
+3. follow the [official Codelab](http://goo.gl/UHCS8) presented at Google I/O
 
-Please join the [Chromium Apps](https://groups.google.com/a/chromium.org/forum/?fromgroups#!forum/chromium-apps) group for general discussion. We're also available on IRC at #chromium-apps ([Freenode](http://freenode.net/)).
+If you have questions, [search](http://stackoverflow.com/questions/tagged/google-chrome-app) or [ask at StackOverflow](http://stackoverflow.com/questions/ask?tags=google-chrome-app) (observe the google-chrome-app tag) or join the [Chromium Apps](https://groups.google.com/a/chromium.org/forum/?fromgroups#!forum/chromium-apps) Google group.
 
 
 # Samples
