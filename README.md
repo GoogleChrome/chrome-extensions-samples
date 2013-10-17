@@ -1,6 +1,7 @@
-# Chrome packaged apps samples
+# Chrome Apps samples
 
 Official samples for Chrome Apps platform. If you want to learn about the platform, you can:
+
 1. look at the source code of the samples below. Most samples have a "Try it now" button that allows you to install and play with it.
 2. read the [official docs](http://developer.chrome.com/apps)
 3. follow the [official Codelab](http://goo.gl/UHCS8) presented at Google I/O
@@ -117,7 +118,7 @@ API or feature | Samples
 
 # Libraries and tools
 
-## Google APIs client library for packaged apps:
+## Google APIs client library for Chrome Apps:
 * [gapi-chrome-apps-lib](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gapi-chrome-apps-lib)
 
 
