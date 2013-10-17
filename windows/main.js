@@ -24,6 +24,7 @@ function launch() {
 
   // create the original window
   chrome.app.window.create('original.html', {
+      id: "mainwin",
       bounds: {
         top: 128,
         left: 128,
@@ -43,6 +44,7 @@ function launch() {
       windows.push(originalWindow);
 
       chrome.app.window.create('copycat.html', {
+        id: "copywin",
         bounds: {
           top: 128,
           left: 428 + 5,
