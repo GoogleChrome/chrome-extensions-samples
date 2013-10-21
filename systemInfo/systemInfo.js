@@ -4,7 +4,13 @@
 
 var systemInfo = chrome.system;
 
-var indicator = {}
+function showDisplayInfo(unit) {
+  table = "<tr><td>" + unit.id + "</td>" +
+    "<td>" + unit.type + "</td>" +
+    "<td>" + Math.round(unit.capacity/1024) + "</td>" +
+    "</tr>\n";
+  return table;
+}
 
 function showStorageInfo(unit) {
   table = "<tr><td>" + unit.id + "</td>" +
@@ -15,6 +21,21 @@ function showStorageInfo(unit) {
 }
 
 function init() {
+  // Get display information.
+  systemInfo.display.getInfo(function(displays) {
+    var table = "<table width=65% border=\"1\">\n" +
+      "<tr><td><b>ID</b></td>" +
+      "<td><b>Type</b></td>" +
+      "<td><b>Total Capacity (KB)</b></td>" +
+      "</tr>\n";
+    for (var i = 0; i < displays.length; i++) {
+      table += showStorageInfo(units[i]);
+    }
+    table += "</table>\n";
+    var div = document.getElementById("storage-list");
+    div.innerHTML = table;
+  });
+
   // Get CPU information.
   systemInfo.cpu.getInfo(function(cpu) {
     var cpuInfo = "<b>Architecture:</b> " + cpu.archName +
@@ -42,7 +63,6 @@ function init() {
       "<td><b>Total Capacity (KB)</b></td>" +
       "</tr>\n";
     for (var i = 0; i < units.length; i++) {
-      indicator[units[i].id] = 0;
       table += showStorageInfo(units[i]);
     }
     table += "</table>\n";
