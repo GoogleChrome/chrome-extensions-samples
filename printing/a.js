@@ -4,12 +4,13 @@
  * found in the LICENSE file.
  **/
 
-// A collection of utility objects for Chrome application, used to separate code
-// likely to be found in different types of Chrome applications from code
+// A collection of utility objects for Chrome applications, used to separate
+// code likely to be found in different types of Chrome applications from code
 // specific to this particular application. Although general in nature, these
 // objects were specifically written for this application and not tested in any
-// other context. They should not be considered part of a reusable framework,
-// and caution should be exercised if/when reusing this code elsewhere.
+// other context, so they should not be considered part of a reusable framework
+// and caution should be exercised when reusing this code outside of this
+// application.
 
 "use strict";
 
