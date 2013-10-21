@@ -35,6 +35,7 @@ function showStorageInfo(unit) {
   table = "<tr><td>" + unit.id + "</td>" +
     "<td>" + unit.type + "</td>" +
     "<td>" + Math.round(unit.capacity/1024) + "</td>" +
+    "<td>" + Math.round(unit.availableCapacity/1024) + "</td>" +
     "</tr>\n";
   return table;
 }
@@ -42,7 +43,7 @@ function showStorageInfo(unit) {
 function init() {
   // Get display information.
   systemInfo.display.getInfo(function(displays) {
-    var table = "<table width=65% border=\"1\">\n" +
+    var table = "<table width=70% border=\"1\">\n" +
       "<tr><td><b>ID</b></td>" +
       "<td><b>Name</b></td>" +
       "<td><b>Mirroring Source Id</b></td>" +
@@ -85,17 +86,23 @@ function init() {
 
   // Get storage information.
   systemInfo.storage.getInfo(function(units) {
-    var table = "<table width=65% border=\"1\">\n" +
+    var table = "<table width=70% border=\"1\">\n" +
       "<tr><td><b>ID</b></td>" +
       "<td><b>Type</b></td>" +
       "<td><b>Total Capacity (KB)</b></td>" +
+      "<td><b>Available Capacity (KB)</b></td>" +
       "</tr>\n";
-    for (var i = 0; i < units.length; i++) {
-      table += showStorageInfo(units[i]);
-    }
-    table += "</table>\n";
-    var div = document.getElementById("storage-list");
-    div.innerHTML = table;
+    units.forEach(function(unit, index) {
+      systemInfo.storage.getAvailableCapacity(unit.id, function(info) {
+        unit.availableCapacity = info.availableCapacity;
+        table += showStorageInfo(unit);
+        if (index == units.length - 1) {
+          table += "</table>\n";
+          var div = document.getElementById("storage-list");
+          div.innerHTML = table;
+        }
+      })
+    });
   });
 }
 
