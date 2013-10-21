@@ -4,10 +4,29 @@
 
 var systemInfo = chrome.system;
 
-function showDisplayInfo(unit) {
-  table = "<tr><td>" + unit.id + "</td>" +
-    "<td>" + unit.type + "</td>" +
-    "<td>" + Math.round(unit.capacity/1024) + "</td>" +
+function showBounds(bounds) {
+  return bounds.left + ", " + bounds.top + ", " +
+      bounds.width + ", " + bounds.height;
+}
+
+function showInsets(bounds) {
+  return bounds.left + ", " + bounds.top + ", " +
+      bounds.right + ", " + bounds.bottom;
+}
+
+function showDisplayInfo(display) {
+  table = "<tr><td>" + display.id + "</td>" +
+    "<td>" + display.name + "</td>" +
+    "<td>" + display.mirroringSourceId + "</td>" +
+    "<td>" + display.isPrimary + "</td>" +
+    "<td>" + display.isInternal + "</td>" +
+    "<td>" + display.isEnabled + "</td>" +
+    "<td>" + display.dpiX + "</td>" +
+    "<td>" + display.dpiY + "</td>" +
+    "<td>" + display.Rotation + "</td>" +
+    "<td>" + showBounds(display.bounds) + "</td>" +
+    "<td>" + showInsets(display.overscan) + "</td>" +
+    "<td>" + showBounds(display.workArea) + "</td>" +
     "</tr>\n";
   return table;
 }
@@ -25,14 +44,23 @@ function init() {
   systemInfo.display.getInfo(function(displays) {
     var table = "<table width=65% border=\"1\">\n" +
       "<tr><td><b>ID</b></td>" +
-      "<td><b>Type</b></td>" +
-      "<td><b>Total Capacity (KB)</b></td>" +
+      "<td><b>Name</b></td>" +
+      "<td><b>Mirroring Source Id</b></td>" +
+      "<td><b>Is Primary</b></td>" +
+      "<td><b>Is Internal</b></td>" +
+      "<td><b>Is Enabled</b></td>" +
+      "<td><b>DPI X</b></td>" +
+      "<td><b>DPI Y</b></td>" +
+      "<td><b>Rotation</b></td>" +
+      "<td><b>Bounds</b></td>" +
+      "<td><b>Overscan</b></td>" +
+      "<td><b>Work Area</b></td>" +
       "</tr>\n";
     for (var i = 0; i < displays.length; i++) {
-      table += showStorageInfo(units[i]);
+      table += showDisplayInfo(displays[i]);
     }
     table += "</table>\n";
-    var div = document.getElementById("storage-list");
+    var div = document.getElementById("display-list");
     div.innerHTML = table;
   });
 
