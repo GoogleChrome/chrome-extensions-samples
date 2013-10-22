@@ -1,0 +1,164 @@
+/**
+ * Copyright (c) 2013 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file.
+ **/
+
+@media screen {
+  #animation[data-state="1"] a:nth-child(9n + 2),
+  #animation[data-state="2"] a:nth-child(9n + 3),
+  #animation[data-state="3"] a:nth-child(9n + 4),
+  #animation[data-state="4"] a:nth-child(9n + 5),
+  #animation[data-state="5"] a:nth-child(9n + 6),
+  #animation[data-state="6"] a:nth-child(9n + 7),
+  #animation[data-state="7"] a:nth-child(9n + 8),
+  #animation[data-state="8"] a:nth-child(9n),
+  #animation[data-state="9"] a:nth-child(9n + 1) {
+    color: red;
+  }
+
+  body {
+    /* -webkit-app-region: drag;  (disabled for <http://crbug.com/309783>) */
+    border-top: 1px solid lightgray;
+    font: normal 14px 'Lucida Grande', sans-serif;
+    margin: 0;
+    padding: 3px 5px 0;
+    position: relative;
+    text-align: center;
+  }
+
+  body#controls {
+    text-align: left;
+  }
+
+  button,
+  input[type='checkbox'] {
+    /* -webkit-app-region: no-drag;  (disabled for <http://crbug.com/309783>) */
+    -webkit-appearance: none;
+    background-image: -webkit-linear-gradient(rgb(237, 237, 237),
+                                              rgb(237, 237, 237) 38%,
+                                              rgb(222, 222, 222));
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08),
+                inset 0 1px 2px 0 rgba(255, 255, 255, 0.75);
+    color: rgb(68, 68, 68);
+    font: inherit;
+    margin: 0 1px 0 0;
+    text-shadow: 0 1px 0 rgb(240, 240, 240);
+    -webkit-user-select: none;
+  }
+
+  button {
+    padding: 2px 10px 3px;
+    text-align: center;
+    width: 100%;
+  }
+
+  button:disabled {
+    background-image: -webkit-linear-gradient(rgb(241, 241, 241),
+                                              rgb(241, 241, 241) 38%,
+                                              rgb(230, 230, 230));
+    border-color: rgba(80, 80, 80, 0.2);
+    box-shadow: 0 1px 0 rgba(80, 80, 80, 0.08),
+                inset 0 1px 2px rgba(255, 255, 255, 0.75);
+    color: #aaa;
+  }
+
+  button:enabled:active,
+  button:enabled:active:hover,
+  input[type='checkbox']:active {
+    background-image: -webkit-linear-gradient(rgb(231, 231, 231),
+                                              rgb(231, 231, 231) 38%,
+                                              rgb(215, 215, 215));
+    box-shadow: none;
+    text-shadow: none;
+  }
+
+  button:enabled:hover,
+  input[type='checkbox']:hover {
+    background-image: -webkit-linear-gradient(rgb(240, 240, 240),
+                                              rgb(240, 240, 240) 38%,
+                                              rgb(224, 224, 224));
+    border-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12),
+                inset 0 1px 2px rgba(255, 255, 255, 0.95);
+    color: black;
+  }
+
+  #centered-container {
+    display: table;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  #centered-contents {
+    display: table-cell;
+    margin: 0;
+    padding: 7px 10px;
+    vertical-align: middle;
+  }
+
+  div {
+    padding: 5px;
+  }
+
+  #fill-contents {
+    left: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #fill-footer {
+    bottom: 0px;
+    left: 0px;
+    padding: 0 10px 10px;
+    position: absolute;
+    right: 0px;
+  }
+
+  iframe {
+    display: none;
+  }
+
+  input[type='checkbox'] {
+    bottom: -2px;
+    height: 13px;
+    position: relative;
+    vertical-align: middle;
+    width: 13px;
+  }
+
+  input[type='checkbox']:checked::before {
+    -webkit-user-select: none;
+    background-image: url('check-11x11.png');
+    background-size: 100% 100%;
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  label.checkbox {
+    display: -webkit-inline-box;
+  }
+
+  label.checkbox span {
+    display: block;
+    -webkit-margin-start: 0.6em;
+  }
+
+  *:focus {
+    outline: none;
+  }
+}
+
+@media print {
+  body {
+    text-align: center;
+  }
+}
