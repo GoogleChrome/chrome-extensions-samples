@@ -34,9 +34,9 @@ A.object = {
   // Returns the first of the values identified by the specified paths that is
   // defined. Multiple paths can be specified as separate arguments. No error
   // is raised if components of any of the paths are undefined, so for example
-  // "this.ifDefined('a.b', 'c')" will not raise an error if |a| is undefined
+  // "this.firstDefined('a.b', 'c')" will not raise an error if |a| is undefined
   // whereas the otherwise equivalent "this.a.b || this.c" would.
-  ifDefined: function(paths) {
+  firstDefined: function(paths) {
     var value, i;
     for (i = 0; i < arguments.length && typeof value === 'undefined'; i += 1) {
       if (arguments[i]) {
@@ -50,13 +50,6 @@ A.object = {
       }
     }
     return value;
-  },
-
-  // Returns true if and only if the value identified by one of the specified
-  // paths is defined. Multiple paths can be specified as separate arguments.
-  isDefined: function(paths) {
-    var value = this.ifDefined.apply(this, arguments);
-    return (typeof value !== 'undefined');
   },
 
   // Makes a shallow copy of the properties and returns the resulting object,
@@ -91,19 +84,21 @@ A.object = {
     }
   },
 
+  // Triggers the listeners added for the specified event.
+  callListeners: function(event) {
+    if (this.listeners_ && this.listeners_[event]) {
+      this.listeners_[event].forEach(function(listener) {
+        listener.apply(this.callee, this.arguments);
+      }, {callee: this, arguments: Array.prototype.slice.call(arguments, 1)});
+    }
+  },
+
   /** @private */
   makeListener_: function(listener) {
-    if (typeof listener == 'string' && A.object.isPrototypeOf(this)) {
-      var event = listener;
-      listener = function() {
-        if (this.listeners_ && this.listeners_[event]) {
-          this.listeners_[event].forEach(function(listener) {
-            listener.apply(this.callee, this.arguments);
-          }, {callee: this, arguments: arguments});
-        }
-      };
-    }
-    return listener.bind ? listener.bind(this) : listener;
+    var event = (typeof listener == 'string' && A.object.isPrototypeOf(this));
+    return event ? this.callListeners.bind(this, listener) :
+           listener.bind ? listener.bind(this) :
+           listener;
   }
 };
 
@@ -159,15 +154,18 @@ A.promise = A.object.create({
 
   /** @private */
   propagateTo_: function(derived) {
-    var handler = (derived.onFulfilled || function() { return undefined; });
-    var value = handler.call(this, this.value) || this.value;
-    if (!A.promise.isPrototypeOf(value)) {
-      derived.promise.fulfill(value);
-    } else if (typeof value.value !== 'undefined') {
-      derived.promise.fulfill(value.value);
+    var propagated;
+    if (derived.onFulfilled)
+      propagated = derived.onFulfilled.call(this, this.value);
+    if (typeof propagated === 'undefined')
+      propagated = this.value;
+    if (!A.promise.isPrototypeOf(propagated)) {
+      derived.promise.fulfill(propagated);
+    } else if (typeof propagated.value !== 'undefined') {
+      derived.promise.fulfill(propagated.value);
     } else {
-      value.derived_ = value.derived_ || [];
-      value.derived_.push({promise: derived.promise});
+      propagated.derived_ = propagated.derived_ || [];
+      propagated.derived_.push({promise: derived.promise});
     }
   }
 });
@@ -192,15 +190,16 @@ A.controller = A.object.create({
   create: function(properties) {
     var controller = A.object.create.apply(this, arguments);
     return controller.getDomWindow_().then(function(domWindow) {
-      controller.domWindow = domWindow;
-      controller.domDocument = domWindow && domWindow.document;
-      controller.addListener(controller.appWindow, 'onClosed', 'close');
-      controller.addListener(domWindow, 'focus', 'focus');
-      controller.addListener(domWindow, 'resize', 'resize');
-      controller.addListener('#close', 'click', window.close.bind(domWindow));
+      this.domWindow = domWindow;
+      this.domDocument = domWindow && domWindow.document;
+      this.addListener(this.appWindow, 'onClosed', 'windowclosed');
+      this.addListener(this.appWindow, 'onBoundsChanged', this.boundsChanged_);
+      this.addListener(domWindow, 'focus', 'windowfocused');
+      this.addListener(domWindow, 'resize', 'windowresized');
+      this.addListener('#close', 'click', window.close.bind(domWindow));
       (domWindow || {}).onerror = A.console.logError;
-      return controller;
-    });
+      return this;
+    }.bind(controller));
   },
 
   getSizes: function() {
@@ -209,6 +208,34 @@ A.controller = A.object.create({
     sizes.minimum = sizes.minimum || this.size;
     sizes.maximum = sizes.maximum || this.size;
     return sizes;
+  },
+
+  getFrameSize: function() {
+    return {width: this.domWindow.outerWidth - this.domWindow.innerWidth,
+            height: this.domWindow.outerHeight - this.domWindow.innerHeight};
+  },
+
+  // |innerBounds| is optional and defaults to the window's inner bounds.
+  getOuterBounds: function(innerBounds) {
+    // Currently assumes all of the frame height is in the title bar.
+    var inner = innerBounds || this.bounds || this.appWindow.getBounds();
+    var frame = this.getFrameSize();
+    return {left: inner.left - Math.round(frame.width / 2),
+            top: inner.top - frame.height,
+            width: inner.width + frame.width,
+            height: inner.height + frame.height};
+    
+  },
+
+  // |outerBounds| is optional and defaults to the window's outer bounds.
+  getInnerBounds: function(outerBounds) {
+    // Currently assumes all of the frame height is in the title bar.
+    var outer = outerBounds || this.getOuterBounds();
+    var frame = this.getFrameSize();
+    return {left: outer.left + Math.round(frame.width / 2),
+            top: outer.top + frame.height,
+            width: outer.width - frame.width,
+            height: outer.height - frame.height};
   },
 
   queryElement: function(elementOrSelector) {
@@ -254,7 +281,7 @@ A.controller = A.object.create({
 
   /** @private */
   getDomWindow_: function() {
-    var domWindow = this.ifDefined('domWindow', 'appWindow.contentWindow');
+    var domWindow = this.firstDefined('domWindow', 'appWindow.contentWindow');
     return domWindow ? A.promise.create().fulfill(domWindow) :
                        this.createDomWindow_();
   },
@@ -292,6 +319,12 @@ A.controller = A.object.create({
     options.id = this.id;
     options.frame = this.frame || 'chrome';
     return options;
+  },
+
+  /** @private */
+  boundsChanged_: function(promise) {
+    this.bounds = this.appWindow.getBounds();
+    this.callListeners('boundschanged');
   }
 });
 
@@ -314,8 +347,8 @@ A.application = A.object.create({
     Printest.application.documents.push(this);
   },
 
-  documentWasClosed: function() {
   // Designed to be bound, must be invoked so |this| is the closed document.
+  documentWasClosed: function() {
     var index = Printest.application.documents.indexOf(this);
     if (index >= 0)
       Printest.application.documents.splice(index, 1);
@@ -324,24 +357,34 @@ A.application = A.object.create({
   closeAllDocuments: function() {
     // The documents array is copied as it will change during document closure.
     this.documents.slice().forEach(function(document) {
-      document.domWindow.close();
+      document.appWindow.close();
     });
   },
 
-  areBoundsInScreen: function(bounds, screen) {
-    return bounds.left >= screen.availLeft &&
-           bounds.top >= screen.availTop &&
-           bounds.left + bounds.width <= screen.availLeft + screen.availWidth &&
-           bounds.top + bounds.height <= screen.availTop + screen.availHeight;
+  getCenteredBounds: function(area, width, height) {
+    return {left: area.left + Math.round((area.width - width) / 2),
+            top: area.top + Math.round((area.height - height) / 2),
+            width: width,
+            height: height};
+  },
+
+  areBoundsInSameScreen: function(bounds, controller) {
+    var screen = controller.domWindow.screen;
+    var outer = controller.getOuterBounds(bounds);
+    return outer.left >= screen.availLeft &&
+           outer.top >= screen.availTop &&
+           outer.left + outer.width <= screen.availLeft + screen.availWidth &&
+           outer.top + outer.height <= screen.availTop + screen.availHeight;
   },
 
   doBoundsOverlapDocument: function(bounds) {
+    var outer = this.documents[0] && this.documents[0].getOuterBounds(bounds) || {};
     return this.documents.some(function(document) {
-      var documentBounds = document.appWindow.getBounds();
-      return (bounds.left < documentBounds.left + documentBounds.width &&
-              documentBounds.left < bounds.left + bounds.width &&
-              bounds.top < documentBounds.top + documentBounds.height &&
-              documentBounds.top < bounds.top + bounds.height);
+      document = document.getOuterBounds();
+      return (outer.left < document.left + document.width &&
+              document.left < outer.left + outer.width &&
+              outer.top < document.top + document.height &&
+              document.top < outer.top + outer.height);
     });
   }
 });

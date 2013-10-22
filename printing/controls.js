@@ -10,9 +10,8 @@ var Printest = Printest || {};
 
 Printest.controls = A.object.create.call(A.controller, {
   url: 'controls.html',
-  id: 'controls.html',
-  frame: 'none',
-  sizes: {minimum: [184, 120], default: [184, 120], maximum: [999999, 120]},
+  frame: 'chrome',
+  sizes: {minimum: [184, 103], default: [184, 103], maximum: [999999, 103]},
 
   create: function(properties) {
     // Make the width the same as a document window so things will look nice
@@ -27,6 +26,10 @@ Printest.controls = A.object.create.call(A.controller, {
       view.addListener('#create-new', 'click', 'createnew');
       view.addListener('#print-current', 'click', 'printcurrent');
     });
+  },
+
+  documentsChanged: function(documents) {
+    this.queryElement('#print-current').disabled = (documents.length == 0);
   },
 
   /** @private */
