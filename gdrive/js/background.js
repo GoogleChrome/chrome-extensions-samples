@@ -1,5 +1,6 @@
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create('../main.html', {
+    id: "GDriveExample",
     bounds: {
       width: 500,
       height: 600

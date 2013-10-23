@@ -6,6 +6,7 @@
 
 function onLaunched(launchData) {
   chrome.app.window.create('main.html', {
+  	id: "diffWinID",
     bounds: {
       width: 1270,
       height: 800

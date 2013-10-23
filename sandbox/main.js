@@ -6,5 +6,8 @@
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('mainpage.html',
-    {bounds: {width: 500, height: 309}});
+    {
+    	id: "mainwin",
+    	bounds: {width: 500, height: 309}
+    });
 });

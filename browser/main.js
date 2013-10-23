@@ -24,6 +24,7 @@ chrome.app.runtime.onRestarted.addListener(function() {
  */
 function runApp() {
   chrome.app.window.create('browser.html', {
+  	id: "browserWinID",
     bounds: {
       'width': 1024,
       'height': 768

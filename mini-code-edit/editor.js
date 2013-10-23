@@ -124,7 +124,7 @@ function handleNewButton() {
     editor.setValue("");
   } else {
     chrome.app.window.create('main.html', {
-      frame: 'chrome', bounds: { width: 720, height: 400}
+      frame: 'chrome', id: "codewin", bounds: { width: 720, height: 400}
     });
   }
 }

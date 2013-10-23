@@ -1,6 +1,7 @@
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create("frameless_window.html",
     {  frame: "none",
+       id: "framelessWinID",
        bounds: {
          width: 360,
          height: 300,
