@@ -44,8 +44,8 @@
   }
 
   window.gapi = {};
-  gapi.auth = {};
-  gapi.client = {};
+  window.gapi.auth = {};
+  window.gapi.client = {};
 
   var access_token = undefined;
 
@@ -53,9 +53,9 @@
     if (typeof callback !== 'function')
       throw new Error('callback required');
 
-    var details = {}
+    var details = {};
     details.interactive = params.immediate === false || false;
-    console.assert(!params.response_type || params.response_type == 'token')
+    console.assert(!params.response_type || params.response_type == 'token');
 
     var callbackWrapper = function (getAuthTokenCallbackParam) {
       access_token = getAuthTokenCallbackParam;
