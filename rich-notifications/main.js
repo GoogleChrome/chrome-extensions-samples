@@ -41,7 +41,14 @@ var notOptions = [
 			{ title: "Item5", message: "This is item 5"},
 			{ title: "Item6", message: "This is item 6"},
 		]
+	},
+	{
+		type : "progress",
+		title: "Progress Notification",
+		message: "Short message plus an image",
+		progress: 60
 	}
+	
 ];
 
 // Window initialization code. Set up the various event handlers
@@ -49,6 +56,7 @@ window.addEventListener("load", function() {
 	document.getElementById("basic").addEventListener("click", doNotify);
 	document.getElementById("image").addEventListener("click", doNotify);
 	document.getElementById("list").addEventListener("click", doNotify);
+	document.getElementById("progress").addEventListener("click", doNotify);
 
 	// set up the event listeners
 	chrome.notifications.onClosed.addListener(notificationClosed);
@@ -72,6 +80,9 @@ function doNotify(evt) {
 	}
 	else if (evt.srcElement.id == "list") {
 		options = notOptions[2];
+	}
+	else if (evt.srcElement.id == "progress") {
+		options = notOptions[3];
 	}
 	options.iconUrl = path;
 	// priority is from -2 to 2. The API makes no guarantee about how notifications are
