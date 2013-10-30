@@ -31,6 +31,7 @@ function createNewWindow(optionsDictionary) {
   setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));
   setIfANumber(optionsDictionary, 'maxHeight', parseInt($('#newWindowHeightMax').value));
   optionsDictionary.resizable = $('#newWindowResizable').checked;
+  optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
 
   optionsDictionary.hidden = $('[value=hidden]').checked;
   var showAfterCreated = function (win) {
@@ -104,6 +105,10 @@ $('#hide').onclick = function(e) {
 
 $('#show').onclick = function(e) {
   setTimeout(chrome.app.window.current().show, $('#delay-slider').value);
+};
+
+$('#alwaysOnTop').onchange = function(e) {
+  chrome.app.window.current().setAlwaysOnTop($('#alwaysOnTop').checked);
 };
 
 $('#move').onclick = function(e) {
@@ -211,3 +216,6 @@ function updateCurrentStateReadout() {
 // just to be paranoid.
 chrome.app.window.current().onBoundsChanged.addListener(updateCurrentStateReadout);
 setInterval(updateCurrentStateReadout, 1000);
+
+// Set initial value of always on top
+$('#alwaysOnTop').checked = chrome.app.window.current().isAlwaysOnTop();
