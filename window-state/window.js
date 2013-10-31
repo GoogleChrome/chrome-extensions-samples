@@ -5,6 +5,10 @@ var fullscreenchangeCount = 0;
 var fullscreenerrorCount = 0;
 var newWindowOffset = 100;
 
+// chrome.app.window alwaysOnTop property is supported in Chrome M32 or later.
+// The option will be hidden if not supported in the current browser version.
+var isAlwaysOnTopSupported = typeof(chrome.app.window.current().setAlwaysOnTop) !== 'undefined';
+
 // Helper functions
 $ = function(selector) { return document.querySelector(selector); }
 
@@ -31,7 +35,8 @@ function createNewWindow(optionsDictionary) {
   setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));
   setIfANumber(optionsDictionary, 'maxHeight', parseInt($('#newWindowHeightMax').value));
   optionsDictionary.resizable = $('#newWindowResizable').checked;
-  optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
+  if (isAlwaysOnTopSupported)
+    optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
 
   optionsDictionary.hidden = $('[value=hidden]').checked;
   var showAfterCreated = function (win) {
@@ -218,4 +223,9 @@ chrome.app.window.current().onBoundsChanged.addListener(updateCurrentStateReadou
 setInterval(updateCurrentStateReadout, 1000);
 
 // Set initial value of always on top
-$('#alwaysOnTop').checked = chrome.app.window.current().isAlwaysOnTop();
+if (isAlwaysOnTopSupported) {
+  $('#alwaysOnTop').checked = chrome.app.window.current().isAlwaysOnTop();
+} else {
+  $('#alwaysOnTopLabel').style.visibility = 'hidden';
+  $('#newWindowOnTopLabel').style.visibility = 'hidden';
+}
