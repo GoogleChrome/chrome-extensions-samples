@@ -93,7 +93,7 @@
     xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
     if (typeof args.body !== 'undefined') {
       xhr.setRequestHeader('content-type', 'application/json');
-      xhr.send(JSON.stringify(args.body));
+      xhr.send(args.body);
     } else {
       xhr.send();
     }
