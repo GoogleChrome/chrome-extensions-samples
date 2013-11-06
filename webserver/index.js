@@ -57,7 +57,6 @@ onload = function() {
     console.info("writeErrorResponse:: end...");
   };
 
-
   var write200Response = function(socketId, file, keepAlive) {
     var contentType = (file.type === "") ? "text/plain" : file.type;
     var contentLength = file.size;
@@ -68,7 +67,7 @@ onload = function() {
 
     var fileReader = new FileReader();
     fileReader.onload = function(e) {
-       view.set(new Uint8Array(e.target.result), header.byteLength); 
+       view.set(new Uint8Array(e.target.result), header.byteLength);
        socket.write(socketId, outputBuffer, function(writeInfo) {
          console.log("WRITE", writeInfo);
          if (keepAlive) {
@@ -110,10 +109,10 @@ onload = function() {
           uri = uri.substring(0, q);
         }
         var file = filesMap[uri];
-        if(!!file == false) { 
+        if(!!file == false) {
           console.warn("File does not exist..." + uri);
           writeErrorResponse(socketId, 404, keepAlive);
-          return; 
+          return;
         }
         logToScreen("GET 200 " + uri);
         write200Response(socketId, file, keepAlive);
@@ -133,7 +132,11 @@ onload = function() {
     for(var i = 0; i < files.length; i++) {
       //remove the first first directory
       var path = files[i].webkitRelativePath;
-      filesMap[path.substr(path.indexOf("/"))] = files[i];
+      if (path && path.indexOf("/")>=0) {
+       filesMap[path.substr(path.indexOf("/"))] = files[i];
+      } else {
+       filesMap["/"+files[i].fileName] = files[i];
+      }
     }
 
     start.disabled = false;
