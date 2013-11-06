@@ -57,20 +57,20 @@ function Sound(opt_loop) {
    * @param {Function} opt_callback A function to call when the file has loaded
    */
   this.load = function(url, mixToMono, opt_callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'arraybuffer';
-    xhr.onload = function() {
-      if (context_) {
+    if (context_) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = function() {
         context_.decodeAudioData(this.response, function(audioBuffer) {
           self_.sample = audioBuffer;
           opt_callback && opt_callback();
         }, function(e) {
           console.log(e);
         });
-      }
-    };
-    xhr.send();
+      };
+      xhr.send();
+    }
   };
 
   /**
@@ -243,7 +243,6 @@ var Terminal = Terminal || function(containerId) {
    * @param {Event} e The keyboard event (likely enter / return)
    */
   function processNewCommand_(e) {
-
     // Beep on backspace and no value on command line.
     if (!this.value && e.keyCode == 8) {
       bell_.stop();
@@ -539,6 +538,8 @@ var Terminal = Terminal || function(containerId) {
       }
 
       var type = persistent ? window.PERSISTENT : window.TEMPORARY;
+      type = type || 0;
+
       window.requestFileSystem(type, size, function(filesystem) {
         fs_ = filesystem;
         cwd_ = fs_.root;

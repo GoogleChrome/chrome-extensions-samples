@@ -8,12 +8,10 @@
   },
   "app": {
     "background": {
-      "scripts": ["launch.js"],
-      "transient": true
+      "scripts": ["launch.js"]
     }
   },
   "permissions": [
-    "experimental",
     {"socket": [
       "tcp-connect:*:*"
     ]}
