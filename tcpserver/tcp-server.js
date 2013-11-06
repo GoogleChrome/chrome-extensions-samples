@@ -115,7 +115,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   TcpServer.prototype._onCreate = function(createInfo) {
     this.serverSocketId = createInfo.socketId;
     if (this.serverSocketId > 0) {
-      socket.listen(this.serverSocketId, this.addr, this.port, null,
+      socket.listen(this.serverSocketId, this.addr, this.port, 50,
         this._onListenComplete.bind(this));
       this.isListening = true;
     } else {
