@@ -10,7 +10,7 @@
     }
   },
   "permissions": [
-    "https://www.google-analytics.com/",
+    "https://www.google-analytics.com/*",
     "storage"
   ],
   "offline_enabled": true
