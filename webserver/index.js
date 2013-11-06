@@ -5,7 +5,7 @@ onload = function() {
   var port = document.getElementById("port");
   var directory = document.getElementById("directory");
 
-  var socket = chrome.experimental.socket || chrome.socket;
+  var socket = chrome.socket;
   var socketInfo;
   var filesMap = {};
 

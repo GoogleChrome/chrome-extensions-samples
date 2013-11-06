@@ -13,5 +13,5 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["experimental", {"socket":["tcp-connect", "tcp-listen"]}]
+  "permissions": [{"socket":["tcp-connect", "tcp-listen"]}]
 }
