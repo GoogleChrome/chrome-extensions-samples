@@ -9,9 +9,9 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["identity"],
+  "permissions": ["identity", "https://www.googleapis.com/*"],
   "oauth2": {
-    "client_id": "966771758693.apps.googleusercontent.com",
+    "client_id": "788341667074-i889rgdtvmo60rav3pk4kflmb5rf7cqa.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/tasks.readonly"]
   }
 }
