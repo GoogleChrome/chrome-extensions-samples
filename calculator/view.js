@@ -75,9 +75,9 @@ function View(calcModel) {
   });
 
   window.addEventListener("copy", function(e) {
-    var result = calcModel.HandleButtonClick("=");
+    var result = calcModel.accumulator;
     e.preventDefault();
-    e.clipboardData.setData("text/plain",result[2]);
+    e.clipboardData.setData("text/plain",result);
   });
 
   $(document).keydown(function(event) {
