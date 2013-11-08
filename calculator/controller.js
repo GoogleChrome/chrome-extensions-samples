@@ -1,3 +1,3 @@
 $(document).ready(function () {
-  new View(new Calculator);
+  new View(new Calculator());
 });
