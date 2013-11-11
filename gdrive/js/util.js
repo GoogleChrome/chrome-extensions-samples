@@ -18,7 +18,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 
 var Util = Util || {};
 
-// Combines to JSON objects in one.
+// Combines two JSON objects in one.
 Util.merge = function(obj1, obj2) {
   var obj = {};
 
