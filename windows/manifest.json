@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Windowing API Sample",
-  "version": "2",
+  "version": "3",
   "minimum_chrome_version": "23",
   "icons": {
     "16": "icon_16.png",
