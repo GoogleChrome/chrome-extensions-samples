@@ -10,5 +10,5 @@
       "scripts": ["background.js"]
     }
   },
-  "permissions": ["fullscreen"]
+  "permissions": ["fullscreen", "alwaysOnTopWindows"]
 }
