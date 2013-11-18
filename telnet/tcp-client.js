@@ -50,7 +50,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Connects to the TCP socket, and creates an open socket.
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-create
+   * @see http://developer.chrome.com/apps/socket.html#method-create
    * @param {Function} callback The function to call on connection
    */
   TcpClient.prototype.connect = function(callback) {
@@ -67,7 +67,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Sends a message down the wire to the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-write
+   * @see http://developer.chrome.com/apps/socket.html#method-write
    * @param {String} msg The message to send
    * @param {Function} callback The function to call when the message has sent
    */
@@ -93,7 +93,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpClient.prototype.disconnect = function() {
     socket.disconnect(this.socketId);
@@ -106,7 +106,7 @@ Author: Boris Smus (smus@chromium.org)
    * we go ahead and connect to the remote side.
    *
    * @private
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-connect
+   * @see http://developer.chrome.com/apps/socket.html#method-connect
    * @param {Object} createInfo The socket details
    */
   TcpClient.prototype._onCreate = function(createInfo) {
@@ -141,7 +141,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Checks for new data to read from the socket
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-read
+   * @see http://developer.chrome.com/apps/socket.html#method-read
    */
   TcpClient.prototype._periodicallyRead = function() {
     socket.read(this.socketId, null, this._onDataRead.bind(this));

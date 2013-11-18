@@ -9,8 +9,8 @@ if you want to recompile dart to JS. See the correct, CSP compatible, command-li
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

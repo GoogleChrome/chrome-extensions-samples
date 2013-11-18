@@ -10,4 +10,4 @@ To upload files: drag in files from the desktop onto the app.
 
 ## APIs
 
-* [Identity](http://developer.chrome.com/trunk/apps/identity.html)
+* [Identity](http://developer.chrome.com/apps/identity.html)

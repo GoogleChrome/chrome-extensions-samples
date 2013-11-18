@@ -7,9 +7,9 @@ A widget-like application that provides a world clock, an alarm, a timer and a s
 
 ## APIs
 
-* [Sync Storage API](http://developer.chrome.com/trunk/apps/storage.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Sync Storage API](http://developer.chrome.com/apps/storage.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

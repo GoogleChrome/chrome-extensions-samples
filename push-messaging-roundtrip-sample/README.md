@@ -4,7 +4,7 @@
 # Push Messaging Roundtrip Sample App
 
 Sample that shows how to use the [Push Messaging
-API](http://developer.chrome.com/trunk/apps/pushMessaging.html) in an app.
+API](http://developer.chrome.com/apps/pushMessaging.html) in an app.
 
 Normally we don't expect you to send push messages from JS code, we normally
 expect that you will want to write a server which does the sending, but this app may
@@ -41,8 +41,8 @@ to write your client code.
 
 ## APIs
 
-* [Push Messaging API](http://developer.chrome.com/trunk/apps/pushMessaging.html)
-* [GCM for Chrome server API](http://developer.chrome.com/trunk/apps/cloudMessaging.html)     
+* [Push Messaging API](http://developer.chrome.com/apps/pushMessaging.html)
+* [GCM for Chrome server API](http://developer.chrome.com/apps/cloudMessaging.html)     
 
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-messaging-roundtrip-sample/assets/screenshot_1280_800.png)

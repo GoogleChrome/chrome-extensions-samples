@@ -9,8 +9,8 @@ Caveat: `-webkit-app-region: drag;` *will* disable some customizations such as c
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

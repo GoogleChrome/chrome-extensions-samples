@@ -4,7 +4,7 @@
 # Identity
 
 A sample application that uses the
-[Identity API](https://developer.chrome.com/trunk/apps/identity.html) to
+[Identity API](https://developer.chrome.com/apps/identity.html) to
 request information of the logged in user and present this info on the screen.
 If the user has a profile picture, an XMLHttpRequest request is also sent to
 grab the image and show it in the app.
@@ -15,7 +15,7 @@ you should use the launchWebAuthFlow method instead.
 
 ## APIs
 
-* [Identity](http://developer.chrome.com/trunk/apps/app.identity.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Identity](http://developer.chrome.com/apps/app.identity.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 

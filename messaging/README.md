@@ -4,9 +4,9 @@ This sample shows how to communicate between two apps or one app and one extensi
 
 ## Resources
 
-* [Messaging](https://developer.chrome.com/trunk/apps/runtime.html#method-sendMessage)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Messaging](https://developer.chrome.com/apps/runtime.html#method-sendMessage)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/messaging/assets/screenshot_1280_800.png)

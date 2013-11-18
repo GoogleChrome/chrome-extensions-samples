@@ -14,8 +14,8 @@ This sample uses the frameless window:
 
 ## APIs
 
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Pointer Lock](http://www.w3.org/TR/pointerlock/)
 
 ## External libs

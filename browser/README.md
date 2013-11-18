@@ -3,7 +3,7 @@
 
 # Browser
 
-Sample that shows how to use the [webview tag](http://developer.chrome.com/trunk/apps/app_external.html#webview)
+Sample that shows how to use the [webview tag](http://developer.chrome.com/apps/app_external.html#webview)
 in an app to create a mini browser.
 
 The app's main window contains a `<webview>` that is sized to fit most of it
@@ -16,8 +16,8 @@ reliability of your application.
 
 ## Resources
 
-* [Webview](http://developer.chrome.com/trunk/apps/app_external.html#webview)
-* [Permissions](http://developer.chrome.com/trunk/apps/manifest.html#permissions)
+* [Webview](http://developer.chrome.com/apps/app_external.html#webview)
+* [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
 
      
 ## Screenshot

@@ -30,8 +30,8 @@ _Please note: this has only been tested with an Xbox 360 controller_
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 * [Socket](http://developer.chrome.com/apps/socket.html)
 
 _Thanks to felixge for the [Node AR Drone lib](https://github.com/felixge/node-ar-drone), which served as a helpful reference._

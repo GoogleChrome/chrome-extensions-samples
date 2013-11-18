@@ -8,7 +8,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
 /** 
 * Set up the Commands listener event
-* @see http://developer.chrome.com/trunk/apps/commands.html
+* @see http://developer.chrome.com/apps/commands.html
 */
 chrome.commands.onCommand.addListener(function(command) {
    console.log("Command triggered: " + command);

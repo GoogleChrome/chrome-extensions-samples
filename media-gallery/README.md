@@ -8,8 +8,8 @@ This is a sample application that uses the [media gallery](http://developer.chro
 ## APIs
 
 * [Media gallery](http://developer.chrome.com/apps/mediaGalleries.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

@@ -8,9 +8,9 @@ This is a non-trivial sample which uses the UDP multicast support in Chrome Pack
 
 ## APIs
 
-* [UDP Network](http://developer.chrome.com/trunk/apps/app_network.html#udp)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [UDP Network](http://developer.chrome.com/apps/app_network.html#udp)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

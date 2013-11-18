@@ -10,9 +10,9 @@ This demo app creates a new counter on launch and restores any existing counters
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Storage](http://developer.chrome.com/trunk/apps/storage.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Storage](http://developer.chrome.com/apps/storage.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/restarted-demo/assets/screenshot_1280_800.png)

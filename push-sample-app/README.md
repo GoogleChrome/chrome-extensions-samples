@@ -4,7 +4,7 @@
 # Push Sample App
 
 Sample that shows how to use the [Push Messaging
-API](http://developer.chrome.com/trunk/apps/pushMessaging.html) in an app.
+API](http://developer.chrome.com/apps/pushMessaging.html) in an app.
 
 How to install on your local machine:
 
@@ -38,8 +38,8 @@ curl -s -H "Authorization: Bearer $accesstoken" -H "Content-Type: application/js
 
 ## APIs
 
-* [Push Messaging API](http://developer.chrome.com/trunk/apps/pushMessaging.html)
-* [GCM for Chrome serverf API](http://developer.chrome.com/trunk/apps/cloudMessaging.html)     
+* [Push Messaging API](http://developer.chrome.com/apps/pushMessaging.html)
+* [GCM for Chrome serverf API](http://developer.chrome.com/apps/cloudMessaging.html)     
 
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-sample-app/assets/screenshot_1280_800.png)

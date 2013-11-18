@@ -7,9 +7,9 @@ A non-trivial sample with basic features of a code editor, like language detecti
 
 ## APIs
 
-* [chrome.fileSystem](http://developer.chrome.com/trunk/apps/fileSystem.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [chrome.fileSystem](http://developer.chrome.com/apps/fileSystem.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

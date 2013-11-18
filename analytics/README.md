@@ -13,8 +13,8 @@ Offline is also supported. See more at the [project wiki](https://github.com/Goo
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 * [chrome-platform-analytics](https://github.com/GoogleChrome/chrome-platform-analytics/wiki)
 
      

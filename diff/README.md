@@ -9,10 +9,10 @@ A non-trivial application to diff two files choosen by the user. This app shows 
 
 ## APIs
 
-* [Local Storage API](http://developer.chrome.com/trunk/apps/storage.html) to save history of selected files
-* [Filesystem API](http://developer.chrome.com/trunk/apps/app_storage.html) to allow the user to pick arbitrary files from the disk and save them back.
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Local Storage API](http://developer.chrome.com/apps/storage.html) to save history of selected files
+* [Filesystem API](http://developer.chrome.com/apps/app_storage.html) to allow the user to pick arbitrary files from the disk and save them back.
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot

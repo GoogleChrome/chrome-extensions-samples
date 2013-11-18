@@ -8,8 +8,8 @@ This is a very simple sample of how you can embed an existing web application in
 ## APIs
 
 * [webview](http://developer.chrome.com/apps/webview_tag.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 
      
 ## Screenshot
