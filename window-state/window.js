@@ -149,6 +149,42 @@ $('#setbounds').onclick = function(e) {
     $('#delay-slider').value);
 };
 
+$('#setWindowMinWidth').onclick = function(e) {
+  var value = parseInt($('#windowMinWidth').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().setMinWidth(value);
+    },
+    $('#delay-slider').value);
+};
+
+$('#setWindowMaxWidth').onclick = function(e) {
+  var value = parseInt($('#windowMaxWidth').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().setMaxWidth(value);
+    },
+    $('#delay-slider').value);
+};
+
+$('#setWindowMinHeight').onclick = function(e) {
+  var value = parseInt($('#windowMinHeight').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().setMinHeight(value);
+    },
+    $('#delay-slider').value);
+};
+
+$('#setWindowMaxHeight').onclick = function(e) {
+  var value = parseInt($('#windowMaxHeight').value);
+  setTimeout(
+    function() {
+      chrome.app.window.current().setMaxHeight(value);
+    },
+    $('#delay-slider').value);
+};
+
 var updateDelaySiderText = function updateDelaySiderText() {
   $('#delay-label').innerText = $('#delay-slider').value / 1000 + " seconds.";
 }
@@ -212,6 +248,12 @@ function updateCurrentStateReadout() {
   $('#moveWindowTop').placeholder = chrome.app.window.current().getBounds().top;
   $('#resizeWindowWidth').placeholder = chrome.app.window.current().getBounds().width;
   $('#resizeWindowHeight').placeholder = chrome.app.window.current().getBounds().height;
+
+  $('#windowMinWidth').placeholder = chrome.app.window.current().getMinWidth();
+  $('#windowMaxWidth').placeholder = chrome.app.window.current().getMaxWidth();
+  $('#windowMinHeight').placeholder = chrome.app.window.current().getMinHeight();
+  $('#windowMaxHeight').placeholder = chrome.app.window.current().getMaxHeight();
+
   $('#newWindowWidthMin').placeholder = chrome.app.window.current().getBounds().width;
   $('#newWindowWidthMax').placeholder = chrome.app.window.current().getBounds().width;
   $('#newWindowHeightMin').placeholder = chrome.app.window.current().getBounds().height;
