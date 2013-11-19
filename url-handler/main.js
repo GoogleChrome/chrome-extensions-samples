@@ -10,8 +10,8 @@ App.prototype.getSettings_ = function(callback) {
     chrome.storage.local.get(
       { width: 600, height: 800 },
       function(settings) {
-        callback(settings);
         this.defaultSettings = settings;
+        callback(settings);
       }.bind(this)
     );
   }
