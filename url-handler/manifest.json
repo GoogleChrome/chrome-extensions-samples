@@ -30,14 +30,5 @@
         "*://en.m.wikipedia.org/wiki/*"
       ]
     }
-  },
-
-  "command": {
-    "close": {
-      "suggested_key": {
-        "default": "Ctrl+W"
-      },
-      "description": "Close the app"
-    }
   }
 }
