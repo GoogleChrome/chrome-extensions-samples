@@ -1,5 +1,5 @@
 /**
-Copyright 2012 Google Inc.
+Copyright 2013 Google Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,126 +15,86 @@ limitations under the License.
 
 Author: Renato Mangini (mangini@chromium.org)
 Author: Luis Leao (luisleao@gmail.com)
+Author: Ken Rockot (rockot@chromium.org)
 **/
 
-var serial_lib=(function() {
-  
-  var connectionInfo;
-  var readListener;
-  var dataRead;
-  
-  var logObj=function(obj) {
+var serial_lib = (function() {
+  var logObj = function(obj) {
     console.log(obj);
   }
-  var log=function(msg) {
+
+  var log = function(msg) {
     console.log(msg);
   };
-  
-  
-  var startListening=function(callback) {
-    if (!connectionInfo || !connectionInfo.connectionId) {
-      throw new "You must call openSerial first!";
-    }
-    readListener=callback;
-    dataRead=''; 
-    onCharRead();
-  }
 
-  var onCharRead=function(readInfo) {
-    if (!readListener || !connectionInfo) {
-      return;
-    }
-    if (readInfo && readInfo.bytesRead>0 && readInfo.data) {
-      var str=ab2str(readInfo.data);
-      if (str[str.length-1]==='\n') {
-        dataRead+=str.substring(0, str.length-1);
-        onRead(dataRead);
-        dataRead=""; 
-      } else {
-        dataRead+=str;
+  // Enapsulates an active serial device connection.
+  var DeviceConnection = function(connectionId) {
+    var onReceive = new chrome.Event();
+    var onError = new chrome.Event();
+    var onClose = new chrome.Event();
+    var send = function(msg) {
+      chrome.serial.send(connectionId, str2ab(msg), function() {});
+    };
+    var close = function() {
+      chrome.serial.close(connectionId, function(success) {
+        if (success) {
+          onClose.dispatch();
+        }
+      });
+    };
+    chrome.serial.onReceive.addListener(function(receiveInfo) {
+      if (receiveInfo.connectionId === connectionId) {
+        onReceive.dispatch(ab2str(receiveInfo.data));
       }
-    }
-    chrome.serial.read(connectionInfo.connectionId, 1, onCharRead);
-  }
-
-  var getPorts=function(callback) {
-    chrome.serial.getPorts(callback);
+    });
+    chrome.serial.onReceiveError.addListener(function(errorInfo) {
+      if (errorInfo.connectionId === connectionId) {
+        onError.dispatch(errorInfo.error);
+      }
+    });
+    return {
+      "onReceive": onReceive,
+      "onError": onError,
+      "onClose": onClose,
+      "send": send,
+      "close": close
+    };
   };
-  
-  var openSerial=function(serialPort, callback) {
-    chrome.serial.open(serialPort, {bitrate: 57600}, function(cInfo) {
-     onOpen(cInfo, callback)
+
+  var getDevices = function(callback) {
+    chrome.serial.getDevices(callback);
+  };
+
+  var openDevice = function(path, callback) {
+    chrome.serial.open(path, { bitrate: 57600 }, function(connectionInfo) {
+      var device = null;
+      if (connectionInfo.connectionId >= 0) {
+        device = new DeviceConnection(connectionInfo.connectionId);
+      }
+      callback(device);
     });
   };
   
-  var onOpen=function(cInfo, callback) {
-    if (!cInfo || !cInfo.connectionId || cInfo.connectionId<0) {
-      logObj(cInfo);
-      throw "could not find device (connectionInfo="+cInfo+")";
-    } else {
-      connectionInfo=cInfo;
-      logObj(cInfo);
-      if (callback) callback(cInfo);
-    }
-  };
-  
-  var writeSerial=function(str) {
-    chrome.serial.write(connectionInfo.connectionId, str2ab(str), onWrite); 
-  }
-  
-  var onWrite=function(obj) {
-  }
-  
-  var onRead=function(readInfo) {
-    if (readListener) readListener(readInfo);
+  /* Interprets an ArrayBuffer as UTF-8 encoded string data. */
+  var ab2str = function(buf) {
+    var bufView = new Uint8Array(buf);
+    var encodedString = String.fromCharCode.apply(null, bufView);
+    return decodeURIComponent(escape(encodedString));
   };
 
-  /* the arraybuffer is interpreted as an array of UTF-8 (1-byte Unicode chars) */
-  var ab2str=function(buf) {
-    var bufView=new Uint8Array(buf);
-    var unis=[];
-    for (var i=0; i<bufView.length; i++) {
-      unis.push(bufView[i]);
+  /* Converts a string to UTF-8 encoding in a Uint8Array; returns the array buffer. */
+  var str2ab = function(str) {
+    var encodedString = unescape(encodeURIComponent(str));
+    var bytes = new Uint8Array(encodedString.length);
+    for (var i = 0; i < encodedString.length; ++i) {
+      bytes[i] = encodedString.charCodeAt(i);
     }
-    return String.fromCharCode.apply(null, unis);
-  };
-
-
-  var str2ab=function(str) {
-    var buf=new ArrayBuffer(str.length);
-    var bufView=new Uint8Array(buf);
-    for (var i=0; i<str.length; i++) {
-      bufView[i]=str.charCodeAt(i);
-    }
-    return buf;
+    return bytes.buffer;
   }
- 
- 
-  var closeSerial=function(callback) {
-   if (connectionInfo) {
-     chrome.serial.close(connectionInfo.connectionId, 
-      function(result) {
-        onClose(result, callback);
-      });
-    }
-  };
-  
-  var onClose = function(result, callback) {
-   connectionInfo=null;
-   if (callback) callback(result);
-  };
-  
-  var isConnected = function() {
-    return connectionInfo!=null && connectionInfo.connectionId>=0;
-  };
 
   return {
-    "getPorts": getPorts,
-    "openSerial": openSerial,
-    "isConnected": isConnected,
-    "startListening": startListening,
-    "writeSerial": writeSerial,
-    "closeSerial": closeSerial
-  }
-})();
+    "getDevices": getDevices,
+    "openDevice": openDevice,
+  };
+}());
 
