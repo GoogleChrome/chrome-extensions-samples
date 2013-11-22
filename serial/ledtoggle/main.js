@@ -1,126 +1,101 @@
-//const device = '/dev/tty.usbserial-A100DUTY';
-const device = '/dev/tty.usbmodem621';
+const DEVICE_PATH = '/dev/ttyACM0';
 const serial = chrome.serial;
-const timeout = 100;
 
-function SerialConnection() {
+/* Interprets an ArrayBuffer as UTF-8 encoded string data. */
+var ab2str = function(buf) {
+  var bufView = new Uint8Array(buf);
+  var encodedString = String.fromCharCode.apply(null, bufView);
+  return decodeURIComponent(escape(encodedString));
+};
+
+/* Converts a string to UTF-8 encoding in a Uint8Array; returns the array buffer. */
+var str2ab = function(str) {
+  var encodedString = unescape(encodeURIComponent(str));
+  var bytes = new Uint8Array(encodedString.length);
+  for (var i = 0; i < encodedString.length; ++i) {
+    bytes[i] = encodedString.charCodeAt(i);
+  }
+  return bytes.buffer;
+};
+
+////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+
+var SerialConnection = function() {
   this.connectionId = -1;
-  this.callbacks = {};
-}
-
-SerialConnection.prototype.connect = function(device, callback) {
-  serial.open(device, this.onOpen.bind(this))
-  this.callbacks.connect = callback;
-};
-
-SerialConnection.prototype.read = function(callback) {
-  // Only works for open serial ports.
-  if (this.connectionId < 0) {
-    throw 'Invalid connection';
-  }
-  serial.read(this.connectionId, 1, this.onRead.bind(this));
-  this.callbacks.read = callback;
-};
-
-SerialConnection.prototype.readLine = function(callback) {
-  // Only works for open serial ports.
-  if (this.connectionId < 0) {
-    throw 'Invalid connection';
-  }
-  var line = '';
-
-  // Keep reading bytes until we've found a newline.
-  var readLineHelper = function(readInfo) {
-    var char = readInfo.message;
-    if (char == '') {
-      // Nothing in the buffer. Try reading again after a small timeout.
-      setTimeout(function() {
-        this.read(readLineHelper);
-      }.bind(this), timeout);
-      return;
-    }
-    if (char == '\n') {
-      // End of line.
-      callback(line);
-      line = '';
-    }
-    line += char;
-    this.read(readLineHelper)
-  }.bind(this)
-
-  this.read(readLineHelper);
-};
-
-SerialConnection.prototype.write = function(msg, callback) {
-  // Only works for open serial ports.
-  if (this.connectionId < 0) {
-    throw 'Invalid connection';
-  }
-  this.callbacks.write = callback;
-  this._stringToArrayBuffer(msg, function(array) {
-    serial.write(this.connectionId, array, this.onWrite.bind(this));
-  }.bind(this));
+  this.lineBuffer = "";
+  this.boundOnReceive = this.onReceive.bind(this);
+  this.boundOnReceiveError = this.onReceiveError.bind(this);
+  this.onConnect = new chrome.Event();
+  this.onReadLine = new chrome.Event();
+  this.onError = new chrome.Event();
 };
 
 SerialConnection.prototype.onOpen = function(connectionInfo) {
+  if (connectionInfo.connectionId < 0) {
+    log("Connection failed.");
+    return;
+  }
   this.connectionId = connectionInfo.connectionId;
-  if (this.callbacks.connect) {
-    this.callbacks.connect();
+  chrome.serial.onReceive.addListener(this.boundOnReceive);
+  chrome.serial.onReceiveError.addListener(this.boundOnReceiveError);
+  this.onConnect.dispatch();
+};
+
+SerialConnection.prototype.onReceive = function(receiveInfo) {
+  if (receiveInfo.connectionId !== this.connectionId) {
+    return;
+  }
+
+  this.lineBuffer += ab2str(receiveInfo.data);
+
+  var index;
+  while ((index = this.lineBuffer.indexOf('\n')) >= 0) {
+    var line = this.lineBuffer.substr(0, index + 1);
+    this.onReadLine.dispatch(line);
+    this.lineBuffer = this.lineBuffer.substr(index + 1);
   }
 };
 
-SerialConnection.prototype.onRead = function(readInfo) {
-  if (this.callbacks.read) {
-    this.callbacks.read(readInfo);
+SerialConnection.prototype.onReceiveError = function(errorInfo) {
+  if (errorInfo.connectionId === this.connectionId) {
+    this.onError.dispatch(errorInfo.error);
   }
 };
 
-SerialConnection.prototype.onWrite = function(writeInfo) {
-  log('wrote:' + writeInfo.bytesWritten);
-  if (this.callbacks.write) {
-    this.callbacks.write(writeInfo);
-  }
+SerialConnection.prototype.connect = function(path) {
+  serial.open(path, this.onOpen.bind(this))
 };
 
-/** From tcp-client */
-SerialConnection.prototype._arrayBufferToString = function(buf, callback) {
-  var blob = new Blob([buf]);
-  var f = new FileReader();
-  f.onload = function(e) {
-    callback(e.target.result)
+SerialConnection.prototype.send = function(msg) {
+  if (this.connectionId < 0) {
+    throw 'Invalid connection';
   }
-  f.readAsText(blob);
-}
+  serial.send(this.connectionId, str2ab(msg), function() {});
+};
 
-SerialConnection.prototype._stringToArrayBuffer = function(str, callback) {
-  var blob = new Blob([str]);
-  var f = new FileReader();
-  f.onload = function(e) {
-    callback(e.target.result);
+SerialConnection.prototype.close = function() {
+  if (this.connectionId < 0) {
+    throw 'Invalid connection';
   }
-  f.readAsArrayBuffer(blob);
-}
+  serial.close(this.connectionId, function() {});
+};
 
-
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
-var ser = new SerialConnection();
-ser.connect(device, function() {
-  log('connected to: ' + device);
-  ser.write('hello arduino', function() {
-  });
-  readNextLine();
+var connection = new SerialConnection();
+
+connection.onConnect.addListener(function() {
+  log('connected to: ' + DEVICE_PATH);
+  connection.send("hello arduino");
 });
 
-function readNextLine() {
-  ser.readLine(function(line) {
-    log('readline: ' + line);
-    readNextLine();
-  });
-}
+connection.onReadLine.addListener(function(line) {
+  log('read line: ' + line);
+});
+
+connection.connect(DEVICE_PATH);
 
 function log(msg) {
   var buffer = document.querySelector('#buffer');
@@ -130,5 +105,6 @@ function log(msg) {
 var is_on = false;
 document.querySelector('button').addEventListener('click', function() {
   is_on = !is_on;
-  ser.write(is_on ? 'y' : 'n');
+  connection.send(is_on ? 'y' : 'n');
 });
+
