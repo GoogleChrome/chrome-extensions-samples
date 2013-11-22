@@ -1,5 +1,5 @@
 var connectionId = -1;
-var e_dtr, e_rts, e_dcd, e_cts;
+var e_dtr, e_rts, e_dcd, e_cts, e_ri, e_dsr;
 var dtr, rts;
 
 function onSetControlSignals(result) {
@@ -8,18 +8,20 @@ function onSetControlSignals(result) {
 
 function changeSignals() {
   chrome.serial.setControlSignals(connectionId,
-                                               { dtr: dtr, rts: rts },
-                                               onSetControlSignals);
+                                  { dtr: dtr, rts: rts },
+                                  onSetControlSignals);
 }
 
-function onGetControlSignals(options) {
-  e_dcd.innerText = !!options.dcd;
-  e_cts.innerText = !!options.cts;
+function onGetControlSignals(signals) {
+  e_dcd.innerText = !!signals.dcd;
+  e_cts.innerText = !!signals.cts;
+  e_ri.innerText = !!signals.ri;
+  e_dsr.innerText = !!signals.dsr;
 }
 
 function readSignals() {
   chrome.serial.getControlSignals(connectionId,
-                                               onGetControlSignals);
+                                  onGetControlSignals);
 }
 
 function onOpen(openInfo) {
@@ -43,13 +45,13 @@ function setStatus(status) {
 
 function buildPortPicker(ports) {
   var eligiblePorts = ports.filter(function(port) {
-    return !port.match(/[Bb]luetooth/);
+    return !port.path.match(/[Bb]luetooth/);
   });
 
   var portPicker = document.getElementById('port-picker');
   eligiblePorts.forEach(function(port) {
     var portOption = document.createElement('option');
-    portOption.value = portOption.innerText = port;
+    portOption.value = portOption.innerText = port.path;
     portPicker.appendChild(portOption);
   });
 
@@ -82,9 +84,12 @@ onload = function() {
 
   e_dcd = document.getElementById('dcd_status');
   e_cts = document.getElementById('cts_status');
+  e_ri = document.getElementById('ri_status');
+  e_dsr = document.getElementById('dsr_status');
 
-  chrome.serial.getPorts(function(ports) {
-    buildPortPicker(ports)
+  chrome.serial.getDevices(function(devices) {
+    buildPortPicker(devices)
     openSelectedPort();
   });
 };
+
