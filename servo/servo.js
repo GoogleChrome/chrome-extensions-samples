@@ -4,20 +4,26 @@ function setPosition(position) {
   var buffer = new ArrayBuffer(1);
   var uint8View = new Uint8Array(buffer);
   uint8View[0] = '0'.charCodeAt(0) + position;
-  chrome.serial.write(connectionId, buffer, function() {});
+  chrome.serial.send(connectionId, buffer, function() {});
 };
 
-function onRead(readInfo) {
-  var uint8View = new Uint8Array(readInfo.data);
-  var value = uint8View[0] - '0'.charCodeAt(0);
-  var rotation = value * 18.0;
+function onReceive(receiveInfo) {
+  if (receiveInfo.connectionId !== connectionId)
+    return;
 
+  var uint8View = new Uint8Array(receiveInfo.data);
+  var value = uint8View[uint8View.length - 1] - '0'.charCodeAt(0);
+  var rotation = value * 18.0;
   document.getElementById('image').style.webkitTransform =
     'rotateZ(' + rotation + 'deg)';
-
-  // Keep on reading.
-  chrome.serial.read(connectionId, 1, onRead);
 };
+
+function onError(errorInfo) {
+  console.warn("Receive error on serial connection: " + errorInfo.error);
+};
+
+chrome.serial.onReceive.addListener(onReceive);
+chrome.serial.onReceiveError.addListener(onError);
 
 function onOpen(openInfo) {
   connectionId = openInfo.connectionId;
@@ -26,9 +32,7 @@ function onOpen(openInfo) {
     return;
   }
   setStatus('Connected');
-
   setPosition(0);
-  chrome.serial.read(connectionId, 1, onRead);
 };
 
 function setStatus(status) {
@@ -37,13 +41,13 @@ function setStatus(status) {
 
 function buildPortPicker(ports) {
   var eligiblePorts = ports.filter(function(port) {
-    return !port.match(/[Bb]luetooth/);
+    return !port.path.match(/[Bb]luetooth/);
   });
 
   var portPicker = document.getElementById('port-picker');
   eligiblePorts.forEach(function(port) {
     var portOption = document.createElement('option');
-    portOption.value = portOption.innerText = port;
+    portOption.value = portOption.innerText = port.path;
     portPicker.appendChild(portOption);
   });
 
@@ -79,7 +83,7 @@ onload = function() {
     setPosition(parseInt(this.value, 10));
   };
 
-  chrome.serial.getPorts(function(ports) {
+  chrome.serial.getDevices(function(ports) {
     buildPortPicker(ports)
     openSelectedPort();
   });

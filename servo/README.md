@@ -10,9 +10,9 @@ This app displays a slider that, when dragged, causes a servo attached to an Ard
 
 ## APIs
 
-* [Serial API](http://developer.chrome.com/trunk/apps/app.hardware.html#serial)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Serial API](http://developer.chrome.com/apps/serial.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/servo/assets/screenshot_1280_800.png)
