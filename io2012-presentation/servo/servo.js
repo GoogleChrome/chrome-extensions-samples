@@ -4,7 +4,7 @@ function setPosition(position) {
   var buffer = new ArrayBuffer(1);
   var uint8View = new Uint8Array(buffer);
   uint8View[0] = '0'.charCodeAt(0) + position;
-  chrome.serial.write(connectionId, buffer, function() {});
+  chrome.serial.send(connectionId, buffer, function() {});
 };
 
 function onOpen(openInfo) {
@@ -24,13 +24,13 @@ function setStatus(status) {
 
 function buildPortPicker(ports) {
   var eligiblePorts = ports.filter(function(port) {
-    return !port.match(/[Bb]luetooth/);
+    return !port.path.match(/[Bb]luetooth/);
   });
 
   var portPicker = document.getElementById('port-picker');
   eligiblePorts.forEach(function(port) {
     var portOption = document.createElement('option');
-    portOption.value = portOption.innerText = port;
+    portOption.value = portOption.innerText = port.path;
     portPicker.appendChild(portOption);
   });
 
@@ -66,7 +66,7 @@ onload = function() {
     setPosition(parseInt(this.value, 10));
   };
 
-  chrome.serial.getPorts(function(ports) {
+  chrome.serial.getDevices(function(ports) {
     buildPortPicker(ports)
     openSelectedPort();
   });
