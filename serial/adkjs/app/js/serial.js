@@ -36,7 +36,7 @@ var serial_lib = (function() {
       chrome.serial.send(connectionId, str2ab(msg), function() {});
     };
     var close = function() {
-      chrome.serial.close(connectionId, function(success) {
+      chrome.serial.disconnect(connectionId, function(success) {
         if (success) {
           onClose.dispatch();
         }
@@ -66,9 +66,9 @@ var serial_lib = (function() {
   };
 
   var openDevice = function(path, callback) {
-    chrome.serial.open(path, { bitrate: 57600 }, function(connectionInfo) {
+    chrome.serial.connect(path, { bitrate: 57600 }, function(connectionInfo) {
       var device = null;
-      if (connectionInfo.connectionId >= 0) {
+      if (connectionInfo) {
         device = new DeviceConnection(connectionInfo.connectionId);
       }
       callback(device);

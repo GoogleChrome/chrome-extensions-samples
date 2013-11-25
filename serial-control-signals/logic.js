@@ -13,10 +13,10 @@ function changeSignals() {
 }
 
 function onGetControlSignals(signals) {
-  e_dcd.innerText = !!signals.dcd;
-  e_cts.innerText = !!signals.cts;
-  e_ri.innerText = !!signals.ri;
-  e_dsr.innerText = !!signals.dsr;
+  e_dcd.innerText = signals.dcd;
+  e_cts.innerText = signals.cts;
+  e_ri.innerText = signals.ri;
+  e_dsr.innerText = signals.dsr;
 }
 
 function readSignals() {
@@ -24,12 +24,12 @@ function readSignals() {
                                   onGetControlSignals);
 }
 
-function onOpen(openInfo) {
-  connectionId = openInfo.connectionId;
-  if (connectionId == -1) {
+function onConnect(connectionInfo) {
+  if (!connectionInfo) {
     setStatus('Could not open');
     return;
   }
+  connectionId = connectionInfo.connectionId;
   setStatus('Connected');
 
   dtr = false;
@@ -57,7 +57,7 @@ function buildPortPicker(ports) {
 
   portPicker.onchange = function() {
     if (connectionId != -1) {
-      chrome.serial.close(connectionId, openSelectedPort);
+      chrome.serial.disconnect(connectionId, openSelectedPort);
       return;
     }
     openSelectedPort();
@@ -67,7 +67,7 @@ function buildPortPicker(ports) {
 function openSelectedPort() {
   var portPicker = document.getElementById('port-picker');
   var selectedPort = portPicker.options[portPicker.selectedIndex].value;
-  chrome.serial.open(selectedPort, onOpen);
+  chrome.serial.connect(selectedPort, onConnect);
 }
 
 onload = function() {

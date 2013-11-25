@@ -25,12 +25,12 @@ function onError(errorInfo) {
 chrome.serial.onReceive.addListener(onReceive);
 chrome.serial.onReceiveError.addListener(onError);
 
-function onOpen(openInfo) {
-  connectionId = openInfo.connectionId;
-  if (connectionId == -1) {
+function onOpen(connectionInfo) {
+  if (!connectionInfo) {
     setStatus('Could not open');
     return;
   }
+  connectionId = connectionInfo.connectionId;
   setStatus('Connected');
   setPosition(0);
 };
@@ -53,7 +53,7 @@ function buildPortPicker(ports) {
 
   portPicker.onchange = function() {
     if (connectionId != -1) {
-      chrome.serial.close(connectionId, openSelectedPort);
+      chrome.serial.disconnect(connectionId, openSelectedPort);
       return;
     }
     openSelectedPort();
@@ -63,7 +63,7 @@ function buildPortPicker(ports) {
 function openSelectedPort() {
   var portPicker = document.getElementById('port-picker');
   var selectedPort = portPicker.options[portPicker.selectedIndex].value;
-  chrome.serial.open(selectedPort, onOpen);
+  chrome.serial.connect(selectedPort, onOpen);
 }
 
 onload = function() {

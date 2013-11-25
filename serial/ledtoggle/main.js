@@ -31,8 +31,8 @@ var SerialConnection = function() {
   this.onError = new chrome.Event();
 };
 
-SerialConnection.prototype.onOpen = function(connectionInfo) {
-  if (connectionInfo.connectionId < 0) {
+SerialConnection.prototype.onConnectComplete = function(connectionInfo) {
+  if (!connectionInfo) {
     log("Connection failed.");
     return;
   }
@@ -64,7 +64,7 @@ SerialConnection.prototype.onReceiveError = function(errorInfo) {
 };
 
 SerialConnection.prototype.connect = function(path) {
-  serial.open(path, this.onOpen.bind(this))
+  serial.connect(path, this.onConnectComplete.bind(this))
 };
 
 SerialConnection.prototype.send = function(msg) {
@@ -74,11 +74,11 @@ SerialConnection.prototype.send = function(msg) {
   serial.send(this.connectionId, str2ab(msg), function() {});
 };
 
-SerialConnection.prototype.close = function() {
+SerialConnection.prototype.disconnect = function() {
   if (this.connectionId < 0) {
     throw 'Invalid connection';
   }
-  serial.close(this.connectionId, function() {});
+  serial.disconnect(this.connectionId, function() {});
 };
 
 ////////////////////////////////////////////////////////

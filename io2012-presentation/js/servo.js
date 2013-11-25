@@ -15,12 +15,12 @@ var servo = {
     chrome.serial.send(servo.connectionId, buffer, servo.onSend);
   },
 
-  onOpen: function(openInfo) {
-    servo.connectionId = openInfo.connectionId;
-    if (servo.connectionId == -1) {
+  onOpen: function(connectionInfo) {
+    if (!connectionInfo) {
       servo.fail('Could not open device');
       return;
     }
+    servo.connectionId = connectionInfo.connectionId;
 
     console.log('opened, got connection id: ' + servo.connectionId);
     servo.setPosition(0);
@@ -47,7 +47,7 @@ var servo = {
       servo.fail(eligiblePorts.length + ' eligible ports found, trying ' + port.path);
     }
 
-    chrome.serial.open(port.path, servo.onOpen);
+    chrome.serial.connect(port.path, servo.onOpen);
   },
 
   onSliderChange: function() {
@@ -64,7 +64,7 @@ var servo = {
 
   init: function() {
     if (servo.connectionId != -1) {
-      chrome.serial.close(servo.connectionId, function() {
+      chrome.serial.disconnect(servo.connectionId, function() {
         servo.connectionId = -1;
         servo.init();
       });
@@ -81,7 +81,7 @@ var servo = {
       return;
     }
 
-    chrome.serial.close(servo.connectionId, function() {
+    chrome.serial.disconnect(servo.connectionId, function() {
       servo.connectionId = -1;
     });
   },
