@@ -1,0 +1,39 @@
+html {
+  overflow-y: auto;
+}
+
+body {
+  padding: 1em;
+}
+
+.snippets {
+}
+
+.snippet {
+  background: white;
+  padding: 10px 20px 0px 20px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.snippet h2 {
+  margin-top: 0;
+  margin-left: -10px;
+}
+
+.snippet pre {
+  font-size: 13px;
+  overflow: auto;
+  -webkit-user-select: initial;
+}
+
+.snippet h2 span {
+  display: inline-block;
+  margin-left: 1em;
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.snippet h2 span a {
+  text-decoration: none;
+}
