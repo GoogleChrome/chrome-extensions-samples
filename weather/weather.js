@@ -17,7 +17,7 @@
 // consts
 
 const num_dots_at_bottom = 4;
-const base_weather_url = 'http://free.worldweatheronline.com/feed/weather.ashx?format=json&num_of_days=5&key=78b33b52eb213218120708&q=';
+const base_weather_url = 'https://api.worldweatheronline.com/free/v1/weather.ashx?format=json&num_of_days=5&key=vfc3k7q22tjedr2rxse7xzke&q=';
 const base_geolocation_url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=true&language=EN&latlng=';
 const base_searchterm_url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=EN&address=';
 // Samples:
@@ -367,7 +367,7 @@ function attemptAddCurrentLocation() {
       attemptAddCity(searchurl,
         function(city) {
           selectCity(city);
-          hideSettings();
+          hideLoading();
         },
         onfail.bind(null, "Could not find current location")
       );
