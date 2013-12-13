@@ -1,9 +1,9 @@
 {
   "name": "Identity API Sample",
-  "version": "3",
+  "version": "3.1",
   "manifest_version": 2,
   "minimum_chrome_version": "29",
-  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCPZPLeXCmc7wl3qYdOMhhn+NudVFGLamgy7o7eO0p9N8RlYRbCQd69zFccioAMQEO4OwJdcnGA/3eCjOxqpaIYZcwNa0bbaAvOQtSLNIJGXHHtRZ1GnEvwwWDW5OtPDV5btCuud1u64/TYXzTBB3qVHC8DWsEH8Z2H65TALa+vEwIDAQAB",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDJB6ZGcGxtlr/34s+TKgi84QiP7DMekqOjSUS2ubmbhchlM6CN9gYdGQ1aBI3TBXG3YaAu+XyutFA8M8NLLWc4OOGByWaGV11DP6p67g8a+Ids/gX6cNSRnRHiDZXAd44ATxoN4OZjZJk9iQ26RIUjwX07bzntlI+frwwKCk4WQIDAQAB",
   "app": {
     "background": {
       "scripts": ["main.js"]
@@ -13,7 +13,7 @@
   "oauth2": {
     // client_id below is specifc to the application key. Follow the
     // documentation to obtain one for your app.
-    "client_id": "856497584538.apps.googleusercontent.com",
+    "client_id": "497291774654.apps.googleusercontent.com",
     "scopes": ["https://www.googleapis.com/auth/plus.login"]
   }
 }
