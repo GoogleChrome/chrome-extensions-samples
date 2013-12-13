@@ -2,7 +2,7 @@
   "name": "Weather",
   "description": "A simple weather application.",
   "manifest_version": 2,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "minimum_chrome_version": "23",
   "app": {
     "background": {
