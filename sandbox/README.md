@@ -9,16 +9,16 @@ passes a counter variable. The sandboxed page uses the
 using the counter variable which is then passed back to the main page for rendering.
 
 The default packaged app Content Security Policy (CSP) value
-[disallows](http://developer.chrome.com/trunk/apps/app_csp.html) the use of
+[disallows](http://developer.chrome.com/apps/app_csp.html) the use of
 `eval()` or `new Function()` (or variants like `Function.apply()`) so using a
 sandbox is necessary for this process. To enable sandboxing in your app you
-add the `sandbox` property to your app's [manifest file](http://developer.chrome.com/trunk/apps/manifest.html#sandbox).
+add the `sandbox` property to your app's [manifest file](http://developer.chrome.com/apps/manifest.html#sandbox).
 
-See more info on [using eval safely in packaged apps](http://developer.chrome.com/trunk/apps/sandboxingEval.html).
+See more info on [using eval safely in packaged apps](http://developer.chrome.com/apps/sandboxingEval.html).
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
      
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/sandbox/assets/screenshot_1280_800.png)

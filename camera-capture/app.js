@@ -21,7 +21,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
  * both video and audio. Requires the permissions
  * for audio and video to be set in the manifest.
  *
- * @see http://developer.chrome.com/trunk/apps/manifest.html#permissions
+ * @see http://developer.chrome.com/apps/manifest.html#permissions
  */
 function getCamera() {
   navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {

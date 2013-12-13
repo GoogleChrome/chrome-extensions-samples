@@ -1,7 +1,7 @@
 # Push Messaging Guestbook
 
 Sample that shows how to use the [Push Messaging
-API](http://developer.chrome.com/trunk/apps/pushMessaging.html) in an app.
+API](http://developer.chrome.com/apps/pushMessaging.html) in an app.
 
 How to install on your local machine:
 
@@ -39,9 +39,9 @@ How to install on your local machine:
 
 ## APIs
 
-* [Push Messaging API](http://developer.chrome.com/trunk/apps/pushMessaging.html)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Push Messaging API](http://developer.chrome.com/apps/pushMessaging.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-guestbook/assets/screenshot_1280_800.png)

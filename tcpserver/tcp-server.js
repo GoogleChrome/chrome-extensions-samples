@@ -57,7 +57,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Static method to return available network interfaces.
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-getNetworkList
+   * @see http://developer.chrome.com/apps/socket.html#method-getNetworkList
    *
    * @param {Function} callback The function to call with the available network
    * interfaces. The callback parameter is an array of
@@ -75,7 +75,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Connects to the TCP socket, and creates an open socket.
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-create
+   * @see http://developer.chrome.com/apps/socket.html#method-create
    * @param {Function} callback The function to call on connection
    */
   TcpServer.prototype.listen = function(callback) {
@@ -88,7 +88,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpServer.prototype.disconnect = function() {
     if (this.serverSocketId) socket.disconnect(this.serverSocketId);
@@ -109,7 +109,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * we go ahead and start listening for incoming connections.
    *
    * @private
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-connect
+   * @see http://developer.chrome.com/apps/socket.html#method-connect
    * @param {Object} createInfo The socket details
    */
   TcpServer.prototype._onCreate = function(createInfo) {
@@ -221,7 +221,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Sends a message down the wire to the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-write
+   * @see http://developer.chrome.com/apps/socket.html#method-write
    * @param {String} msg The message to send
    * @param {Function} callback The function to call when the message has sent
    */
@@ -238,7 +238,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpConnection.prototype.disconnect = function() {
     if (this.socketId) socket.disconnect(this.socketId);
@@ -248,7 +248,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Checks for new data to read from the socket
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-read
+   * @see http://developer.chrome.com/apps/socket.html#method-read
    * @private
    */
 
