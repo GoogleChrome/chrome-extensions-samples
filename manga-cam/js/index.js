@@ -50,7 +50,7 @@ function init(saveImage) {
     var waitForPreview = 0;
 
     var oagImage = new Image();
-    oagImage.src = "oag.jpg";
+    oagImage.src = "../images/oag.jpg";
     oagImage.onload = function () {
       var canvas = document.createElement('canvas');
       canvas.width = canvas.height = 1024;

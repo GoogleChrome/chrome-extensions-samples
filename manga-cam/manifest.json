@@ -11,9 +11,9 @@
     }
   },
   "icons": {
-    "16": "assets/camera-128.png",
-    "48": "assets/camera-128.png",
-    "128": "assets/camera-128.png"
+    "16": "images/camera-128.png",
+    "48": "images/camera-128.png",
+    "128": "images/camera-128.png"
   },
   "requirements": {
     "3D": {
