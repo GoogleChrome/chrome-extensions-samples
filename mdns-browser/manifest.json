@@ -2,19 +2,19 @@
   "name": "mDNS Browser",
   "description": "Browses mDNS services on the local network",
   "manifest_version": 2,
-  "version": "0.6",
+  "version": "0.7",
+  "minimum_chrome_version": "33.0.1715.0",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
-  "permissions": [
-    {
-      "socket": [
-        "udp-bind:*",
-        "udp-send-to:*"
-      ]
+  "permissions": ["system.network"],
+  "sockets": {
+    "udp": {
+      "bind": "*",
+      "send": "*"
     }
-  ],
+  },
   "icons": { "128": "img/icon-128.png", "16": "img/icon-16.png" }
 }
