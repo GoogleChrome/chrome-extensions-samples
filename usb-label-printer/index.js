@@ -127,8 +127,18 @@ function printCanvas() {
         "endpoint": 2, // 2 is the Bulk OUT Endpoint
         "data": data
       };
-      chrome.usb.bulkTransfer(device, info, function(e) {
-        console.log("Send data" + e);
+      chrome.usb.claimInterface(device, 0, function() {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          return;
+        }
+        chrome.usb.bulkTransfer(device, info, function(transferResult) {
+          console.log("Send data", transferResult);
+          chrome.usb.releaseInterface(device, 0, function() {
+            if (chrome.runtime.lastError)
+              console.error(chrome.runtime.lastError);
+          });
+        });
       });
     } else {
       console.log("Device not found");
