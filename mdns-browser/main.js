@@ -181,7 +181,7 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
 
   var raw = packet.serialize();
   ServiceFinder.api.send(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
-    if (writeInfo.bytesWritten != raw.byteLength) {
+    if (writeInfo.bytesSent != raw.byteLength) {
       this.callback_('could not write DNS packet on: ' + address);
     }
   }.bind(this));
