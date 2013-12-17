@@ -19,7 +19,7 @@ Author: Boris Smus (smus@chromium.org)
 (function(exports) {
 
   // Define some local variables here.
-  var socket = chrome.socket;
+  var socket = chrome.sockets.tcp;
 
   /**
    * Creates an instance of the client
@@ -49,20 +49,20 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Connects to the TCP socket, and creates an open socket.
    *
-   * @see http://developer.chrome.com/apps/socket.html#method-create
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#method-create
    * @param {Function} callback The function to call on connection
    */
   TcpClient.prototype.connect = function(callback) {
     // Register connect callback.
     this.callbacks.connect = callback;
 
-    socket.create('tcp', {}, this._onCreate.bind(this));
+    socket.create({}, this._onCreate.bind(this));
   };
 
   /**
    * Sends a message down the wire to the remote side
    *
-   * @see http://developer.chrome.com/apps/socket.html#method-write
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#method-send
    * @param {String} msg The message to send
    * @param {Function} callback The function to call when the message has sent
    */
@@ -71,7 +71,7 @@ Author: Boris Smus (smus@chromium.org)
     this.callbacks.sent = callback;
 
     this._stringToArrayBuffer(msg + '\n', function(arrayBuffer) {
-      socket.write(this.socketId, arrayBuffer, this._onWriteComplete.bind(this));
+      socket.send(this.socketId, arrayBuffer, this._onWriteComplete.bind(this));
     }.bind(this));
   };
 
@@ -88,7 +88,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#method-disconnect
    */
   TcpClient.prototype.disconnect = function() {
     socket.disconnect(this.socketId);
@@ -101,7 +101,7 @@ Author: Boris Smus (smus@chromium.org)
    * we go ahead and connect to the remote side.
    *
    * @private
-   * @see http://developer.chrome.com/apps/socket.html#method-connect
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#method-connect
    * @param {Object} createInfo The socket details
    */
   TcpClient.prototype._onCreate = function(createInfo) {
@@ -122,9 +122,15 @@ Author: Boris Smus (smus@chromium.org)
    * @private
    * @param {Number} resultCode Indicates whether the connection was successful
    */
-  TcpClient.prototype._onConnectComplete = function(resultCode) {
-    // Start polling for reads.
-    setInterval(this._periodicallyRead.bind(this), 500);
+  TcpClient.prototype._onConnectComplete = function (resultCode) {
+    if (resultCode < 0) {
+      error('Unable to connect to server');
+      return;
+    }
+
+    // Start listening to message events.
+    socket.onReceive.addListener(this._onReceive.bind(this));
+    socket.onReceiveError.addListener(this._onReceiveError.bind(this));
 
     if (this.callbacks.connect) {
       console.log('connect complete');
@@ -134,12 +140,25 @@ Author: Boris Smus (smus@chromium.org)
   };
 
   /**
-   * Checks for new data to read from the socket
+   * Callback function for when data has been read from the socket.
+   * Converts the array buffer that is read in to a string
+   * and sends it on for further processing by passing it to
+   * the previously assigned callback function.
    *
-   * @see http://developer.chrome.com/apps/socket.html#method-read
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#event-onReceive
+   *
+   * @private
+   * @see TcpClient.prototype.addResponseListener
+   * @param {Object} readInfo The incoming message
    */
-  TcpClient.prototype._periodicallyRead = function() {
-    socket.read(this.socketId, this._onDataRead.bind(this));
+  TcpClient.prototype._onReceive = function (readInfo) {
+    if (this.callbacks.recv) {
+      log('onDataRead');
+      // Convert ArrayBuffer to string.
+      this._arrayBufferToString(readInfo.data, function(str) {
+        this.callbacks.recv(str);
+      }.bind(this));
+    }
   };
 
   /**
@@ -148,19 +167,14 @@ Author: Boris Smus (smus@chromium.org)
    * and sends it on for further processing by passing it to
    * the previously assigned callback function.
    *
+   * @see http://developer.chrome.com/apps/sockets_tcp.html#event-onReceive
+   *
    * @private
    * @see TcpClient.prototype.addResponseListener
    * @param {Object} readInfo The incoming message
    */
-  TcpClient.prototype._onDataRead = function(readInfo) {
-    // Call received callback if there's data in the response.
-    if (readInfo.resultCode > 0 && this.callbacks.recv) {
-      log('onDataRead');
-      // Convert ArrayBuffer to string.
-      this._arrayBufferToString(readInfo.data, function(str) {
-        this.callbacks.recv(str);
-      }.bind(this));
-    }
+  TcpClient.prototype._onReceiveError = function (info) {
+    error('Unable to receive data from socket');
   };
 
   /**
