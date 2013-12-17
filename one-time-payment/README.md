@@ -1,6 +1,6 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/#">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ebcgmmcbgnpoclkoibogeiokfdmjbbob">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
-# One time payments & Free trials in Chrome Apps
+# One time payments & free trials in Chrome Apps
 
 If you choose to charge users for your Chrome App, there are several options
 available to you. The Chrome Web Store has a built-in 
@@ -11,5 +11,10 @@ offer a free trial experience for your users.
 To test with the version that is in the Chrome Web Store, you'll need
 to add the the key below to your manifest:
 
+```"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtqhlRmNTTzJXvfYcLEW9sTzOJzDxJr5M80XgolHc1EYdvjdg1/e4+fPadq3vAueArzwvEtFji2Ax4Aqo99kA1qYyw9ji8RdlUArvJCTIq/7xPMoMPWHCb3wPfZ7IYV4U6h841dUjrOng7yxN9RIYSLHPpqQG0tBSh3sx7pxjYWx6DxhxOlP9BAQ9W8McSaoI8Wy/4hCJb0k6hkGrD1q7mQIWODg7aF03+LvWuF+GNZJfVFU37w6IFo2bcmfJugW/Lu4oG4eYuYziWFXNfgnwaHyrA5MLPrQJ3jZKiETx1AzCClAyYKafkwKEXXhb0mA1H/fJf1ePfMWjT4Yj0E8SWwIDAQAB"```
+
 ## APIs
 * [Identity](http://developer.chrome.com/apps/identity.html)
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/one-time-payment/assets/screenshot_1280_800.png)
