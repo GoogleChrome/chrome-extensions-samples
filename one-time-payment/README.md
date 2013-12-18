@@ -8,6 +8,9 @@ available to you. The Chrome Web Store has a built-in
 called Chrome Web Store Payments.  With one-time payments, you can also
 offer a free trial experience for your users. 
 
+### Note:
+The version that is published in the Chrome Web Store is not available for sale! This is to prevent people from accidentally purchasing a sample.  When installed, the user will be issued with a FREE_TRIAL license.  If you want to see the end to end flow, complete with the ability to purchase the app, you'll need to publish it in the store yourself and enable one time payments.  See the [documentation](https://developers.google.com/chrome/web-store/docs/payments-otp#using-otps) for full details.
+
 To test with the version that is in the Chrome Web Store, you'll need
 to add the the key below to your manifest:
 
