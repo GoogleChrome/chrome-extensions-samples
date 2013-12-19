@@ -97,7 +97,7 @@ Author: Boris Smus (smus@chromium.org)
     socket.onReceiveError.removeListener(this._onReceiveError);
     socket.disconnect(this.socketId);
     socket.close(this.socketId);
-    this.sockerId = null;
+    this.socketId = null;
     this.isConnected = false;
   };
 
