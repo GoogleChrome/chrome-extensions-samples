@@ -8,6 +8,24 @@ Chrome packaged app for a simple label generator with printer support for Dymo 4
 
 Code originally created by Marjin Kruisselbrink (@mkruisselbrink).
 
+### Other printers
+
+If you want to reuse this code for other LabelWriter printers, you might be able to do it if they use the same protocol.
+
+For example, for Dymo 450 Turbo, you need to change:
+
+- index.js
+<pre>
+var productId = 0x0021; // changed from 0x0020
+</pre>
+
+- manifest.json
+<pre>
+"optional_permissions": [ {"usbDevices": [{"vendorId": 2338, "productId": 33}]}] // changed from 32
+</pre>
+
+(thanks @kjantzer for the [information](https://github.com/GoogleChrome/chrome-app-samples/issues/126#issuecomment-29547981))
+
 
 LICENSE
 =======
