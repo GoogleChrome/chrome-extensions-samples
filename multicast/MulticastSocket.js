@@ -7,6 +7,8 @@
  */
 function MulticastSocket(config) {
   this.config = config;
+  this._onReceive = this._onReceive.bind(this);
+  this._onReceiveError = this._onReceiveError.bind(this);
 }
 
 function emptyFn() {
@@ -24,24 +26,25 @@ mc_proto.onDisconnected = function () {
 
 mc_proto.connect = function (callback) {
   var me = this;
-  chrome.socket.create('udp', function (socket) {
+  chrome.sockets.udp.create(function (socket) {
     var socketId = socket.socketId;
-    chrome.socket.setMulticastTimeToLive(socketId, 12, function (result) {
+    chrome.sockets.udp.setMulticastTimeToLive(socketId, 12, function (result) {
       if (result != 0) {
         me.handleError("Set TTL Error: ", "Unkown error");
       }
-      chrome.socket.bind(socketId, "0.0.0.0", me.config.port, function (result) {
+      chrome.sockets.udp.bind(socketId, "0.0.0.0", me.config.port, function (result) {
         if (result != 0) {
-          chrome.socket.destroy(socketId);
+          chrome.sockets.udp.close(socketId);
           me.handleError("Error on bind(): ", result);
         } else {
-          chrome.socket.joinGroup(socketId, me.config.address, function (result) {
+          chrome.sockets.udp.onReceive.addListener(me._onReceive);
+          chrome.sockets.udp.onReceiveError.addListener(me._onReceiveError);
+          chrome.sockets.udp.joinGroup(socketId, me.config.address, function (result) {
             if (result != 0) {
-              chrome.socket.destroy(socketId);
+              chrome.sockets.udp.close(socketId);
               me.handleError("Error on joinGroup(): ", result);
             } else {
               me.socketId = socketId;
-              me._poll();
               me.onConnected();
               if (callback) {
                 callback.call(me);
@@ -57,32 +60,32 @@ mc_proto.connect = function (callback) {
 mc_proto.disconnect = function (callback) {
   var socketId = this.socketId;
   this.socketId = undefined;
-  chrome.socket.destroy(socketId);
+  chrome.sockets.udp.onReceive.removeListener(me._onReceive);
+  chrome.sockets.udp.onReceiveError.removeListener(me._onReceiveError);
+  chrome.sockets.udp.close(socketId);
   this.onDisconnected();
   if (callback) {
     callback.call(this);
   }
 };
 
+mc_proto._onReceive = function (info) {
+  if (info.socketId != this.socketId)
+    return;
+  this.onDiagram(info.data, info.remoteAddress, info.remotePort);
+};
+
+mc_proto._onReceiveError = function (info) {
+  if (info.socketId != this.socketId)
+    return;
+  this.handleError("", info.resultCode);
+  this.disconnect();
+};
+
 mc_proto.handleError = function (additionalMessage, alternativeMessage) {
   var err = chrome.runtime.lastError;
   err = err && err.message || alternativeMessage;
   this.onError(additionalMessage + err);
-};
-
-mc_proto._poll = function () {
-  var me = this;
-  if (me.socketId) {
-    chrome.socket.recvFrom(me.socketId, 1048576, function (result) {
-      if (result.resultCode >= 0) {
-        me.onDiagram(result.data, result.address, result.port);
-        me._poll();
-      } else {
-        me.handleError("", result.resultCode);
-        me.disconnect();
-      }
-    });
-  }
 };
 
 mc_proto.arrayBufferToString = function (arrayBuffer) {
@@ -107,21 +110,21 @@ mc_proto.sendDiagram = function (message, callback, errCallback) {
   if (message && message.byteLength >= 0 && this.socketId) {
     var me = this;
     try {
-      chrome.socket.sendTo(this.socketId,
+      chrome.sockets.udp.send(this.socketId,
         message,
         this.config.address,
         this.config.port,
         function (result) {
-          if (result.bytesWritten >= 0) {
+          if (result.resultCode >= 0) {
             if (callback) {
               callback.call(me);
             }
           } else {
             if (errCallback) {
-              errCallback()
+              errCallback();
             } else {
               me.handleError("");
-              if (result.bytesWritten == -15) {
+              if (result.resultCode == -15) {
                 me.disconnect();
               }
             }
