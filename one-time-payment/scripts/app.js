@@ -12,7 +12,7 @@ function init() {
 *****************************************************************************/
 
 function getLicense() {
-  xhrWithAuth('GET', CWS_LICENSE_API_URL + chrome.runtime.id, false, onLicenseFetched);
+  xhrWithAuth('GET', CWS_LICENSE_API_URL + chrome.runtime.id, true, onLicenseFetched);
 }
 
 function onLicenseFetched(error, status, response) {
