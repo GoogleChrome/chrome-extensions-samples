@@ -654,11 +654,13 @@ function init() {
   });
 }
 
-if (typeof cordova !== 'undefined') {
-  document.addEventListener("deviceready", init);
-} else {
-  $(document).ready(init);
-}
+$(document).ready(function() {
+  if (typeof cordova !== 'undefined') {
+    document.addEventListener("deviceready", init);
+  } else {
+    init();
+  }
+});
 
 /******************************************************************************/
 /******************************************************************************/
