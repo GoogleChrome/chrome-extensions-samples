@@ -9,7 +9,7 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": ["identity", "https://accounts.google.com/*"],
+  "permissions": ["identity", "https://accounts.google.com/*", "https://www.googleapis.com/*"],
   "oauth2": {
     // client_id below is specifc to the application key. Follow the
     // documentation to obtain one for your app.
