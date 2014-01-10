@@ -6,12 +6,7 @@
 
 var http = function() {
 
-var socket = (chrome.experimental && chrome.experimental.socket) ||
-    chrome.socket;
-
-// If this does not have chrome.socket, then return an empty http namespace.
-if (!socket)
-  return {};
+var clientSockets = {};
 
 // Http response code strings.
 var responseMap = {
@@ -122,7 +117,14 @@ EventSource.prototype = {
  */
 function HttpServer() {
   EventSource.apply(this);
+  this.acceptConnection_ = this.acceptConnection_.bind(this);
+  this.onReceive_ = this.onReceive_.bind(this);
+  this.onReceiveError_ = this.onReceiveError_.bind(this);
   this.readyState_ = 0;
+
+  chrome.sockets.tcpServer.onAccept.addListener(this.acceptConnection_);
+  chrome.sockets.tcp.onReceive.addListener(this.onReceive_);
+  chrome.sockets.tcp.onReceiveErrror.addListener(this.onReceiveError_);
 }
 
 HttpServer.prototype = {
@@ -137,64 +139,70 @@ HttpServer.prototype = {
    */
   listen: function(port, opt_host) {
     var t = this;
-    socket.create('tcp', {}, function(socketInfo) {
+    chrome.sockets.tcpServer.create({}, function (socketInfo) {
       t.socketInfo_ = socketInfo;
-      socket.listen(t.socketInfo_.socketId, opt_host || '0.0.0.0', port, 50,
+      chrome.sockets.tcpServer.listen(t.socketInfo_.socketId, opt_host || '0.0.0.0', port, 50,
                     function(result) {
         t.readyState_ = 1;
-        t.acceptConnection_(t.socketInfo_.socketId);
       });
     });
   },
 
   acceptConnection_: function(socketId) {
-    var t = this;
-    socket.accept(this.socketInfo_.socketId, function(acceptInfo) {
-      t.onConnection_(acceptInfo);
-      t.acceptConnection_(socketId);
-    });
+    t.onConnection_(acceptInfo);
   },
 
   onConnection_: function(acceptInfo) {
-    this.readRequestFromSocket_(acceptInfo.socketId);
+    var socketId = acceptInfo.clientSocketId;
+    this.addClientSocket_(socketId);
+    chrome.sockets.tcp.setPaused(socketId, false);
+    this.readRequestFromSocket_(socketId);
   },
 
-  readRequestFromSocket_: function(socketId) {
-    var t = this;
-    var requestData = '';
-    var endIndex = 0;
-    var onDataRead = function(readInfo) {
-      // Check if connection closed.
-      if (readInfo.resultCode <= 0) {
-        socket.disconnect(socketId);
-        socket.destroy(socketId);
-        return;
-      }
-      requestData += arrayBufferToString(readInfo.data).replace(/\r\n/g, '\n');
-      // Check for end of request.
-      endIndex = requestData.indexOf('\n\n', endIndex);
-      if (endIndex == -1) {
-        endIndex = requestData.length - 1;
-        socket.read(socketId, onDataRead);
-        return;
-      }
+  addClientSocket_: function(socketId) {
+    clientSockets[socketId] = { requestData: '', endIndex: 0 };
+  },
 
-      var headers = requestData.substring(0, endIndex).split('\n');
-      var headerMap = {};
-      // headers[0] should be the Request-Line
-      var requestLine = headers[0].split(' ');
-      headerMap['method'] = requestLine[0];
-      headerMap['url'] = requestLine[1];
-      headerMap['Http-Version'] = requestLine[2];
-      for (var i = 1; i < headers.length; i++) {
-        requestLine = headers[i].split(':', 2);
-        if (requestLine.length == 2)
-          headerMap[requestLine[0]] = requestLine[1].trim();
-      }
-      var request = new HttpRequest(headerMap, socketId);
-      t.onRequest_(request);
+  closeClientSocket_: function(socketId) {
+    chrome.sockets.tcp.close(socketId);
+    delete clientSockets[socketId];
+  },
+
+  onReceive_: function(readInfo) {
+    var socketId = readInfo.socketId;
+    if (!clientSockets[socketId])
+      return;
+
+    clientSockets[socketId].requestData += arrayBufferToString(readInfo.data).replace(/\r\n/g, '\n');
+    // Check for end of request.
+    clientSockets[socketId].endIndex = clientSockets[socketId].requestData.indexOf('\n\n', endIndex);
+    if (clientSockets[socketId].endIndex == -1) {
+      clientSockets[socketId].endIndex = clientSockets[socketId].requestData.length - 1;
+      return;
     }
-    socket.read(socketId, onDataRead);
+
+    var headers = clientSockets[socketId].requestData.substring(0, endIndex).split('\n');
+    var headerMap = {};
+    // headers[0] should be the Request-Line
+    var requestLine = headers[0].split(' ');
+    headerMap['method'] = requestLine[0];
+    headerMap['url'] = requestLine[1];
+    headerMap['Http-Version'] = requestLine[2];
+    for (var i = 1; i < headers.length; i++) {
+      requestLine = headers[i].split(':', 2);
+      if (requestLine.length == 2)
+        headerMap[requestLine[0]] = requestLine[1].trim();
+    }
+    var request = new HttpRequest(headerMap, socketId);
+    t.onRequest_(request);
+  },
+
+  onReceiveError_: function (readInfo) {
+    var socketId = readInfo.socketId;
+    if (!clientSockets[socketId])
+      return;
+
+    this.closeClientSocket_(socketId);
   },
 
   onRequest_: function(request) {
@@ -202,8 +210,8 @@ HttpServer.prototype = {
     var keepAlive = request.headers['Connection'] == 'keep-alive';
     if (!this.dispatchEvent(type, request))
       request.close();
-    else if (keepAlive)
-      this.readRequestFromSocket_(request.socketId_);
+    else if (!keepAlive)
+      this.closeClientSocket_(request.socketId_);
   },
 };
 
@@ -248,8 +256,7 @@ HttpRequest.prototype = {
     // The socket for keep alive connections will be re-used by the server.
     // Just stop referencing or using the socket in this HttpRequest.
     if (this.headers['Connection'] != 'keep-alive') {
-      socket.disconnect(this.socketId_);
-      socket.destroy(this.socketId_);
+      chrome.sockets.tcp.close(this.socketId_);
     }
     this.socketId_ = 0;
     this.readyState = 3;
@@ -352,12 +359,12 @@ HttpRequest.prototype = {
   write_: function(array) {
     var t = this;
     this.bytesRemaining += array.byteLength;
-    socket.write(this.socketId_, array, function(writeInfo) {
-      if (writeInfo.bytesWritten < 0) {
-        console.error('Error writing to socket, code '+writeInfo.bytesWritten);
+    chrome.sockets.tcp.send(this.socketId_, array, function (writeInfo) {
+      if (writeInfo.bytesSent < 0) {
+        console.error('Error writing to socket, code ' + writeInfo.bytesSent);
         return;
       }
-      t.bytesRemaining -= writeInfo.bytesWritten;
+      t.bytesRemaining -= writeInfo.bytesSent;
       t.checkFinished_();
     });
   },
@@ -475,6 +482,8 @@ WebSocketRequest.prototype = {
 function WebSocketServerSocket(socketId) {
   this.socketId_ = socketId;
   EventSource.apply(this);
+  this.onReceive_ = this.onReceive_.bind(this);
+  this.onReceiveError_ = this.onReceiveError_.bind(this);
   this.readFromSocket_();
 }
 
@@ -506,15 +515,16 @@ WebSocketServerSocket.prototype = {
     var fragmentedOp = 0;
     var fragmentedMessage = '';
 
+    var onDataReadError = function (readInfo) {
+      if (t.socketId !== readInfo.socketId)
+        return;
+
+      t.close_();
+    };
+
     var onDataRead = function(readInfo) {
-      if (readInfo.resultCode <= 0) {
-        t.close_();
+      if (t.socketId !== readInfo.socketId)
         return;
-      }
-      if (!readInfo.data.byteLength) {
-        socket.read(t.socketId_, onDataRead);
-        return;
-      }
 
       var a = new Uint8Array(readInfo.data);
       for (var i = 0; i < a.length; i++)
@@ -576,9 +586,11 @@ WebSocketServerSocket.prototype = {
           break; // Insufficient data, wait for more.
         }
       }
-      socket.read(t.socketId_, onDataRead);
     };
-    socket.read(this.socketId_, onDataRead);
+
+    chrome.sockets.tcp.onReceive.addListener(onDataRead);
+    chrome.sockets.tcp.onReceiveError.addListener(onDataReadError);
+    chrome.sockets.tcp.setPaused(this.socketId, false);
   },
 
   onFrame_: function(op, data) {
@@ -629,17 +641,17 @@ WebSocketServerSocket.prototype = {
     }
 
     var array = WebsocketFrameString(op, data || '');
-    socket.write(this.socketId_, array, function(writeInfo) {
-      if (writeInfo.resultCode < 0 ||
-          writeInfo.bytesWritten !== array.byteLength) {
+    chrome.sockets.tcp.send(this.socketId_, array, function(sendInfo) {
+      if (sendInfo.resultCode < 0 ||
+          sendInfo.bytesSent !== array.byteLength) {
         t.close_();
       }
     });
   },
 
   close_: function() {
-    chrome.socket.disconnect(this.socketId_);
-    chrome.socket.destroy(this.socketId_);
+    chrome.sockets.tcp.disconnect(this.socketId_);
+    chrome.sockets.tcp.close(this.socketId_);
     this.readyState = 3;
     this.dispatchEvent('close');
   }

@@ -7,7 +7,8 @@ An example Http and WebSocket server implementation with a sample app which serv
 
 ## APIs
 
-* [chrome.socket](http://developer.chrome.com/apps/socket.html)
+* [chrome.sockets.tcpServer](http://developer.chrome.com/apps/sockets.tcpServer.html)
+* [chrome.sockets.tcp](http://developer.chrome.com/apps/sockets.tcp.html)
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
 
