@@ -254,6 +254,9 @@ window.addEventListener("load", function() {
          interactive : 'yes'
       }, getGalleriesInfo);
    });
+   document.getElementById('add-folder-button').addEventListener("click", function() {
+      chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
+   });
    document.getElementById('scan-button').addEventListener("click", function () {
       clearContentDiv();
       clearList();
