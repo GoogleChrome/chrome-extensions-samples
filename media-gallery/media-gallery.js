@@ -6,7 +6,7 @@ var gGalleryData = [];     // hold computed information about each Gallery
 var gCurOptGrp = null;
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
 var audFormats = ['wav', 'mp3'];
-var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'webm', 'wmv'];
+var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
 
 function errorPrintFactory(custom) {
    return function(e) {
