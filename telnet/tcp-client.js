@@ -19,8 +19,7 @@ Author: Boris Smus (smus@chromium.org)
 (function(exports) {
 
   // Define some local variables here.
-  var socket = chrome.socket || chrome.experimental.socket;
-  var dns = chrome.experimental.dns;
+  var socket = chrome.socket;
 
   /**
    * Creates an instance of the client
@@ -50,34 +49,30 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Connects to the TCP socket, and creates an open socket.
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-create
+   * @see http://developer.chrome.com/apps/socket.html#method-create
    * @param {Function} callback The function to call on connection
    */
   TcpClient.prototype.connect = function(callback) {
-    // First resolve the hostname to an IP.
-    dns.resolve(this.host, function(result) {
-      this.addr = result.address;
-      socket.create('tcp', {}, this._onCreate.bind(this));
+    // Register connect callback.
+    this.callbacks.connect = callback;
 
-      // Register connect callback.
-      this.callbacks.connect = callback;
-    }.bind(this));
+    socket.create('tcp', {}, this._onCreate.bind(this));
   };
 
   /**
    * Sends a message down the wire to the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-write
+   * @see http://developer.chrome.com/apps/socket.html#method-write
    * @param {String} msg The message to send
    * @param {Function} callback The function to call when the message has sent
    */
   TcpClient.prototype.sendMessage = function(msg, callback) {
+    // Register sent callback.
+    this.callbacks.sent = callback;
+
     this._stringToArrayBuffer(msg + '\n', function(arrayBuffer) {
       socket.write(this.socketId, arrayBuffer, this._onWriteComplete.bind(this));
     }.bind(this));
-
-    // Register sent callback.
-    this.callbacks.sent = callback;
   };
 
   /**
@@ -93,7 +88,7 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpClient.prototype.disconnect = function() {
     socket.disconnect(this.socketId);
@@ -106,13 +101,13 @@ Author: Boris Smus (smus@chromium.org)
    * we go ahead and connect to the remote side.
    *
    * @private
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-connect
+   * @see http://developer.chrome.com/apps/socket.html#method-connect
    * @param {Object} createInfo The socket details
    */
   TcpClient.prototype._onCreate = function(createInfo) {
     this.socketId = createInfo.socketId;
     if (this.socketId > 0) {
-      socket.connect(this.socketId, this.addr, this.port, this._onConnectComplete.bind(this));
+      socket.connect(this.socketId, this.host, this.port, this._onConnectComplete.bind(this));
       this.isConnected = true;
     } else {
       error('Unable to create socket');
@@ -141,10 +136,10 @@ Author: Boris Smus (smus@chromium.org)
   /**
    * Checks for new data to read from the socket
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-read
+   * @see http://developer.chrome.com/apps/socket.html#method-read
    */
   TcpClient.prototype._periodicallyRead = function() {
-    socket.read(this.socketId, null, this._onDataRead.bind(this));
+    socket.read(this.socketId, this._onDataRead.bind(this));
   };
 
   /**
@@ -191,12 +186,12 @@ Author: Boris Smus (smus@chromium.org)
    * @param {Function} callback The function to call when conversion is complete
    */
   TcpClient.prototype._arrayBufferToString = function(buf, callback) {
-    var bb = new Blob([new Uint8Array(buf)]);
-    var f = new FileReader();
-    f.onload = function(e) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
       callback(e.target.result);
     };
-    f.readAsText(bb);
+    var blob=new Blob([ buf ], { type: 'application/octet-stream' });
+    reader.readAsText(blob);
   };
 
   /**
@@ -210,10 +205,11 @@ Author: Boris Smus (smus@chromium.org)
     var bb = new Blob([str]);
     var f = new FileReader();
     f.onload = function(e) {
-        callback(e.target.result);
+       callback(e.target.result);
     };
     f.readAsArrayBuffer(bb);
   };
+
 
   /**
    * Wrapper function for logging

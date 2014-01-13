@@ -300,10 +300,52 @@ input[type=text].form-error{
   z-index: 100;
 }
 
+#loading {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  background-color: pink;
+  z-index: 10000;
+  -webkit-transition: opacity 0.5s ease-in;
+}
+
+#loading > div
+{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  margin-top: -100px;
+  text-align: center;
+}
+
+#loading > div > p
+{
+  font-size: 2em;
+}
+
+#loading > div > img {
+  -webkit-animation-name: spinnerRotate;
+  -webkit-animation-duration: 5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes spinnerRotate {
+  from {
+    -webkit-transform:rotate(0deg);
+  }
+  to {
+    -webkit-transform:rotate(360deg);
+  }
+}
+
 #wrapper {
   height: 100%;
   width: 100%;
-  position:absolute;
+  position: absolute;
   white-space: nowrap;
   overflow: hidden;
   -webkit-box-sizing: border-box;
@@ -589,6 +631,7 @@ input[type=text].form-error{
 }
 
 .hidden {
+  /*display: none;*/
   visibility: hidden;
 }
 

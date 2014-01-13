@@ -1,0 +1,27 @@
+{
+  "name": "Printest",
+  "description": "A printing testbed",
+  "manifest_version": 2,
+  "minimum_chrome_version": "32",
+  "version": "0.1.7",
+  "app": {
+    "background": {
+      "scripts": [
+        "a.js",
+        "printout.js",
+        "document.js",
+        "controls.js",
+        "application.js",
+        "main.js"
+      ]
+    }
+  },
+  "permissions": [
+    "storage",
+    "system.display"
+  ],
+  "icons": {
+    "16": "icon-16x16.png",
+    "128": "icon-128x128.png"
+  }
+}

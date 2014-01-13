@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "TCP server and client",
-  "version": "1",
+  "name": "TCP Server Sample",
+  "version": "2",
   "minimum_chrome_version": "24",
-  "permissions": [ "webview", { "socket" : ["tcp-listen"] }, "experimental"  ],
+  "permissions": [ "webview", { "socket" : ["tcp-listen"] }  ],
   "app": {
     "background": {
       "scripts": ["tcp-server.js", "commands/BrowserCommands.js", "main.js"]

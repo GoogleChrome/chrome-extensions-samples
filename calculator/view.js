@@ -18,7 +18,7 @@ var values = { 'one'   : 1,
                'point' : '.',
                'AC'    : 'AC',
                'plus-minus' : '+ / -'
-              }
+              };
 
 var keyboard = { 49 : 1,
                  50 : 2,
@@ -35,8 +35,24 @@ var keyboard = { 49 : 1,
                  190 : '.',
                  189 : '-',
                  191 : '/',
-                 67 : 'AC',
-                 8 : 'back'
+                 65 : 'AC',  // a
+                 67 : 'AC',  // c
+                 8 : 'back',
+                 97 : 1,  // numberpad
+                 98 : 2,
+                 99 : 3,
+                 100 : 4,
+                 101 : 5,
+                 102 : 6,
+                 103 : 7,
+                 104 : 8,
+                 105 : 9,
+                 96 : 0,
+                 110 : '.',
+                 109 : '-',
+                 111 : '/',
+                 107 : '+',
+                 106 : '*'
               };
 var shiftKeyboard = { 187 : '+',
                       56 : '*'
@@ -58,14 +74,23 @@ function View(calcModel) {
     calc.buttonClicked(clicked, result);
   });
 
+  window.addEventListener("copy", function(e) {
+    var result = calcModel.accumulator;
+    e.preventDefault();
+    e.clipboardData.setData("text/plain",result);
+  });
+
   $(document).keydown(function(event) {
+    if (event.ctrlKey && event.keyCode == 67) {
+      return;
+    }
     var clicked = null;
     if (event.which == 16)
       shift = true;
     else if (shift && event.which in shiftKeyboard)
-      clicked = shiftKeyboard[event.which]
+      clicked = shiftKeyboard[event.which];
     else if (!shift && event.which in keyboard)
-      clicked = keyboard[event.which]
+      clicked = keyboard[event.which];
     if (clicked != null) {
       var result = calcModel.HandleButtonClick(clicked);
       calc.buttonClicked(clicked, result);
@@ -76,9 +101,7 @@ function View(calcModel) {
     if (event.which == 16)
       shift = false;
   });
-
 }
-
 
 function displayNumber(number) {
   var digits = (number + '').length;
@@ -128,7 +151,7 @@ View.prototype.buttonClicked = function(clicked, result) {
   else {
     accumulator = '';
     operator = '';
-    this.AddDisplayEquation(operator, operand, accumulator)
+    this.AddDisplayEquation(operator, operand, accumulator);
   }
 }
 
@@ -188,7 +211,7 @@ View.prototype.AddButtons = function() {
 
   row = this.AddRow();
   this.AddButton(row, 0, 'zero');
-  this.AddButton(row, 'point', 'point')
+  this.AddButton(row, 'point', 'point');
 }
 
 View.prototype.AddRow = function() {

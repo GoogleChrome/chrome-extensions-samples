@@ -1,28 +1,23 @@
 {
-  "name": "Filesystem Access Example",
-  "version": "1",
+  "name": "Filesystem Access Sample",
+  "version": "2",
   "manifest_version": 2,
-  "minimum_chrome_version": "23",
-  "icons": {
-    "16": "camera.png",
-    "128": "camera.png"
-  },
+  "minimum_chrome_version": "31",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
   "permissions": [
-    {"fileSystem": ["write"]}
+    {"fileSystem": ["write", "retainEntries", "directory"]},
+    "storage"
   ],
-  "intents": {
-    "http://webintents.org/view" : [{
-      "title" : "Txt Reader",
-      "type" : ["text/*"]
-    }],
-    "http://webintents.org/edit" : [{
-      "title" : "Txt Reader",
-      "type" : ["text/*"]
-    }]
+  "file_handlers": {
+    "text": {
+      "types": [
+          "text/*"
+      ],
+      "title": "Text editor"
+    }
   }
 }

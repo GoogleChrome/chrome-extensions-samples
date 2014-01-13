@@ -1,0 +1,27 @@
+{
+  "name": "Google Drive Sample",
+  "version": "0.0.5",
+  "manifest_version": 2,
+  "minimum_chrome_version": "29",
+  "oauth2": {
+    "client_id": "696763237280-bkfouv0030la6l9t2g1elim04no836fq.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/drive"
+    ]
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCXaBUTn1PNjYo8fg+1JBmWBA3bdrn7siqzkY0tYeuNHIWi5ji+6V5Y3QWYRFQh3AFwrZaBItvaM3fsit7K++kDoD67VhYGrGd+mjl4Htmp+/HbzzCQMBJdTdTOvR722+VHmIttzbe/I7GB3a74KvPYfUENONj1tswyKkuXeMgFOQIDAQAB",
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "permissions": [
+    "identity",
+    "https://ssl.gstatic.com/",
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
+  ]
+}

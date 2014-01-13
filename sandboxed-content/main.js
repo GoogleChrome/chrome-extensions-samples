@@ -1,10 +1,13 @@
 /**
  * Listens for the app launching then creates the window
  *
- * @see http://developer.chrome.com/trunk/apps/app.runtime.html
- * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/apps/app.runtime.html
+ * @see http://developer.chrome.com/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('main.html',
-    {width: 400, height: 350});
+    {
+    	id: "mainwin",
+    	bounds: {width: 400, height: 350}
+    });
 });

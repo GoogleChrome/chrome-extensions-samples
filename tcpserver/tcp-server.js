@@ -21,8 +21,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
 (function(exports) {
 
   // Define some local variables here.
-  var socket = chrome.socket || chrome.experimental.socket;
-  var dns = chrome.experimental.dns;
+  var socket = chrome.socket;
 
   /**
    * Creates an instance of the client
@@ -33,9 +32,9 @@ const DEFAULT_MAX_CONNECTIONS=5;
   function TcpServer(addr, port, options) {
     this.addr = addr;
     this.port = port;
-    this.maxConnections = typeof(options) != 'undefined' 
+    this.maxConnections = typeof(options) != 'undefined'
         && options.maxConnections || DEFAULT_MAX_CONNECTIONS;
-    
+
     // Callback functions.
     this.callbacks = {
       listen: null,    // Called when socket is connected.
@@ -57,11 +56,11 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
   /**
    * Static method to return available network interfaces.
-   * 
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-getNetworkList
-   * 
-   * @param {Function} callback The function to call with the available network 
-   * interfaces. The callback parameter is an array of 
+   *
+   * @see http://developer.chrome.com/apps/socket.html#method-getNetworkList
+   *
+   * @param {Function} callback The function to call with the available network
+   * interfaces. The callback parameter is an array of
    * {name(string), address(string)} objects. Use the address property of the
    * preferred network as the addr parameter on TcpServer contructor.
    */
@@ -76,7 +75,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Connects to the TCP socket, and creates an open socket.
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-create
+   * @see http://developer.chrome.com/apps/socket.html#method-create
    * @param {Function} callback The function to call on connection
    */
   TcpServer.prototype.listen = function(callback) {
@@ -89,7 +88,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpServer.prototype.disconnect = function() {
     if (this.serverSocketId) socket.disconnect(this.serverSocketId);
@@ -110,13 +109,13 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * we go ahead and start listening for incoming connections.
    *
    * @private
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-connect
+   * @see http://developer.chrome.com/apps/socket.html#method-connect
    * @param {Object} createInfo The socket details
    */
   TcpServer.prototype._onCreate = function(createInfo) {
     this.serverSocketId = createInfo.socketId;
     if (this.serverSocketId > 0) {
-      socket.listen(this.serverSocketId, this.addr, this.port, null, 
+      socket.listen(this.serverSocketId, this.addr, this.port, 50,
         this._onListenComplete.bind(this));
       this.isListening = true;
     } else {
@@ -204,7 +203,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   };
 
   TcpConnection.prototype.requestSocketInfo = function(callback) {
-    socket.getInfo(this.socketId, 
+    socket.getInfo(this.socketId,
       this._onSocketInfo.bind(this, callback));
   };
 
@@ -222,7 +221,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Sends a message down the wire to the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-write
+   * @see http://developer.chrome.com/apps/socket.html#method-write
    * @param {String} msg The message to send
    * @param {Function} callback The function to call when the message has sent
    */
@@ -239,7 +238,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Disconnects from the remote side
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-disconnect
+   * @see http://developer.chrome.com/apps/socket.html#method-disconnect
    */
   TcpConnection.prototype.disconnect = function() {
     if (this.socketId) socket.disconnect(this.socketId);
@@ -249,7 +248,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   /**
    * Checks for new data to read from the socket
    *
-   * @see http://developer.chrome.com/trunk/apps/socket.html#method-read
+   * @see http://developer.chrome.com/apps/socket.html#method-read
    * @private
    */
 
@@ -279,8 +278,15 @@ const DEFAULT_MAX_CONNECTIONS=5;
    * @param {Object} readInfo The incoming message
    */
   TcpConnection.prototype._onDataRead = function(readInfo) {
+    // Any read error is considered a disconnect from the remote host.
+    // Disconnect our socket in that case.
+    if (readInfo && readInfo.resultCode < 0) {
+      this.disconnect();
+      return;
+    }
+
     // Call received callback if there's data in the response.
-    if (readInfo && readInfo.resultCode > 0 && this.callbacks.recv) {
+    if (this.callbacks.recv) {
       log('onDataRead');
       // Convert ArrayBuffer to string.
       _arrayBufferToString(readInfo.data, this.callbacks.recv.bind(this));

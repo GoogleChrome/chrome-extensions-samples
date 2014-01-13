@@ -1,0 +1,24 @@
+{
+  "name": "One Time Payment Sample",
+  "version": "0.4.1.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "29",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "storage",
+    "identity"
+  ],
+  "icons": {
+    "128": "/images/128.png"
+  },
+  "oauth2": {
+    "client_id": "912609627511-naonel81buqhb6egeqk4r531m75lbsr7.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/chromewebstore.readonly"
+    ]
+  }
+}

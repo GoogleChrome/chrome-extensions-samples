@@ -5,15 +5,15 @@ var commandWindow;
 /**
  * Listens for the app launching then creates the window
  *
- * @see http://developer.chrome.com/trunk/apps/app.runtime.html
- * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/apps/app.runtime.html
+ * @see http://developer.chrome.com/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
 	if (commandWindow && !commandWindow.contentWindow.closed) {
 		commandWindow.focus();
 	} else {
 		chrome.app.window.create('index.html',
-			{width: 500, height: 309, left: 0},
+			{id: "mainwin", bounds: {width: 500, height: 309, left: 0}},
 			function(w) {
 				commandWindow = w;
 			});
@@ -89,7 +89,11 @@ function stopServer() {
 }
 
 function getServerState() {
-  return {isConnected: tcpServer.isConnected(), 
-    addr: tcpServer.addr,
-    port: tcpServer.port};
+  if (tcpServer) {
+    return {isConnected: tcpServer.isConnected(),
+      addr: tcpServer.addr,
+      port: tcpServer.port};
+  } else {
+    return {isConnected: false};
+  }
 }

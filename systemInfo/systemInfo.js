@@ -2,98 +2,129 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-var systemInfo = chrome.experimental.systemInfo;
+var systemInfo = chrome.system;
 
-var indicator = {}
-var isStarted = false;
-
-function onStorageChanged(info) {
-  var elem = document.getElementById(info.id);
-  if (indicator[info.id]++ % 2)
-    elem.bgColor = "green";
-  else
-    elem.bgColor = "white";
-  elem.innerHTML = info.availableCapacity;
+function showBounds(bounds) {
+  return bounds.left + ", " + bounds.top + ", " +
+      bounds.width + ", " + bounds.height;
 }
 
-function startMonitor() {
-  if (isStarted) return;
-  systemInfo.storage.onAvailableCapacityChanged.addListener(onStorageChanged);
-  isStarted = true;
+function showInsets(bounds) {
+  return bounds.left + ", " + bounds.top + ", " +
+      bounds.right + ", " + bounds.bottom;
 }
 
-function stopMonitor() {
-  if (!isStarted) return;
-  systemInfo.storage.onAvailableCapacityChanged.removeListener(
-      onStorageChanged);
-  isStarted = false;
+function showDisplayInfo(display) {
+  table = "<tr><td>" + display.id + "</td>" +
+    "<td>" + display.name + "</td>" +
+    "<td>" + display.mirroringSourceId + "</td>" +
+    "<td>" + display.isPrimary + "</td>" +
+    "<td>" + display.isInternal + "</td>" +
+    "<td>" + display.isEnabled + "</td>" +
+    "<td>" + display.dpiX + "</td>" +
+    "<td>" + display.dpiY + "</td>" +
+    "<td>" + display.rotation + "</td>" +
+    "<td>" + showBounds(display.bounds) + "</td>" +
+    "<td>" + showInsets(display.overscan) + "</td>" +
+    "<td>" + showBounds(display.workArea) + "</td>" +
+    "</tr>\n";
+  return table;
+}
+
+function bytesToMegaBytes(number) {
+  return Math.round(number / 1024 / 1024);
 }
 
 function showStorageInfo(unit) {
   table = "<tr><td>" + unit.id + "</td>" +
     "<td>" + unit.type + "</td>" +
-    "<td>" + Math.round(unit.capacity/1024) + "</td>" +
-    "<td id=" + "\"" + unit.id + "\">" +
-    Math.round(unit.availableCapacity/1024) +
-    "</td></tr>\n";
+    "<td>" + bytesToMegaBytes(unit.capacity) + "</td>" +
+    "<td>" + bytesToMegaBytes(unit.availableCapacity) + "</td>" +
+    "</tr>\n";
   return table;
 }
 
 function init() {
-  document.getElementById("start-btn").onclick = startMonitor;
-  document.getElementById("stop-btn").onclick = stopMonitor;
+  // Get display information.
+  (function getDisplayInfo() {
+    systemInfo.display.getInfo(function(displays) {
+      var table = "<table width=70% border=\"1\">\n" +
+        "<tr><td><b>ID</b></td>" +
+        "<td><b>Name</b></td>" +
+        "<td><b>Mirroring Source Id</b></td>" +
+        "<td><b>Is Primary</b></td>" +
+        "<td><b>Is Internal</b></td>" +
+        "<td><b>Is Enabled</b></td>" +
+        "<td><b>DPI X</b></td>" +
+        "<td><b>DPI Y</b></td>" +
+        "<td><b>Rotation</b></td>" +
+        "<td><b>Bounds</b></td>" +
+        "<td><b>Overscan</b></td>" +
+        "<td><b>Work Area</b></td>" +
+        "</tr>\n";
+      for (var i = 0; i < displays.length; i++) {
+        table += showDisplayInfo(displays[i]);
+      }
+      table += "</table>\n";
+      var div = document.getElementById("display-list");
+      div.innerHTML = table;
+    });
+
+    systemInfo.display.onDisplayChanged.addListener(getDisplayInfo);
+  })();
 
   // Get CPU information.
-  chrome.experimental.systemInfo.cpu.get(function(cpu) {
+  systemInfo.cpu.getInfo(function(cpu) {
     var cpuInfo = "<b>Architecture:</b> " + cpu.archName +
       "<br><b>Model Name: </b>" + cpu.modelName +
       "<br><b>Number of Processors: </b>" + cpu.numOfProcessors;
     var div = document.getElementById("cpu-info");
     div.innerHTML = cpuInfo;
   });
-  chrome.experimental.systemInfo.cpu.onUpdated.addListener(function(info) {
-    var table = "<br><table border=\"1\">\n" +
-      "<tr><td width=\"80px\"><b>Index</b></td>";
-    for (var i = 0; i < info.usagePerProcessor.length; i++) {
-      table += "<td width=\"120px\"><b>" + i + "</b></td>";
-    }
-    table += "<td width=\"120px\"><b>Total</b></td></tr>\n";
-    table += "<tr><td><b>History Usage</b></td>";
-    for (var i = 0; i < info.usagePerProcessor.length; i++) {
-      table += "<td>" + Math.round(info.usagePerProcessor[i]) + "</td>";
-    }
-    table += "<td>" + Math.round(info.averageUsage) + "</td></tr>";
-    table += "</table>\n";
-    var div = document.getElementById("cpu-cores");
-    div.innerHTML = table;
-  });
 
   // Get memory information.
-  chrome.experimental.systemInfo.memory.get(function(memory) {
-    var memoryInfo =
-    "<b>Total Capacity:</b> " + Math.round(memory.capacity / 1024) + "KB" +
-    "<br><b>Available Capacity: </b>" +
-    Math.round(memory.availableCapacity / 1024) + "KB"
-    var div = document.getElementById("memory-info");
-    div.innerHTML = memoryInfo;
-  });
+  (function getMemoryInfo() {
+    systemInfo.memory.getInfo(function(memory) {
+      var memoryInfo =
+      "<b>Total Capacity:</b> " + bytesToMegaBytes(memory.capacity) + "MB" +
+      "<br><b>Available Capacity: </b>" +
+      bytesToMegaBytes(memory.availableCapacity) + "MB"
+      var div = document.getElementById("memory-info");
+      div.innerHTML = memoryInfo;
+    });
+
+    setTimeout(getMemoryInfo, 1000);
+  })();
 
   // Get storage information.
-  chrome.experimental.systemInfo.storage.get(function(units) {
-    var table = "<table width=65% border=\"1\">\n" +
-      "<tr><td><b>ID</b></td>" +
-      "<td><b>Type</b></td>" +
-      "<td><b>Total Capacity (KB)</b></td>" +
-      "<td><b>Available Capacity (KB)</b></td>" +
-      "</tr>\n";
-    for (var i = 0; i < units.length; i++) {
-      indicator[units[i].id] = 0;
-      table += showStorageInfo(units[i]);
-    }
-    table += "</table>\n";
-    var div = document.getElementById("storage-list");
-    div.innerHTML = table;
-  });
+  (function getStorageInfo() {
+    systemInfo.storage.getInfo(function(units) {
+      var table = "<table width=70% border=\"1\">\n" +
+        "<tr><td><b>ID</b></td>" +
+        "<td><b>Type</b></td>" +
+        "<td><b>Total Capacity (MB)</b></td>" +
+        "<td><b>Available Capacity (MB)</b></td>" +
+        "</tr>\n";
+      function showTable() {
+        table += "</table>\n";
+        var div = document.getElementById("storage-list");
+        div.innerHTML = table;
+      }
+      if (units.length == 0)
+        return showTable();
+      units.forEach(function(unit, index) {
+        systemInfo.storage.getAvailableCapacity(unit.id, function(info) {
+          unit.availableCapacity = info.availableCapacity;
+          table += showStorageInfo(unit);
+          if (index == units.length - 1)
+            showTable();
+        })
+      });
+    });
+
+    systemInfo.storage.onAttached.addListener(getStorageInfo);
+    systemInfo.storage.onDetached.addListener(getStorageInfo);
+  })();
 }
 
 document.addEventListener('DOMContentLoaded', init);

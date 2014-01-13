@@ -2,8 +2,8 @@ var servo = {
 
   connectionId: -1,
 
-  onWrite: function(writeInfo) {
-    if (writeInfo.bytesWritten == -1) {
+  onSend: function(sendInfo) {
+    if (sendInfo.bytesSent == -1) {
       servo.fail('Could not write to serial device.');
     }
   },
@@ -12,28 +12,28 @@ var servo = {
     var buffer = new ArrayBuffer(1);
     var uint8View = new Uint8Array(buffer);
     uint8View[0] = 48 + position;
-    chrome.serial.write(servo.connectionId, buffer, servo.onWrite);
+    chrome.serial.send(servo.connectionId, buffer, servo.onSend);
   },
 
-  onOpen: function(openInfo) {
-    servo.connectionId = openInfo.connectionId;
-    if (servo.connectionId == -1) {
+  onOpen: function(connectionInfo) {
+    if (!connectionInfo) {
       servo.fail('Could not open device');
       return;
     }
+    servo.connectionId = connectionInfo.connectionId;
 
     console.log('opened, got connection id: ' + servo.connectionId);
     servo.setPosition(0);
   },
 
-  onGetPorts: function(ports) {
+  onGetDevices: function(ports) {
     var eligiblePorts = ports.filter(function(port) {
-      if (servo.shouldSkipPort(port)) {
-        console.log('Skipping port ' + port);
+      if (servo.shouldSkipPort(port.path)) {
+        console.log('Skipping port ' + port.path);
         return false;
       }
 
-      console.log('Maybe using port ' + port);
+      console.log('Maybe using port ' + port.path);
       return true;
     });
 
@@ -44,10 +44,10 @@ var servo = {
 
     var port = eligiblePorts[eligiblePorts.length - 1];
     if (eligiblePorts.length > 1) {
-      servo.fail(eligiblePorts.length + ' eligible ports found, trying ' + port);
+      servo.fail(eligiblePorts.length + ' eligible ports found, trying ' + port.path);
     }
 
-    chrome.serial.open(port, servo.onOpen);
+    chrome.serial.connect(port.path, servo.onOpen);
   },
 
   onSliderChange: function() {
@@ -64,7 +64,7 @@ var servo = {
 
   init: function() {
     if (servo.connectionId != -1) {
-      chrome.serial.close(servo.connectionId, function() {
+      chrome.serial.disconnect(servo.connectionId, function() {
         servo.connectionId = -1;
         servo.init();
       });
@@ -73,7 +73,7 @@ var servo = {
     document.getElementById('spinner-error').classList.remove('visible');
     document.getElementById('spinner-input').onchange = servo.onSliderChange;
 
-    chrome.serial.getPorts(servo.onGetPorts);
+    chrome.serial.getDevices(servo.onGetDevices);
   },
 
   shutDown: function() {
@@ -81,7 +81,7 @@ var servo = {
       return;
     }
 
-    chrome.serial.close(servo.connectionId, function() {
+    chrome.serial.disconnect(servo.connectionId, function() {
       servo.connectionId = -1;
     });
   },
@@ -90,4 +90,4 @@ var servo = {
     document.getElementById('spinner-error').classList.add('visible');
     document.getElementById('spinner-error').textContent = message;
   }
-}
+};

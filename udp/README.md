@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/okhdmjejphblookgnkabaoaalhcoobec">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # A simple UDP echo client
 
     ------------------------------
@@ -26,6 +29,10 @@ In the `server` directory, you will find a Node echo server that intentionally d
 
 ## APIs
 
-* [UDP Network](http://developer.chrome.com/trunk/apps/app_network.html#udp)
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [UDP Network](http://developer.chrome.com/apps/app_network.html#udp)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/udp/assets/screenshot_1280_800.png)
+

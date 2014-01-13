@@ -1,0 +1,10 @@
+#fullscreen-area {
+  box-shadow: inset 0px 1px 10px rgba(0,0,0,1);
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.size {
+  width: 60px;
+}

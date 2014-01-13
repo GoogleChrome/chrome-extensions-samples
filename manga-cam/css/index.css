@@ -1,0 +1,129 @@
+html, div, body, canvas {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  -webkit-app-region: drag;
+  background: black;
+  overflow: hidden;
+}
+
+#container {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  text-align: center;
+}
+
+canvas {
+  height: 480px;
+  -webkit-transition: 1s opacity;
+  background: black;
+}
+
+#main {
+  position: relative;
+  background: white;
+  height: 480px;
+  text-align: center;
+}
+
+#list {
+  position: absolute;
+  text-align: left;
+  padding: 10px;
+  padding-bottom: 25px;
+  height: 155px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: white;
+  width: 640px;
+  border-top: 2px solid black;
+  -webkit-app-region: no-drag;
+}
+
+#list img {
+  height: 120px;
+  background: black;
+  margin-left: 10px;
+  -webkit-transition: 1s opacity;
+  border: 1px solid black;
+  -webkit-app-region: no-drag;
+}
+
+.invisible {
+  -webkit-transition: 0s opacity;
+  opacity: 0;
+}
+
+#list img:first-child {
+  margin-left: 0;
+}
+
+button {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px none;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  outline: none;
+  cursor: pointer;
+  background: url(../images/camera-button.png) center center, white;
+  background-size: 44px 44px;
+  position: absolute;
+  bottom: -22px;
+  margin-left: -22px;
+  z-index: 1000;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-app-region: no-drag;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+button:hover {
+  border-color: black;
+}
+
+button:active {
+  border-color: black;
+  -webkit-transform: translate3d(1px, 1px, 0);
+}
+
+#close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: white;
+  z-index: 1000;
+  -webkit-app-region: no-drag;
+}
+
+#close-button:hover {
+  font-weight: bold;
+}
+
+#no-camera {
+  top: 330px;
+  font-family: Impact;
+  font-size: 35px;
+  position: relative;
+  z-index: 1000;
+  height: 0;
+  color: white;
+  text-shadow: 0 0 2px black;
+  display: none;
+}

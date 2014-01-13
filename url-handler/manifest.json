@@ -1,0 +1,34 @@
+{
+  "name": "Wikipedia Viewer",
+  "version": "1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "31.0.1650.4",
+
+  "app": {
+    "background": {
+      "scripts": [
+        "main.js"
+      ]
+    }
+  },
+
+  "permissions": [
+    "webview",
+    "storage"
+  ],
+
+  "url_handlers": {
+    "wiki_article": {
+      "title": "View Wikipedia article",
+      "matches": [
+        "*://en.wikipedia.org/wiki/*"
+      ]
+    },
+    "mobile_wiki_article": {
+      "title": "View Wikipedia article",
+      "matches": [
+        "*://en.m.wikipedia.org/wiki/*"
+      ]
+    }
+  }
+}

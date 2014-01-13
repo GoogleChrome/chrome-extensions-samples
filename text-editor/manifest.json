@@ -1,7 +1,7 @@
 {
-  "name": "Simple Text Editor (Packaged app)",
+  "name": "Simple Text Editor",
   "description": "Syntax highlighting text editor",
-  "version": "0.20",
+  "version": "0.21",
   "manifest_version": 2,
   "minimum_chrome_version": "23",
   "icons": {
@@ -9,14 +9,6 @@
     "24": "icons/texteditor_24.png",
     "48": "icons/texteditor_48.png",
     "128": "icons/texteditor_128.png"
-  },
-  "intents": {
-    "http://webintents.org/view": {
-      "type": [
-        "text/*"
-      ],
-      "title": "Simple Text Editor (Packaged app)"
-    }
   },
   "permissions": [
     "clipboardRead",

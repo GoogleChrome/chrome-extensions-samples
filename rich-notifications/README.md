@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/cndmbddaappldijonoekcdfdlhemhejm">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Rich notifications
 
 This sample shows how to use the "templated" notifications API,
@@ -9,4 +12,9 @@ in the system tray. This API is still in experimental state.
 
 ## Resources
 
-* Notification API (no documentation yet)
+* [Notification API documentation](http://developer.chrome.com/apps/notifications.html)
+
+## Screenshot
+
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/rich-notifications/assets/screenshot_1280_800.png)
+

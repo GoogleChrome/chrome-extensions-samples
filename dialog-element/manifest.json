@@ -1,0 +1,11 @@
+{
+  "manifest_version": 2,
+  "name": "Dialog Element Example",
+  "version": "2",
+  "minimum_chrome_version": "31",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}

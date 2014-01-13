@@ -17,7 +17,7 @@
 // consts
 
 const num_dots_at_bottom = 4;
-const base_weather_url = 'http://free.worldweatheronline.com/feed/weather.ashx?format=json&num_of_days=5&key=78b33b52eb213218120708&q=';
+const base_weather_url = 'https://api.worldweatheronline.com/free/v1/weather.ashx?format=json&num_of_days=5&key=vfc3k7q22tjedr2rxse7xzke&q=';
 const base_geolocation_url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=true&language=EN&latlng=';
 const base_searchterm_url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=EN&address=';
 // Samples:
@@ -248,6 +248,16 @@ function refreshIScroll() {
   }, 0);
 }
 
+function hideLoading() {
+  if ($('#loading').hasClass('fadeOut')) {
+    return;
+  }
+  $('#loading').css('opacity', 0);
+  setTimeout(function() {
+    $('#loading').addClass('hidden');
+  }, 500); // 500 comes from the fade out time in css
+}
+
 function hideSettings() {
   $('#weather').removeClass('hidden');
   $('#settings').addClass('hidden');
@@ -305,16 +315,14 @@ function attemptAddCity(searchurl, onsuccess, onerror) {
     }
 
     if (!formatted_address) {
-      if (onerror !== undefined && onerror !== null)
-        onerror();
+      onerror && onerror();
       return;
     }
 
     getWeatherData(formatted_address, function(current_condition, forecast) {
       var city = addCity(formatted_address);
       addWeatherData(city, current_condition, forecast);
-      if (onsuccess !== undefined && onsuccess !== null)
-        onsuccess(city);
+      onsuccess && onsuccess(city);
     }, onerror);
   }, 'json');
 }
@@ -325,20 +333,19 @@ function getWeatherData(address, onsuccess, onerror) {
     if (!data.data.error) {
       var current_condition = data.data.current_condition[0];
       var forecast = data.data.weather;
-      if (onsuccess !== undefined && onsuccess !== null)
-        onsuccess(current_condition, forecast);
+      onsuccess && onsuccess(current_condition, forecast);
     } else {
-      if (onerror !== undefined && onerror !== null)
-        onerror();
+      onerror && onerror();
     }
   }, 'json');
 };
 
-function updateAllWeatherData() {
+function updateAllWeatherData(onfirstsuccessfulupdate) {
   cities.asArray().forEach(function(city) {
     getWeatherData(city.address,
       function(current_condition, forecast) {
         addWeatherData(city, current_condition, forecast);
+        onfirstsuccessfulupdate && onfirstsuccessfulupdate();
       }, null); // TODO: handle error?
   });
 }
@@ -346,23 +353,27 @@ function updateAllWeatherData() {
 function attemptAddCurrentLocation() {
   // TODO: we always permanentally add your current location.  Should keep a history of all places, but only display "pinned" places
   // and the current location
+  var onfail = function(reason) {
+    console.warn(reason);
+    if (cities.length() != 0) {
+      return;
+    }
+    showSettings();
+    hideLoading();
+  };
   navigator.geolocation.getCurrentPosition(
     function(position) {
       var searchurl = base_geolocation_url + position.coords.latitude + ',' + position.coords.longitude;
       attemptAddCity(searchurl,
         function(city) {
           selectCity(city);
+          hideLoading();
         },
-        function() {
-          console.warn("Could not add city using geolocation");
-          if (cities.length() === 0)
-            showSettings();
-        });
+        onfail.bind(null, "Could not find current location")
+      );
     },
-    function(error) {
-      console.warn("Geocoder failed");
-      showSettings();
-    }); 
+    onfail.bind(null, "Geocoder failed")
+  );
 }
 
 /******************************************************************************/
@@ -594,8 +605,7 @@ function initHandlers() {
   }, false);
 }
 
-$(document).ready(function() {
-
+function init() {
   $(document.body).addClass((window.cordova !== undefined) ? 'mobile' : 'not-mobile');
 
   chrome.storage.sync.get(function(items) {
@@ -612,7 +622,9 @@ $(document).ready(function() {
     temp = items.temp;
     if (!temp) temp = 'F';
     $('input[name="temp-type"].' + temp).attr('checked', true);
-    updateAllWeatherData();
+    updateAllWeatherData(function() {
+      setTimeout(hideLoading, 300); // 300ms comes from the amount of time we want to give other cities to load weather
+    });
   });
 
   attemptAddCurrentLocation();
@@ -621,7 +633,7 @@ $(document).ready(function() {
 
   setInterval(function() {
     updateAllWeatherData();
-  }, 1000 * 60 * 60 * 2);
+  }, 1000 * 60 * 5);
 
   myScroll = new iScroll('wrapper', {
     snap: true,
@@ -640,6 +652,14 @@ $(document).ready(function() {
       selectCity(city);
     }
   });
+}
+
+$(document).ready(function() {
+  if (typeof cordova !== 'undefined') {
+    document.addEventListener("deviceready", init);
+  } else {
+    init();
+  }
 });
 
 /******************************************************************************/

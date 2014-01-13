@@ -1,19 +1,5 @@
-var CONTEXT_MENU_COMMANDS = ['foo', 'bar', 'baz'];
-
 function log(message) {
   document.getElementById('log').textContent += message + '\n';
-}
-
-function setUpContextMenu() {
-  chrome.contextMenus.removeAll(function() {
-    CONTEXT_MENU_COMMANDS.forEach(function(commandId) {
-      chrome.contextMenus.create({
-        title: 'A: ' + commandId,
-        id: commandId,
-        contexts: ['all']
-      });
-    });
-  });
 }
 
 chrome.contextMenus.onClicked.addListener(function(info) {
@@ -25,12 +11,12 @@ chrome.contextMenus.onClicked.addListener(function(info) {
   log('Item selected in A: ' + info.menuItemId);
 });
 
-onload = function() {
-  log('A is loaded');
-  setUpContextMenu();
-}
+window.addEventListener("load", function(e){
+  log('Window A is loaded');
+  setUpContextMenus("windowA");
+});
+window.addEventListener("focus", function(e) {
+  log('Window A is focused');
+  setUpContextMenus("windowA");
+});
 
-onfocus = function() {
-  log('A is focused');
-  setUpContextMenu();
-}

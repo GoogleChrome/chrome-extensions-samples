@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/pcbbhbaibaphjlbaoahmahgmncbdkeli">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Using DART in a Chrome Packaged App
 
 A simple Dart sample transformed into a Chrome packaged app. Please, use Dart version equal or greater than 
@@ -6,6 +9,10 @@ if you want to recompile dart to JS. See the correct, CSP compatible, command-li
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
+
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/dart/assets/screenshot_1280_800.png)
 

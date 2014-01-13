@@ -1,6 +1,6 @@
 {
   "name": "MiniCodeEdit",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "manifest_version": 2,
   "minimum_chrome_version": "23",
   "description": "A very small code editor.",
@@ -22,4 +22,5 @@
     "64":  "img/64x64/file_edit.png",
     "128": "img/128x128/file_edit.png"
   }
+
 }

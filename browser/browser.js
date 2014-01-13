@@ -120,7 +120,7 @@ function handleLoadStop(event) {
 }
 
 function handleLoadAbort(event) {
-  console.log('oadAbort');
+  console.log('LoadAbort');
   console.log('  url: ' + event.url);
   console.log('  isTopLevel: ' + event.isTopLevel);
   console.log('  type: ' + event.type);

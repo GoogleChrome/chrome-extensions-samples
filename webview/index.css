@@ -1,3 +1,4 @@
+/* Basic styling */
 body {
 	font-family: Verdana, Arial;
 	color: #333;
@@ -28,6 +29,8 @@ button:hover {
 	border: 1px solid #2f5bb7;
 }
 
+
+/* Flexbox boxes */
 div.blocks, div.blocks > div {
 	display: -webkit-flex;
 	display: flex;
@@ -55,7 +58,7 @@ div.blocks > div > :nth-child(2n) {
 }
 
 
-
+/* Webview styling */
 .webviews label, .note {
 	font-size: 0.7em;
 	color: #aaa;
@@ -64,7 +67,12 @@ div.blocks > div > :nth-child(2n) {
 	flex:0 0 auto !important;
 }
 
+webview {
+	border: 1px solid rgb(197, 65, 65);
+}
 
+
+/* Sliders and other controllers styling */
 div.props, div.props > div {
 	text-align: right;
 }

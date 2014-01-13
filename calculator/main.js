@@ -9,13 +9,15 @@ initme = 'foo';
 /**
  * Listens for the app launching then creates the window
  *
- * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/apps/app.window.html
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('calculator.html', {
-    id: 'calc',
-    width: 244,
-    height: 380,
+    id: "calcWinID",
+    bounds: {
+      width: 244,
+      height: 380
+    },
     maxWidth: 244,
     minWidth: 244,
     minHeight: 380,

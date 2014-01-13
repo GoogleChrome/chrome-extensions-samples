@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Webview test",
-  "version": "1",
-  "permissions": ["webview"],
+  "name": "Webview Sample",
+  "version": "2.1",
+  "permissions": ["webview", "pointerLock", "geolocation", "videoCapture"],
   "app": {
     "background": {
       "scripts": ["main.js"]

@@ -19,23 +19,18 @@ var asURLs = [
 // in the code according the UI settings.
 var notOptions = [
 	{
-		templateType : "simple",
-		title: "Simple Notification",
-		message: "Just a text message and icon"
-	},
-	{
-		templateType : "basic",
+		type : "basic",
 		title: "Basic Notification",
 		message: "Short message part",
 		expandedMessage: "Longer part of the message",
 	},
 	{
-		templateType : "image",
+		type : "image",
 		title: "Image Notification",
 		message: "Short message plus an image",
 	},
 	{
-		templateType : "list",
+		type : "list",
 		title: "List Notification",
 		message: "List of items in a message",
 		items: [
@@ -46,21 +41,27 @@ var notOptions = [
 			{ title: "Item5", message: "This is item 5"},
 			{ title: "Item6", message: "This is item 6"},
 		]
+	},
+	{
+		type : "progress",
+		title: "Progress Notification",
+		message: "Short message plus an image",
+		progress: 60
 	}
+	
 ];
 
 // Window initialization code. Set up the various event handlers
 window.addEventListener("load", function() {
-	document.getElementById("simple").addEventListener("click", doNotify);
 	document.getElementById("basic").addEventListener("click", doNotify);
 	document.getElementById("image").addEventListener("click", doNotify);
 	document.getElementById("list").addEventListener("click", doNotify);
+	document.getElementById("progress").addEventListener("click", doNotify);
 
 	// set up the event listeners
-	chrome.experimental.notification.onDisplayed.addListener(notificationDisplayed);
-	chrome.experimental.notification.onClosed.addListener(notificationClosed);
-	chrome.experimental.notification.onClicked.addListener(notificationClicked);
-	chrome.experimental.notification.onButtonClicked.addListener(notificationBtnClick);
+	chrome.notifications.onClosed.addListener(notificationClosed);
+	chrome.notifications.onClicked.addListener(notificationClicked);
+	chrome.notifications.onButtonClicked.addListener(notificationBtnClick);
 });
 
 // Create the notification with the given parameters as they are set in the UI
@@ -70,17 +71,17 @@ function doNotify(evt) {
 	var sBtn1 = document.getElementById("btn1").value;
 	var sBtn2 = document.getElementById("btn2").value;
 	// Create the right notification for the selected type
-	if (evt.srcElement.id == "simple") {
+	if (evt.srcElement.id == "basic") {
 		options = notOptions[0];
 	}
-	else if (evt.srcElement.id == "basic") {
-		options = notOptions[1];
-	}
 	else if (evt.srcElement.id == "image") {
-		options = notOptions[2];
+		options = notOptions[1];
 		options.imageUrl = chrome.runtime.getURL("/images/tahoe-320x215.png");
 	}
 	else if (evt.srcElement.id == "list") {
+		options = notOptions[2];
+	}
+	else if (evt.srcElement.id == "progress") {
 		options = notOptions[3];
 	}
 	options.iconUrl = path;
@@ -95,7 +96,7 @@ function doNotify(evt) {
 	if (sBtn2.length)
 		options.buttons.push({ title: sBtn2 });
 		
-	chrome.experimental.notification.create("id"+notID++, options, creationCallback);
+	chrome.notifications.create("id"+notID++, options, creationCallback);
 }
 
 function creationCallback(notID) {
@@ -103,10 +104,6 @@ function creationCallback(notID) {
 }
 
 // Event handlers for the various notification events
-function notificationDisplayed(notID) {
-	console.log("The notification '" + notID + "' was displayed to the user");
-}
-
 function notificationClosed(notID, bByUser) {
 	console.log("The notification '" + notID + "' was closed" + (bByUser ? " by the user" : ""));
 }

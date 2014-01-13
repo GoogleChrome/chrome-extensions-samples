@@ -11,3 +11,7 @@ The `diff-sample-files` directory contains the two local files that were diff-ed
 The `servo` directory contains the standalone version of the serial port API spinner demo. It only does writes to the serial port. The [complete version in the samples repository](https://github.com/GoogleChrome/chrome-app-samples/tree/master/servo) has the full read/write implementation.
 
 The `windowing_api` directory contains the source for the custom window frame and windowing API documentation (it's launched via the "Demo" link on slide 7).
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/io2012-presentation/assets/screenshot_1280_800.png)
+

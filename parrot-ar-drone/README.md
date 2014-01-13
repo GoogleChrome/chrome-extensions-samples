@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lhdfniaagbjbipjmgfbnlbcmlbcgklkh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Parrot AR.Drone 2.0 Controller
 
 This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/) and the [chrome.socket API](http://developer.chrome.com/apps/socket.html) to communicate with
@@ -27,8 +30,12 @@ _Please note: this has only been tested with an Xbox 360 controller_
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/trunk/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/trunk/apps/app.window.html)
+* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](http://developer.chrome.com/apps/app.window.html)
 * [Socket](http://developer.chrome.com/apps/socket.html)
 
 _Thanks to felixge for the [Node AR Drone lib](https://github.com/felixge/node-ar-drone), which served as a helpful reference._
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/parrot-ar-drone/assets/screenshot_1280_800.png)
+
