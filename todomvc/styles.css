@@ -1,0 +1,67 @@
+
+button {
+  cursor: pointer;
+}
+
+#toggleAlarm, #exportToDisk {
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 11px;
+  border-radius: 3px;
+  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid;
+  padding: 5px 10px;
+  color: #777;
+}
+
+#toggleAlarm:hover, #exportToDisk:hover {
+  background: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+#todoapp {
+  margin-top: 70px;
+}
+#todoapp h1 {
+  top: -95px;
+  font-size: 60px;
+}
+
+@media (max-width: 550px) {
+  body {
+    width: inherit;
+  }
+}
+
+@media (max-width: 412px) {
+  #todoapp {
+    margin-bottom: 94px;
+  }
+
+  #footer {
+    height: 65px;
+    bottom: -77px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #filters {
+    position: relative;
+  }
+
+  #todo-count {
+    float: none;
+    text-align: center;
+  }
+
+  #clear-completed, #todo-count, #filters {
+    flex: 1 1 auto;
+  }
+
+  #footer::before {
+    bottom: 77px;
+    height: 85px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 6px 0 -3px rgba(255, 255, 255, 0.8), 0 7px 1px -3px rgba(0, 0, 0, 0.3), 0 87px 0 -6px rgba(255, 255, 255, 0.8), 0 88px 2px -6px rgba(0, 0, 0, 0.2)
+  }
+}
+

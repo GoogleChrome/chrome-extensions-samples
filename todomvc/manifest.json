@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "ToDoMVC",
+  "version": "1",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "permissions": ["storage", "alarms", "notifications",
+                  "<all_urls>", { "fileSystem": ["write"]} , "syncFileSystem" ],
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "minimum_chrome_version": "28"
+}
