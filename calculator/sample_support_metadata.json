@@ -1,0 +1,5 @@
+{
+  "sample": "calculator",
+  "files_with_snippets": [ ],
+  "android": {"works": true, "comments": "Visual issues caused by fixed-size layout"}
+}

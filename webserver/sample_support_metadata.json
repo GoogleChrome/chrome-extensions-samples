@@ -1,0 +1,5 @@
+{
+  "sample": "webserver",
+  "files_with_snippets": [ ],
+  "android": {"works": true, "comments": "Directory picking doesn't work on some versions of Android"}
+}
