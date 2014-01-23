@@ -1,6 +1,5 @@
 {
-  "sample": "analytics",
+  "sample": "websocket-server",
   "files_with_snippets": [ ],
-  "android": {"works": true},
   "ios": {"works": true}
 }

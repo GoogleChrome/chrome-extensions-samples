@@ -1,0 +1,5 @@
+{
+  "sample": "restarted-demo",
+  "files_with_snippets": [ ],
+  "ios": {"works": true, "comments": "Restart must be done via Safari remote debugging."}
+}
