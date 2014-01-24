@@ -108,6 +108,8 @@ Calculator.prototype.HandleButtonClick = function(buttonValue) {
         this.decimal += 1;
         this.operand += ( Math.pow(10, -1 * this.decimal)
                           * parseInt(buttonValue));
+        //round
+        this.operand = parseFloat(this.operand.toFixed(this.decimal));
       } else {
         this.operand *= 10;
         this.operand += parseInt(buttonValue);
