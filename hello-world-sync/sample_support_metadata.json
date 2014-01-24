@@ -1,0 +1,6 @@
+{
+  "sample": "hello-world-sync",
+  "files_with_snippets": [ ],
+  "android": {"works": true, "comments": "sync storage doesn't actually sync - works local"},
+  "ios": {"works": true, "comments": "sync storage doesn't actually sync - works local"}
+}

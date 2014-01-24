@@ -9,6 +9,13 @@ var newWindowOffset = 100;
 // The option will be hidden if not supported in the current browser version.
 var isAlwaysOnTopSupported = typeof(chrome.app.window.current().setAlwaysOnTop) !== 'undefined';
 
+var version = window.navigator.appVersion;
+version = version.substr(version.lastIndexOf('Chrome/') + 7);
+version = version.substr(0, version.indexOf('.'));
+version = parseInt(version);
+
+var isFocusedSupported = version >= 33;
+
 // Helper functions
 $ = function(selector) { return document.querySelector(selector); }
 
@@ -37,6 +44,8 @@ function createNewWindow(optionsDictionary) {
   optionsDictionary.resizable = $('#newWindowResizable').checked;
   if (isAlwaysOnTopSupported)
     optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
+  if (isFocusedSupported)
+    optionsDictionary.focused = $('#newWindowFocused').checked;
 
   optionsDictionary.hidden = $('[value=hidden]').checked;
   var showAfterCreated = function (win) {
@@ -270,4 +279,8 @@ if (isAlwaysOnTopSupported) {
 } else {
   $('#alwaysOnTopLabel').style.visibility = 'hidden';
   $('#newWindowOnTopLabel').style.visibility = 'hidden';
+}
+
+if (!isFocusedSupported) {
+  $('#newWindowFocused').disabled = true;
 }

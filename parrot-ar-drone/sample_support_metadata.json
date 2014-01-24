@@ -1,0 +1,5 @@
+{
+  "sample": "parrot-ar-drone",
+  "files_with_snippets": [ ],
+  "android": {"works": true, "comments": "Communication to the Drone works, but the UI requires a connected gamepad."}
+}

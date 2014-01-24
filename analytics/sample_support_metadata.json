@@ -1,0 +1,6 @@
+{
+  "sample": "analytics",
+  "files_with_snippets": [ ],
+  "android": {"works": true},
+  "ios": {"works": true}
+}
