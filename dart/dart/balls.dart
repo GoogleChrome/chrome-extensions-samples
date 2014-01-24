@@ -31,7 +31,7 @@ class Balls {
   List<Ball> balls;
 
   Balls() :
-      lastTime = new Date.now().millisecondsSinceEpoch,
+      lastTime = new DateTime.now().millisecondsSinceEpoch,
       balls = new List<Ball>() {
     root = new DivElement();
     document.body.nodes.add(root);
@@ -46,7 +46,7 @@ class Balls {
     lastTime = now;
 
     // incrementally move each ball, removing balls that are offscreen
-    balls = balls.filter((ball) => ball.tick(delta));
+    balls.removeWhere((ball) => ball.tick(delta));
     collideBalls(delta);
   }
 
@@ -147,7 +147,7 @@ class Ball {
     vy = randomVelocity();
   }
 
-  // return false => remove me
+  // return true => remove me
   bool tick(double delta) {
     // Update velocity and position.
     vx += ax * delta;
@@ -159,7 +159,7 @@ class Ball {
     // Handle falling off the edge.
     if ((x < RADIUS) || (x > clientWidth)) {
       elem.remove();
-      return false;
+      return true;
     }
 
     // Handle ground collisions.
@@ -171,6 +171,6 @@ class Ball {
     // Position the element.
     setElementPosition(elem, x - RADIUS, y - RADIUS);
 
-    return true;
+    return false;
   }
 }
