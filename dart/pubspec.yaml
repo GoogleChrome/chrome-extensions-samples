@@ -1,0 +1,4 @@
+name: dart-clock-packaged-app-sample
+
+dependencies:
+  browser: any
