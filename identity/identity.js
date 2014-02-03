@@ -11,7 +11,7 @@ var googlePlusUserLoader = (function() {
   var signin_button, xhr_button, revoke_button, user_info_div;
 
  function disableButton(button) {
-    button.setAttribute('disabled');;
+    button.setAttribute('disabled', 'disabled');
   }
 
   function enableButton(button) {
