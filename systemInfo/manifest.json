@@ -1,8 +1,8 @@
 {
  "name": "SystemInfo Sample",
- "version": "0.4",
+ "version": "0.5",
  "permissions": ["system.cpu", "system.memory", "system.storage", "system.display"],
- "minimum_chrome_version": "29",
+ "minimum_chrome_version": "34",
  "manifest_version": 2,
  "description": "Show several system information via SystemInfo API",
  "app": {
