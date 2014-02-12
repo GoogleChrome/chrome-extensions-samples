@@ -1,33 +1,37 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<title> System Information </title>
+<title>System Information</title>
 <script src="systemInfo.js"></script>
 <style>
-  #container {
+  html, body {
     height: 100%;
-    margin: 0;
-    overflow: overlay;
+  }
+  body {
+    margin: 0 auto;
+    overflow: scroll;
+  }
+  td {
+    white-space: nowrap;
   }
 </style>
 </head>
 <body>
-<div id="container">
-<h2><b>Display Information</b></h2>
+<h2>Display Information</h2>
 <div id="display-list">
    <i> Loading ...</i>
 </div>
-<h2><b>CPU Information</b></h2>
+<h2>CPU Information</h2>
 <div id="cpu-info">
    <i> Loading ...</i>
 </div>
-<h2><b>Memory Information</b></h2>
+<h2>Memory Information</h2>
 <div id="memory-info">
   <i>Loading...</i>
 </div>
-<h2><b>Storage Information</b></h2>
+<h2>Storage Information</h2>
 <div id="storage-list">
   <i>Loading ...</i>
-</div>
 </div>
 </body>
 </html>
