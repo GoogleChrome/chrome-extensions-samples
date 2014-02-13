@@ -17,8 +17,7 @@ onload = function() {
   voices = document.getElementById('voices');
   voiceInfo = document.getElementById('voiceInfo');
 
-
-  document.getElementById('speak').onclick = function speakUserText() {
+  document.getElementById('speak').onclick = function() {
     var options = {};
     if (lang.value) {
       options.lang = lang.value;
@@ -53,7 +52,6 @@ onload = function() {
   document.querySelector('#stop').onclick = function stop() {
     chrome.tts.stop();
   }
-
 
   chrome.tts.getVoices(function(va) {
     voiceArray = va;
@@ -129,5 +127,3 @@ function speak(str, options, highlightText) {
   ttsStatus.innerHTML = 'Busy';
   ttsStatusBox.style.background = '#ffc';
 }
-
-
