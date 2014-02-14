@@ -1,129 +1,100 @@
-var text;
-var ttsStatus;
-var ttsStatusBox;
-var lang;
-var enqueue;
 var voices;
-var voiceInfo;
-var voiceArray;
 var utteranceIndex = 0;
 
-onload = function() {
-  text = document.getElementById('srctext');
-  ttsStatus = document.getElementById('ttsStatus');
-  ttsStatusBox = document.getElementById('ttsStatusBox');
-  lang = document.getElementById('lang');
-  enqueue = document.getElementById('enqueue');
-  voices = document.getElementById('voices');
-  voiceInfo = document.getElementById('voiceInfo');
+var enqueue = document.getElementById('enqueue');
+var lang = document.getElementById('lang');
+var pitch = document.getElementById('pitch');
+var rate = document.getElementById('rate');
+var text = document.getElementById('srctext');
+var ttsStatusBox = document.getElementById('ttsStatusBox');
+var ttsStatus = document.getElementById('ttsStatus');
+var voiceInfo = document.getElementById('voiceInfo');
+var voicesSelect = document.getElementById('voices');
+var volume = document.getElementById('volume');
 
-  document.getElementById('speak').onclick = function() {
-    var options = {};
-    if (lang.value) {
-      options.lang = lang.value;
-    }
-    speak(text.value, options, true);
-  }
-
-  document.getElementById('alpha').onfocus = function () {
-    speak("Alpha");
-  };
-  
-  document.getElementById('bravo').onfocus = function () {
-    speak("Bravo");
-  };
-  
-  document.getElementById('charlie').onfocus = function () {
-    speak("Charlie");
-  };
-
-  document.getElementById('delta').onfocus = function () {
-    speak("Delta");
-  };
-  
-  document.getElementById('echo').onfocus = function () {
-    speak("Echo");
-  };
-
-  document.getElementById('foxtrot').onfocus = function () {
-    speak("Foxtrot");
-  };
-
-  document.querySelector('#stop').onclick = function stop() {
-    chrome.tts.stop();
-  }
-
-  chrome.tts.getVoices(function(va) {
-    voiceArray = va;
-    for (var i = 0; i < voiceArray.length; i++) {
-      var opt = document.createElement('option');
-      opt.setAttribute('value', voiceArray[i].voiceName);
-      opt.innerText = voiceArray[i].voiceName;
-      voices.appendChild(opt);
-    }
-  });
-  voices.addEventListener('change', function() {
-    var i = voices.selectedIndex - 1;
-    if (i >= 0) {
-      voiceInfo.innerText = JSON.stringify(voiceArray[i], null, 2);
-    } else {
-      voiceInfo.innerText = '';
-    }
-  }, false);
-}
-
-function speak(str, options, highlightText) {
-  if (!options) {
-    options = {};
-  }
-  if (enqueue.value) {
-    options.enqueue = Boolean(enqueue.value);
-  }
-  var voiceIndex = voices.selectedIndex - 1;
-  if (voiceIndex >= 0) {
-    options.voiceName = voiceArray[voiceIndex].voiceName;
-  }
-  var rateValue = Number(rate.value);
-  if (rateValue >= 0.1 && rateValue <= 10.0) {
-    options.rate = rateValue;
-  }
-  var pitchValue = Number(pitch.value);
-  if (pitchValue >= 0.0 && pitchValue <= 2.0) {
-    options.pitch = pitchValue;
-  }
-  var volumeValue = Number(volume.value);
-  if (volumeValue >= 0.0 && volumeValue <= 1.0) {
-    options.volume = volumeValue;
-  }
-  utteranceIndex++;
-  console.log(utteranceIndex + ': ' + JSON.stringify(options));
-  options.onEvent = function(event) {
-    console.log(utteranceIndex + ': ' + JSON.stringify(event));
-    if (event.type == 'error') {
-      console.log('Error: ' + event.errorMessage);
-    }
-    if (highlightText) {
-      text.setSelectionRange(0, event.charIndex);
-    }
-    if (event.type == 'end' ||
-        event.type == 'interrupted' ||
-        event.type == 'cancelled' ||
-        event.type == 'error') {
-      chrome.tts.isSpeaking(function(isSpeaking) {
-        if (!isSpeaking) {
-          ttsStatus.innerHTML = 'Idle';
-          ttsStatusBox.style.background = '#fff';
+function speak(utterance, highlightText) {
+  var options = {
+    'enqueue' : Boolean(enqueue.value),
+    'lang': lang.value,
+    'pitch': Number(pitch.value),
+    'rate': Number(rate.value),
+    'volume': Number(volume.value),
+    'voiceName': voicesSelect.value,
+    'onEvent': function(event) {
+        console.debug(utteranceIndex, event);
+        if (event.type == 'error') {
+          console.error(event);
         }
-      });
+        if (highlightText) {
+          text.setSelectionRange(0, event.charIndex);
+        }
+        if (event.type == 'end' ||
+            event.type == 'interrupted' ||
+            event.type == 'cancelled' ||
+            event.type == 'error') {
+          chrome.tts.isSpeaking(function(isSpeaking) {
+            if (!isSpeaking) {
+              ttsStatus.textContent = 'Idle';
+              ttsStatusBox.classList.remove('busy');
+            }
+          });
+        }
     }
   };
+  console.debug(++utteranceIndex, options);
   
-  chrome.tts.speak(
-      str, options, function() {
-      
-  });
+  chrome.tts.speak(utterance, options);
 
-
-  ttsStatus.innerHTML = 'Busy';
-  ttsStatusBox.style.background = '#ffc';
+  ttsStatus.textContent = 'Busy';
+  ttsStatusBox.classList.add('busy');
 }
+
+document.getElementById('speak').addEventListener('click', function() {
+  speak(text.value, true);
+});
+
+document.getElementById('alpha').addEventListener('focus', function() {
+  speak('Alpha');
+});
+
+document.getElementById('bravo').addEventListener('focus', function() {
+  speak('Bravo');
+});
+
+document.getElementById('charlie').addEventListener('focus', function() {
+  speak('Charlie');
+});
+
+document.getElementById('delta').addEventListener('focus', function() {
+  speak('Delta');
+});
+
+document.getElementById('echo').addEventListener('focus', function() {
+  speak('Echo');
+});
+
+document.getElementById('foxtrot').addEventListener('focus', function() {
+  speak('Foxtrot');
+});
+
+document.getElementById('stop').addEventListener('click', function() {
+  chrome.tts.stop();
+});
+
+voicesSelect.addEventListener('change', function() {
+  voiceInfo.textContent = '';
+  for (var i = 0; i < voices.length; i++) {
+    if (voices[i].voiceName === this.value) {
+      voiceInfo.textContent = JSON.stringify(voices[i], null, 2);
+      break;
+    }
+  }
+});
+
+chrome.tts.getVoices(function(availableVoices) {
+  voices = availableVoices;
+  for (var i = 0; i < voices.length; i++) {
+    voicesSelect.add(new Option(voices[i].voiceName, voices[i].voiceName));
+  }
+});
+

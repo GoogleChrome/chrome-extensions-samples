@@ -3,7 +3,6 @@
 <head>
   <title>Text-to-Speech Sample</title>
   <link href="ttsdemo.css" rel="stylesheet" type="text/css"/>
-  <script src="ttsdemo.js"></script>
 </head>
 
 <body>
@@ -13,7 +12,7 @@
     <img src="icon_128.png" class="logo" alt="">
   </div>
   <div class="banner_right">
-    <h1>Chrome Text-to-Speech Demo</h1>
+    <h1>Text-to-Speech Sample</h1>
     <p>
       Use this application to try out all of the text-to-speech voices in Chrome.
     </p>
@@ -25,7 +24,7 @@
     <div class="body_inner">
 
       Enter text here:
-      <textarea id="srctext" rows="6" cols="40">Hello Hackathon Austin!  This is a demo of text-to-speech in an installed Chrome application.</textarea>
+      <textarea id="srctext" rows="6" cols="40">This is a demo of text-to-speech.</textarea>
 
       <p>
         <button id="speak" class="large_button">Speak</button>
@@ -81,11 +80,11 @@
         </select></td></tr>
         <tr>
         <td>Rate:</td>
-        <td><input id="rate" type="range" min="0.5" max="4.0" value="1.0" step="0.1">
+        <td><input id="rate" type="range" min="0.1" max="10.0" value="1.0" step="0.1">
         </td></tr>
         <tr>
         <td>Pitch:</td>
-        <td><input id="pitch" type="range" min="0.0" max="2.0" value="1.0" step="0.2">
+        <td><input id="pitch" type="range" min="0.0" max="2.0" value="1.0" step="0.1">
         </td></tr>
         <tr>
         <td>Volume:</td>
@@ -98,5 +97,6 @@
   </div>
 </div>
 
+<script src="ttsdemo.js"></script>
 </body>
 </html>

@@ -1,7 +1,3 @@
-body {
-  font-family: arial, helvetica, sans-serif
-}
-
 .banner {
   width: 100%;
   float: left;
@@ -13,12 +9,15 @@ body {
 }
 
 .banner_right {
-  padding: 8px
+  padding: 8px;
 }
 
-.body_wrapper {
-  width: 100%;
-  float: left;
+body {
+  font-family: arial, helvetica, sans-serif;
+}
+
+.body_inner {
+  padding: 0 32px;
 }
 
 .body_left {
@@ -37,13 +36,23 @@ body {
   float: left;
 }
 
-.body_inner {
-  padding: 0 32px
+.body_wrapper {
+  width: 100%;
+  float: left;
 }
 
-#srctext {
-  width: 100%;
-  font-size: 133%;
+.box {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.busy {
+  background-color: #ffc;
+}
+
+#help {
+  text-align: left;
 }
 
 .large_button {
@@ -51,10 +60,9 @@ body {
   padding: 6pt 12pt 6pt 12pt;
 }
 
-.box {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #999;
+#srctext {
+  width: 100%;
+  font-size: 133%;
 }
 
 .tabbable {
@@ -65,10 +73,6 @@ body {
 table {
   margin-left: auto;
   margin-right: auto;
-}
-
-#help {
-  text-align: left
 }
 
 #voiceInfo {
