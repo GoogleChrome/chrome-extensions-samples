@@ -1,0 +1,5 @@
+{
+  "sample": "websocket-server",
+  "files_with_snippets": [ ],
+  "ios": {"works": true}
+}

@@ -1,0 +1,29 @@
+body { 
+  padding-top: 50px; 
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+  border-top: inset;
+}
+
+footer p {
+  padding: 2px;
+  margin: 0;
+}
+
+pre {
+  vertical-align: top;
+  overflow-y: auto;
+  background-color: #F5F5F5;
+}
+
+div.alert span:first-child{
+  display: inline-block;
+  width: 50%;
+}
+

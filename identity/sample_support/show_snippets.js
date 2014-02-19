@@ -10,6 +10,11 @@ function processFilesWithSnippets() {
   xhr.open('GET', '../sample_support_metadata.json');
   xhr.onload=function() {
     sampleName = this.response.sample;
+  
+    // extract from manifest:
+    extractFromManifest();
+
+    //extract from files with core snippets:
     var snippetsCount=this.response.files_with_snippets.length;
     for (var i=0; i<snippetsCount; i++) {
       var filename = this.response.files_with_snippets[i];
@@ -26,6 +31,23 @@ function processFilesWithSnippets() {
     }
   };
   xhr.send();
+}
+
+function extractFromManifest(content) {
+  var manifest = chrome.runtime.getManifest();
+  // remove common keys
+  delete manifest.key
+  delete manifest.name
+  delete manifest.description
+  delete manifest.manifest_version
+  delete manifest.app
+  delete manifest.version
+  var note="// these are only some of the keys relevant to this sample\n"+
+    "// for the complete manifest, click in the 'manifest.json' link above\n";
+  addSnippet('Relevant manifest keys',
+    { 'filename': 'manifest.json',
+      'content': note+JSON.stringify(manifest, null, 2)
+    });
 }
 
 function getFileContents(filename, callback) {
@@ -45,9 +67,16 @@ function addSnippet(snippetName, snippet) {
   h2.innerText=snippetName;
   var linkToGithub = document.createElement('span');
   var githubUrl='https://github.com/GoogleChrome/chrome-app-samples/tree/master/'+
-    sampleName+'/'+snippet.filename+'#L'+snippet.startLine+'-L'+snippet.endLine;
-  linkToGithub.innerHTML='<a target="_blank" href="'+githubUrl+'">'+snippet.filename+
-      ' lines '+snippet.startLine+' to '+snippet.endLine+'</a>';
+    sampleName+'/'+snippet.filename;
+  if (snippet.startLine) {
+    githubUrl+='#L'+snippet.startLine+'-L'+snippet.endLine;
+  }
+  var githubUrlHTML = '<a target="_blank" href="'+githubUrl+'">'+snippet.filename;
+  if (snippet.startLine) {
+    githubUrlHTML += ' lines '+snippet.startLine+' to '+snippet.endLine;
+  }
+  githubUrlHTML += '</a>';
+  linkToGithub.innerHTML = githubUrlHTML;
   h2.appendChild(linkToGithub)
   var div = document.createElement('div');
   div.classList.add('snippet');
@@ -74,8 +103,8 @@ function extractSnippets(content, filename) {
       var indent = reSpaces.exec(lines[line])[1].length;
       indentation[snippetName] = indent;
       openSnippets[snippetName] = snippetName;
-      snippets[snippetName]={"content": "", "filename": filename,
-      "startLine": line+2};
+      snippets[snippetName] = {"content": "", "filename": filename,
+        "startLine": line+2};
     } else {
       exec=reStop.exec(lines[line]);
       if (exec && exec.length>1) {

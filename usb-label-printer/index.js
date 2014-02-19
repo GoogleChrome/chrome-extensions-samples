@@ -127,8 +127,18 @@ function printCanvas() {
         "endpoint": 2, // 2 is the Bulk OUT Endpoint
         "data": data
       };
-      chrome.usb.bulkTransfer(device, info, function(e) {
-        console.log("Send data" + e);
+      chrome.usb.claimInterface(device, 0, function() {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          return;
+        }
+        chrome.usb.bulkTransfer(device, info, function(transferResult) {
+          console.log("Send data", transferResult);
+          chrome.usb.releaseInterface(device, 0, function() {
+            if (chrome.runtime.lastError)
+              console.error(chrome.runtime.lastError);
+          });
+        });
       });
     } else {
       console.log("Device not found");
@@ -280,12 +290,13 @@ function ditherImg(imgData) {
     });
   };
 
-  var streaming = false;
+  var stream;
   var width = 280, height = 0;
   var tempCanvas = $('tempCanvas');
   var video = $('video');
   var startTakePicture = function(e) {
-    navigator.webkitGetUserMedia({audio: false, video: true}, function(stream) {
+    navigator.webkitGetUserMedia({audio: false, video: true}, function(videoStream) {
+      stream = videoStream;
       video.src = webkitURL.createObjectURL(stream);
       video.style.display = 'block';   
       video.play();
@@ -296,20 +307,17 @@ function ditherImg(imgData) {
 
   $('camera').addEventListener('click', startTakePicture);
 
-  video.addEventListener('canplay', function(ev){
-    if (!streaming) {
-      height = video.videoHeight / (video.videoWidth/width);
-      video.setAttribute('width', width);
-      video.setAttribute('height', height);
-      tempCanvas.setAttribute('width', width);
-      tempCanvas.setAttribute('height', height);
-      streaming = true;
-    }
+  video.addEventListener('loadedmetadata', function(ev){
+    height = video.videoHeight / (video.videoWidth/width);
+    video.setAttribute('width', width);
+    video.setAttribute('height', height);
+    tempCanvas.setAttribute('width', width);
+    tempCanvas.setAttribute('height', height);
   }, false);
 
   
   var takePicture = function() {
-    video.pause();
+    stream.stop();
     video.style.display = 'none';
     tempCanvas.width = width;
     tempCanvas.height = height;

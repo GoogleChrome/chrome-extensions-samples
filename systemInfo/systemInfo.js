@@ -44,6 +44,16 @@ function showStorageInfo(unit) {
   return table;
 }
 
+function showCpuProcessorInfo(processor_number, processor) {
+  table = "<tr><td>" + processor_number + "</td>" +
+    "<td>" + processor.usage.idle + "</td>" +
+    "<td>" + processor.usage.kernel + "</td>" +
+    "<td>" + processor.usage.user + "</td>" +
+    "<td>" + processor.usage.total + "</td>" +
+    "</tr>\n";
+  return table;
+}
+
 function init() {
   // Get display information.
   (function getDisplayInfo() {
@@ -74,13 +84,30 @@ function init() {
   })();
 
   // Get CPU information.
-  systemInfo.cpu.getInfo(function(cpu) {
-    var cpuInfo = "<b>Architecture:</b> " + cpu.archName +
-      "<br><b>Model Name: </b>" + cpu.modelName +
-      "<br><b>Number of Processors: </b>" + cpu.numOfProcessors;
-    var div = document.getElementById("cpu-info");
-    div.innerHTML = cpuInfo;
-  });
+  (function getCpuInfo() {
+     systemInfo.cpu.getInfo(function(cpu) {
+       var cpuInfo = "<b>Architecture:</b> " + cpu.archName +
+         "<br><b>Model Name: </b>" + cpu.modelName +
+         "<br><b>Number of Processors: </b>" + cpu.numOfProcessors +
+         "<br><b>Features: </b>" + cpu.features.join(' ');
+       cpuInfo += "<table width=70% border=\"1\">\n" +
+         "<tr><td><b>Processor</b></td>" +
+         "<td><b>Idle time (ms)</b></td>" +
+         "<td><b>Kernel time (ms)</b></td>" +
+         "<td><b>User time (ms)</b></td>" +
+         "<td><b>Total time (ms)</b></td>" +
+         "</tr>\n";
+       cpu.processors.forEach(function(processor, index) {
+         cpuInfo += showCpuProcessorInfo(index+1, processor);
+       });
+
+       cpuInfo += "</table>\n";
+       var div = document.getElementById("cpu-info");
+       div.innerHTML = cpuInfo;
+     });
+
+     setTimeout(getCpuInfo, 1000);
+  })();
 
   // Get memory information.
   (function getMemoryInfo() {
