@@ -36,6 +36,14 @@ onload = function() {
     webview.terminate();
   };
 
+  document.querySelector('#zoom').onclick = function() {
+
+  };
+
+  document.querySelector('#find').onclick = function() {
+    // Does nothing...yet!
+  };
+
   document.querySelector('#location-form').onsubmit = function(e) {
     e.preventDefault();
     navigateTo(document.querySelector('#location').value);
