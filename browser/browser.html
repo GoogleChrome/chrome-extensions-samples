@@ -11,8 +11,6 @@
       <button id="home" title="Go Home">&#8962;</button>
       <button id="reload" title="Reload">&#10227;</button>
       <button id="terminate" title="Simulate Crash">&#9760;</button>
-      <button id="zoom" title="Change Zoom">&#128270;</button>
-      <button id="find" title="Find in Page">&#128294;</button>
 
       <form id="location-form">
         <div id="center-column">
@@ -21,7 +19,18 @@
         <input type="submit" value="Go">
       </form>
 
+      <button id="zoom" title="Change Zoom">&#128270;</button>
+      <button id="find" title="Find in Page">&#128294;</button>
+
     </div>
+
+    <div id="zoom-box">
+      <form id="zoom-form">
+        <input id="zoom-factor" type="text">
+        <input type="submit" value="&#128270;" onclick="this.select()">
+      </form>
+    </div>
+
     <webview src="http://www.google.com/" style="width:640px; height:480px"></webview>
 
     <div id="sad-webview">

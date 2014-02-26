@@ -37,8 +37,17 @@ onload = function() {
   };
 
   document.querySelector('#zoom').onclick = function() {
-
+    if(document.querySelector('#zoom-box').style.display == '-webkit-flex') {
+      closeZoomBox();
+    } else {
+      openZoomBox();
+    }
   };
+
+  document.querySelector('#zoom-form').onsubmit = function(e) {
+    e.preventDefault();
+    webview.setZoom(Number(document.forms['zoom-form']['zoom-factor'].value));
+  }
 
   document.querySelector('#find').onclick = function() {
     // Does nothing...yet!
@@ -102,6 +111,7 @@ function handleLoadCommit(event) {
     return;
   }
 
+  closeBoxes();
   document.querySelector('#location').value = event.url;
 
   var webview = document.querySelector('webview');
@@ -141,4 +151,31 @@ function handleLoadRedirect(event) {
   }
 
   document.querySelector('#location').value = event.newUrl;
+}
+
+function openZoomBox() {
+  document.querySelector('webview').getZoom(function(zoomFactor) {
+    document.forms['zoom-form']['zoom-factor'].value =
+        Number(zoomFactor.toFixed(6)).toString()
+  });
+  document.querySelector('#zoom-box').style.display = '-webkit-flex';
+}
+
+function closeZoomBox() {
+  var zoomBox = document.querySelector('#zoom-box');
+  document.querySelector('#zoom-box').style.display = 'none';
+}
+
+function openFindBox() {
+  document.querySelector('#find-box').style.display = '-webkit-flex';
+}
+
+function closeFindBox() {
+  document.querySelector('#find-box').style.display = 'none';
+  document.querySelector('webview').stopFinding();
+}
+
+function closeBoxes() {
+  closeZoomBox();
+  //closeFindBox();
 }

@@ -7,6 +7,7 @@ body {
 #controls {
   padding: 3px;
   border-bottom: solid 1px #ccc;
+  background-color: #eee;
 }
 
 #controls button,
@@ -41,6 +42,11 @@ compared to the back/forward buttons */
   font-size: 20px;
 }
 
+#controls #zoom,
+#controls #find {
+  font-size: 18px;
+}
+
 #location {
   border: solid 1px #ccc;
   padding: 2px;
@@ -61,6 +67,50 @@ compared to the back/forward buttons */
 
 #controls #center-column {
   -webkit-flex: 1;
+}
+
+#zoom-box {
+  background-color: #eee;
+  border: solid 1px #ccc;
+  border-top: solid 1px #eee;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 3px;
+
+  position: fixed;
+  left: 5px;
+  top: 36px;
+  width: 100px;
+  height: 25px;
+
+  -webkit-flex: 1;
+  -webit-flex-direction: column;
+
+  z-index: 1;
+  display: none;
+}
+
+#zoom-box #zoom-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#zoom-box input {
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 0 6px;
+}
+
+#zoom-box #zoom-factor {
+  border: solid 1px #ccc;
+  padding: 2px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+#zoom-box input[type="submit"] {
+  font-size: 14px;
 }
 
 #sad-webview,
