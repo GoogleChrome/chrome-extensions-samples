@@ -3,6 +3,7 @@ var isLoading = false;
 
 onload = function() {
   var webview = document.querySelector('webview');
+  var findMatchCase = false;
   doLayout();
 
   document.querySelector('#back').onclick = function() {
@@ -57,15 +58,29 @@ onload = function() {
     }
   };
 
-  document.querySelector('#find-form').onsubmit = function(e) {
+  document.querySelector('#match-case').onclick = function(e) {
     e.preventDefault();
-    webview.find(document.forms['find-form']['find-text'].value);
+    findMatchCase = !findMatchCase;
+    var matchCase = document.querySelector('#match-case');
+    if (findMatchCase) {
+      matchCase.style.color = "blue";
+      matchCase.style['font-weight'] = "bold";
+    } else {
+      matchCase.style.color = "black";
+      matchCase.style['font-weight'] = "";
+    }
   }
 
   document.querySelector('#find-backward').onclick = function(e) {
     e.preventDefault();
     webview.find(document.forms['find-form']['find-text'].value,
-                 {backward: true});
+                 {backward: true, matchCase: findMatchCase});
+  }
+
+  document.querySelector('#find-form').onsubmit = function(e) {
+    e.preventDefault();
+    webview.find(document.forms['find-form']['find-text'].value,
+                 {matchCase: findMatchCase});
   }
 
   document.querySelector('#location-form').onsubmit = function(e) {
@@ -124,9 +139,8 @@ function resetExitedState() {
 function handleFindUpdate(event) {
   var findResults = document.querySelector('#find-results');
   var width = event.activeMatchOrdinal.toString().length +
-      event.numberOfMatches.toString().length + 4;
+      event.numberOfMatches.toString().length + 3;
   findResults.style.width = width + "em";
-  findResults.style.right = String(document.querySelector('#find-text').getBoundingClientRect().right);
   findResults.innerText =
       event.activeMatchOrdinal + " of " + event.numberOfMatches;
 }
@@ -193,6 +207,9 @@ function closeZoomBox() {
 }
 
 function openFindBox() {
+  var findResults = document.querySelector('#find-results');
+  findResults.innerText= "";
+  findResults.style.width = "0";
   document.querySelector('#find-box').style.display = '-webkit-flex';
   var findText = document.forms['find-form']['find-text'];
   findText.select();

@@ -124,7 +124,7 @@ compared to the back/forward buttons */
   position: fixed;
   right: 5px;
   top: 36px;
-  width: 250px;
+  width: 280px;
   height: 25px;
 
   z-index: 1;
@@ -155,8 +155,15 @@ compared to the back/forward buttons */
   text-align: center;
 }
 
+#find-box #match-case {
+  margin: 2px 0px;
+  padding: 1px 6px;
+  font-size: 10px;
+  width: 30px;
+}
+
 #find-box #find-backward,
-#find-box input[type="submit"] {
+#find-box #find-forward {
   font-size: 14px;
   width: 28px;
 }
