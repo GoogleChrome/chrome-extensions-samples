@@ -75,12 +75,12 @@ compared to the back/forward buttons */
   border-top: solid 1px #eee;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  padding: 3px;
+  padding: 2px;
 
   position: fixed;
   left: 5px;
   top: 36px;
-  width: 100px;
+  width: 90px;
   height: 25px;
 
   -webkit-flex: 1;
@@ -97,12 +97,10 @@ compared to the back/forward buttons */
 }
 
 #zoom-box input {
-  line-height: 24px;
   border-radius: 2px;
-  padding: 0 6px;
 }
 
-#zoom-box #zoom-factor {
+#zoom-box #zoom-text {
   border: solid 1px #ccc;
   padding: 2px;
   width: 100%;
@@ -111,6 +109,56 @@ compared to the back/forward buttons */
 
 #zoom-box input[type="submit"] {
   font-size: 14px;
+  padding: 0 10px 5px 5px;
+  margin-right: 1px;
+}
+
+#find-box {
+  background-color: #eee;
+  border: solid 1px #ccc;
+  border-top: solid 1px #eee;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 2px;
+
+  position: fixed;
+  right: 5px;
+  top: 36px;
+  width: 250px;
+  height: 25px;
+
+  z-index: 1;
+  display: none;
+}
+
+#find-box #find-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#find-box #find-text {
+  border: solid 1px #ccc;
+  border-right: solid 1px #fff;
+  padding: 2px 0 2px 2px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+#find-box #find-results {
+  color: #999;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-left-style: none;
+  margin: 2px 0px;
+  padding: 3px 2px 2px 0;
+  text-align: center;
+}
+
+#find-box #find-backward,
+#find-box input[type="submit"] {
+  font-size: 14px;
+  width: 28px;
 }
 
 #sad-webview,

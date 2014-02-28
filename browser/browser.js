@@ -46,12 +46,27 @@ onload = function() {
 
   document.querySelector('#zoom-form').onsubmit = function(e) {
     e.preventDefault();
-    webview.setZoom(Number(document.forms['zoom-form']['zoom-factor'].value));
+    webview.setZoom(Number(document.forms['zoom-form']['zoom-text'].value));
   }
 
   document.querySelector('#find').onclick = function() {
-    // Does nothing...yet!
+    if(document.querySelector('#find-box').style.display == '-webkit-flex') {
+      closeFindBox();
+    } else {
+      openFindBox();
+    }
   };
+
+  document.querySelector('#find-form').onsubmit = function(e) {
+    e.preventDefault();
+    webview.find(document.forms['find-form']['find-text'].value);
+  }
+
+  document.querySelector('#find-backward').onclick = function(e) {
+    e.preventDefault();
+    webview.find(document.forms['find-form']['find-text'].value,
+                 {backward: true});
+  }
 
   document.querySelector('#location-form').onsubmit = function(e) {
     e.preventDefault();
@@ -59,6 +74,7 @@ onload = function() {
   };
 
   webview.addEventListener('exit', handleExit);
+  webview.addEventListener('findupdate', handleFindUpdate);
   webview.addEventListener('loadstart', handleLoadStart);
   webview.addEventListener('loadstop', handleLoadStop);
   webview.addEventListener('loadabort', handleLoadAbort);
@@ -103,6 +119,16 @@ function resetExitedState() {
   document.body.classList.remove('exited');
   document.body.classList.remove('crashed');
   document.body.classList.remove('killed');
+}
+
+function handleFindUpdate(event) {
+  var findResults = document.querySelector('#find-results');
+  var width = event.activeMatchOrdinal.toString().length +
+      event.numberOfMatches.toString().length + 4;
+  findResults.style.width = width + "em";
+  findResults.style.right = String(document.querySelector('#find-text').getBoundingClientRect().right);
+  findResults.innerText =
+      event.activeMatchOrdinal + " of " + event.numberOfMatches;
 }
 
 function handleLoadCommit(event) {
@@ -155,19 +181,21 @@ function handleLoadRedirect(event) {
 
 function openZoomBox() {
   document.querySelector('webview').getZoom(function(zoomFactor) {
-    document.forms['zoom-form']['zoom-factor'].value =
-        Number(zoomFactor.toFixed(6)).toString()
+    var zoomText = document.forms['zoom-form']['zoom-text'];
+    zoomText.value = Number(zoomFactor.toFixed(6)).toString();
+    document.querySelector('#zoom-box').style.display = '-webkit-flex';
+    zoomText.select();
   });
-  document.querySelector('#zoom-box').style.display = '-webkit-flex';
 }
 
 function closeZoomBox() {
-  var zoomBox = document.querySelector('#zoom-box');
   document.querySelector('#zoom-box').style.display = 'none';
 }
 
 function openFindBox() {
   document.querySelector('#find-box').style.display = '-webkit-flex';
+  var findText = document.forms['find-form']['find-text'];
+  findText.select();
 }
 
 function closeFindBox() {
@@ -177,5 +205,5 @@ function closeFindBox() {
 
 function closeBoxes() {
   closeZoomBox();
-  //closeFindBox();
+  closeFindBox();
 }
