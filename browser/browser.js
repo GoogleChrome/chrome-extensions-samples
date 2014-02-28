@@ -58,6 +58,11 @@ onload = function() {
     }
   };
 
+  document.querySelector('#find-text').oninput = function(e) {
+    webview.find(document.forms['find-form']['find-text'].value,
+                 {matchCase: findMatchCase});
+  }
+
   document.querySelector('#match-case').onclick = function(e) {
     e.preventDefault();
     findMatchCase = !findMatchCase;
@@ -69,6 +74,9 @@ onload = function() {
       matchCase.style.color = "black";
       matchCase.style['font-weight'] = "";
     }
+
+    webview.find(document.forms['find-form']['find-text'].value,
+                 {matchCase: findMatchCase});
   }
 
   document.querySelector('#find-backward').onclick = function(e) {
