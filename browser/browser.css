@@ -4,6 +4,11 @@ body {
   font-family: Lucida Grande, Arial, sans-serif;
 }
 
+button,
+input {
+  outline: none;
+}
+
 #controls {
   padding: 3px;
   border-bottom: solid 1px #ccc;
@@ -28,7 +33,13 @@ button[disabled]:hover {
 button:hover,
 input[type="submit"]:hover {
   border-color: #ccc;
-  background: -webkit-linear-gradient(top, #f2f2f2 0%, #cccccc 99%);
+  background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+button:active,
+input[type="submit"]:active {
+  border-color: #bbb;
+  background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
 }
 
 /* These glyphs are on the small side, make them look more natural when
@@ -127,22 +138,29 @@ compared to the back/forward buttons */
   width: 280px;
   height: 25px;
 
-  z-index: 1;
+  z-index: 2;
   display: none;
 }
 
 #find-box #find-form {
   -webkit-flex: 1;
   display: -webkit-flex;
-  -webit-flex-direction: column;
+  -webit-flex-direction: row;
+}
+
+#find-box button {
+    border-radius: 2px;
 }
 
 #find-box #find-text {
   border: solid 1px #ccc;
-  border-right: solid 1px #fff;
-  padding: 2px 0 2px 2px;
-  width: 100%;
+  border-right-style: none;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  margin-right: 0px;
+  padding: 2px;
   -webkit-box-sizing: border-box;
+  -webkit-flex: 1;
 }
 
 #find-box #find-results {
@@ -150,6 +168,8 @@ compared to the back/forward buttons */
   background-color: #fff;
   border: solid 1px #ccc;
   border-left-style: none;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
   margin: 2px 0px;
   padding: 3px 2px 2px 0;
   text-align: center;

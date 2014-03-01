@@ -51,7 +51,7 @@ onload = function() {
   }
 
   document.querySelector('#find').onclick = function() {
-    if(document.querySelector('#find-box').style.display == '-webkit-flex') {
+    if(document.querySelector('#find-box').style.display == 'block') {
       closeFindBox();
     } else {
       openFindBox();
@@ -145,12 +145,28 @@ function resetExitedState() {
 }
 
 function handleFindUpdate(event) {
-  var findResults = document.querySelector('#find-results');
-  var width = event.activeMatchOrdinal.toString().length +
-      event.numberOfMatches.toString().length + 3;
-  findResults.style.width = width + "em";
-  findResults.innerText =
+  document.querySelector('#find-results').innerText =
       event.activeMatchOrdinal + " of " + event.numberOfMatches;
+
+  // Move the find box if it obscures the active match.
+  if (event.finalUpdate && !event.canceled) {
+    var findBox = document.querySelector('#find-box');
+    findBox.style.left = "";
+    findBox.style.opacity = "";
+    var findBoxRect = findBox.getBoundingClientRect();
+    if (findBoxRect.left < event.selectionRect.left + event.selectionRect.width &&
+        findBoxRect.right >  event.selectionRect.left &&
+        findBoxRect.top < event.selectionRect.top + event.selectionRect.height &&
+        findBoxRect.bottom > event.selectionRect.top) {
+      var potentialLeft = event.selectionRect.left - findBoxRect.width - 10;
+      window.console.log("TEST" + potentialLeft);
+      if (potentialLeft >= 5) {
+        findBox.style.left = potentialLeft + "px";
+      } else {
+        findBox.style.opacity = "0.5";
+      }
+    }
+  }
 }
 
 function handleLoadCommit(event) {
@@ -217,14 +233,16 @@ function closeZoomBox() {
 function openFindBox() {
   var findResults = document.querySelector('#find-results');
   findResults.innerText= "";
-  findResults.style.width = "0";
-  document.querySelector('#find-box').style.display = '-webkit-flex';
+  document.querySelector('#find-box').style.display = 'block';
   var findText = document.forms['find-form']['find-text'];
   findText.select();
 }
 
 function closeFindBox() {
-  document.querySelector('#find-box').style.display = 'none';
+  var findBox = document.querySelector('#find-box');
+  findBox.style.display = 'none';
+  findBox.style.left = "";
+  findBox.style.opacity = "";
   document.querySelector('webview').stopFinding();
 }
 
