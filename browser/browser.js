@@ -47,7 +47,16 @@ onload = function() {
 
   document.querySelector('#zoom-form').onsubmit = function(e) {
     e.preventDefault();
-    webview.setZoom(Number(document.forms['zoom-form']['zoom-text'].value));
+    var zoomText = document.forms['zoom-form']['zoom-text'];
+    var zoomFactor = Number(zoomText.value);
+    if (zoomFactor > 5) {
+      zoomText.value = "5";
+      zoomFactor = 5;
+    } else if (zoomFactor < 0.25) {
+      zoomText.value = "0.25";
+      zoomFactor = 0.25;
+    }
+    webview.setZoom(zoomFactor);
   }
 
   document.querySelector('#find').onclick = function() {
@@ -145,8 +154,13 @@ function resetExitedState() {
 }
 
 function handleFindUpdate(event) {
-  document.querySelector('#find-results').innerText =
-      event.activeMatchOrdinal + " of " + event.numberOfMatches;
+  var findResults = document.querySelector('#find-results');
+  if (event.searchText == "") {
+    findResults.innerText = "";
+  } else {
+    findResults.innerText =
+        event.activeMatchOrdinal + " of " + event.numberOfMatches;
+  }
 
   // Move the find box if it obscures the active match.
   if (event.finalUpdate && !event.canceled) {
@@ -154,12 +168,13 @@ function handleFindUpdate(event) {
     findBox.style.left = "";
     findBox.style.opacity = "";
     var findBoxRect = findBox.getBoundingClientRect();
-    if (findBoxRect.left < event.selectionRect.left + event.selectionRect.width &&
-        findBoxRect.right >  event.selectionRect.left &&
-        findBoxRect.top < event.selectionRect.top + event.selectionRect.height &&
+    if (findBoxRect.left <
+        event.selectionRect.left + event.selectionRect.width &&
+        findBoxRect.right > event.selectionRect.left &&
+        findBoxRect.top <
+        event.selectionRect.top + event.selectionRect.height &&
         findBoxRect.bottom > event.selectionRect.top) {
       var potentialLeft = event.selectionRect.left - findBoxRect.width - 10;
-      window.console.log("TEST" + potentialLeft);
       if (potentialLeft >= 5) {
         findBox.style.left = potentialLeft + "px";
       } else {
@@ -231,11 +246,8 @@ function closeZoomBox() {
 }
 
 function openFindBox() {
-  var findResults = document.querySelector('#find-results');
-  findResults.innerText= "";
   document.querySelector('#find-box').style.display = 'block';
-  var findText = document.forms['find-form']['find-text'];
-  findText.select();
+  document.forms['find-form']['find-text'].select();
 }
 
 function closeFindBox() {
@@ -243,6 +255,7 @@ function closeFindBox() {
   findBox.style.display = 'none';
   findBox.style.left = "";
   findBox.style.opacity = "";
+  document.querySelector('#find-results').innerText= "";
   document.querySelector('webview').stopFinding();
 }
 

@@ -91,11 +91,8 @@ compared to the back/forward buttons */
   position: fixed;
   left: 5px;
   top: 36px;
-  width: 90px;
+  width: 85px;
   height: 25px;
-
-  -webkit-flex: 1;
-  -webit-flex-direction: column;
 
   z-index: 1;
   display: none;
@@ -104,7 +101,7 @@ compared to the back/forward buttons */
 #zoom-box #zoom-form {
   -webkit-flex: 1;
   display: -webkit-flex;
-  -webit-flex-direction: column;
+  -webit-flex-direction: row;
 }
 
 #zoom-box input {
@@ -116,12 +113,13 @@ compared to the back/forward buttons */
   padding: 2px;
   width: 100%;
   -webkit-box-sizing: border-box;
+  -webkit-flex: 1;
 }
 
 #zoom-box input[type="submit"] {
   font-size: 14px;
-  padding: 0 10px 5px 5px;
-  margin-right: 1px;
+  padding: 0 4px 3px 4px;
+  margin: 2px 0px;
 }
 
 #find-box {
@@ -171,21 +169,20 @@ compared to the back/forward buttons */
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   margin: 2px 0px;
-  padding: 3px 2px 2px 0;
+  padding: 3px 4px 2px 0;
   text-align: center;
 }
 
 #find-box #match-case {
   margin: 2px 0px;
-  padding: 1px 6px;
   font-size: 10px;
-  width: 30px;
+  width: 28px;
 }
 
 #find-box #find-backward,
 #find-box #find-forward {
   font-size: 14px;
-  width: 28px;
+  width: 24px;
 }
 
 #sad-webview,
