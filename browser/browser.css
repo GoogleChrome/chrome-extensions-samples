@@ -91,7 +91,7 @@ compared to the back/forward buttons */
   position: fixed;
   left: 5px;
   top: 36px;
-  width: 85px;
+  width: 125px;
   height: 25px;
 
   z-index: 1;
@@ -104,7 +104,8 @@ compared to the back/forward buttons */
   -webit-flex-direction: row;
 }
 
-#zoom-box input {
+#zoom-box input,
+#zoom-box button {
   border-radius: 2px;
 }
 
@@ -120,6 +121,13 @@ compared to the back/forward buttons */
   font-size: 14px;
   padding: 0 4px 3px 4px;
   margin: 2px 0px;
+}
+
+#zoom-box button {
+  font-size: 12px;
+  margin: 2px 0px;
+  padding: 0px 1px 0px 0px;
+  width: 20px;
 }
 
 #find-box {

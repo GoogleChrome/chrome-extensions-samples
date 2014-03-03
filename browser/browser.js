@@ -59,6 +59,16 @@ onload = function() {
     webview.setZoom(zoomFactor);
   }
 
+  document.querySelector('#zoom-in').onclick = function(e) {
+    e.preventDefault();
+    increaseZoom();
+  }
+
+  document.querySelector('#zoom-out').onclick = function(e) {
+    e.preventDefault();
+    decreaseZoom();
+  }
+
   document.querySelector('#find').onclick = function() {
     if(document.querySelector('#find-box').style.display == 'block') {
       closeFindBox();
@@ -112,6 +122,7 @@ onload = function() {
   webview.addEventListener('loadabort', handleLoadAbort);
   webview.addEventListener('loadredirect', handleLoadRedirect);
   webview.addEventListener('loadcommit', handleLoadCommit);
+  window.addEventListener('keypress', handleKeyPress);
 };
 
 function navigateTo(url) {
@@ -184,6 +195,13 @@ function handleFindUpdate(event) {
   }
 }
 
+function handleKeyPress(event) {
+  if (event.ctrlKey && event.keyCode == 6) {
+    event.preventDefault();
+    openFindBox();
+  }
+}
+
 function handleLoadCommit(event) {
   resetExitedState();
   if (!event.isTopLevel) {
@@ -230,6 +248,38 @@ function handleLoadRedirect(event) {
   }
 
   document.querySelector('#location').value = event.newUrl;
+}
+
+function getNextPresetZoom() {
+  var preset = [0.25, 0.33, 0.5, 0.67, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 1.75, 2,
+                2.5, 3, 4, 5];
+  var zoomFactor = Number(document.forms['zoom-form']['zoom-text'].value);
+  var low = 0;
+  var high = preset.length - 1;
+  var mid;
+  while (high - low > 1) {
+    mid = Math.floor((high + low)/2);
+    if (preset[mid] < zoomFactor) {
+      low = mid;
+    } else if (preset[mid] > zoomFactor) {
+      high = mid;
+    } else {
+      return {low: preset[mid - 1], high: preset[mid + 1]};
+    }
+  }
+  return {low: preset[low], high: preset[high]};
+}
+
+function increaseZoom() {
+  var nextHigherZoom = getNextPresetZoom().high;
+  document.querySelector('webview').setZoom(nextHigherZoom);
+  document.forms['zoom-form']['zoom-text'].value = nextHigherZoom.toString();
+}
+
+function decreaseZoom() {
+  var nextLowerZoom = getNextPresetZoom().low;
+  document.querySelector('webview').setZoom(nextLowerZoom);
+  document.forms['zoom-form']['zoom-text'].value = nextLowerZoom.toString();
 }
 
 function openZoomBox() {
