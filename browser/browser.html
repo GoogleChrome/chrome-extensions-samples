@@ -19,7 +19,31 @@
         <input type="submit" value="Go">
       </form>
 
+      <button id="zoom" title="Change Zoom">&#128270;</button>
+      <button id="find" title="Find in Page">&#128294;</button>
+
     </div>
+
+    <div id="zoom-box">
+      <form id="zoom-form">
+        <input id="zoom-text" type="text">
+        <input type="submit" value="&#128270;">
+        <button id="zoom-in">&#10133;</button>
+        <button id="zoom-out">&#10134;</button>
+      </form>
+    </div>
+
+    <div id="find-box">
+      <form id="find-form">
+        <input id="find-text" type="text">
+        <div id="find-results"></div>
+        <input type="submit" style="position:absolute; visibility:hidden">
+        <button id="match-case">aA</button>
+        <button id="find-backward">&#60;</button>
+        <button id="find-forward">&#62;</button>
+      </form>
+    </div>
+
     <webview src="http://www.google.com/" style="width:640px; height:480px"></webview>
 
     <div id="sad-webview">
