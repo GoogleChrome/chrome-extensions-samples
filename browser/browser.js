@@ -87,6 +87,7 @@ onload = function() {
 
     document.querySelector('#find').onclick = function() {
       if(document.querySelector('#find-box').style.display == 'block') {
+        document.querySelector('webview').stopFinding();
         closeFindBox();
       } else {
         openFindBox();
@@ -96,6 +97,14 @@ onload = function() {
     document.querySelector('#find-text').oninput = function(e) {
       webview.find(document.forms['find-form']['find-text'].value,
                    {matchCase: findMatchCase});
+    }
+
+    document.querySelector('#find-text').onkeydown = function(e) {
+      if (event.ctrlKey && event.keyCode == 13) {
+        e.preventDefault();
+        webview.stopFinding('activate');
+        closeFindBox();
+      }
     }
 
     document.querySelector('#match-case').onclick = function(e) {
@@ -109,7 +118,6 @@ onload = function() {
         matchCase.style.color = "black";
         matchCase.style['font-weight'] = "";
       }
-
       webview.find(document.forms['find-form']['find-text'].value,
                    {matchCase: findMatchCase});
     }
@@ -239,12 +247,12 @@ function handleLoadCommit(event) {
     return;
   }
 
-  closeBoxes();
   document.querySelector('#location').value = event.url;
 
   var webview = document.querySelector('webview');
   document.querySelector('#back').disabled = !webview.canGoBack();
   document.querySelector('#forward').disabled = !webview.canGoForward();
+  closeBoxes();
 }
 
 function handleLoadStart(event) {
@@ -342,7 +350,6 @@ function closeFindBox() {
   findBox.style.left = "";
   findBox.style.opacity = "";
   document.querySelector('#find-results').innerText= "";
-  document.querySelector('webview').stopFinding();
 }
 
 function closeBoxes() {
