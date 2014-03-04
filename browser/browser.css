@@ -80,7 +80,8 @@ compared to the back/forward buttons */
   -webkit-flex: 1;
 }
 
-#zoom-box {
+#zoom-box,
+#find-box {
   background-color: #eee;
   border: solid 1px #ccc;
   border-top: solid 1px #eee;
@@ -89,38 +90,45 @@ compared to the back/forward buttons */
   padding: 2px;
 
   position: fixed;
-  left: 5px;
   top: 36px;
-  width: 125px;
   height: 25px;
 
-  z-index: 1;
   display: none;
 }
 
-#zoom-box #zoom-form {
+#zoom-box #zoom-form,
+#find-box #find-form {
   -webkit-flex: 1;
   display: -webkit-flex;
   -webit-flex-direction: row;
 }
 
 #zoom-box input,
-#zoom-box button {
+#zoom-box button,
+#find-box button {
   border-radius: 2px;
 }
 
-#zoom-box #zoom-text {
+#zoom-box #zoom-text,
+#find-box #find-text {
   border: solid 1px #ccc;
+  margin-right: 0px;
   padding: 2px;
-  width: 100%;
   -webkit-box-sizing: border-box;
   -webkit-flex: 1;
 }
 
+#zoom-box {
+  left: 5px;
+  width: 125px;
+  z-index: 1;
+}
+
 #zoom-box input[type="submit"] {
   font-size: 14px;
-  padding: 0 4px 3px 4px;
   margin: 2px 0px;
+  padding: 0 2px 3px 2px;
+  width: 22px;
 }
 
 #zoom-box button {
@@ -131,46 +139,19 @@ compared to the back/forward buttons */
 }
 
 #find-box {
-  background-color: #eee;
-  border: solid 1px #ccc;
-  border-top: solid 1px #eee;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  padding: 2px;
-
-  position: fixed;
   right: 5px;
-  top: 36px;
   width: 280px;
-  height: 25px;
-
   z-index: 2;
-  display: none;
-}
-
-#find-box #find-form {
-  -webkit-flex: 1;
-  display: -webkit-flex;
-  -webit-flex-direction: row;
-}
-
-#find-box button {
-    border-radius: 2px;
 }
 
 #find-box #find-text {
-  border: solid 1px #ccc;
   border-right-style: none;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  margin-right: 0px;
-  padding: 2px;
-  -webkit-box-sizing: border-box;
-  -webkit-flex: 1;
 }
 
 #find-box #find-results {
-  color: #999;
+  color: #888;
   background-color: #fff;
   border: solid 1px #ccc;
   border-left-style: none;
