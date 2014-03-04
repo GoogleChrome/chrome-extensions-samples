@@ -194,18 +194,15 @@ function handleFindUpdate(event) {
         event.activeMatchOrdinal + " of " + event.numberOfMatches;
   }
 
-  // Move the find box if it obscures the active match.
+  // Ensure that the find box does not obscure the active match.
   if (event.finalUpdate && !event.canceled) {
     var findBox = document.querySelector('#find-box');
     findBox.style.left = "";
     findBox.style.opacity = "";
     var findBoxRect = findBox.getBoundingClientRect();
-    if (findBoxRect.left <
-        event.selectionRect.left + event.selectionRect.width &&
-        findBoxRect.right > event.selectionRect.left &&
-        findBoxRect.top <
-        event.selectionRect.top + event.selectionRect.height &&
-        findBoxRect.bottom > event.selectionRect.top) {
+    if (findBoxObscuresActiveMatch(findBoxRect, event.selectionRect)) {
+      // Move the find box out of the way if there is room on the screen, or
+      // make it semi-transparent otherwise.
       var potentialLeft = event.selectionRect.left - findBoxRect.width - 10;
       if (potentialLeft >= 5) {
         findBox.style.left = potentialLeft + "px";
@@ -214,6 +211,13 @@ function handleFindUpdate(event) {
       }
     }
   }
+}
+
+function findBoxObscuresActiveMatch(findBoxRect, matchRect) {
+  return findBoxRect.left < matchRect.left + matchRect.width &&
+      findBoxRect.right > matchRect.left &&
+      findBoxRect.top < matchRect.top + matchRect.height &&
+      findBoxRect.bottom > matchRect.top;
 }
 
 function handleKeyDown(event) {
