@@ -26,6 +26,11 @@ var productId = 0x0021; // changed from 0x0020
 
 (thanks @kjantzer for the [information](https://github.com/GoogleChrome/chrome-app-samples/issues/126#issuecomment-29547981))
 
+### Windows issues
+
+Windows users may encounter problems when trying to findDevice or openDevice.
+You might give a try to zadig drivers, they are generic low level usb drivers in replacement for vendor specific ones.
+[http://zadig.akeo.ie/](http://zadig.akeo.ie/ "Zadig drivers website")
 
 LICENSE
 =======
