@@ -1,0 +1,13 @@
+{
+  "name": "GCM Notifications",
+  "description": "Chrome platform app.",
+  "manifest_version": 2,
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": ["gcm", "storage", "notifications"],
+  "icons": { "128": "gcm_128.png" }
+}
