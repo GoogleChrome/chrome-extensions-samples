@@ -25,6 +25,13 @@ function setIfANumber(dictionary, field, number) {
   dictionary[field] = number
 }
 
+var regexColor = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+function setIfAColor(dictionary, field, color) {
+  if (!regexColor.test(color))
+    return;
+  dictionary[field] = color;
+}
+
 function createNewWindow(optionsDictionary) {
   optionsDictionary = optionsDictionary || {};
 
@@ -62,6 +69,14 @@ function createNewWindow(optionsDictionary) {
   optionsDictionary.bounds.top = bounds.top;
   optionsDictionary.bounds.width = bounds.width;
   optionsDictionary.bounds.height = bounds.height;
+
+  // Set frameOptions.
+  var frameOptions = {};
+  if ($('#newWindowColorEnabledTrue').checked) {
+    setIfAColor(frameOptions, 'color', $('#newWindowColor').value);
+  }
+  if (Object.keys(frameOptions).length > 0)
+    optionsDictionary.frameOptions = frameOptions;
 
   chrome.app.window.create('window.html', optionsDictionary, callback);
 };
@@ -164,6 +179,10 @@ var updateDelaySiderText = function updateDelaySiderText() {
 
 $('#delay-slider').onchange = updateDelaySiderText;
 updateDelaySiderText();  // Initial text update.
+
+$('#newWindowColor').onclick = function(e) {
+  $('#newWindowColorEnabledTrue').checked = true;
+};
 
 $('#newWindowNormal').onclick = function(e) {
   createNewWindow();
