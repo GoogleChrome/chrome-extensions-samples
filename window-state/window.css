@@ -1,10 +1,60 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+h1, h2, h3 {
+  margin: 0px 0px 10px 0px;
+}
+
+td {
+  padding: 2px 5px;
+}
+
 #fullscreen-area {
   box-shadow: inset 0px 1px 10px rgba(0,0,0,1);
   margin: 5px;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 20px;
+  min-width: 400px;
+  min-height: 300px;
 }
 
 .size {
   width: 60px;
+}
+
+.tab-body {
+  padding: 0px;
+  margin: 0 auto;
+  max-width: 1200px;
+  min-width: 800px;
+}
+
+.buttons {
+  text-align: center;
+  margin: 10px 0px;
+}
+
+.columns {
+  display: table;
+  width: 100%;
+  border-spacing: 10px;
+}
+
+.section {
+  border: 1px solid #aaaaaa;
+  padding: 10px;
+  display: table-cell;
+}
+
+.new-column {
+  width: 50%;
+}
+
+.edit-left {
+  width: 45%;
+}
+
+.edit-right {
+  width: 55%;
 }
