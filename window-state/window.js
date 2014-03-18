@@ -1,245 +1,343 @@
 // Variables:
 
-var hiddenWindowDelay = 3000;
-var fullscreenchangeCount = 0;
-var fullscreenerrorCount = 0;
-var newWindowOffset = 100;
+var fullscreenChangeCount = 0;
+var fullscreenErrorCount = 0;
 
-// chrome.app.window alwaysOnTop property is supported in Chrome M32 or later.
-// The option will be hidden if not supported in the current browser version.
-var isAlwaysOnTopSupported = typeof(chrome.app.window.current().setAlwaysOnTop) !== 'undefined';
+var kHiddenWindowDelay = 3000;
+var kDefaultWidth = 1000;
+var kDefaultHeight = 600;
 
-var version = window.navigator.appVersion;
-version = version.substr(version.lastIndexOf('Chrome/') + 7);
-version = version.substr(0, version.indexOf('.'));
-version = parseInt(version);
+// Utils:
 
-var isFocusedSupported = version >= 33;
-
-// Helper functions
-$ = function(selector) { return document.querySelector(selector); }
-
-function setIfANumber(dictionary, field, number) {
-  if (isNaN(number))
-    return;
-  dictionary[field] = number
+function setIfANumber(dictionary, field, numberEdit) {
+  var value = $('#' + numberEdit).val();
+  var number = parseInt(value);
+  if (!isNaN(number))
+    dictionary[field] = number;
 }
 
-function createNewWindow(optionsDictionary) {
-  optionsDictionary = optionsDictionary || {};
+function getNumber(numberEdit) {
+  var value = $('#' + numberEdit).val();
+  var number = parseInt(value);
+  if (!isNaN(number))
+    return number;
 
-  if ($('[value=ID1]').checked)
-    optionsDictionary.id = "ID1";
-  else if ($('[value=ID2]').checked)
-    optionsDictionary.id = "ID2";
+  value = $('#' + numberEdit).attr('placeholder');
+  if (!isNaN(number))
+    return number;
+
+  return null;
+}
+
+function setNumberEdit(value, numberEdit, attr) {
+  if (attr === 'value' && value === null)
+    $('#' + numberEdit)[0].value = '';
   else
-    optionsDictionary.id = undefined;
+    $('#' + numberEdit).attr(attr, value);
+}
 
-  optionsDictionary.singleton = $('[value=singleton]').checked;
+function getBounds(prefix) {
+  var bounds = {};
+  setIfANumber(bounds, 'left', prefix + 'WindowLeft');
+  setIfANumber(bounds, 'top', prefix + 'WindowTop');
+  setIfANumber(bounds, 'width', prefix + 'WindowWidth');
+  setIfANumber(bounds, 'height', prefix + 'WindowHeight');
+  setIfANumber(bounds, 'minWidth', prefix + 'WindowMinWidth');
+  setIfANumber(bounds, 'minHeight', prefix + 'WindowMinHeight');
+  setIfANumber(bounds, 'maxWidth', prefix + 'WindowMaxWidth');
+  setIfANumber(bounds, 'maxHeight', prefix + 'WindowMaxHeight');
+  return bounds;
+}
 
-  setIfANumber(optionsDictionary, 'minWidth', parseInt($('#newWindowWidthMin').value));
-  setIfANumber(optionsDictionary, 'maxWidth', parseInt($('#newWindowWidthMax').value));
-  setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));
-  setIfANumber(optionsDictionary, 'maxHeight', parseInt($('#newWindowHeightMax').value));
-  optionsDictionary.resizable = $('#newWindowResizable').checked;
-  if (isAlwaysOnTopSupported)
-    optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
-  if (isFocusedSupported)
-    optionsDictionary.focused = $('#newWindowFocused').checked;
+function setBounds(bounds, prefix, attr) {
+  setNumberEdit(bounds.left, prefix + 'WindowLeft', attr);
+  setNumberEdit(bounds.top, prefix + 'WindowTop', attr);
+  setNumberEdit(bounds.width, prefix + 'WindowWidth', attr);
+  setNumberEdit(bounds.height, prefix + 'WindowHeight', attr);
+  setNumberEdit(bounds.minWidth, prefix + 'WindowMinWidth', attr);
+  setNumberEdit(bounds.minHeight, prefix + 'WindowMinHeight', attr);
+  setNumberEdit(bounds.maxWidth, prefix + 'WindowMaxWidth', attr);
+  setNumberEdit(bounds.maxHeight, prefix + 'WindowMaxHeight', attr);
+}
 
-  optionsDictionary.hidden = $('[value=hidden]').checked;
-  var showAfterCreated = function (win) {
-    setTimeout(function () { win.show(); }, hiddenWindowDelay);
+// Create new window:
+
+function createNewWindow() {
+  optionsDictionary = {};
+  var callback = undefined;
+
+  if ($('#newWindowId').val() !== 'none')
+    optionsDictionary.id = $('#newWindowId').val();
+  optionsDictionary.state = $('#newWindowState').val();
+  optionsDictionary.frame = $('input[name=newWindowFrame]:checked').val();
+  optionsDictionary.hidden = $('input[name=newWindowHidden]:checked').val() === 'hidden';
+  optionsDictionary.resizable = $('#newWindowResizable').is(':checked');
+  optionsDictionary.alwaysOnTop = $('#newWindowOnTop').is(':checked');
+  optionsDictionary.focused = $('#newWindowFocused').is(':checked');
+
+  if (optionsDictionary.hidden) {
+    callback = function (win) {
+      setTimeout(function () { win.show(); }, kHiddenWindowDelay);
+    }
   }
-  var callback = optionsDictionary.hidden ? showAfterCreated : undefined;
 
-  // Set new window to be offset from current window.
-  var bounds = chrome.app.window.current().getBounds();
-  bounds.left = (bounds.left + newWindowOffset) % (screen.width - bounds.width);
-  bounds.top = (bounds.top + newWindowOffset) % (screen.height - bounds.height);
-  optionsDictionary.bounds = {};
-  optionsDictionary.bounds.left = bounds.left;
-  optionsDictionary.bounds.top = bounds.top;
-  optionsDictionary.bounds.width = bounds.width;
-  optionsDictionary.bounds.height = bounds.height;
+  var boundsType = $('input[name=newWindowBoundsType]:checked').val();
+  optionsDictionary[boundsType] = getBounds('new');
 
   chrome.app.window.create('window.html', optionsDictionary, callback);
-};
-
-// Log events:
-
-var updateFulllscreenLabel = function updateFulllscreenLabel() {
-  $('#html-fullscreen-label').innerText =
-    fullscreenchangeCount + " change, " +
-    fullscreenerrorCount + " error events.";
-}
-updateFulllscreenLabel();  // Initial text update.
-
-document.onwebkitfullscreenchange = function () {
-  fullscreenchangeCount++;
-  console.log("onwebkitfullscreenchange");
-  updateFulllscreenLabel();
 }
 
-document.onwebkitfullscreenerror = function () {
-  fullscreenerrorCount++;
-  console.log("onwebkitfullscreenerror");
-  updateFulllscreenLabel();
+function copyWindowBounds() {
+  var win = chrome.app.window.current();
+  var boundsType = $('input[name=newWindowBoundsType]:checked').val();
+  setBounds(win[boundsType], 'new', 'value');
 }
 
-// Button handlers:
+function initCreateWindowTab() {
+  // Initialize default state.
+  setBounds({ width: kDefaultWidth, height: kDefaultHeight }, 'new', 'value');
 
-$('#html-fullscreen-enter').onclick = function(e) {
-  $('#fullscreen-area').webkitRequestFullscreen();
-};
-
-$('#html-fullscreen-exit').onclick = function(e) {
-  document.webkitExitFullscreen();
-};
-
-$('#fullscreen').onclick = function(e) {
-  setTimeout(chrome.app.window.current().fullscreen, $('#delay-slider').value);
-};
-
-$('#maximize').onclick = function(e) {
-  setTimeout(chrome.app.window.current().maximize, $('#delay-slider').value);
-};
-
-$('#minimize').onclick = function(e) {
-  setTimeout(chrome.app.window.current().minimize, $('#delay-slider').value);
-};
-
-$('#restore').onclick = function(e) {
-  setTimeout(chrome.app.window.current().restore, $('#delay-slider').value);
-};
-
-$('#hide').onclick = function(e) {
-  setTimeout(chrome.app.window.current().hide, $('#delay-slider').value);
-};
-
-$('#show').onclick = function(e) {
-  setTimeout(chrome.app.window.current().show, $('#delay-slider').value);
-};
-
-$('#alwaysOnTop').onchange = function(e) {
-  chrome.app.window.current().setAlwaysOnTop($('#alwaysOnTop').checked);
-};
-
-$('#move').onclick = function(e) {
-  var x = parseInt($('#moveWindowLeft').value);
-  var y = parseInt($('#moveWindowTop').value);
-  setTimeout(
-    function() {
-      chrome.app.window.current().moveTo(x, y);
-    },
-    $('#delay-slider').value);
-};
-
-$('#resize').onclick = function(e) {
-  var w = parseInt($('#resizeWindowWidth').value);
-  var h = parseInt($('#resizeWindowHeight').value);
-  setTimeout(
-    function() {
-      chrome.app.window.current().resizeTo(w, h);
-    },
-    $('#delay-slider').value);
-};
-
-$('#setbounds').onclick = function(e) {
-  var bounds = {};
-  setIfANumber(bounds, 'left', parseInt($('#moveWindowLeft').value));
-  setIfANumber(bounds, 'top', parseInt($('#moveWindowTop').value));
-  setIfANumber(bounds, 'width', parseInt($('#resizeWindowWidth').value));
-  setIfANumber(bounds, 'height', parseInt($('#resizeWindowHeight').value));
-  setTimeout(
-    function() {
-      chrome.app.window.current().setBounds(bounds);
-    },
-    $('#delay-slider').value);
-};
-
-var updateDelaySiderText = function updateDelaySiderText() {
-  $('#delay-label').innerText = $('#delay-slider').value / 1000 + " seconds.";
+  // Event handlers
+  $('#newWindow').button().click(createNewWindow);
+  $('#copyWindowBounds').click(copyWindowBounds);
 }
-
-$('#delay-slider').onchange = updateDelaySiderText;
-updateDelaySiderText();  // Initial text update.
-
-$('#newWindowNormal').onclick = function(e) {
-  createNewWindow();
-};
-
-$('#newWindowFullscreen').onclick = function(e) {
-  createNewWindow({ state: 'fullscreen'});
-};
-
-$('#newWindowMaximized').onclick = function(e) {
-  createNewWindow({ state: 'maximized'});
-};
-
-$('#newWindowMinimized').onclick = function(e) {
-  createNewWindow({ state: 'minimized'});
-};
-
-// Current window state readout:
 
 // Arrays that store previous state values, which are cleared after a delay.
 var wasFullscreen = [];
 var wasMaximized = [];
 var wasMinimized = [];
 var wasHidden = [];
-var wasStateDelay = 10 * 1000;
+var kWasStateDelay = 10 * 1000;
 
 // Stash values into 'was' variables and clear them out after a delay.
 function setWasState(wasStateArray, state) {
   if (state) {
     wasStateArray.push(true);
-    setTimeout(function () { wasStateArray.pop() }, wasStateDelay);
+    setTimeout(function () { wasStateArray.pop() }, kWasStateDelay);
   }
 }
 
 function updateCurrentStateReadout() {
-  $('#isFullscreen').checked = chrome.app.window.current().isFullscreen();
-  $('#isMaximized' ).checked = chrome.app.window.current().isMaximized();
-  $('#isMinimized' ).checked = chrome.app.window.current().isMinimized();
-  $('#isHidden'    ).checked = document.webkitHidden;
+  var win = chrome.app.window.current();
+  $('#isFullscreen').attr('checked', win.isFullscreen());
+  $('#isMaximized' ).attr('checked', win.isMaximized());
+  $('#isMinimized' ).attr('checked', win.isMinimized());
+  $('#isHidden'    ).attr('checked', document.webkitHidden);
 
   // Stash values into 'was' variables and clear them out after a delay.
-  setWasState(wasFullscreen, chrome.app.window.current().isFullscreen());
-  setWasState(wasMaximized, chrome.app.window.current().isMaximized());
-  setWasState(wasMinimized, chrome.app.window.current().isMinimized());
+  setWasState(wasFullscreen, win.isFullscreen());
+  setWasState(wasMaximized, win.isMaximized());
+  setWasState(wasMinimized, win.isMinimized());
   setWasState(wasHidden, document.webkitHidden);
 
   // Display the current 'was' variables.
-  $('#wasFullscreen').checked = wasFullscreen.length > 0;
-  $('#wasMaximized' ).checked = wasMaximized.length > 0;
-  $('#wasMinimized' ).checked = wasMinimized.length > 0;
-  $('#wasHidden'    ).checked = wasHidden.length > 0;
+  $('#wasFullscreen').attr('checked', wasFullscreen.length > 0);
+  $('#wasMaximized' ).attr('checked', wasMaximized.length > 0);
+  $('#wasMinimized' ).attr('checked', wasMinimized.length > 0);
+  $('#wasHidden'    ).attr('checked', wasHidden.length > 0);
 
-  // Also update the hinted window size
-  $('#moveWindowLeft').placeholder = chrome.app.window.current().getBounds().left;
-  $('#moveWindowTop').placeholder = chrome.app.window.current().getBounds().top;
-  $('#resizeWindowWidth').placeholder = chrome.app.window.current().getBounds().width;
-  $('#resizeWindowHeight').placeholder = chrome.app.window.current().getBounds().height;
-
-  $('#newWindowWidthMin').placeholder = chrome.app.window.current().getBounds().width;
-  $('#newWindowWidthMax').placeholder = chrome.app.window.current().getBounds().width;
-  $('#newWindowHeightMin').placeholder = chrome.app.window.current().getBounds().height;
-  $('#newWindowHeightMax').placeholder = chrome.app.window.current().getBounds().height;
-}
-// Update window state display on bounds change, but also on regular interval
-// just to be paranoid.
-chrome.app.window.current().onBoundsChanged.addListener(updateCurrentStateReadout);
-setInterval(updateCurrentStateReadout, 1000);
-
-// Set initial value of always on top
-if (isAlwaysOnTopSupported) {
-  $('#alwaysOnTop').checked = chrome.app.window.current().isAlwaysOnTop();
-} else {
-  $('#alwaysOnTopLabel').style.visibility = 'hidden';
-  $('#newWindowOnTopLabel').style.visibility = 'hidden';
+  // Also update the hinted window size.
+  setBounds(win.innerBounds, 'inner', 'placeholder');
+  setBounds(win.outerBounds, 'outer', 'placeholder');
 }
 
-if (!isFocusedSupported) {
-  $('#newWindowFocused').disabled = true;
+// Edit current window:
+
+function initEditWindowTab() {
+  // Initialize the buttons.
+  $('#fullscreen').button().click(function() {
+    chrome.app.window.current().fullscreen();
+  });
+
+  $('#maximize').button().click(function() {
+    chrome.app.window.current().maximize();
+  });
+
+  $('#minimize').button().click(function() {
+    chrome.app.window.current().minimize();
+  });
+
+  $('#restore').button().click(function() {
+    chrome.app.window.current().restore();
+  });
+
+  $('#hide').button().click(function() {
+    setTimeout(function() {
+      chrome.app.window.current().show();
+    }, kHiddenWindowDelay);
+    chrome.app.window.current().hide();
+  });
+
+  $('#showInactive').button().click(function() {
+    setTimeout(function() {
+      chrome.app.window.current().show(false);
+    }, kHiddenWindowDelay);
+    chrome.app.window.current().hide();
+  });
+
+  $('#drawAttention').button().click(function() {
+    chrome.app.window.current().drawAttention();
+  });
+
+  $('#clearAttention').button().click(function() {
+    chrome.app.window.current().clearAttention();
+  });
+
+  $('#close').button().click(function() {
+    chrome.app.window.current().close();
+  });
+
+  // Initialize the current state.
+  var win = chrome.app.window.current();
+  $('#currentWindowId').val(win.id);
+  $('#currentWindowOnTop')
+    .attr('checked', win.isAlwaysOnTop())
+    .change(function() {
+      chrome.app.window.current().setAlwaysOnTop(
+        $('#currentWindowOnTop').is(':checked'));
+    });
+
+  // Update window state display on bounds change, but also on regular interval
+  // just to be paranoid.
+  updateCurrentStateReadout();
+  win.onBoundsChanged.addListener(updateCurrentStateReadout);
+  setInterval(updateCurrentStateReadout, 1000);
 }
+
+// Edit bounds:
+
+function initBoundsControls() {
+  $('#setOuterPosition').click(function() {
+    chrome.app.window.current().outerBounds.setPosition(
+      getNumber('outerWindowLeft'),
+      getNumber('outerWindowTop')
+    );
+  });
+
+  $('#setOuterSize').click(function() {
+    chrome.app.window.current().outerBounds.setSize(
+      getNumber('outerWindowWidth'),
+      getNumber('outerWindowHeight')
+    );
+  });
+
+  $('#setOuterMinSize').click(function() {
+    chrome.app.window.current().outerBounds.setMinimumSize(
+      getNumber('outerWindowMinWidth'),
+      getNumber('outerWindowMinHeight')
+    );
+  });
+
+  $('#clearOuterMinSize').click(function() {
+    chrome.app.window.current().outerBounds.setMinimumSize(null, null);
+    setNumberEdit(null, 'outerWindowMinWidth', 'value');
+    setNumberEdit(null, 'outerWindowMinHeight', 'value');
+  });
+
+  $('#setOuterMaxSize').click(function() {
+    chrome.app.window.current().outerBounds.setMaximumSize(
+      getNumber('outerWindowMaxWidth'),
+      getNumber('outerWindowMaxHeight')
+    );
+  });
+
+  $('#clearOuterMaxSize').click(function() {
+    chrome.app.window.current().outerBounds.setMaximumSize(null, null);
+    setNumberEdit(null, 'outerWindowMaxWidth', 'value');
+    setNumberEdit(null, 'outerWindowMaxHeight', 'value');
+  });
+
+  $('#setInnerPosition').click(function() {
+    chrome.app.window.current().innerBounds.setPosition(
+      getNumber('innerWindowLeft'),
+      getNumber('innerWindowTop')
+    );
+  });
+
+  $('#setInnerSize').click(function() {
+    chrome.app.window.current().innerBounds.setSize(
+      getNumber('innerWindowWidth'),
+      getNumber('innerWindowHeight')
+    );
+  });
+
+  $('#setInnerMinSize').click(function() {
+    chrome.app.window.current().innerBounds.setMinimumSize(
+      getNumber('innerWindowMinWidth'),
+      getNumber('innerWindowMinHeight')
+    );
+  });
+
+  $('#clearInnerMinSize').click(function() {
+    chrome.app.window.current().innerBounds.setMinimumSize(null, null);
+    setNumberEdit(null, 'innerWindowMinWidth', 'value');
+    setNumberEdit(null, 'innerWindowMinHeight', 'value');
+  });
+
+  $('#setInnerMaxSize').click(function() {
+    chrome.app.window.current().innerBounds.setMaximumSize(
+      getNumber('innerWindowMaxWidth'),
+      getNumber('innerWindowMaxHeight')
+    );
+  });
+
+  $('#clearInnerMaxSize').click(function() {
+    chrome.app.window.current().innerBounds.setMaximumSize(null, null);
+    setNumberEdit(null, 'innerWindowMaxWidth', 'value');
+    setNumberEdit(null, 'innerWindowMaxHeight', 'value');
+  });
+}
+
+// HTML5 Fullscreen:
+
+function updateFullscreenLabel() {
+  $('#html-fullscreen-label').text(
+      fullscreenChangeCount + ' change, ' +
+      fullscreenErrorCount +  ' error events.');
+}
+
+function initFullscreenTab() {
+  updateFullscreenLabel();  // Initial text update.
+
+  document.onwebkitfullscreenchange = function () {
+    fullscreenChangeCount++;
+    console.log("onwebkitfullscreenchange");
+    updateFullscreenLabel();
+  }
+
+  document.onwebkitfullscreenerror = function () {
+    fullscreenErrorCount++;
+    console.log("onwebkitfullscreenerror");
+    updateFullscreenLabel();
+  }
+
+  $('#html-fullscreen-enter').button().click(function(e) {
+    $('#fullscreen-area')[0].webkitRequestFullscreen();
+  });
+
+  $('#html-fullscreen-exit').button().click(function(e) {
+    document.webkitExitFullscreen();
+  });
+}
+
+// Layout:
+
+function resizeContent() {
+  $('#tabs').height($(window).height());
+}
+
+// Main:
+
+$(document).ready(function() {
+  // Initialize the layout of the window.
+  $('#tabs').tabs();
+  $(window).resize(resizeContent);
+  setTimeout(resizeContent, 200);
+  $('#accordion').accordion({ heightStyle: 'content' });
+
+  // Initialize the tabs.
+  initCreateWindowTab();
+  initEditWindowTab();
+  initBoundsControls();
+  initFullscreenTab();
+});

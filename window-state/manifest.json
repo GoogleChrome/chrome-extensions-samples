@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Window State Sample",
-  "version": "4",
+  "version": "5",
+  "minimum_chrome_version": "35",
   "icons": {
     "128": "icon_128.png"
   },

@@ -1,84 +1,259 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
-<link href="window.css" rel="stylesheet">
+  <link href="window.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/custom-theme/jquery-ui-1.10.4.custom.css">
+  <script src="js/jquery-1.10.2.js"></script>
+  <script src="js/jquery-ui-1.10.4.custom.js"></script>
+  <script src="window.js"></script>
 </head>
 <body>
-  <h1>Window State Sample</h1>
-  <div id="fullscreen-area">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-edit">Edit Current Window</a></li>
+      <li><a href="#tabs-new">Create New Window</a></li>
+      <li><a href="#tabs-fullscreen">HTML5 Fullscreen</a></li>
+    </ul>
 
-    <p><b>HTML5 Fullscreen</b>:
-      <button id="html-fullscreen-enter">Enter</button>
-      <button id="html-fullscreen-exit">Exit</button>
-      <span id="html-fullscreen-label"></span>
-    </p>
+    <div id="tabs-edit">
+      <div class="tab-body">
+        <div class="buttons">
+          <button id="fullscreen">Fullscreen</button>
+          <button id="maximize">Maximize</button>
+          <button id="minimize">Minimize</button>
+          <button id="restore">Restore</button>
+          <button id="close">Close</button><br>
+          <button id="hide">Hide, then Show</button>
+          <button id="showInactive">Hide, then Show Inactive</button>
+          <button id="drawAttention">Draw Attention</button>
+          <button id="clearAttention">Clear Attention</button>
+        </div>
+        <div class="columns">
+          <div class="section edit-left">
+            <h3>State</h3>
+            <table>
+              <tr>
+                <td>ID:</td>
+                <td colspan="2"><input type="text" id="currentWindowId" disabled /></td>
+              </tr>
+              <tr>
+                <td>Always On Top:</td>
+                <td><input type="checkbox" id="currentWindowOnTop" /></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Current State</td>
+                <td>Last 10 Seconds</td>
+              </tr>
+              <tr>
+                <td>Fullscreen:</td>
+                <td><input type="checkbox" id="isFullscreen" disabled></td>
+                <td><input type="checkbox" id="wasFullscreen" disabled></td>
+              </tr>
+              <tr>
+                <td>Maximized:</td>
+                <td><input type="checkbox" id="isMaximized" disabled></td>
+                <td><input type="checkbox" id="wasMaximized" disabled></td>
+              </tr>
+              <tr>
+                <td>Minimized:</td>
+                <td><input type="checkbox" id="isMinimized" disabled></td>
+                <td><input type="checkbox" id="wasMinimized" disabled></td>
+              </tr>
+              <tr>
+                <td>document.webkitHidden:</td>
+                <td><input type="checkbox" id="isHidden" disabled></td>
+                <td><input type="checkbox" id="wasHidden" disabled></td>
+              </tr>
+            </table>
+          </div>
 
-    <p>chrome.app.<b>window actions</b>, delayed:
-      <input id="delay-slider" type ="range" min ="0" max="20000" step="1000" value="0"/>
-      <span id="delay-label"></span>
-      <br>
-      <button id="fullscreen">Fullscreen</button>
-      <button id="maximize">Maximize</button>
-      <button id="minimize">Minimize</button>
-      <button id="restore">Restore</button>
-      <button id="hide">Hide</button>
-      <button id="show">Show</button>
-      <button id="showInactive">Show Inactive</button>
-      <label id="alwaysOnTopLabel"><input type="checkbox" id="alwaysOnTop" />Always On Top</label>
-      <br>
-      <button id="move">Move To (L,T)</button> /
-      <button id="resize">Resize To (W,H)</button> /
-      <button id="setbounds">Set Bounds (L,T,W,H)</button>:
-      <br>
-      Left, Top: <input type="number" class="size" id="moveWindowLeft" step=1 />
-      <input type="number" class="size" id="moveWindowTop" step=1 />
-      Width, Height: <input type="number" class="size" id="resizeWindowWidth" step=1 />
-      <input type="number" class="size" id="resizeWindowHeight" step=1 />
-    </p>
+          <div class="section edit-right">
+            <h3>Bounds</h3>
+            <div id="accordion">
+              <h3>Outer Bounds</h3>
+              <div>
+                <table>
+                  <tr>
+                    <td>Left, Top:</td>
+                    <td><input type="number" class="size" id="outerWindowLeft" step=1 /></td>
+                    <td><input type="number" class="size" id="outerWindowTop" step=1 /></td>
+                    <td><button id="setOuterPosition">Set</button></td>
+                  </tr>
+                  <tr>
+                    <td>Width, Height:</td>
+                    <td><input type="number" class="size" id="outerWindowWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="outerWindowHeight" step=1 /></td>
+                    <td><button id="setOuterSize">Set</button></td>
+                  </tr>
+                  <tr>
+                    <td>Min Width, Height:</td>
+                    <td><input type="number" class="size" id="outerWindowMinWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="outerWindowMinHeight" step=1 /></td>
+                    <td>
+                      <button id="setOuterMinSize">Set</button>
+                      <button id="clearOuterMinSize">Clear</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Max Width, Height:</td>
+                    <td><input type="number" class="size" id="outerWindowMaxWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="outerWindowMaxHeight" step=1 /></td>
+                    <td>
+                      <button id="setOuterMaxSize">Set</button>
+                      <button id="clearOuterMaxSize">Clear</button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <h3>Inner Bounds</h3>
+              <div>
+                <table>
+                  <tr>
+                    <td>Left, Top:</td>
+                    <td><input type="number" class="size" id="innerWindowLeft" step=1 /></td>
+                    <td><input type="number" class="size" id="innerWindowTop" step=1 /></td>
+                    <td><button id="setInnerPosition">Set</button></td>
+                  </tr>
+                  <tr>
+                    <td>Width, Height:</td>
+                    <td><input type="number" class="size" id="innerWindowWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="innerWindowHeight" step=1 /></td>
+                    <td><button id="setInnerSize">Set</button></td>
+                  </tr>
+                  <tr>
+                    <td>Min Width, Height:</td>
+                    <td><input type="number" class="size" id="innerWindowMinWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="innerWindowMinHeight" step=1 /></td>
+                    <td>
+                      <button id="setInnerMinSize">Set</button>
+                      <button id="clearInnerMinSize">Clear</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Max Width, Height:</td>
+                    <td><input type="number" class="size" id="innerWindowMaxWidth" step=1 /></td>
+                    <td><input type="number" class="size" id="innerWindowMaxHeight" step=1 /></td>
+                    <td>
+                      <button id="setInnerMaxSize">Set</button>
+                      <button id="clearInnerMaxSize">Clear</button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <p><b>Create</b> a new window:<br>
-      <label><input type="radio" name="newWindowId" value="ID1" checked/>id = ID1</label>
-      <label><input type="radio" name="newWindowId" value="ID2" />id = ID2</label>
-      <label><input type="radio" name="newWindowId" value="none" />Without id</label>
-      : The id will restore previous position.
-      <br>
-      <label><input type="radio" name="newWindowSingleton" value="singleton" checked/>Singleton</label>
-      <label><input type="radio" name="newWindowSingleton" value="notsingleton" />Not a singleton</label>
-      : Only create one window (requires an id).
-      <br>
-      <label>Min<input type="number" class="size" id="newWindowWidthMin" step=1 /></label>
-      <label><input type="number" class="size" id="newWindowWidthMax" step=1 />Max Width</label>
-      <br>
-      <label>Min<input type="number" class="size" id="newWindowHeightMin" step=1 /></label>
-      <label><input type="number" class="size" id="newWindowHeightMax" step=1 />Max Height</label>
-      <label><input type="checkbox" id="newWindowResizable" checked/>Resizable</label>
-      <label id="newWindowOnTopLabel"><input type="checkbox" id="newWindowOnTop" />Always On Top</label>
-      <label><input type="checkbox" checked id="newWindowFocused">Focused</label>
-      <br>
-      <label><input type="radio" name="newWindowHidden" value="visible" checked/>Visible</label>
-      <label><input type="radio" name="newWindowHidden" value="hidden" />Hidden, then shown</label>
-      <br>
-      <button id="newWindowNormal">Normal</button>
-      <button id="newWindowFullscreen">Fullscreen</button>
-      <button id="newWindowMaximized">Maximized</button>
-      <button id="newWindowMinimized">Minimized</button>
-    </p>
+    <div id="tabs-new">
+      <div class="tab-body">
+        <div class="buttons">
+          <button id="newWindow">Create Window</button>
+        </div>
+        <div class="columns">
+          <div class="section new-column">
+            <h3>Options</h3>
+            <table>
+              <tr>
+                <td>ID:</td>
+                <td>
+                  <select id="newWindowId">
+                    <option value="none">Without ID</option>
+                    <option value="ID1">ID1</option>
+                    <option value="ID2">ID2</option>
+                  </select>
+                  <br>
+                  <small>The ID will restore the previous position</small>
+                </td>
+              </tr>
+              <tr>
+                <td>Initial State:</td>
+                <td>
+                  <select id="newWindowState">
+                    <option value="normal">Normal</option>
+                    <option value="fullscreen">Fullscreen</option>
+                    <option value="maximized">Maximized</option>
+                    <option value="minimized">Minimized</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Frame:</td>
+                <td>
+                  <label><input type="radio" name="newWindowFrame" value="chrome" checked />Chrome</label>
+                  <label><input type="radio" name="newWindowFrame" value="none" />None</label>
+                </td>
+              </tr>
+              <tr>
+                <td>Visibility:</td>
+                <td>
+                  <label><input type="radio" name="newWindowHidden" value="visible" checked />Visible</label>
+                  <label><input type="radio" name="newWindowHidden" value="hidden" />Hidden, then shown</label>
+                </td>
+              </tr>
+              <tr>
+                <td>Resizable:</td>
+                <td><input type="checkbox" id="newWindowResizable" checked/></td>
+              </tr>
+              <tr>
+                <td>Always On Top:</td>
+                <td><input type="checkbox" id="newWindowOnTop" /></td>
+              </tr>
+              <tr>
+                <td>Focused:</td>
+                <td><input type="checkbox" checked id="newWindowFocused"></td>
+              </tr>
+            </table>
+          </div>
 
-    <p>Current window state:
-      <input type="checkbox" id="isFullscreen" disabled>isFullscreen
-      <input type="checkbox" id="isMaximized"  disabled>isMaximized
-      <input type="checkbox" id="isMinimized"  disabled>isMinimized
-      <input type="checkbox" id="isHidden" disabled>document.webkitHidden
-    </p>
+          <div class="section new-column">
+            <h3>Bounds</h3>
+            <label><input type="radio" name="newWindowBoundsType" value="outerBounds" checked />Outer bounds</label>
+            <label><input type="radio" name="newWindowBoundsType" value="innerBounds" />Inner bounds</label>
+            <p></p>
+            <table>
+              <tr>
+                <td>Left, Top:</td>
+                <td><input type="number" class="size" id="newWindowLeft" step=1 /></td>
+                <td><input type="number" class="size" id="newWindowTop" step=1 /></td>
+              </tr>
+              <tr>
+                <td>Width, Height:</td>
+                <td><input type="number" class="size" id="newWindowWidth" step=1 /></td>
+                <td><input type="number" class="size" id="newWindowHeight" step=1 /></td>
+              </tr>
+              <tr>
+                <td>Min Width, Height:</td>
+                <td><input type="number" class="size" id="newWindowMinWidth" step=1 /></td>
+                <td><input type="number" class="size" id="newWindowMinHeight" step=1 /></td>
+              </tr>
+              <tr>
+                <td>Max Width, Height:</td>
+                <td><input type="number" class="size" id="newWindowMaxWidth" step=1 /></td>
+                <td><input type="number" class="size" id="newWindowMaxHeight" step=1 /></td>
+              </tr>
+            </table>
+            <p><button id="copyWindowBounds">Copy this window's bounds</button></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <p>Last 10 seconds state:
-      <input type="checkbox" id="wasFullscreen" disabled>wasFullscreen
-      <input type="checkbox" id="wasMaximized"  disabled>wasMaximized
-      <input type="checkbox" id="wasMinimized"  disabled>wasMinimized
-      <input type="checkbox" id="wasHidden" disabled>document.webkitHidden
-    </p>
+    <div id="tabs-fullscreen">
+      <div id="fullscreen-area">
+        <h3>HTML5 Fullscreen</h3>
+        <p>
+          <button id="html-fullscreen-enter">Enter</button>
+          <button id="html-fullscreen-exit">Exit</button>
+        </p>
+        <p>
+          <span id="html-fullscreen-label"></span>
+        </p>
+      </div>
+      This text is outside of the HTML5 fullscreen area.
+    </div>
   </div>
-  This text is outside of the HTML5 fullscreen area.
 </body>
-<script src="window.js"></script>
 </html>
