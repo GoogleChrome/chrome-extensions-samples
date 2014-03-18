@@ -183,6 +183,10 @@ function initEditWindowTab() {
     chrome.app.window.current().clearAttention();
   });
 
+  $('#close').button().click(function() {
+    chrome.app.window.current().close();
+  });
+
   // Initialize the current state.
   var win = chrome.app.window.current();
   $('#currentWindowId').val(win.id);
