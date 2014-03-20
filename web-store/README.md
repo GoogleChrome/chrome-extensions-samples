@@ -2,7 +2,7 @@
 
 # Web Store API Sample App
 
-Chrome Packaged App which lets you upload and publish Chrome Apps and Extensions folders stored locally on your hard drive. The `chrome.identity` API is used to retrieve a valid token to authenticate agains the [Chrome Web Store Publish API](http://developer.chrome.com/webstore/using_webstore_api). The zip process is handled by the external library [zip.js](http://gildas-lormeau.github.io/zip.js/) and the `chrome.fileSystem` API.
+Lets you upload and publish Chrome Apps and Extensions folders stored locally on your hard drive. The `chrome.identity` API is used to retrieve a valid token to authenticate against the [Chrome Web Store Publish API](http://developer.chrome.com/webstore/using_webstore_api). The zip process is handled by the external library [zip.js](http://gildas-lormeau.github.io/zip.js/) and the `chrome.fileSystem` API.
 
 ## APIs
 
@@ -11,3 +11,6 @@ Chrome Packaged App which lets you upload and publish Chrome Apps and Extensions
 * [identity](http://developer.chrome.com/apps/app_identity)
 * [fileSystem](http://developer.chrome.com/apps/fileSystem)
 * [storage](http://developer.chrome.com/apps/storage)
+     
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/web-store/assets/screenshot_1280_800.png)

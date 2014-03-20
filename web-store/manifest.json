@@ -1,6 +1,6 @@
 {
   "name": "Web Store API Sample App",
-  "description": "An example app to upload and publish Chrome Apps to the Web Store"
+  "description": "An example app to upload and publish Chrome Apps to the Web Store",
   "version": "1",
   "manifest_version": 2,
   "app": {
