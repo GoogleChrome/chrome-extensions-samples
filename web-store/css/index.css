@@ -24,6 +24,21 @@ body {
     overflow-y: overlay;
 }
 
+#console {
+    background: #FEFA8E;
+    border-top: 2px solid #ddd;
+    bottom: 0;
+    height: 80px;
+    padding-top: 4px;
+    position: fixed;
+    transition: all .4s ease-in-out;
+}
+
+#console.hidden {
+    height: 0px;
+    padding-top: 0px;
+}
+
 .failure {
     background-color: #FF4500!important;
 }

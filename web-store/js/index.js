@@ -40,6 +40,15 @@ function onWebStoreLinkClicked() {
   window.open(url);
 }
 
+var console = document.querySelector('#console');
+function showError(response) {
+  console.textContent = JSON.stringify(response, null, 2);
+  console.classList.remove('hidden');
+  setTimeout(function() {
+    console.classList.add('hidden');
+  }, 5000);
+}
+
 // Handles click on Upload button.
 function onUploadButtonClicked() {
   var directoryEntryId = this.parentNode.dataset.directoryEntryId;
@@ -76,7 +85,7 @@ function onUploadButtonClicked() {
                       updateIdInput(button, response.id);
                     } else {
                       setFailureButton(button);
-                      console.error(response);
+                      showError(error || response);
                     }
                     resetButton(button);
                   });
@@ -134,7 +143,7 @@ function onPublishButtonClicked() {
         setSuccessButton(button);
       } else {
         setFailureButton(button);
-        console.error(error, status, response);
+        showError(error || response);
       }
       resetButton(button);
     });
