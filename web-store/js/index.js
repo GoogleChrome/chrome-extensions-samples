@@ -1,12 +1,17 @@
 function updateIdInput(button, itemId) {
   var input = button.parentNode.querySelector('input');
   input.value = itemId;
-  setVisiblePublishButton(input);
+  updateVisibleButtons(input);
 }
 
-function setVisiblePublishButton(input) {  
+function updateVisibleButtons(input) {
   var enabled = (input.value && input.value.length === 32);
+  var webStoreLink = input.parentNode.querySelector('.webstore-link');
   input.parentNode.querySelector('.publish').disabled = !enabled; 
+  if (enabled)
+    webStoreLink.classList.remove('disabled');
+  else
+    webStoreLink.classList.add('disabled');
 }
 
 function setSuccessButton(button) {
@@ -29,7 +34,10 @@ function resetButton(button) {
   }, 2000);
 }
 
-function updateUploadButtonState(button, response) {
+function onWebStoreLinkClicked() {
+  var input = this.parentNode.querySelector('input');
+  var url = 'https://chrome.google.com/webstore/developer/edit/' + input.value;
+  window.open(url);
 }
 
 // Handles click on Upload button.
@@ -184,6 +192,12 @@ function createProjectDiv(directoryEntry, directoryEntryId, callback) {
       title.textContent = manifest.name;
       projectDiv.appendChild(title);
 
+      var webstoreLink = document.createElement('div');
+      webstoreLink.classList.add('webstore-link');
+      webstoreLink.textContent = 'Web Store';
+      webstoreLink.addEventListener('click', onWebStoreLinkClicked);
+      projectDiv.appendChild(webstoreLink);
+
       var path = document.createElement('div');
       path.classList.add('path');
       chrome.fileSystem.getDisplayPath(directoryEntry,
@@ -195,13 +209,12 @@ function createProjectDiv(directoryEntry, directoryEntryId, callback) {
       var idInput = document.createElement('input');
       idInput.placeholder = 'Enter ID or leave empty';
       idInput.addEventListener('input', function() {
-          setVisiblePublishButton(this);
+          updateVisibleButtons(this);
       });
       chrome.storage.local.get(directoryEntryId, function(results) {
         var id = results[directoryEntryId];
         idInput.value = id || '';        
-        var enabled = (id && id.length === 32);
-        idInput.parentNode.querySelector('.publish').disabled = !enabled;
+        updateVisibleButtons(idInput);
       });
       projectDiv.appendChild(idInput);
 

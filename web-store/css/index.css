@@ -91,6 +91,20 @@ body {
     width: 100%;
 }
 
+.project .webstore-link {
+    color: dodgerblue;
+    cursor: hand;
+    line-height: 36px;
+    position: absolute;
+    right: 26px;
+    text-decoration: underline;
+}
+
+.project .webstore-link.disabled {
+    cursor: default;
+    opacity: .3;
+}
+
 .project .path {
     float: left;
     margin-bottom: 8px;
