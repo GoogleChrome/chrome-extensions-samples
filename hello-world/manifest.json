@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Hello World",
-  "version": "2",
+  "version": "2.1",
   "minimum_chrome_version": "23",
   "icons": {
     "16": "icon_16.png",
