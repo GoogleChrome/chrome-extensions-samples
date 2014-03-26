@@ -28,9 +28,8 @@ var productId = 0x0021; // changed from 0x0020
 
 ### Windows issues
 
-Windows users may encounter problems when trying to findDevice or openDevice.
-You might give a try to zadig drivers, they are generic low level usb drivers in replacement for vendor specific ones.
-[http://zadig.akeo.ie/](http://zadig.akeo.ie/ "Zadig drivers website")
+Some Windows device drivers take ownership of the device and don't allow Chrome to connect to them. If openDevice or findDevice doesn't work for you, you can try to use a generic low level driver instead. 
+For more info, check this [chrome-app-samples issue](https://github.com/GoogleChrome/chrome-app-samples/issues/203).
 
 LICENSE
 =======
