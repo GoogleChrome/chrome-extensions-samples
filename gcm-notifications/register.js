@@ -36,9 +36,9 @@ function registerCallback(regId) {
 }
 
 function updateCurlCommand() {
-  var appKey = document.getElementById("appKey").value;
-  if (!appKey)
-    appKey = "YOUR_APP_KEY";
+  var apiKey = document.getElementById("apiKey").value;
+  if (!apiKey)
+    apiKey = "YOUR_API_KEY";
 
   var msgKey = document.getElementById("msgKey").value;
   if (!msgKey)
@@ -50,7 +50,7 @@ function updateCurlCommand() {
 
   var command = 'curl' +
       ' -H "Content-Type:application/x-www-form-urlencoded;charset=UTF-8"' +
-      ' -H "Authorization: key=' + appKey + '"' +
+      ' -H "Authorization: key=' + apiKey + '"' +
       ' -d "registration_id=' + registrationId + '"' +
       ' -d data.' + msgKey + '=' + msgValue +
       ' https://android.googleapis.com/gcm/send';
@@ -59,7 +59,7 @@ function updateCurlCommand() {
 
 window.onload = function() {
   document.getElementById("register").onclick = register;
-  document.getElementById("appKey").onchange = updateCurlCommand;
+  document.getElementById("apiKey").onchange = updateCurlCommand;
   document.getElementById("msgKey").onchange = updateCurlCommand;
   document.getElementById("msgValue").onchange = updateCurlCommand;
   setStatus("You have not registered yet. Please provider sender ID and register.");
