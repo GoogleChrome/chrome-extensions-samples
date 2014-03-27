@@ -84,9 +84,6 @@ function doNotify(evt) {
 	else if (evt.srcElement.id == "progress") {
 		options = notOptions[3];
 	}
-	else if (evt.srcElement.id == "clear") {
-		options = notOptions[4];
-	}
 
 	options.iconUrl = path;
 	// priority is from -2 to 2. The API makes no guarantee about how notifications are
