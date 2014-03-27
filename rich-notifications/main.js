@@ -47,11 +47,6 @@ var notOptions = [
 		title: "Progress Notification",
 		message: "Short message plus an image",
 		progress: 60
-	},
-    {
-		type : "basic",
-		title: "Notification that disappears after 3 seconds",
-		message: "Short message"
 	}
 	
 ];
@@ -62,7 +57,6 @@ window.addEventListener("load", function() {
 	document.getElementById("image").addEventListener("click", doNotify);
 	document.getElementById("list").addEventListener("click", doNotify);
 	document.getElementById("progress").addEventListener("click", doNotify);
-	document.getElementById("clear").addEventListener("click", doNotify);
 
 	// set up the event listeners
 	chrome.notifications.onClosed.addListener(notificationClosed);
@@ -106,19 +100,14 @@ function doNotify(evt) {
 	if (sBtn2.length)
 		options.buttons.push({ title: sBtn2 });
 
-	if (evt.srcElement.id == "clear")	
-	  chrome.notifications.create("id"+notID++, options, creationCallbackWithClear);
-	else 
-	  chrome.notifications.create("id"+notID++, options, creationCallback);		
+    chrome.notifications.create("id"+notID++, options, creationCallback);		
 }
 
 function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
-}
-
-function creationCallbackWithClear(notID) {
-	console.log("Succesfully created with clear" + notID + " notification");
-    setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000);
+	if(document.getElementById("clear").checked) {
+      setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000);
+	}
 }
 
 // Event handlers for the various notification events
