@@ -84,6 +84,10 @@ function doNotify(evt) {
 	else if (evt.srcElement.id == "progress") {
 		options = notOptions[3];
 	}
+	else if (evt.srcElement.id == "clear") {
+		options = notOptions[4];
+	}
+
 	options.iconUrl = path;
 	// priority is from -2 to 2. The API makes no guarantee about how notifications are
 	// visually handled by the OS - they simply represent hints that the OS can use to 
@@ -95,12 +99,15 @@ function doNotify(evt) {
 		options.buttons.push({ title: sBtn1 });
 	if (sBtn2.length)
 		options.buttons.push({ title: sBtn2 });
-		
-	chrome.notifications.create("id"+notID++, options, creationCallback);
+
+    chrome.notifications.create("id"+notID++, options, creationCallback);		
 }
 
 function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
+	if(document.getElementById("clear").checked) {
+      setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000);
+	}
 }
 
 // Event handlers for the various notification events
