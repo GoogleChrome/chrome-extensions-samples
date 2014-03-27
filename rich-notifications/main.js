@@ -51,7 +51,7 @@ var notOptions = [
     {
 		type : "basic",
 		title: "Notification that disappears after 3 seconds",
-		message: "Short message plus an image"
+		message: "Short message"
 	}
 	
 ];
@@ -107,7 +107,7 @@ function doNotify(evt) {
 		options.buttons.push({ title: sBtn2 });
 
 	if (evt.srcElement.id == "clear")	
-	  chrome.notifications.create("id"+notID++, options, creationCallbackwithClear);
+	  chrome.notifications.create("id"+notID++, options, creationCallbackWithClear);
 	else 
 	  chrome.notifications.create("id"+notID++, options, creationCallback);		
 }
@@ -116,9 +116,9 @@ function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
 }
 
-function creationCallbackwithClear(notID) {
+function creationCallbackWithClear(notID) {
 	console.log("Succesfully created with clear" + notID + " notification");
-  setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000)
+    setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000);
 }
 
 // Event handlers for the various notification events
