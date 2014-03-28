@@ -2,7 +2,7 @@
   "name": "Notification API Sample",
   "description": "Tests the notification API",
   "manifest_version" : 2,
-  "version" : "0.2",
+  "version" : "0.3",
   "app" : {
     "background" : {
     "scripts" : ["app.js"]
