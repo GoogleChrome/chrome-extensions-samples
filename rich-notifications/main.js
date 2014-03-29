@@ -45,11 +45,12 @@ var notOptions = [
 	{
 		type : "progress",
 		title: "Progress Notification",
-		message: "Short message plus an image",
-		progress: 60
+		message: "Progress is: 10",
+		progress: 10
 	}
 	
 ];
+var optio, progress;
 
 // Window initialization code. Set up the various event handlers
 window.addEventListener("load", function() {
@@ -83,7 +84,10 @@ function doNotify(evt) {
 	}
 	else if (evt.srcElement.id == "progress") {
 		options = notOptions[3];
+		optio = options;
+		progress = true;
 	}
+
 	options.iconUrl = path;
 	// priority is from -2 to 2. The API makes no guarantee about how notifications are
 	// visually handled by the OS - they simply represent hints that the OS can use to 
@@ -101,6 +105,35 @@ function doNotify(evt) {
 
 function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
+	if (document.getElementById("clear").checked) {
+		setTimeout(function() {
+			chrome.notifications.clear(notID, function(wasCleared) {
+				console.log("Notification " + notID + " cleared: " + wasCleared);
+			});
+		}, 3000);
+	}
+	if (progress) {
+		setTimeout(function() {
+			updateProgress(notID, optio);
+		}, 500);
+		progress = false;
+	}
+}
+
+function updateProgress(notID, options) {
+		if (options.progress <= 90) {
+			options.progress +=10;
+			options.message = "Progress is: " + options.progress;
+			chrome.notifications.update(notID, options, function(wasUpdated) {
+				console.log("Notification " + notID + " updated: " + wasUpdated);
+			});
+			setTimeout(function() {
+				updateProgress(notID, options);
+			}, 500);
+		}
+		else {
+			options.progress = 10;
+		}
 }
 
 // Event handlers for the various notification events
