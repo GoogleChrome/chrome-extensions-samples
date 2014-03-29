@@ -104,9 +104,9 @@ function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
 	if(document.getElementById("clear").checked) {
 		setTimeout(function() {
-		  chrome.notifications.clear(notID, function(wasCleared) {
-			console.log("Notification " + notID + " cleared: " + wasCleared);
-		  });
+			chrome.notifications.clear(notID, function(wasCleared) {
+				console.log("Notification " + notID + " cleared: " + wasCleared);
+			});
 		}, 3000);
 	}
 }
