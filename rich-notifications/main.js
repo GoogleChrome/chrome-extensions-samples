@@ -96,14 +96,18 @@ function doNotify(evt) {
 		options.buttons.push({ title: sBtn1 });
 	if (sBtn2.length)
 		options.buttons.push({ title: sBtn2 });
-
-	chrome.notifications.create("id"+notID++, options, creationCallback);		
+		
+	chrome.notifications.create("id"+notID++, options, creationCallback);
 }
 
 function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
 	if(document.getElementById("clear").checked) {
-	  setTimeout(function() { chrome.notifications.clear(notID, function(wascleared){console.log("Notification cleared: "+wascleared)}) }, 3000);
+		setTimeout(function() {
+		  chrome.notifications.clear(notID, function(wasCleared) {
+			console.log("Notification " + notID + " cleared: " + wasCleared);
+		  });
+		}, 3000);
 	}
 }
 
