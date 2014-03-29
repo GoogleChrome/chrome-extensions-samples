@@ -102,7 +102,7 @@ function doNotify(evt) {
 
 function creationCallback(notID) {
 	console.log("Succesfully created " + notID + " notification");
-	if(document.getElementById("clear").checked) {
+	if (document.getElementById("clear").checked) {
 		setTimeout(function() {
 			chrome.notifications.clear(notID, function(wasCleared) {
 				console.log("Notification " + notID + " cleared: " + wasCleared);
