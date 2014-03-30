@@ -45,12 +45,11 @@ var notOptions = [
 	{
 		type : "progress",
 		title: "Progress Notification",
-		message: "Progress is: 10",
-		progress: 10
+		message: "Short message plus an image",
+		progress: 60
 	}
 	
 ];
-var optio, progress;
 
 // Window initialization code. Set up the various event handlers
 window.addEventListener("load", function() {
@@ -84,8 +83,6 @@ function doNotify(evt) {
 	}
 	else if (evt.srcElement.id == "progress") {
 		options = notOptions[3];
-		optio = options;
-		progress = true;
 	}
 
 	options.iconUrl = path;
@@ -112,28 +109,6 @@ function creationCallback(notID) {
 			});
 		}, 3000);
 	}
-	if (progress) {
-		setTimeout(function() {
-			updateProgress(notID, optio);
-		}, 500);
-		progress = false;
-	}
-}
-
-function updateProgress(notID, options) {
-		if (options.progress <= 90) {
-			options.progress +=10;
-			options.message = "Progress is: " + options.progress;
-			chrome.notifications.update(notID, options, function(wasUpdated) {
-				console.log("Notification " + notID + " updated: " + wasUpdated);
-			});
-			setTimeout(function() {
-				updateProgress(notID, options);
-			}, 500);
-		}
-		else {
-			options.progress = 10;
-		}
 }
 
 // Event handlers for the various notification events
