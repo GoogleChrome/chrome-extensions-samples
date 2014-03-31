@@ -106,7 +106,6 @@ function updateSelection(e) {
    if (fs) {
       var path = selList.options[indx].getAttribute("data-fullpath");
       fs.root.getFile(path, {create: false}, function(fileEntry) {
-         var url = fileEntry.toURL();
          var newElem = null;
          // show the file data
          clearContentDiv();
@@ -118,18 +117,8 @@ function updateSelection(e) {
          else if (type == "video")
             newElem = addVideoToContentDiv();
 
-         if (newElem) {
-            (function(image_element) {
-               fileEntry.file(function(fff) {
-                  var reader = new FileReader();
-                  reader.onerror = errorPrintFactory('FileReader');
-                  reader.onloadend = function(e) {
-                     image_element.src = this.result;
-                  };
-                  reader.readAsDataURL(fff);
-               }, errorPrintFactory('PlayBack'));
-            }(newElem));
-         }
+         if (newElem)
+            newElem.src = fileEntry.toURL();
       });
    }
 }
