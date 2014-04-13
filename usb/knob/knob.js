@@ -52,7 +52,7 @@ var onEvent = function(usbEvent) {
     
     console.log("RotateEvent", knobState);
 
-    chrome.usb.interruptTransfer(knobDevice, transfer, onEvent);
+    chrome.usb.interruptTransfer(powerMateDevice, transfer, onEvent);
 };
 
 var pulseDescriptionFromStatusByte = function(descriptions, offset)
