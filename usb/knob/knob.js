@@ -35,21 +35,11 @@ var onEvent = function(usbEvent) {
       ledMultiplier: dv.getUint8(5)
     };
 
-    if (((dv.getUint8(4) & 16) != 16) && ((dv.getUint8(4) & 32) != 32)) {
-      knobState.pulseSpeed = "slower";
-    } else if (((dv.getUint8(4) & 16) == 16) && ((dv.getUint8(4) & 32) != 32)) {
-      knobState.pulseSpeed = "normal";
-    } else if (((dv.getUint8(4) & 16) != 16) && ((dv.getUint8(4) & 32) == 32)) {
-      knobState.pulseSpeed = "faster";
-    }
+    knobState.pulseSpeed = pulseDescriptionFromStatusByte(
+      ["slower", "normal", "faster"], 4);
 
-    if (((dv.getUint8(4) & 64) != 64) && ((dv.getUint8(4) & 128) != 128)) {
-      knobState.pulseStyle = "style1";
-    } else if (((dv.getUint8(4) & 64) == 64) && ((dv.getUint8(4) & 128) != 128)) {
-      knobState.pulseStyle = "style2";
-    } else if (((dv.getUint8(4) & 64) != 64) && ((dv.getUint8(4) & 128) == 128)) {
-      knobState.pulseStyle = "style3";
-    }
+    knobState.pulseStyle = pulseDescriptionFromStatusByte(
+      ["style1", "style2", "style3"], 6);
 
     var transform = '';
     if (knobState.buttonState == 1) {
@@ -62,8 +52,14 @@ var onEvent = function(usbEvent) {
     
     console.log("RotateEvent", knobState);
 
-    chrome.usb.interruptTransfer(powerMateDevice, transfer, onEvent);
-  };
+    chrome.usb.interruptTransfer(knobDevice, transfer, onEvent);
+};
+
+var pulseDescriptionFromStatusByte = function(descriptions, offset)
+{
+  var index = (knobState._ledStatus >> offset) & 3;
+  return descriptions[index - 1];
+};
 
 var gotPermission = function(result) {
     requestButton.style.display = 'none';
