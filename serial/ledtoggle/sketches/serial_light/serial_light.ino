@@ -1,7 +1,7 @@
-#define LED 2
+#define LED 13
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(9600);
   Serial.print("\r\nStart");
 
 
@@ -21,7 +21,7 @@ void loop() {
     } else if (incomingByte == 'n') {
       digitalWrite(LED, LOW);
     }
-    Serial.write(incomingByte);
+    Serial.println(incomingByte);
   }
 }
 
