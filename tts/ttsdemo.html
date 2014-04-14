@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text-to-Speech Sample</title>
+  <link href="ttsdemo.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<div class="banner">
+  <div class="banner_left">
+    <img src="icon_128.png" class="logo" alt="">
+  </div>
+  <div class="banner_right">
+    <h1>Text-to-Speech Sample</h1>
+    <p>
+      Use this application to try out all of the text-to-speech voices in Chrome.
+    </p>
+  </div>
+</div>
+
+<div class="body_wrapper">
+  <div class="body_left">
+    <div class="body_inner">
+
+      Enter text here:
+      <textarea id="srctext" rows="6" cols="40">This is a demo of text-to-speech.</textarea>
+
+      <p>
+        <button id="speak" class="large_button">Speak</button>
+        <button id="stop" class="large_button" >Stop</button>
+      </p>
+
+      <div class="box" id="ttsStatusBox">
+        TTS status: <b><span id="ttsStatus"></span></b>
+      </div>
+
+      <p>
+
+        Click on or tab to these boxes:
+
+      <p>
+
+      <span id="alpha" tabindex="0" class="tabbable">Alpha</span>
+      <span id="bravo" tabindex="0" class="tabbable" >Bravo</span>
+      <span id="charlie" tabindex="0" class="tabbable" >Charlie</span>
+      <span id="delta" tabindex="0" class="tabbable" >Delta</span>
+      <span id="echo" tabindex="0" class="tabbable" >Echo</span>
+      <span id="foxtrot" tabindex="0" class="tabbable" >Foxtrot</span>
+
+    </div>
+  </div>
+  <div class="body_right">
+    <div class="body_inner">
+
+      <table border="0">
+        <tr>
+        <td>Voice:</td>
+        <td><select id="voices">
+              <option value="">Unspecified</option>
+            </select></td>
+        </td>
+        </tr>
+        <tr>
+        <td>Lang:</td>
+        <td><select id="lang">
+          <option value="">Unspecified</option>
+          <option value="de">de (German)</option>
+          <option value="en-GB">en-GB (British English)</option>
+          <option value="en-US" selected>en-US (American English)</option>
+          <option value="es">es (Spanish)</option>
+          <option value="fr">fr (French)</option>
+          <option value="it">it (Italian)</option>
+        </select></td></tr>
+        <tr>
+        <td>Queuing mode:</td>
+        <td><select id="enqueue">
+          <option value="">Interrupt</option>
+          <option value="true">Enqueue</option>
+        </select></td></tr>
+        <tr>
+        <td>Rate:</td>
+        <td><input id="rate" type="range" min="0.1" max="10.0" value="1.0" step="0.1">
+        </td></tr>
+        <tr>
+        <td>Pitch:</td>
+        <td><input id="pitch" type="range" min="0.0" max="2.0" value="1.0" step="0.1">
+        </td></tr>
+        <tr>
+        <td>Volume:</td>
+        <td><input id="volume" type="range" min="0.0" max="1.0" value="1.0" step="0.1">
+        </td></tr>
+      </table>
+
+      <pre id="voiceInfo"></pre>
+    </div>
+  </div>
+</div>
+
+<script src="ttsdemo.js"></script>
+</body>
+</html>
