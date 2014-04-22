@@ -168,7 +168,8 @@
   var logInput = function(bytes) {
     var log = '';
     for (var i = 0; i < bytes.length; i += 16) {
-      var lineBytes = new Uint8Array(bytes.buffer, i, 16);
+      var sliceLength = Math.min(bytes.length - i, 16);
+      var lineBytes = new Uint8Array(bytes.buffer, i, sliceLength);
       for (var j = 0; j < lineBytes.length; ++j) {
         log += byteToHex(lineBytes[j]) + ' ';
       }
