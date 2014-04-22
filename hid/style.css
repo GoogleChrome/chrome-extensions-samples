@@ -4,23 +4,28 @@ body {
 }
 
 div {
-  display: inline-block;
+  position: absolute;
   border: solid #888 1px;
   padding: 0;
   margin: 2px;
 }
 
 #device-panel {
-  width: 1038px;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  height: 40px;
 }
 
 #output-panel {
-  float: left;
+  left: 2px;
+  top: 45px;
   width: 475px;
 }
 
 #input-panel {
-  float: right;
+  right: 2px;
+  top: 45px;
   width: 555px;
 }
 
