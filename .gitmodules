@@ -1,3 +1,0 @@
-[submodule "syncfs-editor/third_party/CodeMirror"]
-	path = syncfs-editor/third_party/CodeMirror
-	url = git://github.com/marijnh/CodeMirror.git

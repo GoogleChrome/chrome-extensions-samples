@@ -243,7 +243,3 @@ body {
   width: 450px;
   resize: none;
 }
-
-.CodeMirror-scroll {
-  height: 100%;
-}
