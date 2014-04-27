@@ -10,7 +10,6 @@ var ServiceFinder = function(callback) {
   this.callback_ = callback;
   this.byIP_ = {};
   this.byService_ = {};
-  this.sockets_ = [];
 
   ServiceFinder.forEachAddress_(function(address) {
     if (address.indexOf(':') != -1) {
@@ -21,15 +20,16 @@ var ServiceFinder = function(callback) {
     console.log('Broadcasting to address', address);
 
     ServiceFinder.bindToAddress_(address, function(socket) {
-      if (chrome.runtime.lastError) {
-        this.callback_('could not bind UDP socket: ' +
-            chrome.runtime.lastError.message);
+      if (!socket) {
+        this.callback_('could not bind UDP socket');
         return true;
       }
 
-      // Store the socket, set up a recieve handler, and broadcast on it.
-      this.sockets_.push(socket);
-      this.recv_(socket);
+      // Set up a receive handlers.
+      chrome.sockets.udp.onReceive.addListener(this.onReceive_.bind(this));
+      chrome.sockets.udp.onReceiveError.addListener(
+          this.onReceiveError_.bind(this));
+      // Broadcast on it.
       this.broadcast_(socket, address);
     }.bind(this));
   }.bind(this));
@@ -42,25 +42,15 @@ var ServiceFinder = function(callback) {
   }.bind(this), 10 * 1000);
 };
 
-ServiceFinder.api = chrome.socket || chrome.experimental.socket;
-
 /**
  * Invokes the callback for every local network address on the system.
  * @private
  * @param {function} callback to invoke
  */
 ServiceFinder.forEachAddress_ = function(callback) {
-  var api = ServiceFinder.api;
-
-  if (!api.getNetworkList) {
-    // Short-circuit for Chrome built before r155662.
-    callback('0.0.0.0', '*');
-    return true;
-  }
-
-  api.getNetworkList(function(adapterInfo) {
-    adapterInfo.forEach(function(info) {
-      callback(info['address'], info['name']);
+  chrome.system.network.getNetworkInterfaces(function(networkInterfaces) {
+    networkInterfaces.forEach(function(networkInterface) {
+      callback(networkInterface['address'], networkInterface['name']);
     });
   });
 };
@@ -73,11 +63,10 @@ ServiceFinder.forEachAddress_ = function(callback) {
  * @param {function} callback to invoke when done
  */
 ServiceFinder.bindToAddress_ = function(address, callback) {
-  var api = ServiceFinder.api;
-
-  api.create('udp', {}, function(createInfo) {
-    api.bind(createInfo['socketId'], address, 0, function(result) {
-      callback(createInfo['socketId']);
+  chrome.sockets.udp.create({}, function(createInfo) {
+    chrome.sockets.udp.bind(createInfo['socketId'], address, 0,
+        function(result) {
+      callback((result >= 0) ? createInfo['socketId'] : null);
     });
   });
 };
@@ -126,19 +115,7 @@ ServiceFinder.prototype.ips = function(opt_service) {
  * Handles an incoming UDP packet.
  * @private
  */
-ServiceFinder.prototype.recv_ = function(sock, info) {
-  if (chrome.runtime.lastError) {
-    // If our socket fails, detect this early: otherwise we'll just register
-    // to receive again (and fail again).
-    this.callback_(chrome.runtime.lastError.message);
-    return true;
-  }
-  ServiceFinder.api.recvFrom(sock, this.recv_.bind(this, sock));
-  if (!info) {
-    // We didn't receive any data, we were just setting up recvFrom.
-    return false;
-  }
-
+ServiceFinder.prototype.onReceive_ = function(info) {
   var getDefault_ = function(o, k, def) {
     (k in o) || false == (o[k] = def);
     return o[k];
@@ -147,12 +124,12 @@ ServiceFinder.prototype.recv_ = function(sock, info) {
   // Update our local database.
   // TODO: Resolve IPs using the dns extension.
   var packet = DNSPacket.parse(info.data);
-  var byIP = getDefault_(this.byIP_, info.address, {});
+  var byIP = getDefault_(this.byIP_, info.remoteAddress, {});
 
   packet.each('an', 12, function(rec) {
     var ptr = rec.asName();
     var byService = getDefault_(this.byService_, ptr, {})
-    byService[info.address] = true;
+    byService[info.remoteAddress] = true;
     byIP[ptr] = true;
   }.bind(this));
 
@@ -167,6 +144,17 @@ ServiceFinder.prototype.recv_ = function(sock, info) {
 };
 
 /**
+ * Handles network error occured while waiting for data.
+ * @private
+ */
+ServiceFinder.prototype.onReceiveError_ = function(info) {
+  // If our socket fails, detect this early: otherwise we'll just register
+  // to receive again (and fail again).
+  this.callback_(info.resultCode);
+  return true;
+}
+
+/**
  * Broadcasts for services on the given socket/address.
  * @private
  */
@@ -175,7 +163,7 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
   packet.push('qd', new DNSRecord('_services._dns-sd._udp.local', 12, 1));
 
   var raw = packet.serialize();
-  ServiceFinder.api.sendTo(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
+  chrome.sockets.udp.send(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
     if (writeInfo.bytesWritten != raw.byteLength) {
       this.callback_('could not write DNS packet on: ' + address);
     }
@@ -183,9 +171,10 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
 };
 
 ServiceFinder.prototype.shutdown = function() {
-  this.sockets_.forEach(function(sock) {
-    ServiceFinder.api.disconnect(sock);
-    ServiceFinder.api.destroy(sock);
+  chrome.sockets.udp.getSockets(function(sockets) {
+    sockets.forEach(function(sock) {
+      chrome.sockets.udp.close(sock.socketId);
+    });
   });
 }
 
