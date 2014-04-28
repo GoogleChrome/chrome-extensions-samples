@@ -11,7 +11,17 @@ var ServiceFinder = function(callback) {
   this.byIP_ = {};
   this.byService_ = {};
 
-  ServiceFinder.forEachAddress_(function(address) {
+  // Set up receive handlers.
+  this.onReceiveListener_ = this.onReceive_.bind(this);
+  chrome.sockets.udp.onReceive.addListener(this.onReceiveListener_);
+  this.onReceiveErrorListener_ = this.onReceiveError_.bind(this);
+  chrome.sockets.udp.onReceiveError.addListener(this.onReceiveErrorListener_);
+
+  ServiceFinder.forEachAddress_(function(address, error) {
+    if (error) {
+      this.callback_(error);
+      return true;
+    }
     if (address.indexOf(':') != -1) {
       // TODO: ipv6.
       console.log('IPv6 address unsupported', address);
@@ -24,11 +34,6 @@ var ServiceFinder = function(callback) {
         this.callback_('could not bind UDP socket');
         return true;
       }
-
-      // Set up a receive handlers.
-      chrome.sockets.udp.onReceive.addListener(this.onReceive_.bind(this));
-      chrome.sockets.udp.onReceiveError.addListener(
-          this.onReceiveError_.bind(this));
       // Broadcast on it.
       this.broadcast_(socket, address);
     }.bind(this));
@@ -49,8 +54,12 @@ var ServiceFinder = function(callback) {
  */
 ServiceFinder.forEachAddress_ = function(callback) {
   chrome.system.network.getNetworkInterfaces(function(networkInterfaces) {
+    if (!networkInterfaces.length) {
+      callback(null, 'no network available!');
+      return true;
+    }
     networkInterfaces.forEach(function(networkInterface) {
-      callback(networkInterface['address'], networkInterface['name']);
+      callback(networkInterface['address'], null);
     });
   });
 };
@@ -171,6 +180,10 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
 };
 
 ServiceFinder.prototype.shutdown = function() {
+  // Remove event listeners.
+  chrome.sockets.udp.onReceive.removeListener(this.onReceiveListener_);
+  chrome.sockets.udp.onReceiveError.removeListener(this.onReceiveErrorListener_);
+  // Close opened sockets.
   chrome.sockets.udp.getSockets(function(sockets) {
     sockets.forEach(function(sock) {
       chrome.sockets.udp.close(sock.socketId);
