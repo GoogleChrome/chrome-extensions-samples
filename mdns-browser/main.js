@@ -157,8 +157,6 @@ ServiceFinder.prototype.onReceive_ = function(info) {
  * @private
  */
 ServiceFinder.prototype.onReceiveError_ = function(info) {
-  // If our socket fails, detect this early: otherwise we'll just register
-  // to receive again (and fail again).
   this.callback_(info.resultCode);
   return true;
 }
