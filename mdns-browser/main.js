@@ -170,10 +170,9 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
   packet.push('qd', new DNSRecord('_services._dns-sd._udp.local', 12, 1));
 
   var raw = packet.serialize();
-  chrome.sockets.udp.send(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
-    if (writeInfo.bytesWritten != raw.byteLength) {
-      this.callback_('could not write DNS packet on: ' + address);
-    }
+  chrome.sockets.udp.send(sock, raw, '224.0.0.251', 5353, function(sendInfo) {
+    if (sendInfo.resultCode < 0)
+      this.callback_('Could not send data to:' + address);
   });
 };
 
