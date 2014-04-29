@@ -191,18 +191,10 @@ ServiceFinder.prototype.shutdown = function() {
 
 window.addEventListener('load', function() {
   var results = document.getElementById('results');
-  var serviceDb = {
-    '_workstation._tcp': 'Workgroup Manager',
-    '_ssh._tcp': 'SSH',
-    '_daap._tcp': 'iTunes',
-    '_airplay': 'AirPlay',
-    '_afpovertcp': 'AFP (Apple Filing Protocol)',
-    '_raop': 'AirTunes',
-  };
 
   var getHtml_ = function(category, key) {
-    if (category == finder.services && key in serviceDb) {
-      return key + ' <em>' + serviceDb[key] + '</em>';
+    if (category == finder.services && key in serviceTypes) {
+      return key + ' <em>' + serviceTypes[key] + '</em>';
     }
     return key;
   };
