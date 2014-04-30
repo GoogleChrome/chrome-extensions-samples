@@ -1,6 +1,6 @@
 {
   "name": "Media Gallery Sample",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "manifest_version": 2,
   "description": "Used to test Media Gallery API",
   "permissions": [{
