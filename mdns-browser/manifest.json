@@ -2,19 +2,15 @@
   "name": "mDNS Browser",
   "description": "Browses mDNS services on the local network",
   "manifest_version": 2,
-  "version": "0.6",
+  "version": "0.7",
   "app": {
     "background": {
       "scripts": ["background.js"]
     }
   },
-  "permissions": [
-    {
-      "socket": [
-        "udp-bind:*",
-        "udp-send-to:*"
-      ]
-    }
-  ],
+  "sockets": {
+     "udp": { "bind": "*", "send": "*" }
+  },
+  "permissions": [ "system.network" ],
   "icons": { "128": "img/icon-128.png", "16": "img/icon-16.png" }
 }
