@@ -71,6 +71,7 @@
     }
     --pendingDeviceEnumerations;
     if (pendingDeviceEnumerations === 0) {
+      var selectedIndex = ui.deviceSelector.selectedIndex;
       while (ui.deviceSelector.options.length)
         ui.deviceSelector.options.remove(0);
       deviceMap = pendingDeviceMap;
@@ -80,6 +81,7 @@
                        deviceMap[k].vendorId.toString(16) + ":" +
                        deviceMap[k].productId.toString(16) + "]", k));
       }
+      ui.deviceSelector.selectedIndex = selectedIndex;
       setTimeout(enumerateDevices, 1000);
     }
   };
