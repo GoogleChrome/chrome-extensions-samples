@@ -119,9 +119,13 @@
         }
       };
 
-      var jsonResp = JSON.parse(this.response);
       var rawResp = JSON.stringify(rawResponseObject);
-      args.callback(jsonResp, rawResp);
+      if (this.response) {
+        var jsonResp = JSON.parse(this.response);
+        args.callback(jsonResp, rawResp);
+      } else {
+        args.callback(null, rawResp);
+      }
     };
   };
 
