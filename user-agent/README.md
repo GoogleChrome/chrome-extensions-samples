@@ -9,8 +9,8 @@ for multiple views of the same webpage.
 
 The app's main window contains a series of `<webview>`s that are sized to fit
 most of it (via the `width` and `height` attributes). Clicking links, the
-navigation control buttons, or entering an address in the location bar all
-update the to update its `src` attribute of each webview.
+navigation control buttons, or entering an address in the location bar
+update all `src` attribute of all webview.
 
 `<webview>` is the preferred way for you to load web content into your
 app. It runs in a separate process and has its own storage, ensuring the
