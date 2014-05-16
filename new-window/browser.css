@@ -1,0 +1,115 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  font-family: Lucida Grande, Arial, sans-serif;
+}
+
+button,
+input {
+  outline: none;
+}
+
+div {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+#content-container {
+  display: inline-block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+#controls {
+  padding: 3px;
+  border-bottom: solid 1px #ccc;
+  background-color: #eee;
+}
+
+#controls button,
+#controls input {
+  font-size: 14px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 0 6px;
+}
+
+#controls button#reload {
+  border-radius: 16px;
+}
+
+button,
+input[type="submit"],
+button[disabled]:hover {
+  border: solid 1px transparent;
+  background: transparent;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  border-color: #ccc;
+  background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+button:active,
+input[type="submit"]:active {
+  border-color: #bbb;
+  background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
+}
+
+/* These glyphs are on the small side, make them look more natural when
+compared to the back/forward buttons */
+#controls #home {
+  font-size: 24px;
+}
+
+#controls #reload {
+  font-size: 20px;
+}
+
+#location {
+  border: solid 1px #ccc;
+  padding: 2px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+#browser-controls {
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#browser-controls #location-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#browser-controls #center-column {
+  -webkit-flex: 1;
+}
+
+webview {
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+/* The reload button turns into a spinning trobber */
+.loading #reload {
+  -webkit-animation: spinner-animation .5s infinite linear;
+  -webkit-transform-origin: 50% 55.5%;
+}
+
+@-webkit-keyframes spinner-animation {
+  0% { -webkit-transform: rotate(0deg); }
+  100% {-webkit-transform: rotate(360deg); }
+}
