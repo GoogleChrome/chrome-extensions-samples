@@ -6,9 +6,26 @@ var tabs = (function() {
     this.list = [];
     this.table = {};
     this.selected = 0;
+    this.tabNameCounter = 0;
     this.browser = browser;
     this.tabContainer = tabContainer;
     this.contentContainer = contentContainer;
+  };
+
+  TabList.prototype.getTabIdx = function(tab) {
+    var idx = 0;
+    for (var i = 0; i < this.list.length; ++i) {
+      if (this.list[i] == tab) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx < this.list.length) {
+      return idx;
+    } else {
+      console.log('Error: Failed to find tab in list', tab);
+      return -1;
+    }
   };
 
   TabList.prototype.selectIdx = function(idx) {
@@ -20,22 +37,29 @@ var tabs = (function() {
     prevTab.deselect();
 
     if (!(idx === 0 || idx)) {
-      for (var i = 0; i < this.list.length; ++i) {
-        if (this.list[i] == tab) {
-          idx = i;
-          break;
-        }
-      }
+      idx = this.getTabIdx(tab);
     }
     this.selected = idx;
 
-    this.browser.doLayout();
+    tab.select();
     this.browser.doTabSwitch(prevTab, tab);
-      tab.select();
+    this.browser.doLayout();
+  };
+
+  TabList.prototype.setLabelByName = function(tabName, tabLabel) {
+    if (tabName in this.table) {
+      return this.table[tabName].setLabel(tabLabel);
+    } else {
+      console.log(
+          'Warning: Attempt to set label to "', tabLabel,
+          '" on unknown tab named "', tabName, '"');
+      return null;
+    }
   };
 
   TabList.prototype.append = function(webview) {
-    var tabName = this.name + '-' + this.list.length;
+    var tabName = this.name + '-' + this.tabNameCounter;
+    this.tabNameCounter = this.tabNameCounter + 1;
     var tab = new Tab(tabName, this, webview);
 
     this.list.push(tab);
@@ -44,16 +68,26 @@ var tabs = (function() {
     this.contentContainer.appendChild(tab.webview);
   };
 
+  TabList.prototype.removeIdx = function(idx) {
+    this.removeTab(this.list[idx], idx);
+  };
+
   TabList.prototype.removeTab = function(tab, idx) {
     if (this.list.length > 1) {
-      if (tab.selected == true) {
-        this.selectIdx((this.selected + 1) % this.list.length);
+      if (!(idx === 0 || idx)) {
+        idx = this.getTabIdx(tab);
       }
 
-      this.tabContainer.removeChild(tab.label);
+      var selectedIdx = this.selected;
+      if (tab.selected) {
+        selectedIdx = (this.selected + 1) % this.list.length;
+        this.selectIdx(selectedIdx);
+      }
+
+      this.tabContainer.removeChild(tab.labelContainer);
       this.contentContainer.removeChild(tab.webview);
 
-      tab.detatch();
+      tab.detach();
       delete this.table[tab.name];
       if (idx === 0 || idx) {
         this.list.splice(idx, 1);
@@ -65,18 +99,20 @@ var tabs = (function() {
           }
         }
       }
-    }
-  };
 
-  TabList.prototype.removeIdx = function(idx) {
-    this.removeTab(this.list[idx], idx);
+      // If we are now selecting something that comes after the removed tab,
+      // then decrement the index: this.selected
+      if (selectedIdx > idx) {
+        this.selected = this.selected - 1;
+      }
+    }
   };
 
   TabList.prototype.getSelected = function() {
     return this.list[this.selected];
   };
 
-  TabList.prototype.detatch = function() {
+  TabList.prototype.detach = function() {
     this.browser = null;
   };
 
@@ -117,10 +153,14 @@ var tabs = (function() {
       var tab = that;
 
       labelContainer.addEventListener('click', function(e) {
-        tab.tabList.selectTab(tab);
+        if (tab.tabList) {
+          tab.tabList.selectTab(tab);
+        }
       });
       closeLink.addEventListener('click', function(e) {
-        tab.tabList.removeTab(tab);
+        if (tab.tabList) {
+          tab.tabList.removeTab(tab);
+        }
       });
     }());
   };
@@ -130,7 +170,7 @@ var tabs = (function() {
     (function() {
       var tab = that;
 
-      tab.webview.setAttribute('data-name', this.name);
+      tab.webview.setAttribute('data-name', that.name);
       tab.webview.addEventListener(
           'loadcommit',
           function(e) { return tab.doLoadCommit(e); });
@@ -198,21 +238,12 @@ var tabs = (function() {
     } else {
       console.log('Injected title.js');
 
-      // Prepare to accept title update messages from webview
-      console.log('Binding to message events');
-      var that = this;
-      (function() {
-        var tab = that;
-        window.addEventListener('message', function(e) {
-          console.log('Received message', e.data);
-          tab.setLabel(e.data);
-        });
-      }());
 
       // Send a message to the webview so it can get a reference to
       // the embedder
-      console.log('Posting empty message');
-      this.webview.contentWindow.postMessage('', '*');
+      console.log('Posting message');
+      var data = {'name': this.name };
+      this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
     }
   };
 

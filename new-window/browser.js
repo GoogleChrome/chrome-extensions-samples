@@ -89,6 +89,22 @@ var browser = (function(configModule, tabsModule) {
         browser.tabs.getSelected().navigateTo(browser.locationBar.value);
       });
 
+      console.log('Binding to message events');
+      window.addEventListener('message', function(e) {
+        if (e.data) {
+          var data = JSON.parse(e.data);
+          if (data.name && data.title) {
+            browser.tabs.setLabelByName(data.name, data.title);
+          } else {
+            console.log(
+                'Error: Expected message to contain {name, title}, but got:',
+                data);
+          }
+        } else {
+          console.log('Error: Message contains no data');
+        }
+      });
+
       var webview = document.createElement('webview');
       browser.tabs.append(document.createElement('webview'));
       browser.tabs.selectIdx(0);

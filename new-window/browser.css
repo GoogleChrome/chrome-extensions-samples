@@ -100,6 +100,11 @@ webview {
   position: absolute;
   top: 0px;
   left: 0px;
+  visibility: hidden;
+}
+
+webview.selected {
+  visibility: visible;
 }
 
 /* The reload button turns into a spinning trobber */
