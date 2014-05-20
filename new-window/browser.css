@@ -25,8 +25,7 @@ div {
 }
 
 #controls {
-  padding: 3px;
-  border-bottom: solid 1px #ccc;
+  padding: 3px 3px 0px 3px;
   background-color: #eee;
 }
 
@@ -112,4 +111,61 @@ webview {
 @-webkit-keyframes spinner-animation {
   0% { -webkit-transform: rotate(0deg); }
   100% {-webkit-transform: rotate(360deg); }
+}
+
+#tab-container {
+  margin: 5px 5px 0px 5px;
+  padding: 0px;
+}
+
+#tab-container li {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  width: 100px;
+  margin: 0px;
+  padding: 6px 16px 6px 6px;
+  border: 0px;
+  background: #ccc;
+}
+
+#tab-container li:hover {
+  background: #ddd;
+}
+
+#tab-container li.selected {
+  background: #fff;
+}
+
+#tab-container li.selected:hover {
+  background: #eee;
+}
+
+#tab-container li p {
+  width: 100px;
+  float:left;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0px;
+  padding: 0px;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+}
+
+#tab-container li a {
+  position: absolute;
+  right: 2px;
+  z-index: 2;
+  padding-left: 1px;
+  padding-right: 1px;
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: default;
+}
+
+#tab-container li a:hover {
+  color: #000;
 }

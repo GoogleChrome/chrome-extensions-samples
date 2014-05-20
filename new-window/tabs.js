@@ -40,7 +40,7 @@ var tabs = (function() {
 
     this.list.push(tab);
     this.table[tabName] = tab;
-    this.tabContainer.appendChild(tab.label);
+    this.tabContainer.appendChild(tab.labelContainer);
     this.contentContainer.appendChild(tab.webview);
   };
 
@@ -86,35 +86,38 @@ var tabs = (function() {
     this.selected = false;
     this.url = '';
     this.loading = true;
-    this.label = dce('li');
+    this.labelContainer = dce('li');
+    this.label = dce('p');
+    this.closeLink = dce('a');
     this.webview = webview;
+    this.scriptInjectionAttempted = false;
 
-    this.initLabel();
+    this.initLabelContainer();
     this.initWebview();
   };
 
-  Tab.prototype.initLabel = function() {
+  Tab.prototype.initLabelContainer = function() {
     var name = this.name;
+    var labelContainer = this.labelContainer;
     var label = this.label;
-    var link = dce('a');
-    var closeLink = dce('a');
+    var closeLink = this.closeLink;
 
-    label.setAttribute('data-name', this.name);
+    labelContainer.setAttribute('data-name', this.name);
 
-    link.href = '#' + name;
-    link.innerText = name;
+    this.setLabel('Loading...');
 
     closeLink.href = '#close-' + name;
     closeLink.innerText = 'X';
 
-    label.appendChild(link);
-    label.appendChild(closeLink);
+    labelContainer.appendChild(label);
+    labelContainer.appendChild(closeLink);
 
     var that = this;
     (function() {
       var tab = that;
-      link.addEventListener('click', function(e) {
-        tab.tabList.select(tab);
+
+      labelContainer.addEventListener('click', function(e) {
+        tab.tabList.selectTab(tab);
       });
       closeLink.addEventListener('click', function(e) {
         tab.tabList.removeTab(tab);
@@ -123,19 +126,35 @@ var tabs = (function() {
   };
 
   Tab.prototype.initWebview = function() {
-    this.webview.setAttribute('data-name', this.name);
-    this.webview.addEventListener('loadcommit', this.do);
-    this.webview.addEventListener('loadstop', this.do);
+    var that = this;
+    (function() {
+      var tab = that;
+
+      tab.webview.setAttribute('data-name', this.name);
+      tab.webview.addEventListener(
+          'loadcommit',
+          function(e) { return tab.doLoadCommit(e); });
+      tab.webview.addEventListener(
+          'loadstop',
+          function(e) { return tab.doLoadStop(e); });
+      tab.webview.addEventListener(
+          'newwindow',
+          function(e) { return tab.doNewWindow(e); });
+    }());
+  };
+
+  Tab.prototype.setLabel = function(newLabel) {
+    this.label.innerText = newLabel;
   };
 
   Tab.prototype.select = function() {
-    this.label.classList.add('selected');
+    this.labelContainer.classList.add('selected');
     this.webview.classList.add('selected');
     this.selected = true;
   };
 
   Tab.prototype.deselect = function() {
-    this.label.classList.remove('selected');
+    this.labelContainer.classList.remove('selected');
     this.webview.classList.remove('selected');
     this.selected = false;
   };
@@ -154,6 +173,7 @@ var tabs = (function() {
 
   Tab.prototype.doLoadCommit = function(e) {
     this.loading = true;
+    this.scriptInjectionAttempted = false;
     this.url = e.url;
     this.tabList.browser.doTabNavigating(this, e.url);
   };
@@ -161,6 +181,45 @@ var tabs = (function() {
   Tab.prototype.doLoadStop = function(e) {
     this.loading = false;
     this.tabList.browser.doTabNavigated(this, e.url);
+    if (!this.scriptInjectionAttempted) {
+      // Try to inject title-update-messaging script
+      console.log('Attempting to inject title.js');
+      var tab = this;
+      this.webview.executeScript(
+          {'file': 'title.js'},
+          function(results) { return tab.doScriptInjected(results); });
+      this.scriptInjectionAttempted = true;
+    }
+  };
+
+  Tab.prototype.doScriptInjected = function(results) {
+    if (!results || !results.length) {
+      console.log('Failed to inject title.js', webview);
+    } else {
+      console.log('Injected title.js');
+
+      // Prepare to accept title update messages from webview
+      console.log('Binding to message events');
+      var that = this;
+      (function() {
+        var tab = that;
+        window.addEventListener('message', function(e) {
+          console.log('Received message', e.data);
+          tab.setLabel(e.data);
+        });
+      }());
+
+      // Send a message to the webview so it can get a reference to
+      // the embedder
+      console.log('Posting empty message');
+      this.webview.contentWindow.postMessage('', '*');
+    }
+  };
+
+  Tab.prototype.doNewWindow = function(e) {
+    var newWebview = dce('webview');
+    e.window.attach(newWebview);
+    this.tabList.append(newWebview);
   };
 
   Tab.prototype.stopNavigation = function() {

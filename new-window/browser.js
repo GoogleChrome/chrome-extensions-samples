@@ -91,6 +91,7 @@ var browser = (function(configModule, tabsModule) {
 
       var webview = document.createElement('webview');
       browser.tabs.append(document.createElement('webview'));
+      browser.tabs.selectIdx(0);
       browser.doLayout();
       browser.tabs.getSelected().navigateTo(configModule.homepage);
     }());
@@ -117,7 +118,7 @@ var browser = (function(configModule, tabsModule) {
 
   Browser.prototype.doTabNavigating = function(tab, url) {
     document.body.classList.add('loading');
-    this.location.value = url;
+    this.locationBar.value = url;
   };
 
   Browser.prototype.doTabNavigated = function(tab, url) {
@@ -130,7 +131,7 @@ var browser = (function(configModule, tabsModule) {
     } else {
       document.body.classList.remove('loading');
     }
-    this.location.value = newTab.url;
+    this.locationBar.value = newTab.url;
   };
 
   return {'Browser': Browser};
