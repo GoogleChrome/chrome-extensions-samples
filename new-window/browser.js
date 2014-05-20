@@ -5,37 +5,28 @@ var browser = (function(configModule, tabsModule) {
     forward,
     home,
     reload,
-    // crash,
     locationForm,
     locationBar,
-    // zoom,
-    // find,
     tabContainer,
-    contentContainer) {
+    contentContainer,
+    newTabElement) {
     this.controlsContainer = controlsContainer;
     this.back = back;
     this.forward = forward;
     this.reload = reload;
     this.home = home;
-    // this.crash = crash;
     this.locationForm = locationForm;
     this.locationBar = locationBar;
-    // this.zoom = zoom;
-    // this.find = find;
+    this.newTabElement = newTabElement;
     this.tabs = new tabsModule.TabList(
         'tabs',
         this,
         tabContainer,
-        contentContainer);
+        contentContainer,
+        newTabElement);
 
     this.init();
   };
-
-  // var tabs = new tabsModule.TabList(
-  //   'tabs',
-  //   query('.tab-container'),
-  //   query('.content-container'));
-  // var locationInput = query('#location');
 
   Browser.prototype.init = function() {
     var that = this;
@@ -80,14 +71,14 @@ var browser = (function(configModule, tabsModule) {
         }
       );
 
-      // browser.crash.addEventListener('click', function() {
-      //   browser.tabs.getSelected().doTerminate();
-      // });
-
       browser.locationForm.addEventListener('submit', function(e) {
         e.preventDefault();
         browser.tabs.getSelected().navigateTo(browser.locationBar.value);
       });
+
+      browser.newTabElement.addEventListener(
+        'click',
+        function(e) { return browser.doNewWindow(e); });
 
       console.log('Binding to message events');
       window.addEventListener('message', function(e) {
@@ -105,11 +96,9 @@ var browser = (function(configModule, tabsModule) {
         }
       });
 
-      var webview = document.createElement('webview');
-      browser.tabs.append(document.createElement('webview'));
+      browser.doNewWindow();
       browser.tabs.selectIdx(0);
       browser.doLayout();
-      browser.tabs.getSelected().navigateTo(configModule.homepage);
     }());
   };
 
@@ -128,17 +117,28 @@ var browser = (function(configModule, tabsModule) {
     webview.style.height = contentHeight + 'px';
   };
 
+  // New window that is NOT triggered by existing window
+  Browser.prototype.doNewWindow = function(e) {
+    var webview = document.createElement('webview');
+    var tab = this.tabs.append(document.createElement('webview'));
+    tab.navigateTo(configModule.homepage);
+  };
+
   Browser.prototype.doKeyDown = function(e) {
     // TODO: Integrate some nice shortcut keys into the browser
   };
 
   Browser.prototype.doTabNavigating = function(tab, url) {
-    document.body.classList.add('loading');
-    this.locationBar.value = url;
+    if (tab.selected) {
+      document.body.classList.add('loading');
+      this.locationBar.value = url;
+    }
   };
 
   Browser.prototype.doTabNavigated = function(tab, url) {
-    document.body.classList.remove('loading');
+    if (tab.selected) {
+      document.body.classList.remove('loading');
+    }
   };
 
   Browser.prototype.doTabSwitch = function(oldTab, newTab) {

@@ -121,6 +121,7 @@ webview.selected {
 #tab-container {
   margin: 5px 5px 0px 5px;
   padding: 0px;
+  display: inline-block;
 }
 
 #tab-container li {
@@ -173,4 +174,15 @@ webview.selected {
 
 #tab-container li a:hover {
   color: #000;
+}
+
+#tab-container li#new-tab {
+  background: transparent;
+  vertical-align: baseline;
+  display: inline;
+}
+
+#tab-container li#new-tab a {
+  font-size: 24px;
+  padding: 0px;
 }

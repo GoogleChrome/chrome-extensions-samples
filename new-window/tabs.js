@@ -1,7 +1,7 @@
 var tabs = (function() {
   var dce = function(str) { return document.createElement(str); };
 
-  function TabList(name, browser, tabContainer, contentContainer) {
+  function TabList(name, browser, tabContainer, contentContainer, newTabElement) {
     this.name = name;
     this.list = [];
     this.table = {};
@@ -10,6 +10,7 @@ var tabs = (function() {
     this.browser = browser;
     this.tabContainer = tabContainer;
     this.contentContainer = contentContainer;
+    this.newTabElement = newTabElement;
   };
 
   TabList.prototype.getTabIdx = function(tab) {
@@ -29,7 +30,7 @@ var tabs = (function() {
   };
 
   TabList.prototype.selectIdx = function(idx) {
-    this.selectTab(this.list[idx], idx);
+    return this.selectTab(this.list[idx], idx);
   };
 
   TabList.prototype.selectTab = function(tab, idx) {
@@ -44,6 +45,8 @@ var tabs = (function() {
     tab.select();
     this.browser.doTabSwitch(prevTab, tab);
     this.browser.doLayout();
+
+    return tab;
   };
 
   TabList.prototype.setLabelByName = function(tabName, tabLabel) {
@@ -64,8 +67,13 @@ var tabs = (function() {
 
     this.list.push(tab);
     this.table[tabName] = tab;
-    this.tabContainer.appendChild(tab.labelContainer);
+
+    console.log(tab.labelContainer, this.newTabElement);
+
+    this.tabContainer.insertBefore(tab.labelContainer, this.newTabElement);
     this.contentContainer.appendChild(tab.webview);
+
+    return tab;
   };
 
   TabList.prototype.removeIdx = function(idx) {
@@ -105,6 +113,10 @@ var tabs = (function() {
       if (selectedIdx > idx) {
         this.selected = this.selected - 1;
       }
+
+      return tab;
+    } else {
+      return null;
     }
   };
 
@@ -247,7 +259,10 @@ var tabs = (function() {
     }
   };
 
+  // New window triggered by existing window
   Tab.prototype.doNewWindow = function(e) {
+    e.preventDefault();
+
     var newWebview = dce('webview');
     e.window.attach(newWebview);
     this.tabList.append(newWebview);
