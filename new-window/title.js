@@ -2,7 +2,6 @@ var webviewTitleInjectionComplete = false;
 (function() {
   // Prevent multiple injection
   if (!webviewTitleInjectionComplete) {
-    console.log('Injected title.js');
     var embedder = null;
     var tabName = null;
     var listenersAreBound = false;
@@ -10,29 +9,26 @@ var webviewTitleInjectionComplete = false;
     var postTitle = (function() {
       return function(e) {
         title = document.title;
-        console.log('Posting title to embedder', title);
         var data = {
           'name': tabName,
-          'title': title
+          'title': title || '[no title]'
         };
         embedder.postMessage(JSON.stringify(data), '*');
       };
     }());
     var bindEmbedder = function(e) {
-      console.log('Binding embedder', e.source);
       embedder = e.source;
     };
     var bindTabName = function(e) {
-      console.log('Binding tabName', e.data);
       if (e.data) {
         var data = JSON.parse(e.data);
         if (data.name) {
           tabName = data.name;
         } else {
-          console.log('Error: Message from embedder contains no tab name');
+          console.warn('Warning: Message from embedder contains no tab name');
         }
       } else {
-          console.log('Error: Message from embedder contains no data');
+          console.warn('Warning: Message from embedder contains no data');
       }
     };
 
@@ -48,7 +44,8 @@ var webviewTitleInjectionComplete = false;
         if (titleElement) {
           titleElement.addEventListener('change', postTitle);
         } else {
-          console.log('No title to bind to');
+          console.warn('Warning: No <title> element to bind to');
+          postTitle();
         }
 
         // Ensure initial title notification

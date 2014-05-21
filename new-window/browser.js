@@ -65,7 +65,7 @@ var browser = (function(configModule, tabsModule) {
         'webkitAnimationIteration',
         function() {
           // Between animation iterations: If loading is done, then stop spinning
-          if (browser.tabs.getSelected().isLoading()) {
+          if (!browser.tabs.getSelected().isLoading()) {
             document.body.classList.remove('loading');
           }
         }
@@ -78,27 +78,24 @@ var browser = (function(configModule, tabsModule) {
 
       browser.newTabElement.addEventListener(
         'click',
-        function(e) { return browser.doNewWindow(e); });
+        function(e) { return browser.doNewTab(e); });
 
-      console.log('Binding to message events');
       window.addEventListener('message', function(e) {
         if (e.data) {
           var data = JSON.parse(e.data);
           if (data.name && data.title) {
             browser.tabs.setLabelByName(data.name, data.title);
           } else {
-            console.log(
-                'Error: Expected message to contain {name, title}, but got:',
+            console.warn(
+                'Warning: Expected message from guest to contain {name, title}, but got:',
                 data);
           }
         } else {
-          console.log('Error: Message contains no data');
+          console.warn('Warning: Message from guest contains no data');
         }
       });
 
-      browser.doNewWindow();
-      browser.tabs.selectIdx(0);
-      browser.doLayout();
+      browser.doNewTab();
     }());
   };
 
@@ -118,14 +115,35 @@ var browser = (function(configModule, tabsModule) {
   };
 
   // New window that is NOT triggered by existing window
-  Browser.prototype.doNewWindow = function(e) {
+  Browser.prototype.doNewTab = function(e) {
     var webview = document.createElement('webview');
     var tab = this.tabs.append(document.createElement('webview'));
     tab.navigateTo(configModule.homepage);
+    this.tabs.selectTab(tab);
+    return tab;
   };
 
   Browser.prototype.doKeyDown = function(e) {
-    // TODO: Integrate some nice shortcut keys into the browser
+    if (e.ctrlKey) {
+      switch(e.keyCode) {
+        // Ctrl+T
+        case 84:
+        this.doNewTab();
+        break;
+        // Ctrl+W
+        case 87:
+        e.preventDefault();
+        this.tabs.removeIdx(this.tabs.selected);
+        break;
+      }
+      // Ctrl + [1-9]
+      if (e.keyCode >= 49 && e.keyCode <= 57) {
+        var idx = e.keyCode - 49;
+        if (idx < this.tabs.getNumTabs()) {
+          this.tabs.selectIdx(idx);
+        }
+      }
+    }
   };
 
   Browser.prototype.doTabNavigating = function(tab, url) {
@@ -136,18 +154,24 @@ var browser = (function(configModule, tabsModule) {
   };
 
   Browser.prototype.doTabNavigated = function(tab, url) {
-    if (tab.selected) {
-      document.body.classList.remove('loading');
-    }
+    this.updateControls();
   };
 
   Browser.prototype.doTabSwitch = function(oldTab, newTab) {
-    if (this.tabs.getSelected().isLoading()) {
+    this.updateControls();
+  };
+
+  Browser.prototype.updateControls = function() {
+    var selectedTab = this.tabs.getSelected();
+    if (selectedTab.isLoading()) {
       document.body.classList.add('loading');
-    } else {
-      document.body.classList.remove('loading');
     }
-    this.locationBar.value = newTab.url;
+    var selectedWebview = selectedTab.getWebview();
+    this.back.disabled = !selectedWebview.canGoBack();
+    this.forward.disabled = !selectedWebview.canGoForward();
+    if (this.locationBar.value != selectedTab.url) {
+      this.locationBar.value = selectedTab.url;
+    }
   };
 
   return {'Browser': Browser};

@@ -13,6 +13,10 @@ var tabs = (function() {
     this.newTabElement = newTabElement;
   };
 
+  TabList.prototype.getNumTabs = function() {
+    return this.list.length;
+  };
+
   TabList.prototype.getTabIdx = function(tab) {
     var idx = 0;
     for (var i = 0; i < this.list.length; ++i) {
@@ -24,7 +28,7 @@ var tabs = (function() {
     if (idx < this.list.length) {
       return idx;
     } else {
-      console.log('Error: Failed to find tab in list', tab);
+      console.warn('Warning: Failed to find tab in list', tab);
       return -1;
     }
   };
@@ -53,7 +57,7 @@ var tabs = (function() {
     if (tabName in this.table) {
       return this.table[tabName].setLabel(tabLabel);
     } else {
-      console.log(
+      console.warn(
           'Warning: Attempt to set label to "', tabLabel,
           '" on unknown tab named "', tabName, '"');
       return null;
@@ -67,8 +71,6 @@ var tabs = (function() {
 
     this.list.push(tab);
     this.table[tabName] = tab;
-
-    console.log(tab.labelContainer, this.newTabElement);
 
     this.tabContainer.insertBefore(tab.labelContainer, this.newTabElement);
     this.contentContainer.appendChild(tab.webview);
@@ -88,7 +90,10 @@ var tabs = (function() {
 
       var selectedIdx = this.selected;
       if (tab.selected) {
-        selectedIdx = (this.selected + 1) % this.list.length;
+        // If this is the last tab, then select previous, else select next
+        selectedIdx = (this.selected + 1 == this.list.length) ?
+            this.selected - 1 :
+            this.selected + 1;
         this.selectIdx(selectedIdx);
       }
 
@@ -191,7 +196,7 @@ var tabs = (function() {
           function(e) { return tab.doLoadStop(e); });
       tab.webview.addEventListener(
           'newwindow',
-          function(e) { return tab.doNewWindow(e); });
+          function(e) { return tab.doNewTab(e); });
     }());
   };
 
@@ -224,6 +229,10 @@ var tabs = (function() {
   };
 
   Tab.prototype.doLoadCommit = function(e) {
+    if (!event.isTopLevel) {
+      return;
+    }
+
     this.loading = true;
     this.scriptInjectionAttempted = false;
     this.url = e.url;
@@ -231,11 +240,12 @@ var tabs = (function() {
   };
 
   Tab.prototype.doLoadStop = function(e) {
+    if (this.loading) {
+      this.tabList.browser.doTabNavigated(this, e.url);
+    }
     this.loading = false;
-    this.tabList.browser.doTabNavigated(this, e.url);
     if (!this.scriptInjectionAttempted) {
       // Try to inject title-update-messaging script
-      console.log('Attempting to inject title.js');
       var tab = this;
       this.webview.executeScript(
           {'file': 'title.js'},
@@ -246,26 +256,25 @@ var tabs = (function() {
 
   Tab.prototype.doScriptInjected = function(results) {
     if (!results || !results.length) {
-      console.log('Failed to inject title.js', webview);
+      console.warn('Warning: Failed to inject title.js', webview);
     } else {
-      console.log('Injected title.js');
-
-
       // Send a message to the webview so it can get a reference to
       // the embedder
-      console.log('Posting message');
       var data = {'name': this.name };
       this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
     }
   };
 
   // New window triggered by existing window
-  Tab.prototype.doNewWindow = function(e) {
+  Tab.prototype.doNewTab = function(e) {
     e.preventDefault();
 
     var newWebview = dce('webview');
     e.window.attach(newWebview);
-    this.tabList.append(newWebview);
+    var newTab = this.tabList.append(newWebview);
+    if (e.windowOpenDisposition == 'new_foreground_tab') {
+      this.tabList.selectTab(newTab);
+    }
   };
 
   Tab.prototype.stopNavigation = function() {

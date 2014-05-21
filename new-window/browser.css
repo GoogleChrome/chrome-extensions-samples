@@ -25,8 +25,9 @@ div {
 }
 
 #controls {
-  padding: 3px 3px 0px 3px;
+  padding: 0px;
   background-color: #eee;
+  border-bottom: solid 1px #ccc;
 }
 
 #controls button,
@@ -39,6 +40,15 @@ div {
 
 #controls button#reload {
   border-radius: 16px;
+}
+
+#tab-controls {
+  padding: 3px 3px 0px 3px;
+  background: #888;
+}
+
+#browser-controls {
+  padding: 3px;
 }
 
 button,
@@ -140,10 +150,6 @@ webview.selected {
 }
 
 #tab-container li.selected {
-  background: #fff;
-}
-
-#tab-container li.selected:hover {
   background: #eee;
 }
 
