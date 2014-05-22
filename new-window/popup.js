@@ -57,12 +57,19 @@ var popup = (function(configModule) {
 
   PopupConfirmBox.prototype.doAccept = function() {
     (function(box) {
-      var newWebview = dce('webview');
-      box.event.window.attach(newWebview);
+      // TODO: Inspect box.event for window.open()'s name and attributes to
+      // correctly manage:
+      // 1. Multiple popups in the same window (i.e., window.open() twice with
+      //    the same window name)
+      // 2. Set attributes of popup window (e.g., size, location)
       window.chrome.app.window.create(
           'browser.html',
           function(newWindow) {
-            newWindow.contentWindow.initialWebview = newWebview;
+            // Pass new window event through global: window.newWindowEvent.
+            // NOTE: Webview creation and box.event.window.attach(webview)
+            // cannot be performed in this context; that has to happen in the
+            // context of the new window.
+            newWindow.contentWindow.newWindowEvent = box.event;
           });
     }(this));
 

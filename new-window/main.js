@@ -35,8 +35,8 @@ function runApp() {
       }
     },
     function(newWindow) {
-      var newWebview = document.createElement('webview');
-      newWebview.src = config.homepage;
-      newWindow.contentWindow.initialWebview = newWebview;
+      // Do not inject meaningful window.newWindowEvent; browser will instead
+      // load the homepage
+      newWindow.contentWindow.newWindowEvent = null;
     });
 }

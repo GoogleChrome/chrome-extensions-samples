@@ -1,4 +1,6 @@
 var browser = (function(configModule, tabsModule) {
+  var dce = function(str) { return document.createElement(str); };
+
   var Browser = function(
     controlsContainer,
     back,
@@ -94,10 +96,14 @@ var browser = (function(configModule, tabsModule) {
         }
       });
 
-      // window.initialWebview is injected by opener
-      console.log(window.initialWebview);
-      var tab = browser.tabs.append(window.initialWebview);
-      console.log(window.initialWebview);
+      var webview = dce('webview');
+      var tab = browser.tabs.append(webview);
+      // Global window.newWindowEvent may be injected by opener
+      if (window.newWindowEvent) {
+        window.newWindowEvent.window.attach(webview);
+      } else {
+        tab.navigateTo(configModule.homepage);
+      }
       browser.tabs.selectTab(tab);
     }(this));
   };
@@ -125,7 +131,7 @@ var browser = (function(configModule, tabsModule) {
 
   // New window that is NOT triggered by existing window
   Browser.prototype.doNewTab = function(e) {
-    var tab = this.tabs.append(document.createElement('webview'));
+    var tab = this.tabs.append(dce('webview'));
     tab.navigateTo(configModule.homepage);
     this.tabs.selectTab(tab);
     return tab;
