@@ -144,7 +144,7 @@ var tabs = (function(popupModule) {
     this.label = dce('p');
     this.closeLink = dce('a');
     this.webviewContainer = dce('div');
-    this.popupList = new popupModule.PopupList(dce('ul'));
+    this.popupConfirmBoxList = new popupModule.PopupConfirmBoxList(dce('ul'));
     this.webview = webview;
     this.scriptInjectionAttempted = false;
 
@@ -199,7 +199,7 @@ var tabs = (function(popupModule) {
           function(e) { return tab.doNewTab(e); });
     }(this));
 
-    this.webviewContainer.appendChild(this.popupList.getListElement());
+    this.webviewContainer.appendChild(this.popupConfirmBoxList.getListElement());
     this.webviewContainer.appendChild(this.webview);
   };
 
@@ -290,7 +290,7 @@ var tabs = (function(popupModule) {
         this.tabList.selectTab(newTab);
       }
     } else {
-      this.popupList.append(e);
+      this.popupConfirmBoxList.append(e);
     }
   };
 

@@ -9,7 +9,7 @@
   },
   "app": {
     "background": {
-      "scripts": ["main.js"]
+      "scripts": ["config.js", "main.js"]
     }
   },
   "permissions": [

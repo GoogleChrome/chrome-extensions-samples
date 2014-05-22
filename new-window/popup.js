@@ -5,22 +5,22 @@ var popup = (function(configModule) {
   var popupBoxTemplate = dce('li');
   popupBoxTemplate.innerHTML = cfg.innerHTML;
 
-  var PopupList = function(listElement) {
+  var PopupConfirmBoxList = function(listElement) {
     this.listElement = listElement;
     this.list = [];
   };
 
-  PopupList.prototype.getListElement = function() {
+  PopupConfirmBoxList.prototype.getListElement = function() {
     return this.listElement;
   };
 
-  PopupList.prototype.append = function(event) {
+  PopupConfirmBoxList.prototype.append = function(event) {
     var box = new PopupConfirmBox(this, event);
     this.list.push(box);
     this.listElement.appendChild(box.getBoxElement());
   };
 
-  PopupList.prototype.removeBox = function(box) {
+  PopupConfirmBoxList.prototype.removeBox = function(box) {
     for (var i = 0; i < this.list.length; ++i) {
       if (this.list[i] == box) {
         this.listElement.removeChild(box.getBoxElement());
@@ -56,14 +56,14 @@ var popup = (function(configModule) {
   };
 
   PopupConfirmBox.prototype.doAccept = function() {
-    // TODO: Should be attaching instead; debugging for now
-    this.event.discard();
-
     (function(box) {
-      // var newWebview = dce('webview');
-      // box.event.window.attach(newWebview);
-
-      window.chrome.app.window.create('browser.html');
+      var newWebview = dce('webview');
+      box.event.window.attach(newWebview);
+      window.chrome.app.window.create(
+          'browser.html',
+          function(newWindow) {
+            newWindow.contentWindow.initialWebview = newWebview;
+          });
     }(this));
 
     this.popupList.removeBox(this);
@@ -71,7 +71,7 @@ var popup = (function(configModule) {
   };
 
   PopupConfirmBox.prototype.doDeny = function() {
-    this.event.discard();
+    this.event.window.discard();
 
     this.popupList.removeBox(this);
     this.detach();
@@ -82,7 +82,7 @@ var popup = (function(configModule) {
   };
 
   return {
-    'PopupList': PopupList,
+    'PopupConfirmBoxList': PopupConfirmBoxList,
     'PopupConfirmBox': PopupConfirmBox
   };
 }(config));

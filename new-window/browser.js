@@ -94,7 +94,11 @@ var browser = (function(configModule, tabsModule) {
         }
       });
 
-      browser.doNewTab();
+      // window.initialWebview is injected by opener
+      console.log(window.initialWebview);
+      var tab = browser.tabs.append(window.initialWebview);
+      console.log(window.initialWebview);
+      browser.tabs.selectTab(tab);
     }(this));
   };
 
@@ -121,7 +125,6 @@ var browser = (function(configModule, tabsModule) {
 
   // New window that is NOT triggered by existing window
   Browser.prototype.doNewTab = function(e) {
-    var webview = document.createElement('webview');
     var tab = this.tabs.append(document.createElement('webview'));
     tab.navigateTo(configModule.homepage);
     this.tabs.selectTab(tab);

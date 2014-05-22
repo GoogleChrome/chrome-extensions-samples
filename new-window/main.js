@@ -23,11 +23,20 @@ window.chrome.app.runtime.onRestarted.addListener(function() {
  * @see http://developer.chrome.com/apps/app.window.html
  */
 function runApp() {
-  window.chrome.app.window.create('browser.html', {
-    id: 'browserWinID',
-    bounds: {
-      'width': 1024,
-      'height': 768
-    }
-  });
+  window.chrome.app.window.create(
+    'browser.html',
+    {
+      'id': 'browserWinID',
+      'innerBounds': {
+        'left': 0,
+        'top': 0,
+        'minWidth': 1024,
+        'minHeight': 768
+      }
+    },
+    function(newWindow) {
+      var newWebview = document.createElement('webview');
+      newWebview.src = config.homepage;
+      newWindow.contentWindow.initialWebview = newWebview;
+    });
 }
