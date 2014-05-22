@@ -1,7 +1,7 @@
-var tabs = (function() {
+var tabs = (function(popupModule) {
   var dce = function(str) { return document.createElement(str); };
 
-  function TabList(name, browser, tabContainer, contentContainer, newTabElement) {
+  var TabList = function(name, browser, tabContainer, contentContainer, newTabElement) {
     this.name = name;
     this.list = [];
     this.table = {};
@@ -73,7 +73,7 @@ var tabs = (function() {
     this.table[tabName] = tab;
 
     this.tabContainer.insertBefore(tab.labelContainer, this.newTabElement);
-    this.contentContainer.appendChild(tab.webview);
+    this.contentContainer.appendChild(tab.webviewContainer);
 
     return tab;
   };
@@ -98,7 +98,7 @@ var tabs = (function() {
       }
 
       this.tabContainer.removeChild(tab.labelContainer);
-      this.contentContainer.removeChild(tab.webview);
+      this.contentContainer.removeChild(tab.webviewContainer);
 
       tab.detach();
       delete this.table[tab.name];
@@ -133,15 +133,18 @@ var tabs = (function() {
     this.browser = null;
   };
 
-  function Tab(name, tabList, webview) {
+  var Tab = function(name, tabList, webview) {
     this.name = name;
     this.tabList = tabList;
     this.selected = false;
     this.url = '';
     this.loading = true;
+    this.overlay = false;
     this.labelContainer = dce('li');
     this.label = dce('p');
     this.closeLink = dce('a');
+    this.webviewContainer = dce('div');
+    this.popupList = new popupModule.PopupList(dce('ul'));
     this.webview = webview;
     this.scriptInjectionAttempted = false;
 
@@ -165,10 +168,7 @@ var tabs = (function() {
     labelContainer.appendChild(label);
     labelContainer.appendChild(closeLink);
 
-    var that = this;
-    (function() {
-      var tab = that;
-
+    (function(tab) {
       labelContainer.addEventListener('click', function(e) {
         if (tab.tabList) {
           tab.tabList.selectTab(tab);
@@ -179,15 +179,15 @@ var tabs = (function() {
           tab.tabList.removeTab(tab);
         }
       });
-    }());
+    }(this));
   };
 
   Tab.prototype.initWebview = function() {
-    var that = this;
-    (function() {
-      var tab = that;
+    this.webview.setAttribute('data-name', this.name);
+    this.webviewContainer.setAttribute('data-name', this.name);
+    this.webviewContainer.classList.add('webview-container');
 
-      tab.webview.setAttribute('data-name', that.name);
+    (function(tab) {
       tab.webview.addEventListener(
           'loadcommit',
           function(e) { return tab.doLoadCommit(e); });
@@ -197,7 +197,10 @@ var tabs = (function() {
       tab.webview.addEventListener(
           'newwindow',
           function(e) { return tab.doNewTab(e); });
-    }());
+    }(this));
+
+    this.webviewContainer.appendChild(this.popupList.getListElement());
+    this.webviewContainer.appendChild(this.webview);
   };
 
   Tab.prototype.setLabel = function(newLabel) {
@@ -206,12 +209,14 @@ var tabs = (function() {
 
   Tab.prototype.select = function() {
     this.labelContainer.classList.add('selected');
+    this.webviewContainer.classList.add('selected');
     this.webview.classList.add('selected');
     this.selected = true;
   };
 
   Tab.prototype.deselect = function() {
     this.labelContainer.classList.remove('selected');
+    this.webviewContainer.classList.remove('selected');
     this.webview.classList.remove('selected');
     this.selected = false;
   };
@@ -224,12 +229,16 @@ var tabs = (function() {
     return this.webview;
   };
 
+  Tab.prototype.getWebviewContainer = function() {
+    return this.webviewContainer;
+  };
+
   Tab.prototype.isLoading = function() {
     return this.loading;
   };
 
   Tab.prototype.doLoadCommit = function(e) {
-    if (!event.isTopLevel) {
+    if (!e.isTopLevel) {
       return;
     }
 
@@ -269,11 +278,19 @@ var tabs = (function() {
   Tab.prototype.doNewTab = function(e) {
     e.preventDefault();
 
-    var newWebview = dce('webview');
-    e.window.attach(newWebview);
-    var newTab = this.tabList.append(newWebview);
-    if (e.windowOpenDisposition == 'new_foreground_tab') {
-      this.tabList.selectTab(newTab);
+    var dis = e.windowOpenDisposition;
+
+    console.log(e);
+
+    if (dis == 'new_background_tab' || dis == 'new_foreground_tab') {
+      var newWebview = dce('webview');
+      e.window.attach(newWebview);
+      var newTab = this.tabList.append(newWebview);
+      if (e.windowOpenDisposition == 'new_foreground_tab') {
+        this.tabList.selectTab(newTab);
+      }
+    } else {
+      this.popupList.append(e);
     }
   };
 
@@ -302,4 +319,4 @@ var tabs = (function() {
     'TabList': TabList,
     'Tab': Tab
   };
-}());
+}(popup));

@@ -102,7 +102,8 @@ compared to the back/forward buttons */
   -webkit-flex: 1;
 }
 
-webview {
+webview,
+.webview-container {
   display: inline-block;
   padding: 0px;
   margin: 0px;
@@ -113,8 +114,52 @@ webview {
   visibility: hidden;
 }
 
-webview.selected {
+.selected,
+#content-container .selected {
   visibility: visible;
+}
+
+.webview-container ul {
+  position: relative;
+  text-align: right;
+  padding: 0px;
+  margin: 0px;
+  z-index: 2;
+  list-style-type: none;
+}
+
+.webview-container ul li {
+  padding: 3px;
+  background: #aaf;
+  border-bottom: solid 1px #88f;
+}
+
+webview {
+  z-index: 1;
+}
+
+.popup-allow {
+  color: #0a0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-allow:hover {
+  color: #0f0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-deny {
+  color: #a00;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-deny:hover {
+  color: #f00;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 /* The reload button turns into a spinning trobber */

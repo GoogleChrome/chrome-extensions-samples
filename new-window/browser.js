@@ -1,5 +1,5 @@
 var browser = (function(configModule, tabsModule) {
-  function Browser(
+  var Browser = function(
     controlsContainer,
     back,
     forward,
@@ -17,6 +17,8 @@ var browser = (function(configModule, tabsModule) {
     this.home = home;
     this.locationForm = locationForm;
     this.locationBar = locationBar;
+    this.tabContainer = tabContainer;
+    this.contentContainer = contentContainer;
     this.newTabElement = newTabElement;
     this.tabs = new tabsModule.TabList(
         'tabs',
@@ -29,10 +31,7 @@ var browser = (function(configModule, tabsModule) {
   };
 
   Browser.prototype.init = function() {
-    var that = this;
-    (function() {
-      var browser = that;
-
+    (function(browser) {
       window.addEventListener('resize', function(e) {
         browser.doLayout(e);
       });
@@ -96,7 +95,7 @@ var browser = (function(configModule, tabsModule) {
       });
 
       browser.doNewTab();
-    }());
+    }(this));
   };
 
   Browser.prototype.doLayout = function(e) {
@@ -106,12 +105,18 @@ var browser = (function(configModule, tabsModule) {
     var contentWidth = windowWidth;
     var contentHeight = windowHeight - controlsHeight;
 
-    var webview = this.tabs.getSelected().getWebview();
+    var tab = this.tabs.getSelected();
+    var webview = tab.getWebview();
+    var webviewContainer = tab.getWebviewContainer();
 
-    this.tabs.contentContainer.style.width = contentWidth + 'px';
-    this.tabs.contentContainer.style.height = contentHeight + 'px';
-    webview.style.width = contentWidth + 'px';
-    webview.style.height = contentHeight + 'px';
+    var layoutElements = [
+      this.contentContainer,
+      webviewContainer,
+      webview];
+    for (var i = 0; i < layoutElements.length; ++i) {
+      layoutElements[i].style.width = contentWidth + 'px';
+      layoutElements[i].style.height = contentHeight + 'px';
+    }
   };
 
   // New window that is NOT triggered by existing window
@@ -133,7 +138,7 @@ var browser = (function(configModule, tabsModule) {
         // Ctrl+W
         case 87:
         e.preventDefault();
-        this.tabs.removeIdx(this.tabs.selected);
+        this.tabs.removeTab(this.tabs.getSelected());
         break;
       }
       // Ctrl + [1-9]

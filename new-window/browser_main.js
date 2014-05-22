@@ -1,9 +1,10 @@
+var mainBrowser = null;
 (function(browserModule) {
   var query = function(str) { return document.querySelector(str); };
-  var browser = null;
+
 
   window.addEventListener('load', function(e) {
-    browser = new browserModule.Browser(
+    mainBrowser = new browserModule.Browser(
         query('#controls'),
         query('#back'),
         query('#forward'),
