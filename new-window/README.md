@@ -31,4 +31,4 @@ that identify a different window open a new window.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/new-window/assets/screenshot_large.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/new-window/new-window/assets/screenshot_large.png)
