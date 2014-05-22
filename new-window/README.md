@@ -25,9 +25,10 @@ that identify a different window open a new window.
 
 ## Resources
 
+* [Webview New Window API](https://developer.chrome.com/apps/tags/webview#event-newwindow)
 * [Webview](http://developer.chrome.com/apps/app_external.html#webview)
 * [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/new-window/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/new-window/assets/screenshot_large.png)
