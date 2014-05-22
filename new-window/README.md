@@ -11,7 +11,7 @@ that identify a different window open a new window.
 
 ## Features
 
-* Shortcut keys: Ctrl+T (new tab), Ctrl+W (close tab), Ctrl + [1-9] (select tab)
+* Shortcut keys: `Ctrl+t` (new tab), `Ctrl+W` (close tab), `Ctrl + [1-9]` (select tab)
 * Popup confirmation: An attempt to open a separate window (not a separate
   tab in the same window) must be explicitly allowed by the user (see
   screenshot for example of Allow/Deny dilaogue)
