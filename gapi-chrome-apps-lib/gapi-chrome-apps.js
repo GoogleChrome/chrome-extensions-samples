@@ -55,6 +55,10 @@
 
     var details = {};
     details.interactive = params.immediate === false || false;
+    if (params.accountHint) {
+      // Indicate preferred account when on Android
+      detals.accountHint = params.accountHint;
+    }
     console.assert(!params.response_type || params.response_type == 'token');
 
     var callbackWrapper = function (getAuthTokenCallbackParam) {
