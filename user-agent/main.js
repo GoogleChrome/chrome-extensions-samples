@@ -23,11 +23,7 @@ window.chrome.app.runtime.onRestarted.addListener(function() {
  * @see http://developer.chrome.com/apps/app.window.html
  */
 function runApp() {
-  window.chrome.app.window.create('browser.html', {
-    id: 'browserWinID',
-    bounds: {
-      'width': 1024,
-      'height': 768
-    }
-  });
+  window.chrome.app.window.create(
+      'browser.html',
+      {'id': 'browserWinID', 'state': 'maximized'});
 }
