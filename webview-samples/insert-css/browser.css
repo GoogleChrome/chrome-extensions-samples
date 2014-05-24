@@ -1,0 +1,90 @@
+body {
+  position: fixed;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+}
+
+.trim {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.most {
+  width: 95%;
+  height: 95%;
+}
+
+.tq-width {
+  width: 70%;
+  height: 100%;
+}
+
+.oq-width {
+  width: 30%;
+  height: 100%;
+}
+
+.most-width {
+  width: 95%;
+}
+
+.tq-height {
+  width: 100%;
+  height: 70%;
+}
+
+.oq-height {
+  width: 100%;
+  height: 30%;
+}
+
+.table {
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  border: solid;
+}
+
+.top {
+  vertical-align: top;
+}
+
+.right {
+  text-align: right;
+}
+
+.padded {
+  padding: 10px;
+}
+
+.block {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label,
+input {
+  flex: none;
+}
+
+textarea {
+  flex-grow: 1;
+}

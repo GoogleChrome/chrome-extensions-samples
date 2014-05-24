@@ -1,0 +1,52 @@
+/*
+ * Black out portions of search results for a stylized "top secret page".
+ */
+
+/*
+ * Top secret sticker background for "blacked out search results" page.
+ */
+body#gsr {
+  /* Imaged marked for reuse with modification: https://www.google.com/search?tbs=sur:fmc&tbm=isch&q=top+secret+sticker */
+  background-image: url("http://thinkspace.com/wp-content/uploads/2012/11/20100128-top-secret.gif");
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/*
+ * Some things are styled with too much detail; just hide them.
+ */
+#mngb,
+#top_nav,
+#resultStats,
+li.ads-ad {
+  display: none;
+}
+
+/*
+ * We would like to just say "body { ... }", but more specific rules often
+ * override us. This list seems to work well.
+ */
+html,
+body,
+body a,
+body h1,
+body span,
+body li.g,
+body .std {
+  font-family: "courier";
+}
+
+/*
+ * Black out links, site names, and the search phrase in descriptions
+ */
+b,
+em,
+h3 a:link,
+h3 a:visited,
+h3 a:hover,
+li cite,
+div.crl {
+  color: #000;
+  background: #000;
+}

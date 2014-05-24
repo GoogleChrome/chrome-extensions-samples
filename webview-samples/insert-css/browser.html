@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="css.js"></script>
+    <script src="css_main.js"></script>
+  </head>
+  <body class="trim">
+    <div class="trim table full">
+      <div class="trim row full">
+        <div class="trim cell tq-width">
+	  <webview id="content-webview" class="trim full"></webview>
+        </div>
+        <div class="padded cell oq-width top">
+  	  <form id="css-form" class="full">
+  	      <input type="submit" value="Apply">
+  	      <label for="location-regex">Location regular expression</label>
+	      <input id="location-regex" type="text">
+  	      <label for="css-contents">CSS contents</label>
+	      <textarea id="css-contents"></textarea>
+  	  </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
