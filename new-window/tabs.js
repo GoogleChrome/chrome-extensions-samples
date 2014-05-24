@@ -280,8 +280,6 @@ var tabs = (function(popupModule) {
 
     var dis = e.windowOpenDisposition;
 
-    console.log(e);
-
     if (dis == 'new_background_tab' || dis == 'new_foreground_tab') {
       var newWebview = dce('webview');
       e.window.attach(newWebview);

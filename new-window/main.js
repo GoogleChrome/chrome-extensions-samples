@@ -25,15 +25,7 @@ window.chrome.app.runtime.onRestarted.addListener(function() {
 function runApp() {
   window.chrome.app.window.create(
     'browser.html',
-    {
-      'id': 'browserWinID',
-      'innerBounds': {
-        'left': 0,
-        'top': 0,
-        'minWidth': 1024,
-        'minHeight': 768
-      }
-    },
+    {'id': 'initialBrowserWindowID', 'state': 'maximized'},
     function(newWindow) {
       // Do not inject meaningful window.newWindowEvent; browser will instead
       // load the homepage
