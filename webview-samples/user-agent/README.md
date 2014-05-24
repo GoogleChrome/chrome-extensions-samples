@@ -23,4 +23,4 @@ security and reliability of your application.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/user-agent/user-agent/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/user-agent/webview-samples/user-agent/assets/screenshot_1280_800.png)
