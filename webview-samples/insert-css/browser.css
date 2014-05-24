@@ -1,9 +1,11 @@
-body {
-  position: fixed;
-  top:0px;
-  right:0px;
-  bottom:0px;
-  left:0px;
+label,
+input {
+  flex: none;
+}
+
+textarea {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .trim {
@@ -17,74 +19,28 @@ body {
   height: 100%;
 }
 
-.most {
-  width: 95%;
-  height: 95%;
-}
-
-.tq-width {
-  width: 70%;
-  height: 100%;
-}
-
-.oq-width {
-  width: 30%;
-  height: 100%;
-}
-
-.most-width {
-  width: 95%;
-}
-
-.tq-height {
-  width: 100%;
-  height: 70%;
-}
-
-.oq-height {
-  width: 100%;
-  height: 30%;
-}
-
-.table {
-  display: table;
-}
-
-.row {
-  display: table-row;
-}
-
-.cell {
-  display: table-cell;
-  border: solid;
-}
-
-.top {
-  vertical-align: top;
-}
-
-.right {
-  text-align: right;
-}
-
 .padded {
   padding: 10px;
 }
 
-.block {
-  display: block;
+.flex-container {
+  display: flex;
 }
 
-form {
-  display: flex;
+.row {
+  flex-direction: row;
+}
+
+.column {
   flex-direction: column;
 }
 
-label,
-input {
-  flex: none;
+.flex-wide {
+  flex-grow: 4;
+  flex-shrink: 1;
 }
 
-textarea {
+.flex-narrow {
   flex-grow: 1;
+  flex-shrink: 4;
 }
