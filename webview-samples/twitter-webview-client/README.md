@@ -11,7 +11,6 @@ This is a very simple sample of how you can embed an existing web application in
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
 
-     
-## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/twitter-webview-client/assets/screenshot_1280_800.png)
 
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/webview-samples/twitter-webview-client/assets/screenshot_1280_800.png)
