@@ -1,9 +1,4 @@
-label,
-input {
-  flex: none;
-}
-
-textarea {
+webview {
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -19,10 +14,6 @@ textarea {
   height: 100%;
 }
 
-.padded {
-  padding: 10px;
-}
-
 .flex-container {
   display: flex;
 }
@@ -33,14 +24,4 @@ textarea {
 
 .column {
   flex-direction: column;
-}
-
-.flex-wide {
-  flex-grow: 4;
-  flex-shrink: 1;
-}
-
-.flex-narrow {
-  flex-grow: 1;
-  flex-shrink: 4;
 }

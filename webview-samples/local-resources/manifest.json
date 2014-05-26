@@ -16,23 +16,18 @@
     "webview"
   ],
   "webview": {
-    "partition": [
-      /*
-       * Trusted partition can access any local html resources.
-       */
+    "partitions": [
       {
-        "name": "trusted",
-        "accessible_resources": ["hello.html", "crash.html"]
+        "name": "bad",
+        "accessible_resources": ["trusted.html"]
       },
-      /*
-       * NOTE: In a "real app" we would not let the untrusted partition access
-       * any local resources unless absolutely necessary. The "crash.html" page
-       * simulates an untrusted page crashing a webview.
-       */
       {
-        "name": "untrusted",
-        "accessible_resources": ["crash.html"]
+        "name": "good_trusted",
+        "accessible_resources": ["trusted.html"]
       }
+      /*
+       * NOTE: "good_untrusted" partition granted no access to local resources
+       */
     ]
   }
 }

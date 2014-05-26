@@ -3,20 +3,19 @@
   <head>
     <title>Bad application</title>
     <link rel="stylesheet" href="app.css">
+    <script type="text/javascript" src="crash.js"></script>
   </head>
   <body class="trim">
 
     <div class="flex-container row">
 
-	<webview id="webview1" class="trim full" partition="trusted"
-		 src="hello.html"></webview>
+	<webview id="trusted" class="full trim" partition="bad"
+		 src="trusted.html"></webview>
 
-	<!-- Imagine that "crash.html" is actually an untrusted web location
-	  -- that happens to crash the webview -- >
-	<webview id="webview2" class="trim full" partition="trusted"
-		 src="crash.html"></webview>
 	<!-- Bad application! Putting untrusted content in the trusted
 	  -- partition! -->
+	<webview id="untrusted" class="full trim" partition="bad"
+		 src="http://en.wikipedia.org/wiki/Cross-site_scripting"></webview>
 
     </div>
 
