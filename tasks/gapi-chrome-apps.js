@@ -44,8 +44,8 @@
   }
 
   window.gapi = {};
-  gapi.auth = {};
-  gapi.client = {};
+  window.gapi.auth = {};
+  window.gapi.client = {};
 
   var access_token = undefined;
 
@@ -53,9 +53,13 @@
     if (typeof callback !== 'function')
       throw new Error('callback required');
 
-    var details = {}
+    var details = {};
     details.interactive = params.immediate === false || false;
-    console.assert(!params.response_type || params.response_type == 'token')
+    if (params.accountHint) {
+      // Specifying this prevents the account chooser from appearing on Android.
+      details.accountHint = params.accountHint;
+    }
+    console.assert(!params.response_type || params.response_type == 'token');
 
     var callbackWrapper = function (getAuthTokenCallbackParam) {
       access_token = getAuthTokenCallbackParam;
@@ -78,7 +82,12 @@
     if (typeof args.path !== 'string')
       throw new Error('path required');
 
-    var path = 'https://www.googleapis.com' + args.path;
+    if (args.root && args.root === 'string') {
+      var path = args.root + args.path;
+    } else {
+      var path = 'https://www.googleapis.com' + args.path;
+    }
+
     if (typeof args.params === 'object') {
       var deliminator = '?';
       for (var i in args.params) {
@@ -114,9 +123,13 @@
         }
       };
 
-      var jsonResp = JSON.parse(this.response);
       var rawResp = JSON.stringify(rawResponseObject);
-      args.callback(jsonResp, rawResp);
+      if (this.response) {
+        var jsonResp = JSON.parse(this.response);
+        args.callback(jsonResp, rawResp);
+      } else {
+        args.callback(null, rawResp);
+      }
     };
   };
 
