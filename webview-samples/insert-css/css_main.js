@@ -6,6 +6,9 @@ var mainCss = null;
     mainCss = new cssModule.Css(
         configModule.urlPattern,
         configModule.cssFilename,
-        query('#content-webview'));
+        query('#content-webview'),
+        query('#css-form'),
+        query('#location-regex'),
+        query('#css-contents'));
   });
 }(config, css));
