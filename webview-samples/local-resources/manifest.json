@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "Local Resources Sample",
+  "minimum_chrome_version": "24.0.1307.0",
+  "version": "2.0",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "webview"
+  ],
+  "webview": {
+    "partition": [
+      /*
+       * Trusted partition can access any local html resources.
+       */
+      {
+        "name": "trusted",
+        "accessible_resources": ["hello.html", "crash.html"]
+      },
+      /*
+       * NOTE: In a "real app" we would not let the untrusted partition access
+       * any local resources unless absolutely necessary. The "crash.html" page
+       * simulates an untrusted page crashing a webview.
+       */
+      {
+        "name": "untrusted",
+        "accessible_resources": ["crash.html"]
+      }
+    ]
+  }
+}

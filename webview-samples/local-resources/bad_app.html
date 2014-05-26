@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bad application</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body class="trim">
+
+    <div class="flex-container row">
+
+	<webview id="webview1" class="trim full" partition="trusted"
+		 src="hello.html"></webview>
+
+	<!-- Imagine that "crash.html" is actually an untrusted web location
+	  -- that happens to crash the webview -- >
+	<webview id="webview2" class="trim full" partition="trusted"
+		 src="crash.html"></webview>
+	<!-- Bad application! Putting untrusted content in the trusted
+	  -- partition! -->
+
+    </div>
+
+  </body>
+</html>
