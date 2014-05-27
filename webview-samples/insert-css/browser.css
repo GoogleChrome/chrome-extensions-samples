@@ -1,0 +1,65 @@
+label,
+input {
+  flex: none;
+}
+
+input,
+textarea {
+  font-family: "courier";
+}
+
+textarea {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+label,
+input.submit {
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.trim {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.padded {
+  padding: 10px;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.flex-wide {
+  flex-grow: 4;
+  flex-shrink: 1;
+}
+
+.flex-narrow {
+  flex-grow: 1;
+  flex-shrink: 4;
+}
+
+.rel {
+  position: relative;
+}
+
+.abs {
+  position: absolute;
+}
