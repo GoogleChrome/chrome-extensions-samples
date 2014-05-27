@@ -1,4 +1,5 @@
-webview {
+webview,
+.flex-item {
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -7,6 +8,10 @@ webview {
   margin: 0px;
   padding: 0px;
   border: 0px;
+}
+
+.padded {
+  padding: 10px;
 }
 
 .full {
@@ -24,4 +29,12 @@ webview {
 
 .column {
   flex-direction: column;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }
