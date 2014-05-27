@@ -44,3 +44,11 @@ textarea {
   flex-grow: 1;
   flex-shrink: 4;
 }
+
+.rel {
+  position: relative;
+}
+
+.abs {
+  position: absolute;
+}

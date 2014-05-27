@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html class="trim full">
   <head>
     <link rel="stylesheet" href="browser.css">
     <script src="config.js"></script>
     <script src="css.js"></script>
     <script src="css_main.js"></script>
   </head>
-  <body class="trim">
+  <body class="trim full">
 
     <div class="flex-container row">
 
-      <div class="trim flex-wide">
+      <div class="trim flex-wide rel">
 	<webview id="content-webview" class="trim full"></webview>
       </div>
 
-      <form id="css-form" class="padded flex-narrow flex-container column">
+      <form id="css-form" class="padded flex-narrow flex-container column rel">
   	<input type="submit" value="Save & Apply">
   	<label for="location-regex">Location regular expression</label>
 	<input id="location-regex" type="text" disabled>
