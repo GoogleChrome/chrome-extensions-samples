@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="browser_bindings.js"></script>
+    <script src="browser.js"></script>
+  </head>
+  <body>
+    <div id="controls">
+
+      <button id="back" title="Go Back">&#9664;</button>
+      <button id="forward" title="Go Forward">&#9654;</button>
+      <button id="home" title="Go Home">&#8962;</button>
+      <button id="reload" title="Reload">&#10227;</button>
+      <button id="terminate" title="Simulate Crash">&#9760;</button>
+
+      <form id="location-form">
+        <div id="center-column">
+          <input id="location" type="text" value="http://www.google.com/">
+        </div>
+        <input type="submit" value="Go">
+      </form>
+
+      <button id="zoom" title="Change Zoom">&#128270;</button>
+      <button id="find" title="Find in Page">&#128294;</button>
+
+    </div>
+
+    <div id="zoom-box">
+      <form id="zoom-form">
+        <input id="zoom-text" type="text">
+        <input type="submit" value="&#128270;">
+        <button id="zoom-in">&#10133;</button>
+        <button id="zoom-out">&#10134;</button>
+      </form>
+    </div>
+
+    <div id="find-box">
+      <form id="find-form">
+        <input id="find-text" type="text">
+        <div id="find-results">
+          <span class="results" data-name="android"></span> |
+          <span class="results" data-name="ios"></span> |
+          <span class="results" data-name="nokia"></span> |
+          <span class="results" data-name="bb-playbook"></span>
+        </div>
+        <input type="submit" style="position:absolute; visibility:hidden">
+        <button id="match-case">aA</button>
+        <button id="find-backward">&#60;</button>
+        <button id="find-forward">&#62;</button>
+      </form>
+    </div>
+
+    <!-- Content contains containers for several webviews with different
+    user-agent strings. The `src` attribute is set via scripting. Each
+    webview lives in a different persistent partition to ensure that one is
+    rendered in its own process (see
+    https://developer.chrome.com/apps/tags/webview#partition for
+    details). -->
+
+    <div class="content-container">
+      <div class="webview-container" data-name="android" data-width="0.33"
+           data-height="0.5" data-loading="">
+        <webview id="android-webview" class="webview" data-name="android"
+                 partition="persist:android"></webview><!--
+        Comment-out whitespace
+        --><div class="sad-webview" data-name="android">
+          <div class="sad-webview-icon">&#9762;</div>
+          <h2 class="crashed-label">Aw, Snap!</h2>
+          <h2 class="killed-label">He's Dead, Jim!</h2>
+          <p>Something went wrong while displaying this webpage.
+            To continue, reload or go to another page.</p>
+        </div><!--
+        Comment-out whitespace
+        --><div class="webview-overlay" data-name="android">&nbsp;</div>
+      </div>
+      <div class="webview-container" data-name="ios" data-width="0.33"
+           data-height="0.5" data-loading="">
+        <webview id="ios-webview" class="webview" data-name="ios"
+                 partition="persist:ios"></webview><!--
+        Comment-out whitespace
+        --><div class="sad-webview" data-name="ios">
+          <div class="sad-webview-icon">&#9762;</div>
+          <h2 class="crashed-label">Aw, Snap!</h2>
+          <h2 class="killed-label">He's Dead, Jim!</h2>
+          <p>Something went wrong while displaying this webpage.
+            To continue, reload or go to another page.</p>
+        </div><!--
+        Comment-out whitespace
+        --><div class="webview-overlay" data-name="ios">&nbsp;</div>
+      </div><!--
+      Comment-out whitespace
+      --><div class="webview-container" data-name="nokia" data-width="0.33"
+              data-height="0.5" data-loading="">
+        <webview id="nokia-webview" class="webview" data-name="nokia"
+                 partition="persist:nokia"></webview><!--
+        Comment-out whitespace
+        --><div class="sad-webview" data-name="nokia">
+          <div class="sad-webview-icon">&#9762;</div>
+          <h2 class="crashed-label">Aw, Snap!</h2>
+          <h2 class="killed-label">He's Dead, Jim!</h2>
+          <p>Something went wrong while displaying this webpage.
+            To continue, reload or go to another page.</p>
+        </div><!--
+        Comment-out whitespace
+        --><div class="webview-overlay" data-name="nokia">&nbsp;</div>
+      </div><!--
+      Comment-out whitespace
+      --><div class="webview-container" data-name="bb-playbook"
+              data-width="1.0" data-height="0.5" data-loading="">
+        <webview id="bb-playbook-webview" class="webview"
+                 data-name="bb-playbook"
+                 partition="persist:bb-playbook"></webview><!--
+        Comment-out whitespace
+        --><div class="sad-webview" data-name="bb-playbook">
+          <div class="sad-webview-icon">&#9762;</div>
+          <h2 class="crashed-label">Aw, Snap!</h2>
+          <h2 class="killed-label">He's Dead, Jim!</h2>
+          <p>Something went wrong while displaying this webpage.
+            To continue, reload or go to another page.</p>
+        </div><!--
+        Comment-out whitespace
+        --><div class="webview-overlay" data-name="bb-playbook">&nbsp;</div>
+      </div><!--
+      Comment-out whitespace
+      --><div id="content-overlay">&nbsp;</div>
+    </div>
+
+  </body>
+</html>
