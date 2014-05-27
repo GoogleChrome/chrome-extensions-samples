@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bad application</title>
+    <link rel="stylesheet" href="app.css">
+    <script type="text/javascript" src="crash.js"></script>
+  </head>
+  <body class="trim">
+
+    <div class="padded flex-container row">
+      <div class="flex-item left">
+        <button id="simulate-crash">Simulate foreign web content crash</a>
+      </div>
+      <div class="flex-item right">
+        <button id="reload">Reload foreign web content</a>
+      </div>
+    </div>
+
+    <div class="flex-container row">
+
+	<webview id="trusted" class="full trim" partition="bad"
+		 src="trusted.html"></webview>
+
+	<!-- Bad application! Putting untrusted content in the same partition
+	  -- as trusted content! -->
+	<webview id="untrusted" class="full trim" partition="bad"
+		 src="http://en.wikipedia.org/wiki/Cross-site_scripting"></webview>
+
+    </div>
+
+  </body>
+</html>
