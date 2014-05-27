@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="popup.js"></script>
+    <script src="tabs.js"></script>
+    <script src="browser.js"></script>
+    <script src="browser_main.js"></script>
+  </head>
+  <body>
+    <div id="controls">
+
+      <div id="tab-controls">
+        <ul id="tab-container">
+          <li id="new-tab"><a href="#new-tab">+</a></li>
+        </ul>
+      </div>
+
+      <div id="browser-controls">
+        <button id="back" title="Go Back">&#9664;</button>
+        <button id="forward" title="Go Forward">&#9654;</button>
+        <button id="home" title="Go Home">&#8962;</button>
+        <button id="reload" title="Reload">&#10227;</button>
+        <!-- <button id="terminate" title="Simulate Crash">&#9760;</button> -->
+
+        <form id="location-form">
+          <div id="center-column">
+            <input id="location" type="text" value="">
+          </div>
+          <input type="submit" value="Go">
+        </form>
+      </div>
+
+    </div>
+
+    <div id="content-container">
+    </div>
+
+  </body>
+</html>
