@@ -25,9 +25,6 @@
         "name": "good_trusted",
         "accessible_resources": ["trusted.html"]
       }
-      /*
-       * NOTE: "good_untrusted" partition granted no access to local resources
-       */
     ]
   }
 }
