@@ -21,7 +21,6 @@ var css = (function(configModule) {
   Css.prototype.init = function() {
     // Load "homepage"
     this.webview.src = configModule.homepage;
-    console.log('Homepage: ', configModule.homepage);
 
     (function(css) {
       // Hook up CSS injection for each page load
@@ -44,7 +43,7 @@ var css = (function(configModule) {
         chrome.storage.local.set({
           'urlPattern': urlPattern,
           'cssString': cssString
-        }, function() { console.log('URL pattern and CSS saved to local storage'); });
+        });
 
         css.webview.reload();
       });
@@ -55,7 +54,6 @@ var css = (function(configModule) {
 
           if (data.cssString) {
             // Prepare css string from local storage
-            console.log('Loading css from local storage');
             css.cssString = data.cssString;
             css.cssInput.value = data.cssString;
             css.cssInput.removeAttribute('disabled');
@@ -64,11 +62,8 @@ var css = (function(configModule) {
             (function(xhr) {
               xhr.addEventListener('readystatechange', function(e) {
                 if (xhr.readyState == 4) {
-                  console.log('Loading css from xhr');
                   css.cssInput.value = xhr.responseText;
                   css.cssInput.removeAttribute('disabled');
-                } else {
-                  console.log('xhr ready state change', xhr.readyState);
                 }
               });
               xhr.open('GET', 'inject.css', true);
@@ -78,12 +73,10 @@ var css = (function(configModule) {
 
           if (data.urlPattern) {
             // Prepare URL pattern from local storage
-            console.log('Loading url pattern from local storage');
             css.urlPattern = new RegExp(data.urlPattern);
             css.urlPatternInput.value = data.urlPattern;
           } else {
             // Use default pattern (injected into Css object already)
-            console.log('Loading url pattern from config');
             css.urlPatternInput.value = css.urlPattern.source;
           }
           css.urlPatternInput.removeAttribute('disabled');
@@ -94,10 +87,7 @@ var css = (function(configModule) {
 
   Css.prototype.doLoadCommit = function(e) {
     if (e.url.match(this.urlPattern) !== null) {
-      console.log('Loading page for CSS insertion');
       this.loadOnStop = true;
-    } else {
-      console.log('URL: ', e.url, ' does not match', this.urlPattern);
     }
   };
 
@@ -105,28 +95,16 @@ var css = (function(configModule) {
     if (this.loadOnStop) {
       this.injectCss();
       this.loadOnStop = false;
-    } else {
-      console.log('Load finished without need for CSS');
     }
   };
 
   Css.prototype.injectCss = function() {
     if (this.cssString) {
-      console.log('Inserting CSS from string');
-      this.webview.insertCSS(
-        {'code': this.cssString},
-        function() {
-          console.log('CSS inserted');
-        });
+      this.webview.insertCSS({'code': this.cssString});
     } else {
       // On initial load, cssString may not be ready yet;
       // use the initial file instead
-      console.log('Inserting CSS from file');
-      this.webview.insertCSS(
-        {'file': this.filename},
-        function() {
-          console.log('CSS inserted');
-        });
+      this.webview.insertCSS({'file': this.filename});
     }
   };
 
