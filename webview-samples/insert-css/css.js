@@ -19,11 +19,9 @@ var css = (function(configModule) {
   };
 
   Css.prototype.init = function() {
-    // Load "homepage" and fill out url pattern
+    // Load "homepage"
     this.webview.src = configModule.homepage;
     console.log('Homepage: ', configModule.homepage);
-    this.urlPatternInput.value = this.urlPattern.source;
-    this.urlPatternInput.removeAttribute('disabled');
 
     (function(css) {
       // Hook up CSS injection for each page load
@@ -36,25 +34,61 @@ var css = (function(configModule) {
       // Update state and reload when committing to new URL pattern and CSS
       css.form.addEventListener('submit', function(e) {
         e.preventDefault();
-        css.urlPattern = new RegExp(css.urlPatternInput.value);
-        css.cssString = css.cssInput.value;
+
+        var urlPattern = css.urlPatternInput.value;
+        var cssString = css.cssInput.value;
+
+        css.urlPattern = new RegExp(urlPattern);
+        css.cssString = cssString;
+
+        chrome.storage.local.set({
+          'urlPattern': urlPattern,
+          'cssString': cssString
+        }, function() { console.log('URL pattern and CSS saved to local storage'); });
+
         css.webview.reload();
       });
 
-      // Fetch initial CSS file and place it in textarea
-      (function(xhr) {
-        xhr.addEventListener('readystatechange', function(e) {
-          if (xhr.readyState == 4) {
-            console.log('Loading css from xhr');
-            css.cssInput.value = xhr.responseText;
+      chrome.storage.local.get(
+        ['urlPattern', 'cssString'],
+        function(data) {
+
+          if (data.cssString) {
+            // Prepare css string from local storage
+            console.log('Loading css from local storage');
+            css.cssString = data.cssString;
+            css.cssInput.value = data.cssString;
             css.cssInput.removeAttribute('disabled');
           } else {
-            console.log('xhr ready state change', xhr.readyState);
+            // Fetch initial CSS file
+            (function(xhr) {
+              xhr.addEventListener('readystatechange', function(e) {
+                if (xhr.readyState == 4) {
+                  console.log('Loading css from xhr');
+                  css.cssInput.value = xhr.responseText;
+                  css.cssInput.removeAttribute('disabled');
+                } else {
+                  console.log('xhr ready state change', xhr.readyState);
+                }
+              });
+              xhr.open('GET', 'inject.css', true);
+              xhr.send();
+            }(new XMLHttpRequest()));
           }
+
+          if (data.urlPattern) {
+            // Prepare URL pattern from local storage
+            console.log('Loading url pattern from local storage');
+            css.urlPattern = new RegExp(data.urlPattern);
+            css.urlPatternInput.value = data.urlPattern;
+          } else {
+            // Use default pattern (injected into Css object already)
+            console.log('Loading url pattern from config');
+            css.urlPatternInput.value = css.urlPattern.source;
+          }
+          css.urlPatternInput.removeAttribute('disabled');
+
         });
-        xhr.open('GET', 'inject.css', true);
-        xhr.send();
-      }(new XMLHttpRequest()));
     }(this));
   };
 
