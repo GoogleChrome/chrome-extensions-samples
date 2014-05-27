@@ -3,13 +3,20 @@ input {
   flex: none;
 }
 
-label {
-  font-weight: bold;
+input,
+textarea {
+  font-family: "courier";
 }
 
 textarea {
   flex-grow: 1;
   flex-shrink: 1;
+}
+
+label,
+input.submit {
+  font-weight: bold;
+  font-family: inherit;
 }
 
 .trim {
