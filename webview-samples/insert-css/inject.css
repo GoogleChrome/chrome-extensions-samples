@@ -23,7 +23,7 @@ body h1,
 body span,
 body li.g,
 body .std {
-  font-family: "courier";
+  font-family: "courier" !important;
 }
 
 /*
@@ -36,8 +36,8 @@ h3 a:visited,
 h3 a:hover,
 li cite,
 div.crl {
-  color: #000;
-  background: #000;
+  color: #000 !important;
+  background: #000 !important;
 }
 
 /*
