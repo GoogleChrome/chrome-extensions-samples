@@ -3,6 +3,10 @@ input {
   flex: none;
 }
 
+label {
+  font-weight: bold;
+}
+
 textarea {
   flex-grow: 1;
   flex-shrink: 1;
