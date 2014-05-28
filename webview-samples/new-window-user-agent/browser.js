@@ -98,8 +98,15 @@ var browser = (function(configModule, tabsModule) {
 
       var webview = dce('webview');
       var tab = browser.tabs.append(webview);
-      // Global window.newWindowEvent may be injected by opener
+
+      // Globals window.userAgent and/or window.newWindowEvent may be injected
+      // by opener
+      if (window.userAgent) {
+        console.log('User agent');
+        webview.setUserAgentOverride(window.userAgent);
+      }
       if (window.newWindowEvent) {
+        console.log('New window event', window.newWindowEvent);
         window.newWindowEvent.window.attach(webview);
       } else {
         tab.navigateTo(configModule.homepage);

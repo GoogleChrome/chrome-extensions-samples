@@ -24,20 +24,23 @@ var webviewTitleInjectionComplete = false;
         var data = JSON.parse(e.data);
         if (data.name) {
           tabName = data.name;
+          return true;
         } else {
           console.warn('Warning: Message from embedder contains no tab name');
+          return false;
         }
       } else {
           console.warn('Warning: Message from embedder contains no data');
+          return false;
       }
     };
 
     // Wait for message that gives us a reference to the embedder
     window.addEventListener('message', function(e) {
-      if (!listenersAreBound) {
-        // Bind data
+      // When listeners aren't bound, check for tab name (which indicates the
+      // correct message). If we have the correct message, then do setup tasks.
+      if (!listenersAreBound && bindTabName(e)) {
         bindEmbedder(e);
-        bindTabName(e);
 
         // Notify the embedder of every title change
         var titleElement = document.querySelector('title');

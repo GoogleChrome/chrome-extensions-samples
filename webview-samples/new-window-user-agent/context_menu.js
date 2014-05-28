@@ -1,7 +1,9 @@
-var contextMenu = (function() {
+var contextMenu = (function(configModule) {
   var ContextMenu = function(webview, popupConfirmBoxList) {
     this.webview = webview;
     this.popupConfirmBoxList = popupConfirmBoxList;
+    this.oneTimeUserAgentTable = {};
+
     (function(menu) {
       menu.webview.contextMenus.create({
         'id': 'newWindow',
@@ -13,6 +15,7 @@ var contextMenu = (function() {
         'title': 'Open link in new tab as...',
         'contexts': ['link']
       });
+
       menu.webview.contextMenus.create({
         'id': 'newWindowDefault',
         'title': 'Default browser',
@@ -21,11 +24,42 @@ var contextMenu = (function() {
         'onclick': function(e) { menu.doNewWindow(e); }
       });
       menu.webview.contextMenus.create({
+        'type': 'separator',
+        'parentId': 'newWindow'
+      });
+      menu.webview.contextMenus.create({
+        'id': 'newWindowAndroid',
+        'title': 'Android',
+        'contexts': ['link'],
+        'parentId': 'newWindow',
+        'onclick': function(e) { menu.doNewWindow(e, 'android'); }
+      });
+
+      menu.webview.contextMenus.create({
+        'type': 'separator'
+      });
+
+      menu.webview.contextMenus.create({
         'id': 'newTabDefault',
         'title': 'Default browser',
         'contexts': ['link'],
         'parentId': 'newTab',
         'onclick': function(e) { menu.doNewTab(e); }
+      });
+      menu.webview.contextMenus.create({
+        'type': 'separator',
+        'parentId': 'newTab'
+      });
+      menu.webview.contextMenus.create({
+        'type': 'separator',
+        'parentId': 'newTab'
+      });
+      menu.webview.contextMenus.create({
+        'id': 'newTabAndroid',
+        'title': 'Android',
+        'contexts': ['link'],
+        'parentId': 'newTab',
+        'onclick': function(e) { menu.doNewTab(e, 'android'); }
       });
     }(this));
   };
@@ -35,13 +69,14 @@ var contextMenu = (function() {
     var id = this.getId();
     var features = this.getWindowFeatures();
     var code = 'window.open("' + url + '", "' + id + '", "' + features + '");';
-    this.popupConfirmBoxList.allowOnce(url);
+    this.loadOnce(url, browser);
     this.doWindowOpen(code);
   };
 
   ContextMenu.prototype.doNewTab = function(e, browser) {
     var url = e.linkUrl;
     var code = 'window.open("' + url + '");';
+    this.loadOnce(url, browser);
     this.doWindowOpen(code);
   };
 
@@ -67,5 +102,29 @@ var contextMenu = (function() {
     return 'width=100,height=100,left=100,top=100';
   };
 
+  ContextMenu.prototype.loadOnce = function(url, browser) {
+    var userAgent = configModule.browserUserAgents[browser];
+    // Unconditionally store URL in table so that existence in table is an
+    // indicator that we are loading this URL
+    this.oneTimeUserAgentTable[url] = userAgent;
+  };
+
+  ContextMenu.prototype.doOpen = function(url, webview) {
+    var userAgent = this.oneTimeUserAgentTable[url];
+    if (webview && userAgent) {
+      webview.setUserAgentOverride(this.oneTimeUserAgentTable[url]);
+    }
+    delete this.oneTimeUserAgentTable[url];
+  };
+
+  ContextMenu.prototype.getUserAgentOverride = function(url) {
+    return this.oneTimeUserAgentTable[url];
+  };
+
+  ContextMenu.prototype.isOpening = function(url) {
+    // Existence in oneTimeUserAgentTable is an indicator for opening a URL
+    return (url in this.oneTimeUserAgentTable);
+  };
+
   return {'ContextMenu': ContextMenu};
-}());
+}(config));

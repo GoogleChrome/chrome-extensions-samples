@@ -5,7 +5,7 @@ var popup = (function(configModule) {
   var popupBoxTemplate = dce('li');
   popupBoxTemplate.innerHTML = cfg.innerHTML;
 
-  var createPopup = function(event) {
+  var createPopup = function(event, userAgent) {
     (function(event) {
       // TODO: Inspect event for window.open()'s name and attributes to
       // correctly manage:
@@ -20,6 +20,9 @@ var popup = (function(configModule) {
             // cannot be performed in this context; that has to happen in the
             // context of the new window.
             newWindow.contentWindow.newWindowEvent = event;
+            if (userAgent) {
+              newWindow.contentWindow.userAgent = userAgent;
+            }
           });
     }(event));
   };
@@ -27,7 +30,6 @@ var popup = (function(configModule) {
   var PopupConfirmBoxList = function(listElement) {
     this.listElement = listElement;
     this.list = [];
-    this.oneTimeWhitelistTable = {};
   };
 
   PopupConfirmBoxList.prototype.getListElement = function() {
@@ -35,13 +37,6 @@ var popup = (function(configModule) {
   };
 
   PopupConfirmBoxList.prototype.append = function(event) {
-    // Do not create popup confirm boxes for one-time whitelisted URLs
-    if (event.targetUrl in this.oneTimeWhitelistTable) {
-      delete this.oneTimeWhitelistTable[event.targetUrl];
-      createPopup(event);
-      return;
-    }
-
     var box = new PopupConfirmBox(this, event);
     this.list.push(box);
     this.listElement.appendChild(box.getBoxElement());
@@ -55,11 +50,6 @@ var popup = (function(configModule) {
         break;
       }
     }
-  };
-
-  PopupConfirmBoxList.prototype.allowOnce = function(url) {
-    // Temporarily whitelist a URL (used for user-initiated popups)
-    this.oneTimeWhitelistTable[url] = true;
   };
 
   var PopupConfirmBox = function(popupList, event) {
@@ -105,6 +95,7 @@ var popup = (function(configModule) {
   };
 
   return {
+    'createPopup': createPopup,
     'PopupConfirmBoxList': PopupConfirmBoxList,
     'PopupConfirmBox': PopupConfirmBox
   };

@@ -195,6 +195,9 @@ var tabs = (function(popupModule, contextMenuModule) {
           'loadcommit',
           function(e) { return tab.doLoadCommit(e); });
       tab.webview.addEventListener(
+          'loadstop',
+          function(e) { return tab.doLoadStop(e); });
+      tab.webview.addEventListener(
           'contentload',
           function(e) { return tab.doContentLoad(e); });
       tab.webview.addEventListener(
@@ -251,11 +254,14 @@ var tabs = (function(popupModule, contextMenuModule) {
     this.tabList.browser.doTabNavigating(this, e.url);
   };
 
-  Tab.prototype.doContentLoad = function(e) {
+  Tab.prototype.doLoadStop = function(e) {
     if (this.loading) {
       this.tabList.browser.doTabNavigated(this, this.url);
     }
     this.loading = false;
+  };
+
+  Tab.prototype.doContentLoad = function(e) {
     if (!this.scriptInjectionAttempted) {
       // Try to inject title-update-messaging script
       (function(tab) {
@@ -283,16 +289,31 @@ var tabs = (function(popupModule, contextMenuModule) {
     e.preventDefault();
 
     var dis = e.windowOpenDisposition;
+    var url = e.targetUrl;
+    var userAgent = this.contextMenu.getUserAgentOverride(url);
 
     if (dis == 'new_background_tab' || dis == 'new_foreground_tab') {
       var newWebview = dce('webview');
       e.window.attach(newWebview);
+
+      // Allow context menu to manipulate webview if necessary
+      if (this.contextMenu.isOpening(url)) {
+        this.contextMenu.doOpen(url, newWebview);
+      }
+
       var newTab = this.tabList.append(newWebview);
       if (e.windowOpenDisposition == 'new_foreground_tab') {
         this.tabList.selectTab(newTab);
       }
     } else {
-      this.popupConfirmBoxList.append(e);
+      // If a context menu selection caused the popup, create it immediately;
+      // otherwise, use interstitial confirmation box
+      if (this.contextMenu.isOpening(url)) {
+        this.contextMenu.doOpen(url);
+        popupModule.createPopup(e, userAgent);
+      } else {
+        this.popupConfirmBoxList.append(e);
+      }
     }
   };
 
