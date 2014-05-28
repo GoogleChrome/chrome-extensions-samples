@@ -15,14 +15,15 @@ API](https://developer.chrome.com/extensions/contextMenus) (see screenshot).
 
 ## Features
 
-* All features from the new window sample
-
+* All features from the [New Window
+Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
 * Context menu entries for `Open link in new tab/window
   as Android/iPhone/Nokia Mobile/BlackBerry Playbook`
 
 ## Limitations
 
-* See new window sample
+* See [New Window
+Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
 
 ## Resources
 
