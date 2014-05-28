@@ -83,16 +83,21 @@ var browser = (function(configModule, tabsModule) {
 
       window.addEventListener('message', function(e) {
         if (e.data) {
-          var data = JSON.parse(e.data);
-          if (data.name && data.title) {
-            browser.tabs.setLabelByName(data.name, data.title);
+          var data = JSON.parse(e.data);;
+          var type = data.type;
+          if (type == 'titleResponse') {
+            if (data.tabName && data.title) {
+              browser.tabs.setLabelByName(data.tabName, data.title);
+            } else {
+              console.warn(
+                  'Warning: Expected message from guest to contain {tabName, title}, but got:',
+                  data);
+            }
           } else {
-            console.warn(
-                'Warning: Expected message from guest to contain {name, title}, but got:',
-                data);
+            console.warn('Warning: Unexpected message received', e);
           }
         } else {
-          console.warn('Warning: Message from guest contains no data');
+          console.warn('Warning: Empty message (no data) received', e);
         }
       });
 

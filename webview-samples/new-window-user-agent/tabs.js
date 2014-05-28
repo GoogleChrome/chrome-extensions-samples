@@ -279,7 +279,10 @@ var tabs = (function(popupModule, contextMenuModule) {
     } else {
       // Send a message to the webview so it can get a reference to
       // the embedder
-      var data = {'name': this.name };
+      var data = {
+        'type': 'titleRequest',
+        'tabName': this.name
+      };
       this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
     }
   };

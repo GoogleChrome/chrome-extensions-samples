@@ -6,92 +6,94 @@ var contextMenu = (function(configModule) {
 
     (function(menu) {
       menu.webview.contextMenus.create({
+        'contexts': ['link'],
         'id': 'newWindow',
-        'title': 'Open link in new window as...',
-        'contexts': ['link']
+        'title': 'Open link in new window as...'
       });
       menu.webview.contextMenus.create({
+        'contexts': ['link'],
         'id': 'newTab',
-        'title': 'Open link in new tab as...',
-        'contexts': ['link']
+        'title': 'Open link in new tab as...'
       });
 
       menu.webview.contextMenus.create({
+        'contexts': ['link'],
         'id': 'newWindowDefault',
         'title': 'Default browser',
-        'contexts': ['link'],
         'parentId': 'newWindow',
         'onclick': function(e) { menu.doNewWindow(e); }
       });
       menu.webview.contextMenus.create({
+        'contexts': ['link'],
         'type': 'separator',
         'parentId': 'newWindow'
       });
       menu.webview.contextMenus.create({
-        'id': 'newWindowAndroid',
-        'title': 'Android',
         'contexts': ['link'],
-        'parentId': 'newWindow',
-        'onclick': function(e) { menu.doNewWindow(e, 'android'); }
-      });
-
-      menu.webview.contextMenus.create({
-        'type': 'separator'
-      });
-
-      menu.webview.contextMenus.create({
         'id': 'newTabDefault',
         'title': 'Default browser',
-        'contexts': ['link'],
         'parentId': 'newTab',
         'onclick': function(e) { menu.doNewTab(e); }
       });
       menu.webview.contextMenus.create({
-        'type': 'separator',
-        'parentId': 'newTab'
-      });
-      menu.webview.contextMenus.create({
-        'type': 'separator',
-        'parentId': 'newTab'
-      });
-      menu.webview.contextMenus.create({
-        'id': 'newTabAndroid',
-        'title': 'Android',
         'contexts': ['link'],
-        'parentId': 'newTab',
-        'onclick': function(e) { menu.doNewTab(e, 'android'); }
+        'type': 'separator',
+        'parentId': 'newTab'
       });
+      menu.webview.contextMenus.create({
+        'type': 'separator',
+        'parentId': 'newTab'
+      });
+
+      for (var key in configModule.browsers) {
+        (function(key, browserName) {
+          menu.webview.contextMenus.create({
+            'contexts': ['link'],
+            'id': 'newWindow_' + key,
+            'title': browserName,
+            'parentId': 'newWindow',
+            'onclick': function(e) { menu.doNewWindow(e, key); }
+          });
+          menu.webview.contextMenus.create({
+            'contexts': ['link'],
+            'id': 'newTab_' + key,
+            'title': browserName,
+            'parentId': 'newTab',
+            'onclick': function(e) { menu.doNewTab(e, key); }
+          });
+        }(key, configModule.browsers[key]));
+      }
     }(this));
   };
 
   ContextMenu.prototype.doNewWindow = function(e, browser) {
     var url = e.linkUrl;
-    var id = this.getId();
-    var features = this.getWindowFeatures();
-    var code = 'window.open("' + url + '", "' + id + '", "' + features + '");';
     this.loadOnce(url, browser);
-    this.doWindowOpen(code);
+    this.doWindowOpen(url);
   };
 
   ContextMenu.prototype.doNewTab = function(e, browser) {
     var url = e.linkUrl;
-    var code = 'window.open("' + url + '");';
+    var code = 'window.simulateMiddleClickUrl = ';
+    console.log(code);
     this.loadOnce(url, browser);
-    this.doWindowOpen(code);
+    this.doTabOpen(url);
   };
 
-  ContextMenu.prototype.doWindowOpen = function(code) {
-    (function(menu) {
-      menu.webview.executeScript(
-          {'code': code},
-          function(results) {
-            if (!results || !results.length) {
-              console.warn(
-                  'Warning: Failed to inject window.open script',
-                  menu.webview);
-            }
-          });
-    }(this));
+  ContextMenu.prototype.doWindowOpen = function(url) {
+    var data = {
+      'type': 'simulatePopup',
+      'url': url
+    };
+    this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
+  };
+
+  ContextMenu.prototype.doTabOpen = function(url) {
+    var data = {
+      'type': 'simulateCtrlClick',
+      'url': url
+    };
+    this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
   };
 
   ContextMenu.prototype.getId = function() {

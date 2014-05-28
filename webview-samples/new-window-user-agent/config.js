@@ -7,6 +7,12 @@ var config = {
     'acceptLinkClass': 'popup-allow',
     'denyLinkClass': 'popup-deny'
   },
+  'browsers': {
+    'android': 'Android',
+    'ios': 'iPhone',
+    'nokia': 'Nokia Mobile',
+    'bb-playbook': 'BlackBerry Playbook'
+  },
   'browserUserAgents': {
     'android': 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
     'ios': 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3',
