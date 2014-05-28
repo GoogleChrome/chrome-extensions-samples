@@ -13,4 +13,4 @@ This is a very simple sample of how you can embed an existing web application in
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/webview-samples/twitter-webview-client/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/webview-samples/twitter-webview-client/assets/screenshot_1280_800.png)

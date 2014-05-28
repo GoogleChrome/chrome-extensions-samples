@@ -21,4 +21,4 @@ reliability of your application.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/webview-samples/browser/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/webview-samples/browser/assets/screenshot_1280_800.png)
