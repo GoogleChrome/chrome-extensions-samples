@@ -26,6 +26,10 @@ var productId = 0x0021; // changed from 0x0020
 
 (thanks @kjantzer for the [information](https://github.com/GoogleChrome/chrome-app-samples/issues/126#issuecomment-29547981))
 
+### Windows issues
+
+Some Windows device drivers take ownership of the device and don't allow Chrome to connect to them. If openDevice or findDevice doesn't work for you, you can try to use a generic low level driver instead. 
+For more info, check this [chrome-app-samples issue](https://github.com/GoogleChrome/chrome-app-samples/issues/203).
 
 LICENSE
 =======

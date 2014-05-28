@@ -124,7 +124,7 @@ function printCanvas() {
 
       var info = {
         "direction": "out",
-        "endpoint": 2, // 2 is the Bulk OUT Endpoint
+        "endpoint": 2, // 2 is the Bulk OUT Endpoint. You may use chrome.usb.listInterfaces to figure which address to use for Outputing data.
         "data": data
       };
       chrome.usb.claimInterface(device, 0, function() {
@@ -298,7 +298,7 @@ function ditherImg(imgData) {
     navigator.webkitGetUserMedia({audio: false, video: true}, function(videoStream) {
       stream = videoStream;
       video.src = webkitURL.createObjectURL(stream);
-      video.style.display = 'block';   
+      video.style.display = 'block';
       video.play();
     }, function(e) {
       console.error(e);
@@ -315,7 +315,7 @@ function ditherImg(imgData) {
     tempCanvas.setAttribute('height', height);
   }, false);
 
-  
+
   var takePicture = function() {
     stream.stop();
     video.style.display = 'none';
@@ -323,11 +323,11 @@ function ditherImg(imgData) {
     tempCanvas.height = height;
     tempCanvas.getContext('2d').drawImage(video, 0, 0, width, height);
     var data = tempCanvas.toDataURL('image/png');
-    logoImg.src=data;    
-  }; 
+    logoImg.src=data;
+  };
 
   video.addEventListener('click', takePicture);
-    
+
 
 
   var updateCanvasSize = function(e) {
