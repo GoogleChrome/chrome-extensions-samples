@@ -13,4 +13,4 @@ Sample to explore some of the APIs in the webview tag.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/master/webview-samples/webview/assets/screenshot_1280_800.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/webview-samples/webview-samples/webview/assets/screenshot_1280_800.png)
