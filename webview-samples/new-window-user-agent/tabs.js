@@ -266,7 +266,7 @@ var tabs = (function(popupModule, contextMenuModule) {
       // Try to inject title-update-messaging script
       (function(tab) {
         tab.webview.executeScript(
-            {'file': 'title.js'},
+            {'file': 'guest_messaging.js'},
             function(results) { return tab.doScriptInjected(results); });
       }(this));
       this.scriptInjectionAttempted = true;
@@ -275,7 +275,9 @@ var tabs = (function(popupModule, contextMenuModule) {
 
   Tab.prototype.doScriptInjected = function(results) {
     if (!results || !results.length) {
-      console.warn('Warning: Failed to inject title.js', webview);
+      console.warn(
+          'Warning: Failed to inject guest_messaging.js',
+          this.webview);
     } else {
       // Send a message to the webview so it can get a reference to
       // the embedder

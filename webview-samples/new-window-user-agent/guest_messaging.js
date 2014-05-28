@@ -21,7 +21,6 @@ var webviewTitleInjectionComplete = false;
       embedder = e.source;
     };
     var bindTabName = function(data) {
-      console.log(data);
       if (data.tabName) {
         tabName = data.tabName;
       } else {

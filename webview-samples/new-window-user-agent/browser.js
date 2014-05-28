@@ -107,11 +107,9 @@ var browser = (function(configModule, tabsModule) {
       // Globals window.userAgent and/or window.newWindowEvent may be injected
       // by opener
       if (window.userAgent) {
-        console.log('User agent');
         webview.setUserAgentOverride(window.userAgent);
       }
       if (window.newWindowEvent) {
-        console.log('New window event', window.newWindowEvent);
         window.newWindowEvent.window.attach(webview);
       } else {
         tab.navigateTo(configModule.homepage);
