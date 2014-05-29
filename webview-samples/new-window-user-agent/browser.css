@@ -1,0 +1,239 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  font-family: Lucida Grande, Arial, sans-serif;
+}
+
+button,
+input {
+  outline: none;
+}
+
+div {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+#content-container {
+  display: inline-block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+#controls {
+  padding: 0px;
+  background-color: #eee;
+  border-bottom: solid 1px #ccc;
+}
+
+#controls button,
+#controls input {
+  font-size: 14px;
+  line-height: 24px;
+  border-radius: 2px;
+  padding: 0 6px;
+}
+
+#controls button#reload {
+  border-radius: 16px;
+}
+
+#tab-controls {
+  padding: 3px 3px 0px 3px;
+  background: #888;
+}
+
+#browser-controls {
+  padding: 3px;
+}
+
+button,
+input[type="submit"],
+button[disabled]:hover {
+  border: solid 1px transparent;
+  background: transparent;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  border-color: #ccc;
+  background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+button:active,
+input[type="submit"]:active {
+  border-color: #bbb;
+  background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
+}
+
+/* These glyphs are on the small side, make them look more natural when
+compared to the back/forward buttons */
+#controls #home {
+  font-size: 24px;
+}
+
+#controls #reload {
+  font-size: 20px;
+}
+
+#location {
+  border: solid 1px #ccc;
+  padding: 2px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+
+#browser-controls {
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#browser-controls #location-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: column;
+}
+
+#browser-controls #center-column {
+  -webkit-flex: 1;
+}
+
+webview,
+.webview-container {
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  visibility: hidden;
+}
+
+.selected,
+#content-container .selected {
+  visibility: visible;
+}
+
+.webview-container ul {
+  position: relative;
+  text-align: right;
+  padding: 0px;
+  margin: 0px;
+  z-index: 2;
+  list-style-type: none;
+}
+
+.webview-container ul li {
+  padding: 3px;
+  background: #ff7;
+  border-bottom: solid 1px #aa6;
+}
+
+webview {
+  z-index: 1;
+}
+
+.popup-allow {
+  color: #0a0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-allow:hover {
+  color: #0f0;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-deny {
+  color: #a00;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.popup-deny:hover {
+  color: #f00;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* The reload button turns into a spinning trobber */
+.loading #reload {
+  -webkit-animation: spinner-animation .5s infinite linear;
+  -webkit-transform-origin: 50% 55.5%;
+}
+
+@-webkit-keyframes spinner-animation {
+  0% { -webkit-transform: rotate(0deg); }
+  100% {-webkit-transform: rotate(360deg); }
+}
+
+#tab-container {
+  margin: 5px 5px 0px 5px;
+  padding: 0px;
+  display: inline-block;
+}
+
+#tab-container li {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+  width: 100px;
+  margin: 0px;
+  padding: 6px 16px 6px 6px;
+  border: 0px;
+  background: #ccc;
+}
+
+#tab-container li:hover {
+  background: #ddd;
+}
+
+#tab-container li.selected {
+  background: #eee;
+}
+
+#tab-container li p {
+  width: 100px;
+  float:left;
+  z-index: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0px;
+  padding: 0px;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+}
+
+#tab-container li a {
+  position: absolute;
+  right: 2px;
+  z-index: 2;
+  padding-left: 1px;
+  padding-right: 1px;
+  color: #666;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: default;
+}
+
+#tab-container li a:hover {
+  color: #000;
+}
+
+#tab-container li#new-tab {
+  background: transparent;
+  vertical-align: baseline;
+  display: inline;
+}
+
+#tab-container li#new-tab a {
+  font-size: 24px;
+  padding: 0px;
+}
