@@ -14,4 +14,4 @@ following links within the webview.
 
 ## Screenshot
 
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/insert-css/webview-samples/insert-css/assets/screenshot_large.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/insert-css/webview-samples/insert-css/assets/screenshot_1280_800.png)
