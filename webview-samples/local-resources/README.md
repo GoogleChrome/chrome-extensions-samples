@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/nfeplfjagjlljomimjealpedhjgamkle">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Package-Local Resources
 
 This sample shows good and bad examples of mixing a `<webview>` tag that
