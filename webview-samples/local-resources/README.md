@@ -21,4 +21,4 @@ to particular `webview` partitions to access trusted package-local content.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/local-resources/webview-samples/local-resources/assets/screenshot_large.png)
+![screenshot](https://raw.github.com/mdittmer/chrome-app-samples/local-resources/webview-samples/local-resources/assets/screenshot_1280_800.png)
