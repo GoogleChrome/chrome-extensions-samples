@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="trim full">
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="img_override.js"></script>
+    <script src="img_override_main.js"></script>
+  </head>
+  <body class="trim full">
+
+    <div class="flex-container row">
+
+      <div class="trim flex-wide rel">
+	<webview id="content-webview" class="trim full"
+	         partition="blockable"></webview>
+      </div>
+
+      <form id="css-form" class="padded flex-narrow flex-container column rel">
+  	<input class="submit" type="submit" value="Save & Apply">
+  	<label for="url-pattern">Domain to block</label>
+	<input id="url-pattern" type="text" disabled></input>
+        <!-- <webview id="img-preview" class="flex"></webview> -->
+      </form>
+
+    </div>
+
+  </body>
+</html>
