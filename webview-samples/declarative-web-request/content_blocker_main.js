@@ -1,9 +1,9 @@
-var mainImgOverride = null;
-(function(configModule, imgOverrideModule) {
+var mainContentBlocker = null;
+(function(configModule, contentBlockerModule) {
   var query = function(str) { return document.querySelector(str); };
 
   window.addEventListener('load', function(e) {
-    mainImgOverride = new imgOverrideModule.ImgOverride(
+    mainContentBlocker = new contentBlockerModule.ContentBlocker(
         query('#content-webview'),
         query('#form'),
         query('#submit'),
@@ -11,4 +11,4 @@ var mainImgOverride = null;
         query('#reset'),
         query('#console'));
   });
-}(config, imgOverride));
+}(config, contentBlocker));

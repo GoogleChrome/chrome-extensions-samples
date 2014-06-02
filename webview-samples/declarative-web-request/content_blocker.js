@@ -1,8 +1,8 @@
-var imgOverride = (function(configModule) {
+var contentBlocker = (function(configModule) {
   var dce = function(tagName) { return document.createElement(tagName); };
 
   var extensionId = chrome.runtime.id;
-  var ImgOverride = function(
+  var ContentBlocker = function(
       webview,
       form,
       submitButton,
@@ -30,10 +30,10 @@ var imgOverride = (function(configModule) {
     this.init();
   };
 
-  ImgOverride.prototype.init = function() {
-    (function(io) {
+  ContentBlocker.prototype.init = function() {
+    (function(cb) {
       // Respond to messages triggered by declarative web request API rules
-      io.webview.request.onMessage.addListener(function(details) {
+      cb.webview.request.onMessage.addListener(function(details) {
         var data = JSON.parse(details.message);
         var msgDiv = dce('div');
         var patternPre = dce('pre');
@@ -45,49 +45,49 @@ var imgOverride = (function(configModule) {
         msgDiv.appendChild(prefixSpan);
         msgDiv.appendChild(patternPre);
         msgDiv.appendChild(postfixSpan);
-        io.consoleElement.appendChild(msgDiv);
-        io.consoleElement.scrollTop = io.consoleElement.scrollHeight;
+        cb.consoleElement.appendChild(msgDiv);
+        cb.consoleElement.scrollTop = cb.consoleElement.scrollHeight;
 
         // Cannot redirect immediately to package-local resources; (see
         // http://crbug.com/379733); use message-send + message-listener instead
         if (data.type == 'main_frame' || data.type == 'sub_frame') {
-          io.webview.src = 'blocked.html';
+          cb.webview.src = 'blocked.html';
         }
       });
 
       // Bind to reset button event: load state from config
-      io.resetButton.addEventListener('click', function(e) {
-          io.removeRules();
+      cb.resetButton.addEventListener('click', function(e) {
+          cb.removeRules();
 
           var urlPattern = configModule.urlPattern;
-          io.urlPattern = urlPattern;
-          io.urlPatternInput.value = urlPattern;
+          cb.urlPattern = urlPattern;
+          cb.urlPatternInput.value = urlPattern;
 
           chrome.storage.local.set({'urlPattern': urlPattern});
 
-          io.refreshRules();
-          io.addRules();
+          cb.refreshRules();
+          cb.addRules();
 
-          io.consoleElement.innerHtml = '';
+          cb.consoleElement.innerHTML = '';
 
-          io.webview.src = configModule.homepage;
+          cb.webview.src = configModule.homepage;
       });
 
       // Update state and reload when committing to URL
-      io.form.addEventListener('submit', function(e) {
+      cb.form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        io.removeRules();
+        cb.removeRules();
 
-        var urlPattern = io.urlPatternInput.value;
-        io.urlPattern = urlPattern;
+        var urlPattern = cb.urlPatternInput.value;
+        cb.urlPattern = urlPattern;
 
         chrome.storage.local.set({'urlPattern': urlPattern});
 
-        io.refreshRules();
-        io.addRules();
+        cb.refreshRules();
+        cb.addRules();
 
-        io.webview.reload();
+        cb.webview.reload();
       });
 
       // Load state from local storage or else config
@@ -99,22 +99,22 @@ var imgOverride = (function(configModule) {
           var urlPattern = data.urlPattern ?
               data.urlPattern :
               configModule.urlPattern;
-          io.urlPattern = urlPattern;
-          io.urlPatternInput.value = urlPattern;
+          cb.urlPattern = urlPattern;
+          cb.urlPatternInput.value = urlPattern;
 
-          io.submitButton.removeAttribute('disabled');
-          io.urlPatternInput.removeAttribute('disabled');
-          io.resetButton.removeAttribute('disabled');
+          cb.submitButton.removeAttribute('disabled');
+          cb.urlPatternInput.removeAttribute('disabled');
+          cb.resetButton.removeAttribute('disabled');
 
-          io.refreshRules();
-          io.addRules();
+          cb.refreshRules();
+          cb.addRules();
 
-          io.webview.src = configModule.homepage;
+          cb.webview.src = configModule.homepage;
         });
     }(this));
   };
 
-  ImgOverride.prototype.removeRules = function() {
+  ContentBlocker.prototype.removeRules = function() {
     var ruleIds = this.rules.map(function(rule) { return rule.id; });
     console.log('Removing rules: ', ruleIds);
     this.webview.request.onRequest.removeRules(
@@ -122,7 +122,7 @@ var imgOverride = (function(configModule) {
         function(details) { console.log('Removed rules; details: ', details); });
   };
 
-  ImgOverride.prototype.addRules = function() {
+  ContentBlocker.prototype.addRules = function() {
     console.log('Adding rules');
 
     this.webview.request.onRequest.addRules(
@@ -130,18 +130,18 @@ var imgOverride = (function(configModule) {
         function(details) { console.log('Added rules; details: ', details); });
   };
 
-  ImgOverride.prototype.refreshRules = function() {
+  ContentBlocker.prototype.refreshRules = function() {
     console.log('Refresh rules; url pattern: ', this.urlPattern);
 
     // Construct individual blockers for each cancel-able resource type
-    this.rules = (function(io) {
-      return io.cancelResourceTypes.map(function(type) {
+    this.rules = (function(cb) {
+      return cb.cancelResourceTypes.map(function(type) {
         return { // Cancel request for blocked resource and send a message
           'id': type + 'Blocker',
           'priority': 1000,
           'conditions': [
             new chrome.webViewRequest.RequestMatcher({
-              'url': {'urlMatches': io.urlPattern},
+              'url': {'urlMatches': cb.urlPattern},
               'resourceType': [type]
             })
           ],
@@ -151,7 +151,7 @@ var imgOverride = (function(configModule) {
               'message': JSON.stringify({
                   'type': type,
                   'action': 'cancelled',
-                  'urlPattern': io.urlPattern
+                  'urlPattern': cb.urlPattern
               })
             })
           ]
@@ -201,5 +201,5 @@ var imgOverride = (function(configModule) {
     });
   };
 
-  return {'ImgOverride': ImgOverride};
+  return {'ContentBlocker': ContentBlocker};
 }(config));
