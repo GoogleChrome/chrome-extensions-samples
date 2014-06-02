@@ -15,11 +15,18 @@
 	         partition="blockable"></webview>
       </div>
 
-      <form id="css-form" class="padded flex-narrow flex-container column rel">
-  	<input class="submit" type="submit" value="Save & Apply">
-  	<label for="url-pattern">Domain to block</label>
+      <form id="form" class="padded flex-narrow flex-container column rel">
+  	<input id="submit" class="submit" type="submit" value="Save & Apply" disabled>
+  	<label for="url-pattern">URL pattern to block
+  	  (<a href="http://code.google.com/p/re2/wiki/Syntax" target="_blank">RE2
+  	    syntax</a>)</label>
 	<input id="url-pattern" type="text" disabled></input>
-        <!-- <webview id="img-preview" class="flex"></webview> -->
+        <hr />
+  	<button id="reset" class="submit" disabled>Reset to Defaults</button>
+        <hr />
+        <label for="console">Content blocking log</label>
+        <div id="console" class="trim full flex">
+        </div>
       </form>
 
     </div>

@@ -5,7 +5,10 @@ var mainImgOverride = null;
   window.addEventListener('load', function(e) {
     mainImgOverride = new imgOverrideModule.ImgOverride(
         query('#content-webview'),
-        query('#css-form'),
-        query('#url-pattern'));
+        query('#form'),
+        query('#submit'),
+        query('#url-pattern'),
+        query('#reset'),
+        query('#console'));
   });
 }(config, imgOverride));

@@ -1,17 +1,35 @@
+pre {
+  display: inline;
+}
 label,
-input {
+input,
+button,
+hr {
   flex: none;
 }
 
-input,
-textarea {
-  font-family: "courier";
+hr {
+  width:100%;
 }
 
 label,
-input.submit {
+.submit {
   font-weight: bold;
   font-family: inherit;
+}
+
+input,
+#console div {
+  font-family: "courier";
+}
+
+#console div {
+  text-indent: -15px;
+  margin-left: 15px;
+}
+
+#console {
+  overflow-y: auto;
 }
 
 .trim {
@@ -31,7 +49,6 @@ input.submit {
 
 .flex-container {
   display: flex;
-  flex-align: center;
 }
 
 .row {
@@ -55,6 +72,7 @@ input.submit {
 .flex-narrow {
   flex-grow: 1;
   flex-shrink: 4;
+  width: 300px;
 }
 
 .rel {
