@@ -1,3 +1,7 @@
+body {
+  font-family: Lucida Grande, Arial, sans-serif;
+}
+
 pre {
   display: inline;
 }
@@ -64,6 +68,10 @@ input,
   align-items: center;
 }
 
+.center-text {
+  text-align: center;
+}
+
 .flex {
   flex-grow: 1;
   flex-shrink: 1;
@@ -86,4 +94,28 @@ input,
 
 .abs {
   position: absolute;
+}
+
+.abs-full {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.lightbox-overlay {
+  opacity: 0.5;
+  background: #000;
+}
+
+.lightbox {
+  padding: 20px;
+  margin: 20px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.hide {
+  visibility: hidden;
 }
