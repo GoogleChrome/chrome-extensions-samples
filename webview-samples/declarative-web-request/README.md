@@ -8,7 +8,7 @@ channel](http://www.chromium.org/getting-involved/dev-channel). This sample
 will not work on [stable channel](https://www.google.com/chrome/browser/)
 builds.
 
-Sample that shows how to use the declarative web request API with a
+This sample shows how to use the declarative web request API with a
 webview. The app implements a simple content blocker for URLs that match a
 [RE2 regular expression](https://code.google.com/p/re2/wiki/Syntax). The
 default pattern blocks hosts that contain `blogspot.` (such as blogspot.com
