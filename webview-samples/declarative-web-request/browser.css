@@ -1,6 +1,7 @@
 pre {
   display: inline;
 }
+
 label,
 input,
 button,
@@ -57,6 +58,10 @@ input,
 
 .column {
   flex-direction: column;
+}
+
+.center {
+  align-items: center;
 }
 
 .flex {

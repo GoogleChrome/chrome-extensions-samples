@@ -21,7 +21,7 @@
     "partitions": [
       {
         "name": "blockable",
-        "accessible_resources": ["blocked.html"]
+        "accessible_resources": ["browser.css", "blocked.css", "blocked.html"]
       }
     ]
   }

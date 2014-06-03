@@ -1,8 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html class="trim full">
   <head>
+    <link rel="stylesheet" href="browser.css">
+    <link rel="stylesheet" href="blocked.css">
   </head>
-  <body>
-    Page blocked <button onclick="window.history.back()">Go Back</button>
+  <body class="trim full flex-container column center">
+    <div class="flex flex-container row center">
+      <div class="flex flex-container column center">
+        <div class="flex">Page blocked</div>
+        <div class="flex">
+          <span class="a" onclick="window.history.back()">Go Back</span>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
