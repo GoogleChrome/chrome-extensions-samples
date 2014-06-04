@@ -91,11 +91,9 @@ var contentBlocker = (function(configModule) {
       });
 
       // Load state from local storage or else config
-      console.log('Fetching local storage data');
       chrome.storage.local.get(
         ['urlPattern'],
         function(data) {
-          console.log('Local storage data fetched');
           var urlPattern = data.urlPattern ?
               data.urlPattern :
               configModule.urlPattern;
@@ -116,23 +114,14 @@ var contentBlocker = (function(configModule) {
 
   ContentBlocker.prototype.removeRules = function() {
     var ruleIds = this.rules.map(function(rule) { return rule.id; });
-    console.log('Removing rules: ', ruleIds);
-    this.webview.request.onRequest.removeRules(
-        ruleIds,
-        function(details) { console.log('Removed rules; details: ', details); });
+    this.webview.request.onRequest.removeRules(ruleIds);
   };
 
   ContentBlocker.prototype.addRules = function() {
-    console.log('Adding rules');
-
-    this.webview.request.onRequest.addRules(
-        this.rules,
-        function(details) { console.log('Added rules; details: ', details); });
+    this.webview.request.onRequest.addRules(this.rules);
   };
 
   ContentBlocker.prototype.refreshRules = function() {
-    console.log('Refresh rules; url pattern: ', this.urlPattern);
-
     // Construct individual blockers for each cancel-able resource type
     this.rules = (function(cb) {
       return cb.cancelResourceTypes.map(function(type) {
