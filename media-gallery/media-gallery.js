@@ -117,8 +117,18 @@ function updateSelection(e) {
          else if (type == "video")
             newElem = addVideoToContentDiv();
 
-         if (newElem)
-            newElem.src = fileEntry.toURL();
+         if (newElem) {
+            fileEntry.file(function(file) {
+               chrome.mediaGalleries.getMetadata(file, {}, function(metadata) {
+                  if (metadata.attachedImages.length) {
+                     var blob = metadata.attachedImages[0];
+                     var posterBlobURL = URL.createObjectURL(blob);
+                     newElem.setAttribute('poster', posterBlobURL);
+                  }
+                  newElem.setAttribute('src', fileEntry.toURL());
+               });
+            });
+         }
       });
    }
 }
