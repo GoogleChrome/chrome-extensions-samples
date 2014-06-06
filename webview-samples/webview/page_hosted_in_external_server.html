@@ -54,7 +54,7 @@ function doCaptureImage() {
     function(stream) {
       video.src = window.URL.createObjectURL(stream);
       log.innerText="video running, enjoy!";
-    });
+      }, function(err) { console.log(err);});
 }
 
 function doGeoloc() {
