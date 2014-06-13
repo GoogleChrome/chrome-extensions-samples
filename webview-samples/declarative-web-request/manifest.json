@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Declarative Web Request API Sample",
+  "minimum_chrome_version": "24.0.1307.0",
+  "version": "2.0",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["config.js", "main.js"]
+    }
+  },
+  "permissions": [
+    "webview",
+    "storage",
+    "*://*/*"
+  ],
+  "webview": {
+    "partitions": [
+      {
+        "name": "blockable",
+        "accessible_resources": ["browser.css", "blocked.css", "blocked.html"]
+      }
+    ]
+  }
+}
