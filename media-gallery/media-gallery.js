@@ -118,6 +118,7 @@ function updateSelection(e) {
             newElem = addVideoToContentDiv();
 
          if (newElem) {
+            // Supported in Chrome M37 and later.
             if (!chrome.mediaGalleries.getMetadata) {
               newElem.setAttribute('src', fileEntry.toURL());
             } else {
