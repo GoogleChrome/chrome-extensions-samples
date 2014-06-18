@@ -118,16 +118,20 @@ function updateSelection(e) {
             newElem = addVideoToContentDiv();
 
          if (newElem) {
-            fileEntry.file(function(file) {
-               chrome.mediaGalleries.getMetadata(file, {}, function(metadata) {
-                  if (metadata.attachedImages.length) {
-                     var blob = metadata.attachedImages[0];
-                     var posterBlobURL = URL.createObjectURL(blob);
-                     newElem.setAttribute('poster', posterBlobURL);
-                  }
-                  newElem.setAttribute('src', fileEntry.toURL());
-               });
-            });
+            if (!chrome.mediaGalleries.getMetadata) {
+              newElem.setAttribute('src', fileEntry.toURL());
+            } else {
+              fileEntry.file(function(file) {
+                 chrome.mediaGalleries.getMetadata(file, {}, function(metadata) {
+                    if (metadata.attachedImages.length) {
+                       var blob = metadata.attachedImages[0];
+                       var posterBlobURL = URL.createObjectURL(blob);
+                       newElem.setAttribute('poster', posterBlobURL);
+                    }
+                    newElem.setAttribute('src', fileEntry.toURL());
+                 });
+              });
+            }
          }
       });
    }
