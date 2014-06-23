@@ -10,8 +10,7 @@
   },
   "app": {
     "background": {
-      "scripts": ["launch.js"],
-      "transient": true
+      "scripts": ["launch.js"]
     }
   }
 }
