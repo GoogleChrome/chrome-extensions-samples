@@ -151,9 +151,7 @@ document.querySelector('#toggle').addEventListener('click', function() {
 });
 
 // Flash 3 times
-var is_on = false;
 document.querySelector('#flash').addEventListener('click', function() {
-  is_on = !is_on;
   connection.send("l=0; var interval = setInterval(function() { digitalWrite(LED2, l&1); if (++l>6) clearInterval(interval); }, 200);\n");
 });
 
