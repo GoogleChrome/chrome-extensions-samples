@@ -2,9 +2,11 @@
 
 This sample lets you toggle the state of an LED on an [Espruino JavaScript board](http://www.espruino.com) as well as reading back its current temperature. The board runs JavaScript, so it's easy to control it by sending JavaScript commands directly to it as strings.
 
-1. Ensure that the line `DEVICE_PATH=` at the top of `main.js` matches Espruino's path
+1. Connect the Espruino Board
 2. Install and launch this packaged app.
-3. Press either one of the two buttons
+3. Make sure the drop-down box shows the correct serial device
+4. Click `Connect`
+3. Press the buttons to either toggle the state of an LED, flash it 3 times, or read back the chip's current temperature.
 
 
 ## APIs

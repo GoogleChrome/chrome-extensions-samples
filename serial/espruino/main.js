@@ -1,4 +1,3 @@
-const DEVICE_PATH = '/dev/ttyACM0';
 const serial = chrome.serial;
 
 /* Interprets an ArrayBuffer as UTF-8 encoded string data. */
@@ -37,8 +36,8 @@ SerialConnection.prototype.onConnectComplete = function(connectionInfo) {
     return;
   }
   this.connectionId = connectionInfo.connectionId;
-  chrome.serial.onReceive.addListener(this.boundOnReceive);
-  chrome.serial.onReceiveError.addListener(this.boundOnReceiveError);
+  serial.onReceive.addListener(this.boundOnReceive);
+  serial.onReceiveError.addListener(this.boundOnReceiveError);
   this.onConnect.dispatch();
 };
 
@@ -63,6 +62,10 @@ SerialConnection.prototype.onReceiveError = function(errorInfo) {
   }
 };
 
+SerialConnection.prototype.getDevices = function(callback) {
+  serial.getDevices(callback)
+};
+
 SerialConnection.prototype.connect = function(path) {
   serial.connect(path, this.onConnectComplete.bind(this))
 };
@@ -78,17 +81,28 @@ SerialConnection.prototype.disconnect = function() {
   if (this.connectionId < 0) {
     throw 'Invalid connection';
   }
-  serial.disconnect(this.connectionId, function() {});
+  
 };
 
 ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////
 
+
+function log(msg) {
+  var buffer = document.querySelector('#buffer');
+  buffer.innerHTML += msg + '<br/>';
+}
+
+
 var connection = new SerialConnection();
 
 connection.onConnect.addListener(function() {
-  log('connected to: ' + DEVICE_PATH);
-  connection.send('"Hello Espruino"\n');
+  log('connected...');
+  // remove the connection drop-down
+  document.querySelector('#connect_box').style.display = 'none';
+  document.querySelector('#control_box').style.display = 'block';
+  // Simply send text to Espruino
+  connection.send('"Hello "+"Espruino"\n');
 });
 
 connection.onReadLine.addListener(function(line) {
@@ -99,23 +113,54 @@ connection.onReadLine.addListener(function(line) {
     document.querySelector('#get_temperature').innerHTML = "Temp = "+line.substr(12);
 });
 
-connection.connect(DEVICE_PATH);
+// Populate the list of available devices
+connection.getDevices(function(ports) {
+  // get drop-down port selector
+  var dropDown = document.querySelector('#port_list');
+  // clear existing options
+  dropDown.innerHTML = "";
+  // add new options
+  ports.forEach(function (port) {
+    var displayName = port["displayName"] + "("+port.path+")";
+    if (!displayName) displayName = port.path;
+    
+    var newOption = document.createElement("option");
+    newOption.text = displayName;
+    newOption.value = port.path;
+    dropDown.appendChild(newOption);
+  });
+});
 
-function log(msg) {
-  var buffer = document.querySelector('#buffer');
-  buffer.innerHTML += msg + '<br/>';
-}
+// Handle the 'Connect' button
+document.querySelector('#connect_button').addEventListener('click', function() {
+  // get the device to connect to
+  var dropDown = document.querySelector('#port_list');
+  var devicePath = dropDown.options[dropDown.selectedIndex].value;
+  // connect
+  log("Connecting to "+devicePath);
+  connection.connect(devicePath);
+});
 
-// Toggle LED
+////////////////////////////////////////////////////////
+
+// Toggle LED state
 var is_on = false;
 document.querySelector('#toggle').addEventListener('click', function() {
   is_on = !is_on;
   connection.send("digitalWrite(LED1, "+(is_on ? '1' : '0')+");\n");
 });
 
+// Flash 3 times
+var is_on = false;
+document.querySelector('#flash').addEventListener('click', function() {
+  is_on = !is_on;
+  connection.send("l=0; var interval = setInterval(function() { digitalWrite(LED2, l&1); if (++l>6) clearInterval(interval); }, 200);\n");
+});
+
 // Get temperature
 document.querySelector('#get_temperature').addEventListener('click', function() {
   connection.send("console.log('TEMPERATURE='+E.getTemperature().toFixed(1));\n");
 });
+
 
 
