@@ -1,6 +1,6 @@
 {
   "name": "Push Messaging Roundtrip Sample",
-  "version": "1.1",
+  "version": "1.1.1",
   "app": {
     "background": {
       "scripts": ["background.js"]
