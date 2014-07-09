@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ghbnaccmkndoembcopnaklidmocbdkfp">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Espruino LED toggle
 
 This sample lets you toggle the state of an LED on an [Espruino JavaScript board](http://www.espruino.com) as well as reading back its current temperature. The board runs JavaScript, so it's easy to control it by sending JavaScript commands directly to it as strings.
