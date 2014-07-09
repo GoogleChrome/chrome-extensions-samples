@@ -207,9 +207,7 @@ Timer.prototype.tick = function() {
 		if (minute == 0 && second == 0) {
 			this.timing = false;
 			$('.timer .button.stop').addClass('disabled');
-			var notification = webkitNotifications.createNotification(
-					'img/timer.png', 'World Clock Timer', '');
-			notification.show();
+			new Notification('World Clock Timer', { icon: 'img/timer.png' });
 		} else {
 			this.countdown.setTime(this.countdown.getTime() - 100);
 		}
