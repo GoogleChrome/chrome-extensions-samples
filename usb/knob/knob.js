@@ -36,10 +36,10 @@ var onEvent = function(usbEvent) {
     };
 
     knobState.pulseSpeed = pulseDescriptionFromStatusByte(
-      ["slower", "normal", "faster"], 4);
+      knobState, ["slower", "normal", "faster"], 4);
 
     knobState.pulseStyle = pulseDescriptionFromStatusByte(
-      ["style1", "style2", "style3"], 6);
+      knobState, ["style1", "style2", "style3"], 6);
 
     var transform = '';
     if (knobState.buttonState == 1) {
@@ -55,10 +55,18 @@ var onEvent = function(usbEvent) {
     chrome.usb.interruptTransfer(powerMateDevice, transfer, onEvent);
 };
 
-var pulseDescriptionFromStatusByte = function(descriptions, offset)
+var pulseDescriptionFromStatusByte = function(knobState, descriptions, offset)
 {
-  var index = (knobState._ledStatus >> offset) & 3;
-  return descriptions[index - 1];
+  if(descriptions && offset >= 0 && offset < 8)
+  {
+    var index = (knobState._ledStatus >> offset) & 3;
+    if(descriptions.length > index)
+    {
+      return descriptions[index];
+    }
+  }
+
+  return "";
 };
 
 var gotPermission = function(result) {
