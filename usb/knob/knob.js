@@ -53,21 +53,18 @@ var onEvent = function(usbEvent) {
     console.log("RotateEvent", knobState);
 
     chrome.usb.interruptTransfer(powerMateDevice, transfer, onEvent);
-};
+  };
 
-var pulseDescriptionFromStatusByte = function(knobState, descriptions, offset)
-{
-  if(descriptions && offset >= 0 && offset < 8)
-  {
-    var index = (knobState._ledStatus >> offset) & 3;
-    if(descriptions.length > index)
-    {
-      return descriptions[index];
+var pulseDescriptionFromStatusByte = function(knobState, descriptions, offset) {
+    if(descriptions && offset >= 0 && offset < 8) {
+      var index = (knobState._ledStatus >> offset) & 3;
+      if(descriptions.length > index) {
+        return descriptions[index];
+      }
     }
-  }
 
-  return "";
-};
+    return "unknown";
+  };
 
 var gotPermission = function(result) {
     requestButton.style.display = 'none';
