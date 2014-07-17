@@ -38,7 +38,7 @@ function generateScriptText(fn) {
 window.addEventListener('load', function() {
   var webview = document.querySelector('webview');
   webview.addEventListener('loadstop', function() {
-    if (webview.src === 'http://rawgit.com/foam-framework/foam/master/demos/Tags.html') {
+    if (webview.src === 'http://rawgit.com/foam-framework/foam/master/demos/Dragon.html') {
       webview.executeScript({ code: generateScriptText(addMoreDragons) });
     }
   });
