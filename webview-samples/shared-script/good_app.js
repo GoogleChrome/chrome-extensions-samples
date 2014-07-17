@@ -36,12 +36,9 @@ function generateScriptText(fn) {
 // When our app loads, setup a listener that will execute our script after the
 // target guest page has loaded.
 window.addEventListener('load', function() {
-  window.console.log('App loaded');
   var webview = document.querySelector('webview');
   webview.addEventListener('loadstop', function() {
-    window.console.log('Webview page loaded', webview.src);
     if (webview.src === 'http://rawgit.com/foam-framework/foam/master/demos/Tags.html') {
-      window.console.log('Executing script');
       webview.executeScript({ code: generateScriptText(addMoreDragons) });
     }
   });
