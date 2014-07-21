@@ -1,5 +1,7 @@
-// This is the right thing to do:
-//
+// This is an example of what to do when we need access to objects created by
+// scripts embedded in the DOM. Keep in mind that usually we do NOT need access
+// to such objects, and this sample illustrates a special case.
+
 // Generated for script text that injects a script tag into the DOM. The script
 // tag will contain the script we intend to run wrapped in an anonymous
 // function. This way, the script we wish to run can access the guest page
