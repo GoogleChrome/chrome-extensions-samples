@@ -3,7 +3,7 @@
 window.addEventListener('load', function() {
   var webview = document.querySelector('webview');
   webview.addEventListener('loadstop', function() {
-    if (webview.src === 'http://rawgit.com/foam-framework/foam/master/demos/Dragon.html') {
+    if (webview.src === 'http://foam-framework.github.io/foam/demos/Dragon.html') {
       // What NOT to do: addMoreDragons depends on objects in the guest page
       // scripting context, but content scripts run in an "isolated world" that
       // can only access the document (and no other shared Javascript objects).
