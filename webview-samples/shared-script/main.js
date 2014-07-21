@@ -24,9 +24,9 @@ window.chrome.app.runtime.onRestarted.addListener(function() {
  */
 function runApp() {
   window.chrome.app.window.create(
-    'good_app.html',
+    'correct_injection.html',
     {'id': 'GoodWindowID'});
   window.chrome.app.window.create(
-    'bad_app.html',
+    'incorrect_injection.html',
     {'id': 'BadWindowID'});
 }

@@ -7,7 +7,7 @@ window.addEventListener('load', function() {
       // What NOT to do: addMoreDragons depends on objects in the guest page
       // scripting context, but content scripts run in an "isolated world" that
       // can only access the document (and no other shared Javascript objects).
-      // See good_app.js for an example of what to do.
+      // See correct_injection.js for an example of what to do.
       var scriptText = '(' + addMoreDragons.toString() + ')();';
       webview.executeScript({ code: scriptText });
     }
