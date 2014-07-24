@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="bluetooth.css">
+		<script src="main.js"></script>
+	</head>
+	<body>
+		<h1><img src="bluetooth36.png">Bluetooth Test</h1>
+		<div id="adapter">
+		<ul>
+			<li><span id="adapter_name"></span></li>
+			<li><b><span id="adapter_address"></span></b></li>
+		</ul>
+		</div>
+
+		<div id="settings">
+		<ul id="mode">
+			<li><label><input type="radio" name="mode" value="listen" id="listen" checked> Listen</label></li>
+			<li><label><input type="radio" name="mode" value="connect" id="connect"> Connect</label></li>
+			<li><label><input type="radio" name="mode" value="reconnect" id="reconnect"> Connect, Disconnect...</label></li>
+		</ul>
+
+		<ul id="datamode">
+			<li><label><input type="radio" name="datamode" value="receive" id="receive" checked> Receive</label></li>
+			<li><label><input type="radio" name="datamode" value="send" id="send"> Send</label></li>
+			<li><label><input type="radio" name="datamode" value="both" id="both"> Send &amp; Receive</label></li>
+			<li><label><input type="radio" name="datamode" value="ping" id="ping"> Ping/Pong</label></li>
+		</ul>
+
+		<ul id="protocol">
+			<li><label><input type="radio" name="protocol" value="rfcomm" id="rfcomm" checked> RFCOMM</label></li>
+			<li><label><input type="radio" name="protocol" value="l2cap" id="l2cap"> L2CAP</label></li>
+		</ul>
+
+		<ul id="rfcomm_options">
+			<li><label>UUID: <input type="text" name="rfcomm_uuid" value="9991" id="rfcomm_uuid"></label></li>
+			<li><label>Channel: <input type="checkbox" name"rfcomm_use_channel" id="rfcomm_use_channel" checked><input type="text" name="rfcomm_channel" value="10" id="rfcomm_channel"></label></li>
+		</ul>
+
+		<ul id="l2cap_options">
+			<li><label>UUID: <input type="text" name="l2cap_uuid" value="9990" id="l2cap_uuid"></label></li>
+			<li><label>PSM: <input type="checkbox" name"l2cap_use_psm" id="l2cap_use_psm" checked><input type="text" name="l2cap_psm" value="4113" id="l2cap_psm"></label></li>
+		</ul>
+
+		<select name="device_address" id="device_address" size="3"></select>
+		</div>
+
+		<div id="buttons">
+		<input type="button" id="start" value="Start">
+		<input type="button" id="discovery" value="Discover Devices">
+		<input type="button" id="clear" value="Clear Log">
+		</div>
+
+		<pre id="log"></pre>
+	</body>
+</html>
