@@ -5,8 +5,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
       'height': 274,
       'minWidth': 620,
       'minHeight': 274,
-      'maxWidth': 620,
-      'maxHeight': 274,
       'left': 100,
       'top': 100
     }

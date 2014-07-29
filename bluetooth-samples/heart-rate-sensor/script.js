@@ -28,8 +28,9 @@ function selectService(service) {
 
   clearAllFields();
 
-  if (heartRateService)
+  if (heartRateService) {
     chrome.bluetoothLowEnergy.disconnect(heartRateService.deviceAddress);
+  }
 
   heartRateService = service;
 
@@ -60,8 +61,9 @@ function selectService(service) {
     }
 
     // Make sure that the same service is still selected.
-    if (service.instanceId != heartRateService.instanceId)
+    if (service.instanceId != heartRateService.instanceId) {
       return;
+    }
 
     if (chrcs.length == 0) {
       console.log('Service has no characteristics: ' + service.instanceId);
@@ -106,8 +108,9 @@ function selectService(service) {
 
           // Make sure that the same characteristic is still selected.
           if (readChrc.instanceId !=
-              bodySensorLocationCharacteristic.instanceId)
+              bodySensorLocationCharacteristic.instanceId) {
             return;
+          }
 
           bodySensorLocationCharacteristic = readChrc;
           updateBodySensorLocationValue();
@@ -227,8 +230,9 @@ function updateHeartRateMeasurementValue() {
     }
   })());
 
-  if (energyExpanded !== undefined)
+  if (energyExpanded !== undefined) {
       totalEnergyExpanded = energyExpanded;
+  }
 
   setEnergyExpanded(totalEnergyExpanded);
   setRRInterval(rrInterval);
@@ -415,8 +419,9 @@ function main() {
   };
 
   chrome.bluetooth.getAdapterState(function (adapterState) {
-    if (chrome.runtime.lastError)
+    if (chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError.message);
+    }
 
     updateAdapterState(adapterState);
   });
@@ -449,8 +454,9 @@ function main() {
             return;
           }
 
-          if (!services)
+          if (!services) {
             return;
+          }
 
           var found = false;
           services.forEach(function (service) {
@@ -460,8 +466,9 @@ function main() {
             }
           });
 
-          if (!found)
+          if (!found) {
             return;
+          }
 
           if (!heartRateDevicesMap.hasOwnProperty(device.address)) {
             console.log('Found device with Heart Rate service: ' +
@@ -506,8 +513,9 @@ function main() {
 
       var foundService = undefined;
       services.forEach(function (service) {
-        if (service.uuid == HEART_RATE_SERVICE_UUID)
+        if (service.uuid == HEART_RATE_SERVICE_UUID) {
           foundService = service;
+        }
       });
 
       selectService(foundService);
@@ -522,11 +530,13 @@ function main() {
   // in their advertisement data, then it will be available in the |uuids|
   // field of the device.
   chrome.bluetooth.onDeviceAdded.addListener(function (device) {
-    if (!device.uuids || device.uuids.indexOf(HEART_RATE_SERVICE_UUID) < 0)
+    if (!device.uuids || device.uuids.indexOf(HEART_RATE_SERVICE_UUID) < 0) {
       return;
+    }
 
-    if (heartRateDevicesMap.hasOwnProperty(device.address))
+    if (heartRateDevicesMap.hasOwnProperty(device.address)) {
       return;
+    }
 
     console.log('Found device with HR service: ' + device.address);
 
@@ -537,8 +547,9 @@ function main() {
 
   // Track devices as they are removed.
   chrome.bluetooth.onDeviceRemoved.addListener(function (device) {
-    if (!heartRateDevicesMap.hasOwnProperty(device.address))
+    if (!heartRateDevicesMap.hasOwnProperty(device.address)) {
       return;
+    }
 
     console.log('HR device removed: ' + device.address);
     delete heartRateDevicesMap[device.address];
@@ -553,19 +564,22 @@ function main() {
   // Track GATT services as they are added.
   chrome.bluetoothLowEnergy.onServiceAdded.addListener(function (service) {
     // Ignore, if the service is not a Heart Rate service.
-    if (service.uuid != HEART_RATE_SERVICE_UUID)
+    if (service.uuid != HEART_RATE_SERVICE_UUID) {
       return;
+    }
 
     // If this came from the currently selected device and no service is
     // currently selected, select this service.
     if (deviceSelector[deviceSelector.selectedIndex].value ==
-        service.deviceAddress)
+        service.deviceAddress) {
       selectService(service);
+    }
 
     // Add the device of the service to the device map and update the UI.
     console.log('New Heart Rate service added: ' + service.instanceId);
-    if (heartRateDevicesMap.hasOwnProperty(service.deviceAddress))
+    if (heartRateDevicesMap.hasOwnProperty(service.deviceAddress)) {
       return;
+    }
 
     // Looks like it's a brand new device. Get information about the device so
     // that we can display the device name in the drop-down menu.
@@ -584,8 +598,9 @@ function main() {
   // Track GATT services as they are removed.
   chrome.bluetoothLowEnergy.onServiceRemoved.addListener(function (service) {
     // Ignore, if the service is not a Heart Rate service.
-    if (service.uuid != HEART_RATE_SERVICE_UUID)
+    if (service.uuid != HEART_RATE_SERVICE_UUID) {
       return;
+    }
 
     // See if this is the currently selected service. If so, unselect it.
     console.log('Heart Rate service removed: ' + service.instanceId);
@@ -598,8 +613,9 @@ function main() {
 
     // Remove the associated device from the map only if it no longer lists the
     // Heart Rate UUID.
-    if (!heartRateDevicesMap.hasOwnProperty(service.deviceAddress))
+    if (!heartRateDevicesMap.hasOwnProperty(service.deviceAddress)) {
       return;
+    }
 
     chrome.bluetooth.getDevice(service.deviceAddress, function (device) {
       if (chrome.runtime.lastError) {
@@ -613,16 +629,19 @@ function main() {
         updateDeviceSelector();
       }
 
-      if (selectedRemoved)
+      if (selectedRemoved) {
         deviceSelector.onchange();
+      }
     });
   });
 
   // Track GATT services as they change.
   chrome.bluetoothLowEnergy.onServiceChanged.addListener(function (service) {
     // This only matters if the selected service changed.
-    if (!heartRateService || service.instanceId != heartRateService.instanceId)
+    if (!heartRateService ||
+        service.instanceId != heartRateService.instanceId) {
       return;
+    }
 
     console.log('The selected service has changed');
 
