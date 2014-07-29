@@ -23,10 +23,7 @@ var heartRateDevicesMap = {};
 function selectService(service) {
   // Hide or show the appropriate elements based on whether or not
   // |serviceId| is undefined.
-  document.getElementById('no-devices-error').hidden = !!service;
-  document.getElementById('heart-rate-info-div').hidden = !service;
-
-  clearAllFields();
+  UI.getInstance().resetState(!service);
 
   if (heartRateService) {
     chrome.bluetoothLowEnergy.disconnect(heartRateService.deviceAddress);
@@ -123,7 +120,7 @@ function selectService(service) {
         console.log('Setting Heart Rate Control Point Characteristic: ' +
                     chrc.instanceId);
         heartRateControlPointCharacteristic = chrc;
-        setResetButtonEnabled(true);
+        UI.getInstance().setResetButtonEnabled(true);
         return;
       }
     });
@@ -215,8 +212,8 @@ function updateHeartRateMeasurementValue() {
     rrInterval = valueBytes[nextByte] | (valueBytes[nextByte + 1] << 8);
   }
 
-  setHeartRateMeasurement(heartRateMeasurement);
-  setSensorContactStatus((function() {
+  UI.getInstance().setHeartRateMeasurement(heartRateMeasurement);
+  UI.getInstance().setSensorContactStatus((function() {
     switch (sensorContactStatus) {
     case 0:
     case 1:
@@ -234,8 +231,8 @@ function updateHeartRateMeasurementValue() {
       totalEnergyExpanded = energyExpanded;
   }
 
-  setEnergyExpanded(totalEnergyExpanded);
-  setRRInterval(rrInterval);
+  UI.getInstance().setEnergyExpanded(totalEnergyExpanded);
+  UI.getInstance().setRRInterval(rrInterval);
 }
 
 /**
@@ -283,7 +280,7 @@ function updateBodySensorLocationValue() {
     }
   })();
 
-  setBodySensorLocation(bodySensorLocation);
+  UI.getInstance().setBodySensorLocation(bodySensorLocation);
 }
 
 /**
@@ -314,80 +311,6 @@ function resetEnergyExpanded() {
 }
 
 /**
- * Helper functions to set the values of Heart Rate UI fields.
- */
-function setFieldValue(id, value) {
-  var div = document.getElementById(id);
-  div.innerHTML = '';
-  div.appendChild(document.createTextNode((value === undefined) ? '-' : value));
-}
-
-function setHeartRateMeasurement(value) {
-  setFieldValue('heart-rate-measurement', value);
-}
-
-function setSensorContactStatus(value) {
-  setFieldValue('sensor-contact-status', value);
-}
-
-function setEnergyExpanded(value) {
-  setFieldValue('energy-expanded', value);
-}
-
-function setRRInterval(value) {
-  setFieldValue('rr-interval', value);
-}
-
-function setBodySensorLocation(value) {
-  setFieldValue('body-sensor-location', value);
-}
-
-function setResetButtonEnabled(enabled) {
-  document.getElementById('heart-rate-control-point').disabled = !enabled;
-}
-
-function clearAllFields() {
-  setHeartRateMeasurement(undefined);
-  setSensorContactStatus(undefined);
-  setEnergyExpanded(undefined);
-  setRRInterval(undefined);
-  setBodySensorLocation(undefined);
-  setResetButtonEnabled(false);
-}
-
-/**
- * Updates the dropdown menu based on the contents of |heartRateDevicesMap|.
- */
-function updateDeviceSelector() {
-  var deviceSelector = document.getElementById('device-selector');
-  var placeHolder = document.getElementById('placeholder');
-  var addresses = Object.keys(heartRateDevicesMap);
-
-  deviceSelector.innerHTML = '';
-  placeHolder.innerHTML = '';
-  deviceSelector.appendChild(placeHolder);
-
-  // Clear the drop-down menu.
-  if (addresses.length == 0) {
-    console.log('No heart rate devices found');
-    placeHolder.appendChild(document.createTextNode('No HR devices found'));
-    return;
-  }
-
-  // Hide the placeholder and populate
-  placeHolder.appendChild(document.createTextNode('HR devices found'));
-
-  for (var i = 0; i < addresses.length; i++) {
-    var address = addresses[i];
-    var deviceOption = document.createElement('option');
-    deviceOption.setAttribute('value', address);
-    deviceOption.appendChild(document.createTextNode(
-        heartRateDevicesMap[address]));
-    deviceSelector.appendChild(deviceOption);
-  }
-}
-
-/**
  * This is the entry point of the application. Initialize UI state and set up
  * the relevant Bluetooth Low Energy event listeners.
  */
@@ -397,25 +320,8 @@ function main() {
 
   // Request information about the local Bluetooth adapter to be displayed in
   // the UI.
-  var updateAdapterState = function (adapterState) {
-    var addressField = document.getElementById('adapter-address');
-    var nameField = document.getElementById('adapter-name');
-
-    var setAdapterField = function (field, value) {
-      field.innerHTML = '';
-      field.appendChild(document.createTextNode(value));
-    };
-
-    if (!adapterState) {
-      setAdapterField(nameField, 'No adapter');
-      setAdapterField(addressField, 'unknown');
-      return;
-    }
-
-    setAdapterField(addressField,
-                    adapterState.address ? adapterState.address : 'unknown');
-    setAdapterField(nameField,
-                    adapterState.name ? adapterState.name : 'Local Adapter');
+  var updateAdapterState = function(adapterState) {
+    UI.getInstance().setAdapterState(adapterState.address, adapterState.name);
   };
 
   chrome.bluetooth.getAdapterState(function (adapterState) {
@@ -441,7 +347,7 @@ function main() {
           if (!heartRateDevicesMap.hasOwnProperty(device.address)) {
             heartRateDevicesMap[device.address] =
                 (device.name ? device.name : device.address);
-            updateDeviceSelector();
+            UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
           }
           return;
         }
@@ -475,7 +381,7 @@ function main() {
                         device.address);
             heartRateDevicesMap[device.address] =
                 (device.name ? device.name : device.address);
-            updateDeviceSelector();
+            UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
           }
         });
       });
@@ -483,10 +389,7 @@ function main() {
   });
 
   // Set up the device selector.
-  var deviceSelector = document.getElementById('device-selector');
-  deviceSelector.onchange = function () {
-    var selectedValue = deviceSelector[deviceSelector.selectedIndex].value;
-
+  UI.getInstance().setDeviceSelectionHandler(function (selectedValue) {
     // If |selectedValue| is empty, unselect everything.
     if (!selectedValue) {
       selectService(undefined);
@@ -520,11 +423,10 @@ function main() {
 
       selectService(foundService);
     });
-  };
+  });
 
   // Set up the "Reset Energy Expanded" button action.
-  document.getElementById('heart-rate-control-point').onclick =
-      resetEnergyExpanded;
+  UI.getInstance().setResetEnergyExpandedHandler(resetEnergyExpanded);
 
   // Track devices that get added and removed. If they have the heart rate UUID
   // in their advertisement data, then it will be available in the |uuids|
@@ -542,7 +444,7 @@ function main() {
 
     heartRateDevicesMap[device.address] =
         (device.name ? device.name : device.address);
-    updateDeviceSelector();
+    UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
   });
 
   // Track devices as they are removed.
@@ -556,9 +458,9 @@ function main() {
     if (heartRateService && heartRateService.deviceAddress == device.address) {
       chrome.bluetoothLowEnergy.disconnect(device.address);
       selectService(undefined);
-      deviceSelector.onchange();
+      UI.getInstance().triggerDeviceSelection();
     }
-    updateDeviceSelector();
+    UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
   });
 
   // Track GATT services as they are added.
@@ -570,8 +472,8 @@ function main() {
 
     // If this came from the currently selected device and no service is
     // currently selected, select this service.
-    if (deviceSelector[deviceSelector.selectedIndex].value ==
-        service.deviceAddress) {
+    if (UI.getInstance().getSelectedDeviceAddress() == service.deviceAddress &&
+       !heartRateService) {
       selectService(service);
     }
 
@@ -591,7 +493,7 @@ function main() {
 
       heartRateDevicesMap[device.address] =
           (device.name ? device.name : device.address);
-      updateDeviceSelector();
+      UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
     });
   });
 
@@ -609,6 +511,8 @@ function main() {
       console.log('The selected service disappeared!');
       selectService(undefined);
       selectedRemoved = true;
+      UI.getInstance().updateDeviceSelector(
+          heartRateDevicesMap, true /* reset */);
     }
 
     // Remove the associated device from the map only if it no longer lists the
@@ -626,11 +530,11 @@ function main() {
       if (!device.uuids || device.uuids.indexOf(HEART_RATE_SERVICE_UUID) < 0) {
         console.log('Removing device: ' + device.address);
         delete heartRateDevicesMap[device.address];
-        updateDeviceSelector();
+        UI.getInstance().updateDeviceSelector(heartRateDevicesMap);
       }
 
       if (selectedRemoved) {
-        deviceSelector.onchange();
+        UI.getInstance().triggerDeviceSelection();
       }
     });
   });
