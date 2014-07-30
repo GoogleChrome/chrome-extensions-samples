@@ -25,7 +25,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
  */
 function getCamera() {
   navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {
-    document.querySelector('video').src = webkitURL.createObjectURL(stream);
+    document.querySelector('video').src = URL.createObjectURL(stream);
   }, function(e) {
     console.error(e);
   });

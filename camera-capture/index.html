@@ -11,7 +11,7 @@
   video {
     width: 640px;
     height: 480px;
-    background: rgba(0,0,0,0.25);
+    background: white;
   }
   button {
     display: inline-block;
@@ -41,14 +41,14 @@
   }
 
   video {
-    background: white url(camera.png) center no-repeat;
+    object-fit: none;
     border: 1px solid #e2e2e2;
     box-shadow: 0 1px 1px rgba(0,0,0,0.2);
   }
 </style>
 </head>
 <body>
-  <video autoplay></video>
+  <video autoplay poster="camera.png"></video>
   <p><button>Enable Camera</button></p>
 <script src="app.js"></script>
 </body>
