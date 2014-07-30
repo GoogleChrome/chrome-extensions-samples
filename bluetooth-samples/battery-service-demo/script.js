@@ -51,8 +51,9 @@ function selectService(service) {
     }
 
     // Make sure that the same service is still selected.
-    if (service.instanceId != batteryService.instanceId)
+    if (service.instanceId != batteryService.instanceId) {
       return;
+    }
 
     if (chrcs.length == 0) {
       console.log('Service has no characteristics: ' + service.instanceId);
@@ -95,8 +96,9 @@ function selectService(service) {
           }
 
           // Make sure that the same characteristic is still selected.
-          if (readChrc.instanceId != batteryLevelCharacteristic.instanceId)
+          if (readChrc.instanceId != batteryLevelCharacteristic.instanceId) {
             return;
+          }
 
           // No need the update the value here, as a successful read will trigger
           // the onCharacteristicValueChanged event. We will perform the update in
@@ -119,12 +121,13 @@ function updateBatteryLevelUI(level, unknown) {
   var batteryLevelBox = document.getElementById('battery-level-box');
 
   var levelClass;
-  if (level> 65)
+  if (level > 65) {
     levelClass = 'high';
-  else if (level > 30)
+  } else if (level > 30) {
     levelClass = 'medium';
-  else
+  } else {
     levelClass = 'low';
+  }
 
   batteryLevelBox.className = 'level ' + levelClass;
   batteryLevelBox.style.width = level + '%';
@@ -240,8 +243,9 @@ function main() {
   };
 
   chrome.bluetooth.getAdapterState(function (adapterState) {
-    if (chrome.runtime.lastError)
+    if (chrome.runtime.lastError) {
       console.log(chrome.runtime.lastError.message);
+    }
 
     updateAdapterState(adapterState);
   });
@@ -264,8 +268,9 @@ function main() {
             return;
           }
 
-          if (!services)
+          if (!services) {
             return;
+          }
 
           var found = false;
           services.forEach(function (service) {
@@ -275,8 +280,9 @@ function main() {
             }
           });
 
-          if (!found)
+          if (!found) {
             return;
+          }
 
           console.log('Found device with Battery service: ' +
                       device.address);
@@ -311,8 +317,9 @@ function main() {
 
       var foundService = undefined;
       services.forEach(function (service) {
-        if (service.uuid == BATTERY_SERVICE_UUID)
+        if (service.uuid == BATTERY_SERVICE_UUID) {
           foundService = service;
+        }
       });
 
       selectService(foundService);
@@ -322,13 +329,15 @@ function main() {
   // Track GATT services as they are added.
   chrome.bluetoothLowEnergy.onServiceAdded.addListener(function (service) {
     // Ignore, if the service is not a Battery service.
-    if (service.uuid != BATTERY_SERVICE_UUID)
+    if (service.uuid != BATTERY_SERVICE_UUID) {
       return;
+    }
 
     // Add the device of the service to the device map and update the UI.
     console.log('New Battery service added: ' + service.instanceId);
-    if (batteryDevicesMap.hasOwnProperty(service.deviceAddress))
+    if (batteryDevicesMap.hasOwnProperty(service.deviceAddress)) {
       return;
+    }
 
     // Looks like it's a brand new device. Get information about the device so
     // that we can display the device name in the drop-down menu.
@@ -347,8 +356,9 @@ function main() {
   // Track GATT services as they are removed.
   chrome.bluetoothLowEnergy.onServiceRemoved.addListener(function (service) {
     // Ignore, if the service is not a Battery service.
-    if (service.uuid != BATTERY_SERVICE_UUID)
+    if (service.uuid != BATTERY_SERVICE_UUID) {
       return;
+    }
 
     // See if this is the currently selected service. If so, unselect it.
     console.log('Battery service removed: ' + service.instanceId);
@@ -361,8 +371,9 @@ function main() {
 
     // Remove the associated device from the map only if it has no other Battery
     // services exposed (this will usually be the case)
-    if (!batteryDevicesMap.hasOwnProperty(service.deviceAddress))
+    if (!batteryDevicesMap.hasOwnProperty(service.deviceAddress)) {
       return;
+    }
 
     chrome.bluetooth.getDevice(service.deviceAddress, function (device) {
       if (chrome.runtime.lastError) {
@@ -388,14 +399,16 @@ function main() {
           }
         }
 
-        if (found)
+        if (found) {
           return;
+        }
 
         console.log('Removing device: ' + device.address);
         delete batteryDevicesMap[device.address];
         updateDeviceSelector();
-        if (selectedRemoved)
+        if (selectedRemoved) {
           deviceSelector.onchange();  // Forcefully select the next device.
+        }
       });
     });
   });
@@ -403,8 +416,9 @@ function main() {
   // Track GATT services as they change.
   chrome.bluetoothLowEnergy.onServiceChanged.addListener(function (service) {
     // This only matters if the selected service changed.
-    if (!batteryService || service.instanceId != batteryService.instanceId)
+    if (!batteryService || service.instanceId != batteryService.instanceId) {
       return;
+    }
 
     console.log('The selected service has changed');
 
