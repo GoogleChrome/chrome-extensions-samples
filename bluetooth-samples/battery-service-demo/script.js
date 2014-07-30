@@ -18,10 +18,7 @@ var batteryDevicesMap = {};
 function selectService(service) {
   // Hide or show the appropriate elements based on whether or not
   // |serviceId| is undefined.
-  document.getElementById('no-devices-error').hidden = !!service;
-  document.getElementById('device-info-fields').hidden = !service;
-
-  clearAllFields();
+  UI.getInstance().resetState(!service);
 
   batteryService = service;
 
@@ -51,7 +48,7 @@ function selectService(service) {
     }
 
     // Make sure that the same service is still selected.
-    if (service.instanceId != batteryService.instanceId) {
+    if (batteryService && service.instanceId != batteryService.instanceId) {
       return;
     }
 
@@ -111,36 +108,13 @@ function selectService(service) {
 }
 
 /**
- * Updates the battery level UI based on the given value.
- */
-function updateBatteryLevelUI(level, unknown) {
-  // Set the text content
-  setFieldValue('battery-level', unknown ? '-' : level + ' %');
-
-  // Update the battery level image.
-  var batteryLevelBox = document.getElementById('battery-level-box');
-
-  var levelClass;
-  if (level > 65) {
-    levelClass = 'high';
-  } else if (level > 30) {
-    levelClass = 'medium';
-  } else {
-    levelClass = 'low';
-  }
-
-  batteryLevelBox.className = 'level ' + levelClass;
-  batteryLevelBox.style.width = level + '%';
-}
-
-/**
  * Updates the Battery Level field based on the value of the currently selected
  * Battery Level characteristic.
  */
 function updateBatteryLevelValue() {
   if (!batteryLevelCharacteristic) {
     console.log('No Battery Level Characteristic selected');
-    updateBatteryLevelUI(0, true);
+    UI.getInstance().setBatteryLevel(null);
     return;
   }
 
@@ -160,55 +134,7 @@ function updateBatteryLevelValue() {
   }
 
   var batteryLevel = valueBytes[0];
-  updateBatteryLevelUI(batteryLevel, false);
-}
-
-/**
- * Helper functions to set the values of Battery Service UI fields.
- */
-function setFieldValue(id, value) {
-  var finalValue = (value === undefined) ? '-' : value;
-  console.log('Setting field with ID "' + id + '" to value: "' + value + '"');
-
-  var div = document.getElementById(id);
-  div.innerHTML = '';
-  div.appendChild(document.createTextNode(finalValue));
-}
-
-function clearAllFields() {
-  setFieldValue('battery-level', undefined);
-}
-
-/**
- * Updates the dropdown menu based on the contents of |batteryDevicesMap|.
- */
-function updateDeviceSelector() {
-  var deviceSelector = document.getElementById('device-selector');
-  var placeHolder = document.getElementById('placeholder');
-  var addresses = Object.keys(batteryDevicesMap);
-
-  deviceSelector.innerHTML = '';
-  placeHolder.innerHTML = '';
-  deviceSelector.appendChild(placeHolder);
-
-  // Clear the drop-down menu.
-  if (addresses.length == 0) {
-    console.log('No devices found with "Battery Service"');
-    placeHolder.appendChild(document.createTextNode('No connected devices'));
-    return;
-  }
-
-  // Hide the placeholder and populate
-  placeHolder.appendChild(document.createTextNode('Connected devices found'));
-
-  for (var i = 0; i < addresses.length; i++) {
-    var address = addresses[i];
-    var deviceOption = document.createElement('option');
-    deviceOption.setAttribute('value', address);
-    deviceOption.appendChild(document.createTextNode(
-        batteryDevicesMap[address]));
-    deviceSelector.appendChild(deviceOption);
-  }
+  UI.getInstance().setBatteryLevel(batteryLevel);
 }
 
 /**
@@ -222,24 +148,7 @@ function main() {
   // Request information about the local Bluetooth adapter to be displayed in
   // the UI.
   var updateAdapterState = function (adapterState) {
-    var addressField = document.getElementById('adapter-address');
-    var nameField = document.getElementById('adapter-name');
-
-    var setAdapterField = function (field, value) {
-      field.innerHTML = '';
-      field.appendChild(document.createTextNode(value));
-    };
-
-    if (!adapterState) {
-      setAdapterField(nameField, 'No adapter');
-      setAdapterField(addressField, 'unknown');
-      return;
-    }
-
-    setAdapterField(addressField,
-                    adapterState.address ? adapterState.address : 'unknown');
-    setAdapterField(nameField,
-                    adapterState.name ? adapterState.name : 'Local Adapter');
+      UI.getInstance().setAdapterState(adapterState.address, adapterState.name);
   };
 
   chrome.bluetooth.getAdapterState(function (adapterState) {
@@ -289,17 +198,14 @@ function main() {
           batteryDevicesMap[device.address] =
               (device.name ? device.name : device.address);
 
-          updateDeviceSelector();
+          UI.getInstance().updateDeviceSelector(batteryDevicesMap);
         });
       });
     }
   });
 
   // Set up the device selector.
-  var deviceSelector = document.getElementById('device-selector');
-  deviceSelector.onchange = function () {
-    var selectedValue = deviceSelector[deviceSelector.selectedIndex].value;
-
+  UI.getInstance().setDeviceSelectionHandler(function(selectedValue) {
     // If |selectedValue| is empty, unselect everything.
     if (!selectedValue) {
       selectService(undefined);
@@ -316,15 +222,16 @@ function main() {
       }
 
       var foundService = undefined;
-      services.forEach(function (service) {
-        if (service.uuid == BATTERY_SERVICE_UUID) {
-          foundService = service;
+      for (var i = 0; i < services.length; i++) {
+        if (services[i].uuid == BATTERY_SERVICE_UUID) {
+          foundService = services[i];
+          break;
         }
-      });
+      }
 
       selectService(foundService);
     });
-  };
+  });
 
   // Track GATT services as they are added.
   chrome.bluetoothLowEnergy.onServiceAdded.addListener(function (service) {
@@ -349,7 +256,7 @@ function main() {
 
       batteryDevicesMap[device.address] =
           (device.name ? device.name : device.address);
-      updateDeviceSelector();
+      UI.getInstance().updateDeviceSelector(batteryDevicesMap);
     });
   });
 
@@ -387,7 +294,8 @@ function main() {
           // Error obtaining services. Remove the device from the map.
           console.log(chrome.runtime.lastError.message);
           delete batteryDevicesMap[device.address];
-          updateDeviceSelector();
+          UI.getInstance().updateDeviceSelector(batteryDevicesMap,
+                                                true /* reset */);
           return;
         }
 
@@ -405,9 +313,10 @@ function main() {
 
         console.log('Removing device: ' + device.address);
         delete batteryDevicesMap[device.address];
-        updateDeviceSelector();
+        UI.getInstance().updateDeviceSelector(batteryDevicesMap);
+
         if (selectedRemoved) {
-          deviceSelector.onchange();  // Forcefully select the next device.
+          UI.getInstance().triggerDeviceSelection();
         }
       });
     });
