@@ -23,10 +23,7 @@ var deviceInfoDevicesMap = {};
 function selectService(service) {
   // Hide or show the appropriate elements based on whether or not
   // |serviceId| is undefined.
-  document.getElementById('no-devices-error').hidden = !!service;
-  document.getElementById('device-info-fields').hidden = !service;
-
-  clearAllFields();
+  UI.getInstance().resetState(!service);
 
   deviceInfoService = service;
   characteristicMap = {};
@@ -57,7 +54,7 @@ function selectService(service) {
 
     chrcs.forEach(function (chrc) {
       var fieldId;
-      var valueDisplayFunction = updateStringValue;
+      var valueDisplayFunction = UI.getInstance().setStringValue;
 
       if (chrc.uuid == MANUFACTURER_NAME_STRING_CHRC_UUID) {
         console.log('Setting Manufacturer Name String Characteristic: ' +
@@ -82,7 +79,7 @@ function selectService(service) {
       } else if (chrc.uuid == PNP_ID_CHRC_UUID) {
         console.log('Setting PnP ID Characteristic: ' + chrc.instanceId);
         fieldId = 'pnp-id';
-        valueDisplayFunction = updatePnpIdValue;
+        valueDisplayFunction = UI.getInstance().setPnpIdValue;
       }
 
       if (fieldId === undefined) {
@@ -107,115 +104,10 @@ function selectService(service) {
           return;
 
         characteristicMap[fieldId] = readChrc;
-        valueDisplayFunction(fieldId, readChrc);
+        valueDisplayFunction(fieldId, readChrc.value);
       });
     });
   });
-}
-
-/**
- * Updates the field with identifier |id| with the current value of the
- * characteristic |characteristic| interpreted as a UTF-8 string.
- */
-function updateStringValue(id, characteristic) {
-  // Since this function is called after a read request, the value should be
-  // present if the read was successful but it may be undefined if the read
-  // failed, so check here.
-  if (!characteristic.value) {
-    console.log('No value has been read for characteristic: ' +
-                characteristic.instanceId);
-    return;
-  }
-
-  var valueString = String.fromCharCode.apply(
-      null, new Uint8Array(characteristic.value));
-
-  setFieldValue(id, valueString);
-}
-
-/**
- * Processes the value of the PnP ID characteristic and updates the UI.
- */
-function updatePnpIdValue(id, characteristic) {
-  // Since this function is called after a read request, the value should be
-  // present if the read was successful but it may be undefined if the read
-  // failed, so check here.
-  if (!characteristic.value) {
-    console.log('No value has been read for characteristic: ' +
-                characteristic.instanceId);
-    return;
-  }
-
-  var valueBytes = new Uint8Array(characteristic.value);
-  if (valueBytes.length != 7) {
-    console.log('Expected 7 bytes for the PnP ID value');
-    return;
-  }
-
-  var vendorIdSource = valueBytes[0];
-  var vendorId = valueBytes[1] | valueBytes[2] << 8;
-  var productId = valueBytes[3] | valueBytes[4] << 8;
-  var productVersion = valueBytes[5] | valueBytes[6] << 8;
-
-  setFieldValue('vendor-id-source', vendorIdSource);
-  setFieldValue('vendor-id', vendorId);
-  setFieldValue('product-id', productId);
-  setFieldValue('product-version', productVersion);
-}
-
-/**
- * Helper functions to set the values of Device Information UI fields.
- */
-function setFieldValue(id, value) {
-  var finalValue = (value === undefined) ? '-' : value;
-  var div = document.getElementById(id);
-  div.innerHTML = '';
-  div.appendChild(document.createTextNode(finalValue));
-}
-
-function clearAllFields() {
-  console.log('Clear all fields');
-  setFieldValue('manufacturer-name-string', undefined);
-  setFieldValue('serial-number-string', undefined);
-  setFieldValue('hardware-revision-string', undefined);
-  setFieldValue('firmware-revision-string', undefined);
-  setFieldValue('software-revision-string', undefined);
-  setFieldValue('vendor-id-source', undefined);
-  setFieldValue('vendor-id', undefined);
-  setFieldValue('product-id', undefined);
-  setFieldValue('product-version', undefined);
-}
-
-/**
- * Updates the dropdown menu based on the contents of |deviceInfoDevicesMap|.
- */
-function updateDeviceSelector() {
-  var deviceSelector = document.getElementById('device-selector');
-  var placeHolder = document.getElementById('placeholder');
-  var addresses = Object.keys(deviceInfoDevicesMap);
-
-  deviceSelector.innerHTML = '';
-  placeHolder.innerHTML = '';
-  deviceSelector.appendChild(placeHolder);
-
-  // Clear the drop-down menu.
-  if (addresses.length == 0) {
-    console.log('No devices found with "Device Information Service"');
-    placeHolder.appendChild(document.createTextNode('No connected devices'));
-    return;
-  }
-
-  // Hide the placeholder and populate
-  placeHolder.appendChild(document.createTextNode('Connected devices found'));
-
-  for (var i = 0; i < addresses.length; i++) {
-    var address = addresses[i];
-    var deviceOption = document.createElement('option');
-    deviceOption.setAttribute('value', address);
-    deviceOption.appendChild(document.createTextNode(
-        deviceInfoDevicesMap[address]));
-    deviceSelector.appendChild(deviceOption);
-  }
 }
 
 /**
@@ -228,25 +120,8 @@ function main() {
 
   // Request information about the local Bluetooth adapter to be displayed in
   // the UI.
-  var updateAdapterState = function (adapterState) {
-    var addressField = document.getElementById('adapter-address');
-    var nameField = document.getElementById('adapter-name');
-
-    var setAdapterField = function (field, value) {
-      field.innerHTML = '';
-      field.appendChild(document.createTextNode(value));
-    };
-
-    if (!adapterState) {
-      setAdapterField(nameField, 'No adapter');
-      setAdapterField(addressField, 'unknown');
-      return;
-    }
-
-    setAdapterField(addressField,
-                    adapterState.address ? adapterState.address : 'unknown');
-    setAdapterField(nameField,
-                    adapterState.name ? adapterState.name : 'Local Adapter');
+  var updateAdapterState = function(adapterState) {
+    UI.getInstance().setAdapterState(adapterState.address, adapterState.name);
   };
 
   chrome.bluetooth.getAdapterState(function (adapterState) {
@@ -257,6 +132,20 @@ function main() {
   });
 
   chrome.bluetooth.onAdapterStateChanged.addListener(updateAdapterState);
+
+  var storeDevice = function(deviceAddress, device) {
+    var resetUI = false;
+    if (device == null) {
+      delete deviceInfoDevicesMap[deviceAddress];
+      resetUI = true;
+    } else {
+      deviceInfoDevicesMap[deviceAddress] =
+          (device.name ? device.name : device.address);
+    }
+
+    // Update the selector UI with the new device list.
+    UI.getInstance().updateDeviceSelector(deviceInfoDevicesMap, resetUI);
+  };
 
   // Initialize |deviceInfoDevicesMap|.
   chrome.bluetooth.getDevices(function (devices) {
@@ -290,10 +179,7 @@ function main() {
 
           console.log('Found device with Device Information service: ' +
                       device.address);
-          deviceInfoDevicesMap[device.address] =
-              (device.name ? device.name : device.address);
-
-          updateDeviceSelector();
+          storeDevice(device.address, device);
         });
       });
     }
@@ -348,9 +234,7 @@ function main() {
         return;
       }
 
-      deviceInfoDevicesMap[device.address] =
-          (device.name ? device.name : device.address);
-      updateDeviceSelector();
+      storeDevice(device.address, device);
     });
   });
 
@@ -385,8 +269,7 @@ function main() {
         if (chrome.runtime.lastError) {
           // Error obtaining services. Remove the device from the map.
           console.log(chrome.runtime.lastError.message);
-          delete deviceInfoDevicesMap[device.address];
-          updateDeviceSelector();
+          storeDevice(device.address, null);
           return;
         }
 
@@ -402,10 +285,7 @@ function main() {
           return;
 
         console.log('Removing device: ' + device.address);
-        delete deviceInfoDevicesMap[device.address];
-        updateDeviceSelector();
-        if (selectedRemoved)
-          deviceSelector.onchange();  // Forcefully select the next device.
+        storeDevice(device.address, null);
       });
     });
   });
