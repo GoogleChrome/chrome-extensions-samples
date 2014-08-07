@@ -1,6 +1,6 @@
 {
   "name": "Push Guestbook Sample",
-  "version": "1.24",
+  "version": "1.25",
   "manifest_version": 2,
 
   "description": "Displays the last post to an anonymous guestbook using push messaging",

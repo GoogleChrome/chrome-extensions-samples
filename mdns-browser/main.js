@@ -10,9 +10,18 @@ var ServiceFinder = function(callback) {
   this.callback_ = callback;
   this.byIP_ = {};
   this.byService_ = {};
-  this.sockets_ = [];
 
-  ServiceFinder.forEachAddress_(function(address) {
+  // Set up receive handlers.
+  this.onReceiveListener_ = this.onReceive_.bind(this);
+  chrome.sockets.udp.onReceive.addListener(this.onReceiveListener_);
+  this.onReceiveErrorListener_ = this.onReceiveError_.bind(this);
+  chrome.sockets.udp.onReceiveError.addListener(this.onReceiveErrorListener_);
+
+  ServiceFinder.forEachAddress_(function(address, error) {
+    if (error) {
+      this.callback_(error);
+      return true;
+    }
     if (address.indexOf(':') != -1) {
       // TODO: ipv6.
       console.log('IPv6 address unsupported', address);
@@ -21,15 +30,11 @@ var ServiceFinder = function(callback) {
     console.log('Broadcasting to address', address);
 
     ServiceFinder.bindToAddress_(address, function(socket) {
-      if (chrome.runtime.lastError) {
-        this.callback_('could not bind UDP socket: ' +
-            chrome.runtime.lastError.message);
+      if (!socket) {
+        this.callback_('could not bind UDP socket');
         return true;
       }
-
-      // Store the socket, set up a recieve handler, and broadcast on it.
-      this.sockets_.push(socket);
-      this.setupSocket_(socket);
+      // Broadcast on it.
       this.broadcast_(socket, address);
     }.bind(this));
   }.bind(this));
@@ -42,25 +47,19 @@ var ServiceFinder = function(callback) {
   }.bind(this), 10 * 1000);
 };
 
-ServiceFinder.api = chrome.sockets.udp;
-
 /**
  * Invokes the callback for every local network address on the system.
  * @private
  * @param {function} callback to invoke
  */
 ServiceFinder.forEachAddress_ = function(callback) {
-  var api = chrome.system.network;
-
-  if (!api.getNetworkInterfaces) {
-    // Short-circuit for Chrome built before r155662.
-    callback('0.0.0.0', '*');
-    return true;
-  }
-
-  api.getNetworkInterfaces(function (adapterInfo) {
-    adapterInfo.forEach(function(info) {
-      callback(info['address'], info['name']);
+  chrome.system.network.getNetworkInterfaces(function(networkInterfaces) {
+    if (!networkInterfaces.length) {
+      callback(null, 'no network available!');
+      return true;
+    }
+    networkInterfaces.forEach(function(networkInterface) {
+      callback(networkInterface['address'], null);
     });
   });
 };
@@ -73,11 +72,10 @@ ServiceFinder.forEachAddress_ = function(callback) {
  * @param {function} callback to invoke when done
  */
 ServiceFinder.bindToAddress_ = function(address, callback) {
-  var api = ServiceFinder.api;
-
-  api.create({}, function(createInfo) {
-    api.bind(createInfo['socketId'], address, 0, function(result) {
-      callback(createInfo['socketId']);
+  chrome.sockets.udp.create({}, function(createInfo) {
+    chrome.sockets.udp.bind(createInfo['socketId'], address, 0,
+        function(result) {
+      callback((result >= 0) ? createInfo['socketId'] : null);
     });
   });
 };
@@ -126,11 +124,7 @@ ServiceFinder.prototype.ips = function(opt_service) {
  * Handles an incoming UDP packet.
  * @private
  */
-ServiceFinder.prototype.setupSocket_ = function (sock, info) {
-  ServiceFinder.api.onReceive.addListener(this.onReceive_.bind(this));
-  ServiceFinder.api.onReceiveError.addListener(this.onReceiveError_.bind(this));
-}
-
+ServiceFinder.prototype.onReceive_ = function(info) {
 /**
  * Handles an incoming UDP packet.
  * @private
@@ -164,12 +158,13 @@ ServiceFinder.prototype.onReceive_ = function (info) {
 };
 
 /**
- * Handles error on UDP socket.
+ * Handles network error occured while waiting for data.
  * @private
  */
-ServiceFinder.prototype.onReceiveError_ = function (info) {
-  this.callback_("Socket receive error: " + info.resultCode);
-};
+ServiceFinder.prototype.onReceiveError_ = function(info) {
+  this.callback_(info.resultCode);
+  return true;
+}
 
 /**
  * Broadcasts for services on the given socket/address.
@@ -180,33 +175,30 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
   packet.push('qd', new DNSRecord('_services._dns-sd._udp.local', 12, 1));
 
   var raw = packet.serialize();
-  ServiceFinder.api.send(sock, raw, '224.0.0.251', 5353, function(writeInfo) {
-    if (writeInfo.bytesSent != raw.byteLength) {
-      this.callback_('could not write DNS packet on: ' + address);
-    }
+  chrome.sockets.udp.send(sock, raw, '224.0.0.251', 5353, function(sendInfo) {
+    if (sendInfo.resultCode < 0)
+      this.callback_('Could not send data to:' + address);
   }.bind(this));
 };
 
 ServiceFinder.prototype.shutdown = function() {
-  this.sockets_.forEach(function(sock) {
-    ServiceFinder.api.close(sock);
+  // Remove event listeners.
+  chrome.sockets.udp.onReceive.removeListener(this.onReceiveListener_);
+  chrome.sockets.udp.onReceiveError.removeListener(this.onReceiveErrorListener_);
+  // Close opened sockets.
+  chrome.sockets.udp.getSockets(function(sockets) {
+    sockets.forEach(function(sock) {
+      chrome.sockets.udp.close(sock.socketId);
+    });
   });
 }
 
 window.addEventListener('load', function() {
   var results = document.getElementById('results');
-  var serviceDb = {
-    '_workstation._tcp': 'Workgroup Manager',
-    '_ssh._tcp': 'SSH',
-    '_daap._tcp': 'iTunes',
-    '_airplay': 'AirPlay',
-    '_afpovertcp': 'AFP (Apple Filing Protocol)',
-    '_raop': 'AirTunes',
-  };
 
   var getHtml_ = function(category, key) {
-    if (category == finder.services && key in serviceDb) {
-      return key + ' <em>' + serviceDb[key] + '</em>';
+    if (category == finder.services && key in serviceTypes) {
+      return key + ' <em>' + serviceTypes[key] + '</em>';
     }
     return key;
   };

@@ -9,12 +9,9 @@
       "scripts": ["background.js"]
     }
   },
-  "permissions": ["system.network"],
   "sockets": {
-    "udp": {
-      "bind": "*",
-      "send": "*"
-    }
+     "udp": { "bind": "*", "send": "*" }
   },
+  "permissions": [ "system.network" ],
   "icons": { "128": "img/icon-128.png", "16": "img/icon-16.png" }
 }

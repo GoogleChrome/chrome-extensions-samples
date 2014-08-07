@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "Local Resources Sample",
+  "minimum_chrome_version": "24.0.1307.0",
+  "version": "2.0",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "webview"
+  ],
+  "webview": {
+    "partitions": [
+      {
+        "name": "bad",
+        "accessible_resources": ["trusted.html"]
+      },
+      {
+        "name": "good_trusted",
+        "accessible_resources": ["trusted.html"]
+      }
+    ]
+  }
+}

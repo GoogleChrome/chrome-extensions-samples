@@ -1,0 +1,121 @@
+body {
+  font-family: Lucida Grande, Arial, sans-serif;
+}
+
+pre {
+  display: inline;
+}
+
+label,
+input,
+button,
+hr {
+  flex: none;
+}
+
+hr {
+  width:100%;
+}
+
+label,
+.submit {
+  font-weight: bold;
+  font-family: inherit;
+}
+
+input,
+#console div {
+  font-family: "courier";
+}
+
+#console div {
+  text-indent: -15px;
+  margin-left: 15px;
+}
+
+#console {
+  overflow-y: auto;
+}
+
+.trim {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.padded {
+  padding: 10px;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.center {
+  align-items: center;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.flex {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.flex-wide {
+  flex-grow: 4;
+  flex-shrink: 1;
+}
+
+.flex-narrow {
+  flex-grow: 1;
+  flex-shrink: 4;
+  width: 300px;
+}
+
+.rel {
+  position: relative;
+}
+
+.abs {
+  position: absolute;
+}
+
+.abs-full {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.lightbox-overlay {
+  opacity: 0.5;
+  background: #000;
+}
+
+.lightbox {
+  padding: 20px;
+  margin: 20px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.hide {
+  visibility: hidden;
+}

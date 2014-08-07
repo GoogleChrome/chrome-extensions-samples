@@ -18,15 +18,7 @@ Editor = function(filesystem, container, filer) {
                  innerText:'New'}));
   this.container.appendChild(tools);
 
-  // Document object for CodeMirror.
-  this.cm_doc;
-
-  if (window.CodeMirror) {
-    this.cm_doc =
-        CodeMirror(appendEditor.bind(this), {lineNumbers: true, theme: 'neat'});
-  }
-  else
-    appendEditor.call(this, createElement('textarea'));
+  appendEditor.call(this, createElement('textarea'));
 
   function appendEditor(editor) {
     this.container.appendChild(editor);
@@ -208,14 +200,9 @@ Editor.prototype.setCurrentPath = function(path) {
 };
 
 Editor.prototype.getContent = function() {
-  if (window.CodeMirror)
-    return this.cm_doc.getValue();
   return $('#editor-content').value;
 }
 
 Editor.prototype.setContent = function(content) {
-  if (window.CodeMirror)
-    this.cm_doc.setValue(content);
-  else
-    $('#editor-content').value = content;
+  $('#editor-content').value = content;
 }

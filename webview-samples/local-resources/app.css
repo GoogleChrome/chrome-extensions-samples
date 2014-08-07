@@ -1,0 +1,40 @@
+webview,
+.flex-item {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.trim {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+.padded {
+  padding: 10px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}

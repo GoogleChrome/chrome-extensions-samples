@@ -303,7 +303,7 @@ Guestbook.prototype.tellServer = function(params, onerror) {
   var xhr = new XMLHttpRequest();
 
   this.log('Notifying the server');
-  xhr.open('POST', 'http://dewittj2.kir:8080/monitor');
+  xhr.open('POST', 'http://localhost:8080/monitor');
   xhr.onreadystatechange = this.cb('onXHR', [xhr, onerror]);
   xhr.send(JSON.stringify(params));
 };

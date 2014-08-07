@@ -1,10 +1,10 @@
 {
   "name": "Media Gallery Sample",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "manifest_version": 2,
   "description": "Used to test Media Gallery API",
   "permissions": [{
-      "mediaGalleries": ["read", "allAutoDetected"] 
+      "mediaGalleries": ["read", "scan", "allAutoDetected"]
   }],
   "icons": {
     "128": "mga-128color.png"

@@ -3,7 +3,7 @@
   "description": "A simple calculator.",
   "manifest_version": 2,
   "minimum_chrome_version": "23",
-  "version": "1.1.4",
+  "version": "1.2",
   "offline_enabled": true,
   "app": {
     "background": {

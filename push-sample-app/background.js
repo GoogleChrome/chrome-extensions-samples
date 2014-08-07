@@ -94,9 +94,6 @@ function channelIdCallback(message) {
 
 // When a Push Message arrives, show it as a text notification (toast)
 function showPushMessage(payload, subChannel) {
-  var notification = window.webkitNotifications.createNotification(
-      'icon.png', 'Push Message',
-      "Push message for you! " +
-      payload +" [" + subChannel + "]");
-  notification.show();
+  new Notification("Push Message", { icon: 'icon.png',
+      body: "Push message for you! " + payload +" [" + subChannel + "]"});
 }

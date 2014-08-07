@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="trim full">
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="popup.js"></script>
+    <script src="context_menu.js"></script>
+    <script src="tabs.js"></script>
+    <script src="browser.js"></script>
+    <script src="browser_main.js"></script>
+  </head>
+  <body class="trim full">
+    <div id="controls">
+
+      <div id="tab-controls">
+        <ul id="tab-container">
+          <li id="new-tab"><a href="#new-tab">+</a></li>
+        </ul>
+      </div>
+
+      <div id="browser-controls">
+        <button id="back" title="Go Back">&#9664;</button>
+        <button id="forward" title="Go Forward">&#9654;</button>
+        <button id="home" title="Go Home">&#8962;</button>
+        <button id="reload" title="Reload">&#10227;</button>
+
+        <form id="location-form">
+          <div id="center-column">
+            <input id="location" type="text" value="">
+          </div>
+          <input type="submit" value="Go">
+        </form>
+      </div>
+
+    </div>
+
+    <div id="content-container">
+    </div>
+
+    <div id="lightbox-overlay" class="full trim abs abs-full lightbox-overlay hide">
+    </div>
+
+    <div id="lightbox" class="full trim abs abs-full flex-container column center hide">
+      <div class="flex flex-container row center">
+        <div class="flex flex-container column center lightbox">
+          <h1 class="flex center-text">Chrome Feature Not Supported</h1>
+          <div class="flex center-text">
+            The feature highlighted by this sample app is not supported in
+            your version of Chrome. Make sure your browser is up to date. If
+            you still see this message after updating your browser, try
+            installing
+            a <a href="http://www.chromium.org/getting-involved/dev-channel"
+            target="_blank">dev channel</a> build of Chrome.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="trim full">
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="css.js"></script>
+    <script src="css_main.js"></script>
+  </head>
+  <body class="trim full">
+
+    <div class="flex-container row">
+
+      <div class="trim flex-wide rel">
+	<webview id="content-webview" class="trim full"></webview>
+      </div>
+
+      <form id="css-form" class="padded flex-narrow flex-container column rel">
+  	<input class="submit" type="submit" value="Save & Apply">
+  	<label for="location-regex">Location regular expression</label>
+	<input id="location-regex" type="text" disabled>
+  	<label for="css-contents">CSS contents</label>
+	<textarea id="css-contents" disabled></textarea>
+      </form>
+
+    </div>
+
+  </body>
+</html>

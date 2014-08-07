@@ -68,11 +68,23 @@ function View(calcModel) {
   this.BuildWidgets();
   var calc = this;
 
-  $('.calc-button').click(function() {
-    var clicked = values[$(this).attr('class').split(' ')[1]];
-    var result = calcModel.HandleButtonClick(clicked);
-    calc.buttonClicked(clicked, result);
-  });
+  Array.prototype.forEach.call(document.querySelectorAll('.calc-button'),
+    function(button) {
+      var handler = function(e) {
+        e.preventDefault();
+        var clicked = values[e.target.classList[1]];
+        var result = calcModel.HandleButtonClick(clicked);
+        calc.buttonClicked(clicked, result);
+      };
+      button.addEventListener('touchstart', handler);
+      button.addEventListener('click', handler);
+      button.addEventListener('touchstart', function(e) {
+        e.target.classList.add('active');
+      });
+      button.addEventListener('touchend', function(e) {
+        e.target.classList.remove('active');
+      });
+    });
 
   window.addEventListener("copy", function(e) {
     var result = calcModel.accumulator;
@@ -156,7 +168,7 @@ View.prototype.buttonClicked = function(clicked, result) {
 }
 
 View.prototype.BuildWidgets = function() {
-  this.AddButtons(this.calcElement);
+  // this.AddButtons(this.calcElement);
   this.AddDisplayEquation('', 0, '');
 }
 
@@ -180,46 +192,4 @@ View.prototype.UpdateDisplayEquation = function(operator, operand, accumulator) 
   $(this.lastDisplayElement).children('.operand').text(operand);
   $(this.lastDisplayElement).children('.accumulator').text(accumulator);
   this.displayElement.scrollTop(this.displayElement[0].scrollHeight);
-}
-
-View.prototype.AddButtons = function() {
-  var row;
-
-  row = this.AddRow();
-  this.AddButton(row, 'AC', 'AC');
-  this.AddButton(row, 'plus-minus', 'plus-minus');
-  this.AddButton(row, 'div', 'div');
-  this.AddButton(row, 'mult', 'mult');
-
-  row = this.AddRow();
-  this.AddButton(row, 7, 'seven');
-  this.AddButton(row, 8, 'eight');
-  this.AddButton(row, 9, 'nine');
-  this.AddButton(row, 'minus', 'minus');
-
-  row = this.AddRow();
-  this.AddButton(row, 4, 'four');
-  this.AddButton(row, 5, 'five');
-  this.AddButton(row, 6, 'six');
-  this.AddButton(row, 'plus', 'plus');
-
-  row = this.AddRow();
-  this.AddButton(row, 1, 'one');
-  this.AddButton(row, 2, 'two');
-  this.AddButton(row, 3, 'three');
-  this.AddButton(row, 'equals', 'equals');
-
-  row = this.AddRow();
-  this.AddButton(row, 0, 'zero');
-  this.AddButton(row, 'point', 'point');
-}
-
-View.prototype.AddRow = function() {
-  var row = $('<div/>');
-  this.buttonsElement.append(row);
-  return row;
-}
-
-View.prototype.AddButton = function(row, value, button_value) {
-  row.append('<div class="calc-button ' + button_value + '">' + '</div>');
 }

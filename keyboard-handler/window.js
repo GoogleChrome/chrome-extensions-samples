@@ -104,8 +104,8 @@ function MonitorFocus()
   logEvent("focus");
 }
 
-document.onkeydown = MonitorKeyDown;
-document.onkeyup = MonitorKeyUp;
-document.onkeypress = MonitorKeyPress;
+document.addEventListener('keydown', MonitorKeyDown, false)
+document.addEventListener('keyup', MonitorKeyUp, false)
+document.addEventListener('keypress', MonitorKeyPress, false)
 document.body.onblur = MonitorBlur;
 document.body.onfocus = MonitorFocus;

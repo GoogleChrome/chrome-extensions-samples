@@ -1,0 +1,16 @@
+{
+  "name": "Espruino Test",
+  "version": "1",
+  "manifest_version": 2,
+  "permissions": ["serial"],
+  "minimum_chrome_version": "23",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["launch.js"]
+    }
+  }
+}

@@ -6,9 +6,6 @@ Alarm = function(id, name, hour, minute, on) {
 	this.on = on;
 	this.displayed = false;
 
-	this.notification = webkitNotifications.createNotification(
-			'img/alarm.png', name, '');
-
 	this.alarm_time = new Date();
 	this.alarm_time.setHours(hour);
 	this.alarm_time.setMinutes(minute);
@@ -74,8 +71,11 @@ Alarm.prototype.tick = function() {
  	this.displayTime(this.hour, this.minute, false);
  	var now = new Date();
  	if (this.on && now.getHours() == this.hour && now.getMinutes() == this.minute && !this.displayed) {
+ 		new Notification(name, {
+ 			icon: 'img/alarm.png'	
+ 		});
+ 		
  		this.displayed = true;
- 		this.notification.show();
  	} else {
  		this.displayed = false;
  	}

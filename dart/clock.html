@@ -22,7 +22,13 @@
       <p id="notes"> </p>
     </footer>
 
-    <script src="build/clock.dart.js"></script>
-    <script src="js/dart.js"></script>
+    <script type="application/dart" src="dart/clock.dart"></script>
+
+    <!-- dart.js detects whether the app is opened in Dartium or Chrome and
+         rewites the .dart includes appropriately. Use a derivative of the copy
+         in packages/browser/dart.js, as that does not yet handle the CSP
+         compliant "precompiled" version. It must come after any dart scripts.
+         -->
+    <script src="js/browser_dart_csp_safe.js"></script>
   </body>
 </html>
