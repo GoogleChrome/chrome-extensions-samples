@@ -83,6 +83,7 @@ DRONE.API = (function() {
         if(connectionsOutstanding === 0 && callbacks.onAllConnected) {
 
           // start sending commands
+          startReceivingData();
           sendKeepAliveCommand();
           sendFlatTrim();
           sendSensitivity();
@@ -118,7 +119,7 @@ DRONE.API = (function() {
 
   function bootstrapClientIp() {
     // double check the Client IP (sometimes the Drone assignes 192.168.1.3)
-    chrome.socket.getNetworkList(function(entries) {
+    chrome.system.network.getInterfaceList(function(entries) {
       if (entries) for (var i=0; i<entries.length; i++) {
         if (entries[i] && entries[i].address 
           && entries[i].address.indexOf("192.168.1.")==0) {
@@ -160,9 +161,9 @@ DRONE.API = (function() {
    * Closes and discards all the socket connections
    */
   function shutdown() {
-    disconnect(sockets['at'].socket);
-    disconnect(sockets['nav'].socket);
-    disconnect(sockets['cmd'].socket);
+    disconnect(sockets['at']);
+    disconnect(sockets['nav']);
+    disconnect(sockets['cmd']);
     // TODO: disconnect(sockets['vid'].socket);
   }
 
@@ -179,13 +180,38 @@ DRONE.API = (function() {
     if (SIMULATE) {
       callbacks.onConnected(1);
     } else {
-      chrome.socket.create(sockRef.protocol, undefined, function(sockInfo) {
-        sockRef.socket = sockInfo.socketId;
-        chrome.socket[sockRef.type](sockRef.socket,
-          sockRef.direction===TO_DRONE?DRONE_IP:CLIENT_IP,
-          sockRef.port,
-          callbacks.onConnected);
+      //chrome.socket.create(sockRef.protocol, undefined, function (sockInfo) {
+      //  sockRef.socket = sockInfo.socketId;
+      //  chrome.socket[sockRef.type](sockRef.socket,
+      //    sockRef.direction === TO_DRONE ? DRONE_IP : CLIENT_IP,
+      //    sockRef.port,
+      //    callbacks.onConnected);
+      //});
+      if (sockRef.protocol == "udp") {
+        chrome.sockets.udp.create({}, function (sockInfo) {
+          sockRef.socket = sockInfo.socketId;
+          if (sockRef.type == "bind") {
+            chrome.sockets.udp.bind(sockRef.socket,
+              sockRef.direction === TO_DRONE ? DRONE_IP : CLIENT_IP,
+              sockRef.port,
+              callbacks.onConnected);
+          } else {
+            callbacks.onConnected(0);
+          }
         });
+      } else {
+        chrome.sockets.tcp.create({}, function (sockInfo) {
+          sockRef.socket = sockInfo.socketId;
+          if (sockRef.type == "connect") {
+            chrome.sockets.tcp.connect(sockRef.socket,
+              sockRef.direction === TO_DRONE ? DRONE_IP : CLIENT_IP,
+              sockRef.port,
+              callbacks.onConnected);
+          } else {
+            callbacks.onConnected(0);
+          }
+        });
+      }
     }
   }
 
@@ -194,8 +220,13 @@ DRONE.API = (function() {
    */
   function disconnect(sockRef) {
     if (!SIMULATE) {
-      chrome.socket.disconnect(sockRef);
-      chrome.socket.destroy(sockRef);
+      if (socketRef.protocol == "udp") {
+        chrome.sockets.udp.close(sockRef.socket);
+      } else {
+        chrome.sockets.tcp.disconnect(sockRef.socket);
+        chrome.sockets.tcp.close(sockRef.socket);
+      }
+      sockRef.socket = null;
     }
   }
 
@@ -217,7 +248,7 @@ DRONE.API = (function() {
 
     // send all the commands
     if (!SIMULATE) {
-      chrome.socket.sendTo(
+      chrome.sockets.udp.send(
         atSock.socket,
         commandBuffer,
         DRONE_IP,
@@ -257,6 +288,37 @@ DRONE.API = (function() {
     sendCommands([new DRONE.Command('CONFIG', ['"control:outdoor"', '"'+(outdoor?'TRUE':'FALSE')+'"'])]);
   }
 
+  function onReceiveData(info) {
+    if (info.data.byteLength > 0) {
+      DRONE.NavData.parse(data.data);
+    }
+  }
+
+  function onReceiveDataError(info) {
+    // shutdown();
+  }
+
+  function createListener(socketId, callback) {
+    var boundCallback = callback.bind(this);
+    return function (info) {
+      if (socketId !== info.socketId)
+        return;
+      boudCallback(info);
+    };
+  }
+
+  /**
+   * Sends a keepalive command and attempts to read
+   * back the latest data from the drone
+   */
+  function startReceivingData() {
+    var navSock = sockets['nav'];
+    if (!SIMULATE) {
+      chrome.sockets.udp.onReceive.addListener(createListener(navSock.socketId, onReceiveData));
+      chrome.sockets.udp.onReceiveError.addListener(createListener(navSock.socketId, onReceiveDataError));
+    }
+  }
+
   /**
    * Sends a keepalive command and attempts to read
    * back the latest data from the drone
@@ -264,30 +326,16 @@ DRONE.API = (function() {
   function sendKeepAliveCommand() {
     var navSock = sockets['nav'];
     if (!SIMULATE) {
-      chrome.socket.sendTo(
+      chrome.sockets.udp.send(
         navSock.socket,
         (new Uint8Array([1])).buffer,
         DRONE_IP,
         navSock.port,
         noop);
-
-      chrome.socket.read(
-        navSock.socket,
-        function(data) {
-
-          // if we have data parse it
-          // otherwise shutdown and call it a day
-          if(data.data.byteLength > 0) {
-            DRONE.NavData.parse(data.data);
-          } else {
-        //    shutdown();
-          }
-        });
     }
 
     // ensure we call this again
     // restore later: setTimeout(sendKeepAliveCommand, 200);
-
   }
 
   var takeoffLandStart;

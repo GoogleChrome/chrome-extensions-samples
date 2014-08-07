@@ -3,8 +3,10 @@
 
 # Parrot AR.Drone 2.0 Controller
 
-This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/) and the [chrome.socket API](http://developer.chrome.com/apps/socket.html) to communicate with
-a [Parrot AR.Drone 2.0](http://ardrone2.parrot.com/).
+This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/),
+the [chrome.sockets.udp API](http://developer.chrome.com/apps/sockets.udp.html) and
+the [chrome.sockets.tcp API](http://developer.chrome.com/apps/sockets.tcp.html) to 
+communicate with a [Parrot AR.Drone 2.0](http://ardrone2.parrot.com/).
 
 The SDK specifies that there are 4 socket connections:
 
@@ -32,10 +34,11 @@ _Please note: this has only been tested with an Xbox 360 controller_
 
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
-* [Socket](http://developer.chrome.com/apps/socket.html)
+* [UDP Socket](http://developer.chrome.com/apps/socket.udp.html)
+* [TCP Socket](http://developer.chrome.com/apps/socket.tcp.html)
 
 _Thanks to felixge for the [Node AR Drone lib](https://github.com/felixge/node-ar-drone), which served as a helpful reference._
-     
+
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/parrot-ar-drone/assets/screenshot_1280_800.png)
 

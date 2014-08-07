@@ -3,6 +3,7 @@
   "version": "3",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
+  "minimum_chrome_version": "33.0.1715.0",
   "icons": {
     "16": "icon-16.png",
     "128": "icon-128.png"
@@ -13,5 +14,13 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": [{"socket":["tcp-connect", "tcp-listen"]}]
+  "permissions": ["system.network"],
+  "sockets": {
+    "tcp":{ 
+      "connect": ""
+    },
+    "tcpServer": {
+      "listen": ""
+    }
+  }
 }

@@ -3,16 +3,16 @@
   "name": "Sample of UDP Network Access",
   "description": "Echo..... Echo.",
   "version": "2",
-  "minimum_chrome_version": "23",
+  "minimum_chrome_version": "33.0.1715.0",
   "app": {
     "background": {
       "scripts": ["main.js"]
     }
   },
-  "permissions": [
-    "experimental",
-    {"socket": [
-      "udp-send-to"
-    ]}
-  ]
+  "sockets": {
+    "udp": {
+      "bind": "",
+      "send": ""
+    }
+  }
 }

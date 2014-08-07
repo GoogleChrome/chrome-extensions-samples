@@ -125,6 +125,11 @@ ServiceFinder.prototype.ips = function(opt_service) {
  * @private
  */
 ServiceFinder.prototype.onReceive_ = function(info) {
+/**
+ * Handles an incoming UDP packet.
+ * @private
+ */
+ServiceFinder.prototype.onReceive_ = function (info) {
   var getDefault_ = function(o, k, def) {
     (k in o) || false == (o[k] = def);
     return o[k];
@@ -173,7 +178,7 @@ ServiceFinder.prototype.broadcast_ = function(sock, address) {
   chrome.sockets.udp.send(sock, raw, '224.0.0.251', 5353, function(sendInfo) {
     if (sendInfo.resultCode < 0)
       this.callback_('Could not send data to:' + address);
-  });
+  }.bind(this));
 };
 
 ServiceFinder.prototype.shutdown = function() {

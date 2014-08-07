@@ -4,53 +4,49 @@
     var NoAddressException = "No Address";
     var NotConnectedException = "Not Connected";
 
-    var socket = chrome.socket || chrome.experimental.socket;
+    var socket = chrome.sockets.udp;
 
-    var baseClient = function(socketMode) {
+    var baseClient = function() {
       var address;
+      var port;
       var socketInfo;
       var connected = false;
       var callbacks = [];
       var self = this;
 
-      this.connect = function(inAddress, port, callback, responseHandler) {
+      this.connect = function(inAddress, inPort, callback, responseHandler) {
         if(!!inAddress == false) throw NoAddressException;
 
         address = inAddress;
-        port = port || this.defaultPort;
-        console.debug('creating socket', socketMode, address, port);
-        socket.create(socketMode, {}, function(_socketInfo) {
+        port = inPort || this.defaultPort;
+        console.debug('creating socket', address, port);
+        socket.create({}, function(_socketInfo) {
           socketInfo = _socketInfo;
-          socket.connect(socketInfo.socketId, address, port, function(connectResult) {
-            console.debug('connectResult', connectResult);
-            connected = (connectResult == 0);
+          socket.bind(socketInfo.socketId, "0.0.0.0", 0, function(bindResult) {
+            console.debug('bindResult', bindResult);
+            connected = (bindResult == 0);
             socket.ondata = function(result) {
               if (callbacks.length > 0) {
                 callbacks.shift()(result);           
               }
             };
-            self.poll();
+            socket.onReceive.addListener(this._onReceive);
             callback(connected);
           });
         });
       };
 
-      this.poll = function() {
-        if(!!address == false) throw NoAddressException; 
-        if(connected == false) throw NotConnectedException;
-        socket.read(socketInfo.socketId, (function(result) {
-          if (result.resultCode > 0) {
-            socket.ondata(result);
-          }
-          this.poll();
-        }).bind(this));
-      };
+      this._onReceive = function(info) {
+        if (info.socketId != socketInfo.socketId)
+          return;
+        socket.ondata(info);
+      }.bind(this);
 
       this.send = function(data, callback) {
         callback = callback || function() {};
         if(!!address == false) throw NoAddressException; 
         if(connected == false) throw NotConnectedException; 
-        socket.write(socketInfo.socketId, data, function(sendResult) {
+        socket.send(socketInfo.socketId, data, address, port, function (sendResult) {
           callback(sendResult);
         });
       };
@@ -64,15 +60,16 @@
       this.disconnect = function() {
         if(!!address == false) throw NoAddressException; 
         if(connected == false) throw NotConnectedException; 
-        socket.disconnect(socketInfo.socketId);
-        socket.destroy(socketInfo.socketId);
+        socket.onReceive.removeListener(this._onReceive);
+        socket.close(socketInfo.socketId);
+        socketInfo = null;
         connected = false;
       };
     };
 
-    var _EchoClient = function(socketMode, defaultPort) {
+    var _EchoClient = function(defaultPort) {
       return function() {
-        var client = new baseClient(socketMode);
+        var client = new baseClient();
         this.defaultPort = defaultPort;
 
         this.connect = client.connect;
@@ -107,7 +104,7 @@
       // Clients
       clients: {
         udp: {
-          echoClient: _EchoClient('udp', 7)
+          echoClient: _EchoClient(7)
         }
       },
       // Exceptions
