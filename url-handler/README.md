@@ -12,7 +12,7 @@ Note that at least in this initial version of the feature in Chrome 31 stable ch
 
 * [url_handlers in manifest](http://developer.chrome.com/apps/manifest/url_handlers.html)
 * [chrome.app.runtime.onLaunched](http://developer.chrome.com/apps/app_runtime.html#event-onLaunched)
-* [webview](http://developer.chrome.com/apps/webview_tag.html)
+* [webview](https://developer.chrome.com/apps/tags/webview)
 * [chrome.storage](http://developer.chrome.com/apps/storage.html)
 
 ## Screenshot

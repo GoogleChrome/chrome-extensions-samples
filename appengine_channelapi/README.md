@@ -17,7 +17,7 @@ To run:
 - play
 
 * [Appengine Channel API](https://developers.google.com/appengine/docs/python/channel)
-* [Webview](http://developer.chrome.com/apps/webview_tag.html)
+* [Webview](https://developer.chrome.com/apps/tags/webview)
 
      
 ## Screenshot

@@ -7,7 +7,7 @@ Sample to explore some of the APIs in the webview tag.
 
 ## APIs
 
-* [webview](http://developer.chrome.com/apps/webview_tag.html)
+* [webview](https://developer.chrome.com/apps/tags/webview)
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
 
