@@ -18,9 +18,9 @@
     }
     setGradients();
     enableControls(false);
-    ui.r.addEventListener('change', onColorChanged);
-    ui.g.addEventListener('change', onColorChanged);
-    ui.b.addEventListener('change', onColorChanged);
+    ui.r.addEventListener('input', onColorChanged);
+    ui.g.addEventListener('input', onColorChanged);
+    ui.b.addEventListener('input', onColorChanged);
     enumerateDevices();
   };
 
