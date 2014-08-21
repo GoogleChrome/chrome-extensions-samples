@@ -64,14 +64,14 @@
     var fade_time = fade_ms / 10;
     var th = (fade_time & 0xff00) >> 8;
     var tl = fade_time & 0x00ff;
-    var data = new Uint8Array(8);
+    var data = new Uint8Array(7);
     data[0] = 'c'.charCodeAt(0);
     data[1] = r;
     data[2] = g;
     data[3] = b;
     data[4] = th;
     data[5] = tl;
-    data[6] = 0;
+    data[6] = led;
     chrome.hid.sendFeatureReport(connection, 1, data.buffer, function() {
       if (chrome.runtime.lastError) {
         console.warn("Unable to set feature report: " +
