@@ -64,7 +64,7 @@
     var fade_time = fade_ms / 10;
     var th = (fade_time & 0xff00) >> 8;
     var tl = fade_time & 0x00ff;
-    var data = new Uint8Array(7);
+    var data = new Uint8Array(8);
     data[0] = 'c'.charCodeAt(0);
     data[1] = r;
     data[2] = g;
