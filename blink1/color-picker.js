@@ -43,6 +43,11 @@
       return;
     }
 
+    if (devices.length < 1) {
+      console.warn("No devices found.");
+      return;
+    }
+
     chrome.hid.connect(devices[0].deviceId, onDeviceConnected);
   };
 
