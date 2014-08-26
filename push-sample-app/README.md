@@ -24,22 +24,21 @@ Most of the relevant code for this sample is in background.js.  We've commented
 it heavily, to explain what is going on and what you need to do to write your
 client code.
 
-Here is a sample curl script - you will need to replace the clientId,
-clientSecret, and refreshToken with the ones you get following the instructions
-below, and replace the channel ID with the channelID shown in the UI once you
-launch the sample app.
+Here is a sample curl script to send a push message - you will need to replace
+the Access token with the one you get by following the
+[instructions](https://developer.chrome.com/apps/cloudMessagingV1#checklist),
+and replace the channel ID with the channelID shown in the UI once you launch
+the sample app.
 
- # Use our refresh token to get an access token, put it into an environment
- # variable called accesstoken after parsing the token out of the http output.
-accesstoken=(`curl -s https://accounts.google.com/o/oauth2/token -d "client_secret=<your client secret here>&grant_type=refresh_token&refresh_token=<your refresh token here>&client_id=<your client id here>" | grep "access_token" | awk -F\" '{print $4}'`)
-
- # Send the push message using the refresh token we obtained for staging.
-curl -s -H "Authorization: Bearer $accesstoken" -H "Content-Type: application/json" https://www.googleapis.com/gcm_for_chrome/v1/messages -d "{'channelId': '<insert channel id here>', 'subchannelId': '0', 'payload': 'Hello push messaging!'}"
+    curl https://accounts.google.com/o/oauth2/token \
+    -H "Authorization: Bearer <insert accessToken>" \
+    -H "Content-Type: application/json" \
+    -d "{'channelId': '<insert channelId>', 'subchannelId': '0', 'payload': 'Hello'}"
 
 ## APIs
 
 * [Push Messaging API](http://developer.chrome.com/apps/pushMessaging.html)
-* [GCM for Chrome serverf API](http://developer.chrome.com/apps/cloudMessaging.html)     
+* [Google Cloud Messaging for Chrome V1](https://developer.chrome.com/apps/cloudMessagingV1)
 
 ## Screenshot
 ![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-sample-app/assets/screenshot_1280_800.png)

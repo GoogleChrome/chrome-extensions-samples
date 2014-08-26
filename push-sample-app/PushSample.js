@@ -31,6 +31,7 @@ function showChannelId(channelId) {
   // Display the channel ID if we have one, blank if getChannelId failed.
   var channel_id_node = document.createElement("p");
   channel_id_node.textContent = "channel_id is " + channelId;
+  channel_id_node.contentEditable = true;
   document.body.appendChild(channel_id_node);
   document.body.appendChild(break_node);
 }
