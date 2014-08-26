@@ -8,8 +8,8 @@ var gh = (function() {
   var tokenFetcher = (function() {
     // Replace clientId and clientSecret with values obtained by you for your
     // application https://github.com/settings/applications. 
-    var clientId = '8834760dc83df6712c33';
-    var clientSecret = 'e7f07a72d810a1161258d65bb89a087624af4c0b';
+    var clientId = '11442b0924c8d6a98fb7';
+    var clientSecret = 'a1499b1a5780c8a21ed560b839741e803c4cc936';
     var redirectUri = 'https://' + chrome.runtime.id +
                       '.chromiumapp.org/provider_cb';
     var redirectRe = new RegExp(redirectUri + '[#\?](.*)');
