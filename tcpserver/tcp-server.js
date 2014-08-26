@@ -202,12 +202,6 @@ const DEFAULT_MAX_CONNECTIONS=5;
 
     log('Established client connection. Listening...');
 
-    // Start polling for reads.
-    this._onReceive = this._onReceive.bind(this);
-    this._onReceiveError = this._onReceiveError.bind(this);
-    chrome.sockets.tcp.onReceive.addListener(this._onReceive);
-    chrome.sockets.tcp.onReceiveError.addListener(this._onReceiveError);
-    chrome.sockets.tcp.setPaused(this.socketId, false);
   };
 
   TcpConnection.prototype.setSocketInfo = function(socketInfo) {
@@ -220,13 +214,34 @@ const DEFAULT_MAX_CONNECTIONS=5;
   };
 
   /**
+   * Add receive listeners for when a message is received
+   *
+   * @param {Function} callback The function to call when a message has arrived
+   */
+  TcpConnection.prototype.startListening = function(callback) {
+    this.callbacks.recv = callback;
+
+    // Add receive listeners.
+    this._onReceive = this._onReceive.bind(this);
+    this._onReceiveError = this._onReceiveError.bind(this);
+    chrome.sockets.tcp.onReceive.addListener(this._onReceive);
+    chrome.sockets.tcp.onReceiveError.addListener(this._onReceiveError);
+
+    chrome.sockets.tcp.setPaused(this.socketId, false);
+  };
+
+  /**
    * Sets the callback for when a message is received
    *
    * @param {Function} callback The function to call when a message has arrived
    */
   TcpConnection.prototype.addDataReceivedListener = function(callback) {
-    // Register received callback.
-    this.callbacks.recv = callback;
+    // If this is the first time a callback is set, start listening for incoming data.
+    if (!this.callbacks.recv) {
+      this._startListening(callback);
+    } else {
+      this.callbacks.recv = callback;
+    }
   };
 
 
