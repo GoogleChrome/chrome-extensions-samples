@@ -13,8 +13,8 @@ This sample demos the `chrome.hid` API by controlling a [blink(1) mk2](http://bl
 
 ## Running this app on Linux
 
-On Linux a udev rule must be added to allow Chrome to open the blink(1) device. Copy the file `udev/61-blink1.rules` to `/etc/udev/rules.d`. It contains the following text which causes the `hidraw` device node for this device to be given `0666` permissions:
+On Linux a udev rule must be added to allow Chrome to open the blink(1) device. Copy the file `udev/61-blink1.rules` to `/etc/udev/rules.d`. It contains the following rule which allows anyone in the `plugdev` group read/write access the `hidraw` node for this device.
 
-    # Make the blink(1) accessible to all via hidraw.
-    SUBSYSTEM=="hidraw", SUBSYSTEMS=="usb", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE="0666"
+    # Make the blink(1) accessible to plugdev via hidraw.
+    SUBSYSTEM=="hidraw", SUBSYSTEMS=="usb", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE="0660", GROUP="plugdev"
 
