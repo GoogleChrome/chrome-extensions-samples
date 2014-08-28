@@ -23,10 +23,14 @@ window.chrome.app.runtime.onRestarted.addListener(function() {
  * @see http://developer.chrome.com/apps/app.window.html
  */
 function runApp() {
-  window.chrome.app.window.create(
-    'correct_injection.html',
-    {'id': 'GoodWindowID'});
-  window.chrome.app.window.create(
-    'incorrect_injection.html',
-    {'id': 'BadWindowID'});
+  window.chrome.app.window.create('correct_injection.html', {'id': 'goodWindowID'},
+    function(appGoodWindow) {
+      var offset = 20;
+      var badWindowOuterBounds = {
+        'left': appGoodWindow.outerBounds.left + offset,
+        'top': appGoodWindow.outerBounds.top + offset
+      };
+      window.chrome.app.window.create('incorrect_injection.html', {'id': 'badWindowID', 'outerBounds': badWindowOuterBounds});
+    }
+  );
 }
