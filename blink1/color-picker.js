@@ -32,7 +32,7 @@
 
   function enumerateDevices() {
     chrome.hid.getDevices(
-        { "vendorId": 10168, "productId": 493 },
+        { "filters": [ { "vendorId": 10168, "productId": 493 } ] },
         onDevicesEnumerated);
   };
 
