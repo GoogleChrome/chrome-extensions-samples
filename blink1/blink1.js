@@ -4,7 +4,8 @@ function Blink1(deviceId) {
 
 Blink1.getDevices = function(cb) {
   chrome.hid.getDevices(
-      { vendorId: 10168, productId: 493 }, function(devices) {
+      { "filters": [ { "vendorId": 10168, "productId": 493 } ] },
+      function(devices) {
     if (chrome.runtime.lastError) {
       console.warn("Unable to enumerate devices: " +
                    chrome.runtime.lastError.message);
