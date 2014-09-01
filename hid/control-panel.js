@@ -111,7 +111,7 @@
     var id = +ui.outId.value;
     var bytes = new Uint8Array(+ui.outSize.value);
     var contents = ui.outData.value;
-    contents = contents.replace(/\\x(\d\d)/g, function(match, capture) {
+    contents = contents.replace(/\\x[a-fA-F0-9]{2}/g, function(match, capture) {
       return String.fromCharCode(parseInt(capture, 16));
     });
     for (var i = 0; i < contents.length && i < bytes.length; ++i) {
