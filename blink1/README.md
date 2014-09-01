@@ -1,6 +1,6 @@
 # Blink(1)
 
-This sample demos the `chrome.hid` API by controlling a [blink(1) mk2](http://blink1mk2.thingm.com/) RGB LED light.
+This sample demos the `chrome.hid` API by controlling a [ThingM blink(1) mk2](http://blink1mk2.thingm.com/) RGB LED light via USB HID Feature Reports.
 
 ## APIs
 
