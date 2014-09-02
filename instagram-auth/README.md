@@ -12,7 +12,6 @@ extension ID is a hash of the path on disk). However, this will result in the
 auth API not working, since the redirect URL will be different. To force the
 unpacked app to have the same ID, add this key and value to `manifest.json`:
 
-    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDth91jxOpPpN5hQFT1uAUJPLwyeOKaqNMBoEF1s7y9aMGsnx4Sxmg+eQsuTdgtJbHfMHYUIAxqvpXvHYCWXQ9gJLOZ7CbZzoRU2SimAOIF8Pro2CjxRMMT1nNA5EAjUR52h94
     "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCM9NA1cLHYrp+htpkHWHmXKAXja/DNfyrSb2mkvfGRT/JVxbPDXJqeRXwhqwYpxgNxMxcD8skIqSy6zHWqtymzjqyFVbMg4ox7qyLC7dEMdx0TgstYjtC3KjEZNM7VM0gRlReJoQuSM/GSIGnAlUjP7Ahd1XF16JgZPICSoeFiTQIDAQAB",
 
 (this is a base 64 encoded version of the app's public key)
