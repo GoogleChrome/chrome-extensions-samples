@@ -35,13 +35,13 @@
   };
 
   function onDevicesEnumerated(devices) {
-    if (!devices || devices.length < 1) {
+    if (devices.length == 0) {
       console.warn("No devices found.");
       return;
     }
 
     blink1 = devices[0];
-    blink1.open(function(success) {
+    blink1.connect(function(success) {
       if (!success) {
         return;
       }

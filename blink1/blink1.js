@@ -23,16 +23,17 @@ Blink1.getDevices = function(cb) {
   });
 };
 
-Blink1.prototype.open = function(cb) {
+Blink1.prototype.connect = function(cb) {
   chrome.hid.connect(this.deviceId, function(connectionInfo) {
-    if (connectionInfo) {
-      this.connection = connectionInfo.connectionId;
-      cb(true);
-    } else {
+    if (chrome.runtime.lastError) {
       console.warn("Unable to open device: " +
                    chrome.runtime.lastError.message);
       cb(false);
+      return;
     }
+
+    this.connection = connectionInfo.connectionId;
+    cb(true);
   }.bind(this));
 };
 
