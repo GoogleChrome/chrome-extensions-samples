@@ -12,3 +12,6 @@ Chrome Packaged App with `videoCapture` permission can query user media without 
 * [Sync File Systesm](http://developer.chrome.com/apps/syncFileSystem.html)
 * [videoCapture](http://developer.chrome.com/apps/manifest.html#permissions)
 
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/manga-cam/assets/screenshot_1280_800.png)

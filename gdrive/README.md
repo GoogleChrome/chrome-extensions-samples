@@ -11,3 +11,7 @@ To upload files: drag in files from the desktop onto the app.
 ## APIs
 
 * [Identity](http://developer.chrome.com/apps/identity.html)
+
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/gdrive/assets/screenshot_1280_800.png)
