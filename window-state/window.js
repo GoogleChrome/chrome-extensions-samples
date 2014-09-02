@@ -66,6 +66,20 @@ function createNewWindow(optionsDictionary) {
   chrome.app.window.create('window.html', optionsDictionary, callback);
 };
 
+function getCustomIconDataURL() {
+  // Draw a red circle to a canvas and return the data URL.
+  var c = document.createElement('canvas');
+  c.width = 16;
+  c.height = 16;
+  var ctx = c.getContext('2d');
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.arc(8, 8, 8, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.closePath();
+  return c.toDataURL();
+}
+
 // Log events:
 
 var updateFulllscreenLabel = function updateFulllscreenLabel() {
@@ -180,6 +194,14 @@ $('#newWindowMaximized').onclick = function(e) {
 $('#newWindowMinimized').onclick = function(e) {
   createNewWindow({ state: 'minimized'});
 };
+
+$('#normalWindowIcon').onclick = function(e) {
+  $('#iconLink').href = "icon_128.png";
+}
+
+$('#customWindowIcon').onclick = function(e) {
+  $('#iconLink').href = getCustomIconDataURL();
+}
 
 // Current window state readout:
 

@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "Shared Script Sample: More Dragons!",
+  "minimum_chrome_version": "24.0.1307.0",
+  "version": "2.0",
+  "icons": {
+    "16": "icon_16.png",
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "webview"
+  ]
+}

@@ -12,3 +12,7 @@ of the [JavaScript Client Library](https://developers.google.com/api-client-libr
 
 * [JavaScript Client Library Reference](https://developers.google.com/api-client-library/javascript/reference/referencedocs)
 * [GAPI Chrome Apps Lib](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gapi-chrome-apps-lib)
+
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tasks/assets/screenshot_1280_800.png)
