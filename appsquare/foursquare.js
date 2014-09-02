@@ -31,7 +31,7 @@ var foursquare = {};
     });
   };
   api.signIn = function(appId, clientId, successCallback, errorCallback) {
-    var redirectUrl = 'https://' + appId + '.chromiumapp.org/';
+    var redirectUrl = chrome.identity.getRedirectURL();
     var authUrl = 'https://foursquare.com/oauth2/authorize?' +
         'client_id=' + clientId + '&' +
         'response_type=token&' +
