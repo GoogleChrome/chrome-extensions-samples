@@ -30,4 +30,7 @@ dialog.addEventListener("cancel", function(evt) {
 
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
 * [Window](http://developer.chrome.com/apps/app.window.html)
-     
+
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/dialog-element/assets/screenshot_1280_800.png)

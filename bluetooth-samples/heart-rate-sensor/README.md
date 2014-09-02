@@ -7,3 +7,7 @@ Low-Energy Heart Rate Sensor
 This sample demonstrates using the chrome.bluetoothLowEnergy API to communicate
 with the Generic Attribute Profile (GATT) based Heart Rate Service on a
 Bluetooth Low Energy heart rate sensor.
+
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/bluetooth-samples/heart-rate-sensor/assets/screenshot_1280_800.png)

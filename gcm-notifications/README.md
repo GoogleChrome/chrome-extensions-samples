@@ -11,3 +11,6 @@ Demonstrates the capability to receive the push messages from Google Cloud Messa
 * [storage](https://developer.chrome.com/apps/storage)
 * [notifications](https://developer.chrome.com/apps/notifications)
 
+
+## Screenshot
+![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/gcm-notifications/assets/screenshot_1280_800.png)
