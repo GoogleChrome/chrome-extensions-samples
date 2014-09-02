@@ -2,9 +2,13 @@ function Blink1(deviceId) {
   this.deviceId = deviceId;
 };
 
+Blink1.VENDOR_ID = 0x27B8;
+Blink1.PRODUCT_ID = 0x01ED;
+
 Blink1.getDevices = function(cb) {
   chrome.hid.getDevices(
-      { "filters": [ { "vendorId": 10168, "productId": 493 } ] },
+      { filters: [ { vendorId: Blink1.VENDOR_ID,
+                     productId: Blink1.PRODUCT_ID } ] },
       function(devices) {
     if (chrome.runtime.lastError) {
       console.warn("Unable to enumerate devices: " +
