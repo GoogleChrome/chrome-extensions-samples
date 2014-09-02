@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/cbdacningpambfjjejgfebeagmhpdcko">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Accessing the main world with `<webview>`.executeScript()
 
 Web view content scripts run in *an isolated world*. This means that they can

@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/kcpjgiicabigbjejdjnkflkdkjknkdch">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Blink(1)
 
 This sample demos the `chrome.hid` API by controlling a [ThingM blink(1) mk2](http://blink1mk2.thingm.com/) RGB LED light via USB HID Feature Reports.
