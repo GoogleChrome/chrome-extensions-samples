@@ -3,7 +3,7 @@ onload = function() {
   var output = document.getElementById("output");
 
   login.onclick = function() {
-    var redirectUrl = "https://" + chrome.runtime.id + ".chromiumapp.org/";
+    var redirectUrl = chrome.identity.getRedirectURL();
     var clientId = "1ac94815c30440efa6f7de3c0d529515";
     var authUrl = "https://instagram.com/oauth/authorize/?" +
         "client_id=" + clientId + "&" +

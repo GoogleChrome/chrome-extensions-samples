@@ -10,8 +10,7 @@ var gh = (function() {
     // application https://github.com/settings/applications. 
     var clientId = '8834760dc83df6712c33';
     var clientSecret = 'e7f07a72d810a1161258d65bb89a087624af4c0b';
-    var redirectUri = 'https://' + chrome.runtime.id +
-                      '.chromiumapp.org/provider_cb';
+    var redirectUri = chrome.identity.getRedirectURL('provider_cb');
     var redirectRe = new RegExp(redirectUri + '[#\?](.*)');
 
     var access_token = null;
