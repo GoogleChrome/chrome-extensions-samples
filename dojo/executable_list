@@ -20,7 +20,6 @@ sandboxed-content
 serial
 serial-control-signals
 servo
-singleton
 storage
 text-editor
 usb/adkjs/app

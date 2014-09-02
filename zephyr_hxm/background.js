@@ -10,7 +10,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
       width: 600,
       height: 350
     },
-    singleton: true,
     id: "bluetoothhxm"
   }, function(win) {
     // Add the profile to the list of profiles we support
