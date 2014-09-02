@@ -10,7 +10,6 @@
     }
   },
   "permissions": [
-    "experimental",
     {"socket": [
       "udp-send-to"
     ]}

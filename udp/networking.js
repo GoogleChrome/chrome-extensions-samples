@@ -4,7 +4,7 @@
     var NoAddressException = "No Address";
     var NotConnectedException = "Not Connected";
 
-    var socket = chrome.socket || chrome.experimental.socket;
+    var socket = chrome.socket;
 
     var baseClient = function(socketMode) {
       var address;
