@@ -11,7 +11,7 @@ users name and email address (if available) will be displayed.
 
 This app uses the launchWebAuthFlow flow of the Identity API, which is enabling
 authorization with providers other than Google. For autorization using Google
-Account check out the [Identity sample application](https://github.com/GoogleChrome/chrome-app-samples/tree/master/identity).
+Account check out the [Identity sample application](../identity).
 
 ## APIs
 

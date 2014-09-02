@@ -1,9 +1,9 @@
 {
   "name": "GitHub Auth Sample",
-  "version": "2.1",
+  "version": "3",
   "manifest_version": 2,
   "minimum_chrome_version": "33",
-  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDJMQdC+B+dW3Rf8/27iIv9XCbXiK+ZmSXVwg9CWlkX8BSsw401YEX1JrkqESrg76DTWQjx2/M8aPq7NvP3O/P2OuERQ1bWQfp9RZKt+ztOjC5dPhGZZ26XPapNe3ykvpvnqT1WUjSytOBit0Dh2YPSPFdX41J4HSu/325ra0S3OQIDAQAB",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCXZ6+N4gRLyUUtj79Z3TClsrA32yU9ekkdKXlGylaRhtjMNLN+oBekfDsBfASdkGu35r48v+GiHgCTeySFgm/MfOBavutudcr1Cm/+CD6Y7XSQBMHQn06sJgsMk0eG6FcP797Ofig2MHmouaoHCPfpmXfcbgZZYioh29PWJ6oq7QIDAQAB",
   "app": {
     "background": {
       "scripts": ["main.js"]
