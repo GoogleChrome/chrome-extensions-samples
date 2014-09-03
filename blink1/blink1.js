@@ -41,6 +41,20 @@ Blink1.prototype.connect = function(cb) {
 // operates over feature reports and is documented here:
 //
 // https://github.com/todbot/blink1/blob/master/docs/blink1-hid-commands.md
+//
+// blink(1) HID feature reports are 8 bytes, though only the first 7 bytes
+// appear to ever be read by the firmware. 8 bytes must be sent because some
+// platforms require it (Windows). The documentation refers to sending the
+// report ID as the first byte of the buffer, this is a detail of the HID
+// transport layer and the firmware's HID library and is not reflected in the
+// buffers sent here. This confusion is probably why the firmware only uses the
+// first 7 bytes of the report.
+//
+// Be careful not to send multiple commands simultaneously as each command
+// overwrites the buffer returned by a GET_REPORT(Feature) request and so the
+// command result may be lost or misattributed.
+//
+// TODO(reillyeon): Add transparent request queueing to prevent this.
 
 Blink1.prototype.fadeRgb = function(r, g, b, fade_ms, led) {
   var fade_time = fade_ms / 10;
