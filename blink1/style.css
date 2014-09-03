@@ -1,4 +1,5 @@
 input[type=range] {
-   -webkit-appearance: none;
-   width: 140px;
+  outline: none;
+  -webkit-appearance: none;
+  width: 140px;
 }
