@@ -9,7 +9,7 @@ var dbName = 'todos-vanillajs';
 function launch() {
   chrome.app.window.create('index.html', {
     id: 'main',
-    bounds: { width: 620, height: 500 }
+    innerBounds: { width: 620, height: 500 }
   });
 }
 

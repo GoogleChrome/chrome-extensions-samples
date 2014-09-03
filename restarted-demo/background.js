@@ -94,7 +94,7 @@ Counter.prototype.close = function() {
 function runApp(counter) {
   chrome.app.window.create('main.html', {
     id: counter.id + '',
-    bounds: {
+    innerBounds: {
       width: 800,
       height: 600
     }

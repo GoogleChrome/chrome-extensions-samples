@@ -37,10 +37,6 @@ function createNewWindow(optionsDictionary) {
 
   optionsDictionary.singleton = $('[value=singleton]').checked;
 
-  setIfANumber(optionsDictionary, 'minWidth', parseInt($('#newWindowWidthMin').value));
-  setIfANumber(optionsDictionary, 'maxWidth', parseInt($('#newWindowWidthMax').value));
-  setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));
-  setIfANumber(optionsDictionary, 'maxHeight', parseInt($('#newWindowHeightMax').value));
   optionsDictionary.resizable = $('#newWindowResizable').checked;
   if (isAlwaysOnTopSupported)
     optionsDictionary.alwaysOnTop = $('#newWindowOnTop').checked;
@@ -54,14 +50,18 @@ function createNewWindow(optionsDictionary) {
   var callback = optionsDictionary.hidden ? showAfterCreated : undefined;
 
   // Set new window to be offset from current window.
-  var bounds = chrome.app.window.current().getBounds();
-  bounds.left = (bounds.left + newWindowOffset) % (screen.width - bounds.width);
-  bounds.top = (bounds.top + newWindowOffset) % (screen.height - bounds.height);
-  optionsDictionary.bounds = {};
-  optionsDictionary.bounds.left = bounds.left;
-  optionsDictionary.bounds.top = bounds.top;
-  optionsDictionary.bounds.width = bounds.width;
-  optionsDictionary.bounds.height = bounds.height;
+  var innerBounds = chrome.app.window.current().innerBounds;
+  innerBounds.left = (innerBounds.left + newWindowOffset) % (screen.width - innerBounds.width);
+  innerBounds.top = (innerBounds.top + newWindowOffset) % (screen.height - innerBounds.height);
+  optionsDictionary.innerBounds = {};
+  optionsDictionary.innerBounds.left = innerBounds.left;
+  optionsDictionary.innerBounds.top = innerBounds.top;
+  optionsDictionary.innerBounds.width = innerBounds.width;
+  optionsDictionary.innerBounds.height = innerBounds.height;
+  setIfANumber(optionsDictionary.innerBounds, 'minWidth', parseInt($('#newWindowWidthMin').value));
+  setIfANumber(optionsDictionary.innerBounds, 'maxWidth', parseInt($('#newWindowWidthMax').value));
+  setIfANumber(optionsDictionary.innerBounds, 'minHeight', parseInt($('#newWindowHeightMin').value));
+  setIfANumber(optionsDictionary.innerBounds, 'maxHeight', parseInt($('#newWindowHeightMax').value));
 
   chrome.app.window.create('window.html', optionsDictionary, callback);
 };
@@ -161,13 +161,14 @@ $('#resize').onclick = function(e) {
 
 $('#setbounds').onclick = function(e) {
   var bounds = {};
-  setIfANumber(bounds, 'left', parseInt($('#moveWindowLeft').value));
-  setIfANumber(bounds, 'top', parseInt($('#moveWindowTop').value));
-  setIfANumber(bounds, 'width', parseInt($('#resizeWindowWidth').value));
-  setIfANumber(bounds, 'height', parseInt($('#resizeWindowHeight').value));
+  var currentInnerBounds = chrome.app.window.current().innerBounds;
+  setIfANumber(bounds, 'left', parseInt($('#moveWindowLeft').value) || currentInnerBounds.left);
+  setIfANumber(bounds, 'top', parseInt($('#moveWindowTop').value) || currentInnerBounds.top);
+  setIfANumber(bounds, 'width', parseInt($('#resizeWindowWidth').value) || currentInnerBounds.width);
+  setIfANumber(bounds, 'height', parseInt($('#resizeWindowHeight').value) || currentInnerBounds.height);
   setTimeout(
     function() {
-      chrome.app.window.current().setBounds(bounds);
+      chrome.app.window.current().innerBounds = bounds;
     },
     $('#delay-slider').value);
 };
@@ -239,15 +240,15 @@ function updateCurrentStateReadout() {
   $('#wasHidden'    ).checked = wasHidden.length > 0;
 
   // Also update the hinted window size
-  $('#moveWindowLeft').placeholder = chrome.app.window.current().getBounds().left;
-  $('#moveWindowTop').placeholder = chrome.app.window.current().getBounds().top;
-  $('#resizeWindowWidth').placeholder = chrome.app.window.current().getBounds().width;
-  $('#resizeWindowHeight').placeholder = chrome.app.window.current().getBounds().height;
+  $('#moveWindowLeft').placeholder = chrome.app.window.current().innerBounds.left;
+  $('#moveWindowTop').placeholder = chrome.app.window.current().innerBounds.top;
+  $('#resizeWindowWidth').placeholder = chrome.app.window.current().innerBounds.width;
+  $('#resizeWindowHeight').placeholder = chrome.app.window.current().innerBounds.height;
 
-  $('#newWindowWidthMin').placeholder = chrome.app.window.current().getBounds().width;
-  $('#newWindowWidthMax').placeholder = chrome.app.window.current().getBounds().width;
-  $('#newWindowHeightMin').placeholder = chrome.app.window.current().getBounds().height;
-  $('#newWindowHeightMax').placeholder = chrome.app.window.current().getBounds().height;
+  $('#newWindowWidthMin').placeholder = chrome.app.window.current().innerBounds.width;
+  $('#newWindowWidthMax').placeholder = chrome.app.window.current().innerBounds.width;
+  $('#newWindowHeightMin').placeholder = chrome.app.window.current().innerBounds.height;
+  $('#newWindowHeightMax').placeholder = chrome.app.window.current().innerBounds.height;
 }
 // Update window state display on bounds change, but also on regular interval
 // just to be paranoid.

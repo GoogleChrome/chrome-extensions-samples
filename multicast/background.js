@@ -39,14 +39,14 @@ function createMainWindow() {
   chrome.app.window.create('index.html', {
     singleton: true,
     id: 'main-window',
-    minWidth: 400,
-    minHeight: 275,
     frame: 'none',
-    bounds: {
+    innerBounds: {
       left: 100,
       top: 100,
       width: 650,
-      height: 520
+      height: 520,
+      minWidth: 400,
+      minHeight: 275
     },
     hidden: true
   }, onInitWindow);
