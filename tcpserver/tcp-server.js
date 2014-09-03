@@ -238,7 +238,7 @@ const DEFAULT_MAX_CONNECTIONS=5;
   TcpConnection.prototype.addDataReceivedListener = function(callback) {
     // If this is the first time a callback is set, start listening for incoming data.
     if (!this.callbacks.recv) {
-      this._startListening(callback);
+      this.startListening(callback);
     } else {
       this.callbacks.recv = callback;
     }
