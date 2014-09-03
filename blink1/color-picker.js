@@ -49,9 +49,9 @@
       blink1.getVersion(function(version) {
         console.log("Hardware version " + version + ".");
         blink1.getRgb(0, function(r, g, b) {
-          ui.r.value = r;
-          ui.g.value = g;
-          ui.b.value = b;
+          ui.r.value = r || 0;
+          ui.g.value = g || 0;
+          ui.b.value = b || 0;
           setGradients();
         });
         enableControls(true);
