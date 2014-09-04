@@ -1,5 +1,6 @@
 function Blink1(deviceId) {
   this.deviceId = deviceId;
+  this.connection = null;
 };
 
 Blink1.VENDOR_ID = 0x27B8;
@@ -26,13 +27,26 @@ Blink1.getDevices = function(cb) {
 Blink1.prototype.connect = function(cb) {
   chrome.hid.connect(this.deviceId, function(connectionInfo) {
     if (chrome.runtime.lastError) {
-      console.warn("Unable to open device: " +
+      console.warn("Unable to connect device: " +
                    chrome.runtime.lastError.message);
       cb(false);
       return;
     }
 
     this.connection = connectionInfo.connectionId;
+    cb(true);
+  }.bind(this));
+};
+
+Blink1.prototype.disconnect = function(cb) {
+  chrome.hid.disconnect(this.connection, function() {
+    if (chrome.runtime.lastError) {
+      console.warn("Unable to disconnect device: " +
+                   chrome.runtime.lastError.message);
+      cb(false);
+      return;
+    }
+
     cb(true);
   }.bind(this));
 };

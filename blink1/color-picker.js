@@ -5,7 +5,7 @@
     b: null
   };
 
-  var blink1 = undefined;
+  var bg = undefined;
 
   function initializeWindow() {
     for (var k in ui) {
@@ -31,7 +31,7 @@
   };
 
   function enumerateDevices() {
-    Blink1.getDevices(onDevicesEnumerated);
+    bg.Blink1.getDevices(onDevicesEnumerated);
   };
 
   function onDevicesEnumerated(devices) {
@@ -40,15 +40,15 @@
       return;
     }
 
-    blink1 = devices[0];
-    blink1.connect(function(success) {
+    bg.blink1 = devices[0];
+    bg.blink1.connect(function(success) {
       if (!success) {
         return;
       }
 
-      blink1.getVersion(function(version) {
+      bg.blink1.getVersion(function(version) {
         console.log("Hardware version " + version + ".");
-        blink1.getRgb(0, function(r, g, b) {
+        bg.blink1.getRgb(0, function(r, g, b) {
           ui.r.value = r || 0;
           ui.g.value = g || 0;
           ui.b.value = b || 0;
@@ -61,7 +61,7 @@
 
   function onColorChanged() {
     setGradients();
-    blink1.fadeRgb(ui.r.value, ui.g.value, ui.b.value, 250, 0);
+    bg.blink1.fadeRgb(ui.r.value, ui.g.value, ui.b.value, 250, 0);
   }
 
   function setGradients() {
@@ -77,5 +77,12 @@
                                  'rgb(' + r + ', ' + g + ', 255))';
   }
 
-  window.addEventListener('load', initializeWindow);
+  window.addEventListener('load', function() {
+    // Once the background page has been loaded, it will not unload until this
+    // window is closed.
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      bg = backgroundPage;
+      initializeWindow();
+    });
+  });
 }());
