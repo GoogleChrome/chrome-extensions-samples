@@ -8,6 +8,9 @@
       "scripts": [ "blink1.js", "main.js" ]
     }
   },
+  "icons": {
+    "128": "128.png"
+  },
   "permissions": [
     "hid",
     {
