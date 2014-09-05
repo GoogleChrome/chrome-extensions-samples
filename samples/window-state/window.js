@@ -35,8 +35,6 @@ function createNewWindow(optionsDictionary) {
   else
     optionsDictionary.id = undefined;
 
-  optionsDictionary.singleton = $('[value=singleton]').checked;
-
   setIfANumber(optionsDictionary, 'minWidth', parseInt($('#newWindowWidthMin').value));
   setIfANumber(optionsDictionary, 'maxWidth', parseInt($('#newWindowWidthMax').value));
   setIfANumber(optionsDictionary, 'minHeight', parseInt($('#newWindowHeightMin').value));

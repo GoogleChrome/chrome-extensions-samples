@@ -12,7 +12,6 @@ function onWindowLoaded() {
 
 chrome.app.runtime.onLaunched.addListener(function () {
   chrome.app.window.create("index.html", {
-    singleton: true,
     resizable: false,
     frame: 'none',
     id: "index",
