@@ -37,7 +37,6 @@ function onInitWindow(appWindow) {
 
 function createMainWindow() {
   chrome.app.window.create('index.html', {
-    singleton: true,
     id: 'main-window',
     minWidth: 400,
     minHeight: 275,
