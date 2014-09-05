@@ -1,6 +1,6 @@
 chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('a.html', {bounds:{top: 0, left: 0, width: 300, height: 300}});
-  chrome.app.window.create('b.html', {bounds:{top: 0, left: 310, width: 300, height: 300}});
+  chrome.app.window.create('a.html', {innerBounds:{top: 0, left: 0, width: 300, height: 300}});
+  chrome.app.window.create('b.html', {innerBounds:{top: 0, left: 310, width: 300, height: 300}});
 });
 
 chrome.runtime.onInstalled.addListener(function() {
@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 chrome.contextMenus.onClicked.addListener(function(itemData) {
 	if (itemData.menuItemId == "launcher1")
-		chrome.app.window.create('a.html', {bounds:{top: 0, left: 0, width: 300, height: 300}});
+		chrome.app.window.create('a.html', {innerBounds:{top: 0, left: 0, width: 300, height: 300}});
 	if (itemData.menuItemId == "launcher2")
-		chrome.app.window.create('b.html', {bounds:{top: 0, left: 310, width: 300, height: 300}});
+		chrome.app.window.create('b.html', {innerBounds:{top: 0, left: 310, width: 300, height: 300}});
 });

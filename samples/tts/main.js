@@ -13,7 +13,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
   chrome.app.window.create('ttsdemo.html', {
     id: 'ttsID',
-    bounds: {
+    outerBounds: {
       width: width,
       height: height,
       left: Math.round((screenWidth-width)/2),

@@ -19,7 +19,7 @@ function _dojo_launch(app) {
 
 function _dojo_readme(file) {
   chrome.app.window.create(file,
-    {bounds: {width: 500, height: 700, left: 602}});
+    {innerBounds: {width: 500, height: 700, left: 602}});
 }
 function _dojo_source(app) {
   window.open("https://github.com/GoogleChrome/chrome-app-samples/tree/master/"+app);
@@ -53,7 +53,7 @@ function writeJS_launch() {
 
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
-    bounds: {
+    innerBounds: {
       width: 600,
       height: 800
     }

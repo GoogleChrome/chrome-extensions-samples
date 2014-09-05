@@ -13,7 +13,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
   chrome.app.window.create('index.html', {
     id: "helloWorldID",
-    bounds: {
+    outerBounds: {
       width: width,
       height: height,
       left: Math.round((screenWidth-width)/2),

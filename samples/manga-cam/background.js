@@ -15,8 +15,10 @@ chrome.app.runtime.onLaunched.addListener(function () {
     resizable: false,
     frame: 'none',
     id: "index",
-    width: 640,
-    height: 635
+    innerBounds: {
+      width: 640,
+      height: 635
+    }
   }, function(newWindow) {
     if (newWindow.contentWindow != wind) {
       newWindow.contentWindow.onload = onWindowLoaded;

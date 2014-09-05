@@ -3,6 +3,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
      {
      	frame: 'custom', 
      	id: "mainwin",
-     	bounds: {width: 343, height: 600}
+     	innerBounds: {width: 343, height: 600}
      });
 });

@@ -1,12 +1,12 @@
 chrome.app.runtime.onLaunched.addListener(function(launchData) {
   chrome.app.window.create('../main.html', {
     id: "GDriveExample",
-    bounds: {
+    innerBounds: {
       width: 500,
-      height: 600
+      height: 600,
+      minWidth: 500,
+      minHeight: 600
     },
-    minWidth: 500,
-    minHeight: 600,
     frame: 'none'
   });
 });

@@ -44,7 +44,7 @@ AppWindow.prototype.createWindow_ = function(settings) {
     'main.html',
     {
       id: "mainwin",
-      bounds: { width: settings.width, height: settings.height },
+      innerBounds: { width: settings.width, height: settings.height },
       frame: 'chrome'
     },
     function(win) {
@@ -66,7 +66,7 @@ AppWindow.prototype.onLoad_ = function() {
 // Update this window's cached bounds and, if the window has been resized as
 // opposed to just moved, also update the global app's default window size.
 AppWindow.prototype.onBoundsChanged_ = function() {
-  var bounds = this.win_.getBounds();
+  var bounds = this.win_.innerBounds;
   if (bounds.width !== this.bounds_.width ||
       bounds.height !== this.bounds_.height) {
       app.updateSettings_({ width: bounds.width, height: bounds.height });

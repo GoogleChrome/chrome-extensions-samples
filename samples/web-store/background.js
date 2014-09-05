@@ -3,6 +3,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
     { 
       "id": "mainWindow",
       "resizable": false,
-      "bounds": { "width": 360, "height": 540 }
+      "innerBounds": { "width": 360, "height": 540 }
     });
 });

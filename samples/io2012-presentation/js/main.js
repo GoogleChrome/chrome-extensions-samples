@@ -14,10 +14,12 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
   chrome.app.window.create('presentation.html?presentme=true', {
       frame: 'chrome',
-      left: left, top: top,
-      width: PRESENTATION_WIDTH, height: PRESENTATION_HEIGHT,
-      minWidth: PRESENTATION_WIDTH, minHeight: PRESENTATION_HEIGHT,
-      maxWidth: PRESENTATION_WIDTH, maxHeight: PRESENTATION_HEIGHT
+      innerBounds: {
+        left: left, top: top,
+        width: PRESENTATION_WIDTH, height: PRESENTATION_HEIGHT,
+        minWidth: PRESENTATION_WIDTH, minHeight: PRESENTATION_HEIGHT,
+        maxWidth: PRESENTATION_WIDTH, maxHeight: PRESENTATION_HEIGHT
+      }
   }, function(w) {
     presentationWindow = w;
   });

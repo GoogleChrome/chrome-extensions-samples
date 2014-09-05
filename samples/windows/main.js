@@ -25,15 +25,15 @@ function launch() {
   // create the original window
   chrome.app.window.create('original.html', {
       id: "mainwin",
-      bounds: {
+      innerBounds: {
         top: 128,
         left: 128,
         width: 300,
-        height: 300
+        height: 300,
+        minHeight: 300,
+        maxWidth: 500,
+        minWidth: 300
       },
-      minHeight: 300,
-      maxWidth: 500,
-      minWidth: 300,
       frame: 'none'
     },
 
@@ -45,15 +45,15 @@ function launch() {
 
       chrome.app.window.create('copycat.html', {
         id: "copywin",
-        bounds: {
+        innerBounds: {
           top: 128,
           left: 428 + 5,
           width: 300,
-          height: 300
+          height: 300,
+          minHeight: 300,
+          maxWidth: 500,
+          minWidth: 300
         },
-        minHeight: 300,
-        maxWidth: 500,
-        minWidth: 300,
         frame: 'none'
       },
 
@@ -68,9 +68,8 @@ function launch() {
         copycatWindow.onClosed.addListener(reset);
 
         originalWindow.onBoundsChanged.addListener(function() {
-          var bounds = originalWindow.getBounds();
-          bounds.left = bounds.left + bounds.width + 5;
-          copycatWindow.setBounds(bounds);
+          var bounds = originalWindow.outerBounds;
+          copycatWindow.outerBounds.left = bounds.left + bounds.width + 5;
         });
 
         copycatWindow.onRestored.addListener(function() {
