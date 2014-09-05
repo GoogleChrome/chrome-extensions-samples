@@ -6,7 +6,7 @@ var HXM_PROFILE = {
 
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
-    bounds: {
+    innerBounds: {
       width: 600,
       height: 350
     },

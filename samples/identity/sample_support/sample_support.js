@@ -58,7 +58,7 @@
         e.preventDefault();
         chrome.app.window.create('sample_support/show_snippets.html',
           { "id": SampleSupport.SNIPPET_WIN_ID,
-            "bounds": {
+            "innerBounds": {
               "width": 760,
               "height": 760
             }

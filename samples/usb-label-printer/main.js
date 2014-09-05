@@ -8,6 +8,6 @@ chrome.app.runtime.onLaunched.addListener(function(data) {
   // App Launched
   chrome.app.window.create('index.html',
     { id: 'main',
-      bounds: {width: 1030, height: 704}
+      innerBounds: {width: 1030, height: 704}
     });
 });

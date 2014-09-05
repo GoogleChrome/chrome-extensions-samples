@@ -13,7 +13,7 @@
  chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
   	id: "clockWinID",
-    bounds: {
+    innerBounds: {
       height: 550,
       width: 800,
       top: 100

@@ -7,7 +7,7 @@
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
   	id: "appEngineSampleID",
-    bounds: {
+    innerBounds: {
       width: 500,
       height: 300
     }
