@@ -12,4 +12,4 @@ hardware of choice.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/hid/assets/screenshot_1280_800.png)
+![screenshot](/samples/hid/assets/screenshot_1280_800.png)

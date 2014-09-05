@@ -82,5 +82,5 @@ The `listen` and `accept` API are currently only available in Canary channel of 
 "Experimental extensions" mode (set via chrome://flags).
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/webserver/assets/screenshot_1280_800.png)
+![screenshot](/samples/webserver/assets/screenshot_1280_800.png)
 

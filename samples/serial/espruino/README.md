@@ -19,4 +19,4 @@ This sample lets you toggle the state of an LED on an [Espruino JavaScript board
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/serial/espruino/assets/screenshot_1280_800.png)
+![screenshot](/samples/serial/espruino/assets/screenshot_1280_800.png)

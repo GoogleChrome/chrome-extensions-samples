@@ -13,5 +13,5 @@ A very basic application that demonstrates the Filesystem API. It allows you to 
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/storage/assets/screenshot_1280_800.png)
+![screenshot](/samples/storage/assets/screenshot_1280_800.png)
 

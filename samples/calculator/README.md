@@ -16,5 +16,5 @@ DOM manipulation.
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/calculator/assets/screenshot_1280_800.png)
+![screenshot](/samples/calculator/assets/screenshot_1280_800.png)
 

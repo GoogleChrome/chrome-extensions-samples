@@ -15,5 +15,5 @@ to be set in the manifest file.
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/camera-capture/assets/screenshot_1280_800.png)
+![screenshot](/samples/camera-capture/assets/screenshot_1280_800.png)
 

@@ -10,4 +10,4 @@ chrome.bluetoothLowEnergy API.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/bluetooth-samples/device-info-demo/assets/screenshot_1280_800.png)
+![screenshot](/samples/bluetooth-samples/device-info-demo/assets/screenshot_1280_800.png)

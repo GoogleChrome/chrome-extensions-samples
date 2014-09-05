@@ -13,5 +13,5 @@ A non-trivial sample with basic features of a code editor, like language detecti
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/text-editor/assets/screenshot_1280_800.png)
+![screenshot](/samples/text-editor/assets/screenshot_1280_800.png)
 

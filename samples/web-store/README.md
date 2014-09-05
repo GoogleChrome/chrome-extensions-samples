@@ -13,4 +13,4 @@ Lets you upload and publish Chrome Apps and Extensions folders stored locally on
 * [storage](http://developer.chrome.com/apps/storage)
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/web-store/assets/screenshot_1280_800.png)
+![screenshot](/samples/web-store/assets/screenshot_1280_800.png)

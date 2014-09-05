@@ -21,4 +21,4 @@ you should use the launchWebAuthFlow method instead.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/identity/assets/screenshot_1280_800.png)
+![screenshot](/samples/identity/assets/screenshot_1280_800.png)

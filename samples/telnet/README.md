@@ -22,5 +22,5 @@ Networking stuff, ANSI colors by Boris Smus.
 Terminal by Eric Bidelman: http://www.htmlfivewow.com/demos/terminal/terminal.html
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/telnet/assets/screenshot_1280_800.png)
+![screenshot](/samples/telnet/assets/screenshot_1280_800.png)
 

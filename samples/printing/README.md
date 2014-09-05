@@ -10,4 +10,4 @@ animation can be displayed on the control window to demonstrates how timers are
 suspended while printing.
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/printing/assets/screenshot_1280_800.png)
+![screenshot](/samples/printing/assets/screenshot_1280_800.png)

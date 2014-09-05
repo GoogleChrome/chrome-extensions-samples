@@ -19,4 +19,4 @@ On Linux a udev rule must be added to allow Chrome to open the blink(1) device. 
     SUBSYSTEM=="hidraw", SUBSYSTEMS=="usb", ATTRS{idVendor}=="27b8", ATTRS{idProduct}=="01ed", MODE="0660", GROUP="plugdev"
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/blink1/assets/screenshot_1280_800.png)
+![screenshot](/samples/blink1/assets/screenshot_1280_800.png)
