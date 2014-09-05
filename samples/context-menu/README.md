@@ -16,5 +16,5 @@ A single context menu structure is normally global to the entire app, and thus a
      
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/context-menu/assets/screenshot_1280_800.png)
+![screenshot](/samples/context-menu/assets/screenshot_1280_800.png)
 

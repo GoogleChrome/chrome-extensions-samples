@@ -14,4 +14,4 @@ To upload files: drag in files from the desktop onto the app.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/gdrive/assets/screenshot_1280_800.png)
+![screenshot](/samples/gdrive/assets/screenshot_1280_800.png)

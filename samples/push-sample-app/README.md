@@ -41,5 +41,5 @@ the sample app.
 * [Google Cloud Messaging for Chrome V1](https://developer.chrome.com/apps/cloudMessagingV1)
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-sample-app/assets/screenshot_1280_800.png)
+![screenshot](/samples/push-sample-app/assets/screenshot_1280_800.png)
 

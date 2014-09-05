@@ -46,5 +46,5 @@ How to install on your local machine:
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/push-guestbook/assets/screenshot_1280_800.png)
+![screenshot](/samples/push-guestbook/assets/screenshot_1280_800.png)
 

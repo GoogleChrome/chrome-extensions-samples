@@ -20,5 +20,5 @@ https://developers.google.com/commerce/wallet/digital/docs/testing
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/in-app-payments/assets/screenshot_1280_800.png)
+![screenshot](/samples/in-app-payments/assets/screenshot_1280_800.png)
 

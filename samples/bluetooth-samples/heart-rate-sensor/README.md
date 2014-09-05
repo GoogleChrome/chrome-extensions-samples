@@ -10,4 +10,4 @@ Bluetooth Low Energy heart rate sensor.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/bluetooth-samples/heart-rate-sensor/assets/screenshot_1280_800.png)
+![screenshot](/samples/bluetooth-samples/heart-rate-sensor/assets/screenshot_1280_800.png)

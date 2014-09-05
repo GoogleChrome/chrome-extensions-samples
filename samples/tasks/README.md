@@ -15,4 +15,4 @@ of the [JavaScript Client Library](https://developers.google.com/api-client-libr
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tasks/assets/screenshot_1280_800.png)
+![screenshot](/samples/tasks/assets/screenshot_1280_800.png)

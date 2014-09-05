@@ -10,4 +10,4 @@ with the Generic Attribute Profile (GATT) based Battery Service.
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/bluetooth-samples/battery-service-demo/assets/screenshot_1280_800.png)
+![screenshot](/samples/bluetooth-samples/battery-service-demo/assets/screenshot_1280_800.png)

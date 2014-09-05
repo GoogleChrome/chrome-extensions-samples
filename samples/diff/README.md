@@ -16,5 +16,5 @@ A non-trivial application to diff two files choosen by the user. This app shows 
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/diff/assets/screenshot_1280_800.png)
+![screenshot](/samples/diff/assets/screenshot_1280_800.png)
 

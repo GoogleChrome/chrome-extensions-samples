@@ -13,5 +13,5 @@ This is a sample application that uses the [media gallery](http://developer.chro
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/media-gallery/assets/screenshot_1280_800.png)
+![screenshot](/samples/media-gallery/assets/screenshot_1280_800.png)
 

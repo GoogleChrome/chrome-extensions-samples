@@ -21,5 +21,5 @@ Account check out the [Identity sample application](../identity).
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/github-auth/assets/screenshot_1280_800.png)
+![screenshot](/samples/github-auth/assets/screenshot_1280_800.png)
 

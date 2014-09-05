@@ -4,5 +4,5 @@ This is a simple test/sample app showing how to use the in-app payments API in a
 
      
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/in-app-payments-with-server-validation/chromeapp/assets/screenshot_1280_800.png)
+![screenshot](/samples/in-app-payments-with-server-validation/chromeapp/assets/screenshot_1280_800.png)
 

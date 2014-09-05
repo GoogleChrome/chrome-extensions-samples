@@ -33,4 +33,4 @@ dialog.addEventListener("cancel", function(evt) {
 
 
 ## Screenshot
-![screenshot](https://raw.github.com/GoogleChrome/chrome-app-samples/master/dialog-element/assets/screenshot_1280_800.png)
+![screenshot](/samples/dialog-element/assets/screenshot_1280_800.png)
