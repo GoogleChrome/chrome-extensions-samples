@@ -177,5 +177,5 @@ href="https://github.com/MobileChromeApps/mobile-chrome-apps/blob/master/README.
 
 # Libraries and tools
 
-* [Google APIs client library for Chrome Apps](https://github.com/GoogleChrome/chrome-app-samples/tree/master/gapi-chrome-apps-lib)
+* [Google APIs client library for Chrome Apps](https://github.com/GoogleChrome/chrome-app-samples/tree/master/libraries/gapi-chrome-apps-lib)
 * [Google Analytics for Chrome Apps and Extensions](https://github.com/GoogleChrome/chrome-platform-analytics)
