@@ -2,9 +2,12 @@ input[type=range] {
   outline: none;
   -webkit-appearance: none;
   width: 140px;
-  transition: opacity .3s ease-out;
 }
 
-input[type=range]:disabled {
+input[type=range]::-webkit-slider-runnable-track {
+  transition: opacity .4s ease-in;
+}
+
+input[type=range]:disabled::-webkit-slider-runnable-track {
   opacity: 0;
 }
