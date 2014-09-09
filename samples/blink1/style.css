@@ -2,4 +2,9 @@ input[type=range] {
   outline: none;
   -webkit-appearance: none;
   width: 140px;
+  transition: opacity .3s ease-out;
+}
+
+input[type=range]:disabled {
+  opacity: 0;
 }
