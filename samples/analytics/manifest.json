@@ -12,5 +12,5 @@
   "permissions": [
     "https://www.google-analytics.com/*",
     "storage"
-  ],
+  ]
 }
