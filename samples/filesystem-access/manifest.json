@@ -16,8 +16,7 @@
     "text": {
       "types": [
           "text/*"
-      ],
-      "title": "Text editor"
+      ]
     }
   }
 }

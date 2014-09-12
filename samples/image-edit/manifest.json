@@ -20,8 +20,7 @@
       "types": [
         "image/png",
         "image/jpeg"
-      ],
-      "title": "Crop Tool - Image Edit"
+      ]
     }
   }
 }
