@@ -1,6 +1,6 @@
 {
   "name": "Filesystem Access Sample",
-  "version": "2",
+  "version": "2.1",
   "manifest_version": 2,
   "minimum_chrome_version": "31",
   "app": {
@@ -16,8 +16,7 @@
     "text": {
       "types": [
           "text/*"
-      ],
-      "title": "Text editor"
+      ]
     }
   }
 }
