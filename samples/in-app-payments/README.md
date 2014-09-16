@@ -18,6 +18,7 @@ When testing with the sandbox, you can use the following credit card numbers, wh
 
 https://developers.google.com/commerce/wallet/digital/docs/testing
 
+This is a desktop Chrome App API demo -- there is a similar demo for mobile Chrome Apps at https://github.com/MobileChromeApps/mobile-chrome-app-samples/tree/master/iaptest, as part of the [Mobile Chrome App Samples](https://github.com/MobileChromeApps/mobile-chrome-app-samples) collection.
      
 ## Screenshot
 ![screenshot](/samples/in-app-payments/assets/screenshot_1280_800.png)
