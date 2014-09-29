@@ -5,6 +5,10 @@
 
 This is a non-trivial sample which uses the UDP multicast support in Chrome Packaged Apps to browse mDNS servers. mDNS protocol is usually used for home appliance devices, like the Apple's Bonjour. Read more about the mDNS protocol at this [Wikipedia's article](http://en.wikipedia.org/wiki/Multicast_DNS)
 
+# Known Issues
+
+* IPv6 is not supported.
+  * This sample will therefore not work on Chrome OS.
 
 ## APIs
 
