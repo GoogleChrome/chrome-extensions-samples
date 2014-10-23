@@ -1,0 +1,21 @@
+body {
+  margin: 0px;
+}
+
+p {
+  margin: 8px;
+}
+
+.content {
+  display: flex;
+}
+
+#device-selector {
+  width: 200px;
+}
+
+#device-info {
+  height: 336px;
+  overflow: scroll;
+  width: 440px;
+}
