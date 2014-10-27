@@ -43,10 +43,11 @@ p {
   height: 2em;
   line-height: 2em;
   background: #7489fc;
-  -webkit-app-region: drag;
   transition: all 0.25s;
   text-align: center;
   color: white;
+  -webkit-app-region: drag;
+  app-region: drag;
 }
 
 .titlebar h1 {
@@ -61,6 +62,13 @@ p {
   transition: 0.25s all;
   word-wrap: none;
   text-overflow: visible;
+
+  /**
+   * Mac supports dragging of interactive elements; ChromeOS (possibly others)
+   * makes the buttons unusable unless the drag bit is cleared.
+   */
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
 }
 
 .titlebar .buttons button {
