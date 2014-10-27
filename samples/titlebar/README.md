@@ -13,10 +13,6 @@ This is a basic demo showing alternate titlebars, written in HTML/CSS, depending
 
 ![screenshot](/samples/titlebar/assets/screenshot_mac.png)
 
-### Windows
+### Chrome OS
 
-TODO.
-
-### Linux
-
-TODO.
+![screenshot](/samples/titlebar/assets/screenshot_cros.png)
