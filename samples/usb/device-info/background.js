@@ -4,7 +4,6 @@ chrome.app.runtime.onLaunched.addListener(function() {
       width: 670,
       height: 350
     },
-    singleton: true,
     id: "ChromeApps-Sample-USB-DeviceInfo"
   });
 });

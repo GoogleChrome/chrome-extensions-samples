@@ -10,3 +10,5 @@ for arbitrary devices.
 * [Runtime](https://developer.chrome.com/apps/runtime)
 * [Window](https://developer.chrome.com/apps/app_window)
 
+## Screenshot
+![screenshot](/samples/usb/device-info/assets/screenshot_1280_800.png)

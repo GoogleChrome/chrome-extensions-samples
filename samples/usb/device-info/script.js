@@ -14,7 +14,7 @@ function appendToDeviceSelector(device) {
 };
 
 function appendDeviceInfo(name, value) {
-  el = document.createElement('b');
+  var el = document.createElement('b');
   el.textContent = name + ': '
   device_info.appendChild(el);
   device_info.appendChild(document.createTextNode(value));
@@ -22,9 +22,7 @@ function appendDeviceInfo(name, value) {
 }
 
 function deviceSelectionChanged() {
-  while (device_info.firstChild) {
-    device_info.removeChild(device_info.firstChild);
-  }
+  device_info.innerHTML = "";
 
   var index = device_selector.selectedIndex;
   if (index == -1) {
