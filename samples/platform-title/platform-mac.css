@@ -1,0 +1,18 @@
+.titlebar .buttons {
+  float: left;
+}
+
+.titlebar .buttons button {
+  border-radius: 2000px;
+  min-width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(192, 192, 192, 0.3));
+  color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.titlebar .buttons button:hover {
+  color: #333;
+  font-weight: 500;
+}
