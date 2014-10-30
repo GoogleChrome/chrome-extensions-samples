@@ -30,7 +30,7 @@ function deviceSelectionChanged() {
     el.textContent = 'No device selected.';
     device_info.appendChild(el);
   } else {
-    var device = devices[device_selector.options.item(index).value];
+    var device = devices[device_selector.options.item(index).value].device;
 
     appendDeviceInfo(
         'Product ID',
@@ -97,7 +97,11 @@ chrome.usb.getDevices({}, function(found_devices) {
   }
 
   for (var device of found_devices) {
-    devices[device.device] = device;
+    var deviceInfo = {
+      'device': device,
+      'index': device_selector.options.length
+    };
+    devices[device.device] = deviceInfo;
     appendToDeviceSelector(device);
   }
 });
@@ -113,13 +117,15 @@ add_device.addEventListener('click', function() {
     }
 
     for (var device of selected_devices) {
-      if (device.deviceId in devices) {
-        continue;
+      var deviceInfo = { 'device': device, 'index': undefined };
+      if (device.device in devices) {
+        deviceInfo = devices[device.device];
+      } else {
+        deviceInfo.index = device_selector.options.length;
+        devices[device.device] = deviceInfo;
+        appendToDeviceSelector(device);
       }
-
-      devices[device.device] = device;
-      appendToDeviceSelector(device);
-      device_selector.selectedIndex = device_selector.options.length - 1;
+      device_selector.selectedIndex = deviceInfo.index;
       deviceSelectionChanged();
     }
   });
