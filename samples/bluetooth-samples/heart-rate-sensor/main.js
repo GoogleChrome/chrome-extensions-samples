@@ -27,7 +27,7 @@ var main = (function() {
     // |serviceId| is undefined.
     UI.getInstance().resetState(!service);
 
-    if (this.service_) {
+    if (this.service_ && (!service || this.service_.deviceAddress !== service.deviceAddress)) {
       chrome.bluetoothLowEnergy.disconnect(this.service_.deviceAddress);
     }
 
