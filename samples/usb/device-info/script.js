@@ -21,6 +21,58 @@ function appendDeviceInfo(name, value) {
   device_info.appendChild(document.createElement('br'));
 }
 
+function populateDeviceInfo(handle, callback) {
+  chrome.usb.getConfiguration(handle, function(config) {
+    if (chrome.runtime.lastError != undefined) {
+      var el = document.createElement('em');
+      el.textContent = 'Failed to read device configuration: ' +
+          chrome.runtime.lastError.message;
+      device_info.appendChild(el);
+    } else {
+      var el = document.createElement('h2');
+      el.textContent = 'Configuration ' + config.configurationValue;
+      device_info.appendChild(el);
+
+      for (var iface of config.interfaces) {
+        el = document.createElement('h3');
+        el.textContent = 'Interface ' + iface.interfaceNumber;
+        device_info.appendChild(el);
+
+        appendDeviceInfo('Alternate Setting', iface.alternateSetting);
+        appendDeviceInfo('Inteface Class', iface.interfaceClass);
+        appendDeviceInfo('Interface Subclass', iface.interfaceSubclass);
+        appendDeviceInfo('Interface Protocol', iface.interfaceProtocol);
+
+        for (var endpoint of iface.endpoints) {
+          el = document.createElement('h4');
+          el.textContent = 'Endpoint ' + endpoint.address;
+          device_info.appendChild(el);
+
+          appendDeviceInfo('Type', endpoint.type);
+          appendDeviceInfo('Direction', endpoint.direction);
+          appendDeviceInfo('Maximum Packet Size', endpoint.maximumPacketSize);
+        }
+      }
+    }
+
+    callback();
+  });
+}
+
+function openDevice(device, callback) {
+  if (window.navigator.appVersion.indexOf('; CrOS ') != -1) {
+    chrome.usb.requestAccess(device, -1, function () {
+      if (chrome.runtime.lastError != undefined) {
+        callback();
+      } else {
+        chrome.usb.openDevice(device, callback);
+      }
+    });
+  } else {
+    chrome.usb.openDevice(device, callback);
+  }
+}
+
 function deviceSelectionChanged() {
   device_info.innerHTML = "";
 
@@ -39,52 +91,17 @@ function deviceSelectionChanged() {
         'Vendor ID',
         '0x' + ('0000' + device.vendorId.toString(16)).slice(-4));
 
-    chrome.usb.openDevice(device, function(handle) {
+    openDevice(device, function(handle) {
       if (chrome.runtime.lastError != undefined) {
         var el = document.createElement('em');
         el.textContent = 'Failed to open device: ' +
             chrome.runtime.lastError.message;
         device_info.appendChild(el);
-        return;
-      }
-
-      chrome.usb.getConfiguration(handle, function(config) {
-        if (chrome.runtime.lastError != undefined) {
-          var el = document.createElement('em');
-          el.textContent = 'Failed to read device configuration: ' +
-              chrome.runtime.lastError.message;
-          device_info.appendChild(el);
+      } else {
+        populateDeviceInfo(handle, function () {
           chrome.usb.closeDevice(handle);
-          return;
-        }
-
-        var el = document.createElement('h2');
-        el.textContent = 'Configuration ' + config.configurationValue;
-        device_info.appendChild(el);
-
-        for (var iface of config.interfaces) {
-          el = document.createElement('h3');
-          el.textContent = 'Interface ' + iface.interfaceNumber;
-          device_info.appendChild(el);
-
-          appendDeviceInfo('Alternate Setting', iface.alternateSetting);
-          appendDeviceInfo('Inteface Class', iface.interfaceClass);
-          appendDeviceInfo('Interface Subclass', iface.interfaceSubclass);
-          appendDeviceInfo('Interface Protocol', iface.interfaceProtocol);
-
-          for (var endpoint of iface.endpoints) {
-            el = document.createElement('h4');
-            el.textContent = 'Endpoint ' + endpoint.address;
-            device_info.appendChild(el);
-
-            appendDeviceInfo('Type', endpoint.type);
-            appendDeviceInfo('Direction', endpoint.direction);
-            appendDeviceInfo('Maximum Packet Size', endpoint.maximumPacketSize);
-          }
-        }
-
-        chrome.usb.closeDevice(handle);
-      })
+        });
+      }
     });
   }
 }

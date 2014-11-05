@@ -12,10 +12,11 @@ p {
 
 #device-selector {
   width: 200px;
+  height: 285px;
 }
 
 #device-info {
   height: 336px;
-  overflow: scroll;
+  overflow: auto;
   width: 440px;
 }
