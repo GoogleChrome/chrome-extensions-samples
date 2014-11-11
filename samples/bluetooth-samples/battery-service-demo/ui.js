@@ -52,6 +52,17 @@ var UI = (function() {
     };
   };
 
+  UI.prototype.triggerDeviceSelection = function() {
+    var deviceSelector = document.getElementById('device-selector');
+    if (deviceSelector.onchange)
+      deviceSelector.onchange();
+  };
+
+  UI.prototype.getSelectedDeviceAddress = function() {
+    var deviceSelector = document.getElementById('device-selector');
+    return deviceSelector[deviceSelector.selectedIndex].value;
+  };
+
   UI.prototype.updateDeviceSelector = function(deviceMap, reset) {
     var deviceSelector = document.getElementById('device-selector');
     var placeHolder = document.getElementById('placeholder');
