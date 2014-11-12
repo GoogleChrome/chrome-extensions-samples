@@ -16,6 +16,7 @@ var main = (function() {
     this.energyExpandedChrc_ = null;
     this.bodySensorLocChrc_ = null;
     this.controlPointChrc_ = null;
+    this.discovering_ = false;
   }
 
   /**
@@ -302,14 +303,23 @@ var main = (function() {
     });
   };
 
+  HeartRateSensor.prototype.updateDiscoveryToggleState = function(discovering) {
+    if (this.discovering_ !== discovering) {
+      this.discovering_ = discovering;
+      UI.getInstance().setDiscoveryToggleState(this.discovering_);
+    }
+  };
+
   HeartRateSensor.prototype.init = function() {
     // Set up the UI to look like no device was initially selected.
     this.selectService(undefined);
 
+    var self = this;
     // Request information about the local Bluetooth adapter to be displayed in
     // the UI.
     var updateAdapterState = function(adapterState) {
       UI.getInstance().setAdapterState(adapterState.address, adapterState.name);
+      self.updateDiscoveryToggleState(adapterState.discovering);
     };
 
     chrome.bluetooth.getAdapterState(function (adapterState) {
@@ -317,13 +327,13 @@ var main = (function() {
         console.log(chrome.runtime.lastError.message);
       }
 
+      self.updateDiscoveryToggleState(adapterState.discovering);
       updateAdapterState(adapterState);
     });
 
     chrome.bluetooth.onAdapterStateChanged.addListener(updateAdapterState);
 
     // Initialize the device map.
-    var self = this;
     chrome.bluetooth.getDevices(function (devices) {
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
@@ -373,6 +383,25 @@ var main = (function() {
               UI.getInstance().updateDeviceSelector(self.deviceMap_);
             }
           });
+        });
+      }
+    });
+
+    // Set up discovery toggle button handler
+    UI.getInstance().setDiscoveryToggleHandler(function() {
+      if (self.discovering_) {
+        chrome.bluetooth.stopDiscovery(function() {
+          if (chrome.runtime.lastError) {
+            console.log('Failed to stop discovery: ' + chrome.runtime.lastError.message);
+            return;
+          }
+        });
+      } else {
+        chrome.bluetooth.startDiscovery(function() {
+          if (chrome.runtime.lastError) {
+            console.log('Failed to start discovery: ' + chrome.runtime.lastError.message);
+            return;
+          }
         });
       }
     });
