@@ -234,20 +234,16 @@ var main = (function() {
 
     // Set up discovery toggle button handler
     UI.getInstance().setDiscoveryToggleHandler(function() {
+      var discoveryHandler = function() {
+        if (chrome.runtime.lastError) {
+          console.log('Failed to ' + (self.discovering_ ? 'stop' : 'start') + ' discovery ' +
+                      chromium.runtime.lastError.message);
+        }
+      };
       if (self.discovering_) {
-        chrome.bluetooth.stopDiscovery(function() {
-          if (chrome.runtime.lastError) {
-            console.log('Failed to stop discovery: ' + chrome.runtime.lastError.message);
-            return;
-          }
-        });
+        chrome.bluetooth.stopDiscovery(discoveryHandler);
       } else {
-        chrome.bluetooth.startDiscovery(function() {
-          if (chrome.runtime.lastError) {
-            console.log('Failed to start discovery: ' + chrome.runtime.lastError.message);
-            return;
-          }
-        });
+        chrome.bluetooth.startDiscovery(discoveryHandler);
       }
     });
 
