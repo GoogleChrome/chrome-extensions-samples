@@ -1,13 +1,14 @@
 {
-  "name": "Chrome In-App Payments Sample",
-  "description": "App to test Chrome In-App Payments.",
+  "name": "Managed In App Payment Sample",
+  "version": "0.1.0.0",
   "manifest_version": 2,
-  "version": "0.0.4.1",
   "minimum_chrome_version": "29",
   "app": {
     "background": {
-      "scripts": ["background.js"]
+      "scripts": ["main.js"]
     }
   },
-  "icons": { "16": "icon_16.png", "128": "icon_128.png" }
+  "icons": {
+    "128": "/images/128.png"
+  }
 }
