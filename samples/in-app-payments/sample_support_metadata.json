@@ -1,5 +1,0 @@
-{
-  "sample": "in-app-payments",
-  "android": {"works": true, "comments": "There is a similar <a href=\"https://github.com/MobileChromeApps/mobile-chrome-app-samples/tree/master/iaptest\">demo</a> for mobile Chrome Apps, as part of the <a href=\"https://github.com/MobileChromeApps/mobile-chrome-app-samples\">Mobile Chrome App Samples</a> collection."},
-  "ios": {"works": true, "comments": "There is a similar <a href=\"https://github.com/MobileChromeApps/mobile-chrome-app-samples/tree/master/iaptest\">demo</a> for mobile Chrome Apps, as part of the <a href=\"https://github.com/MobileChromeApps/mobile-chrome-app-samples\">Mobile Chrome App Samples</a> collection."}
-}

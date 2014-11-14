@@ -1,0 +1,11 @@
+body { padding-top: 60px; }
+
+
+td:nth-of-type(4) {
+  text-align: center;
+}
+
+.btn {
+  width: 95px;
+}
+

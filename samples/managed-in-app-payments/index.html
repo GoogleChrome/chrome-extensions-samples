@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>IAP Sample App</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand">Choose Your Avatar</a>
+      </div>
+
+      <p id="status" class="navbar-text navbar-right"></p>
+    </nav>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="name">Item</th>
+          <th class="desc">Description</th>
+          <th class="price">Price</th>
+          <th class="action"></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <div id="modalLicense" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">License Data</h4>
+          </div>
+          <div class="modal-body">
+            <pre class="license">license data</pre>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script type="text/javascript" src="/scripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/scripts/buy.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/bootstrap.min.js"></script>
+
+  </body>
+</html>
