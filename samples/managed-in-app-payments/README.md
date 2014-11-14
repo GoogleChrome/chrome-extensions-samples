@@ -1,6 +1,6 @@
 # Managed In-App Payments with Google Wallet and the Chrome Web Store API
 
-You can use (managed in-app payments with Google Wallet and the Chrome Web Store API)[https://developer.chrome.com/webstore/payments-iap] to sell virtual
+You can use [managed in-app payments with Google Wallet and the Chrome Web Store API](https://developer.chrome.com/webstore/payments-iap) to sell virtual
 goods within a Chrome App. When you use managed in-app payments, the
 Chrome In-App Payments Service (embedded in Chrome) communicates with:
  * The Chrome Web Store to get the list of available products, including:
