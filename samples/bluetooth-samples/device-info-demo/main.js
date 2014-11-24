@@ -16,6 +16,7 @@ var main = (function() {
     // The currently selected service and its characteristics.
     this.service_ = null;
     this.chrcMap_ = {};
+    this.discovering_ = false;
   }
 
   /**
@@ -112,27 +113,36 @@ var main = (function() {
     });
   };
 
+  DeviceInfoDemo.prototype.updateDiscoveryToggleState = function(discovering) {
+    if (this.discovering_ !== discovering) {
+      this.discovering_ = discovering;
+      UI.getInstance().setDiscoveryToggleState(this.discovering_);
+    }
+  };
+
   DeviceInfoDemo.prototype.init = function() {
     // Set up the UI to look like no device was initially selected.
     this.selectService(null);
+
+    // Store the |this| to be used by API callbacks below.
+    var self = this;
 
     // Request information about the local Bluetooth adapter to be displayed in
     // the UI.
     var updateAdapterState = function(adapterState) {
       UI.getInstance().setAdapterState(adapterState.address, adapterState.name);
+      self.updateDiscoveryToggleState(adapterState.discovering);
     };
 
     chrome.bluetooth.getAdapterState(function (adapterState) {
       if (chrome.runtime.lastError)
         console.log(chrome.runtime.lastError.message);
 
+      self.updateDiscoveryToggleState(adapterState.discovering);
       updateAdapterState(adapterState);
     });
 
     chrome.bluetooth.onAdapterStateChanged.addListener(updateAdapterState);
-
-    // Store the |this| to be used by API callbacks below.
-    var self = this;
 
     // Helper functions used below.
     var isKnownDevice = function(deviceAddress) {
@@ -188,6 +198,21 @@ var main = (function() {
             storeDevice(device.address, device);
           });
         });
+      }
+    });
+
+    // Set up discovery toggle button handler
+    UI.getInstance().setDiscoveryToggleHandler(function() {
+      var discoveryHandler = function() {
+        if (chrome.runtime.lastError) {
+          console.log('Failed to ' + (self.discovering_ ? 'stop' : 'start') + ' discovery ' +
+                      chromium.runtime.lastError.message);
+        }
+      };
+      if (self.discovering_) {
+        chrome.bluetooth.stopDiscovery(discoveryHandler);
+      } else {
+        chrome.bluetooth.startDiscovery(discoveryHandler);
       }
     });
 

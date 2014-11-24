@@ -50,6 +50,20 @@ var UI = (function() {
     document.getElementById('heart-rate-control-point').onclick = handler;
   };
 
+  UI.prototype.setDiscoveryToggleState = function(isDiscoverying) {
+    var discoveryToggleButton = document.getElementById('discovery-toggle-button');
+    if (isDiscoverying) {
+      discoveryToggleButton.innerHTML = 'stop discovery';
+    } else {
+      discoveryToggleButton.innerHTML = 'start discovery';
+    }
+  };
+
+  UI.prototype.setDiscoveryToggleHandler = function(handler) {
+    var discoveryToggleButton = document.getElementById('discovery-toggle-button');
+    discoveryToggleButton.onclick = handler;
+  };
+
   UI.prototype.setDeviceSelectionHandler = function(handler) {
     var deviceSelector =  document.getElementById('device-selector');
     deviceSelector.onchange = function() {
