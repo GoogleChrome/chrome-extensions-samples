@@ -13,7 +13,8 @@
 		{
 			"usbDevices": [
 				{ "vendorId": 0, "productId": 65535 },
-				{ "vendorId": 65535, "productId": 0 }
+				{ "vendorId": 65535, "productId": 0 },
+				{ "vendorId": 5538, "productId": 512}
  			]
 		}
 	]
