@@ -134,7 +134,7 @@
   var pollForInput = function() {
     var size = +ui.inSize.value;
     isReceivePending = true;
-    chrome.hid.receive(connection, size, function(data) {
+    chrome.hid.receive(connection, function(reportId, data) {
       isReceivePending = false;
       logInput(new Uint8Array(data));
       if (ui.inPoll.checked) {

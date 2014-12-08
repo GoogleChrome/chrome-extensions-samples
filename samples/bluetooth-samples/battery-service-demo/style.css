@@ -49,7 +49,14 @@ ul li {
   border: 1px solid #aaa;
   color: #454545;
   font-style: italic;
-} 
+}
+
+#discovery-toggle-button {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #454545;
+  font-style: italic;
+}
 
 hr {
   border: 0;
