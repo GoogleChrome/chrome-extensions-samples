@@ -24,8 +24,12 @@
     ui.b.addEventListener('input', onColorChanged);
 
     chrome.hid.getDevices({}, onDevicesEnumerated);
-    chrome.hid.onDeviceAdded.addListener(onDeviceAdded);
-    chrome.hid.onDeviceRemoved.addListener(onDeviceRemoved);
+    if (chrome.hid.onDeviceAdded) {
+      chrome.hid.onDeviceAdded.addListener(onDeviceAdded);
+    }
+    if (chrome.hid.onDeviceRemoved) {
+      chrome.hid.onDeviceRemoved.addListener(onDeviceRemoved);
+    }
   };
 
   function enableControls(enabled) {
