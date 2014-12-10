@@ -6,24 +6,6 @@ function Blink1(deviceId) {
 Blink1.VENDOR_ID = 0x27B8;
 Blink1.PRODUCT_ID = 0x01ED;
 
-Blink1.getDevices = function(cb) {
-  chrome.hid.getDevices(
-      { filters: [ { vendorId: Blink1.VENDOR_ID,
-                     productId: Blink1.PRODUCT_ID } ] },
-      function(devices) {
-    if (chrome.runtime.lastError) {
-      console.warn("Unable to enumerate devices: " +
-                   chrome.runtime.lastError.message);
-      cb([]);
-      return;
-    }
-
-    cb(devices.map(function(device) {
-      return new Blink1(device.deviceId);
-    }));
-  });
-};
-
 Blink1.prototype.connect = function(cb) {
   chrome.hid.connect(this.deviceId, function(connectionInfo) {
     if (chrome.runtime.lastError) {

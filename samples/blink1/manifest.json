@@ -5,7 +5,7 @@
   "minimum_chrome_version": "39.0.2140.0",
   "app": {
     "background": {
-      "scripts": [ "blink1.js", "main.js" ]
+      "scripts": [ "main.js" ]
     }
   },
   "icons": {
