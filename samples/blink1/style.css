@@ -1,3 +1,8 @@
+select {
+  margin: 2px;
+  width: 140px;
+}
+
 input[type=range] {
   outline: none;
   -webkit-appearance: none;
