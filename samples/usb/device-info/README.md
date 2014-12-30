@@ -1,7 +1,10 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/igkmggljimacfdfalpeelenjeicmfnll">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # USB Device Info Demo
 
 This app displays information about any device available to Chrome. The
-new chrome.usb.getUserSelectedDevices API is used to request permission
+new `chrome.usb.getUserSelectedDevices` API is used to request permission
 for arbitrary devices.
 
 ## APIs
