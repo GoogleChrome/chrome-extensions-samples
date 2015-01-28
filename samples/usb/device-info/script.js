@@ -59,20 +59,6 @@ function populateDeviceInfo(handle, callback) {
   });
 }
 
-function openDevice(device, callback) {
-  if (window.navigator.appVersion.indexOf('; CrOS ') != -1) {
-    chrome.usb.requestAccess(device, -1, function () {
-      if (chrome.runtime.lastError != undefined) {
-        callback();
-      } else {
-        chrome.usb.openDevice(device, callback);
-      }
-    });
-  } else {
-    chrome.usb.openDevice(device, callback);
-  }
-}
-
 function deviceSelectionChanged() {
   device_info.innerHTML = "";
 
@@ -91,7 +77,7 @@ function deviceSelectionChanged() {
         'Vendor ID',
         '0x' + ('0000' + device.vendorId.toString(16)).slice(-4));
 
-    openDevice(device, function(handle) {
+    chrome.usb.openDevice(device, function(handle) {
       if (chrome.runtime.lastError != undefined) {
         var el = document.createElement('em');
         el.textContent = 'Failed to open device: ' +
