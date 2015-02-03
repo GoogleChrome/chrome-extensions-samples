@@ -27,6 +27,10 @@ var main = (function() {
     // |serviceId| is undefined.
     UI.getInstance().resetState(!service);
 
+    if (this.service_ && (!service || this.service_.deviceAddress !== service.deviceAddress)) {
+      chrome.bluetoothLowEnergy.disconnect(this.service_.deviceAddress);
+    }
+
     this.service_ = service;
     this.chrcMap_ = {};
 
@@ -47,8 +51,9 @@ var main = (function() {
       }
 
       // Make sure that the same service is still selected.
-      if (service.instanceId != self.service_.instanceId)
+      if (self.service_ && service.instanceId != self.service_.instanceId) {
         return;
+      }
 
       if (chrcs.length == 0) {
         console.log('Service has no characteristics: ' + service.instanceId);
@@ -156,7 +161,7 @@ var main = (function() {
         resetUI = true;
       } else {
         self.deviceMap_[deviceAddress] =
-            (device.name ? device.name : device.address);
+            (device.name ? device.name : deviceAddress);
       }
 
       // Update the selector UI with the new device list.
@@ -224,6 +229,15 @@ var main = (function() {
         return;
       }
 
+      chrome.bluetoothLowEnergy.connect(selectedValue, function () {
+        if (chrome.runtime.lastError) {
+          console.log('Failed to connect to Battery device "' + selectedValue +
+                      '" ' + chrome.runtime.lastError.message);
+          return;
+        }
+        console.log('Connected to Battery device: ' + selectedValue);
+      });
+
       // Request all GATT services of the selected device to see if it still has
       // a Device Information service and pick the first one to display.
       chrome.bluetoothLowEnergy.getServices(selectedValue, function (services) {
@@ -243,11 +257,53 @@ var main = (function() {
       });
     });
 
+    // Track devices that get added and removed. If they have the device info
+    // service UUID in their advertisement data, then it will be available in
+    // the |uuids| field of the device.
+    chrome.bluetooth.onDeviceAdded.addListener(function (device) {
+      if (!device.uuids || device.uuids.indexOf(DEVICE_INFO_SERVICE_UUID) < 0) {
+        return;
+      }
+
+      if (self.deviceMap_.hasOwnProperty(device.address)) {
+        return;
+      }
+
+      console.log('Found device with Device Info service: ' + device.address);
+
+      self.deviceMap_[device.address] =
+          (device.name ? device.name : device.address);
+      UI.getInstance().updateDeviceSelector(self.deviceMap_);
+    });
+
+    // Track devices as they are removed.
+    chrome.bluetooth.onDeviceRemoved.addListener(function (device) {
+      if (!self.deviceMap_.hasOwnProperty(device.address)) {
+        return;
+      }
+
+      console.log('Device Info device removed: ' + device.address);
+      delete self.deviceMap_[device.address];
+      if (self.service_ && self.service_.deviceAddress == device.address) {
+        chrome.bluetoothLowEnergy.disconnect(device.address);
+        self.selectService(undefined);
+        UI.getInstance().triggerDeviceSelection();
+      }
+      UI.getInstance().updateDeviceSelector(self.deviceMap_);
+    });
+
     // Track GATT services as they are added.
     chrome.bluetoothLowEnergy.onServiceAdded.addListener(function (service) {
       // Ignore, if the service is not a Device Information service.
       if (service.uuid != DEVICE_INFO_SERVICE_UUID)
         return;
+
+      // If this came from the currently selected device and no service is
+      // currently selected, select this service.
+      if (UI.getInstance().getSelectedDeviceAddress() == service.deviceAddress
+          && !self.service_) {
+        self.selectService(service);
+      }
 
       // Add the device of the service to the device map and update the UI.
       console.log('New Device Information service added: ' + service.instanceId);
@@ -283,8 +339,9 @@ var main = (function() {
 
       // Remove the associated device from the map only if it has no other Device
       // Information services exposed (this will usually be the case)
-      if (!isKnownDevice(service.deviceAddress))
+      if (!isKnownDevice(service.deviceAddress)) {
         return;
+      }
 
       chrome.bluetooth.getDevice(service.deviceAddress, function (device) {
         if (chrome.runtime.lastError) {
@@ -309,8 +366,9 @@ var main = (function() {
             }
           }
 
-          if (found)
+          if (found) {
             return;
+          }
 
           console.log('Removing device: ' + device.address);
           storeDevice(device.address, null);
@@ -321,9 +379,9 @@ var main = (function() {
     // Track GATT services as they change.
     chrome.bluetoothLowEnergy.onServiceChanged.addListener(function (service) {
       // This only matters if the selected service changed.
-      if (!self.service_ || service.instanceId != self.service_.instanceId)
+      if (!self.service_ || service.instanceId != self.service_.instanceId) {
         return;
-
+      }
       console.log('The selected service has changed');
 
       // Reselect the service to force an updated.
