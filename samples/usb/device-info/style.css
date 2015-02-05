@@ -1,22 +1,30 @@
+html {
+  height: 100%;
+}
+
 body {
-  margin: 0px;
+  margin: 0px auto;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+h3 {
+  border-bottom: 1px solid;
 }
 
 p {
   margin: 8px;
 }
 
-.content {
-  display: flex;
+#device-info {
+  margin-left: 216px;
+}
+
+.left-panel {
+  position: absolute;
 }
 
 #device-selector {
   width: 200px;
-  height: 285px;
-}
-
-#device-info {
-  height: 336px;
-  overflow: auto;
-  width: 440px;
+  height: 283px;
 }
