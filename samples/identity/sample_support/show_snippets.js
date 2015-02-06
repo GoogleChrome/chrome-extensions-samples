@@ -67,7 +67,7 @@ function addSnippet(snippetName, snippet) {
   h2.innerText=snippetName;
   var linkToGithub = document.createElement('span');
   var githubUrl='https://github.com/GoogleChrome/chrome-app-samples/tree/master/'+
-    sampleName+'/'+snippet.filename;
+    'samples/'+sampleName+'/'+snippet.filename;
   if (snippet.startLine) {
     githubUrl+='#L'+snippet.startLine+'-L'+snippet.endLine;
   }
