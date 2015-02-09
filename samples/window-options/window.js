@@ -72,6 +72,16 @@ function createNewWindow() {
   optionsDictionary.alwaysOnTop = $('#newWindowOnTop').is(':checked');
   optionsDictionary.focused = $('#newWindowFocused').is(':checked');
 
+  if (optionsDictionary.frame === 'chrome') {
+    optionsDictionary.frame = { type: 'chrome' };
+    if ($('#newWindowColor').val()) {
+      optionsDictionary.frame.color = $('#newWindowColor').val();
+    }
+    if ($('#newWindowInactiveColor').val()) {
+      optionsDictionary.frame.inactiveColor = $('#newWindowInactiveColor').val();
+    }
+  }
+
   if (optionsDictionary.hidden) {
     callback = function (win) {
       setTimeout(function () { win.show(); }, kHiddenWindowDelay);
