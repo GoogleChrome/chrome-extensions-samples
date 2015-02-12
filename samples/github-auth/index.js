@@ -26,7 +26,7 @@ var gh = (function() {
         var options = {
           'interactive': interactive,
           url:'https://github.com/login/oauth/authorize?client_id=' + clientId +
-              '&reponse_type=token' +
+              '&response_type=token' +
               '&access_type=online' +
               '&redirect_uri=' + encodeURIComponent(redirectUri)
         }
