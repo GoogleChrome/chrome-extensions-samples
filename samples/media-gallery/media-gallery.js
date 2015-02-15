@@ -208,6 +208,8 @@ function scanGalleries(fs) {
    gGalleryData[gGalleryIndex] = new GalleryData(mData.galleryId);
    gGalleryReader = fs.root.createReader();
    gGalleryReader.readEntries(scanGallery, errorPrintFactory('readEntries'));
+
+   chrome.mediaGalleries.addGalleryWatch(mData.galleryId, onGalleryWatchAdded);
 }
 
 function getGalleriesInfo(results) {
@@ -234,7 +236,21 @@ function getGalleriesInfo(results) {
    else {
       document.getElementById("status").innerText = 'No galleries found';
       document.getElementById("read-button").disabled = "disabled";
+      clearList();
    }
+}
+
+function onGalleryChanged(result) {
+  if (result.type === 'contents_changed') {
+    // read galleries again if change was detected.
+    document.getElementById('read-button').click();
+  }
+}
+
+function onGalleryWatchAdded() {
+  if (chrome.runtime.lastError) {
+    console.log("Gallery watch not added", chrome.runtime.lastError.message);
+  }
 }
 
 window.addEventListener("load", function() {
@@ -264,6 +280,7 @@ window.addEventListener("load", function() {
    document.getElementById('read-button').addEventListener("click", function () {
       clearContentDiv();
       clearList();
+      gGalleryIndex = 0;
       if (gGalleryArray.length > 0) {
          scanGalleries(gGalleryArray[0]);
       }
@@ -295,3 +312,5 @@ chrome.mediaGalleries.onScanProgress.addListener(function(details) {
   if (details.type != 'start')
    document.getElementById('scan-button').innerHTML = 'Search for Galleries';
 });
+
+chrome.mediaGalleries.onGalleryChanged.addListener(onGalleryChanged);
