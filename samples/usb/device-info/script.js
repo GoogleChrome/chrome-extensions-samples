@@ -68,7 +68,7 @@ function deviceSelectionChanged() {
     el.textContent = 'No device selected.';
     device_info.appendChild(el);
   } else {
-    var device = devices[device_selector.options.item(index).value].device;
+    var device = devices[device_selector.options.item(index).value];
 
     appendDeviceInfo(
         'Product ID',
@@ -100,14 +100,30 @@ chrome.usb.getDevices({}, function(found_devices) {
   }
 
   for (var device of found_devices) {
-    var deviceInfo = {
-      'device': device,
-      'index': device_selector.options.length
-    };
-    devices[device.device] = deviceInfo;
+    devices[device.device] = device;
     appendToDeviceSelector(device);
   }
 });
+
+if (chrome.usb.onDeviceAdded) {
+  chrome.usb.onDeviceAdded.addListener(function (device) {
+    devices[device.device] = device;
+    appendToDeviceSelector(device);
+  });
+}
+
+if (chrome.usb.onDeviceRemoved) {
+  chrome.usb.onDeviceRemoved.addListener(function (device) {
+    delete devices[device.device];
+    for (var i = 0; i < device_selector.length; ++i) {
+      if (device_selector.options.item(i).value == device.device) {
+        device_selector.remove(i);
+        deviceSelectionChanged();
+        break;
+      }
+    }
+  });
+}
 
 add_device.addEventListener('click', function() {
   chrome.usb.getUserSelectedDevices({
@@ -122,13 +138,17 @@ add_device.addEventListener('click', function() {
     for (var device of selected_devices) {
       var deviceInfo = { 'device': device, 'index': undefined };
       if (device.device in devices) {
-        deviceInfo = devices[device.device];
+        for (var i = 0; i < device_selector.length; ++i) {
+          if (device_selector.options.item(i).value == device.device) {
+            device_selector.selectedIndex = i;
+            break;
+          }
+        }
       } else {
-        deviceInfo.index = device_selector.options.length;
-        devices[device.device] = deviceInfo;
+        devices[device.device] = device;
         appendToDeviceSelector(device);
+        device_selector.selectedIndex = device_selector.options.length - 1;
       }
-      device_selector.selectedIndex = deviceInfo.index;
       deviceSelectionChanged();
     }
   });
