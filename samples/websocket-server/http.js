@@ -41,6 +41,121 @@ var arrayBufferToString = function(buffer) {
 };
 
 /**
+ * Convert from an UTF-8 array to UTF-8 string.
+ * @param {array} UTF-8 array
+ * @return {string} UTF-8 string
+ */
+var ary2utf8 = (function() {
+
+  var patterns = [
+    {pattern: '0xxxxxxx', bytes: 1},
+    {pattern: '110xxxxx', bytes: 2},
+    {pattern: '1110xxxx', bytes: 3},
+    {pattern: '11110xxx', bytes: 4},
+    {pattern: '111110xx', bytes: 5},
+    {pattern: '1111110x', bytes: 6}
+  ];
+  patterns.forEach(function(item) {
+    item.header = item.pattern.replace(/[^10]/g, '');
+    item.pattern01 = item.pattern.replace(/[^10]/g, '0');
+    item.pattern01 = parseInt(item.pattern01, 2);
+    item.mask_length = item.header.length;
+    item.data_length = 8 - item.header.length;
+    var mask = '';
+    for (var i = 0, len = item.mask_length; i < len; i++) {
+      mask += '1';
+    }
+    for (var i = 0, len = item.data_length; i < len; i++) {
+      mask += '0';
+    }
+    item.mask = mask;
+    item.mask = parseInt(item.mask, 2);
+  });
+
+  return function(ary) {
+    var codes = [];
+    var cur = 0;
+    while(cur < ary.length) {
+      var first = ary[cur];
+      var pattern = null;
+      for (var i = 0, len = patterns.length; i < len; i++) {
+        if ((first & patterns[i].mask) == patterns[i].pattern01) {
+          pattern = patterns[i];
+          break;
+        }
+      }
+      if (pattern == null) {
+        throw 'utf-8 decode error';
+      }
+      var rest = ary.slice(cur + 1, cur + pattern.bytes);
+      cur += pattern.bytes;
+      var code = '';
+      code += ('00000000' + (first & (255 ^ pattern.mask)).toString(2)).slice(-pattern.data_length);
+      for (var i = 0, len = rest.length; i < len; i++) {
+        code += ('00000000' + (rest[i] & parseInt('111111', 2)).toString(2)).slice(-6);
+      }
+      codes.push(parseInt(code, 2));
+    }
+    return String.fromCharCode.apply(null, codes);
+  };
+
+})();
+
+/**
+ * Convert from an UTF-8 string to UTF-8 array.
+ * @param {string} UTF-8 string
+ * @return {array} UTF-8 array
+ */
+var utf82ary = (function() {
+
+  var patterns = [
+    {pattern: '0xxxxxxx', bytes: 1},
+    {pattern: '110xxxxx', bytes: 2},
+    {pattern: '1110xxxx', bytes: 3},
+    {pattern: '11110xxx', bytes: 4},
+    {pattern: '111110xx', bytes: 5},
+    {pattern: '1111110x', bytes: 6}
+  ];
+  patterns.forEach(function(item) {
+    item.header = item.pattern.replace(/[^10]/g, '');
+    item.mask_length = item.header.length;
+    item.data_length = 8 - item.header.length;
+    item.max_bit_length = (item.bytes - 1) * 6 + item.data_length;
+  });
+
+  var code2utf8array = function(code) {
+    var pattern = null;
+    var code01 = code.toString(2);
+    for (var i = 0, len = patterns.length; i < len; i++) {
+      if (code01.length <= patterns[i].max_bit_length) {
+        pattern = patterns[i];
+        break;
+      }
+    }
+    if (pattern == null) {
+      throw 'utf-8 encode error';
+    }
+    var ary = [];
+    for (var i = 0, len = pattern.bytes - 1; i < len; i++) {
+      ary.unshift(parseInt('10' + ('000000' + code01.slice(-6)).slice(-6), 2));
+      code01 = code01.slice(0, -6);
+    }
+    ary.unshift(parseInt(pattern.header + ('00000000' + code01).slice(-pattern.data_length), 2));
+    return ary;
+  };
+
+  return function(str) {
+    var codes = [];
+    for (var i = 0, len = str.length; i < len; i++) {
+      var code = str.charCodeAt(i);
+      Array.prototype.push.apply(codes, code2utf8array(code));
+    }
+    return codes;
+  };
+
+})();
+
+/**
  * Convert a string to an ArrayBuffer.
  * @param {string} string The string to convert.
  * @return {ArrayBuffer} An array buffer whose bytes correspond to the string.
@@ -556,15 +671,18 @@ WebSocketServerSocket.prototype = {
           var decoded = data.slice(data_start, data_start + length_code).map(function(byte, index) {
             return byte ^ mask[index % 4];
           });
+          if (op == 1) {
+            decoded = ary2utf8(decoded);
+          }
           data = data.slice(data_start + length_code);
           if (fin && op > 0) {
             // Unfragmented message.
-            if (!t.onFrame_(op, arrayBufferToString(decoded)))
+            if (!t.onFrame_(op, decoded))
               return;
           } else {
             // Fragmented message.
             fragmentedOp = fragmentedOp || op;
-            fragmentedMessage += arrayBufferToString(decoded);
+            fragmentedMessage += decoded;
             if (fin) {
               if (!t.onFrame_(fragmentedOp, fragmentedMessage))
                 return;
@@ -598,11 +716,15 @@ WebSocketServerSocket.prototype = {
 
   sendFrame_: function(op, data) {
     var t = this;
-    var WebsocketFrameString = function(op, str) {
-      var length = str.length;
-      if (str.length > 65535)
+    var WebsocketFrameData = function(op, data) {
+      var ary = data;
+      if (typeof data == 'string' || data instanceof String) {
+        ary = utf82ary(data);
+      }
+      var length = ary.length;
+      if (ary.length > 65535)
         length += 10;
-      else if (str.length > 125)
+      else if (ary.length > 125)
         length += 4;
       else
         length += 2;
@@ -610,25 +732,24 @@ WebSocketServerSocket.prototype = {
       var buffer = new ArrayBuffer(length);
       var bv = new Uint8Array(buffer);
       bv[0] = 128 | (op & 15); // Fin and type text.
-      bv[1] = str.length > 65535 ? 127 :
-              (str.length > 125 ? 126 : str.length);
-      if (str.length > 65535)
+      bv[1] = ary.length > 65535 ? 127 :
+              (ary.length > 125 ? 126 : ary.length);
+      if (ary.length > 65535)
         lengthBytes = 8;
-      else if (str.length > 125)
+      else if (ary.length > 125)
         lengthBytes = 2;
-      var len = str.length;
+      var len = ary.length;
       for (var i = lengthBytes - 1; i >= 0; i--) {
         bv[2 + i] = len & 255;
         len = len >> 8;
       }
       var dataStart = lengthBytes + 2;
-      for (var i = 0; i < str.length; i++) {
-        bv[dataStart + i] = str.charCodeAt(i);
+      for (var i = 0; i < ary.length; i++) {
+        bv[dataStart + i] = ary[i];
       }
       return buffer;
     }
-
-    var array = WebsocketFrameString(op, data || '');
+    var array = WebsocketFrameData(op, data || '');
     socket.write(this.socketId_, array, function(writeInfo) {
       if (writeInfo.resultCode < 0 ||
           writeInfo.bytesWritten !== array.byteLength) {
