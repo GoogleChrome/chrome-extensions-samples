@@ -126,14 +126,15 @@ DRONE.API = (function() {
             CLIENT_IP = entries[i].address;
             log("Client IP changed to "+CLIENT_IP);
           }
+          connectDrone();
           return;
         }
       }
     });
-
   }
+
   /**
-   * Initialises the connections to the Drone
+   * Initialises client IP
    */
   function init(cbConnected, cbConnectionError) {
 
@@ -142,7 +143,12 @@ DRONE.API = (function() {
     // assign the callbacks
     callbacks.onAllConnected = cbConnected;
     callbacks.onConnectionError = cbConnectionError;
+  }
 
+  /**
+   * Initialises the connections to the Drone
+   */
+  function connectDrone() {
     // send the drone AT commands
     connect(sockets['at']);
 
@@ -155,6 +161,7 @@ DRONE.API = (function() {
     // send admin commands to the drone
     connect(sockets['cmd']);
   }
+
 
   /**
    * Closes and discards all the socket connections
