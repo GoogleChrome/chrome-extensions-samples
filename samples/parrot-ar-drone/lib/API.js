@@ -93,9 +93,6 @@ DRONE.API = (function() {
           // now enable controls
           status.enabled = COMMANDS_ENABLED;
 
-          // go go go!
-          takeOffOrLand();
-
           if(callbacks.onAllConnected) {
             callbacks.onAllConnected();
           }
@@ -213,9 +210,6 @@ DRONE.API = (function() {
    * an ArrayBuffer to send over the socket to the drone
    */
   function sendCommands(commands) {
-
-    if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
-
     var atSock = sockets['at'];
     var commandBuffer = DRONE.Util.stringToArrayBuffer(commands.join(""));
 
@@ -234,6 +228,7 @@ DRONE.API = (function() {
 
     // set up a keepalive just in case we don't
     // for whatever reason send the other commands
+    if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
     keepAliveTimeout = setTimeout(sendKeepAliveCommand, 1000);
   }
 
@@ -287,18 +282,18 @@ DRONE.API = (function() {
           if(data.data.byteLength > 0) {
             DRONE.NavData.parse(data.data);
           } else {
-        //    shutdown();
+            shutdown();
           }
         });
     }
 
     // ensure we call this again
-    // restore later: setTimeout(sendKeepAliveCommand, 200);
-
+    if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
+    keepAliveTimeout = setTimeout(sendKeepAliveCommand, 200);
   }
 
-  var takeoffLandStart;
-  var previousTakeoffStatus;
+  var takeoffLandStart = 0;
+  var previousTakeoffStatus = LAND;
 
   /**
    * The takeoff loop. This should keep sending the REF command until the 
@@ -337,9 +332,10 @@ DRONE.API = (function() {
    * the tilt, speed and whether or not we want it to take off or land
    */
   function loop() {
-
-    if (previousTakeoffStatus!=status.mode) {
-      takeOffOrLand();
+    if (takeoffLandStart != 0) {
+      return;
+    }
+    if (status.mode == LAND) {
       return;
     }
 
@@ -380,10 +376,16 @@ DRONE.API = (function() {
 
   function takeOff() {
     status.mode = TAKEOFF;
+    if (takeoffLandStart == 0) {
+      takeOffOrLand();
+    }
   }
 
   function land() {
     status.mode = LAND;
+    if (takeoffLandStart == 0) {
+      takeOffOrLand();
+    }
   }
 
   function raiseLower(val) {
