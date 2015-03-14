@@ -1,7 +1,6 @@
 var DRONE = DRONE || {};
 DRONE.Gamepad = (function() {
 
-  var updated = false;
   var active = false;
   var AXIS_THRESHOLD = 0.1;
   var ANALOGUE_BUTTON_THRESHOLD = 0.5;
@@ -42,8 +41,7 @@ DRONE.Gamepad = (function() {
     }
 
     if(label === 'button-1' && pressed == true) {
-      if(!!this.onConnected && !updated) {
-        updated = true;
+      if(!!this.onConnected) {
         this.onConnected();
       }
     }

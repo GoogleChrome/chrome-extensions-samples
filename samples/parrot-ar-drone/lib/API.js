@@ -134,7 +134,9 @@ DRONE.API = (function() {
    * Initialises client IP
    */
   function init(cbConnected, cbConnectionError) {
-
+    if (sockets['at'].socket != null) {
+      return;
+    }
     bootstrapClientIp();
 
     // assign the callbacks
