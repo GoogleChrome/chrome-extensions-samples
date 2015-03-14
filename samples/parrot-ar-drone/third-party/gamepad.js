@@ -76,6 +76,11 @@ var gamepadSupport = {
         gamepadSupport.pollGamepads();
         for (var i in gamepadSupport.gamepads) {
             var gamepad = gamepadSupport.gamepads[i];
+            if (gamepad.timestamp &&
+                (gamepad.timestamp == gamepadSupport.prevTimestamps[i])) {
+              continue;
+            }
+            gamepadSupport.prevTimestamps[i] = gamepad.timestamp;
             gamepadSupport.updateDisplay(i);
         }
     },
