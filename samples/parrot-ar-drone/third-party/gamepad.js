@@ -11,14 +11,23 @@ var gamepadSupport = {
     prevTimestamps: [],
     sendUpdates: false,
     init: function () {
-        var gamepadSupportAvailable = !! navigator.webkitGetGamepads || !! navigator.webkitGamepads || (navigator.userAgent.indexOf('Firefox/') != -1);
+        var gamepadSupportAvailable = navigator.getGamepads ||
+            !!navigator.webkitGetGamepads ||
+            !!navigator.webkitGamepads;
         if (!gamepadSupportAvailable) {
             DRONE.Gamepad.showNotSupported();
         } else {
-            window.addEventListener('MozGamepadConnected', gamepadSupport.onGamepadConnect, false);
-            window.addEventListener('MozGamepadDisconnected', gamepadSupport.onGamepadDisconnect, false);
-            if ( !! navigator.webkitGamepads || !! navigator.webkitGetGamepads) {
-                gamepadSupport.startPolling();
+            // Check and see if gamepadconnected/gamepaddisconnected is supported.
+            // If so, listen for those events and don't start polling until a gamepad
+            // has been connected.
+            if ('ongamepadconnected' in window) {
+              window.addEventListener('gamepadconnected',
+                                    gamepadSupport.onGamepadConnect, false);
+              window.addEventListener('gamepaddisconnected',
+                                      gamepadSupport.onGamepadDisconnect, false);
+            } else {
+              // If connection events are not supported just start polling
+              gamepadSupport.startPolling();
             }
         }
     },
@@ -71,7 +80,9 @@ var gamepadSupport = {
         }
     },
     pollGamepads: function () {
-        var rawGamepads = (navigator.webkitGetGamepads && navigator.webkitGetGamepads()) || navigator.webkitGamepads;
+        var rawGamepads =
+            (navigator.getGamepads && navigator.getGamepads()) ||
+            (navigator.webkitGetGamepads && navigator.webkitGetGamepads());
         if (rawGamepads) {
             gamepadSupport.gamepads = [];
             var gamepadsChanged = false;
