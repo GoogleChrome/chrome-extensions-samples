@@ -3,6 +3,8 @@ DRONE.Gamepad = (function() {
 
   var updated = false;
   var active = false;
+  var AXIS_THRESHOLD = 0.1;
+  var ANALOGUE_BUTTON_THRESHOLD = 0.5;
 
   function showNotSupported() {
     // TODO Show a connection message
@@ -13,9 +15,17 @@ DRONE.Gamepad = (function() {
     // Not implemented
   }
 
-  function updateButton(value, gamepadId, label) {
+  function updateButton(button, gamepadId, label) {
+    var value, pressed;
+    if (typeof(button) == 'object') {
+      value = button.value;
+      pressed = button.pressed;
+    } else {
+      value = button;
+      pressed = button > tester.ANALOGUE_BUTTON_THRESHOLD;
+    }
 
-    if(active && value === 1) {
+    if(active && pressed == true) {
       switch(label) {
         case 'button-right-shoulder-top':
           DRONE.API.takeOff();
@@ -31,7 +41,7 @@ DRONE.Gamepad = (function() {
       }
     }
 
-    if(label === 'button-1' && value === 1) {
+    if(label === 'button-1' && pressed == true) {
       if(!!this.onConnected && !updated) {
         updated = true;
         this.onConnected();
@@ -44,7 +54,7 @@ DRONE.Gamepad = (function() {
 
     value = (Math.floor(value * 100) / 100);
 
-    if(Math.abs(value) < 0.02) {
+    if(Math.abs(value) < AXIS_THRESHOLD) {
       value = 0;
     }
 
@@ -67,9 +77,6 @@ DRONE.Gamepad = (function() {
           if(xAxis) {
             DRONE.API.rotateLeftRight(value);
           } else {
-            if(Math.abs(value) < 0.1) {
-              value = 0;
-            }
             DRONE.API.raiseLower(value);
           }
           break;
