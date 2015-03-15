@@ -2,7 +2,6 @@ var active = false;
 var logEl = document.getElementById('log');
 var commandLog = document.getElementById('commands');
 var message = document.getElementById('message');
-var failed = false;
 
 function clearLog() {
   logEl.textContent = "";
@@ -20,10 +19,7 @@ function onDroneConnected() {
 }
 
 function onDroneConnectionFailed() {
-  if(!failed) {
-    log("Connectioned failed - Are you attached to the Drone's Wifi network?");
-    failed = true;
-  }
+  log("Connectioned failed - Are you attached to the Drone's Wifi network?");
 }
 
 DRONE.Gamepad.onConnected = function() {
