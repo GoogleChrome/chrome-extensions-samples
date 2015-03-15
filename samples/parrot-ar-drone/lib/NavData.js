@@ -32,7 +32,7 @@ DRONE.NavData = (function() {
         vy: view.getFloat32(start + 32, true),
         vz: view.getFloat32(start + 36, true)
       };
-
+      console.log("nav data:" + options);
     }
 
     return {

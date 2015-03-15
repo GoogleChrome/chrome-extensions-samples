@@ -34,28 +34,24 @@ DRONE.API = (function() {
       port: 5554,
       socket: null,
       type: 'bind',
-      direction: TO_CLIENT
     },
     "vid": {
       protocol: "tcp",
       port: 5555,
       socket: null,
       type: 'connect',
-      direction: TO_DRONE
     },
     "at": {
       protocol: "udp",
       port: 5556,
       socket: null,
       type: 'bind',
-      direction: TO_CLIENT
     },
-    "cmd": {
+    "cmd": { // FIXME: what's purpose of this socket?
       protocol: "udp",
       port: 5559,
       socket: null,
       type: 'connect',
-      direction: TO_DRONE
     }
   };
   var status = {
@@ -103,6 +99,25 @@ DRONE.API = (function() {
         if(callbacks.onConnectionError) {
           callbacks.onConnectionError();
         }
+      }
+    },
+
+    /**
+     * Called whenever one of our udp sockets receive messages
+     */
+    onReceive: function(info) {
+      if (info.remotePort == 5554) {
+        if(info.data.byteLength > 0) {
+          DRONE.NavData.parse(info.data);
+        } else {
+          shutdown();
+        }
+      } else if (info.remotePort == 5556) {
+        console.log("at socket receive data of size:" + info.data.byteLength);
+      } else if (info.remotePort == 5559) {
+        console.log("cmd socket receive data of size:" + info.data.byteLength);
+      } else {
+        console.log("unexpected data are received by port:" + info.remotePort);
       }
     },
 
@@ -166,9 +181,9 @@ DRONE.API = (function() {
    * Closes and discards all the socket connections
    */
   function shutdown() {
-    disconnect(sockets['at'].socket);
-    disconnect(sockets['nav'].socket);
-    disconnect(sockets['cmd'].socket);
+    disconnect(sockets['at']);
+    disconnect(sockets['nav']);
+    disconnect(sockets['cmd']);
     // TODO: disconnect(sockets['vid'].socket);
   }
 
@@ -185,13 +200,22 @@ DRONE.API = (function() {
     if (SIMULATE) {
       callbacks.onConnected(1);
     } else {
-      chrome.socket.create(sockRef.protocol, undefined, function(sockInfo) {
-        sockRef.socket = sockInfo.socketId;
-        chrome.socket[sockRef.type](sockRef.socket,
-          sockRef.direction===TO_DRONE?DRONE_IP:CLIENT_IP,
-          sockRef.port,
-          callbacks.onConnected);
+      if (sockRef.protocol === "tcp") {
+        chrome.sockets.tcp.create({}, function(createInfo) {
+          sockRef.socket = createInfo.socketId;
+          chrome.sockets.tcp.connect(sockRef.socket,
+            DRONE_IP,
+            sockRef.port,
+            callbacks.onConnected);
         });
+      } else if (sockRef.protocol === "udp") {
+        chrome.sockets.udp.create({}, function(createInfo) {
+          sockRef.socket = createInfo.socketId;
+          chrome.sockets.udp.onReceive.addListener(callbacks.onReceive);
+          chrome.sockets.udp.bind(sockRef.socket,
+            CLIENT_IP, sockRef.port, callbacks.onConnected);
+        });
+      }
     }
   }
 
@@ -200,8 +224,12 @@ DRONE.API = (function() {
    */
   function disconnect(sockRef) {
     if (!SIMULATE) {
-      chrome.socket.disconnect(sockRef);
-      chrome.socket.destroy(sockRef);
+      if (sockRef.protocol === "tcp") {
+        chrome.sockets.tcp.disconnect(sockRef.socket, noop);
+        chrome.sockets.tcp.close(sockRef.socket, noop);
+      } else if (sockRef.protocol === "udp") {
+        chrome.sockets.udp.close(sockRef.socket, noop);
+      }
     }
   }
 
@@ -220,7 +248,7 @@ DRONE.API = (function() {
 
     // send all the commands
     if (!SIMULATE) {
-      chrome.socket.sendTo(
+      chrome.sockets.udp.send(
         atSock.socket,
         commandBuffer,
         DRONE_IP,
@@ -263,25 +291,12 @@ DRONE.API = (function() {
   function sendKeepAliveCommand() {
     var navSock = sockets['nav'];
     if (!SIMULATE) {
-      chrome.socket.sendTo(
+      chrome.sockets.udp.send(
         navSock.socket,
         (new Uint8Array([1])).buffer,
         DRONE_IP,
         navSock.port,
         noop);
-
-      chrome.socket.read(
-        navSock.socket,
-        function(data) {
-
-          // if we have data parse it
-          // otherwise shutdown and call it a day
-          if(data.data.byteLength > 0) {
-            DRONE.NavData.parse(data.data);
-          } else {
-            shutdown();
-          }
-        });
     }
 
     // set up a keepalive just in case we don't
