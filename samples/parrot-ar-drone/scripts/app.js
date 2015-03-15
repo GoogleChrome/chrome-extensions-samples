@@ -13,7 +13,6 @@ function log(msg) {
 }
 
 function onDroneConnected() {
-  DRONE.Gamepad.enable();
   message.style.display = "none";
   instructions.style.display = "block";
 }

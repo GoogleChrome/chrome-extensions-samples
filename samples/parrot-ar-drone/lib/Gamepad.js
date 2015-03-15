@@ -24,28 +24,27 @@ DRONE.Gamepad = (function() {
       pressed = button > tester.ANALOGUE_BUTTON_THRESHOLD;
     }
 
-    if(active && pressed == true) {
+    if(pressed == true) {
       switch(label) {
-        case 'button-right-shoulder-top':
-          DRONE.API.takeOff();
-          break;
-
         case 'button-left-shoulder-top':
-          DRONE.API.land();
+          DRONE.API.emergency();
           break;
-
         case 'button-select':
-          DRONE.API.allStop();
+          DRONE.API.shutdown();
+          break;
+        case 'button-1':
+          if(!!this.onConnected) {
+            this.onConnected();
+          }
+          break;
+        case 'button-2':
+          DRONE.API.takeOffOrLand();
+          break;
+        case 'button-3':
+          DRONE.API.sendFlatTrim();
           break;
       }
     }
-
-    if(label === 'button-1' && pressed == true) {
-      if(!!this.onConnected) {
-        this.onConnected();
-      }
-    }
-
   }
 
   function updateAxis(value, gamepadId, label, stick, xAxis) {
@@ -56,35 +55,30 @@ DRONE.Gamepad = (function() {
       value = 0;
     }
 
-    if(active) {
-      switch(stick) {
+    switch(stick) {
+      case "stick-1":
+        // tilt
+        if(xAxis) {
+          DRONE.API.tiltLeftRight(value);
+        } else {
+          DRONE.API.tiltFrontBack(value);
+        }
+        break;
+      case "stick-2":
+        // rotate, raise, lower
+        value *= -1;
 
-        case "stick-1":
-          // tilt
-          if(xAxis) {
-            DRONE.API.tiltLeftRight(value);
-          } else {
-            DRONE.API.tiltFrontBack(value);
-          }
-          break;
-
-        case "stick-2":
-          // rotate, raise, lower
-          value *= -1;
-
-          if(xAxis) {
-            DRONE.API.rotateLeftRight(value);
-          } else {
-            DRONE.API.raiseLower(value);
-          }
-          break;
-
-      }
+        if(xAxis) {
+          DRONE.API.rotateLeftRight(value);
+        } else {
+          DRONE.API.raiseLower(value);
+        }
+        break;
     }
+
   }
 
   return {
-    enable: function() { active = true; },
     onConnected: function() { console.log("Override DRONE.Gamepad.onConnected"); },
     showNotSupported: showNotSupported,
     updateGamepads: updateGamepads,

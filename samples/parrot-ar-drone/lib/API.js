@@ -18,8 +18,10 @@ DRONE.API = (function() {
   var DRONE_IP = "192.168.1.1";
   var CLIENT_IP = "192.168.1.2";
   var ONE_BUFFER = DRONE.Util.uint8ToArrayBuffer(1);
-  var TAKEOFF = 290718208; // 512
-  var LAND = 290717696; // 0
+  var BASE = (1 << 18) + (1 << 20) + (1 << 22) + (1 << 24) + (1 << 28);
+  var LAND = BASE + 0;
+  var TAKEOFF = BASE + (1 << 9);
+  var EMERGENCY = BASE + (1 << 8);
   var COMMANDS_ENABLED = 1;
 
   // Vars
@@ -190,7 +192,7 @@ DRONE.API = (function() {
    * Closes and discards all the socket connections
    */
   function shutdown() {
-    try {
+  try {
     connectionsOutstanding = CONNECTIONS;
     if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
     status.mode = LAND;
@@ -203,7 +205,7 @@ DRONE.API = (function() {
     sockets['nav'].socket = null;
     sockets['control'].socket = null;
   }
-    log("disconnected. push A to reconnect");
+  log("disconnected. push X to reconnect");
     // TODO: disconnect(sockets['vid'].socket);
   }
 
@@ -352,8 +354,7 @@ DRONE.API = (function() {
    * navdata shows that it has taken off, but since we don't yet interpret navdata,
    * let's just keep it doing this for four seconds.
    */
-  function takeOffOrLand() {
-
+  function takeOffOrLandInternal() {
     if (!takeoffLandStart || previousTakeoffStatus!=status.mode) {
       takeoffLandStart = Date.now();
       previousTakeoffStatus=status.mode;
@@ -376,7 +377,7 @@ DRONE.API = (function() {
 
     // send and reschedule
     sendCommands(commands);
-    setTimeout(takeOffOrLand, 500);
+    setTimeout(takeOffOrLandInternal, 500);
   }
 
   /**
@@ -426,18 +427,21 @@ DRONE.API = (function() {
 
   // -- Actions
 
-  function takeOff() {
-    status.mode = TAKEOFF;
+  function takeOffOrLand() {
+    if (status.mode == TAKEOFF) {
+      status.mode = LAND;
+    } else if (status.mode == LAND) {
+      status.mode = TAKEOFF;
+    }
     if (takeoffLandStart == 0) {
-      takeOffOrLand();
+      takeOffOrLandInternal();
     }
   }
 
-  function land() {
+  function emergency() {
+    // don't want drone to fly immediately after going to normal mode.
     status.mode = LAND;
-    if (takeoffLandStart == 0) {
-      takeOffOrLand();
-    }
+    sendCommands([new DRONE.Command('REF', [EMERGENCY])]);
   }
 
   function raiseLower(val) {
@@ -460,16 +464,6 @@ DRONE.API = (function() {
     status.angularSpeed = -val;
   }
 
-  /**
-   * Resets all values to zero
-   */
-  function allStop() {
-    status.angularSpeed = 0;
-    status.verticalSpeed = 0;
-    status.frontBackTilt = 0;
-    status.leftRightTilt = 0;
-  }
-
   function check(val, defaultVal) {
     if(typeof val === "undefined") {
       val = defaultVal;
@@ -479,13 +473,13 @@ DRONE.API = (function() {
 
   return {
     init: init,
-    takeOff: takeOff,
-    land: land,
+    takeOffOrLand: takeOffOrLand,
+    emergency: emergency,
+    sendFlatTrim: sendFlatTrim,
     raiseLower: raiseLower,
     tiltLeftRight: tiltLeftRight,
     tiltFrontBack: tiltFrontBack,
     rotateLeftRight: rotateLeftRight,
-    allStop: allStop,
     shutdown: shutdown
   };
 
