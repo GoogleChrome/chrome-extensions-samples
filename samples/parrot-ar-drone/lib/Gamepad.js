@@ -1,6 +1,5 @@
 var DRONE = DRONE || {};
 DRONE.Gamepad = (function() {
-
   var AXIS_THRESHOLD = 0.1;
   var ANALOGUE_BUTTON_THRESHOLD = 0.5;
 
@@ -50,7 +49,6 @@ DRONE.Gamepad = (function() {
   }
 
   function updateAxis(value, gamepadId, label, stick, xAxis) {
-
     value = (Math.floor(value * 100) / 100);
 
     if(Math.abs(value) < AXIS_THRESHOLD) {

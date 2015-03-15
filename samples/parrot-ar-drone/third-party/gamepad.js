@@ -5,6 +5,8 @@
 var gamepadSupport = {
     TYPICAL_BUTTON_COUNT: 16,
     TYPICAL_AXIS_COUNT: 4,
+    BUTTON_THROTTLE_MILLISECOND: 100,
+    buttonPressedTime: 0,
     ticking: false,
     gamepads: [],
     prevRawGamepadTypes: [],
@@ -106,6 +108,15 @@ var gamepadSupport = {
     },
     updateDisplay: function (gamepadId) {
         var gamepad = gamepadSupport.gamepads[gamepadId];
+        DRONE.Gamepad.updateAxis(gamepad.axes[0], gamepadId, 'stick-1-axis-x', 'stick-1', true);
+        DRONE.Gamepad.updateAxis(gamepad.axes[1], gamepadId, 'stick-1-axis-y', 'stick-1', false);
+        DRONE.Gamepad.updateAxis(gamepad.axes[2], gamepadId, 'stick-2-axis-x', 'stick-2', true);
+        DRONE.Gamepad.updateAxis(gamepad.axes[3], gamepadId, 'stick-2-axis-y', 'stick-2', false);
+
+        if (Date.now() - gamepadSupport.buttonPressedTime < gamepadSupport.BUTTON_THROTTLE_MILLISECOND) {
+          return;
+        }
+        gamepadSupport.buttonPressedTime = Date.now();
         DRONE.Gamepad.updateButton(gamepad.buttons[0], gamepadId, 'button-1');
         DRONE.Gamepad.updateButton(gamepad.buttons[1], gamepadId, 'button-2');
         DRONE.Gamepad.updateButton(gamepad.buttons[2], gamepadId, 'button-3');
@@ -123,10 +134,6 @@ var gamepadSupport = {
         DRONE.Gamepad.updateButton(gamepad.buttons[14], gamepadId, 'button-dpad-left');
         DRONE.Gamepad.updateButton(gamepad.buttons[15], gamepadId, 'button-dpad-right');
 
-        DRONE.Gamepad.updateAxis(gamepad.axes[0], gamepadId, 'stick-1-axis-x', 'stick-1', true);
-        DRONE.Gamepad.updateAxis(gamepad.axes[1], gamepadId, 'stick-1-axis-y', 'stick-1', false);
-        DRONE.Gamepad.updateAxis(gamepad.axes[2], gamepadId, 'stick-2-axis-x', 'stick-2', true);
-        DRONE.Gamepad.updateAxis(gamepad.axes[3], gamepadId, 'stick-2-axis-y', 'stick-2', false);
         var extraButtonId = gamepadSupport.TYPICAL_BUTTON_COUNT;
         while (typeof gamepad.buttons[extraButtonId] != 'undefined') {
             DRONE.Gamepad.updateButton(gamepad.buttons[extraButtonId], gamepadId, 'extra-button-' + extraButtonId);
