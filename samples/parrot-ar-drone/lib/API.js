@@ -227,11 +227,6 @@ DRONE.API = (function() {
         atSock.port,
         noop);
     }
-
-    // set up a keepalive just in case we don't
-    // for whatever reason send the other commands
-    if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
-    keepAliveTimeout = setTimeout(sendKeepAliveCommand, 1000);
   }
 
   /**
@@ -289,9 +284,10 @@ DRONE.API = (function() {
         });
     }
 
-    // ensure we call this again
+    // set up a keepalive just in case we don't
+    // for whatever reason send the other commands
     if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
-    keepAliveTimeout = setTimeout(sendKeepAliveCommand, 200);
+    keepAliveTimeout = setTimeout(sendKeepAliveCommand, 1000);
   }
 
   var takeoffLandStart = 0;
@@ -326,7 +322,7 @@ DRONE.API = (function() {
 
     // send and reschedule
     sendCommands(commands);
-    setTimeout(takeOffOrLand, 60);
+    setTimeout(takeOffOrLand, 500);
   }
 
   /**
