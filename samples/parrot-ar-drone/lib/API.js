@@ -32,25 +32,21 @@ DRONE.API = (function() {
       protocol: "udp",
       port: 5554,
       socket: null,
-      type: 'bind',
     },
     "vid": {
       protocol: "tcp",
       port: 5555,
       socket: null,
-      type: 'connect',
     },
     "at": {
       protocol: "udp",
       port: 5556,
       socket: null,
-      type: 'bind',
     },
-    "cmd": { // FIXME: what's purpose of this socket?
-      protocol: "udp",
+    "control": {
+      protocol: "tcp",
       port: 5559,
       socket: null,
-      type: 'connect',
     }
   };
   var status = {
@@ -114,7 +110,7 @@ DRONE.API = (function() {
       } else if (info.remotePort == 5556) {
         console.log("at socket receive data of size:" + info.data.byteLength);
       } else if (info.remotePort == 5559) {
-        console.log("cmd socket receive data of size:" + info.data.byteLength);
+        console.log("control socket receive data of size:" + info.data.byteLength);
       } else {
         console.log("unexpected data are received by port:" + info.remotePort);
       }
@@ -180,7 +176,12 @@ DRONE.API = (function() {
     // TODO: connect(sockets['vid'], 'tcp');
 
     // send admin commands to the drone
-    connect(sockets['cmd']);
+    connect(sockets['control']);
+
+    chrome.sockets.tcp.onReceive.addListener(callbacks.onReceive);
+    chrome.sockets.tcp.onReceiveError.addListener(callbacks.onReceiveError);
+    chrome.sockets.udp.onReceive.addListener(callbacks.onReceive);
+    chrome.sockets.udp.onReceiveError.addListener(callbacks.onReceiveError);
     log("connection completed.");
   }
 
@@ -196,11 +197,11 @@ DRONE.API = (function() {
     status.enabled = 0;
     disconnect(sockets['at']);
     disconnect(sockets['nav']);
-    disconnect(sockets['cmd']);
+    disconnect(sockets['control']);
   } catch (err) {
     sockets['at'].socket = null;
     sockets['nav'].socket = null;
-    sockets['cmd'].socket = null;
+    sockets['control'].socket = null;
   }
     log("disconnected. push A to reconnect");
     // TODO: disconnect(sockets['vid'].socket);
@@ -230,8 +231,6 @@ DRONE.API = (function() {
       } else if (sockRef.protocol === "udp") {
         chrome.sockets.udp.create({}, function(createInfo) {
           sockRef.socket = createInfo.socketId;
-          chrome.sockets.udp.onReceive.addListener(callbacks.onReceive);
-          chrome.sockets.udp.onReceiveError.addListener(callbacks.onReceiveError);
           chrome.sockets.udp.bind(sockRef.socket,
             CLIENT_IP, sockRef.port, callbacks.onConnected);
         });
