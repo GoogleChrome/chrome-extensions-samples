@@ -22,7 +22,6 @@ DRONE.API = (function() {
   var LAND = BASE + 0;
   var TAKEOFF = BASE + (1 << 9);
   var EMERGENCY = BASE + (1 << 8);
-  var COMMANDS_ENABLED = 1;
 
   // Vars
   var noop = function() {};
@@ -79,13 +78,10 @@ DRONE.API = (function() {
           // start sending commands
           sendKeepAliveCommand();
           sendFlatTrim();
-          sendSensitivity();
-
-          // set this to true if you're flying outdoors
-          sendOutdoor(false);
+          setConfigurations();
 
           // now enable controls
-          status.enabled = COMMANDS_ENABLED;
+          status.enabled = 1;
 
           if(callbacks.onAllConnected) {
             callbacks.onAllConnected();
@@ -206,7 +202,7 @@ DRONE.API = (function() {
     sockets['nav'].socket = null;
     sockets['control'].socket = null;
   }
-  log("disconnected. push X to reconnect");
+  log("disconnected. press X to reconnect");
     // TODO: disconnect(sockets['vid'].socket);
   }
 
@@ -294,19 +290,18 @@ DRONE.API = (function() {
    * Helper function that tells the drone what sensitivity
    * we want. This is quite a high value (min = 0, max = 0.52)
    */
-  function sendSensitivity() {
+  function setConfigurations() {
+    var outdoor = 'FALSE';
     sendCommands([
+      // Set sensitivity; This is quite a high value (min = 0, max = 0.52)
       new DRONE.Command('CONFIG', ['"control:euler_angle_max"', '"0.11"']),
       new DRONE.Command('CONFIG', ['"control:indoor_euler_angle_max"', '"0.11"']),
-      new DRONE.Command('CONFIG', ['"control:outdoor_euler_angle_max"', '"0.11"'])
+      new DRONE.Command('CONFIG', ['"control:outdoor_euler_angle_max"', '"0.11"']),
+      // Informs the drone that it is going to be flying outdoors
+      new DRONE.Command('CONFIG', ['"control:outdoor"', '"' + outdoor + '"']),
+      // Set navdata_demo to receive navdata
+      new DRONE.Command('CONFIG', ['"general:navdata_demo"', '"TRUE"']),
     ]);
-  }
-
-  /**
-   * Informs the drone that it is going to be flying outdoors
-   */
-  function sendOutdoor(outdoor) {
-    sendCommands([new DRONE.Command('CONFIG', ['"control:outdoor"', '"'+(outdoor?'TRUE':'FALSE')+'"'])]);
   }
 
   /**
@@ -333,8 +328,8 @@ DRONE.API = (function() {
 
     }
 
-    // set up a keepalive just in case we don't
-    // for whatever reason send the other commands
+    // set up a keepalive because The drone does not receive any traffic for more than 2000ms;
+    // it will then stop all communication with the client
     if (keepAliveTimeout) clearTimeout(keepAliveTimeout);
     keepAliveTimeout = setTimeout(sendKeepAliveCommand, 1000);
   }

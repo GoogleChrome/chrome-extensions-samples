@@ -14,6 +14,7 @@ function log(msg) {
 function onDroneConnected() {
   message.style.display = "none";
   instructions.style.display = "block";
+  state.style.display = "block";
 }
 
 function onDroneConnectionFailed() {
