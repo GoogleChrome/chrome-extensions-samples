@@ -1,4 +1,3 @@
-var active = false;
 var logEl = document.getElementById('log');
 var commandLog = document.getElementById('commands');
 var message = document.getElementById('message');

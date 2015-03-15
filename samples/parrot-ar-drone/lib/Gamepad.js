@@ -1,7 +1,6 @@
 var DRONE = DRONE || {};
 DRONE.Gamepad = (function() {
 
-  var active = false;
   var AXIS_THRESHOLD = 0.1;
   var ANALOGUE_BUTTON_THRESHOLD = 0.5;
 
@@ -42,6 +41,9 @@ DRONE.Gamepad = (function() {
           break;
         case 'button-3':
           DRONE.API.sendFlatTrim();
+          break;
+        case 'button-4':
+          DRONE.API.flipAnimation();
           break;
       }
     }

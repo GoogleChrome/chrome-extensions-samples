@@ -29,6 +29,7 @@ DRONE.API = (function() {
   var keepAliveTimeout = 0;
   var CONNECTIONS = 3;
   var connectionsOutstanding = CONNECTIONS;
+  var looping = false;
   var sockets = {
     "nav": {
       protocol: "udp",
@@ -290,14 +291,6 @@ DRONE.API = (function() {
   }
 
   /**
-   * Helper function we use before letting the drone take off
-   * that we use to let it know that it's horizontal
-   */
-  function sendFlatTrim() {
-    sendCommands([new DRONE.Command('FTRIM')]);
-  }
-
-  /**
    * Helper function that tells the drone what sensitivity
    * we want. This is quite a high value (min = 0, max = 0.52)
    */
@@ -355,14 +348,18 @@ DRONE.API = (function() {
    * let's just keep it doing this for four seconds.
    */
   function takeOffOrLandInternal() {
-    if (!takeoffLandStart || previousTakeoffStatus!=status.mode) {
+    looping = false;
+    if (!takeoffLandStart || previousTakeoffStatus != status.mode) {
       takeoffLandStart = Date.now();
-      previousTakeoffStatus=status.mode;
+      previousTakeoffStatus = status.mode;
     } else {
       // five seconds
-      if (takeoffLandStart+5000<Date.now()) {
-        takeoffLandStart=0;
-        loop();
+      if (takeoffLandStart + 5000 < Date.now()) {
+        takeoffLandStart = 0;
+        if (status.mode == TAKEOFF) {
+          looping = true;
+          loop();
+        }
         return;
       }
     }
@@ -385,34 +382,25 @@ DRONE.API = (function() {
    * the tilt, speed and whether or not we want it to take off or land
    */
   function loop() {
-    if (takeoffLandStart != 0) {
-      return;
-    }
-    if (status.mode == LAND) {
+    if (looping == false) {
       return;
     }
 
     commands = [
-
       // Take off
       new DRONE.Command('REF', [
         status.mode
       ]),
 
       new DRONE.Command('PCMD', [
-
         // Enables/Disables commands
         status.enabled,
-
         // Left - Right tilt
         DRONE.Util.float32ToInt32(status.leftRightTilt),
-
         // Front - Back tilt
         DRONE.Util.float32ToInt32(status.frontBackTilt),
-
         // Vertical Speed
         DRONE.Util.float32ToInt32(status.verticalSpeed),
-
         // Angular Speed
         DRONE.Util.float32ToInt32(status.angularSpeed)
 
@@ -421,7 +409,6 @@ DRONE.API = (function() {
 
     // send and schedule the update
     sendCommands(commands);
-
     setTimeout(loop, 60);
   }
 
@@ -471,6 +458,52 @@ DRONE.API = (function() {
     return val;
   }
 
+  /**
+   * Helper function we use before letting the drone take off
+   * that we use to let it know that it's horizontal
+   */
+  function sendFlatTrim() {
+    if (status.mode == LAND) {
+      sendCommands([new DRONE.Command('FTRIM')]);
+    }
+  }
+
+  // from ARDrone_SDK_2_0/ControlEngine/iPhone/Release/ARDroneGeneratedTypes.h
+  var ANIMATIONS = [
+    'phiM30Deg',
+    'phi30Deg',
+    'thetaM30Deg',
+    'theta30Deg',
+    'theta20degYaw200deg',
+    'theta20degYawM200deg',
+    'turnaround',
+    'turnaroundGodown',
+    'yawShake',
+    'yawDance',
+    'phiDance',
+    'thetaDance',
+    'vzDance',
+    'wave',
+    'phiThetaMixed',
+    'doublePhiThetaMixed',
+    'flipAhead',
+    'flipBehind',
+    'flipLeft',
+    'flipRight',
+  ];
+
+  function flipAnimation() {
+    if (status.mode == LAND) {
+      return;
+    }
+    looping = false;
+    sendCommands([new DRONE.Command('ANIM', [ANIMATIONS.indexOf('flipLeft'), 500])]);
+    setTimeout(function() {
+      looping = true;
+      loop();
+    }, 1000);
+  }
+
   return {
     init: init,
     takeOffOrLand: takeOffOrLand,
@@ -480,7 +513,8 @@ DRONE.API = (function() {
     tiltLeftRight: tiltLeftRight,
     tiltFrontBack: tiltFrontBack,
     rotateLeftRight: rotateLeftRight,
-    shutdown: shutdown
+    shutdown: shutdown,
+    flipAnimation: flipAnimation,
   };
 
 })();
