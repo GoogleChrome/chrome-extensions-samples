@@ -331,6 +331,7 @@ function ditherImg(imgData) {
 
 
   var updateCanvasSize = function(e) {
+    var curWindow = chrome.app.window.current();
     var canvas = $("previewCanvas");
     pageHeight = parseInt($('pageWidth').value, 10);
     pageWidth = parseInt($('pageHeight').value, 10);
@@ -342,7 +343,9 @@ function ditherImg(imgData) {
     canvas.set('width', pageHeight);
     canvas.set('height', pageWidth);
     updateCanvas();
-    chrome.app.window.current().resizeTo(Math.max(1030, pageHeight + 130), pageWidth + 400);
+
+    curWindow.outerBounds.width = Math.max(1030, pageHeight + 130);
+    curWindow.outerBounds.height = pageWidth + 400;
   };
 
 
