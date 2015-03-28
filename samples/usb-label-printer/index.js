@@ -340,8 +340,8 @@ function ditherImg(imgData) {
     }
     $('pageWidth').value=pageHeight;
     $('pageHeight').value=pageWidth;
-    canvas.set('width', pageHeight);
-    canvas.set('height', pageWidth);
+    canvas.setAttribute('width', pageHeight);
+    canvas.setAttribute('height', pageWidth);
     updateCanvas();
 
     curWindow.outerBounds.width = Math.max(1030, pageHeight + 130);
