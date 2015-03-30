@@ -5,6 +5,11 @@ onload = function() {
   var webview = document.querySelector('webview');
   doLayout();
 
+  var version = navigator.appVersion.substr(navigator.appVersion.lastIndexOf('Chrome/') + 7);
+  var match = /([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)/.exec(version);
+  var majorVersion = parseInt(match[1]);
+  var buildVersion = parseInt(match[3]);
+
   document.querySelector('#back').onclick = function() {
     webview.back();
   };
@@ -34,6 +39,24 @@ onload = function() {
 
   document.querySelector('#terminate').onclick = function() {
     webview.terminate();
+  };
+
+  document.querySelector('#clear-data').onclick = function() {
+    var clearDataType = {
+      appcache: true,
+      cookies: true,
+      fileSystems: true,
+      indexedDB: true,
+      localStorage: true,
+      webSQL: true,
+    }
+    if (majorVersion >= 44 || (majorVersion == 43 && buildVersion >= 2350)) {
+      clearDataType['cache'] = true;
+    }
+    webview.clearData(
+      { since: 0 }, // Remove all browsing data.
+      clearDataType,
+      function() { webview.reload(); });
   };
 
   document.querySelector('#location-form').onsubmit = function(e) {
