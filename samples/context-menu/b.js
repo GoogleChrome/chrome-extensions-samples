@@ -13,9 +13,4 @@ chrome.contextMenus.onClicked.addListener(function(info) {
 
 window.addEventListener("load", function(e){
   log('Window B is loaded');
-  setUpContextMenus("windowB");
-});
-window.addEventListener("focus", function(e) {
-  log('Window B is focused');
-  setUpContextMenus("windowB");
 });

@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
   "name": "Context Menu Sample",
-  "version": "3",
+  "version": "4",
   "app": {
     "background": {
-      "scripts": ["menus.js", "main.js"]
+      "scripts": ["main.js"]
     }
   },
   "permissions": ["contextMenus"]
