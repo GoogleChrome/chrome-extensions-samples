@@ -142,7 +142,9 @@ $('#move').onclick = function(e) {
   var y = parseInt($('#moveWindowTop').value);
   setTimeout(
     function() {
-      chrome.app.window.current().moveTo(x, y);
+      var curWindow = chrome.app.window.current();
+      curWindow.outerBounds.left = x;
+      curWindow.outerBounds.top = y;
     },
     $('#delay-slider').value);
 };
@@ -152,7 +154,9 @@ $('#resize').onclick = function(e) {
   var h = parseInt($('#resizeWindowHeight').value);
   setTimeout(
     function() {
-      chrome.app.window.current().resizeTo(w, h);
+      var curWindow = chrome.app.window.current();
+      curWindow.outerBounds.width = w;
+      curWindow.outerBounds.height = h;
     },
     $('#delay-slider').value);
 };

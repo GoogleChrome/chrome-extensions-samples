@@ -41,17 +41,22 @@ var windowingApiDemo = {
   launch: function() {
     windowingApiDemo.clear();
     chrome.app.window.create('windowing_api/original.html', {
-      top: 128,
-      left: 128,
-      width: 256,
-      height: 256
+      outerBounds: {
+        top: 128,
+        left: 128,
+        width: 256,
+        height: 256
+      }
     }, function(originalWindow) {
+
       windowingApiDemo.windows.push(originalWindow);
       chrome.app.window.create('windowing_api/copycat.html', {
-        top: 128,
-        left: 384 + 5,
-        width: 256,
-        height: 256,
+        outerBounds: {
+          top: 128,
+          left: 384 + 5,
+          width: 256,
+          height: 256,
+        },
         frame: 'none'
       }, function(copycatWindow) {
         windowingApiDemo.windows.push(copycatWindow);
@@ -62,12 +67,11 @@ var windowingApiDemo = {
             return;
           }
 
-          copycatWindow.moveTo(
-              originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5,
-              originalWindow.contentWindow.screenY);
-          copycatWindow.resizeTo(
-              originalWindow.contentWindow.outerWidth,
-              originalWindow.contentWindow.outerHeight);
+          copycatWindow.outerBounds.left = originalWindow.contentWindow.screenX + originalWindow.contentWindow.outerWidth + 5;
+          copycatWindow.outerBounds.top = originalWindow.contentWindow.screenY;
+          copycatWindow.outerBounds.width = originalWindow.contentWindow.outerWidth;
+          copycatWindow.outerBounds.height = originalWindow.contentWindow.outerHeight;
+
         }, 10);
 
         originalWindow.focus();
