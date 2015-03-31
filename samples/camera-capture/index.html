@@ -13,7 +13,8 @@
     height: 480px;
     background: white;
   }
-  button {
+
+  button,select {
     display: inline-block;
     background: -webkit-linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
     background: linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
@@ -29,6 +30,8 @@
     text-shadow: 1px 1px #fff;
     font-weight: 700;
     font-size: 10pt;
+    margin:0px 5px;
+    max-width:200px;
   }
   button:hover,
   button.active {
@@ -49,7 +52,10 @@
 </head>
 <body>
   <video autoplay poster="camera.png"></video>
-  <p><button>Enable Camera</button></p>
+  <p>
+    <button>Enable Camera</button>
+    <select></select>
+  </p>
 <script src="app.js"></script>
 </body>
 </html>
