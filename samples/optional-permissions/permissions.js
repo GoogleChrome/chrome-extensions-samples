@@ -4,14 +4,14 @@ function log(message) {
 
 document.querySelector('#list-ports').onclick = function() {
   try {
-    chrome.serial.getPorts(function(ports) {
+    chrome.serial.getDevices(function(ports) {
       if (chrome.runtime.lastError) {
         log('Error when listing ports: ' + chrome.runtime.lastError.message);
         return;
       }
       log('Serial ports: ');
-      ports.forEach(function(port) {
-        log('  ' + port);
+      ports.forEach(function(device) {
+        log('  ' + device.path);
       });
     });
   } catch (ex) {
