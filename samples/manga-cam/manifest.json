@@ -1,9 +1,9 @@
 {
   "name": "Manga Cam",
-  "version": "0.3",
+  "version": "0.4",
   "manifest_version": 2,
   "minimum_chrome_version": "28",
-  "description": "Take photos and turn it into manga-style.",
+  "description": "Take photos and turn them into manga-style.",
   "offline_enabled": true,
   "app": {
     "background": {

@@ -158,7 +158,7 @@ function init(saveImage) {
       video.play();
 
       // wait for enough data to read videoWidth/videoHeight properties
-      video.addEventListener('loadeddata',function(){
+      video.addEventListener('loadeddata',function() {
         WIDTH = video.videoWidth;
         HEIGHT = video.videoHeight;
         dstCanvas.width = WIDTH;
