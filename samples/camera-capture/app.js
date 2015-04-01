@@ -18,8 +18,8 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
 
 /**
  * Grabs the camera feed from the browser, requesting
- * both video and audio. Requires the permissions
- * for audio and video to be set in the manifest.
+ * video from the selected device. Requires the permissions
+ * for videoCapture to be set in the manifest.
  *
  * @see http://developer.chrome.com/apps/manifest.html#permissions
  */
