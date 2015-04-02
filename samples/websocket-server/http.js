@@ -601,6 +601,8 @@ WebSocketServerSocket.prototype = {
    * @param {string|Array.<number>|ArrayBuffer} data The data to send over the WebSocket.
    */
   send: function(data) {
+    // WebSocket must specify opcode when send frame.
+    // The opcode for data frame is 1(text) or 2(binary).
     if (typeof data == 'string' || data instanceof String) {
       this.sendFrame_(1, data);
     } else {
@@ -714,11 +716,11 @@ WebSocketServerSocket.prototype = {
   onFrame_: function(op, data) {
     if (op == 1 || op == 2) {
       if (typeof data == 'string' || data instanceof String) {
-        // not do anything
+        // Don't do anything.
       } else if (Array.isArray(data)) {
         data = new Uint8Array(data).buffer;
       } else if (data instanceof ArrayBuffer) {
-        // not do anything
+        // Don't do anything.
       } else {
         data = data.buffer;
       }
