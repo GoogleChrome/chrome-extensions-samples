@@ -13,5 +13,10 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": [{"socket":["tcp-connect", "tcp-listen"]}]
+  "permissions": ["system.network"],
+  "sockets": {
+    "tcpServer" : {
+      "listen": ["*"]
+    }
+  }
 }
