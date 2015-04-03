@@ -1,6 +1,6 @@
 {
   "name": "Camera Capture Sample",
-  "version": "2.1",
+  "version": "2.2",
   "manifest_version": 2,
   "icons": {
     "16": "camera.png",
@@ -12,7 +12,6 @@
     }
   },
   "permissions": [
-    "audioCapture",
     "videoCapture"
   ]
 }
