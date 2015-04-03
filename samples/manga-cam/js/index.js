@@ -1,5 +1,8 @@
 'use strict';
 
+window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+
 function createBlobFromeDataURL(base64DataURL) {
   var strippedData = base64DataURL.substr(
       base64DataURL.indexOf(';base64,') + ';base64,'.length);
@@ -47,7 +50,6 @@ function init(saveImage) {
     var WIDTH = 640;
     var HEIGHT = 480;
     var video = document.createElement('video');
-    var waitForPreview = 0;
 
     var oagImage = new Image();
     oagImage.src = "../images/oag.jpg";
@@ -67,10 +69,7 @@ function init(saveImage) {
     };
 
     function tick() {
-      if (Date.now() < waitForPreview) {
-        setTimeout(tick, waitForPreview - Date.now());
-        return;
-      }
+
       // We require a power-of-2-sized image.
       // Past the video to such a canvas first.
       srcCtx.drawImage(video, 0, 0);
@@ -91,13 +90,13 @@ function init(saveImage) {
       postproc.callProgram(mergeProgram, [sobel, blurred1], output);
 
       postproc.renderTexture(output);
-      webkitRequestAnimationFrame(tick);
+      window.requestAnimationFrame(tick);
     }
 
     function flake() {
       postproc.callProgram(flakeProgram, [oagTexture], output, {time: performance.now()});
       postproc.renderTexture(output);
-      webkitRequestAnimationFrame(flake);
+      window.requestAnimationFrame(flake);
     }
 
     function prependNewPicture(dataUrl) {
@@ -144,8 +143,6 @@ function init(saveImage) {
             dstCanvas.classList.remove('invisible');
           });
 
-          waitForPreview = Date.now() + 1000;
-
           prependNewPicture(canvas.toDataURL('image/png;base64'));
         } finally {
           setTimeout(function () {
@@ -156,10 +153,12 @@ function init(saveImage) {
       button.disabled = false;
     }
 
-    navigator.webkitGetUserMedia({video: true}, function (stream) {
+    navigator.getUserMedia({video: true}, function (stream) {
       video.src = URL.createObjectURL(stream);
       video.play();
-      setTimeout(function () {
+
+      // wait for enough data to read videoWidth/videoHeight properties
+      video.addEventListener('loadeddata',function() {
         WIDTH = video.videoWidth;
         HEIGHT = video.videoHeight;
         dstCanvas.width = WIDTH;
@@ -167,8 +166,8 @@ function init(saveImage) {
         srcCtx.translate(WIDTH, HEIGHT);
         srcCtx.scale(-1, -1);
 
-        webkitRequestAnimationFrame(tick);
-      }, 100);
+        window.requestAnimationFrame(tick);
+      });
 
       bindEvents();
     }, function () {
@@ -178,7 +177,7 @@ function init(saveImage) {
       dstCanvas.height = HEIGHT;
       srcCtx.translate(WIDTH, HEIGHT);
       srcCtx.scale(-1, -1);
-      webkitRequestAnimationFrame(flake);
+      window.requestAnimationFrame(flake);
     });
   });
 }
