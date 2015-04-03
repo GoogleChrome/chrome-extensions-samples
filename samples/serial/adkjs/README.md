@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ieoiddehfkbacdideciijbdjfjegmpjo">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # ADK kit in Javascript
 
 This demo is composed of two parts and require a ADK 1.0 hardware (Arduino board+shield shipped at Google I/O 2011) to demonstrate Android hardware integration.

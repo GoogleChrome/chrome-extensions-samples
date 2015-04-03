@@ -1,3 +1,6 @@
+<a target="_blank" href="https://chrome.google.com/webstore/detail/gdpimhplfcmbiakglpomcdcchbmgfiaj">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+
+
 # Titlebar Sample App
 
 This is a basic demo showing alternate titlebars, written in HTML/CSS, depending on target platform.
