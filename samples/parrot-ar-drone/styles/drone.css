@@ -18,7 +18,21 @@ h2 {
   padding: 0 10px;
 }
 
-p {
+h3 {
+  margin: 10px 0 0px 0;
+  padding: 0 0px;
+}
+
+span {
+  margin: 15px 0 10px 0;
+  padding: 0 10px;
+}
+
+label {
+  color: #339;
+}
+
+#instructions, #state {
   padding: 0 10px;
 }
 
@@ -28,6 +42,6 @@ textarea {
   height: 150px;
 }
 
-#commands, #instructions {
+#commands, #instructions, #state {
   display: none;
 }

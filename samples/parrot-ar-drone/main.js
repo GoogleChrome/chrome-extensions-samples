@@ -14,8 +14,8 @@ chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create('index.html', {
     id: "mainwin", 
     innerBounds: {
-      width: 565,
-      height: 400
+      width: 600,
+      height: 800
     }
   }, function(createdWindow) {
     appWindow = createdWindow.dom;
