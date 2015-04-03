@@ -2,20 +2,20 @@ function log(message) {
   document.querySelector('#log').textContent += message + '\n';
 }
 
-document.querySelector('#list-ports').onclick = function() {
+document.querySelector('#list-devices').onclick = function() {
   try {
-    chrome.serial.getPorts(function(ports) {
+    chrome.serial.getDevices(function(devices) {
       if (chrome.runtime.lastError) {
-        log('Error when listing ports: ' + chrome.runtime.lastError.message);
+        log('Error when listing devices: ' + chrome.runtime.lastError.message);
         return;
       }
-      log('Serial ports: ');
-      ports.forEach(function(port) {
-        log('  ' + port);
+      log('Serial devices: ');
+      devices.forEach(function(device) {
+        log('  ' + device.path);
       });
     });
   } catch (ex) {
-    log('Exception when listing ports: ' + ex);
+    log('Exception when listing devices: ' + ex);
   }
 };
 
