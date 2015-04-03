@@ -598,10 +598,16 @@ WebSocketServerSocket.prototype = {
 
   /**
    * Send |data| on the WebSocket.
-   * @param {string} data The data to send over the WebSocket.
+   * @param {string|Array.<number>|ArrayBuffer} data The data to send over the WebSocket.
    */
   send: function(data) {
-    this.sendFrame_(1, data);
+    // WebSocket must specify opcode when send frame.
+    // The opcode for data frame is 1(text) or 2(binary).
+    if (typeof data == 'string' || data instanceof String) {
+      this.sendFrame_(1, data);
+    } else {
+      this.sendFrame_(2, data);
+    }
   },
 
   /**
@@ -619,7 +625,7 @@ WebSocketServerSocket.prototype = {
     var data = [];
     var message = '';
     var fragmentedOp = 0;
-    var fragmentedMessage = '';
+    var fragmentedMessages = [];
 
     var onDataRead = function(readInfo) {
       if (readInfo.resultCode <= 0) {
@@ -682,12 +688,20 @@ WebSocketServerSocket.prototype = {
           } else {
             // Fragmented message.
             fragmentedOp = fragmentedOp || op;
-            fragmentedMessage += decoded;
+            fragmentedMessages.push(decoded);
             if (fin) {
-              if (!t.onFrame_(fragmentedOp, fragmentedMessage))
+              var joinMessage = null;
+              if (op == 1) {
+                joinMessage = fragmentedMessagess.join('');
+              } else {
+                joinMessage = fragmentedMessages.reduce(function(pre, cur) {
+                  return Array.prototype.push.apply(pre, cur);
+                }, []);
+              }
+              if (!t.onFrame_(fragmentedOp, joinMessage))
                 return;
               fragmentedOp = 0;
-              fragmentedMessage = '';
+              fragmentedMessages = [];
             }
           }
         } else {
@@ -700,7 +714,16 @@ WebSocketServerSocket.prototype = {
   },
 
   onFrame_: function(op, data) {
-    if (op == 1) {
+    if (op == 1 || op == 2) {
+      if (typeof data == 'string' || data instanceof String) {
+        // Don't do anything.
+      } else if (Array.isArray(data)) {
+        data = new Uint8Array(data).buffer;
+      } else if (data instanceof ArrayBuffer) {
+        // Don't do anything.
+      } else {
+        data = data.buffer;
+      }
       this.dispatchEvent('message', {'data': data});
     } else if (op == 8) {
       // A close message must be confirmed before the websocket is closed.
@@ -721,6 +744,13 @@ WebSocketServerSocket.prototype = {
       if (typeof data == 'string' || data instanceof String) {
         ary = utf82ary(data);
       }
+      if (Array.isArray(ary)) {
+        ary = new Uint8Array(ary);
+      }
+      if (ary instanceof ArrayBuffer) {
+        ary = new Uint8Array(ary);
+      }
+      ary = new Uint8Array(ary.buffer);
       var length = ary.length;
       if (ary.length > 65535)
         length += 10;
