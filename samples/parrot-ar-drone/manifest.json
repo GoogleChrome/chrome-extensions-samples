@@ -8,7 +8,7 @@
     }
   },
   "permissions": [{
-    "socket": ["udp-send-to::*"] // for chrome.socket.getNetworkList
+    "socket": ["udp-send-to::*"]
     }],
   "sockets": {
     "tcpServer": { "listen": "" },
