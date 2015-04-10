@@ -37,7 +37,7 @@ window.addEventListener("load", function() {
 });
 
 var newEchoClient = function(address) {
-  var ec = new chromeNetworking.clients.udp.echoClient();
+  var ec = new chromeNetworking.clients.echoClient();
   ec.sender = attachSend(ec);
   var hostnamePort = address.split(":");
   var hostname = hostnamePort[0];
