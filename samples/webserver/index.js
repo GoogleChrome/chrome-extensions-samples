@@ -174,7 +174,7 @@ onload = function() {
     var uriEnd = data.indexOf(" ", 4);
     if (uriEnd < 0) { /* throw a wobbler */ return; }
     var uri = data.substring(4, uriEnd);
-    // strip qyery string
+    // strip query string
     var q = uri.indexOf("?");
     if (q != -1) {
       uri = uri.substring(0, q);
