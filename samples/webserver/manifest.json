@@ -1,6 +1,6 @@
 {
   "name": "__MSG_appName__",
-  "version": "3.1",
+  "version": "3.2",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
@@ -13,5 +13,10 @@
       "scripts": ["main.js"]
     }
   },
-  "permissions": [{"socket":["tcp-connect", "tcp-listen"]}]
+  "permissions": ["system.network"],
+  "sockets": {
+    "tcpServer" : {
+      "listen": ["*"]
+    }
+  }
 }
