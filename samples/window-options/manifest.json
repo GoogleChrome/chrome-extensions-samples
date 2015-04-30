@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Window Options Sample",
+  "version": "2",
+  "minimum_chrome_version": "35",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": ["fullscreen", "alwaysOnTopWindows"]
+}

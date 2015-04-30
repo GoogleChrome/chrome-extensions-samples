@@ -1,0 +1,29 @@
+<!-- Copyright (c) 2010 The Chromium Authors. All rights reserved.
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file. -->
+<html>
+    <head>
+        <title>Media Gallery API Sample</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="media-gallery.js"></script>
+    </head>
+    <body>
+        <h1>Media Gallery Explorer</h1>
+        <button id="gallery-button">Get Galleries Info</button>
+        <button id="configure-button">Select Galleries...</button>
+        <button id="add-folder-button">Add a Gallery...</button>
+        <button id="read-button" disabled="false">Read Galleries</button>
+        <button id="scan-button">Search for Galleries</button>
+        <button id="add-scan-results-button">Add Scan Results</button>
+        <p id="info">
+            <span id="status">&nbsp;</span>
+        </p>
+        <div id="container">
+            <div id="list">
+            <select id="GalleryList" size="10" style="width:100%; height:100%">
+            </select>
+            </div>
+            <div id="content"></div>
+        </div>
+    </body>
+</html>

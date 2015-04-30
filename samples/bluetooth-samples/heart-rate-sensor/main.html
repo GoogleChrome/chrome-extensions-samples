@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bluetooth LE Heart Rate Monitor</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="ui.js"></script>
+  <script src="main.js"></script>
+</head>
+<body>
+  <div id="header">
+    <img src="hr_sensor_icon128.png" alt="bluetooth heart icon">
+    <h1>Bluetooth LE Heart Rate Monitor</h1>
+    <div id="adapter-status">
+      <ul>
+        <li><span id="adapter-name"></span></li>
+        <li><span id="adapter-address"></span></li>
+      </ul>
+    </div>
+    <hr>
+    <div id="device-selection-div">
+      Select Heart Rate Monitor:
+      <select id="device-selector">
+        <option id="placeholder" value="" disabled selected>
+          No HR devices
+        </option>
+      </select>
+      <button type="button" id="discovery-toggle-button">
+        start discovery
+      </button>
+    </div>
+  </div>
+  <div id="no-devices-error">
+    No Heart Rate device selected
+  </div>
+  <div id="info-div">
+    <div id="heart-rate-bpm">
+      <span id="heart-rate-measurement">-</span>
+      <div id="heart">
+        <img src="heart.png" alt="heart icon" class="blink-animation">
+      </div>
+    </div>
+    <div id="heart-rate-fields">
+      <div class="heart-rate-field">
+        Sensor Contact Status: <span id="sensor-contact-status">-</span>
+      </div>
+      <div class="heart-rate-field">
+        Energy Expanded: <span id="energy-expanded">-</span> kJ
+      </div>
+      <div class="heart-rate-field">
+        RR-Interval: <span id="rr-interval">-</span> s
+      </div>
+      <div class="heart-rate-field">
+        Body Sensor Location: <span id="body-sensor-location">-</span>
+      </div>
+      <button id="heart-rate-control-point">Reset Energy Expanded</button>
+    </div>
+  </div>
+</body>
+</html>

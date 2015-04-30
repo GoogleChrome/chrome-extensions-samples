@@ -1,0 +1,19 @@
+{
+  "name": "Telnet Client",
+  "version": "2.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "33.0.1715.0",
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["launch.js"]
+    }
+  },
+  "sockets": {
+    "tcp": {
+      "connect": "*:*"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "__MSG_appName__",
+  "version": "3.2",
+  "manifest_version": 2,
+  "description": "__MSG_appDescription__",
+  "icons": {
+    "16": "icon-16.png",
+    "128": "icon-128.png"
+  },
+  "default_locale": "en",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": ["system.network"],
+  "sockets": {
+    "tcpServer" : {
+      "listen": ["*"]
+    }
+  }
+}

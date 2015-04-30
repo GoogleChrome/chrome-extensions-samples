@@ -1,0 +1,108 @@
+* {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  overflow: hidden;
+  font-weight: 300;
+}
+
+p {
+  margin-bottom: 8px;
+}
+
+.scroll {
+  position: absolute;
+  top: 2em;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: visible;
+  overflow-x: hidden;
+  padding: 8px 24px;
+  text-align: justify;
+}
+
+.titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2em;
+  line-height: 2em;
+  background: #7489fc;
+  transition: all 0.25s;
+  text-align: center;
+  color: white;
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+.titlebar h1 {
+  font-size: 1.5em;
+}
+
+.titlebar .buttons {
+  margin: 0 8px;
+  display: block;
+  float: right;
+  font-size: 1em;
+  transition: 0.25s all;
+  word-wrap: none;
+  text-overflow: visible;
+
+  /**
+   * Mac supports dragging of interactive elements; ChromeOS (possibly others)
+   * makes the buttons unusable unless the drag bit is cleared.
+   */
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.titlebar .buttons button {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  border: 0;
+  min-width: 2em;
+  text-align: center;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 4px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.1);
+  transition: all 0.25s;
+}
+
+.titlebar .buttons button:focus {
+  outline: 0;
+}
+
+.titlebar .buttons button:active {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.titlebar .buttons button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.titlebar.shadow {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  background: #fd6598;
+}
+
+.titlebar.fullscreen button.window {
+  display: none;
+}

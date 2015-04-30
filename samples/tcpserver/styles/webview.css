@@ -1,0 +1,8 @@
+html, body, webview {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+}

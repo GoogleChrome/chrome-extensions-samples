@@ -1,0 +1,35 @@
+{
+  "name": "MiniCodeEdit",
+  "version": "0.1.12",
+  "manifest_version": 2,
+  "minimum_chrome_version": "23",
+  "description": "A very small code editor.",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+
+  "permissions": [
+    {"fileSystem": ["write"]},
+    "unlimitedStorage",
+    "contextMenus"
+  ],
+
+  "icons": {
+    "16":  "img/16x16/file_edit.png",
+    "32":  "img/32x32/file_edit.png",
+    "64":  "img/64x64/file_edit.png",
+    "128": "img/128x128/file_edit.png"
+  },
+
+  "commands" : {
+    "cmdNew": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+1"
+        },
+        "global": true,
+        "description": "Create new window"
+    }
+  }
+}

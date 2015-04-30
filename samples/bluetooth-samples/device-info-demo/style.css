@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#header {
+  padding: 10px 15px 5px 15px;
+  background: #fafafa;
+  box-shadow: 0 0 5px #858585;
+}
+
+#header img {
+  width: 50px;
+}
+
+#header h1 {
+  font-family: 'DejaVu Sans Light', Verdana, sans-serif;
+  font-weight: normal;
+  vertical-align: top;
+  display: inline-block;
+  margin: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#adapter-status {
+  float: right;
+  margin-top: 2px;
+}
+
+#adapter-address {
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 0;
+  margin: inherit;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+#device-selection-div {
+  margin-top: 5px;
+}
+
+#device-selector {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #454545;
+  font-style: italic;
+}
+
+#discovery-toggle-button {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #454545;
+  font-style: italic;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+#no-devices-error {
+  font-size: 10pt;
+  text-align: center;
+  padding-top: 15%;
+}
+
+#info-div {
+  height: 245px;
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.65);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  word-break: break-all;
+  color: #333;
+}
+
+.device-info-field {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+div.device-info-field span {
+  font-style: italic;
+  font-weight: normal;
+}

@@ -1,0 +1,245 @@
+body {
+  font-family: Verdana, Arial, Helvetica, "Liberation Sans", sans-serif;
+  color: #222;
+  background: #fff;
+}
+
+.hide {
+  display: none;
+}
+
+.info {
+  color: #930;
+  font-size: 12px;
+  clear: both;
+}
+
+.error {
+  color: #f00;
+  font-weight: bold;
+  font-size: 12px;
+  clear: both;
+}
+
+#conflict-policy {
+  float: right;
+  font-size: 12px;
+}
+
+#log {
+  color: #666;
+  font-size: 12px;
+  clear: both;
+  border-top: solid 1px #ccc;
+  padding: 3px;
+}
+
+.button, .fs-button {
+  -webkit-border-radius:3px;
+  padding: 1px 4px;
+  margin: 2px 4px;
+  border: solid 1px #ccc;
+}
+
+#fs-selector {
+  margin-top: -1px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+  border-bottom: solid 1px #ccc;
+}
+
+.fs-button {
+  font-size: 13px;
+  background: #acf;
+}
+
+.fs-button.selected {
+  color: white;
+  background: #009;
+}
+
+.fs-button:hover {
+  color: white;
+  background: #009;
+}
+
+.button {
+  background: #eee;
+}
+
+.button:hover {
+  background: #fb9;
+}
+
+/* Filer ------------------------------------------------------*/
+
+.filer {
+  height: 400px;
+  width: 250px;
+  float: left;
+  padding: 2px;
+  border-right: solid 1px #ccc;
+}
+
+.filer-tools {
+  margin: 2px 4px;
+  padding: 2px;
+  font-size: 12px;
+  color: #666;
+}
+
+#filer-empty-label {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: #ccc;
+}
+
+#filer ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-style: normal;
+  font-weight: normal;
+  list-style: none;
+  text-decoration: none;
+  background: transparent;
+  vertical-align: baseline;
+}
+#filer ul * {
+  font-size: 12px;
+}
+#filer ul ul {
+  margin-top: 1px;
+}
+#filer ul li {
+  margin: 0;
+  padding: 2px 0 1px;
+  position: relative;
+}
+#filer ul li li {
+  padding-left: 20px;
+}
+#filer .dir ul {
+  height: 0;
+  opacity: 0;
+  -webkit-transition: .25s;
+  transition: .15s;
+}
+#filer .dir.open > ul {
+  height: auto;
+  opacity: 1;
+  -webkit-transition: .25s;
+  transition: .15s;
+}
+#filer ul li .entry {
+  padding: 2px 3px;
+  line-height: 18px;
+  border-bottom: solid 1px #ddd;
+}
+#filer ul li .entry *:first-child {
+  text-decoration: none;
+  color: #222222;
+  display: block;
+  width: 70%;
+}
+#filer ul li .entry *:first-child:before {
+  display: inline-block;
+  content: url(../img/filler.png);
+  width: 16px;
+  height: 16px;
+}
+#filer ul li .entry.synced *:first-child:before {
+  display: inline-block;
+  content: url(../img/icon-synced.png);
+  width: 16px;
+  height: 16px;
+}
+#filer ul li .entry.pending *:first-child:before {
+  display: inline-block;
+  content: url(../img/icon-pending.png);
+  width: 16px;
+  height: 16px;
+}
+#filer ul li .entry.conflicting *:first-child:before {
+  display: inline-block;
+  content: url(../img/icon-conflicting.png);
+  width: 16px;
+  height: 16px;
+}
+#filer ul li .entry .size {
+  color: #03a;
+  text-align: right;
+  position: absolute;
+  display: block;
+  top: 3px;
+  font-size: 11px;
+  right: 38px;
+  width: 38px;
+}
+#filer ul li .entry button:last-child {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 11px;
+  background: white;
+  padding: 1px 4px;
+  -webkit-border-radius:3px;
+}
+#filer ul li .entry * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#filer ul li .entry .button:hover {
+  background: #fb9;
+}
+#filer .file { background: url(../img/icon_file.png) no-repeat 0; }
+#filer .dir { background: url(../img/icon_folder.png) no-repeat 0; }
+#filer .dir.open { background: url(../img/icon_folder_open.png) no-repeat 0; }
+
+/* Editor -----------------------------------------------------*/
+
+.editor {
+  float: left;
+  margin-left: 10px;
+  height: 400px;
+  width: 480px;
+}
+
+#editor-path {
+  color: #666;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.editor-tools {
+  margin: 2px 4px;
+  padding: 2px;
+}
+
+.editor-dialog {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  padding: 30px;
+  background: #eee;
+  z-index: 100;
+  -webkit-border-radius:3px;
+}
+
+.editor-dialog-buttons {
+  text-align: center;
+  margin-top: 5px;
+}
+
+#editor-content {
+  border: solid 1px #ccc;
+  margin: 2px 4px;
+  padding: 2px;
+  font-size: 12px;
+  height: 350px;
+  width: 450px;
+  resize: none;
+}

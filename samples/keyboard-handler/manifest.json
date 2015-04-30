@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Keyboard Handler Sample",
+  "version": "3.1",
+  "icons": {
+    "128": "assets/icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  }
+}

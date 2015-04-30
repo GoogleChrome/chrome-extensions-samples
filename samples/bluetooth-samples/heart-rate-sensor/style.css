@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#header {
+  padding: 10px 15px 5px 15px;
+  background: #fafafa;
+  box-shadow: 0 0 5px #858585;
+  margin-bottom: 20px;
+}
+
+#header img {
+  width: 50px;
+}
+
+#header h1 {
+  font-family: 'DejaVu Sans Light', Verdana, sans-serif;
+  font-weight: normal;
+  vertical-align: top;
+  display: inline-block;
+  margin: 8px;
+}
+
+#adapter-status {
+  float: right;
+  margin-top: 2px;
+}
+
+#adapter-address {
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 0;
+  margin: inherit;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+#device-selection-div {
+  margin-top: 5px;
+}
+
+#device-selector {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #454545;
+  font-style: italic;
+}
+
+#discovery-toggle-button {
+  background: transparent;
+  border: 1px solid #aaa;
+  color: #454545;
+  font-style: italic;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+#no-devices-error {
+  font-size: 10pt;
+  text-align: center;
+  padding-top: 7%;
+}
+
+#heart-rate-bpm {
+  float: left;
+  height: 136px;
+  line-height: 136px;
+  width: 50%;
+  text-align: center;
+  font-size: 35px;
+  color: #ff0000;
+}
+
+#heart {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  top: 5%;
+  left: -10px;
+}
+
+#heart img {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 25%;
+  left: 25%;
+}
+
+.blink-animation {
+  -webkit-animation: blink 1s linear infinite;
+}
+
+@-webkit-keyframes "blink" {
+  0% { opacity: 1; }
+  33% { opacity: 1; }
+  66% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+#heart-rate-fields {
+  float: right;
+  width: 48%;
+  margin-right: 2%;
+  box-sizing: border-box;
+  padding: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.65);
+}
+
+.heart-rate-field {
+  margin-bottom: 5px;
+}
+
+div.heart-rate-field span {
+  font-style: italic;
+  color: #333;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="control-panel.js"></script>
+  </head>
+  <body>
+    <div id="device-panel">
+      <select id="device-selector"></select>
+      <button id="connect">Connect</button>
+      <button id="disconnect">Disconnect</button>
+    </div>
+    <div id="output-panel">
+      <h3>OUTPUT</h3>
+      <label>Report ID (0 for none):</label>
+      <input type="number" id="out-id" min="0" max="255" value="1">
+      <br>
+      <label>Report Contents (ASCII; you may use \xNN to escape bytes):</label><br>
+      <input id="out-data" value="" size="68"><br>
+      <label>Report Size (bytes, not including report ID):</label>
+      <input type="number" id="out-size" min="0" max="64" value="63"><br>
+      <label>Report Padding Byte<br>
+        (appended to |contents| up to |size| bytes):<br></label>
+      <input type="number" id="out-pad" min="0" max="255" value="0"><br>
+      <button id="send">Send Report</button>
+    </div>
+    <div id="input-panel">
+      <h3>INPUT</h3>
+      <label>Expected Report Size</label>
+      <input type="number" id="in-size" value="64" min="1" max="64"><br>
+      <label>Poll?</label>
+      <input type="checkbox" id="in-poll"><br>
+      <label>Input Log:</label><br>
+      <textarea id="input-log" cols="65" rows="20" readonly></textarea><br>
+      <button id="receive">Read Report (cancels polling)</button>
+      <button id="clear">Clear Log</button>
+    </div>
+  </body>
+</html>

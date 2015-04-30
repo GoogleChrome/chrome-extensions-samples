@@ -1,0 +1,85 @@
+.banner {
+  width: 100%;
+  float: left;
+}
+
+.banner_left {
+  padding: 8px;
+  float: left;
+}
+
+.banner_right {
+  padding: 8px;
+}
+
+body {
+  font-family: arial, helvetica, sans-serif;
+}
+
+.body_inner {
+  padding: 0 32px;
+}
+
+.body_left {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 50%;
+  float: left;
+}
+
+.body_right {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 46%;
+  float: left;
+}
+
+.body_wrapper {
+  width: 100%;
+  float: left;
+}
+
+.box {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.busy {
+  background-color: #ffc;
+}
+
+#help {
+  text-align: left;
+}
+
+.large_button {
+  font-size: 166%;
+  padding: 6pt 12pt 6pt 12pt;
+}
+
+#srctext {
+  width: 100%;
+  font-size: 133%;
+}
+
+.tabbable {
+  padding: 10px;
+  border: 1px solid #00C;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#voiceInfo {
+  text-align: left;
+  padding: 4px;
+  border: 1px solid #aaa;
+  width: 100%;
+  min-height: 100px;
+  overflow: auto;
+}

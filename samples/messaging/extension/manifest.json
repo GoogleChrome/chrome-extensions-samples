@@ -1,0 +1,16 @@
+{
+  "name": "Sample Messaging extension",
+  "version": "1.3.1",
+  "description": "This sample shows how to communicate between two apps or one app and one extension.",
+  "browser_action": {
+    "default_title": "Send message to other apps",
+    "default_icon": "icon_16.png",
+    "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": ["eventPage.js"],
+    "persistent": false
+  },
+  "permissions": ["notifications"],
+  "manifest_version": 2
+}

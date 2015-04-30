@@ -1,0 +1,208 @@
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  font: bold 16px 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 700;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+#calc {
+  background-color: #fff;
+  border: 0;
+  margin: 0;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#calc #display,
+#calc #display:focus {
+  flex: 1 1 100%;
+  border: none;
+  letter-spacing: 1px;
+  line-height: 20px;
+  margin: 0px;
+  min-width: 204px;
+  overflow: scroll;
+  padding: 20px;
+  width: calc( 100% - 40px );
+}
+
+.edge-top {
+  height: 5px;
+  width: 100%;
+  z-index: 99;
+  position: absolute;
+  background: #fff;
+}
+
+.edge {
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,
+                                         rgba(255,255,255,0) 100%);
+  height: 20px;
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  z-index: 99;
+}
+
+.equation {
+  width: 100%;
+  position: relative;
+  clear: both;
+  height: 22px;
+}
+
+.equation .operator {
+  color: #2c2c2c;
+  width: 15px;
+  float: right;
+  padding-right: 5px;
+  height: 22px;
+  line-height: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.equation .operand {
+  color: #2c2c2c;
+  float: right;
+  max-width: 80px;
+  text-align: right;
+  overflow: hidden;
+  height: 16px;
+  line-height: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.equation .accumulator {
+  color: #888;
+  float: left;
+  font-size: 13px;
+  width: 85px;
+  max-width: 80px;
+  text-align: left;
+  overflow: hidden;
+  height: 13px;
+  line-height: 13px;
+  padding-top: 6px;
+  padding-bottom: 3px;
+}
+
+#display .hr {
+  width: 100%;
+  height: 0px;
+  border-top: 1px solid #d9d9d9;
+  position: relative;
+}
+
+#calc #buttons {
+  flex: 1 1 100%;
+  height: 244px;
+  width: 100%;
+  min-height: 225px;
+  min-width: 244px;
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 1 1 100%;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1 1 100%;
+}
+
+.calc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  color: rgb(202, 202, 202);
+  background: linear-gradient(#4B4B4B, #424242);
+  box-shadow: inset 1px 1px 0 #636363, inset -1px -1px 0 #141414;
+  text-shadow: 1px 1px #222;
+  flex: 1 1 100%;
+}
+.calc-button:active, .calc-button.active {
+  background: linear-gradient(#424242, #4B4B4B);
+  box-shadow: inset 1px 1px 0 #141414, inset -1px -1px 0 #636363;
+}
+
+.calc-button.big {
+  font-size: 24px;
+}
+
+.calc-button.AC {
+}
+
+.calc-button.plus-minus {
+}
+
+.calc-button.div {
+}
+
+.calc-button.mult {
+}
+.calc-button.plus {
+}
+.calc-button.minus {
+}
+.calc-button.one {
+}
+.calc-button.two {
+}
+.calc-button.three {
+}
+.calc-button.four {
+}
+.calc-button.five {
+}
+.calc-button.six {
+}
+.calc-button.seven {
+}
+.calc-button.eight {
+}
+.calc-button.nine {
+}
+.calc-button.equals {
+  flex: 2 1 200%;
+  background: linear-gradient(#6BA0FF, #2C76F8);
+  box-shadow: inset 1px 1px 0 #84ACF5, inset -1px -1px 0 #175EDA;
+}
+.calc-button.equals:active, .calc-button.equals.active {
+  background: linear-gradient(#2C76F8, #6BA0FF);
+  box-shadow: inset 1px 1px 0 #175EDA, inset -1px -1px 0 #84ACF5;
+}
+.calc-button.zero {
+}
+.calc-button.point {
+}
+

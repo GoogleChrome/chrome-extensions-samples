@@ -1,0 +1,22 @@
+{
+  "name": "blink(1)",
+  "manifest_version": 2,
+  "version": "0.3",
+  "minimum_chrome_version": "39.0.2140.0",
+  "app": {
+    "background": {
+      "scripts": [ "main.js" ]
+    }
+  },
+  "icons": {
+    "128": "128.png"
+  },
+  "permissions": [
+    "hid",
+    {
+      "usbDevices": [
+        { "vendorId": 10168, "productId": 493 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Web Store API Sample App",
+  "description": "An example app to upload and publish Chrome Apps to the Web Store",
+  "version": "1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvTWT4REnE8g8VuWDWF96d1bOfpDMt9nWL2+m92a9kzmiciabfetpTk+zXsjuBNObK0Hm+KPxYfZjxIU7jCSq6UBf2W0SRmCWUtz7OSCAhpBKHTI7D4ybTbcRh41RKPjrHH7WTjNKi/x9LUjwdgROxVNdV5f1CCe2CHSUU1lZciu1FDHKz8cA+2+mAB+j4FvQT8rrbidbAs1O75w6k8d3g0Rp7SrlUXbvvemPIFnaBDGIpfdBLRJRIMk4dS5MAzsHJb4WVCW3hGdMR65x2lHMMLYVe8G8A+4lWrr/hnV4CBCs4FzudaMMXKYoEW5Atr+ES9XKPW8qxSTVM0FfZ4/q7QIDAQAB",
+  "icons": {
+    "16": "images/icon_16.png",
+    "128": "images/icon_128.png"
+  },
+  "permissions": [
+    { "fileSystem": ["directory", "retainEntries"] },
+    "identity", 
+    "storage"
+  ],
+  "oauth2": {
+    "client_id": "313416032683-3ob52hbv8u7gl4hi8l3sa6eh5ru4rb6u.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/chromewebstore"]
+  }
+}

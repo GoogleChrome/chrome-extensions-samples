@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bluetooth LE Battery Service Demo</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="ui.js"></script>
+  <script src="main.js"></script>
+</head>
+<body>
+  <div id="header">
+    <img src="bluetooth.png" alt="bluetooth icon">
+    <h1>Bluetooth LE Battery Service</h1>
+    <div id="adapter-status">
+      <ul>
+        <li><span id="adapter-name"></span></li>
+        <li><span id="adapter-address"></span></li>
+      </ul>
+    </div>
+    <hr>
+    <div id="device-selection-div">
+      Select device with Battery Service:
+      <select id="device-selector">
+        <option id="placeholder" value="" disabled selected>
+          No connected devices
+        </option>
+      </select>
+      <button type="button" id="discovery-toggle-button">
+        start discovery
+      </button>
+    </div>
+  </div>
+  <div id="no-devices-error">
+    No device with "Battery Service" selected.
+  </div>
+  <div id="info-div">
+    <div class="battery">
+      <div id="battery-level-box" class="level"></div>
+      <div id="battery-level">-</div>
+    </div>
+    <div class="battery-tip"></div>
+  </div>
+</body>
+</html>

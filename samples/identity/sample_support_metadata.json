@@ -1,0 +1,5 @@
+{
+  "sample": "identity",
+  "files_with_snippets": [ "identity.js" ],
+  "android": {"works": true, "comments": "You need to add an Android OAuth app in the Cloud API console of the OAuth project. The app's SHA1 can be the debug one (see more <a href=\"https://developers.google.com/console/help/new/#installedapplications\">here</a>), and the package name is org.chromium.identity.MyApp. If you don't add the Android OAuth app and tries to use the OAuth client-id from the Chrome app, you will get a generic message GoogleAuthException"}
+}

@@ -1,0 +1,61 @@
+<html>
+<head>
+<style>
+  body {
+    background: white;
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+    -webkit-flex-direction: column;
+  }
+  video {
+    width: 640px;
+    height: 480px;
+    background: white;
+  }
+
+  button,select {
+    display: inline-block;
+    background: -webkit-linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+    background: linear-gradient(#F9F9F9 40%, #E3E3E3 70%);
+    border: 1px solid #999;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+    margin:0px 5px;
+    max-width:200px;
+  }
+  button:hover,
+  button.active {
+    border-color: black;
+  }
+  button:active,
+  button.active {
+    background: -webkit-linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+    background: linear-gradient(#E3E3E3 40%, #F9F9F9 70%);
+  }
+
+  video {
+    object-fit: none;
+    border: 1px solid #e2e2e2;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  }
+</style>
+</head>
+<body>
+  <video autoplay poster="camera.png"></video>
+  <p>
+    <button>Enable Camera</button>
+    <select></select>
+  </p>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Managed In App Payment Sample",
+  "version": "0.1.0.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "29",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoUq1cKlKbPLfHlA+x/eTxPA5ZSz4bd/fgKInayClJQTc6RRATDfRshCXjn8Eu7VpgsfEG3nLGD0C+8SdDxSGxj51k5elLRcRhDLODjxMshjPpziRm8wxalrGDEVOjD8GX6DG1YXQDMq6Hd9fxSj/ZEBjGvDWtoL3wBZ1M2/+aop/5Z6y9rQDOKI8PmCaIpWmIBS1+zZub9wc/RVNA2glGaSb0N71FxN/W5PhlWwJciG/iIJHhCM888kIPODJq8JgFKz1jO8/3L8YfO9/lzbKZLPnRMrN5q5KZDbG22l6BccSXnqYu4JX9RzXK0HcRzO5SI1l5XPAeZAhNY5M+rZULwIDAQAB",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "icons": {
+    "128": "/images/128.png"
+  }
+}

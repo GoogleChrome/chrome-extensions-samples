@@ -1,0 +1,17 @@
+{
+  "name": "Camera Capture Sample",
+  "version": "2.2",
+  "manifest_version": 2,
+  "icons": {
+    "16": "camera.png",
+    "128": "camera.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "videoCapture"
+  ]
+}

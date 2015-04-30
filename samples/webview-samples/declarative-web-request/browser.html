@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="trim full">
+  <head>
+    <link rel="stylesheet" href="browser.css">
+    <script src="config.js"></script>
+    <script src="content_blocker.js"></script>
+    <script src="content_blocker_main.js"></script>
+  </head>
+  <body class="trim full">
+
+    <div class="flex-container row">
+
+      <div class="trim flex-wide rel">
+	<webview id="content-webview" class="trim full"
+	         partition="blockable"></webview>
+      </div>
+
+      <form id="form" class="padded flex-narrow flex-container column rel">
+  	<input id="submit" class="submit" type="submit" value="Save & Apply" disabled>
+  	<label for="url-pattern">URL pattern to block
+  	  (<a href="http://code.google.com/p/re2/wiki/Syntax" target="_blank">RE2
+  	    syntax</a>)</label>
+	<input id="url-pattern" type="text" disabled></input>
+        <hr />
+  	<button id="reset" class="submit" disabled>Reset to Defaults</button>
+        <hr />
+        <label for="console">Content blocking log</label>
+        <div id="console" class="trim full flex">
+        </div>
+      </form>
+
+    </div>
+
+    <div id="lightbox-overlay" class="full trim abs abs-full lightbox-overlay hide">
+    </div>
+
+    <div id="lightbox" class="full trim abs abs-full flex-container column center hide">
+      <div class="flex flex-container row center">
+        <div class="flex flex-container column center lightbox">
+          <h1 class="flex center-text">Chrome Feature Not Supported</h1>
+          <div class="flex center-text">
+            The feature highlighted by this sample app is not supported in
+            your version of Chrome. Make sure your browser is up to date. If
+            you still see this message after updating your browser, try
+            installing
+            a <a href="http://www.chromium.org/getting-involved/dev-channel"
+            target="_blank">dev channel</a> build of Chrome.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

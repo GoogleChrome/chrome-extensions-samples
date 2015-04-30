@@ -1,0 +1,6 @@
+{
+  "sample": "telnet",
+  "files_with_snippets": [ ],
+  "android": {"works": false, "comments": "Can't enter CR/LF in virtual keyboards"},
+  "ios": {"works": false, "comments": "Can't enter CR/LF in virtual keyboards and display issues"}
+}

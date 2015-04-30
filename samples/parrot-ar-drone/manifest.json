@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "version": "0.3",
+  "name": "Drone Controller Sample",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [{
+    "socket": ["udp-send-to::*"]
+    }],
+  "sockets": {
+    "tcpServer": { "listen": "" },
+    "tcp": { "connect": ["*:5555", "*:5559"] },
+    "udp": { "bind": ["*:5554", "*:5556"], "send": ["*:5554", "*:5556"] }
+  }
+}

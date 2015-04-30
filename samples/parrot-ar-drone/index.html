@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AR.Drone 2.0</title>
+    <link href="styles/drone.css" rel="stylesheet"></link>
+</head>
+<body>
+
+  <h1>AR.Drone 2.0</h1>
+  <p id="message">Connect to the AR.Drone's Wifi network. Then press X
+    on your gamepad to get started.</p>
+  <div id="instructions">
+    <h3>Instructions</h3>
+    <span><strong>X button:</strong> Connect to drone</span>
+    <span><strong>O button:</strong> Land / TakeOff</span>
+    <span><strong>□ button:</strong> Flat</span>
+    <span><strong>∆ button:</strong> Flip</span>
+    <span><strong>Left stick:</strong> Move</span>
+    <span><strong>Right stick:</strong> Rotate left-right / raise and lower</span>
+    <span><strong>Left shoulder button:</strong> Emergency</span>
+    <span><strong>Select button:</strong> Shutdown</span>
+  </div>
+  <div id="state">
+    <h3>Drone states</h3>
+    <span><strong>drone state:</strong><label id="droneState">?</label></span>
+    <span><strong>vison flag:</strong><label id="visonFlag">?</label></span>
+    <span><strong>control state:</strong><label id="controlState">?</label></span>
+    <span><strong>battery%:</strong><label id="batteryPercentage">?</label></span>
+    <span><strong>theta:</strong><label id="theta">?</label></span>
+    <span><strong>phi:</strong><label id="phi">?</label></span>
+    <span><strong>psi:</strong><label id="psi">?</label></span>
+    <span><strong>altitude:</strong><label id="altitude">?</label></span>
+    <span><strong>vx:</strong><label id="vx">?</label></span>
+    <span><strong>vy:</strong><label id="vy">?</label></span>
+    <span><strong>vz:</strong><label id="vz">?</label></span>
+  </div>
+
+  <div id="commands">
+    <h2>Command log</h2>
+    <textarea id="log"></textarea>
+  </div>
+
+  <script src="third-party/gamepad.js"></script>
+
+  <script src="lib/Util.js"></script>
+  <script src="lib/NavData.js"></script>
+  <script src="lib/Command.js"></script>
+  <script src="lib/Sequence.js"></script>
+  <script src="lib/API.js"></script>
+  <script src="lib/Gamepad.js"></script>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>

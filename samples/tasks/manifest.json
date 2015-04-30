@@ -1,0 +1,17 @@
+{
+  "name": "Tasks Sample using GAPI",
+  "version": "2.1",
+  "manifest_version": 2,
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+EyucIyETym2OR3mPl2EVQULs+1p50pf6dyTdEG+igD41fSpAfEQiXS4Dp+E8ye5HdyBnKUDnSQJ08bAYeTP7z+udV990ddkSSk6uqZTa/o1dr8jv1KDE+MQAF8Qe/XzzddLkaHGQMmATFRbq6IwY8Emk3p7QDcVdTNGFBMxphQIDAQAB",
+  "minimum_chrome_version": "29",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": ["identity", "https://www.googleapis.com/*"],
+  "oauth2": {
+    "client_id": "788341667074-i889rgdtvmo60rav3pk4kflmb5rf7cqa.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/tasks.readonly"]
+  }
+}

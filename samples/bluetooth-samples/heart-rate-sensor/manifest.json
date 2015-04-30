@@ -1,0 +1,20 @@
+{
+  "name": "Heart Rate Service Demo",
+  "description": "Heart Rate Monitor Demo using chrome.bluetoothLowEnergy",
+  "version": "0.1",
+  "minimum_chrome_version": "37",
+  "icons": {
+    "16": "hr_sensor_icon16.png",
+    "48": "hr_sensor_icon48.png",
+    "128": "hr_sensor_icon128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "bluetooth": {
+    "low_energy": true,
+    "uuids": ["180d"]
+  }
+}

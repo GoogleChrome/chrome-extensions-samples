@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Sample Messaging App2",
+  "description": "This sample shows how to communicate between two apps or one app and one extension.",
+  "version": "2",
+  "minimum_chrome_version": "23",
+  "icons": {
+    "16": "icon_16.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}

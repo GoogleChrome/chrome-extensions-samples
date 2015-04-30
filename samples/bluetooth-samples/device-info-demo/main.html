@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bluetooth LE Device Information Service Demo</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="ui.js"></script>
+  <script src="main.js"></script>
+</head>
+<body>
+  <div id="header">
+    <img src="bluetooth.png" alt="bluetooth icon">
+    <h1>BLE Device Information Service</h1>
+    <div id="adapter-status">
+      <ul>
+        <li><span id="adapter-name"></span></li>
+        <li><span id="adapter-address"></span></li>
+      </ul>
+    </div>
+    <hr>
+    <div id="device-selection-div">
+      Select device with Device Information Service:
+      <select id="device-selector">
+        <option id="placeholder" value="" disabled selected>
+          No connected devices
+        </option>
+      </select>
+      <button type="button" id="discovery-toggle-button">
+        start discovery
+      </button>
+    </div>
+  </div>
+  <div id="no-devices-error">
+    No device with "Device Information Service" selected.
+  </div>
+  <div id="info-div">
+    <div class="device-info-field">
+      Manufacturer Name: <span id="manufacturer-name-string">-</span>
+    </div>
+    <div class="device-info-field">
+      Serial Number: <span id="serial-number-string">-</span>
+    </div>
+    <div class="device-info-field">
+      Hardware Revision: <span id="hardware-revision-string">-</span>
+    </div>
+    <div class="device-info-field">
+      Firmware Revision: <span id="firmware-revision-string">-</span>
+    </div>
+    <div class="device-info-field">
+      Software Revision: <span id="software-revision-string">-</span>
+    </div>
+    <div class="device-info-field">
+      Vendor ID Source: <span id="vendor-id-source">-</span>
+    </div>
+    <div class="device-info-field">
+      Vendor ID: <span id="vendor-id">-</span>
+    </div>
+    <div class="device-info-field">
+      Product ID: <span id="product-id">-</span>
+    </div>
+    <div class="device-info-field">
+      Product Version: <span id="product-version">-</span>
+    </div>
+  </div>
+</body>
+</html>

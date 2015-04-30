@@ -1,0 +1,20 @@
+{
+  "name": "Device Information Service Demo",
+  "description": "Device Information Demo using chrome.bluetoothLowEnergy",
+  "version": "0.3",
+  "minimum_chrome_version": "37",
+  "icons": {
+    "16": "bluetooth.png",
+    "48": "bluetooth.png",
+    "128": "bluetooth.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "bluetooth": {
+    "low_energy": true,
+    "uuids": ["180a"]
+  }
+}

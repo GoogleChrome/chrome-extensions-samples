@@ -1,0 +1,17 @@
+{
+  "name": "Optional Permissions Sample",
+  "version": "2.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "23",
+  "description": "Shows how to use the optional permissions API",
+
+  "app": {
+    "background": {
+      "scripts": [ "main.js" ]
+    }
+  },
+
+  "optional_permissions": [
+    "serial"
+  ]
+}

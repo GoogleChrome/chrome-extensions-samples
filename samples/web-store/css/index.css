@@ -1,0 +1,162 @@
+html,body {
+    height: 100%;
+}
+
+body {
+    background-color: #EEE;
+    margin: 0 auto;
+}
+
+.header {
+    background: url(../images/add.png) 50% no-repeat;
+    border-radius: 50%;
+    cursor: hand;
+    height: 50px;
+    margin: 4px auto 0;
+    width: 50px;
+}
+
+#projects {
+    height: 482px;
+    margin-left: 7px;
+    margin-top: 4px;
+    overflow-x: hidden;
+    overflow-y: overlay;
+}
+
+#console {
+    background: #FEFA8E;
+    border-top: 2px solid #ddd;
+    bottom: 0;
+    height: 80px;
+    padding-top: 4px;
+    position: fixed;
+    transition: all .4s ease-in-out;
+}
+
+#console.hidden {
+    height: 0px;
+    padding-top: 0px;
+}
+
+.failure {
+    background-color: #FF4500!important;
+}
+
+.success {
+    background-color: #ADE7AE!important;
+}
+
+.working {
+    background-color: #FE9375!important;
+}
+
+.project {
+    background: #FFF;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    border-radius: 1px;
+    box-shadow: 0 2px 1px rgba(0,0,0,0.08);
+    height: 156px;
+    margin: 0 8px 16px;
+    width: 328px;
+}
+
+.project button {
+    background: #BEBEBE;
+    border: 0;
+    border-radius: 1px;
+    color: #FFF;
+    cursor: hand;
+    float: right;
+    font-weight: 700;
+    height: 30px;
+    margin-right: 8px;
+    margin-top: 24px;
+    outline: none;
+    text-transform: uppercase;
+    width: 92px;
+}
+
+.project button:disabled {
+    cursor: default;
+    opacity: .3;
+}
+
+.project input {
+    border: 1px solid #EEE;
+    border-radius: 3px;
+    float: left;
+    font-size: 100%;
+    height: 30px;
+    margin-left: 128px;
+    outline: none;
+    padding-left: 4px;
+    width: 192px;
+}
+
+.project .title {
+    float: left;
+    font-weight: 700;
+    line-height: 36px;
+    overflow: hidden;
+    padding-left: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.project .webstore-link {
+    color: dodgerblue;
+    cursor: hand;
+    line-height: 36px;
+    position: absolute;
+    right: 26px;
+    text-decoration: underline;
+}
+
+.project .webstore-link.disabled {
+    cursor: default;
+    opacity: .3;
+}
+
+.project .path {
+    float: left;
+    margin-bottom: 8px;
+    margin-left: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 180px;
+}
+
+::-webkit-scrollbar {
+    height: 16px;
+    overflow: visible;
+    width: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(0,0,0,0.2);
+    border: solid rgba(0,0,0,0);
+    border-width: 1px 1px 1px 6px;
+    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.1),inset 0 -1px 0 rgba(0,0,0,0.07);
+    min-height: 28px;
+    padding: 100px 0 0;
+}
+
+::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+
+::-webkit-scrollbar-track {
+    background-clip: padding-box;
+    border: solid rgba(0,0,0,0);
+    border-width: 0 0 0 4px;
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}

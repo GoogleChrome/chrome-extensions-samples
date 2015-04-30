@@ -1,0 +1,17 @@
+{
+  "name": "Sync FileSystem Sample",
+  "version": "0.289",
+  "manifest_version": 2,
+  "description": "SyncFS editor (syncFileSystem sample)",
+  "icons": {
+    "16": "img/icon-16.png",
+    "24": "img/icon-24.png",
+    "128": "img/icon-128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "permissions": ["syncFileSystem"]
+}

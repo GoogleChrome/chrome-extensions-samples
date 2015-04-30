@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<!-- Copyright (c) 2013 The Chromium Authors. All rights reserved.
+  -- Use of this source code is governed by a BSD-style license that can be
+  -- found in the LICENSE file. -->
+<html>
+	<head>
+		<title>Rich Notifications Sample</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<h1>Rich Notifications Sample</h1>
+		<p>This sample demonstrates the use of the Rich Notifications API. Use the controls and buttons below to create various different rich notifications.</p>
+		<div id="settings">
+			<h3>Settings</h3>
+			<div>
+				<label for="pri">Priority: </label>
+				<select id="pri">
+					<option>-2</option>
+					<option>-1</option>
+					<option selected>0</option>
+					<option>1</option>
+					<option>2</option>
+				</select>
+				<label for="img">Image: </label>
+				<select id="img">
+					<option>Mail</option>
+					<option>Multiple Mail</option>
+					<option>White</option>
+					<option>Africa</option>
+					<option>Antarctica</option>
+				</select>
+				<input id="clear" type="checkbox">
+				<label for="clear">Clear after 3 seconds</label>
+			</div>
+			<div>
+				<label for="btn1">Button 1: </label><input id="btn1" type="text">
+				<label for="btn2">Button 2: </label><input id="btn2" type="text">
+			</div>
+		</div>
+		<div class="sample">
+			<button id="basic">Basic Notification</button>
+			<span>Basic notification: icon, title, and message, up to two buttons</span>
+		</div>
+		<div class="sample">
+			<button id="image">Image Notification</button>
+			<span>Image notification: icon, title, image, and message, up to two buttons</span>
+		</div>
+		<div class="sample">
+			<button id="list">List Notification</button>
+			<span>List notification: icon, title, list of items, up to two buttons</span>
+		</div>
+		<div class="sample">
+			<button id="progress">Progress Notification</button>
+			<span>Progress notification: icon, title, message, progress</span>
+		</div>
+		<script src="main.js"></script>
+	</body>
+</html>

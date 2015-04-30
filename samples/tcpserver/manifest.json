@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "TCP Server Sample",
+  "version": "3.1",
+  "minimum_chrome_version": "33.0.1715.0",
+  "permissions": ["webview", "system.network"],
+  "app": {
+    "background": {
+      "scripts": ["tcp-server.js", "commands/BrowserCommands.js", "main.js"]
+    }
+  },
+  "sockets": {
+    "tcpServer": {
+      "listen": ""
+    }
+  }
+}

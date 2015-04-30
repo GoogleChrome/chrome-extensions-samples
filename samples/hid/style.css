@@ -1,0 +1,31 @@
+body {
+  font-family: monospace;
+  font-size: 10pt;
+}
+
+div {
+  position: absolute;
+  border: solid #888 1px;
+  padding: 0;
+  margin: 2px;
+}
+
+#device-panel {
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  height: 40px;
+}
+
+#output-panel {
+  left: 2px;
+  top: 45px;
+  width: 475px;
+}
+
+#input-panel {
+  right: 2px;
+  top: 45px;
+  width: 555px;
+}
+

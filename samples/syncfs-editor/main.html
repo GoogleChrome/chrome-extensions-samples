@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="css/editor.css" type="text/css" />
+  <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/filer.js"></script>
+  <script type="text/javascript" src="js/editor.js"></script>
+  <title>Cloud editor (SyncFileSystem sample)</title>
+</head>
+<body>
+  <div id="fs-selector">
+    <div id="conflict-policy" class="hide">
+      <input id="auto-conflict-resolve" type="checkbox" checked>
+      Resolves Conflicts Automatically
+      </input>
+    </div>
+    <button id="fs-syncable" class="fs-button">Syncable</button>
+    <button id="fs-temporary" class="fs-button">Temporary</button>
+  </div>
+
+  <div id="error" class="error" class="hide"></div>
+
+  <div class="filer" id="filer"></div>
+  <div class="editor" id="editor"></div>
+
+  <div id="log"></div>
+  <div id="info" class="info" class="hide"></div>
+  <script src="js/main.js"></script>
+</body>

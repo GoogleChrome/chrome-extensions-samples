@@ -1,0 +1,14 @@
+{
+  "name": "__MSG_appName__",
+  "version": "2.1",
+  "manifest_version": 2,
+  "minimum_chrome_version": "33",
+  "description": "__MSG_appDescription__",
+  "default_locale": "en",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": ["identity", "https://api.instagram.com/*"]
+}

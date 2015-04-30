@@ -1,0 +1,47 @@
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #E2E2E2;
+  color: #555;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+  line-height: 140%;
+}
+
+h1 {
+  padding: 0 10px;
+  color: #333;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+}
+
+h2 {
+  margin: 15px 0 10px 0;
+  padding: 0 10px;
+}
+
+h3 {
+  margin: 10px 0 0px 0;
+  padding: 0 0px;
+}
+
+span {
+  margin: 15px 0 10px 0;
+  padding: 0 10px;
+}
+
+label {
+  color: #339;
+}
+
+#instructions, #state {
+  padding: 0 10px;
+}
+
+textarea {
+  display: block;
+  width: 540px;
+  height: 150px;
+}
+
+#commands, #instructions, #state {
+  display: none;
+}

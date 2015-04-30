@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #controls {
+      border-bottom: solid 1px #ccc;
+      padding: 2px;
+    }
+
+    #log {
+      white-space: pre-wrap;
+      font-family: monospace;
+      padding: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button id="list-devices">List Serial Devices</button>
+    <button id="request-permission">Request "serial" permission</button>
+    <button id="check-permission">Check "serial" permission</button>
+    <script src="permissions.js"></script>
+  </div>
+
+  <div id="log"></div>
+
+</body>
+</html>
