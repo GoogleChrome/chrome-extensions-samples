@@ -1,8 +1,8 @@
 {
   "name": "Multicast Chat Sample",
-  "version": "0.2",
+  "version": "0.3",
   "manifest_version": 2,
-  "minimum_chrome_version": "27",
+  "minimum_chrome_version": "33",
   "description": "Sending/Receiving multicast diagrams.",
   "app": {
     "background": {
@@ -17,10 +17,12 @@
     "128": "128.png"
   },
 
-  "permissions": [
-    "storage",
-    {
-      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership"]
+  "sockets": {
+    "udp": {
+      "bind": "*",
+      "send": "*",
+      "multicastMembership": ""
     }
-  ]
+  },
+  "permissions": [ "storage" ]
 }
