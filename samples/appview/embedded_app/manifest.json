@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Sample Appview Embedded",
+  "description": "This sample shows how to allow your app to be embedded into another app",
+  "version": "2",
+  "minimum_chrome_version": "43",
+  "permissions": ["videoCapture"],
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}
