@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0 auto;
+    }
+    #log {
+      height: 32px;
+      overflow-y: scroll;
+      font-family: monospace;
+      margin-top: 4px;
+      padding: 10px 0 2px 6px;
+      background-color: #F1F1F1;
+    }
+    form {
+      padding: 8px;
+      height: 60px;
+    }
+    appview {
+      position: absolute;
+      width: calc(100% - 16px);
+      height: calc(100% - 92px);
+      outline: 1px dashed #999;
+      margin: 8px;
+    }
+    .success {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+    <form>
+      <input id="embedAppId" size=32 type="text" placeholder="App ID"></input>
+      <input id="embedAppData" type="text" placeholder="JSON Data"></input>
+      <button id="sendButton">Embed</button>
+      <div id="log"></div>
+    </form>
+    <div id="container">
+      <appview></appview>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
