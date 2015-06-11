@@ -3,8 +3,8 @@
 These samples show how to use the `<appview>` tag to embed other Chrome Apps
 within your Chrome App.
 
-Add `host_app` and `embedded_app` and embed the `embedded_app` inside
-`host_app`.
+Add `host-app` and `embedded-app` and embed the `embedded-app` inside
+`host-app`.
 
 ## Resources
 
