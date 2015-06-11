@@ -7,6 +7,7 @@ Web Server
 This sample is a demonstration of Chrome's new networking stack. Chrome has the ability to 
 listen on a tcp port AND to accept.
 
+Note: An example of a Chrome App with TLS Enabled HTTP Server can be found at                                https://github.com/Rise-Vision/chrome-app-tls-server
 
 ## APIs
 * [Sockets](https://developer.chrome.com/apps/sockets_tcpServer)
