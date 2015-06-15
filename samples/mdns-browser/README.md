@@ -8,7 +8,6 @@ This is a non-trivial sample which uses the UDP multicast support in Chrome Pack
 # Known Issues
 
 * IPv6 is not supported.
-  * This sample will therefore not work on Chrome OS.
 * Broadcast responses are not supported.
 
 ## APIs
