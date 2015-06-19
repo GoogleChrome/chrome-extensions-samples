@@ -4,7 +4,7 @@
 # Arduino LED toggle
 
 Note: on Mac OS X Lion, it's necessary to update USB Serial drivers:
-http://geekscape.posterous.com/mac-os-x-17-lion-upgrading-ftdi-usb-serial-dr
+http://blog.geekscape.org/wordpress/2011/07/22/mac-os-x-17-lion-upgrading-ftdi-usb-serial-dr/
 
 This sample shows a big button that lets you toggle between the on/off
 state of an LED connected to an Arduino.
