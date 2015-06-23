@@ -1,31 +1,17 @@
 body {
   font-family: monospace;
   font-size: 10pt;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 div {
-  position: absolute;
-  border: solid #888 1px;
-  padding: 0;
-  margin: 2px;
+  padding: 8px;
+  flex: 1 100%;
 }
 
-#device-panel {
-  top: 2px;
-  left: 2px;
-  right: 2px;
-  height: 40px;
-}
-
-#output-panel {
-  left: 2px;
-  top: 45px;
-  width: 475px;
-}
-
+#output-panel,
 #input-panel {
-  right: 2px;
-  top: 45px;
-  width: 555px;
+  flex: 1 0;
 }
 

@@ -16,7 +16,7 @@
       <input type="number" id="out-id" min="0" max="255" value="1">
       <br>
       <label>Report Contents (ASCII; you may use \xNN to escape bytes):</label><br>
-      <input id="out-data" value="" size="68"><br>
+      <input id="out-data" value="" size="68" style="width:100%"><br>
       <label>Report Size (bytes, not including report ID):</label>
       <input type="number" id="out-size" min="0" max="64" value="63"><br>
       <label>Report Padding Byte<br>
@@ -31,7 +31,7 @@
       <label>Poll?</label>
       <input type="checkbox" id="in-poll"><br>
       <label>Input Log:</label><br>
-      <textarea id="input-log" cols="65" rows="20" readonly></textarea><br>
+      <textarea id="input-log" style="width:100%" rows="20" readonly></textarea><br>
       <button id="receive">Read Report (cancels polling)</button>
       <button id="clear">Clear Log</button>
     </div>
