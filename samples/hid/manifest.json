@@ -1,7 +1,7 @@
 {
 	"name": "HID Sample App",
 	"manifest_version": 2,
-	"version": "0.3",
+	"version": "0.3.1",
   "minimum_chrome_version": "36.0.1941.0",
 	"app": {
 		"background": {
