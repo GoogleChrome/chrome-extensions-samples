@@ -11,7 +11,8 @@ var browser = (function(configModule, tabsModule) {
     locationBar,
     tabContainer,
     contentContainer,
-    newTabElement) {
+    newTabElement,
+    zoomBox) {
     this.controlsContainer = controlsContainer;
     this.back = back;
     this.forward = forward;
@@ -22,6 +23,7 @@ var browser = (function(configModule, tabsModule) {
     this.tabContainer = tabContainer;
     this.contentContainer = contentContainer;
     this.newTabElement = newTabElement;
+    this.zoomBox = zoomBox;
     this.tabs = new tabsModule.TabList(
         'tabs',
         this,
