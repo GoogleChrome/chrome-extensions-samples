@@ -16,8 +16,6 @@
   };
 
   var connection = -1;
-  var deviceMap = {};
-  var pendingDeviceMap = {};
 
   var initializeWindow = function() {
     for (var k in ui) {
@@ -47,51 +45,59 @@
     ui.receive.disabled = !ioEnabled;
   };
 
-  var pendingDeviceEnumerations;
   var enumerateDevices = function() {
-    var deviceIds = [];
-    var permissions = chrome.runtime.getManifest().permissions;
-    for (var i = 0; i < permissions.length; ++i) {
-      var p = permissions[i];
-      if (p.hasOwnProperty('usbDevices')) {
-        deviceIds = deviceIds.concat(p.usbDevices);
-      }
-    }
-    pendingDeviceEnumerations = 0;
-    pendingDeviceMap = {};
-    for (var i = 0; i < deviceIds.length; ++i) {
-      ++pendingDeviceEnumerations;
-      chrome.hid.getDevices(deviceIds[i], onDevicesEnumerated);
-    }
+    chrome.hid.getDevices({}, onDevicesEnumerated);
+    chrome.hid.onDeviceAdded.addListener(onDeviceAdded);
+    chrome.hid.onDeviceRemoved.addListener(onDeviceRemoved);
   };
 
   var onDevicesEnumerated = function(devices) {
-    for (var i = 0; i < devices.length; ++i) {
-      pendingDeviceMap[devices[i].deviceId] = devices[i];
+    if (chrome.runtime.lastError) {
+      console.error("Unable to enumerate devices: " +
+                    chrome.runtime.lastError.message);
+      return;
     }
-    --pendingDeviceEnumerations;
-    if (pendingDeviceEnumerations === 0) {
-      var selectedIndex = ui.deviceSelector.selectedIndex;
-      while (ui.deviceSelector.options.length)
-        ui.deviceSelector.options.remove(0);
-      deviceMap = pendingDeviceMap;
-      for (var k in deviceMap) {
-        ui.deviceSelector.options.add(
-            new Option("Device #" + k + " [" +
-                       deviceMap[k].vendorId.toString(16) + ":" +
-                       deviceMap[k].productId.toString(16) + "]", k));
-      }
+
+    for (var device of devices) {
+      onDeviceAdded(device);
+    }
+  }
+
+  var onDeviceAdded = function(device) {
+    var selectedIndex = ui.deviceSelector.selectedIndex;
+    var option = document.createElement('option');
+    option.text = "Device #" + device.deviceId + " [" +
+                  device.vendorId.toString(16) + ":" +
+                  device.productId.toString(16) + "]";
+    option.id = 'device-' + device.deviceId;
+    ui.deviceSelector.options.add(option);
+    if (selectedIndex != -1) {
       ui.deviceSelector.selectedIndex = selectedIndex;
-      setTimeout(enumerateDevices, 1000);
     }
   };
 
-  var onConnectClicked = function() {
-    var selectedDevice = ui.deviceSelector.value;
-    var deviceInfo = deviceMap[selectedDevice];
-    if (!deviceInfo)
+  var onDeviceRemoved = function(deviceId) {
+    var option = ui.deviceSelector.options.namedItem('device-' + deviceId);
+    if (!option) {
       return;
-    chrome.hid.connect(deviceInfo.deviceId, function(connectInfo) {
+    }
+
+    if (option.selected) {
+      onDisconnectClicked();
+    }
+    ui.deviceSelector.remove(option.index);
+  };
+
+  var onConnectClicked = function() {
+    var selectedItem = ui.deviceSelector.options[ui.deviceSelector.selectedIndex];
+    if (!selectedItem) {
+      return;
+    }
+    var deviceId = parseInt(selectedItem.id.substr('device-'.length), 10);
+    if (!deviceId) {
+      return;
+    }
+    chrome.hid.connect(deviceId, function(connectInfo) {
       if (!connectInfo) {
         console.warn("Unable to connect to device.");
       }
@@ -103,7 +109,9 @@
   var onDisconnectClicked = function() {
     if (connection === -1)
       return;
-    chrome.hid.disconnect(connection, function() {});
+    chrome.hid.disconnect(connection, function() {
+      connection = -1;
+    });
     enableIOControls(false);
   };
 
