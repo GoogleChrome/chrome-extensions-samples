@@ -3,6 +3,7 @@
     deviceSelector: null,
     connect: null,
     disconnect: null,
+    addDevice: null,
     outId: null,
     outData: null,
     outSize: null,
@@ -29,6 +30,7 @@
     enableIOControls(false);
     ui.connect.addEventListener('click', onConnectClicked);
     ui.disconnect.addEventListener('click', onDisconnectClicked);
+    ui.addDevice.addEventListener('click', onAddDeviceClicked);
     ui.send.addEventListener('click', onSendClicked);
     ui.inPoll.addEventListener('change', onPollToggled);
     ui.receive.addEventListener('click', onReceiveClicked);
@@ -64,12 +66,17 @@
   }
 
   var onDeviceAdded = function(device) {
+    var optionId = 'device-' + device.deviceId;
+    if (ui.deviceSelector.namedItem(optionId)) {
+      return;
+    }
+
     var selectedIndex = ui.deviceSelector.selectedIndex;
     var option = document.createElement('option');
     option.text = "Device #" + device.deviceId + " [" +
                   device.vendorId.toString(16) + ":" +
                   device.productId.toString(16) + "]";
-    option.id = 'device-' + device.deviceId;
+    option.id = optionId;
     ui.deviceSelector.options.add(option);
     if (selectedIndex != -1) {
       ui.deviceSelector.selectedIndex = selectedIndex;
@@ -113,6 +120,20 @@
       connection = -1;
     });
     enableIOControls(false);
+  };
+
+  var onAddDeviceClicked = function() {
+    chrome.hid.getUserSelectedDevices({ 'multiple': false },
+        function(devices) {
+      if (chrome.runtime.lastError != undefined) {
+        console.warn('chrome.hid.getUserSelectedDevices error: ' +
+                     chrome.runtime.lastError.message);
+        return;
+      }
+      for (var device of devices) {
+        onDeviceAdded(device);
+      }
+    });
   };
 
   var onSendClicked = function() {
