@@ -1,20 +1,12 @@
 {
-	"name": "HID Sample App",
-	"manifest_version": 2,
-	"version": "0.3.1",
-  "minimum_chrome_version": "41",
-	"app": {
-		"background": {
-			"scripts": [ "main.js" ]
-		}
-	},
-	"permissions": [
-		"hid",
-		{
-			"usbDevices": [
-				{ "vendorId": 0, "productId": 65535 },
-				{ "vendorId": 65535, "productId": 0 }
- 			]
-		}
-	]
+  "name": "HID Sample App",
+  "manifest_version": 2,
+  "version": "0.3.1",
+  "minimum_chrome_version": "45.0.2439.3",
+  "app": {
+    "background": {
+      "scripts": [ "main.js" ]
+    }
+  },
+  "permissions": [ "hid" ]
 }
