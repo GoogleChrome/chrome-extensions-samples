@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'connects to the server on a WebSocket and all messages received on ' +
       'one WebSocket are echoed to all connected clients - i.e. a chat ' +
       'server. Enjoy!');
+// FIXME: Wait for 1s so that HTTP Server socket is listening...
+setTimeout(function() {
   var address = isServer ? 'ws://localhost:' + port + '/' :
       window.location.href.replace('http', 'ws');
   var ws = new WebSocket(address);
@@ -78,4 +80,5 @@ document.addEventListener('DOMContentLoaded', function() {
       this.value = '';
     }
   });
+}, 1e3);
 });
