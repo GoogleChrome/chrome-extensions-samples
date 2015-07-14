@@ -13,10 +13,14 @@ var mainBrowser = null;
           query('#forward'),
           query('#home'),
           query('#reload'),
+          query('#find'),
+          query('#zoom'),
           query('#location-form'),
           query('#location'),
           query('#tab-container'),
           query('#content-container'),
+          query('#find-box'),
+          query('#zoom-box'),
           query('#new-tab'));
     } else {
       // When API not available, show lightbox

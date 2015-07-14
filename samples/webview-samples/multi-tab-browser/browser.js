@@ -7,23 +7,29 @@ var browser = (function(configModule, tabsModule) {
     forward,
     home,
     reload,
+    find,
+    zoom,
     locationForm,
     locationBar,
     tabContainer,
     contentContainer,
-    newTabElement,
-    zoomBox) {
+    findbox,
+    zoombox,
+    newTabElement) {
     this.controlsContainer = controlsContainer;
     this.back = back;
     this.forward = forward;
-    this.reload = reload;
     this.home = home;
+    this.reload = reload;
+    this.find = find;
+    this.zoom = zoom;
     this.locationForm = locationForm;
     this.locationBar = locationBar;
     this.tabContainer = tabContainer;
     this.contentContainer = contentContainer;
     this.newTabElement = newTabElement;
-    this.zoomBox = zoomBox;
+    this.findBoxController = new findTool.FindController(findbox, this);
+    this.zoomBoxController = new zoomTool.ZoomController(zoombox, this);
     this.tabs = new tabsModule.TabList(
         'tabs',
         this,
@@ -73,6 +79,12 @@ var browser = (function(configModule, tabsModule) {
           }
         }
       );
+      browser.find.addEventListener('click', function() {
+        browser.findBoxController.toggleVisibility();
+      });
+      browser.zoom.addEventListener('click', function() {
+        browser.zoomBoxController.toggleVisibility();
+      });
 
       browser.locationForm.addEventListener('submit', function(e) {
         e.preventDefault();

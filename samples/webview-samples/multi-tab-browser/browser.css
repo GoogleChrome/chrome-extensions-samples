@@ -51,6 +51,11 @@ div {
   padding: 3px;
 }
 
+#controls #zoom,
+#controls #find {
+  font-size: 18px;
+}
+
 button,
 input[type="submit"],
 button[disabled]:hover {
@@ -321,4 +326,98 @@ webview {
 
 .hide {
   visibility: hidden;
+}
+
+#zoom-box,
+#find-box {
+  background-color: #eee;
+  border: solid 1px #ccc;
+  border-top: solid 1px #eee;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 2px;
+
+  /* position: fixed; */
+  top: 36px;
+  height: 25px;
+
+  display: none;
+}
+
+#zoom-box #zoom-form,
+#find-box #find-form {
+  -webkit-flex: 1;
+  display: -webkit-flex;
+  -webit-flex-direction: row;
+}
+
+#zoom-box input,
+#zoom-box button,
+#find-box button {
+  border-radius: 2px;
+}
+
+#zoom-box #zoom-text,
+#find-box #find-text {
+  border: solid 1px #ccc;
+  margin-right: 0px;
+  padding: 2px;
+  -webkit-box-sizing: border-box;
+  -webkit-flex: 1;
+}
+
+#zoom-box {
+  left: 5px;
+  width: 125px;
+  z-index: 1;
+}
+
+#zoom-box input[type="submit"] {
+  font-size: 14px;
+  margin: 2px 0px;
+  padding: 0 2px 3px 2px;
+  width: 22px;
+}
+
+#zoom-box button {
+  font-size: 12px;
+  margin: 2px 0px;
+  padding: 0px 1px 0px 0px;
+  width: 20px;
+}
+
+#find-box {
+  right: 5px;
+  width: 280px;
+  z-index: 2;
+}
+
+#find-box #find-text {
+  border-right-style: none;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+#find-box #find-results {
+  color: #888;
+  background-color: #fff;
+  border: solid 1px #ccc;
+  border-left-style: none;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  margin: 2px 0px;
+  padding: 3px 4px 2px 0;
+  text-align: center;
+}
+
+#find-box #match-case {
+  margin: 2px 0px;
+  font-size: 10px;
+  width: 28px;
+}
+
+#find-box #find-backward,
+#find-box #find-forward {
+  font-size: 14px;
+  width: 24px;
 }
