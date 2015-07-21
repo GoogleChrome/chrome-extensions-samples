@@ -8,6 +8,8 @@
   <script src="tabs.js"></script>
   <script src="find_box_controller.js"></script>
   <script src="zoom_box_controller.js"></script>
+  <script src="exit_box_controller.js"></script>
+  <script src="permission_box_controller.js"></script>
   <script src="browser.js"></script>
   <script src="browser_main.js"></script>
 </head>
@@ -56,6 +58,18 @@
       <button id="find-backward">&#60;</button>
       <button id="find-forward">&#62;</button>
     </form>
+  </div>
+  <div id="exit-box">
+    <h2> Browser Exit? </h2>
+    <h3> Do you really want to exit browser? </h3>
+    <button id="exit-yes" class="req-button"> Yes </button>
+    <button id="exit-no" class="req-button"> No </button>
+  </div>
+  <div id="permission-box">
+    <h2> Request Permission </h2>
+    <h4 id="question"></h4>
+    <button id="allow" class="req-button"> Yes </button>
+    <button id="deny" class="req-button"> No </button>
   </div>
 
   <div id="content-container">

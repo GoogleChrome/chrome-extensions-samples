@@ -179,6 +179,9 @@ var tabs = (function(popupModule, contextMenuModule) {
       });
       closeLink.addEventListener('click', function(e) {
         if (tab.tabList) {
+          if (tab.tabList.getNumTabs() < 2) {
+            tab.tabList.browser.closeBrowser();
+          }
           tab.tabList.removeTab(tab);
         }
       });
@@ -203,6 +206,12 @@ var tabs = (function(popupModule, contextMenuModule) {
       tab.webview.addEventListener(
           'newwindow',
           function(e) { return tab.doNewTab(e); });
+      tab.webview.addEventListener(
+          'permissionrequest',
+          function (e) {
+            e.preventDefault();
+            checkForPermissions(tab, e);
+          });
     }(this));
 
     this.webviewContainer.appendChild(this.popupConfirmBoxList.getListElement());
@@ -265,9 +274,17 @@ var tabs = (function(popupModule, contextMenuModule) {
     if (!this.scriptInjectionAttempted) {
       // Try to inject title-update-messaging script
       (function(tab) {
+        tab.webview.addContentScripts([
+          {
+            'name': 'Messageing',
+            'matches': ['<all_urls>'],
+            'js': { 'files': ['guest_messaging.js']},
+            'run_at': 'document_end'
+          }]);
+        /*
         tab.webview.executeScript(
             {'file': 'guest_messaging.js'},
-            function(results) { return tab.doScriptInjected(results); });
+            function(results) { return tab.doScriptInjected(results); }); */
       }(this));
       this.scriptInjectionAttempted = true;
     }
@@ -340,8 +357,27 @@ var tabs = (function(popupModule, contextMenuModule) {
 
   Tab.prototype.navigateTo = function(url) {
     this.stopNavigation();
-    this.webview.src = url;
+    if (!handleInternalCommand(url)) {
+      this.webview.src = url;
+    }
   };
+
+  function handleInternalCommand(url) {
+    if (url === 'browser://exit') {
+      window.close();
+    }
+  }
+
+  function checkForPermissions(tab, e) {
+    tab.tabList.browser.permissionBoxController.ifPermits(
+      tab.webview.src, e.permission, function(result) {
+        if (result === 'ALLOW') {
+          e.request.allow();
+        } else {
+          e.request.deny();
+        }
+      });
+  }
 
   return {
     'TabList': TabList,

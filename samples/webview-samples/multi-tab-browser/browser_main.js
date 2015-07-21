@@ -21,6 +21,8 @@ var mainBrowser = null;
           query('#content-container'),
           query('#find-box'),
           query('#zoom-box'),
+          query('#exit-box'),
+          query('#permission-box'),
           query('#new-tab'));
     } else {
       // When API not available, show lightbox

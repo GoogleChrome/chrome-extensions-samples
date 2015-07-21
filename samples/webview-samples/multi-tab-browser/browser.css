@@ -379,6 +379,7 @@ webview {
   width: 22px;
 }
 
+
 #zoom-box button {
   font-size: 12px;
   margin: 2px 0px;
@@ -420,4 +421,34 @@ webview {
 #find-box #find-forward {
   font-size: 14px;
   width: 24px;
+}
+
+.overlay-gray {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+#exit-box {
+  color: rgb(193, 193, 193);
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
+
+#permission-box {
+  color: rgb(193, 193, 193);
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
+
+.req-button {
+  color: rgb(193, 193, 193);
+  background: rgb(90, 90, 90);
 }

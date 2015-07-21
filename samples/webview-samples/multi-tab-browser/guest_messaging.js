@@ -27,7 +27,6 @@ var webviewTitleInjectionComplete = false;
         console.warn('Warning: Title message from embedder contains no tab name');
       }
     };
-
     var simulateCtrlClick = function(url) {
       var a = document.createElement('a');
       a.href = url;
@@ -57,7 +56,6 @@ var webviewTitleInjectionComplete = false;
           'id-' + (new Date()).getTime(),
           'width=100,height=100,left=100,top=100');
     };
-
     window.addEventListener('message', function(e) {
       if (e.data) {
         var data = JSON.parse(e.data);

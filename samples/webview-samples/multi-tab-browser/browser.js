@@ -15,6 +15,8 @@ var browser = (function(configModule, tabsModule) {
     contentContainer,
     findbox,
     zoombox,
+    exitbox,
+    permissionbox,
     newTabElement) {
     this.controlsContainer = controlsContainer;
     this.back = back;
@@ -30,6 +32,9 @@ var browser = (function(configModule, tabsModule) {
     this.newTabElement = newTabElement;
     this.findBoxController = new findTool.FindController(findbox, this);
     this.zoomBoxController = new zoomTool.ZoomController(zoombox, this);
+    this.exitBoxController = new exitTool.ExitController(exitbox, this);
+    this.permissionBoxController = new permissionTool.PermissionController(
+      permissionbox, this);
     this.tabs = new tabsModule.TabList(
         'tabs',
         this,
@@ -173,6 +178,8 @@ var browser = (function(configModule, tabsModule) {
         e.preventDefault();
         this.tabs.removeTab(this.tabs.getSelected());
         break;
+        case 122:
+        chrome.app.window.current().fullscreen();
       }
       // Ctrl + [1-9]
       if (e.keyCode >= 49 && e.keyCode <= 57) {
@@ -211,6 +218,10 @@ var browser = (function(configModule, tabsModule) {
       this.locationBar.value = selectedTab.url;
     }
   };
+
+  Browser.prototype.closeBrowser = function() {
+    this.exitBoxController.activate();
+  }
 
   return {'Browser': Browser};
 })(config, tabs);
