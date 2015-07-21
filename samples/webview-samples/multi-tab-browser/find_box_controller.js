@@ -32,6 +32,7 @@ var findTool = (function() {
   function showBox() {
     setWebviewFindUpdateHandler();
     containerElement.style.display = VISIBLE_STYLE;
+    findText.select();
   }
 
   FindController.prototype.toggleVisibility = function() {
