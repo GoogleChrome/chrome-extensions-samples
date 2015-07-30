@@ -54,9 +54,7 @@ var permissionTool = (function() {
 
     query('#allow').onclick = onAllow;
     query('#deny').onclick = onDeny;
-    this.overlay = document.createElement('div');
-    this.overlay.className = 'overlay-gray';
-    document.body.appendChild(this.overlay);
+    container.className = 'overlay-bar';
   };
 
   PermissionController.prototype.ifPermits = function(url, permission, callback) {
@@ -65,11 +63,11 @@ var permissionTool = (function() {
       containerElement.style.display = 'block';
       containerElement.querySelector('#question').innerHTML =
           'The page at "' + url + '" is asking for permission to use <b>'
-          + permission + '". What would you like to do?';
+          + permission + '</b>. What would you like to do?';
       this.urlReq = url;
       this.callbackReq = callback;
       this.permissionReq = permission;
-      this.overlay.style.display = 'block';
+      containerElement.style.display = 'block';
     } else {
       callback(result);
     }
@@ -89,7 +87,6 @@ var permissionTool = (function() {
 
   function deactivate() {
     containerElement.style.display = 'none';
-    controller.overlay.style.display = 'none';
   };
 
   return {'PermissionController': PermissionController};
