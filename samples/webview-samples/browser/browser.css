@@ -90,7 +90,7 @@ compared to the back/forward buttons */
   padding: 2px;
 
   position: fixed;
-  top: 36px;
+  margin-top: -1px;
   height: 25px;
 
   display: none;
@@ -159,10 +159,6 @@ compared to the back/forward buttons */
   border-bottom-right-radius: 2px;
   padding: 3px 4px 2px 0;
   text-align: center;
-}
-
-#find-box {
-  margin: 2px 0px;
 }
 
 #find-results {
