@@ -121,6 +121,7 @@ var tabs = (function(popupModule, contextMenuModule) {
 
       return tab;
     } else {
+      this.browser.closeBrowser();
       return null;
     }
   };
@@ -179,9 +180,6 @@ var tabs = (function(popupModule, contextMenuModule) {
       });
       closeLink.addEventListener('click', function(e) {
         if (tab.tabList) {
-          if (tab.tabList.getNumTabs() < 2) {
-            tab.tabList.browser.closeBrowser();
-          }
           tab.tabList.removeTab(tab);
         }
       });
@@ -281,10 +279,6 @@ var tabs = (function(popupModule, contextMenuModule) {
             'js': { 'files': ['guest_messaging.js']},
             'run_at': 'document_end'
           }]);
-        /*
-        tab.webview.executeScript(
-            {'file': 'guest_messaging.js'},
-            function(results) { return tab.doScriptInjected(results); }); */
       }(this));
       this.scriptInjectionAttempted = true;
     }

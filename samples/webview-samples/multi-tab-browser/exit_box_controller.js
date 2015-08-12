@@ -27,7 +27,7 @@ var exitTool = (function() {
   function deactivate() {
     containerElement.style.display = 'none';
     controller.overlay.style.display = 'none';
-  };
+  }
 
   return {'ExitController': ExitController};
 

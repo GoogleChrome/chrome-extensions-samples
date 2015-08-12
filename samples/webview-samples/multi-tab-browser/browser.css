@@ -337,8 +337,8 @@ webview {
   border-bottom-right-radius: 2px;
   padding: 2px;
 
-  /* position: fixed; */
-  top: 36px;
+  position: fixed;
+  margin-top: -1px;
   height: 25px;
 
   display: none;
@@ -369,7 +369,7 @@ webview {
 #zoom-box {
   left: 5px;
   width: 125px;
-  z-index: 1;
+  z-index: 2;
 }
 
 #zoom-box input[type="submit"] {
@@ -399,14 +399,17 @@ webview {
   border-bottom-left-radius: 2px;
 }
 
+#find-results {
+  margin: 0px 0px;
+}
 #find-box #find-results {
   color: #888;
-  background-color: #fff;
+  background-color: #eee;
   border: solid 1px #ccc;
+  border-top: solid 1px #eee;
   border-left-style: none;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
-  margin: 2px 0px;
   padding: 3px 4px 2px 0;
   text-align: center;
 }
@@ -458,16 +461,31 @@ webview {
   background: rgb(90, 90, 90);
 }
 
+#permission-box {
+  background-color: #eee;
+  border: solid 1px #ccc;
+  border-top: solid 1px #eee;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 2px;
+
+  position: fixed;
+  margin-top: -1px;
+
+  display: none;
+  max-height: 50px;
+}
+
 #question {
   vertical-align: middle;
 }
 
 .req-permission-button {
-  vertical-align: middle;
   float: right;
   padding-right: 10px;
   height: 23px;
-  border: solid;
+  border: solid 1px #ddd;
+  margin-bottom: 2px;
 }
 
 

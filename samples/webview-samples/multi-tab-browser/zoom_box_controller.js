@@ -20,6 +20,12 @@
     initHandlers();
   };
 
+  ZoomController.prototype.deactivate = function() {
+    if (this.isVisible()) {
+      this.toggleVisibility();
+    }
+  }
+
   function initHandlers() {
     zoomIn.addEventListener('click', increaseZoom);
     zoomOut.addEventListener('click', decreaseZoom);
@@ -30,9 +36,12 @@
     });
   }
 
+  ZoomController.prototype.isVisible = function() {
+    return containerElement.style.display === '-webkit-flex';
+  }
 
   ZoomController.prototype.toggleVisibility = function() {
-    if (containerElement.style.display == '-webkit-flex') {
+    if (containerElement.style.display === '-webkit-flex') {
       containerElement.style.display = 'none';
     } else {
       containerElement.style.display = '-webkit-flex';

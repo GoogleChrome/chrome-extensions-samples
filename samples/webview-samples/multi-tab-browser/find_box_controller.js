@@ -8,6 +8,7 @@ var findTool = (function() {
   function query(id) {
     return containerElement.querySelector(id);
   }
+
   var FindController = function(container, browser) {
     containerElement = container;
     browserInstance = browser;
@@ -20,6 +21,12 @@ var findTool = (function() {
     controller = this;
     initHandlers();
   }
+
+  FindController.prototype.deactivate = function() {
+    if (isVisible) {
+      hideBox();
+    }
+  };
 
   function isVisible() {
     return containerElement.style.display ==  VISIBLE_STYLE;
@@ -112,7 +119,7 @@ var findTool = (function() {
 
   }
 
-  function handleKeydown(e) {
+  function handleKeyDown(e) {
     // Check for Ctrl + F
     if (e.ctrlKey && e.keyCode == 70) {
       showBox();
@@ -124,7 +131,7 @@ var findTool = (function() {
     findText.addEventListener('keydown', findTextOnKeyDown);
     matchCase.addEventListener('click', matchCaseOnClick);
     form.addEventListener('submit', formOnSubmit);
-    window.addEventListener('keydown', handleKeydown);
+    window.addEventListener('keydown', handleKeyDown);
   }
 
   function setWebviewFindUpdateHandler() {

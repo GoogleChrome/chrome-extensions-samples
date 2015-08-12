@@ -93,12 +93,19 @@ var browser = (function(configModule, tabsModule) {
 
       browser.locationForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        browser.closeAllMessagesAndDialoges();
         browser.tabs.getSelected().navigateTo(browser.locationBar.value);
       });
 
       browser.newTabElement.addEventListener(
         'click',
         function(e) { return browser.doNewTab(e); });
+
+      browser.closeAllMessagesAndDialoges = function() {
+        this.findBoxController.deactivate();
+        this.zoomBoxController.deactivate();
+        this.permissionBoxController.deactivate();
+      };
 
       window.addEventListener('message', function(e) {
         if (e.data) {
@@ -167,6 +174,9 @@ var browser = (function(configModule, tabsModule) {
   };
 
   Browser.prototype.doKeyDown = function(e) {
+    if (e.keyCode === 27) {
+      this.closeAllMessagesAndDialoges();
+    }
     if (e.ctrlKey) {
       switch(e.keyCode) {
         // Ctrl+T

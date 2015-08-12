@@ -60,7 +60,7 @@ var permissionTool = (function() {
   PermissionController.prototype.ifPermits = function(url, permission, callback) {
     var result = check(url, permission);
     if (!result) {
-      containerElement.style.display = 'block';
+      containerElement.style.display = 'inline-block';
       containerElement.querySelector('#question').innerHTML =
           'The page at "' + url + '" is asking for permission to use <b>'
           + permission + '</b>. What would you like to do?';
@@ -71,6 +71,10 @@ var permissionTool = (function() {
     } else {
       callback(result);
     }
+  };
+
+  PermissionController.prototype.deactivate = function() {
+    deactivate();
   };
 
   function onAllow() {
