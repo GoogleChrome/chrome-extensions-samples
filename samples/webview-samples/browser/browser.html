@@ -45,8 +45,63 @@
       </form>
     </div>
 
-    <webview src="http://www.google.com/" style="width:640px; height:480px"></webview>
+    <div id="clear-data-overlay" class="overlay"></div>
+    <div id="clear-data-confirm">
+      <h2>Clear browsing data</h2>
+      <p>
+        Select to clear the following items:
+      </p> 
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-appcache"></input>
+          <span>App cache</span>
+        </label>
+      </li>
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-cookies"></input>
+          <span>Cookies</span>
+        </label>
+      </li>
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-fs"></input>
+          <span>File system</span>
+        </label>
+      </li>
+       <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-indexedDB"></input>
+          <span>Indexed DB</span>
+        </label>
+      </li>
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-localStorage"></input>
+          <span>Local storage</span>
+        </label>
+      </li>
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-webSQL"></input>
+          <span>WebSQL</span>
+        </label>
+      </li>
+      <li id="clear-data-checkbox">
+        <label>
+          <input type="checkbox" id="clear-cache"></input>
+          <span>Cache</span>
+        </label>
+      </li>
 
+      <br>
+      
+      <button id="clear-data-cancel">Cancel</button>
+      <button id="clear-data-ok">Clear browsing data</button>
+    </div>
+    
+    <webview src="http://www.google.com/" style="width:640px; height:480px"></webview>
+    
     <div id="sad-webview">
       <div id="sad-webview-icon">&#9762;</div>
       <h2 id="crashed-label">Aw, Snap!</h2>

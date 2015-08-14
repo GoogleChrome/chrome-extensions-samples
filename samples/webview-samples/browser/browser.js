@@ -41,23 +41,48 @@ onload = function() {
     webview.terminate();
   };
 
-  document.querySelector('#clear-data').onclick = function() {
+  var showClearDataConfirmation = function() {
+    document.querySelector('#clear-data-overlay').style.display = '-webkit-box';
+    document.querySelector('#clear-data-confirm').style.display = '-webkit-box';
+  };
+
+  var hideClearDataConfirmation = function() {
+    document.querySelector('#clear-data-overlay').style.display = 'none';
+    document.querySelector('#clear-data-confirm').style.display = 'none';
+  };
+  
+  document.querySelector('#clear-data').onclick = showClearDataConfirmation;
+  
+  document.querySelector('#clear-data-ok').onclick = function() {
+   
+    hideClearDataConfirmation();
+
+    var getAndResetCheckedValueBySelector = function(sel) {
+      var val = document.querySelector(sel).checked;
+      document.querySelector(sel).checked = false;
+      return val;
+    };
+    
     var clearDataType = {
-      appcache: true,
-      cookies: true,
-      fileSystems: true,
-      indexedDB: true,
-      localStorage: true,
-      webSQL: true,
+      appcache: getAndResetCheckedValueBySelector('#clear-appcache'),
+      cookies: getAndResetCheckedValueBySelector('#clear-cookies'),
+      fileSystems: getAndResetCheckedValueBySelector('#clear-fs'),
+      indexedDB: getAndResetCheckedValueBySelector('#clear-indexedDB'),
+      localStorage: getAndResetCheckedValueBySelector('#clear-localStorage'),
+      webSQL: getAndResetCheckedValueBySelector('#clear-webSQL'),
     }
+    
     if (majorVersion >= 44 || (majorVersion == 43 && buildVersion >= 2350)) {
-      clearDataType['cache'] = true;
+      clearDataType['cache'] = getAndResetCheckedValueBySelector('#clear-cache');
     }
+
     webview.clearData(
       { since: 0 }, // Remove all browsing data.
       clearDataType,
       function() { webview.reload(); });
   };
+
+  document.querySelector('#clear-data-cancel').onclick = hideClearDataConfirmation;
 
   document.querySelector('#location-form').onsubmit = function(e) {
     e.preventDefault();

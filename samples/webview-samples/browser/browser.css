@@ -177,6 +177,69 @@ compared to the back/forward buttons */
   width: 24px;
 }
 
+.overlay {
+  -webkit-box-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-perspective: 1px;
+  -webkit-transition: 200ms opacity;
+  background-color: rgba(255, 255, 255, 0.75);
+  bottom: 0;
+  display: none;
+  left: 0;
+  overflow: auto;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+#clear-data-overlay {
+  z-index: 3;
+}
+
+#clear-data-confirm {
+  -webkit-box-orient: vertical;
+  background-clip: border-box;
+  background-color: rgb(255, 255, 255);
+  background-image: none;
+  background-origin: padding-box;
+  background-size: auto;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 23px 5px, rgba(0, 0, 0, 0.14902) 0px 2px 6px 0px;
+  color: rgb(51, 51, 51);
+  display: none;
+  min-width: 400px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-property: -webkit-transform;
+  transition-timing-function: ease;
+  width: 500px;
+  z-index: 0;
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  width: 400px;
+  margin-left: -200px;
+  padding: 16px;
+  background-color: white;
+  z-index: 4;
+  overflow: auto;
+}
+
+#clear-data-checkbox {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
 #sad-webview,
 webview {
   position: absolute;
