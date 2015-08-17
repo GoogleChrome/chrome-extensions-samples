@@ -50,11 +50,11 @@ onload = function() {
     document.querySelector('#clear-data-overlay').style.display = 'none';
     document.querySelector('#clear-data-confirm').style.display = 'none';
   };
-  
+
   document.querySelector('#clear-data').onclick = showClearDataConfirmation;
-  
+
   document.querySelector('#clear-data-ok').onclick = function() {
-   
+
     hideClearDataConfirmation();
 
     var getAndResetCheckedValueBySelector = function(sel) {
@@ -62,7 +62,7 @@ onload = function() {
       document.querySelector(sel).checked = false;
       return val;
     };
-    
+
     var clearDataType = {
       appcache: getAndResetCheckedValueBySelector('#clear-appcache'),
       cookies: getAndResetCheckedValueBySelector('#clear-cookies'),
@@ -71,7 +71,7 @@ onload = function() {
       localStorage: getAndResetCheckedValueBySelector('#clear-localStorage'),
       webSQL: getAndResetCheckedValueBySelector('#clear-webSQL'),
     }
-    
+
     if (majorVersion >= 44 || (majorVersion == 43 && buildVersion >= 2350)) {
       clearDataType['cache'] = getAndResetCheckedValueBySelector('#clear-cache');
     }
