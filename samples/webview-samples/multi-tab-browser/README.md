@@ -1,7 +1,7 @@
 <a target="_blank" href="https://chrome.google.com/webstore/detail/jhgiafbilglmngpgkhcmnicfkpfihggo">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
-# New Window API
+# Multi-Tab Browser 
 
 Sample that shows one way to combine the [New Window
 API](https://developer.chrome.com/apps/tags/webview#event-newwindow) with the
@@ -9,19 +9,16 @@ API](https://developer.chrome.com/apps/tags/webview#event-newwindow) with the
 API](https://developer.chrome.com/apps/tags/webview#method-setUserAgentOverride)
 for
 [webviews](http://developer.chrome.com/apps/app_external.html#webview). The
-app combines the [New Window
-Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
-and the [User Agent
-Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/user-agent)
-by supporting `Open link in new tab/window as...` via the [Context Menu
-API](https://developer.chrome.com/extensions/contextMenus) (see screenshot).
+app combines the
+[New Window User Agent Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/new-window-user-agent)
+and the [Browser Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/browser).
 
 ## Features
 
-* All features from the [New Window
-Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
-* Context menu entries for `Open link in new tab/window
-  as Android/iPhone/Nokia Mobile/BlackBerry Playbook`
+* All features from the [New Window User Agent Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/new-window-user-agent)
+* All features from the
+  [Browser Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/browser) except for [clearData API](https://developer.chrome.com/apps/tags/webview#method-clearData) and simulate crash.
+* Added a new permissions feature based on [webview permissinorequest event](https://developer.chrome.com/apps/tags/webview#event-permissionrequest)
 
 ## Limitations
 
@@ -35,6 +32,5 @@ Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-s
 * [Webview](http://developer.chrome.com/apps/app_external.html#webview)
 * [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
 
-
 ## Screenshot
-![screenshot](/samples/webview-samples/new-window-user-agent/assets/screenshot_1280_800.png)
+![screenshot](/samples/webview-samples/multi-tab-browser/assets/screenshot_1280_800.png)

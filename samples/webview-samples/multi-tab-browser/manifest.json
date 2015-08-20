@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Multi-tabbed Browser",
-  "minimum_chrome_version": "24.0.1307.0",
+  "minimum_chrome_version": "35.0.0.0",
   "version": "0.7",
   "icons": {
     "16": "icon_16.png",
