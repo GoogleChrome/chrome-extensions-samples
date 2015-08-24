@@ -26,7 +26,7 @@ Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/w
 ## Limitations
 
 * See [New Window
-Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
+Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/new-window)
 
 ## Resources
 

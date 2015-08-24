@@ -57,21 +57,22 @@ var permissionTool = (function() {
     container.className = 'overlay-bar';
   };
 
-  PermissionController.prototype.ifPermits = function(url, permission, callback) {
-    var result = check(url, permission);
-    if (!result) {
-      containerElement.style.display = 'inline-block';
-      containerElement.querySelector('#question').innerHTML =
-          'The page at "' + url + '" is asking for permission to use <b>'
-          + permission + '</b>. What would you like to do?';
-      this.urlReq = url;
-      this.callbackReq = callback;
-      this.permissionReq = permission;
-      containerElement.style.display = 'block';
-    } else {
-      callback(result);
-    }
-  };
+  PermissionController.prototype.ifPermits =
+      function(url, permission, callback) {        
+        var result = check(url, permission);
+        if (!result) {
+          containerElement.style.display = 'inline-block';
+          containerElement.querySelector('#question').innerHTML =
+              'The page at "' + url + '" is asking for permission to use <b>'
+              + permission + '</b>. What would you like to do?';
+          this.urlReq = url;
+          this.callbackReq = callback;
+          this.permissionReq = permission;
+          containerElement.style.display = 'block';
+        } else {
+          callback(result);
+        }
+      };
 
   PermissionController.prototype.deactivate = function() {
     deactivate();

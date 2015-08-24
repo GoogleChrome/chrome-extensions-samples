@@ -12,7 +12,7 @@ var popup = (function(configModule) {
       // 1. Multiple popups in the same window (i.e., window.open() twice with
       //    the same window name)
       // 2. Set attributes of popup window (e.g., size, location)
-      window.chrome.app.window.create(
+      chrome.app.window.create(
           'browser.html',
           function(newWindow) {
             // Pass new window event through global: window.newWindowEvent.

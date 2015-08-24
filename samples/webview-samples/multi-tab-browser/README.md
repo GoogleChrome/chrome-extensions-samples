@@ -1,7 +1,7 @@
 <a target="_blank" href="https://chrome.google.com/webstore/detail/jhgiafbilglmngpgkhcmnicfkpfihggo">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
-# Multi-Tab Browser 
+# Multi-Tab Browser
 
 Sample that shows one way to combine the [New Window
 API](https://developer.chrome.com/apps/tags/webview#event-newwindow) with the
@@ -23,7 +23,7 @@ and the [Browser Sample](https://github.com/GoogleChrome/chrome-app-samples/tree
 ## Limitations
 
 * See [New Window
-Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/webview-samples/new-window)
+Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/new-window)
 
 ## Resources
 
