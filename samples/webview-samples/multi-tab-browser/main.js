@@ -25,5 +25,10 @@ chrome.app.runtime.onRestarted.addListener(function() {
 function runApp() {
   chrome.app.window.create(
     'browser.html',
-    {'id': 'initialBrowserWindowID', 'state': 'maximized'});
+    {'id': 'initialBrowserWindowID'},
+    function(newWindow) {
+      // Do not inject meaningful window.newWindowEvent; browser will instead
+      // load the homepage
+      newWindow.contentWindow.newWindowEvent = null;
+    });
 }

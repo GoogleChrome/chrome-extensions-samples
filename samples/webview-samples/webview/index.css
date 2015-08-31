@@ -22,8 +22,9 @@ button {
 	font-weight: bold;
 	border-radius: 2px;
 	border: 1px solid #3079ed;
-	cursor: pointer;    		
+	cursor: pointer;
 }
+
 button:hover {
 	background-image: -webkit-linear-gradient(top,#4d90fe,#357ae8);
 	border: 1px solid #2f5bb7;
