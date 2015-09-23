@@ -8,7 +8,7 @@ var webviewTitleInjectionComplete = false;
     var title = null;
     var postTitle = (function() {
       return function(e) {
-        title = document.title;
+        title = document.title;        
         var data = {
           'type': 'titleResponse',
           'tabName': tabName,
