@@ -19,14 +19,23 @@ var exitTool = (function() {
     this.overlay.className = 'overlay-gray';
     document.body.appendChild(this.overlay);
     containerElement.onkeydown = function(e) {
+      if (containerElement.style.display === 'none') {
+        return;
+      }
       e.preventDefault();
-      if (e.keyCode === 9 && containerElement.style.display !== 'none') {
+      if (e.keyCode === 9) {
         if (curr_focus === 'no') {
           curr_focus = 'yes';
           yes.focus();
         } else {
           curr_focus = 'no';
           no.focus();
+        }
+      } else if (e.keyCode === 13) {
+        if (curr_focus === 'yes') {
+          window.close();
+        } else {
+          deactivate();
         }
       }
     };
@@ -35,6 +44,7 @@ var exitTool = (function() {
   ExitController.prototype.activate = function() {
     containerElement.style.display = 'block';
     this.overlay.style.display = 'block';
+    curr_focus = 'no';
     no.focus();
   };
 
