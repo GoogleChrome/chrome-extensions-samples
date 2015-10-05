@@ -190,7 +190,7 @@ var tabs = (function(popupModule, contextMenuModule) {
     this.webviewContainer.classList.add('webview-container');
     this.webview.addContentScripts([
           {
-            'name': 'Messageing',
+            'name': 'Messaging',
             'matches': ['<all_urls>'],
             'js': { 'files': ['guest_messaging.js']},
             'run_at': 'document_start'
@@ -272,8 +272,7 @@ var tabs = (function(popupModule, contextMenuModule) {
     this.loading = false;
   };
 
-  Tab.prototype.doContentLoad = function(e) {    
-    // TODO: add the code which is to be run after 'contentload' here.
+  Tab.prototype.doContentLoad = function(e) {
     var data = {
       'type': 'titleRequest',
       'tabName': this.name
