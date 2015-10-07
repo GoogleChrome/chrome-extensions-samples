@@ -150,8 +150,6 @@ var tabs = (function(popupModule, contextMenuModule) {
         webview,
         this.popupConfirmBoxList);
     this.webview = webview;
-    this.scriptInjectionAttempted = false;
-
     this.initLabelContainer();
     this.initWebview();
   };
@@ -190,6 +188,13 @@ var tabs = (function(popupModule, contextMenuModule) {
     this.webview.setAttribute('data-name', this.name);
     this.webviewContainer.setAttribute('data-name', this.name);
     this.webviewContainer.classList.add('webview-container');
+    this.webview.addContentScripts([
+          {
+            'name': 'Messaging',
+            'matches': ['<all_urls>'],
+            'js': { 'files': ['guest_messaging.js']},
+            'run_at': 'document_start'
+          }]);
 
     (function(tab) {
       tab.webview.addEventListener(
@@ -256,7 +261,6 @@ var tabs = (function(popupModule, contextMenuModule) {
     }
 
     this.loading = true;
-    this.scriptInjectionAttempted = false;
     this.url = e.url;
     this.tabList.browser.doTabNavigating(this, e.url);
   };
@@ -269,35 +273,11 @@ var tabs = (function(popupModule, contextMenuModule) {
   };
 
   Tab.prototype.doContentLoad = function(e) {
-    if (!this.scriptInjectionAttempted) {
-      // Try to inject title-update-messaging script
-      (function(tab) {
-        tab.webview.addContentScripts([
-          {
-            'name': 'Messageing',
-            'matches': ['<all_urls>'],
-            'js': { 'files': ['guest_messaging.js']},
-            'run_at': 'document_end'
-          }]);
-      }(this));
-      this.scriptInjectionAttempted = true;
-    }
-  };
-
-  Tab.prototype.doScriptInjected = function(results) {
-    if (!results || !results.length) {
-      console.warn(
-          'Warning: Failed to inject guest_messaging.js',
-          this.webview);
-    } else {
-      // Send a message to the webview so it can get a reference to
-      // the embedder
-      var data = {
-        'type': 'titleRequest',
-        'tabName': this.name
-      };
-      this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
-    }
+    var data = {
+      'type': 'titleRequest',
+      'tabName': this.name
+    };
+    this.webview.contentWindow.postMessage(JSON.stringify(data), '*');
   };
 
   // New window triggered by existing window

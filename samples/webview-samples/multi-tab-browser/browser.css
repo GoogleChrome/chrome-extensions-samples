@@ -459,6 +459,12 @@ webview {
 .req-exit-button {
   color: rgb(193, 193, 193);
   background: rgb(90, 90, 90);
+  width: 40px;
+  text-align: center;
+}
+
+.req-exit-button:focus {
+  border: 1px solid #fff;
 }
 
 #permission-box {
