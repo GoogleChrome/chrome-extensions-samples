@@ -101,6 +101,7 @@ compared to the back/forward buttons */
   -webkit-flex: 1;
   display: -webkit-flex;
   -webit-flex-direction: row;
+  min-width: 0;
 }
 
 #zoom-box input,
@@ -116,6 +117,7 @@ compared to the back/forward buttons */
   padding: 2px;
   -webkit-box-sizing: border-box;
   -webkit-flex: 1;
+  min-width: 0;
 }
 
 #zoom-box {
