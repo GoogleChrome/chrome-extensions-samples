@@ -4,7 +4,7 @@ var clocks = {};
 var alarms = {};
 var alarm_clocks = {};
 
-var base_url = 'http://www.worldweatheronline.com/feed/tz.ashx?key=78b33b52eb213218120708&format=json&q=';
+var base_url = 'http://api.worldweatheronline.com/free/v1/tz.ashx?key=vfc3k7q22tjedr2rxse7xzke&format=json&q=';
 
 var view = 'world';
 
