@@ -663,6 +663,7 @@ WebSocketRequest.prototype = {
  */
 function WebSocketServerSocket(pSocket) {
   this.pSocket_ = pSocket;
+  this.readyState = 1;
   EventSource.apply(this);
   this.readFromSocket_();
 }
@@ -690,8 +691,10 @@ WebSocketServerSocket.prototype = {
    * process.
    */
   close: function() {
-    this.sendFrame_(8);
-    this.readyState = 2;
+    if (this.readyState === 1) {
+      this.sendFrame_(8);
+      this.readyState = 2;
+    }
   },
 
   readFromSocket_: function() {
@@ -798,8 +801,9 @@ WebSocketServerSocket.prototype = {
       this.dispatchEvent('message', {'data': data});
     } else if (op == 8) {
       // A close message must be confirmed before the websocket is closed.
-      if (this.readyState == 1) {
+      if (this.readyState === 1) {
         this.sendFrame_(8);
+        this.readyState = 2;
       } else {
         this.close_();
         return false;
@@ -860,9 +864,11 @@ WebSocketServerSocket.prototype = {
   },
 
   close_: function() {
-    this.pSocket_.close();
-    this.readyState = 3;
-    this.dispatchEvent('close');
+    if (this.readyState !== 3) {
+      this.pSocket_.close();
+      this.readyState = 3;
+      this.dispatchEvent('close');
+    }
   }
 };
 
