@@ -349,7 +349,15 @@ HttpServer.prototype = {
         port,
         50,
         function(result) {
-          t.readyState_ = 1;
+          if (!result) {
+            t.readyState_ = 1;
+          }
+          else {
+            console.log(
+              'listen error ' +
+              chrome.runtime.lastError.message +
+                ' (normal if another instance is already serving requests)');
+          }
         });
     });
   },
