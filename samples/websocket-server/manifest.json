@@ -14,8 +14,6 @@
     }
   },
   
-  "permissions": [],
-
   "app": {
     "background": {
       "scripts": ["background.js"]
