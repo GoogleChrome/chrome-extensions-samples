@@ -1,7 +1,7 @@
 {
   "name": "WebSocket Server Test",
   "description": "Runs an Http and WebSocket server with a quick and dirty test chat application.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "manifest_version": 2,
 
   "sockets": {
