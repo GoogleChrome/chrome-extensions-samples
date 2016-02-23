@@ -4,11 +4,16 @@
   "version": "0.3.1",
   "manifest_version": 2,
 
-  "permissions": [
-    {"socket": [
-      "tcp-connect",
-      "tcp-listen"]}],
+  "sockets": {
+    "tcp": {
+      "connect": "*"
+    },
 
+    "tcpServer": {
+      "listen": "*"
+    }
+  },
+  
   "app": {
     "background": {
       "scripts": ["background.js"]
