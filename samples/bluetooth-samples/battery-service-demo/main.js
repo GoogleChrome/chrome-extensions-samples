@@ -237,7 +237,7 @@ var main = (function() {
       var discoveryHandler = function() {
         if (chrome.runtime.lastError) {
           console.log('Failed to ' + (self.discovering_ ? 'stop' : 'start') + ' discovery ' +
-                      chromium.runtime.lastError.message);
+                      chrome.runtime.lastError.message);
         }
       };
       if (self.discovering_) {
