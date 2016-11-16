@@ -31,14 +31,22 @@ button[disabled]:hover {
 }
 
 button:hover,
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+button:focus,
+input[type="submit"]:focus {
   border-color: #ccc;
   background: -webkit-linear-gradient(bottom, #cccccc 0%, #f2f2f2 99%);
+}
+
+button:focus,
+input[type="submit"]:focus {
+  border-style: outset;
 }
 
 button:active,
 input[type="submit"]:active {
   border-color: #bbb;
+  border-style: solid;
   background: -webkit-linear-gradient(bottom, #e2e2e2 0%, #bbbbbb 99%);
 }
 
