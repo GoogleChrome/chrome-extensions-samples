@@ -4,6 +4,7 @@ var isLoading = false;
 onload = function() {
   var webview = document.querySelector('webview');
   doLayout();
+  webview.focus();
 
   var version = navigator.appVersion.substr(navigator.appVersion.lastIndexOf('Chrome/') + 7);
   var match = /([0-9]*)\.([0-9]*)\.([0-9]*)\.([0-9]*)/.exec(version);
@@ -196,7 +197,9 @@ onload = function() {
 
 function navigateTo(url) {
   resetExitedState();
-  document.querySelector('webview').src = url;
+  var webview = document.querySelector('webview');
+  webview.focus();
+  webview.src = url;
 }
 
 function doLayout() {
