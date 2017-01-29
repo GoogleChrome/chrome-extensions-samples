@@ -1,0 +1,7 @@
+name: calculator
+version: 1.1.4
+description: A simple calculator
+author: Chrome Apps Team <chrome-apps-team@google.com>
+homepage: https://github.com/GoogleChrome/chrome-app-samples/tree/master/calculator
+dependencies:
+  jquery: "1.6.4"

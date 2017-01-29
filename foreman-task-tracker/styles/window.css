@@ -1,0 +1,125 @@
+textarea.entry {
+  -webkit-user-select: text;
+  width: 100%;
+}
+
+.T-I {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  opacity: .7;
+  margin-top: -3px;
+  vertical-align: middle;
+  height: 22px;
+  width: 23px;
+  -webkit-user-select: none;
+}
+
+.T-I:hover {
+  opacity: 1.0;
+}
+
+.archive-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -84px -21px no-repeat;
+}
+
+.delete-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -62px -43px no-repeat;
+}
+
+.menu-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -47px -90px no-repeat;
+  opacity: 0.3;
+  width: 8px;
+  height: 12px;
+}
+
+.unarchive-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -21px -85px no-repeat;
+ }
+
+.resume-button {
+  background: #F1F1F1 url(../assets/sprite_black2.png) -21px -85px no-repeat;
+ }
+
+/*
+<div class="T-I J-J5-Ji lR T-I-ax7 T-I-Js-IF ar7 T-I-JO" act="7" role="button" tabindex="0" style="-webkit-user-select: none;" aria-label="Archive" data-tooltip="Archive">
+<div class="asa">
+<span class="J-J5-Ji ask">&nbsp;</span>
+<div class="ar8 T-I-J3 J-J5-Ji"></div></div></div>
+*/
+
+td.ops {
+  text-align: right;
+  white-space: nowrap;
+}
+
+dd {
+  -webkit-user-select: text;
+}
+
+dd.taskactive {
+  background-color: #FFA655;
+}
+
+dd.taskpending {
+  background-color: #55A6FF;
+}
+
+div.taskarchive dd {
+  background-color: #55FFA6
+}
+
+html, body {
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+h1 {
+  padding: 0.6em 0;
+  margin: 0;
+  text-align: center;
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+  background: #F2F2F2;
+  font-size: 12px;
+}
+
+.active {
+  cursor: text;
+}
+
+.constActive {
+  -webkit-user-select: none;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu>ul.list {
+  display: none;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 999;
+  padding: 0px;
+  list-style: none;
+  background: #eee;
+  box-shadow: 3px 3px 2px #888888;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.menu>ul.list li {
+  text-align: left;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.menu>ul.list li:hover {
+  background: #EC6603;
+  color: #fff;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles/window.css">
+  <link rel="stylesheet" href="styles/simpletabs.css">
+  <title>Foreman</title>
+</head>
+<body class="original">
+<h1 id="status">No current task</h1>
+<div class="tabwidget">
+  <ul id="tabs" class="tabs">
+    <!-- <li id="tabtab_snapshots" class="tabtab"><a href="#snapshots">Snapshots</a></li> -->
+  </ul>
+  <div id="tabcontainer" class="tabcontainer">
+    <div id="template-divSnapshots" class="template_tab_content">
+<!--      <h2>Previous Snapshots</h2> -->
+      <button class="snapshot-button">Take Snapshot</button>
+      <button class="settings-button">Settings</button>
+    </div>
+
+    <div id="template-divTab" class="template_tab_content">
+      <table width="100%">
+        <tr>
+          <td width="100%">
+            <textarea id="entry1" placeholder="Add some notes (Ctrl+Enter will Add)" rows="2" class="entry"></textarea>
+          </td>
+          <td class="ops">
+            <button class="addbutton">Add</button>
+            <!--
+            <button class="paste-button">Paste</button>
+            -->
+          </td>
+        </tr>
+      </table>
+      <dl>
+        <dt>Current/Active</dt>
+        <dd class="taskactive">
+          <table class="activecontainer" width="100%">
+          <tr id="template-trActive">
+            <td class="active_task" contenteditable="true">{{text}}</td>
+            <td class="ops">
+              <button class="archive-button T-I" title="Archive"></button>
+              <button class="delete-button T-I" title="Delete"></button></td>
+          </tr>
+          </table>
+        </dd>
+        <dt>Current/Pending Snapshot</dt>
+        <dd class="taskpending">
+          <table class="pendingcontainer" width="100%">
+          <tr id="template-trPending">
+            <td class="pending_task" contenteditable="true">{{text}}</td>
+            <td class="ops">
+            <!-- <button class="editbutton">Edit</button> -->
+            <button class="unarchive-button T-I" title="UnArchive"></button>
+            <button class="delete-button T-I" title="Delete"></button></td>
+          </tr>
+          </table>
+        </dd>
+        <div id="template-divArchive" class="taskarchive">
+          <dt class="snapheader">{{name}}</dt>
+          <dd>
+            <table class="snapcontainer" width="100%">
+              <tr id="template-trArchive">
+                <td class="archived_task" contenteditable="true">{{text}}</td>
+                <td class="ops">
+                  <button class="resume-button T-I" title="Resume"></button>
+                </td>
+              </tr>
+            </table>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+  </div>
+</div>
+
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <script src="scripts/window.js"></script>
+
+</body>
+</html>

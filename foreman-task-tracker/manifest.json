@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Foreman Task Tracker",
+  "description": "A work-context, task-tracker, and snippets creator",
+  "version": "0.1.8",
+  "minimum_chrome_version": "23",
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions": [
+    "app.window",
+    "storage",
+    "unlimitedStorage",
+    "notifications",
+    "contextMenus"
+  ],
+  "icons": {
+    "16": "assets/icon.png",
+    "64": "assets/icon.png",
+    "128": "assets/icon.png"
+  },
+  "offline_enabled": true
+}

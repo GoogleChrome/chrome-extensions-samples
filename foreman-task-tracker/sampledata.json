@@ -1,0 +1,82 @@
+{
+  "snapshot": ["d20120817", "d20120810"],
+  "context": [
+    {
+      "name": "Context 1",
+      "notes": [
+        {
+          "text": "Some Previous Note 1",
+          "state": "A"
+        },
+        {
+          "text": "Some Previous Note 2",
+          "state": "A",
+          "snap": {
+            "d20120810": {"text": "What Note 2 looked like on 20120810"}
+          }
+        },
+        {
+          "text": "Some Previous Note 3",
+          "state": "P"
+        },
+        {
+          "text": "top/What Note 5 looked like on 20120817",
+          "snap": {
+            "d20120810": {"text": "What Note 5 looked like on 20120810"},
+            "d20120817": {"text": "What Note 5 looked like on 20120817"}
+          }
+        },
+        {
+          "text": "top/Note 6 on 20120817",
+          "snap": {
+            "d20120817": {"text": "Note 6 on 20120817"}
+          }
+        },
+        {
+          "text": "top/Note 7 on 20120810",
+          "snap": {
+            "d20120810": {"text": "Note 7 on 20120810"}
+          }
+        },
+        {
+          "text": "top/Note 8 on 20120810",
+          "snap": {
+            "d20120810": {"text": "Note 8 on 20120810"}
+          }
+        }
+      ]
+    },{
+      "name": "Context 2",
+      "notes": [
+        {
+          "text": "Some Previous Note 9",
+          "state": "A"
+        },
+        {
+          "text": "Some Previous Note 10",
+          "state": "A"
+        },
+        {
+          "text": "Some Previous Note 11",
+          "state": "P"
+        },
+        {
+          "text": "Some Previous Note 12",
+          "state": "P"
+        },
+        {
+          "text": "Note 13 on 20120817",
+          "snap": {
+            "d20120817": {"text": "Note 13 on 20120817"}
+          }
+        },
+        {
+          "text": "Note 14 on 20120817",
+          "snap": {
+            "d20120817": {"text": "Note 14 on 20120817"}
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@
  * found in the LICENSE file.
  **/
 
+initme = 'foo';
 
 /**
  * Listens for the app launching then creates the window
