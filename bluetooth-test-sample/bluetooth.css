@@ -1,0 +1,130 @@
+body {
+	margin: 0;
+	overflow: hidden;
+}
+
+h1 {
+	font-family: 'DejaVu Sans Light';
+	font-weight: normal;
+	font-size: 32px;
+
+	vertical-align: top;
+	margin: 8px 8px 0;
+}
+
+h1 img {
+	margin-right: 4px;
+}
+
+ul {
+	padding-left: 0;
+	margin: inherit;
+}
+
+ul li {
+	display: block;
+	list-style-type: none;
+}
+
+div#adapter {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;
+
+	font-size: larger;
+	line-height: 150%;
+}
+
+div#settings {
+	position: relative;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100px;
+
+	background-color: #f1f1f1;
+}
+
+div#settings ul {
+	position: absolute;
+	top: 8px;
+}
+
+ul#mode {
+	left: 8px;
+}
+
+ul#datamode {
+	left: 208px;
+}
+
+ul#protocol {
+	left: 408px;
+}
+
+ul#l2cap_options {
+	visibility: hidden;
+}
+
+ul#rfcomm_options, ul#l2cap_options {
+	left: 408px;
+	top: 50px !important;
+}
+
+input[type='text'] {
+	width: 5em;
+	margin-left: 0.33em;
+
+	background-color: transparent;
+	border: none;
+
+	font-weight: bold;
+}
+
+select#device_address {
+	position: absolute;
+	top: 8px;
+	left: 608px;
+	width: 184px;
+	height: 84px;
+
+	background-color: transparent;
+	border: none;
+}
+
+div#buttons {
+	background-color: rgba(0, 0, 0, 0.2);
+
+	padding-left: 8px;
+	padding-top: 10px;
+}
+
+div#buttons input[type='button'] {
+	font-weight: bold;
+
+	border: none;
+	border-bottom: 2px solid transparent;
+
+	background: transparent;
+
+	margin-left: 2em;
+	padding: 0 0 8px;
+}
+
+div#buttons input[type='button']:hover {
+	border-bottom: 2px solid blue;
+}
+
+pre#log {
+	font-family: 'Droid Sans Mono';
+
+	margin: 0;
+	padding: 8px;
+	height: 392px;
+
+	overflow: scroll;
+}
+
+pre#log input[type='button'] {
+	margin-left: 1em;
+}
