@@ -4,6 +4,21 @@ function setStatus(status) {
   document.getElementById("status").innerHTML = status;
 }
 
+function disableButtons() {
+  document.getElementById("register").disabled = true;
+  document.getElementById("deregister").disabled = true;
+}
+
+function enableRegisterButton() {
+  document.getElementById("register").disabled = false;
+  document.getElementById("deregister").disabled = true;
+}
+
+function enableDeregisterButton() {
+  document.getElementById("register").disabled = true;
+  document.getElementById("deregister").disabled = false;
+}
+
 function register() {
   var senderId = document.getElementById("senderId").value;
   chrome.gcm.register([senderId], registerCallback);
@@ -12,24 +27,59 @@ function register() {
 
   // Prevent register button from being click again before the registration
   // finishes.
-  document.getElementById("register").disabled = true;
+  disableButtons();
+}
+
+function deregister() {
+  var senderId = document.getElementById("senderId").value;
+  chrome.gcm.unregister(deregisterCallback);
+
+  setStatus("Registering ...");
+
+  // Prevent register button from being click again before the registration
+  // finishes.
+  disableButtons();
 }
 
 function registerCallback(regId) {
   registrationId = regId;
-  document.getElementById("register").disabled = false;
 
   if (chrome.runtime.lastError) {
     // When the registration fails, handle the error and retry the
     // registration later.
     setStatus("Registration failed: " + chrome.runtime.lastError.message);
+    enableRegisterButton();
     return;
   }
 
+  enableDeregisterButton();
   setStatus("Registration succeeded. Please run the following command to send a message.");
 
   // Mark that the first-time registration is done.
   chrome.storage.local.set({registered: true});
+
+  // Format and show the curl command that can be used to post a message.
+  updateCurlCommand();
+}
+
+function deregisterCallback() {
+  registrationId = "not registered"
+  document.getElementById("register").disabled = false;
+  document.getElementById("deregister").disabled = false;
+
+  if (chrome.runtime.lastError) {
+    // When the registration fails, handle the error and retry the
+    // registration later.
+    setStatus("Deregistration failed: " + chrome.runtime.lastError.message);
+    enableDeregisterButton();
+    return;
+  }
+
+  enableRegisterButton();
+  setStatus("Deregistration succeeded. Please provider sender ID and register.");
+
+  // Mark that the first-time registration is done.
+  chrome.storage.local.set({registered: false});
 
   // Format and show the curl command that can be used to post a message.
   updateCurlCommand();
@@ -58,7 +108,9 @@ function updateCurlCommand() {
 }
 
 window.onload = function() {
+  enableRegisterButton();
   document.getElementById("register").onclick = register;
+  document.getElementById("deregister").onclick = deregister;
   document.getElementById("apiKey").onchange = updateCurlCommand;
   document.getElementById("msgKey").onchange = updateCurlCommand;
   document.getElementById("msgValue").onchange = updateCurlCommand;
