@@ -1,0 +1,18 @@
+{
+  "name": "Tabs",
+  "version": "1.0",
+  "description": "This App will help you to find out the Tabs Opened & display your favourite sites",
+   "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+   "tabs", "chrome://favicon/*", "notifications","topSites"
+  ],
+  "browser_action": {
+      "default_title": "Click to View Tabs Opened",
+      "default_icon": "Img/chrome.png",
+	  "default_popup": "index.html"
+  },
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self'; object-src 'self'"
+}

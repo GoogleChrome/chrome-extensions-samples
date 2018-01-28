@@ -1,0 +1,36 @@
+
+ body {
+    min-width: 400px;
+    overflow-x: hidden;
+	background-color:#f9f9f9;
+	font-family: 'Lora', serif;
+	font-color:black;
+}
+
+img {
+	width: 16px;
+	height: 16px;
+	margin:0px;
+}
+ .Tabs_Div{
+	margin: 10px;
+}
+ .table td {
+   height:16px;
+}
+ .tabTitle{
+	margin-left:2px;
+}
+tr {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.li{
+	font-family: 'Lora', serif;
+	font-color:black;
+	margin-top:3px;
+}
