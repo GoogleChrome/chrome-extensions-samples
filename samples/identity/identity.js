@@ -1,6 +1,6 @@
 'use strict';
 
-var googlePlusUserLoader = (function() {
+var googleProfileUserLoader = (function() {
 
   var STATE_START=1;
   var STATE_ACQUIRING_AUTHTOKEN=2;
@@ -81,7 +81,7 @@ var googlePlusUserLoader = (function() {
 
   function getUserInfo(interactive) {
     xhrWithAuth('GET',
-                'https://www.googleapis.com/plus/v1/people/me',
+                'https://www.googleapis.com/oauth2/v1/userinfo',
                 interactive,
                 onUserInfoFetched);
   }
@@ -102,14 +102,14 @@ var googlePlusUserLoader = (function() {
   }
 
   function populateUserInfo(user_info) {
-    user_info_div.innerHTML = "Hello " + user_info.displayName;
+    user_info_div.innerHTML = "Hello " + user_info.name;
     fetchImageBytes(user_info);
   }
 
   function fetchImageBytes(user_info) {
-    if (!user_info || !user_info.image || !user_info.image.url) return;
+    if (!user_info || !user_info.picture) return;
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', user_info.image.url, true);
+    xhr.open('GET', user_info.picture, true);
     xhr.responseType = 'blob';
     xhr.onload = onImageFetched;
     xhr.send();
@@ -118,10 +118,11 @@ var googlePlusUserLoader = (function() {
   function onImageFetched(e) {
     if (this.status != 200) return;
     var imgElem = document.createElement('img');
-    var objUrl = window.webkitURL.createObjectURL(this.response);
+    var objUrl = window.URL.createObjectURL(this.response);
     imgElem.src = objUrl;
+    imgElem.style.width = '24px';
     imgElem.onload = function() {
-      window.webkitURL.revokeObjectURL(objUrl);
+      window.URL.revokeObjectURL(objUrl);
     }
     user_info_div.insertAdjacentElement("afterbegin", imgElem);
   }
@@ -212,5 +213,5 @@ var googlePlusUserLoader = (function() {
 
 })();
 
-window.onload = googlePlusUserLoader.onload;
+window.onload = googleProfileUserLoader.onload;
 
