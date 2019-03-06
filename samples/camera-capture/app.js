@@ -29,7 +29,7 @@ var curStream = null; // keep track of current stream
 function getCamera() {
   var cameraSrcId = document.querySelector('select').value;
 
-  // constraints allow us to select a specific video source 
+  // constraints allow us to select a specific video source
   var constraints = {
     video: {
       optional: [{
@@ -56,7 +56,7 @@ function getCamera() {
       }
 
       curStream = stream;
-      updateButtonState();  
+      updateButtonState();
     }
   }, function(e) {
     curStream = null;
@@ -100,7 +100,7 @@ function updateButtonState() {
     btn.innerHTML = "Enable Camera";
   }
   else {
-    btn.innerHTML = "Disable Camera"; 
+    btn.innerHTML = "Disable Camera";
   }
 }
 
@@ -121,8 +121,8 @@ getVideoSources(function(cameras){
     opt.appendChild(document.createTextNode(camera.label));
 
     ddl.appendChild(opt);
-  });   
-}); 
+  });
+});
 
 /**
  * This retrieves video sources and passes them to callback parameter
@@ -132,14 +132,14 @@ function getVideoSources(callback) {
   var videoSources = [];
   callback = callback || function(){};
 
-  MediaStreamTrack.getSources(function(sources){
+  navigator.mediaDevices.enumerateDevices().then(function(sources){
     sources.forEach(function(source,index){
       if(source.kind === 'video') {
         // we only need to enlist video sources
         videoSources.push({
           id: source.id,
           label: source.label || 'Camera '+(videoSources.length+1)
-        });  
+        });
       }
     });
 
