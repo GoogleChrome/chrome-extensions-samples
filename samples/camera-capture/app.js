@@ -134,7 +134,7 @@ function getVideoSources(callback) {
 
   navigator.mediaDevices.enumerateDevices().then(function(sources){
     sources.forEach(function(source,index){
-      if(source.kind === 'video') {
+      if(source.kind === 'videoinput') {
         // we only need to enlist video sources
         videoSources.push({
           id: source.id,
