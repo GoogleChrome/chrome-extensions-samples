@@ -43,7 +43,7 @@ function getCamera() {
 
   navigator.getUserMedia(constraints, function(stream) {
     var videoElm = document.querySelector('video');
-    videoElm.src = URL.createObjectURL(stream);
+    videoElm.srcObject = stream;
 
     stream.onended = function() {
       updateButtonState();
