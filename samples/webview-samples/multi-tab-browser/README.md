@@ -18,7 +18,7 @@ and the [Browser Sample](https://github.com/GoogleChrome/chrome-app-samples/tree
 * All features from the [New Window User Agent Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/new-window-user-agent)
 * All features from the
   [Browser Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/webview-samples/browser) except for [clearData API](https://developer.chrome.com/apps/tags/webview#method-clearData) and simulate crash.
-* Added a new permissions feature based on [webview permissinorequest event](https://developer.chrome.com/apps/tags/webview#event-permissionrequest)
+* Added a new permissions feature based on [webview permissionrequest event](https://developer.chrome.com/apps/tags/webview#event-permissionrequest)
 
 ## Limitations
 
