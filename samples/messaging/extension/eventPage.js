@@ -1,8 +1,8 @@
-var blacklistedIds = ["none"];
+var blocklistedIds = ["none"];
 
 chrome.runtime.onMessageExternal.addListener(
   function(request, sender, sendResponse) {
-    if (sender.id in blacklistedIds) {
+    if (sender.id in blocklistedIds) {
       sendResponse({"result":"sorry, could not process your message"});
       return;  // don't allow this extension access
     } else if (request.myCustomMessage) {
