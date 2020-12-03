@@ -1,6 +1,6 @@
 # Chrome Extensions samples
 
-Official samples for Chrome Extensions (and the [deprecated Chrome Apps platform](https://developer.chrome.com/apps/migration)).
+Official samples for Chrome Extensions (and the [deprecated](https://developer.chrome.com/apps/migration) Chrome Apps platform).
 
 For more information, see [Chrome Developers](https://developer.chrome.com).
 
@@ -12,6 +12,10 @@ The directory structure is as follows:
 * howto/ - simple extensions showing how to perform a particular task
 * tutorials/ - multi-step walkthroughs referenced inline in the docs
 * extensions/ - full featured extensions spanning multiple API packages
+* apps/ - deprecated Chrome Apps platform (not listed below)
+
+To experiment with these samples, please download this repo and use 'Load Unpacked Extension'.
+Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
 
 Sample | Calls
 --- | ---
