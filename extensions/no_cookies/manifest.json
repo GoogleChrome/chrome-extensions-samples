@@ -1,0 +1,15 @@
+{
+  "name": "No Cookies",
+  "description": "Removes 'Cookie' and 'Set-Cookie' headers.",
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}
