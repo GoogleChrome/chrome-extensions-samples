@@ -14,7 +14,7 @@ The directory structure is as follows:
 * extensions/ - full featured extensions spanning multiple API packages
 * apps/ - deprecated Chrome Apps platform (not listed below)
 
-To experiment with these samples, please download this repo and use 'Load Unpacked Extension'.
+To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
 
 Sample | Calls
