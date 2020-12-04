@@ -1,8 +1,9 @@
 # Chrome Extensions samples
 
-Official samples for Chrome Extensions (and the [deprecated](https://developer.chrome.com/apps/migration) Chrome Apps platform).
+Official samples for Chrome Extensions and the Chrome Apps platform.
+Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
 
-For more information, see [Chrome Developers](https://developer.chrome.com).
+For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
 ## Samples
 
