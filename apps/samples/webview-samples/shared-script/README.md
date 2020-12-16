@@ -35,4 +35,4 @@ the script directly and *Correct injection* injects the script into a
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/shared-script/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/shared-script/assets/screenshot_1280_800.png)

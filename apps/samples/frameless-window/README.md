@@ -14,5 +14,5 @@ Caveat: `-webkit-app-region: drag;` *will* disable some customizations such as c
 
      
 ## Screenshot
-![screenshot](/samples/frameless-window/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/frameless-window/assets/screenshot_1280_800.png)
 

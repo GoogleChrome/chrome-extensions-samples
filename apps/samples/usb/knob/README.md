@@ -12,5 +12,5 @@ This demo interfaces with a [Griffin PowerMate](http://en.wikipedia.org/wiki/Gri
 * [Window](https://developer.chrome.com/apps/app_window)
      
 ## Screenshot
-![screenshot](/samples/usb/knob/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/usb/knob/assets/screenshot_1280_800.png)
 

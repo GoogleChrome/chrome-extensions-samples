@@ -21,5 +21,5 @@ See more info on [using eval safely in packaged apps](http://developer.chrome.co
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
      
 ## Screenshot
-![screenshot](/samples/sandbox/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/sandbox/assets/screenshot_1280_800.png)
 

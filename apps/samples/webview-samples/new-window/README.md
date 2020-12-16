@@ -34,4 +34,4 @@ that identify a different window open a new window.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/new-window/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/new-window/assets/screenshot_1280_800.png)

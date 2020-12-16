@@ -13,5 +13,5 @@ A widget-like application that provides a world clock, an alarm, a timer and a s
 
      
 ## Screenshot
-![screenshot](/samples/clock/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/clock/assets/screenshot_1280_800.png)
 

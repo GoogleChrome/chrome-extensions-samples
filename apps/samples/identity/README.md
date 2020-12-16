@@ -21,4 +21,4 @@ you should use the launchWebAuthFlow method instead.
 
 
 ## Screenshot
-![screenshot](/samples/identity/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/identity/assets/screenshot_1280_800.png)

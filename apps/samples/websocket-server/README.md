@@ -13,4 +13,4 @@ An example Http and WebSocket server implementation with a sample app which serv
 
 
 ## Screenshot
-![screenshot](/samples/websocket-server/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/websocket-server/assets/screenshot_1280_800.png)

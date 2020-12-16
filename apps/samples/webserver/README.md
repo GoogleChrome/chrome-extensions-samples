@@ -16,5 +16,5 @@ Note: An example of a Chrome App with TLS Enabled HTTP Server can be found at   
 * [Window](https://developer.chrome.com/apps/app_window)
      
 ## Screenshot
-![screenshot](/samples/webserver/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webserver/assets/screenshot_1280_800.png)
 

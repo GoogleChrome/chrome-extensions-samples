@@ -19,5 +19,5 @@ See more at the [project wiki](https://github.com/GoogleChrome/chrome-platform-a
 
      
 ## Screenshot
-![screenshot](/samples/analytics/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/analytics/assets/screenshot_1280_800.png)
 

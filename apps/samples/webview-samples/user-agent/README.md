@@ -26,4 +26,4 @@ security and reliability of your application.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/user-agent/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/user-agent/assets/screenshot_1280_800.png)

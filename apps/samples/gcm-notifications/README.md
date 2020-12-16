@@ -13,4 +13,4 @@ Demonstrates the capability to receive the push messages from Google Cloud Messa
 
 
 ## Screenshot
-![screenshot](/samples/gcm-notifications/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/gcm-notifications/assets/screenshot_1280_800.png)

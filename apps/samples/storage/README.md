@@ -13,5 +13,5 @@ A very basic application that demonstrates the Filesystem API. It allows you to 
 
      
 ## Screenshot
-![screenshot](/samples/storage/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/storage/assets/screenshot_1280_800.png)
 

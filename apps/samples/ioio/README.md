@@ -16,5 +16,5 @@ The constants and information about the protocol was taken from https://github.c
 * [Bluetooth](http://developer.chrome.com/apps/bluetooth.html)
      
 ## Screenshot
-![screenshot](/samples/ioio/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/ioio/assets/screenshot_1280_800.png)
 

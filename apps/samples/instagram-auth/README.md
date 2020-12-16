@@ -26,4 +26,4 @@ The key *must* be removed before uploading it to the store.
 
 
 ## Screenshot
-![screenshot](/samples/instagram-auth/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/instagram-auth/assets/screenshot_1280_800.png)

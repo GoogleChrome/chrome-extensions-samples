@@ -12,5 +12,5 @@ NOTE: This sample requires Milestone 31 or later of Chrome, since it uses the ne
 * [chrome.fileSystem](http://developer.chrome.com/apps/fileSystem.html)
      
 ## Screenshot
-![screenshot](/samples/filesystem-access/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/filesystem-access/assets/screenshot_1280_800.png)
 

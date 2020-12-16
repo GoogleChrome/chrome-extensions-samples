@@ -13,5 +13,5 @@ A non-trivial sample with basic features of a code editor, like syntax detection
 
      
 ## Screenshot
-![screenshot](/samples/mini-code-edit/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/mini-code-edit/assets/screenshot_1280_800.png)
 

@@ -33,4 +33,4 @@ Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/w
 * [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
 
 ## Screenshot
-![screenshot](/samples/webview-samples/multi-tab-browser/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/multi-tab-browser/assets/screenshot_1280_800.png)

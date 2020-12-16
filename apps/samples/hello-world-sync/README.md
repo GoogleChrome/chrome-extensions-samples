@@ -28,5 +28,5 @@ Important: needs "key" in manifest.json to support testing outside of CWS, so th
 * [Storage sync](http://developer.chrome.com/extensions/storage.html)
      
 ## Screenshot
-![screenshot](/samples/hello-world-sync/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/hello-world-sync/assets/screenshot_1280_800.png)
 

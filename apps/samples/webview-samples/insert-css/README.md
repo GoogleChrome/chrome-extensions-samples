@@ -17,4 +17,4 @@ following links within the webview.
 
 ## Screenshot
 
-![screenshot](/samples/webview-samples/insert-css/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/insert-css/assets/screenshot_1280_800.png)

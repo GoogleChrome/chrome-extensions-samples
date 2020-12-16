@@ -21,5 +21,5 @@ Account check out the [Identity sample application](../identity).
 
      
 ## Screenshot
-![screenshot](/samples/github-auth/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/github-auth/assets/screenshot_1280_800.png)
 

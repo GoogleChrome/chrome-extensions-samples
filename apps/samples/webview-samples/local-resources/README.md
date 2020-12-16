@@ -24,4 +24,4 @@ to particular `webview` partitions to access trusted package-local content.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/local-resources/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/local-resources/assets/screenshot_1280_800.png)

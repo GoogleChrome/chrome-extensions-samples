@@ -14,5 +14,5 @@ if you want to recompile dart to JS. See the correct, CSP compatible, command-li
 
      
 ## Screenshot
-![screenshot](/samples/dart/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/dart/assets/screenshot_1280_800.png)
 

@@ -13,4 +13,4 @@ Sample to explore some of the APIs in the webview tag.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/webview/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/webview/assets/screenshot_1280_800.png)

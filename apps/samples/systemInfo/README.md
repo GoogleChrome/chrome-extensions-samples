@@ -16,5 +16,5 @@ as CPU, memory and disk storage etc.
 
 ## Screenshot
 
-![screenshot](/samples/systemInfo/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/systemInfo/assets/screenshot_1280_800.png)
 

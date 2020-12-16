@@ -13,5 +13,5 @@ This is a sample application that uses the [media gallery](http://developer.chro
 
      
 ## Screenshot
-![screenshot](/samples/media-gallery/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/media-gallery/assets/screenshot_1280_800.png)
 

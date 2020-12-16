@@ -12,5 +12,5 @@ This is a sample that shows how you can run a network TCP server in a packaged a
 * [Window](https://developer.chrome.com/apps/app_window)
      
 ## Screenshot
-![screenshot](/samples/tcpserver/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/tcpserver/assets/screenshot_1280_800.png)
 

@@ -25,5 +25,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
      
 ## Screenshot
-![screenshot](/samples/syncfs-editor/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/syncfs-editor/assets/screenshot_1280_800.png)
 

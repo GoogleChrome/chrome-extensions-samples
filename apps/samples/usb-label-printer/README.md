@@ -49,5 +49,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
      
 ## Screenshot
-![screenshot](/samples/usb-label-printer/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/usb-label-printer/assets/screenshot_1280_800.png)
 
