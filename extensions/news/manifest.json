@@ -16,5 +16,6 @@
   "options_page": "views/options.html",
   "background": {
     "page": "views/background.html"
-  }
+  },
+  "manifest_version": 2
 }
