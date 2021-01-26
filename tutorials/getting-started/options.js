@@ -1,11 +1,14 @@
 let page = document.getElementById("buttonDiv");
-let selectedClassName = current;
+let selectedClassName = "current";
 const presetButtonColors = ["#3aa757", "#e8453c", "#f9bb2d", "#4688f1"];
 
-// Reacts to a button click by marking marking the selected button and saving the selection
+// Reacts to a button click by marking marking the selected button and saving
+// the selection
 function handleButtonClick(event) {
   // Remove styling from the previously selected color
-  let current = event.target.parentElement.querySelector(`.${selectedClassName}`);
+  let current = event.target.parentElement.querySelector(
+    `.${selectedClassName}`
+  );
   if (current && current !== event.target) {
     current.classList.remove(selectedClassName);
   }
