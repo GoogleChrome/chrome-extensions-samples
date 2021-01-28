@@ -346,18 +346,6 @@ function getOwnProperties(obj) {
     return map;
 }
 
-function blacklistHandler(target, blacklist) {
-    var mask = Object.create(null, {});
-    var redirect = Dict.create(blacklist).mapObject(function(name) { return mask; });
-    return mixinHandler(redirect, target);
-}
-
-function whitelistHandler(target, whitelist) {
-    var catchall = Object.create(null, {});
-    var redirect = Dict.create(whitelist).mapObject(function(name) { return target; });
-    return mixinHandler(redirect, catchall);
-}
-
 /*
  * Mixin proxies break the single-inheritance model of prototypes, so
  * the handler treats all properties as own-properties:
@@ -686,8 +674,6 @@ exports.isNativeCode = isNativeCode;
 exports.apply = apply;
 exports.applyNew = applyNew;
 exports.mixinHandler = mixinHandler;
-exports.whitelistHandler = whitelistHandler;
-exports.blacklistHandler = blacklistHandler;
 exports.makePassthruHandler = makePassthruHandler;
 exports.Dict = Dict;
 exports.WeakMap = _WeakMap;
