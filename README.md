@@ -1,12 +1,11 @@
 # Chrome Extensions samples
 
-Official samples for Chrome Extensions and the Chrome Apps platform. 
+Official samples for Chrome Extensions and the Chrome Apps platform.
 Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
 **Note: Samples for Manifest V3 are still being prepared. In the mean time, consider refering to [mv2-archive/](mv2-archive/)**
-
 
 ## Samples
 
