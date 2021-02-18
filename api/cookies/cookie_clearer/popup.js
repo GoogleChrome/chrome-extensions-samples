@@ -3,20 +3,19 @@ const go = document.getElementById("go");
 const input = document.getElementById("input");
 const message = document.getElementById("message");
 
-
-document.addEventListener("DOMContentLoaded", initPopupWindow);
-form.addEventListener("submit", handleFormSubmit);
-
-async function initPopupWindow() {
+// The async IIFE is necessary because Chrome <89 does not support top level await.
+(async function initPopupWindow() {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (tab.url) {
+  if (tab && tab.url) {
     let url = new URL(tab.url);
     input.value = url.hostname;
   }
 
   input.focus();
-}
+})();
+
+form.addEventListener("submit", handleFormSubmit);
 
 async function handleFormSubmit(event) {
   event.preventDefault();
