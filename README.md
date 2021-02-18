@@ -20,3 +20,27 @@ The directory structure is as follows:
 
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
+
+<table>
+  <thead>
+    <tr>
+      <th>Sample</th>
+      <th>Calls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="vertical-align:top;">
+        Cookie Clearer <br>
+        <a href="api/cookies/cookie_clearer"><code>api/cookies/cookie_clearer</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li>cookies.getAll</li>
+          <li>cookies.remove</li>
+          <li>tabs.query</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
