@@ -11,7 +11,7 @@ For more information on extensions, see [Chrome Developers](https://developer.ch
 
 The directory structure is as follows:
 
-* (To be added) [api/](api/) - extensions focused on a single API package
+* [api/](api/) - extensions focused on a single API package
 * (To be added) [howto/](howto/) - extensions that show how to perform a particular task
 * [tutorials/](tutorials/) - multi-step walkthroughs referenced inline in the docs
 * (To be added) [extensions/](extensions/) - full featured extensions spanning multiple API packages
