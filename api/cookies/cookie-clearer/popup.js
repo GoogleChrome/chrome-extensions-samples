@@ -7,9 +7,11 @@ const message = document.getElementById("message");
 (async function initPopupWindow() {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (tab && tab.url) {
-    let url = new URL(tab.url);
-    input.value = url.hostname;
+  if (tab?.url) {
+    try {
+      let url = new URL(tab.url);
+      input.value = url.hostname;
+    } catch {}
   }
 
   input.focus();
