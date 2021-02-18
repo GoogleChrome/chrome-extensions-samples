@@ -20,3 +20,27 @@ The directory structure is as follows:
 
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
+
+<table>
+  <thead>
+    <tr>
+      <th>Sample</th>
+      <th>Calls</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="vertical-align:top;">
+        Hello World <br>
+        <a href="examples/hello-world"><code>examples/hello-world</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">cookies.getAll</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
