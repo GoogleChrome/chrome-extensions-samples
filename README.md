@@ -32,7 +32,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Cookie Clearer <br>
-        <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie_clearer</code></a>
+        <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
