@@ -36,11 +36,13 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li>cookies.getAll</li>
-          <li>cookies.remove</li>
-          <li>tabs.query</li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/cookies/#method-getAll">cookies.getAll</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/cookies/#method-remove">cookies.remove</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-query">tabs.query</a></li>
         </ul>
       </td>
     </tr>
   </tbody>
 </table>
+
+Manifest V2 extensions can be found
