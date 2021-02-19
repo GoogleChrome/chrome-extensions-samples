@@ -14,7 +14,7 @@ The directory structure is as follows:
 * [api/](api/) - extensions focused on a single API package
 * (To be added) [howto/](howto/) - extensions that show how to perform a particular task
 * [tutorials/](tutorials/) - multi-step walkthroughs referenced inline in the docs
-* (To be added) [extensions/](extensions/) - full featured extensions spanning multiple API packages
+* [extensions/](extensions/) - full featured extensions spanning multiple API packages
 * [apps/](apps/) - deprecated Chrome Apps platform (not listed below)
 * [mv2-archive/](mv2-archive/) - resources for manifest version 2
 
@@ -29,6 +29,19 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td style="vertical-align:top;">
+        Hello World <br>
+        <a href="examples/hello-world"><code>examples/hello-world</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+        </ul>
+      </td>
+    </tr>
     <tr>
       <td style="vertical-align:top;">
         Cookie Clearer <br>
