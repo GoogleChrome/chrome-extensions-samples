@@ -3,7 +3,6 @@
   "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
   "version": "1.1",
   "manifest_version": 2,
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlegJOMs1YaY52Thy0EG1ACPm2XGj2+DH2NinxeWZ1qVhihlkzkBT5+91pEC/gRkVXB+OUHrZxSLmQeKxJSVp8uQtve1+z6q4INSqVb7ggpqrHV4+j8yq2B5hq0qEA3avIQ/kU1eRlW0apKw6KqDZ5qt/ab6tztN/XZAXPe0dd1gq55B1/1ZjMqoLuKRjifxYd1h9XANaZA4VnE38Mv9f2G3VyydiLsRHz4UoYJPLy3rrwKJtcwokFDMzLZZFoNuVJvogwd9V8mDIajnX811pqmO898Fhlci3FVtcIvvEJTl3WFSeMt3emmEmW33mU1tlSI+PmNL++uK0FvDx9nQMyQIDAQAB",
   "permissions": [
     "bookmarks"
   ],
