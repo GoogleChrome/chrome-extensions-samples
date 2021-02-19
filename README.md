@@ -43,7 +43,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
       </td>
     </tr>
     <tr>
-      <td>
+      <td style="vertical-align:top;">
         Cookie Clearer <br>
         <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
