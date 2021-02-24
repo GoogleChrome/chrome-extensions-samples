@@ -13,5 +13,5 @@ A non-trivial sample with basic features of a code editor, like language detecti
 
      
 ## Screenshot
-![screenshot](/samples/text-editor/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/text-editor/assets/screenshot_1280_800.png)
 

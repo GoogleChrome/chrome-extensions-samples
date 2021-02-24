@@ -19,4 +19,4 @@ Note that at least in this initial version of the feature in Chrome 31 stable ch
 * [chrome.storage](http://developer.chrome.com/apps/storage.html)
 
 ## Screenshot
-![screenshot](/samples/url-handler/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/url-handler/assets/screenshot_1280_800.png)

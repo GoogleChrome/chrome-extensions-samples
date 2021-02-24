@@ -14,4 +14,4 @@ for arbitrary devices.
 * [Window](https://developer.chrome.com/apps/app_window)
 
 ## Screenshot
-![screenshot](/samples/usb/device-info/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/usb/device-info/assets/screenshot_1280_800.png)

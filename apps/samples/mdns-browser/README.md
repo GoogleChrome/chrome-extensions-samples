@@ -19,5 +19,5 @@ This is a non-trivial sample which uses the UDP multicast support in Chrome Pack
 
      
 ## Screenshot
-![screenshot](/samples/mdns-browser/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/mdns-browser/assets/screenshot_1280_800.png)
 

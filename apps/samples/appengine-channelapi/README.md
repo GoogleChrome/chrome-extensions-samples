@@ -24,5 +24,5 @@ To run:
 
      
 ## Screenshot
-![screenshot](/samples/appengine_channelapi/app/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/appengine_channelapi/app/assets/screenshot_1280_800.png)
 

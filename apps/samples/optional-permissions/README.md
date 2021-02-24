@@ -13,5 +13,5 @@ This app shows how to use the permissions API to request optional permissions. I
 * [Permissions](http://developer.chrome.com/apps/permissions.html)
      
 ## Screenshot
-![screenshot](/samples/optional-permissions/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/optional-permissions/assets/screenshot_1280_800.png)
 

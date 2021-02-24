@@ -12,5 +12,5 @@ This sample demonstrates how you can send and receive control signals (DTR, RTS,
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](/samples/serial-control-signals/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/serial-control-signals/assets/screenshot_1280_800.png)
 

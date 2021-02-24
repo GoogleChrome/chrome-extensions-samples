@@ -14,8 +14,8 @@ This is a basic demo showing alternate titlebars, written in HTML/CSS, depending
 
 ### Mac
 
-![screenshot](/samples/platform-title/assets/screenshot_mac.png)
+![screenshot](/apps/samples/platform-title/assets/screenshot_mac.png)
 
 ### Chrome OS
 
-![screenshot](/samples/platform-title/assets/screenshot_cros.png)
+![screenshot](/apps/samples/platform-title/assets/screenshot_cros.png)

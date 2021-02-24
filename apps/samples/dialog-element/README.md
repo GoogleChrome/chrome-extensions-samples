@@ -33,4 +33,4 @@ dialog.addEventListener("cancel", function(evt) {
 
 
 ## Screenshot
-![screenshot](/samples/dialog-element/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/dialog-element/assets/screenshot_1280_800.png)

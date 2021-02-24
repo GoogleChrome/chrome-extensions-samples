@@ -21,4 +21,4 @@ reliability of your application.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/browser/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/browser/assets/screenshot_1280_800.png)

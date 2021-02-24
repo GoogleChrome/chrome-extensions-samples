@@ -11,7 +11,7 @@ be captured by a chrome packaged app, and learn what the appropriate keyCode
 is for them.
 
 ## Screenshot
-![screenshot](/samples/keyboard-handler/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/keyboard-handler/assets/screenshot_1280_800.png)
 
 ## Credit
 

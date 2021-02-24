@@ -28,5 +28,5 @@ latter.__
 * [Window](https://developer.chrome.com/apps/app.window.html)
 
 ## Screenshot
-![screenshot](/samples/multicast/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/multicast/assets/screenshot_1280_800.png)
 

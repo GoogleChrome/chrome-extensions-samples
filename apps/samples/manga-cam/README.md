@@ -14,4 +14,4 @@ Chrome Packaged App with `videoCapture` permission can query user media without 
 
 
 ## Screenshot
-![screenshot](/samples/manga-cam/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/manga-cam/assets/screenshot_1280_800.png)

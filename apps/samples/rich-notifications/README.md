@@ -16,4 +16,4 @@ in the system tray. This API is still in experimental state.
 
 ## Screenshot
 
-![screenshot](/samples/rich-notifications/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/rich-notifications/assets/screenshot_1280_800.png)

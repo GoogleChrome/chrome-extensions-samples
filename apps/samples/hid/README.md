@@ -13,4 +13,4 @@ This sample demonstrates usage of the `chrome.hid` API.
 * [Window](https://developer.chrome.com/apps/app_window)
 
 ## Screenshot
-![screenshot](/samples/hid/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/hid/assets/screenshot_1280_800.png)

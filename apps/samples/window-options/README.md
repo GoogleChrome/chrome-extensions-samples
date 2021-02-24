@@ -17,5 +17,5 @@ This sample requires Chrome Version 35 or higher.
 * [Window](http://developer.chrome.com/apps/app.window.html)
 
 ## Screenshot
-![screenshot](/samples/window-options/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/window-options/assets/screenshot_1280_800.png)
 

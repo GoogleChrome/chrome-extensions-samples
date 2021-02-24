@@ -12,5 +12,5 @@ Sample that shows how to use the [context menu API](http://developer.chrome.com/
 * [Window](http://developer.chrome.com/apps/app_window)
      
 ## Screenshot
-![screenshot](/samples/context-menu/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/context-menu/assets/screenshot_1280_800.png)
 

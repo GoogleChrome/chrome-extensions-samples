@@ -14,4 +14,4 @@ the appropriate permissions (`desktopCapture`) to be set in the manifest file.
 
 
 ## Screenshot
-![screenshot](/samples/desktop-capture/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/desktop-capture/assets/screenshot_1280_800.png)

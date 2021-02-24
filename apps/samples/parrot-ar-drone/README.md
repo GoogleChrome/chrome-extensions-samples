@@ -37,5 +37,5 @@ _Please note: this has only been tested with an Xbox 360 controller_
 _Thanks to felixge for the [Node AR Drone lib](https://github.com/felixge/node-ar-drone), which served as a helpful reference._
      
 ## Screenshot
-![screenshot](/samples/parrot-ar-drone/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/parrot-ar-drone/assets/screenshot_1280_800.png)
 

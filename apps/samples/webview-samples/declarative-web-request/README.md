@@ -31,4 +31,4 @@ top-right.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/declarative-web-request/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/declarative-web-request/assets/screenshot_1280_800.png)

@@ -18,5 +18,5 @@ In the app directory, you will find the Chrome Packaged App.
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](/samples/serial/adkjs/app/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/serial/adkjs/app/assets/screenshot_1280_800.png)
 

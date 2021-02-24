@@ -37,4 +37,4 @@ Sample](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/w
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/new-window-user-agent/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/new-window-user-agent/assets/screenshot_1280_800.png)

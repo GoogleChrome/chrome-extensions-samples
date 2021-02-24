@@ -20,4 +20,4 @@ to add the the key below to your manifest:
 * [Identity](http://developer.chrome.com/apps/identity.html)
 
 ## Screenshot
-![screenshot](/samples/one-time-payment/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/one-time-payment/assets/screenshot_1280_800.png)
