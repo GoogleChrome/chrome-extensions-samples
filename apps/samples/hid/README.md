@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ohndmecdhlgohpibepbboddcoecomnpc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ohndmecdhlgohpibepbboddcoecomnpc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 chrome.hid API Sample
@@ -13,4 +13,4 @@ This sample demonstrates usage of the `chrome.hid` API.
 * [Window](https://developer.chrome.com/apps/app_window)
 
 ## Screenshot
-![screenshot](/samples/hid/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/hid/assets/screenshot_1280_800.png)

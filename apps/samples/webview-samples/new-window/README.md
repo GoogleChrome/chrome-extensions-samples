@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/kpgjodoohleggakakpaadgjeedfgeafi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/kpgjodoohleggakakpaadgjeedfgeafi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # New Window API
@@ -34,4 +34,4 @@ that identify a different window open a new window.
 
 
 ## Screenshot
-![screenshot](/samples/webview-samples/new-window/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/webview-samples/new-window/assets/screenshot_1280_800.png)

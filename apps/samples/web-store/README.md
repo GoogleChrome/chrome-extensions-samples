@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ndgidogppopohjpghapeojgoehfmflab">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ndgidogppopohjpghapeojgoehfmflab">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 # Web Store API Sample App
 
@@ -13,4 +13,4 @@ Lets you upload and publish Chrome Apps and Extensions folders stored locally on
 * [storage](http://developer.chrome.com/apps/storage)
      
 ## Screenshot
-![screenshot](/samples/web-store/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/web-store/assets/screenshot_1280_800.png)

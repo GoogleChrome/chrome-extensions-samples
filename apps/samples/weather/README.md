@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/hfgmgghdkhgcklddhfefhdhcpkpmikhi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/hfgmgghdkhgcklddhfefhdhcpkpmikhi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Weather
@@ -18,5 +18,5 @@ that the user has chosen
 * [Geolocation](http://developer.chrome.com/apps/manifest.html#permissions)
      
 ## Screenshot
-![screenshot](/samples/weather/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/weather/assets/screenshot_1280_800.png)
 

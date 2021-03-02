@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/cfcgoifcnpnadlhhoolkemkjkhoajfmk">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/cfcgoifcnpnadlhhoolkemkjkhoajfmk">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 
@@ -17,5 +17,5 @@ This sample requires Chrome Version 35 or higher.
 * [Window](http://developer.chrome.com/apps/app.window.html)
 
 ## Screenshot
-![screenshot](/samples/window-options/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/window-options/assets/screenshot_1280_800.png)
 
