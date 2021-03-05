@@ -1,0 +1,17 @@
+{
+  "name": "Sharing Cookies via CORS",
+  "description": "This extension demonstrates how a extension and coordinating website can share cookies.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "wrapper.js"
+  },
+  "action": { },
+  "permissions": [
+    "cookies"
+  ],
+  "host_permissions": [
+    "*://crx-sharing-cookies.glitch.me/*"
+  ],
+  "key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCyQl/dWkS0lfmSPPuAdpnnjjU4LQ5Wp6Fn1ecriiRApmixldgk9GDmgJBT2CoDHfriSSM7eeMqiiR+tQbQ5rePVUeLGHtj7RiW6WjGdYKrb9Kn1XJzqK0Xxu8Uvh4GSw1q1BKCuCfs/2qpVrDOFyP4INrnGxVm4Fd/mvSVmEmB+SNxioZfMEW+8kbaQe1enALpOzrlFUnPJSG0G17mLzWoqKczklNQUdpAKkNK+Lmxb4yAy5+WLztK96NiDIJmNZ+L7xQWa4Imbdjt4gM/ZsRExHbvMHoo9etVjupvH3FdGffJlRostti6sGG6mZvLJiXsKBXz4UR+uBCb/ragczAB"
+}
