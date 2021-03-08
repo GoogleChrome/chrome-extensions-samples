@@ -1,6 +1,6 @@
 {
   "name": "Hello Extensions",
-  "description" : "Base Level Extension",
+  "description": "Base Level Extension",
   "version": "1.0",
   "browser_action": {
     "default_popup": "hello.html",
