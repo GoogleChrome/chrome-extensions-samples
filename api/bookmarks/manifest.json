@@ -1,0 +1,15 @@
+{
+  "name": "My Bookmarks",
+  "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+  "version": "1.1",
+  "manifest_version": 3,
+  "permissions": [
+    "bookmarks"
+  ],
+  "action": {
+    "default_title": "My Bookmarks",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy5Hjn5BDYtngVzsXekpvAPQW7SFpKIM2z/xV4py5XTfOAT5Ln/rEnYfwGNrw6WEZAPo2OsFnSg1ZOpCe7E5NmQVyqbKul9sDwu7wtQ288W8nu2/OoeDfTrfUPSKswTPpA8DbFBLAyYsqLABvg8hpfWRBlKywGSNOAfciJCH13tyUDCMeDWrAbrpdjZDOjTXu7AXLEc5qrAPyLlDisK50THyyCU6BbLttJmIFo3Ymen8UrKkpKsp0ewr5AEDEm4HGgM6/rnAc2Ivpdnt3H3jKv/Ttge9/AkBFvPG0eEgilzkLfydgs1TZp/n4W5Az87LqNH9gN6tJz4z6h+ez3hbmiwIDAQAB"
+}
