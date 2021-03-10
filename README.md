@@ -5,7 +5,7 @@ Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https:/
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider refering to [mv2-archive/](mv2-archive/)**
+**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/)**
 
 ## Samples
 
