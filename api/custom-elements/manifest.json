@@ -1,0 +1,25 @@
+{
+  "name": "Custom Elements",
+  "version": "0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Define and instantiate a custom element in a content script."
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "third-party/custom-elements.min.js",
+        "ce-define.js",
+        "ce-instantiate.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

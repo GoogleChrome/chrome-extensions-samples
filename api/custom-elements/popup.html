@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="popup.js"></script>
+  <style>
+    html {
+      width: 320px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <p>Inject a custom element as either a</p>
+  <button id="content">content script</button> or a <button id="page">page script</button>
+
+  <p>NOTE: Don't use both injection methods on the same page options or the DOM will throwing errors.</p>
+
+  <hr>
+
+  <p>Custom elements can either be defined in the host page or in a content script.</p>
+
+  <p>To define them in a content script, you must use a polyfill; <a target="_blank"
+  href="https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements">window.customElements</a>
+  is not exposed in the content script's <a target="_blank"
+  href="https://developer.chrome.com/docs/extensions/mv2/content_scripts/#isolated_world">isolated
+  world</a>.</p>
+
+</body>
+</html>
