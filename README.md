@@ -44,6 +44,18 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+        Page Redder <br>
+        <a href="examples/page-redder"><code>examples/page-redder</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/scripting/#method-executeScript">scripting.executeScript</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Cookie Clearer <br>
         <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
