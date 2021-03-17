@@ -55,5 +55,19 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
         </ul>
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align:top;">
+        Custom Elements <br>
+        <a href="api/custom-elements"><code>api/custom-elements</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/">action</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/mv3/content_scripts/">content scripts</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">custom elements</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/scripting/#method-executeScript">scripting.executeScript</a></li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
