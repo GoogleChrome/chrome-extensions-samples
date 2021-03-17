@@ -1,0 +1,12 @@
+{
+  "name": "Omnibox - Input Suggestions",
+  "description": "To use, type 'sug' plus a search term into the Omnibox.",
+  "version": "1.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "omnibox": {
+    "keyword": "sug"
+  }
+}
