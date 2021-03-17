@@ -60,7 +60,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
         Web Accessible Resources <br>
         <a href="api/web-accessible-resources"><code>api/web-accessible-resources</code></a>
       </td>
-      <td  style="vertical-align:top;">
+      <td style="vertical-align:top;">
         <ul>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>

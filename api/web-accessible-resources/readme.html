@@ -34,15 +34,14 @@
   access all 4 images. To do this, we define a set of <a
   href="https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/"><code>"web_accessable_resources"</code></a>
   in our <a href="manifest.json">manifest.json</a>. This object specifies what assets should be
-  accessible to which external resources. </p>
+  accessible to which external resources.</p>
 
   <p>The first image on each site is statically referenced by the site using a URL in the following
   format: <code>chrome-extension://&lt;extension-id>/&lt;image-path></code>. The second image on
   each site will only be injected into the page when you click the "Load images" button for that
   page. This injection is performed by using <a
   href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">chrome.runtime.getURL()</a>
-  to build the image's URL at runtime.
-  </p>
+  to build the image's URL at runtime.</p>
 
   <table>
     <thead>
