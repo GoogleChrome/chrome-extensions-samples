@@ -55,5 +55,21 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
         </ul>
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align:top;">
+        Web Accessible Resources <br>
+        <a href="api/web-accessible-resources"><code>api/web-accessible-resources</code></a>
+      </td>
+      <td style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled">runtime.onInstalled</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason">runtime.onInstalledReason</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/">web_accessible_resources</a></li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
