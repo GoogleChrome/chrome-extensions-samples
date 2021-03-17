@@ -57,6 +57,18 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+        Omnibox - Input Suggestions <br>
+        <a href="api/omnibox/input-suggestions"><code>api/omnibox/input-suggestions</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/omnibox/#event-onInputChanged">omnibox.onInputChanged</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/omnibox/#event-onInputEntered">omnibox.onInputEntered</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Web Accessible Resources <br>
         <a href="api/web-accessible-resources"><code>api/web-accessible-resources</code></a>
       </td>
