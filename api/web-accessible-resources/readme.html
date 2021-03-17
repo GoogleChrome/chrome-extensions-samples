@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Accessible Resources - Readme</title>
+  <style>
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 14px;
+    }
+    table {
+      padding: 0;
+      border-collapse: collapse;
+
+    }
+    th {
+      background: hsl(0,0%,90%);
+      padding: .25em .5em;
+      text-align: left;
+    }
+    td {
+      padding: .25em .5em;
+      border-top: 1px solid hsl(0,0%,50%);
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Accessible Resources Demo</h1>
+  <p>This demo shows off the core features of web accessible resources.</p>
+  <p>In this demo we have 4 images (test1.png, etc.) that we want to expose on 2 different websites.
+  Each website should only be able to load two specific images, but both websites will attempt to
+  access all 4 images. To do this, we define a set of <a
+  href="https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/"><code>"web_accessable_resources"</code></a>
+  in our <a href="manifest.json">manifest.json</a>. This object specifies what assets should be
+  accessible to which external resources.</p>
+
+  <p>The first image on each site is statically referenced by the site using a URL in the following
+  format: <code>chrome-extension://&lt;extension-id>/&lt;image-path></code>. The second image on
+  each site will only be injected into the page when you click the "Load images" button for that
+  page. This injection is performed by using <a
+  href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">chrome.runtime.getURL()</a>
+  to build the image's URL at runtime.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Target domain</th>
+        <th>Injection method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code><a href="test1.png">test1.png</a></code></td>
+        <td>web-accessible-resources-1.glitch.me</td>
+        <td>Statically referenced</td>
+      </tr>
+      <tr>
+        <td><code><a href="test2.png">test2.png</a></code></td>
+        <td>web-accessible-resources-1.glitch.me</td>
+        <td>Dynamically injected</td>
+      </tr>
+      <tr>
+        <td><code><a href="test3.png">test3.png</a></code></td>
+        <td>web-accessible-resources-2.glitch.me</td>
+        <td>Statically referenced</td>
+      </tr>
+      <tr>
+        <td><code><a href="test4.png">test4.png</a></code></td>
+        <td>web-accessible-resources-2.glitch.me</td>
+        <td>Dynamically injected</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <figcaption>https://web-accessible-resources-1.glitch.me/ can access images
+    <a href="test1.png"><code>test1.png</code></a> and <a
+    href="test2.png"><code>test2.png</code></a></figcaption>
+    <iframe src="https://web-accessible-resources-1.glitch.me/" width=100% height=200></iframe>
+  </figure>
+  <figure>
+    <figcaption>https://web-accessible-resources-2.glitch.me/ can access images
+      <a href="test3.png"><code>test3.png</code></a> and <a
+      href="test4.png"><code>test4.png</code></a></figcaption>
+    <iframe src="https://web-accessible-resources-2.glitch.me/" width=100% height=200></iframe>
+  </figure>
+</body>
+</html>
