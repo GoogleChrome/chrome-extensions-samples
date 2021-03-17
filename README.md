@@ -21,8 +21,6 @@ The directory structure is as follows:
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
 
-
-
 <table>
   <thead>
     <tr>
