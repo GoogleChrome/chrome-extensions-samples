@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script defer src="index.js"></script>
+</head>
+<body>
+  <p>Before experimenting with these APIs, we recommend you pin the extension's action button to your
+  toolbar in order to make it easier to see the changes. </p>
+
+  <section id="toggle-state">
+    <h2>enable / disable</h2>
+    <p>Clicking the button will toggle the action button's enabled/disabled state.</p>
+    <figure>
+      <img src="images/action-enabled.png">
+      <figcaption>Action enabled</figcaption>
+    </figure>
+    <figure>
+      <img src="images/action-disabled.png">
+      <figcaption>Action disabled</figcaption>
+    </figure>
+    <button id="toggle-state-button">toggle enabled state</button>
+  </section>
+
+  <section id="popup">
+    <h2>Popup</h2>
+
+    <div>
+      <select id="popup-options">
+        <option value="popups/popup.html">Popup (default)</option>
+        <option value="popups/a.html">A</option>
+        <option value="popups/b.html">B</option>
+      </select>
+      <button id="set-popup-button">set popup</button>
+    </div>
+
+    <div>
+      <button id="get-popup-button">get popup</button>
+      <input type="text" id="current-popup-value" style="width: 600px;" disabled>
+    </div>
+
+    <div>
+      <p>Register a handler to change how the action button behaves. Once changed, clicking the
+      action will open your new favorite website.</p>
+      <button id="onclicked-button">Change action click behavior</button>
+      <button id="onclicked-reset-button">reset</button>
+    </div>
+
+  </section>
+
+  <!-- badge -->
+
+  <section id="badge-text">
+    <h2>Badge Text</h2>
+
+    <div>
+      <input type="text" id="badge-text-input" value="test">
+      <button id="set-badge-text-button">set</button>
+    </div>
+
+    <div>
+      <button id="get-badge-text-button">get</button>
+      <input type="text" id="current-badge-text" disabled>
+    </div>
+  </section>
+
+  <!-- badge - color -->
+
+  <section id="badge-color">
+    <h2>Badge Color</h2>
+
+    <div>
+      <button id="set-badge-background-color-button">Set random badge background color</button>
+    </div>
+
+    <div>
+      <button id="get-badge-background-color-button">get</button>
+      <input type="text" id="current-badge-bg-color" disabled>
+    </div>
+  </section>
+
+  <!-- badge - icon -->
+
+  <section id="setIcon">
+    <h2>Badge Icon</h2>
+    <button id="set-icon-button">set a new action icon</button>
+  </section>
+
+  <!-- badge - hover text -->
+
+  <section id="title">
+    <h2>Hover Text</h2>
+    <div>
+      <input type="text" id="title-input" value="ohi, i am a title">
+      <button id="set-title-button">set</button>
+    </div>
+
+    <div>
+      <button id="get-title-button">get</button>
+      <input type="text" id="current-title" disabled>
+    </div>
+
+  </section>
+
+</body>
+</html>
