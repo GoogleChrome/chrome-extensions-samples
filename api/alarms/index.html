@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+  <script defer src="index.js"></script>
+</head>
+<body>
+  <!--
+    |-[ refresh ]----------------------------------[ clear all ]-|
+    |                                                            |
+    | Alarm: Foo [delete]                                        |
+    | Will fire in X seconds                                     |
+    |                                                            |
+    |------------------------------------------------------------|
+
+    Create a new alarm
+
+    When:
+      (*) in X minutes
+      ( ) in Y MS
+
+      [       ]
+
+    Period:
+      [X] enable
+
+      every [       ] minutes
+
+   -->
+   <section>
+    <h2>Current Alarms</h2>
+
+    <button id="clear-display">Cancel all alarms</button>
+    <button id="refresh-display">Refresh</button>
+
+    <div id="display">
+      <div class="alarm-info">
+        <dl>
+          <dt>Name</dt>
+          <dd><span class="alarm__name">Foo</span></dd>
+
+          <dt>Schedule</dt>
+          <dd><span class="alarm__schedule">2021-03-24T15:29:05.355Z</span></dd>
+          <dd>Every <span class="alarm__period">2 minutes</span></dd>
+        </dl>
+      </div>
+
+      <div class="alarm-info alarm-info--fired">
+        <table class="alarm-info__table">
+          <tr>
+            <th class="alarm-info-label">Alarm Name</th>
+            <td class="alarm__name">Bar</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Status</th>
+            <td class="alarm__status">Completed</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Next Tick</th>
+            <td class="alarm__schedule">2021-03-24T15:31:27.051Z</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Period</th>
+            <td>One-time</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="alarm-info">
+        <table class="alarm-info__table">
+          <tr>
+            <th class="alarm-info-label">Name</th>
+            <td class="alarm__name">Baz</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Status</th>
+            <td class="alarm__status">Scheduled</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Next Tick</th>
+            <td class="alarm__schedule">2021-03-24T15:29:05.355Z</td>
+          </tr>
+          <tr>
+            <th class="alarm-info-label">Period</th>
+            <td>Every <span class="alarm__period">1</span> minute(s)</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Create a new alarm</h2>
+
+    <form id="create-alarm">
+
+      <label>Alarm name <input type="text" name="alarm-name"></label>
+
+      <fieldset>
+        <legend>Time format</legend>
+
+        <input type="radio" name="time-format" id="format-minutes" value="min" checked>
+        <label for="format-minutes">Minutes</label>
+
+        <input type="radio" name="time-format" id="format-ms" value="ms">
+        <label for="format-ms">Milliseconds</label>
+      </fieldset>
+
+      <label>Time value
+        <input type="number" name="time-value" value=1>
+      </label>
+
+      <fieldset>
+        <legend>Periodic</legend>
+
+        <div class="row">
+          <label>
+            <input type="checkbox" name="is-periodic">
+            Enable periodic alarm
+          </label>
+        </div>
+
+        <div class="row">
+          <label>
+            Specify period in Minutes
+            <input type="number" name="period">
+          </label>
+        </div>
+      </fieldset>
+
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+<!--
+    When:
+      (*) in X minutes
+      ( ) in Y MS
+
+      [       ]
+
+    Period:
+      [X] enable
+
+      every [       ] minutes -->
+
+    <div>
+
+    </div>
+  </section>
+
+
+  <!-- Clear
+  ClearAll
+  Create
+  Get
+  getAll -->
+
+
+</body>
+</html>
