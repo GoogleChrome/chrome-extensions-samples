@@ -69,3 +69,10 @@ body {
 .create-alarm__submit {
   grid-column: 1 / -1;
 }
+
+/* **** */
+
+.col-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

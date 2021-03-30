@@ -10,17 +10,6 @@
   <script defer src="index.js"></script>
 </head>
 <body>
-   <section>
-    <h2>Current Alarms</h2>
-
-    <div id="display-buttons">
-      <button id="clear-display">Cancel all alarms</button>
-      <button id="refresh-display" title="Clear display and re-recreate alarm UI">Refresh</button>
-    </div>
-
-    <div id="display"></div>
-  </section>
-
   <section>
     <h2>Create Alarm</h2>
     <form class="create-alarm">
@@ -47,6 +36,25 @@
 
       <button type="submit" class="create-alarm__submit">Submit</button>
     </form>
+  </section>
+
+
+  <section class="col-2">
+    <section class="">
+      <h2>Current Alarms</h2>
+
+      <div id="display-buttons">
+        <button id="clear-display">Cancel all alarms</button>
+        <button id="refresh-display" title="Clear display and re-recreate alarm UI">Refresh</button>
+      </div>
+
+      <pre class="alarm-display"></pre>
+    </section>
+
+    <section>
+      <h2>Alarm log</h2>
+      <pre class="alarm-log"></pre>
+    </section>
   </section>
 </body>
 </html>
