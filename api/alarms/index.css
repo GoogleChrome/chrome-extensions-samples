@@ -30,15 +30,13 @@ body {
   border-radius: 3px;
   border: 1px solid rgb(193 193 193);
   padding: 1em 2em;
-  min-width: var(--card-min-width);
-  max-width: var(--card-max-width);
 }
 
 .alarm-info__table {
   border-collapse: collapse;
 }
 
-.alarm-info--fired {
+.alarm-info--finished {
   background: repeating-linear-gradient(135deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
 }
 
@@ -51,3 +49,23 @@ body {
   text-align: right;
 }
 
+/* **** */
+
+.create-alarm {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(150px, 2fr);
+  column-gap: 20px;
+  row-gap: 10px;
+
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.create-alarm__label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.create-alarm__submit {
+  grid-column: 1 / -1;
+}
