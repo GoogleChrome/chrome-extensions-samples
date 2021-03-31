@@ -1,5 +1,5 @@
 {
-  "name": "Action Demo",
+  "name": "Action API Demo",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
