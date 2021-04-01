@@ -1,0 +1,22 @@
+{
+    "version": "1",
+    "name": "simple messaging",
+    "manifest_version": 2,
+    "description": "basic practising messaging",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "background":{
+        "scripts": ["bg.js"]
+    },
+    "icons":{
+        "16": "icon16.png"
+    },
+    "content_scripts":[
+        {
+            "matches": ["https://*/*","https://*/*"],
+            "js": ["myscript.js"]
+        }
+    ]
+}
