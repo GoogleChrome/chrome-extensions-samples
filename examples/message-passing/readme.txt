@@ -1,4 +1,4 @@
-Wellcome 
+Wellcome: 
 
 In this extension the myscript.js is automaticaly execute in background whenever user open new website. 
 
