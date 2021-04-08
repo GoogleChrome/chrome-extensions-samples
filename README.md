@@ -5,7 +5,7 @@ Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https:/
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider refering to [mv2-archive/](mv2-archive/)**
+**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/)**
 
 ## Samples
 
@@ -64,6 +64,18 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
           <li><a href="https://developer.chrome.com/docs/extensions/reference/cookies/#method-getAll">cookies.getAll</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/cookies/#method-remove">cookies.remove</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-query">tabs.query</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
+        Omnibox - New Tab Search <br>
+        <a href="api/omnibox/new-tab-search"><code>api/omnibox/new-tab-search</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/omnibox/#event-onInputEntered">omnibox.onInputEntered</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
         </ul>
       </td>
     </tr>
