@@ -12,7 +12,7 @@
 function debounce(timeout, callback) {
   let timeoutID = 0;
   return (event) => {
-      clearTimeout(timeoutID);
+    clearTimeout(timeoutID);
     timeoutID = setTimeout(() => callback(event), timeout);
   };
 }
@@ -183,8 +183,8 @@ document.getElementById('set-icon-button').addEventListener('click', async () =>
   let emojiFile = `images/emoji-${EMOJI[index]}.png`;
   lastIconIndex = index;
 
-  // There are easier ways for a page to extract an image's imageData, but the OffscreenCanvas
-  // approach used here works in both extension pages and service workers.
+  // There are easier ways for a page to extract an image's imageData, but the approach used here
+  // works in both extension pages and service workers.
   let response = await fetch(emojiFile);
   let blob = await response.blob();
   let imageBitmap = await createImageBitmap(blob);
