@@ -95,15 +95,15 @@ class AlarmManager {
 
   async cancelAlarm(name) {
     // TODO: Remove custom promise wrapper once the Alarms API supports promises
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       chrome.alarms.clear(name, (wasCleared) => {
         if (wasCleared) {
-          this.logMessage(`Manager: canceled alarm "${name}"`)
-          resolve(wasCleared);
+          this.logMessage(`Manager: canceled alarm "${name}"`);
         } else {
-          this.logMessage(`Manager: could not canceled alarm "${name}"`)
-          reject(wasCleared);
+          this.logMessage(`Manager: could not canceled alarm "${name}"`);
         }
+
+        resolve(wasCleared);
       });
     });
   }
@@ -132,13 +132,15 @@ class AlarmManager {
 
   async cancelAllAlarms() {
     // TODO: Remove custom promise wrapper once the Alarms API supports promises
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       chrome.alarms.clearAll((wasCleared) => {
         if (wasCleared) {
-          resolve(wasCleared);
+          this.logMessage(`Manager: canceled all alarms"`);
         } else {
-          reject(wasCleared);
+          this.logMessage(`Manager: could not canceled all alarms`);
         }
+
+        resolve(wasCleared);
       });
     })
   }
