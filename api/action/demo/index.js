@@ -59,11 +59,13 @@ async function getCurrentPopup() {
 
 async function showCurrentPage() {
   let popup = await getCurrentPopup();
-  if (!popup) return;
-  let url = new URL(popup);
+  let pathname = '';
+  if (popup) {
+    pathname = new URL(popup).pathname;
+  }
 
   let options = document.getElementById('popup-options');
-  let option = options.querySelector(`option[value="${url.pathname}"]`);
+  let option = options.querySelector(`option[value="${pathname}"]`);
   option.selected = true;
 }
 
