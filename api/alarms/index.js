@@ -75,9 +75,6 @@ class AlarmManager {
 
     // Log events in reverse chronological order
     this.logElement.insertBefore(logLine, this.logElement.firstChild);
-
-    // Log events in chronological order
-    // this.logElement.appendChild(logLine);
   }
 
   handleAlarm = async (alarm) => {
