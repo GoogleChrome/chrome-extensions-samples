@@ -51,7 +51,7 @@ body {
 }
 
 .alarm-log {
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 
 .alarm-log > * {

@@ -78,7 +78,7 @@ class AlarmManager {
   }
 
   handleAlarm = async (alarm) => {
-    let json = JSON.stringify(alarm, null, 2).replace(/\s+/g, ' ');
+    let json = JSON.stringify(alarm);
     this.logMessage(`Alarm "${alarm.name}" fired\n${json}}`);
     await this.refreshDisplay();
   }
