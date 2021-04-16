@@ -200,7 +200,7 @@ document.getElementById('set-icon-button').addEventListener('click', async () =>
 document.getElementById('reset-icon-button').addEventListener('click', () => {
   let manifest = chrome.runtime.getManifest();
   chrome.action.setIcon({ path: manifest.action.default_icon });
-})
+});
 
 // -------------
 // get/set title
