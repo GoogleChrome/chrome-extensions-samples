@@ -161,14 +161,17 @@ class AlarmManager {
   #refreshing = false;
 
   async refreshDisplay() {
-    if (this.#refreshing) return; // refresh in progress, bail
+    if (this.#refreshing) { return } // refresh in progress, bail
 
-    this.#refreshing = true;      // acquire lock
+    this.#refreshing = true;         // acquire lock
+    try {
     await Promise.all([
       this.clearDisplay(),
       this.populateDisplay(),
     ]);
-    this.#refreshing = false;     // release lock
+    } finally {
+      this.#refreshing = false;      // release lock
+    }
 
     // Return undefined to avoid leaking implementation details
     return;
