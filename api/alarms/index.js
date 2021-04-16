@@ -163,7 +163,8 @@ class AlarmManager {
     });
   }
 
-  // Simple locking mechanism to prevent multiple concurrent refreshes
+  // Simple locking mechanism to prevent multiple concurrent refreshes from rendering duplicate
+  // entries in the alarms list
   #refreshing = false;
 
   async refreshDisplay() {
