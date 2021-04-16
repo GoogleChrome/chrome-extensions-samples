@@ -51,13 +51,9 @@ form.addEventListener('submit', (event) => {
 });
 
 class AlarmManager {
-  constructor({display, log} = {}) {
-    if (display) {
-      this.displayElement = display;
-    }
-    if (log) {
-      this.logElement = log;
-    }
+  constructor(display, log) {
+    this.displayElement = display;
+    this.logElement = log;
 
     this.logMessage('Manager: initializing demo');
 
@@ -186,5 +182,5 @@ class AlarmManager {
   }
 }
 
-let manager = new AlarmManager({ display, log });
+let manager = new AlarmManager(display, log);
 manager.refreshDisplay();
