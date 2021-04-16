@@ -5,24 +5,16 @@
 // https://developers.google.com/open-source/licenses/bsd
 
 /**
- *
  * @param {number} timeout
- * @param {function} callback
- * @returns
+ * @param {(event: Event) => void} callback
+ * @return {(event: Event) => void}
  */
 function debounce(timeout, callback) {
-  let timeoutID;
-
-  return function(event) {
-    if (timeoutID) {
+  let timeoutID = 0;
+  return (event) => {
       clearTimeout(timeoutID);
-    }
-
-    timeoutID = setTimeout(() => {
-      timeoutID = 0;
-      callback(event);
-    }, timeout);
-  }
+    timeoutID = setTimeout(() => callback(event), timeout);
+  };
 }
 
 // ------------------
