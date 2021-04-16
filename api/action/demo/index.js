@@ -183,8 +183,8 @@ document.getElementById('set-icon-button').addEventListener('click', async () =>
   let emojiFile = `images/emoji-${EMOJI[index]}.png`;
   lastIconIndex = index;
 
-  // While there are easier ways to get an image file's imageData, this approach works in both
-  // extension pages and service workers. Also, using a canvas means we can draw arbitrary images.
+  // There are easier ways for a page to extract an image's imageData, but the OffscreenCanvas
+  // approach used here works in both extension pages and service workers.
   let response = await fetch(emojiFile);
   let blob = await response.blob();
   let imageBitmap = await createImageBitmap(blob);
