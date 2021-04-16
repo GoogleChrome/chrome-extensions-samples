@@ -172,9 +172,6 @@ class AlarmManager {
     } finally {
       this.#refreshing = false;      // release lock
     }
-
-    // Return undefined to avoid leaking implementation details
-    return;
   }
 
   async clearDisplay() {
