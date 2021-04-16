@@ -4,11 +4,12 @@
 // license that can be found in the LICENSE file or at
 // https://developers.google.com/open-source/licenses/bsd
 
-let display = document.querySelector('.alarm-display');
-let log = document.querySelector('.alarm-log');
-let form = document.querySelector('.create-alarm');
-let clearButton = document.getElementById('clear-display');
-let refreshButton = document.getElementById('refresh-display');
+const display = document.querySelector('.alarm-display');
+const log = document.querySelector('.alarm-log');
+const form = document.querySelector('.create-alarm');
+const clearButton = document.getElementById('clear-display');
+const refreshButton = document.getElementById('refresh-display');
+const pad = (val, len = 2) => val.toString().padStart(len, '0');
 
 // DOM event bindings
 
