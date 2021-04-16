@@ -29,7 +29,7 @@ function dumpTreeNodes(bookmarkNodes, query) {
 function dumpNode(bookmarkNode, query) {
   if (bookmarkNode.title) {
     if (query && !bookmarkNode.children) {
-      if (String(bookmarkNode.title).indexOf(query) == -1) {
+      if (String(bookmarkNode.title.toLowerCase()).indexOf(query.toLowerCase()) == -1) {
         return $('<span></span>');
       }
     }
