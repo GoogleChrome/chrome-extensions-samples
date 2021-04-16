@@ -139,13 +139,20 @@ document.getElementById('set-badge-background-color-button').addEventListener('c
     showBadgeText();
   }
 
-  // Next, generate a random color
-  let color = new Array(4);
-  for (let i = 0; i < color.length; i++) {
-    color[i] = Math.floor(Math.random() * 256);
+  // Next, generate a random RGBA color
+  let color = [0, 0, 0].map(() => Math.floor(Math.random * 255));
+
+  // Use the default background color ~10% of the time.
+  //
+  // NOTE: Alpha color cannot be set due to crbug.com/1184905. At the time of writing (Chrome 89),
+  // an alpha value of 0 sets the default color while a value of 1-255 will make the RGB color
+  // fully opaque.
+  if (Math.random() < 0.1) {
+    color.push(0);
+  } else {
+    color.push(255);
   }
 
-  // And apply the new color
   chrome.action.setBadgeBackgroundColor({ color });
   showBadgeColor();
 });
