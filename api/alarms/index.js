@@ -57,8 +57,8 @@ class AlarmManager {
 
     this.logMessage('Manager: initializing demo');
 
-    this.displayElement.addEventListener('click', (event) => this.handleCancelAlarm(event));
-    chrome.alarms.onAlarm.addListener(alarm => this.handleAlarm(alarm));
+    this.displayElement.addEventListener('click', this.handleCancelAlarm);
+    chrome.alarms.onAlarm.addListener(this.handleAlarm);
   }
 
   logMessage(message) {
@@ -80,13 +80,13 @@ class AlarmManager {
     // this.logElement.appendChild(logLine);
   }
 
-  async handleAlarm(alarm) {
+  handleAlarm = async (alarm) => {
     let json = JSON.stringify(alarm, null, 2).replace(/\s+/g, ' ');
     this.logMessage(`Alarm "${alarm.name}" fired\n${json}}`);
     await this.refreshDisplay();
   }
 
-  async handleCancelAlarm(event) {
+  handleCancelAlarm = async (event) => {
     if (!event.target.classList.contains('alarm-row__cancel-button')) {
       return;
     }
