@@ -71,7 +71,7 @@ class AlarmManager {
     let time = `${h}:${m}:${s}.${ms}`;
 
     let logLine = document.createElement('div');
-    logLine.innerText = `[${time}] ${message}`;
+    logLine.textContent = `[${time}] ${message}`;
 
     // Log events in reverse chronological order
     this.logElement.insertBefore(logLine, this.logElement.firstChild);
@@ -120,11 +120,11 @@ class AlarmManager {
     let alarmEl = document.createElement('div');
     alarmEl.classList.add('alarm-row');
     alarmEl.dataset.name = alarm.name;
-    alarmEl.innerText = JSON.stringify(alarm, 0, 2) + (isLast ? '' : ',');
+    alarmEl.textContent = JSON.stringify(alarm, 0, 2) + (isLast ? '' : ',');
 
     let cancelButton = document.createElement('button');
     cancelButton.classList.add('alarm-row__cancel-button');
-    cancelButton.innerText = 'cancel';
+    cancelButton.textContent = 'cancel';
     alarmEl.appendChild(cancelButton);
 
     this.displayElement.appendChild(alarmEl);
@@ -165,10 +165,10 @@ class AlarmManager {
 
     this.#refreshing = true;         // acquire lock
     try {
-    await Promise.all([
-      this.clearDisplay(),
-      this.populateDisplay(),
-    ]);
+      await Promise.all([
+        this.clearDisplay(),
+        this.populateDisplay(),
+      ]);
     } finally {
       this.#refreshing = false;      // release lock
     }
@@ -178,7 +178,7 @@ class AlarmManager {
   }
 
   async clearDisplay() {
-    this.displayElement.innerText = '';
+    this.displayElement.textContent = '';
   }
 }
 
