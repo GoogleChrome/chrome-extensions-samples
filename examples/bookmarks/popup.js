@@ -58,16 +58,18 @@ function dumpNode(bookmarkNode, query) {
       // Show add and edit links when hover over.
     span.hover(function () {
       span.append(options);
-      $('#deletelink').click(function () {
+      $('#deletelink').click(function (event) {
+        console.log(event)
         $('#deletedialog').empty().dialog({
           autoOpen: false,
+          closeOnEscape: true,
           title: 'Confirm Deletion',
-          resizable: false,
-          height: 140,
           modal: true,
-          overlay: {
-            backgroundColor: '#000',
-            opacity: 0.5
+          show: 'slide',
+          position: {
+            my: "left",
+            at: "center",
+            of: event.target.parentElement.parentElement
           },
           buttons: {
             'Yes, Delete It!': function () {
@@ -81,12 +83,22 @@ function dumpNode(bookmarkNode, query) {
           }
         }).dialog('open');
       });
-      $('#addlink').click(function () {
+      $('#addlink').click(function (event) {
+        edit.show();
         $('#adddialog').empty().append(edit).dialog({
           autoOpen: false,
-          closeOnEscape: true, title: 'Add New Bookmark', modal: true,
+          closeOnEscape: true,
+          title: 'Add New Bookmark',
+          modal: true,
+          show: 'slide',
+          position: {
+            my: "left",
+            at: "center",
+            of: event.target.parentElement.parentElement
+          },
           buttons: {
             'Add': function () {
+              edit.hide();
               chrome.bookmarks.create({
                 parentId: bookmarkNode.id,
                 title: $('#title').val(), url: $('#url').val()
@@ -96,18 +108,29 @@ function dumpNode(bookmarkNode, query) {
               window.dumpBookmarks();
             },
             'Cancel': function () {
+              edit.hide();
               $(this).dialog('destroy');
             }
           }
         }).dialog('open');
       });
-      $('#editlink').click(function () {
+      $('#editlink').click(function (event) {
+        edit.show();
         edit.val(anchor.text());
         $('#editdialog').empty().append(edit).dialog({
           autoOpen: false,
-          closeOnEscape: true, title: 'Edit Title', modal: true,
-          show: 'slide', buttons: {
+          closeOnEscape: true,
+          title: 'Edit Title',
+          modal: true,
+          show: 'fade',
+          position: {
+            my: "left",
+            at: "center",
+            of: event.target.parentElement.parentElement
+          },
+          buttons: {
             'Save': function () {
+              edit.hide();
               chrome.bookmarks.update(String(bookmarkNode.id), {
                 title: edit.val()
               });
@@ -116,6 +139,7 @@ function dumpNode(bookmarkNode, query) {
               $(this).dialog('destroy');
             },
             'Cancel': function () {
+              edit.hide();
               $(this).dialog('destroy');
             }
           }
