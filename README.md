@@ -57,7 +57,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
          My Bookmarks <br>
-        <a href="api/bookmarks"><code>api/bookmarks</code></a>
+        <a href="examples/bookmarks"><code>examples/bookmarks</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
