@@ -1,12 +1,21 @@
 {
   "name": "CatBlock",
-  "version": "1.0",
   "description": "I can't has cheezburger!",
-  "permissions": ["webRequest", "webRequestBlocking",
-                  "https://i.chzbgr.com/*"],
+  "version": "1.0",
+  "manifest_version": 2,
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "https://i.chzbgr.com/*",
+    "https://*.cheezburger.com/*"
+  ],
   "background": {
-    "scripts": ["loldogs.js", "background.js"]
+    "scripts": [
+      "loldogs.js",
+      "background.js"
+    ]
   },
-
-  "manifest_version": 2
+  "browser_action": {
+    "default_title": "View the demo - enjoy those good dogs!"
+  }
 }

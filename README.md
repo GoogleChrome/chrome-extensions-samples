@@ -5,7 +5,7 @@ Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https:/
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider refering to [mv2-archive/](mv2-archive/)**
+**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/)**
 
 ## Samples
 
@@ -44,6 +44,32 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+        Page Redder <br>
+        <a href="examples/page-redder"><code>examples/page-redder</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/scripting/#method-executeScript">scripting.executeScript</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
+         My Bookmarks <br>
+        <a href="api/bookmarks"><code>api/bookmarks</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-create">bookmarks.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-getTree">bookmarks.getTree</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-remove">bookmarks.remove</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-update">bookmarks.update</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Cookie Clearer <br>
         <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
@@ -57,16 +83,29 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
-        My Bookmarks <br>
-        <a href="api/bookmarks"><code>api/bookmarks</code></a>
+        Omnibox - New Tab Search <br>
+        <a href="api/omnibox/new-tab-search"><code>api/omnibox/new-tab-search</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-create">bookmarks.create</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-getTree">bookmarks.getTree</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-remove">bookmarks.remove</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-update">bookmarks.update</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/omnibox/#event-onInputEntered">omnibox.onInputEntered</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
+        Web Accessible Resources <br>
+        <a href="api/web-accessible-resources"><code>api/web-accessible-resources</code></a>
+      </td>
+      <td style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled">runtime.onInstalled</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason">runtime.onInstalledReason</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/">web_accessible_resources</a></li>
         </ul>
       </td>
     </tr>
