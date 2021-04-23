@@ -56,6 +56,20 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+         My Bookmarks <br>
+        <a href="examples/bookmarks"><code>examples/bookmarks</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-create">bookmarks.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-getTree">bookmarks.getTree</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-remove">bookmarks.remove</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-update">bookmarks.update</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Cookie Clearer <br>
         <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
