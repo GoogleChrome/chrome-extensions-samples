@@ -14,7 +14,7 @@ The directory structure is as follows:
 * [api/](api/) - extensions focused on a single API package
 * (To be added) [howto/](howto/) - extensions that show how to perform a particular task
 * [tutorials/](tutorials/) - multi-step walkthroughs referenced inline in the docs
-* [extensions/](extensions/) - full featured extensions spanning multiple API packages
+* [examples/](examples/) - full featured extensions spanning multiple API packages
 * [apps/](apps/) - deprecated Chrome Apps platform (not listed below)
 * [mv2-archive/](mv2-archive/) - resources for manifest version 2
 
