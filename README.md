@@ -70,7 +70,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
 	<tr>
 	  <td style="vertical-align:top;">
-	     My Bookmarks <br>
+	     Message Transport<br>
 	    <a href="examples/bookmarks"><code>examples/message-transport</code></a>
 	  </td>
 	  <td  style="vertical-align:top;">
