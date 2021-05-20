@@ -34,9 +34,9 @@ chrome.runtime.onMessage.addListener(
  */
 var btn2Ele = document.getElementById('btn2');
 btn2Ele.onclick = async function() {
-	// 
+	// https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL
 	let url = chrome.runtime.getURL("custom.html")
-	let tab = await chrome.tabs.create({
+	chrome.tabs.create({
 		url
 	});
 }
