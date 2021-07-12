@@ -2,6 +2,7 @@
   "name": "Text Replacer",
   "version": "1.0.0",
   "manifest_version": 3,
+  "description": "Replace any line of text with another line.",
   "icons": {
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
