@@ -44,6 +44,20 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+         My Bookmarks <br>
+        <a href="examples/bookmarks"><code>examples/bookmarks</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-create">bookmarks.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-getTree">bookmarks.getTree</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-remove">bookmarks.remove</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-update">bookmarks.update</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Page Redder <br>
         <a href="examples/page-redder"><code>examples/page-redder</code></a>
       </td>
@@ -56,15 +70,20 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
-         My Bookmarks <br>
-        <a href="examples/bookmarks"><code>examples/bookmarks</code></a>
+         Text Replacer <br>
+        <a href="examples/text-replacer"><code>examples/text-replacer</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-create">bookmarks.create</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-getTree">bookmarks.getTree</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-remove">bookmarks.remove</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/bookmarks/#method-update">bookmarks.update</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/">action</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/commands/#event-onCommand">commands.onCommand</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/contextMenus/#method-create">contextMenus.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/contextMenus/#event-onClicked">contextMenus.onClicked</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#property-lastError">runtime.lastError</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/scripting/#method-executeScript">scripting.executeScript</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/storage/#type-StorageArea">storage.get</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/storage/#type-StorageArea">storage.set</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-query">tabs.query</a></li>
         </ul>
       </td>
     </tr>
