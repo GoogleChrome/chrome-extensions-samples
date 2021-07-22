@@ -1,0 +1,7 @@
+{
+  "name": "com.google.chrome.example.ping.pong",
+  "description": "Native Messaging Example Host Python",
+  "path": "/path/to/native_messaging_example_host_python.py",
+  "type": "stdio",
+  "allowed_origins": ["chrome-extension://<id>/"]
+}
