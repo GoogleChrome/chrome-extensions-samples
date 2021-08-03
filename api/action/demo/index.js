@@ -185,7 +185,7 @@ document.getElementById('set-icon-button').addEventListener('click', async () =>
 
   // There are easier ways for a page to extract an image's imageData, but the approach used here
   // works in both extension pages and service workers.
-  let response = await fetch(emojiFile);
+  let response = await fetch(chrome.runtime.getURL(emojiFile));
   let blob = await response.blob();
   let imageBitmap = await createImageBitmap(blob);
   let osc = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
