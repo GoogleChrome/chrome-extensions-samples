@@ -4,9 +4,11 @@ Messaging](https://github.com/browserext/native-messaging) API that allows to co
 In order for this example to work you must first install the native messaging
 host from the host directory.
 
-<h5>Install<h5>
+Install
+-
 
-<h6>Dependencies</h6>
+Dependencies
+-
 
 Python 2.x or 3.x.
 
@@ -30,7 +32,8 @@ See MDN [Native messaging](https://developer.mozilla.org/en-US/docs/Mozilla/Add-
 
 Reload extension.
 
-<h5>Usage</h5>
+Usage
+-
 
 Pin the extension icon to address bar, click to execute `chrome.runtime.sendNativeMessage()`.
 
