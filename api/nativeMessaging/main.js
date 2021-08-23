@@ -1,7 +1,3 @@
-// Copyright 2013 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 let port = null;
 
 const appendMessage = (text) => {
@@ -10,11 +6,11 @@ const appendMessage = (text) => {
 
 const updateUiState = () => {
   if (port) {
-    document.getElementById('connect-button').style.display = 'none';
+    document.getElementById('connect-button').hidden = true;
     document.getElementById('input-text').style.display = 'block';
     document.getElementById('send-message-button').style.display = 'block';
   } else {
-    document.getElementById('connect-button').style.display = 'block';
+    document.getElementById('connect-button').hidden = false;
     document.getElementById('input-text').style.display = 'none';
     document.getElementById('send-message-button').style.display = 'none';
     document.getElementById('response').innerHTML = '';
