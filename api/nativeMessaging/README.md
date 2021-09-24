@@ -1,5 +1,9 @@
-This directory contains an "MV3" example of Chromium/Chrome application that uses [Native
-Messaging](https://github.com/browserext/native-messaging) API that allows to communicate with a native application.
+This directory contains an example [Manifest
+V3](https://developer.chrome.com/docs/extensions/mv3/intro/) Chrome extension that uses the [Native
+Messaging](https://github.com/browserext/native-messaging) API to communicate with another 
+application running on the same computer. In this demo, the second application (known as the [native
+messaging host](https://developer.chrome.com/docs/apps/nativeMessaging/#native-messaging-host)) is 
+a Python application.
 
 In order for this example to work you must first install the native messaging
 host from the host directory.
