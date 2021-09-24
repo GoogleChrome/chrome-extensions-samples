@@ -4,13 +4,11 @@ Messaging](https://github.com/browserext/native-messaging) API that allows to co
 In order for this example to work you must first install the native messaging
 host from the host directory.
 
-Install
--
-
-Dependencies
--
+## Dependencies
 
 Python 2.x or 3.x.
+
+## Installation
 
 Create a folder containing the files in this directory.
 
