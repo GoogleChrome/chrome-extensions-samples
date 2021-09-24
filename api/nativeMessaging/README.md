@@ -36,4 +36,4 @@ Reload extension.
 
 Pin the extension icon to address bar, click to execute `chrome.runtime.sendNativeMessage()`.
 
-Navigate to `chrome-extension://<id>/main.html`, click "Connect", then "Send". To disconnect the `Port`, click "Disconnect".
+Navigate to `chrome-extension://knldjmfmopnpolahpmmgbagdohdnhkik/main.html`, click "Connect", then "Send". To disconnect the `Port`, click "Disconnect".
