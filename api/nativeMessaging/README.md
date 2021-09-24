@@ -32,8 +32,7 @@ See MDN [Native messaging](https://developer.mozilla.org/en-US/docs/Mozilla/Add-
 
 Reload extension.
 
-Usage
--
+## Usage
 
 Pin the extension icon to address bar, click to execute `chrome.runtime.sendNativeMessage()`.
 
