@@ -16,8 +16,6 @@ Create a folder containing the files in this directory.
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select the folder containing extension files.
 
-Note the generated extension ID, substitute that value for `<id>` at `"allowed_origins"` value in `com.google.chrome.example.ping.pong.json`.
-
 Substitute full local path to `native_messaging_example_host_python.py` for `/path/to` at `"path"` value in `com.google.chrome.example.ping.pong.json`.
 
 Set `native_messaging_example_host_python.py` to executable.
