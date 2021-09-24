@@ -63,12 +63,9 @@ const disconnect = () => {
 }
 
 const handleDOMContentLoaded = (e) => {
-  document.getElementById('connect-button')
-  .addEventListener('click', connect);
-  document.getElementById('send-message-button')
-  .addEventListener('click', sendNativeMessage);
-  document.getElementById('disconnect-button')
-  .addEventListener('click', disconnect);
+  document.getElementById('connect-button').addEventListener('click', connect);
+  document.getElementById('send-message-button').addEventListener('click', sendNativeMessage);
+  document.getElementById('disconnect-button').addEventListener('click', disconnect);
   updateUiState();
 }
 
