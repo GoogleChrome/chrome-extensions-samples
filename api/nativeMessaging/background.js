@@ -3,6 +3,7 @@ chrome.runtime.onInstalled.addListener((e) => {
 });
 
 chrome.action.onClicked.addListener(() => 
-  chrome.runtime.sendNativeMessage('com.google.chrome.example.ping.pong'
-  , {message:"ping"}, (nativeMessage) => console.log(nativeMessage))
-);
+  chrome.runtime.sendNativeMessage(
+    'com.google.chrome.example.ping.pong',
+    {message:"ping"},
+    (nativeMessage) => console.log(nativeMessage)));
