@@ -132,7 +132,7 @@ document.getElementById('set-badge-background-color-button').addEventListener('c
   }
 
   // Next, generate a random RGBA color
-  let color = [0, 0, 0].map(() => Math.floor(Math.random * 255));
+  let color = [0, 0, 0].map(() => Math.floor(Math.random() * 255));
 
   // Use the default background color ~10% of the time.
   //
