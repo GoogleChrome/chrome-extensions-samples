@@ -10,7 +10,19 @@ host from the host directory.
 
 ## Dependencies
 
-Python 2.x or 3.x.
+Python 3.x.
+
+https://github.com/mdn/webextensions-examples/pull/157:
+
+> Note that running python with the `-u` flag is required on Windows, in order to ensure that stdin and stdout are opened in binary, rather than text, mode.
+
+https://github.com/mdn/webextensions-examples/pull/478
+
+For example
+
+```
+#!/usr/bin/env -S python -u
+```
 
 ## Installation
 
