@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S python3 -u
 # https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging
 # https://github.com/mdn/webextensions-examples/pull/157
 # Note that running python with the `-u` flag is required on Windows,
@@ -37,31 +37,7 @@ try:
         receivedMessage = getMessage()
         if receivedMessage == "ping":
             sendMessage(encodeMessage({"message":"pong3"}))
-except AttributeError:
-    # Python 2.x version (if sys.stdin.buffer is not defined)
-    # Read a message from stdin and decode it.
-    def getMessage():
-        rawLength = sys.stdin.read(4)
-        if len(rawLength) == 0:
-            sys.exit(0)
-        messageLength = struct.unpack('@I', rawLength)[0]
-        message = sys.stdin.read(messageLength)
-        return json.loads(message)["message"]
-
-    # Encode a message for transmission,
-    # given its content.
-    def encodeMessage(messageContent):
-        encodedContent = json.dumps(messageContent)
-        encodedLength = struct.pack('@I', len(encodedContent))
-        return {'length': encodedLength, 'content': encodedContent}
-
-    # Send an encoded message to stdout
-    def sendMessage(encodedMessage):
-        sys.stdout.write(encodedMessage['length'])
-        sys.stdout.write(encodedMessage['content'])
-        sys.stdout.flush()
-
-    while True:
-        receivedMessage = getMessage()
-        if receivedMessage == "ping":
-            sendMessage(encodeMessage({"message":"pong2"}))
+except Exception as e:
+    sys.stdout.buffer.flush()
+    sys.stdin.buffer.flush()
+    sys.exit(0)
