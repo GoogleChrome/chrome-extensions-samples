@@ -36,8 +36,8 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#event-onClicked">action.onClicked</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled">runtime.onInstalled</a></li>
           <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
         </ul>
       </td>
