@@ -12,7 +12,7 @@ For more information on extensions, see [Chrome Developers](https://developer.ch
 The directory structure is as follows:
 
 * [api/](api/) - extensions focused on a single API package
-* (To be added) [howto/](howto/) - extensions that show how to perform a particular task
+* (To be added) [mv2-archive/howto/](howto/) - extensions that show how to perform a particular task
 * [tutorials/](tutorials/) - multi-step walkthroughs referenced inline in the docs
 * [examples/](examples/) - full featured extensions spanning multiple API packages
 * [apps/](apps/) - deprecated Chrome Apps platform (not listed below)
