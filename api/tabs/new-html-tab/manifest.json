@@ -1,0 +1,11 @@
+{
+    "name": "New HTML Tab Example",
+    "description": "Opens a new tab by clicking the icon button with a HTML page as its content",
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "browser_action": {},
+    "background": {
+        "persistent": false,
+        "scripts": ["background.js"]
+    }
+}
