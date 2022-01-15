@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Alarm Clock",
+  "version": "1.0.0",
+  "description": "This is an hourly alarm clock!",
+  "action": {
+    "default_title": "Hello, developer!",
+    "default_icon": "/images/logo.png"
+  },
+  "icons": {
+    "128": "/images/logo.png"
+  },
+  "background": {
+    "service_worker": "/js/background.js"
+  },
+  "permissions": [
+    "background",
+    "alarms",
+    "notifications"
+  ]
+}
