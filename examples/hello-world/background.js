@@ -27,6 +27,6 @@ chrome.runtime.onInstalled.addListener(async () => {
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
   //
   // To view this log message, open chrome://extensions, find "Hello, World!", and click the
-  // "service worker" link in th card to open DevTools.
+  // "service worker" link in the card to open DevTools.
   console.log(`Created tab ${tab.id}`);
 });
