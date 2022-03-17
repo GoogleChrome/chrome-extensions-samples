@@ -19,7 +19,7 @@ function clearAlarm() {
 
 //An Alarm delay of less than the minimum 1 minute will fire
 // in approximately 1 minute increments if released
-document.getElementById('sampleSecond').addEventListener('click', setAlarm);
+document.getElementById('sampleMinute').addEventListener('click', setAlarm);
 document.getElementById('min15').addEventListener('click', setAlarm);
 document.getElementById('min30').addEventListener('click', setAlarm);
 document.getElementById('cancelAlarm').addEventListener('click', clearAlarm);
