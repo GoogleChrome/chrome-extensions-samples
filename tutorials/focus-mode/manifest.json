@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Focus Mode",
+  "description": "Enable reading mode on extension and web store documentation.",
+  "version": "1.0.0",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {},
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+U",
+        "mac": "Command+U"
+      }
+    }
+  },
+  "permissions": ["scripting", "activeTab", "declarativeContent", "commands"]
+}
