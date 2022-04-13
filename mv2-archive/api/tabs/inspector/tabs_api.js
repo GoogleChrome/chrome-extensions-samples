@@ -290,7 +290,7 @@ function removeWindow(windowId) {
 }
 
 function refreshSelectedTab(windowId) {
-  chrome.tabs.query({active: true, currentWindow: true} function(tabs) {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     var input = new JsExprContext(tabs[0]);
     var output = document.getElementById('tab_' + tabs[0].id);
     jstProcess(input, output);
