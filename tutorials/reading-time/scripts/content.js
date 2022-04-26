@@ -1,11 +1,5 @@
 // Copyright 2022 Google LLC
 //
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file or at
-// https://developers.google.com/open-source/licenses/bsd
-
-// Copyright 2022 Google LLC
-//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -43,11 +37,11 @@ if (article) {
   badge.classList.add("color-secondary-text", "type--caption");
   badge.textContent = `⏱️ ${readingTime} min read`;
 
-  // API reference docs
+  // Support for API reference docs
   const heading = article.querySelector("h1");
-  // Articles with date
+  // Support for article docs with date
   const date = article.querySelector("time")?.parentNode;
-  // https://stackoverflow.com/a/50066247/4842857
+
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
   (date ?? heading).insertAdjacentElement("afterend", badge);
 }
