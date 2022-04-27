@@ -17,15 +17,18 @@ const go = document.getElementById("go");
 const input = document.getElementById("input");
 const message = document.getElementById("message");
 
-// The async IIFE is necessary because Chrome <89 does not support top level await.
+// The async IIFE is necessary because Chrome <89 does not support top level
+// await.
 (async function initPopupWindow() {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  let [tab] = await chrome.tabs.query({active : true, currentWindow : true});
 
   if (tab?.url) {
     try {
       let url = new URL(tab.url);
       input.value = url.hostname;
-    } catch {}
+    } catch {
+      // noop
+    }
   }
 
   input.focus();
@@ -52,11 +55,15 @@ function stringToUrl(input) {
   // Start with treating the provided value as a URL
   try {
     return new URL(input);
-  } catch {}
+  } catch {
+    // noop
+  }
   // If that fails, try assuming the provided input is an HTTP host
   try {
     return new URL("http://" + input);
-  } catch {}
+  } catch {
+    // noop
+  }
   // If that fails ¯\_(ツ)_/¯
   return null;
 }
@@ -64,7 +71,7 @@ function stringToUrl(input) {
 async function deleteDomainCookies(domain) {
   let cookiesDeleted = 0;
   try {
-    const cookies = await chrome.cookies.getAll({ domain });
+    const cookies = await chrome.cookies.getAll({domain});
 
     if (cookies.length === 0) {
       return "No cookies found";
@@ -82,26 +89,27 @@ async function deleteDomainCookies(domain) {
 }
 
 function deleteCookie(cookie) {
-  // Cookie deletion is largely modeled off of how deleting cookies works when using HTTP headers.
-  // Specific flags on the cookie object like `secure` or `hostOnly` are not exposed for deletion
-  // purposes. Instead, cookies are deleted by URL, name, and storeId. Unlike HTTP headers, though,
-  // we don't have to delete cookies by setting Max-Age=0; we have a method for that ;)
+  // Cookie deletion is largely modeled off of how deleting cookies works when
+  // using HTTP headers. Specific flags on the cookie object like `secure` or
+  // `hostOnly` are not exposed for deletion purposes. Instead, cookies are
+  // deleted by URL, name, and storeId. Unlike HTTP headers, though, we don't
+  // have to delete cookies by setting Max-Age=0; we have a method for that ;)
   //
-  // To remove cookies set with a Secure attribute, we must provide the correct protocol in the
-  // details object's `url` property.
+  // To remove cookies set with a Secure attribute, we must provide the correct
+  // protocol in the details object's `url` property.
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Secure
   const protocol = cookie.secure ? "https:" : "http:";
 
-  // Note that the final URL may not be valid. The domain value for a standard cookie is prefixed
-  // with a period (invalid) while cookies that are set to `cookie.hostOnly == true` do not have
-  // this prefix (valid).
+  // Note that the final URL may not be valid. The domain value for a standard
+  // cookie is prefixed with a period (invalid) while cookies that are set to
+  // `cookie.hostOnly == true` do not have this prefix (valid).
   // https://developer.chrome.com/docs/extensions/reference/cookies/#type-Cookie
   const cookieUrl = `${protocol}//${cookie.domain}${cookie.path}`;
 
   return chrome.cookies.remove({
-    url: cookieUrl,
-    name: cookie.name,
-    storeId: cookie.storeId,
+    url : cookieUrl,
+    name : cookie.name,
+    storeId : cookie.storeId,
   });
 }
 

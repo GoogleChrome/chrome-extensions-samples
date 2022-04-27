@@ -12,15 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function reddenPage() {
-  document.body.style.backgroundColor = 'red';
-}
+function reddenPage() { document.body.style.backgroundColor = 'red'; }
 
 chrome.action.onClicked.addListener((tab) => {
-  if(!tab.url.includes("chrome://")) {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      function: reddenPage
-    });
+  if (!tab.url.includes("chrome://")) {
+    chrome.scripting.executeScript(
+        {target : {tabId : tab.id}, function : reddenPage});
   }
 });

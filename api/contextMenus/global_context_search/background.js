@@ -14,17 +14,17 @@
 
 // When you specify "type": "module" in the manifest background,
 // you can include the service worker as an ES Module,
-import { tldLocales } from './locales.js'
+import {tldLocales} from './locales.js'
 
 // Add a listener to create the initial context menu items,
 // context menu items only need to be created at runtime.onInstalled
 chrome.runtime.onInstalled.addListener(async () => {
   for (let [tld, locale] of Object.entries(tldLocales)) {
     chrome.contextMenus.create({
-      id: tld,
-      title: locale,
-      type: 'normal',
-      contexts: ['selection'],
+      id : tld,
+      title : locale,
+      type : 'normal',
+      contexts : [ 'selection' ],
     });
   }
 });
@@ -34,35 +34,35 @@ chrome.contextMenus.onClicked.addListener((item, tab) => {
   const tld = item.menuItemId
   let url = new URL(`https://google.${tld}/search`)
   url.searchParams.set('q', item.selectionText)
-  chrome.tabs.create({ url: url.href, index: tab.index + 1 });
+  chrome.tabs.create({url : url.href, index : tab.index + 1});
 });
 
 // Add or removes the locale from context menu
 // when the user checks or unchecks the locale in the popup
-chrome.storage.onChanged.addListener(({ enabledTlds }) => {
-  if (typeof enabledTlds === 'undefined') return
+chrome.storage.onChanged.addListener(({enabledTlds}) => {
+  if (typeof enabledTlds === 'undefined')
+    return
 
-  let allTlds = Object.keys(tldLocales)
-  let currentTlds = new Set(enabledTlds.newValue);
+        let allTlds = Object.keys(tldLocales)
+    let currentTlds = new Set(enabledTlds.newValue);
   let oldTlds = new Set(enabledTlds.oldValue ?? allTlds);
-  let changes = allTlds.map((tld) => ({
-    tld,
-    added: currentTlds.has(tld) && !oldTlds.has(tld),
-    removed: !currentTlds.has(tld) && oldTlds.has(tld)
-  }))
+  let changes =
+      allTlds.map((tld) => ({
+                    tld,
+                    added : currentTlds.has(tld) && !oldTlds.has(tld),
+                    removed : !currentTlds.has(tld) && oldTlds.has(tld)
+                  }));
 
-  for (let { tld, added, removed } of changes) {
+  for (let {tld, added, removed} of changes) {
     if (added) {
       chrome.contextMenus.create({
-        id: tld,
-        title: tldLocales[tld],
-        type: 'normal',
-        contexts: ['selection'],
+        id : tld,
+        title : tldLocales[tld],
+        type : 'normal',
+        contexts : [ 'selection' ],
       });
-    }
-    else if (removed) {
+    } else if (removed) {
       chrome.contextMenus.remove(tld);
     }
   }
-
 });

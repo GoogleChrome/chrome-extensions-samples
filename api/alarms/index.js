@@ -166,27 +166,27 @@ class AlarmManager {
     });
   }
 
-  // Simple locking mechanism to prevent multiple concurrent refreshes from rendering duplicate
-  // entries in the alarms list
+  // Simple locking mechanism to prevent multiple concurrent refreshes from
+  // rendering duplicate entries in the alarms list
   #refreshing = false;
 
   async refreshDisplay() {
-    if (this.#refreshing) { return } // refresh in progress, bail
+    if (this.#refreshing) {
+      return
+    } // refresh in progress, bail
 
-    this.#refreshing = true;         // acquire lock
+    this.#refreshing = true; // acquire lock
     try {
       await Promise.all([
         this.clearDisplay(),
         this.populateDisplay(),
       ]);
     } finally {
-      this.#refreshing = false;      // release lock
+      this.#refreshing = false; // release lock
     }
   }
 
-  async clearDisplay() {
-    this.displayElement.textContent = '';
-  }
+  async clearDisplay() { this.displayElement.textContent = ''; }
 }
 
 let manager = new AlarmManager(display, log);

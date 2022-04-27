@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const tabs = await chrome.tabs.query({
-  url: [
+  url : [
     "https://developer.chrome.com/docs/webstore/*",
     "https://developer.chrome.com/docs/extensions/*",
   ],
@@ -35,8 +35,8 @@ for (const tab of tabs) {
   element.querySelector(".pathname").textContent = pathname;
   element.querySelector("a").addEventListener("click", async () => {
     // need to focus window as well as activate tab
-    await chrome.windows.update(tab.windowId, { focused: true });
-    await chrome.tabs.update(tab.id, { active: true });
+    await chrome.windows.update(tab.windowId, {focused : true});
+    await chrome.tabs.update(tab.id, {active : true});
   });
 
   elements.add(element);
@@ -45,6 +45,6 @@ document.querySelector("ul").append(...elements);
 
 const button = document.querySelector("button");
 button.addEventListener("click", async () => {
-  const group = await chrome.tabs.group({ tabIds: tabs.map(({ id }) => id) });
-  await chrome.tabGroups.update(group, { title: "DOCS" });
+  const group = await chrome.tabs.group({tabIds : tabs.map(({id}) => id)});
+  await chrome.tabGroups.update(group, {title : "DOCS"});
 });

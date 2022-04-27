@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let imageIds = ["test2", "test4"];
+let imageIds = [ "test2", "test4" ];
 
 let loadButton = document.createElement('button');
 loadButton.innerText = 'Load images';
