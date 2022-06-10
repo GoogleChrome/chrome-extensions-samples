@@ -1,0 +1,18 @@
+{
+  "name": "Favicon",
+  "version": "1",
+  "manifest_version": 3,
+  "permissions": ["favicon"],
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "css": ["content.css"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
+  "web_accessible_resources": [{
+    "resources": [ "_favicon/*" ],
+    "matches": ["<all_urls>"],
+    "extension_ids": [ "*" ]
+  }],
+  "action": { "default_popup": "content.html" }
+}
