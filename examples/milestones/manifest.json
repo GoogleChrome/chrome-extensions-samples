@@ -1,0 +1,9 @@
+{
+  "name": "Milestones",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {"default_popup": "popup.html"},
+  "description": "Chromium Release Milestones",
+  "host_permissions": [ "https://crrie.com/" ],
+  "permissions": [ "activeTab" ]
+}
