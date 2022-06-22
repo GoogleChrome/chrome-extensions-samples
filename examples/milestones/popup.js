@@ -8,14 +8,14 @@ function getMilestone(tabs) {
   const search = `^${origin}/c/chromium/src/\\+/(\\d+)`;
   const match = url.match(search);
   if (match != undefined && match.length == 2) {
-    getMilestoneForRevid(match[1]).then((milestone) =>
+    getMilestoneForRevId(match[1]).then((milestone) =>
       milestone != '' ? (div.innerText = `m${milestone}`) : window.close());
   } else {
     window.close();
   }
 }
 
-function getMilestoneForRevid(revid) {
-  return fetch(`https://crrie.com/c/?r=${revid}`)
+function getMilestoneForRevId(revId) {
+  return fetch(`https://crrie.com/c/?r=${revId}`)
   .then((res) => res.text());
 }
