@@ -70,6 +70,18 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
     <tr>
       <td style="vertical-align:top;">
+         Chromium Milestones<br>
+        <a href="examples/milestones"><code>examples/milestones</code></a>
+      </td>
+      <td  style="vertical-align:top;">
+        <ul>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#manifest">default_popup</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-query">tabs.query</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align:top;">
         Cookie Clearer <br>
         <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
       </td>
