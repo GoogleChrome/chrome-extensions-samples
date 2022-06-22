@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-chrome.tabs.query({active: true}).then(tabs => getMilestone(tabs));
+chrome.tabs.query({active : true}).then(tabs => getMilestone(tabs));
 
 function getMilestone(tabs) {
   const div = document.createElement("div");
@@ -22,14 +22,15 @@ function getMilestone(tabs) {
   const search = `^${origin}/c/chromium/src/\\+/(\\d+)`;
   const match = url.match(search);
   if (match != undefined && match.length == 2) {
-    getMilestoneForRevId(match[1]).then((milestone) =>
-      milestone != '' ? (div.innerText = `m${milestone}`) : window.close());
+    getMilestoneForRevId(match[1]).then(
+        (milestone) => milestone != '' ? (div.innerText = `m${milestone}`)
+                                       : window.close());
   } else {
     window.close();
   }
 }
 
-function getMilestoneForRevId(revId) {
-  return fetch(`https://crrie.com/c/?r=${revId}`)
-  .then((res) => res.text());
+async function getMilestoneForRevId(revId) {
+  const res = await fetch(`https://crrie.com/c/?r=${revId}`);
+  return await res.text();
 }
