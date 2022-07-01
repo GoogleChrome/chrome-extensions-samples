@@ -34,9 +34,9 @@ for (const tab of tabs) {
   element.querySelector(".title").textContent = title;
   element.querySelector(".pathname").textContent = pathname;
   element.querySelector("a").addEventListener("click", async () => {
-    // need to focus window as well as activate tab
-    await chrome.windows.update(tab.windowId, { focused: true });
+    // need to focus window as well as the active tab
     await chrome.tabs.update(tab.id, { active: true });
+    await chrome.windows.update(tab.windowId, { focused: true });
   });
 
   elements.add(element);
