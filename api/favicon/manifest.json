@@ -5,7 +5,6 @@
   "permissions": ["favicon"],
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "css": ["content.css"],
     "js": ["content.js"],
     "run_at": "document_idle"
   }],
