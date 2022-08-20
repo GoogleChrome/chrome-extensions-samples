@@ -27,6 +27,6 @@ function onMessageFromIframeCallback(event) {
     }
 
     console.log(event.data.html)
-    document.getElementById('result').innerHTML = event.data.html
+    document.getElementById('result').innerText = event.data.html// Added Change to exclude innerHTML > This is just an example of the data fetched from the iFrame
 }
 
