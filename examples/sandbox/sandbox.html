@@ -1,0 +1,60 @@
+<!--
+  - Copyright (c) 2012 The Chromium Authors. All rights reserved.
+  - Use of this source code is governed by a BSD-style license that can be
+  - found in the LICENSE file.
+  -->
+<!doctype html>
+<html>
+
+<head>
+  <script src="handlebars-1.0.0.beta.6.js"></script>
+</head>
+
+<body>
+  <script id="hello-world-template" type="text/x-handlebars-template">
+      <div class="entry">
+        <h1>Hello, {{thing}}!</h1>
+      </div>
+    </script>
+  <script>
+    const url = "https://covid19.mathdro.id/api/countries/france"// url for france covid cases json endpoint
+    var templates = [];
+    var source = document.getElementById('hello-world-template').innerHTML;
+    templates['hello'] = Handlebars.compile(source);
+
+    // Set up message event handler:
+    window.addEventListener('message', function (event) {
+      console.log('sandbox message received')
+      var command = event.data.command;
+      var name = event.data.name || 'hello';
+      switch (command) {
+        case 'render':
+          event.source.postMessage({
+            name: name,
+            html: templates[name](event.data.context)
+          }, event.origin);
+          break;
+
+        // You could imagine additional functionality. For instance:
+        //
+        // case 'new':
+        //   templates[event.data.name] = Handlebars.compile(event.data.source);
+        //   event.source.postMessage({name: name, success: true}, event.origin);
+        //   break;
+      }
+    });
+
+    function fetchData(url, callback) {
+
+      fetch(url) // File You want to grab
+        .then((resp) => resp.json())
+        .then((jsonData) => { if (callback) callback(jsonData) }).catch((err) => { console.log(err) })
+    } //close funct
+
+
+    fetchData(url, (data) => { console.log(`Example of Data taken from cross-origin with fetch, France confirmed Covid cases: ${data.confirmed.value}`) })
+
+  </script>
+</body>
+
+</html>
