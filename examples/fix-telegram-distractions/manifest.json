@@ -1,0 +1,26 @@
+{
+  "name": "Fix Telegram Distractions",
+  "action": {},
+  "manifest_version": 3,
+  "version": "0.1",
+  "description": "Removes folder from Telegram except for current",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://web.telegram.org/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+U",
+        "mac": "Command+U"
+      }
+    }
+  }
+}
