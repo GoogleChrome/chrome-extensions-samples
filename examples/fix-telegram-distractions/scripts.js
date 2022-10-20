@@ -13,9 +13,9 @@ function turnFocusModeOn() {
             opacity: 0.5;
         }
 
-        .info .info-row {
-//            height: 100%;
-//            padding-left: .5rem;
+        .temporary-disable .info .info-row {
+            height: 100%;
+            padding-left: .5rem;
         }
 
         .ripple-container {
@@ -50,23 +50,26 @@ function turnFocusModeOn() {
     }
 
     const selectTab = (tabIndex) => {
+        if (!document.querySelector('#hide-message-preview')) {
+            return
+        }
+
         document.querySelector('.TabList').children[tabIndex].click();
 
         // show tab content, but only for our tab
         document.querySelectorAll('.chat-list')[DEFAULT_TAB_INDEX].style = 'visibility: visible';
     }
 
-    setTimeout(() => selectTab(DEFAULT_TAB_INDEX), 200);
+    setTimeout(() => selectTab(DEFAULT_TAB_INDEX), 500);
 
 }
 
 function turnFocusModeOff() {
-    window.turnFocusModeOff = this;
 
     console.log('turn focus mode off');
 
-
     document.querySelectorAll('#hide-message-preview').forEach(s => s.remove());
+
 }
 
 function searchFocus() {
