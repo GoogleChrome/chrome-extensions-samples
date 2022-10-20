@@ -3,3 +3,5 @@
 
 # Temporary directory for debugging extension samples
 _debug
+
+*.zip
