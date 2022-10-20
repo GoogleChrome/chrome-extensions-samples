@@ -11,8 +11,9 @@
   "host_permissions": [
     "https://web.telegram.org/*"
   ],
+
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "bg-wrapper.js"
   },
 
   "commands": {
@@ -20,6 +21,20 @@
       "suggested_key": {
         "default": "Ctrl+U",
         "mac": "Command+U"
+      }
+    },
+    "open-dialog": {
+      "description": "Open dialog with X",
+      "suggested_key": {
+        "default": "Ctrl+K",
+        "mac": "Command+K"
+      }
+    },
+    "toggle-work-mode": {
+      "description": "Toggle work mode",
+      "suggested_key": {
+        "default": "Ctrl+I",
+        "mac": "Command+I"
       }
     }
   }
