@@ -88,6 +88,6 @@ function searchFocus() {
 function disableFor20() {
     const enabledAt = new Date ( Date.now() + 60 * 20 * 1000 )
 
-    document.querySelector('#telegram-search-input').placeholder = `Work mode until ${enabledAt.toLocaleTimeString()}`
+    document.querySelector('#telegram-search-input').placeholder = `Focus until ${enabledAt.toLocaleTimeString()}`
 
 }
