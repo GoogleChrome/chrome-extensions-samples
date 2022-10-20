@@ -10,12 +10,12 @@ function turnFocusModeOn() {
         style.innerHTML = `
         /* hide message preview */
         .info .subtitle {
-            display: none;
+            opacity: 0.5;
         }
 
         .info .info-row {
-            height: 100%;
-            padding-left: .5rem;
+//            height: 100%;
+//            padding-left: .5rem;
         }
 
         .ripple-container {

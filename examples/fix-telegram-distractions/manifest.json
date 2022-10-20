@@ -1,8 +1,14 @@
 {
   "name": "Fix Telegram Distractions",
-  "action": {},
+  "action": {
+    "default_title": "Work mode",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "icon.png"
+  },
   "manifest_version": 3,
-  "version": "0.2",
+  "version": "0.3",
   "description": "Removes folder from Telegram except for current",
   "permissions": [
     "activeTab",
