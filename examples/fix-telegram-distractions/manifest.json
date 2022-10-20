@@ -2,7 +2,7 @@
   "name": "Fix Telegram Distractions",
   "action": {},
   "manifest_version": 3,
-  "version": "0.1",
+  "version": "0.2",
   "description": "Removes folder from Telegram except for current",
   "permissions": [
     "activeTab",
