@@ -1,6 +1,12 @@
+function faviconURL(u) {
+  const url = new URL(chrome.runtime.getURL("/_favicon/"));
+  url.searchParams.set("pageUrl", u); // this encodes the URL as well
+  url.searchParams.set("size", "64");
+  return url.toString();
+}
+
 window.onload = e => {
   const img = document.createElement('img');
-  const url = '_favicon/?page_url=https://www.google.com&size=64';
-  img.src = chrome.runtime.getURL(url);
+  img.src = faviconURL("https://google.com");
   document.body.appendChild(img);
 }
