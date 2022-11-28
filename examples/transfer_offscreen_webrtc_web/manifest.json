@@ -1,0 +1,28 @@
+{
+  "name": "ServiceWorker => WebRTC => Web page",
+  "version": "1.0",
+  "description": "ServiceWorker => WebRTC => Web page",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "host_permissions": [
+    "*://*.github.com/*"
+  ],
+  "permissions": [
+    "scripting",
+    "offscreen"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://*.github.com/*"
+    ],
+    "ids": [
+      "*"
+    ]
+  },
+  "action": {
+    "default_title": "ServiceWorker => WebRTC => Web page"
+  }
+}
