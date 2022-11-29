@@ -254,7 +254,6 @@ if (
                 channel.close();
                 remote.close();
                 close();
-                console.log('Stream closed.');
               },
             })
           );
