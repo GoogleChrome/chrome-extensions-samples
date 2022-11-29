@@ -86,10 +86,6 @@ if (
     } catch (e) {
       console.error(e);
     }
-
-    addEventListener('message', (e) => {
-      console.log(e);
-    });
   }
   async function closeOffscreen() {
     if (await chrome.offscreen.hasDocument()) {
