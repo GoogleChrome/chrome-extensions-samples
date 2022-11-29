@@ -158,7 +158,7 @@ if (
     const request = await fetch(
       // './manifest.json'
       // 291 MB
-      // 'https://ia800301.us.archive.org/10/items/DELTAnine2013-12-11.WAV/Deltanine121113Pt3Wav.wav'
+      'https://ia800301.us.archive.org/10/items/DELTAnine2013-12-11.WAV/Deltanine121113Pt3Wav.wav'
     );
     e.source.postMessage(request.body, [request.body]);
     chrome.runtime.onConnectExternal.removeListener(handleSignaling);
