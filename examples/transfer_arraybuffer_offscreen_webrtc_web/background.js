@@ -245,7 +245,9 @@ if (
           e.data.pipeTo(
             new WritableStream({
               write(value) {
-                channel.send(value);
+                const {byteLength} = value.buffer;
+                channel.send(value.buffer.transfer(byteLength));
+                console.log(value.buffer.byteLength);
               },
               close() {           
                 channel.close();
