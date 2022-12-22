@@ -16,8 +16,9 @@
         "scripts/content.js"
       ],
       "matches": [
-        "https://developer.chrome.com/docs/extensions/*",
-        "https://developer.chrome.com/docs/webstore/*"
+        "https://www.bhaskar.com/*",
+        "https://developer.chrome.com/docs/*",
+        "https://cnnespanol.cnn.com/2022/*"
       ]
     }
   ]
