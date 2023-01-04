@@ -3,6 +3,9 @@
   "name": "My sidepanel extension",
   "version": "1.0",
   "description": "A simple extension with a sidePanel",
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
@@ -10,7 +13,7 @@
     "128": "images/icon-128.png"
   },
   "side_panel": {
-    "default_path": "sidepanel.html"
+    "default_path": "sidePanel.html"
   },
   "permissions": ["storage", "sidePanel"]
 }
