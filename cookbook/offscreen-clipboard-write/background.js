@@ -20,7 +20,9 @@ chrome.action.onClicked.addListener(async () => {
   await addToClipboard(textToCopy);
 });
 
-// Solution 1 - Current solution for extension service workers
+// Solution 1 - As of Jan 2023, service workers cannot directly interact with
+// the system clipboard. To work around this, we'll create an offscreen document
+// and pass it the data we want to write to the clipboard.
 
 async function addToClipboard(value) {
   if (await chrome.offscreen.hasDocument()) {
@@ -46,7 +48,8 @@ async function addToClipboard(value) {
   });
 }
 
-// Solution 2 – Only use this when
+// Solution 2 – Once extension service workers can use the Clipboard API,
+// replace the offscreen document based implementation with this.
 
 async function addToClipboardV2(value) {
   navigator.clipboard.copyText(value)
