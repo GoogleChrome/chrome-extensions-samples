@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// TODO(dotproto): Add more comments explaining this code.
+// Once the message has been posted from the service worker, checks are made to confirm the message type and target before proceeding. 
+// This is so that the module can easily be adapted into existing workflows where secondary uses for the document (or alternate offscreen documents) might be implemented.
 
 chrome.runtime.onMessage.addListener(handleMessages);
 
@@ -27,6 +28,8 @@ async function handleMessages(message) {
     handleClipboardWrite(message.data);
   }
 }
+
+// The handleClipboardWrite function makes use of a DOM functionality API (document), which is currently impossible from inside a service worker. 
 
 async function handleClipboardWrite(data) {
   // Return early if we received the wrong kind of data.
