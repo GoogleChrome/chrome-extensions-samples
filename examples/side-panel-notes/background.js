@@ -4,4 +4,4 @@ const setPanel = async () =>  {
     await chrome.sidePanel.setOptions({path: 'sidepanel.html'});
 }
 
-setPanel().catch(console.error)
+setPanel().catch(console.error(error))
