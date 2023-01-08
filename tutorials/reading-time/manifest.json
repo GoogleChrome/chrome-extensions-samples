@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Reading time",
   "version": "1.0",
-  "description": "Add the reading time to Chrome Extension documentation articles",
+  "description": "Add the reading time function to Chrome Extension Documentation Articles",
 
   "icons": {
     "16": "images/icon-16.png",
