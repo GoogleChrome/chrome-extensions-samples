@@ -99,7 +99,7 @@ function buildTypedUrlList(divName) {
 
   // This function is called when we have the final list of URls to display.
   var onAllVisitsProcessed = function() {
-    // Get the top scorring urls.
+    // Get the top scoring urls.
     urlArray = [];
     for (var url in urlToCount) {
       urlArray.push(url);
