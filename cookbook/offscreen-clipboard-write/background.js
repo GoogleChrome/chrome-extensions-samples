@@ -12,28 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// TODO(dotproto): Add more comments explaining this code.
-
+// The value that will be written to the clipboard.
 const textToCopy = `Hello world!`;
 
+// When the browser action is clicked, `addToClipboard()` will use an offscreen document to write
+// the value of `textToCopy` to the system clipboard.
 chrome.action.onClicked.addListener(async () => {
   await addToClipboard(textToCopy);
 });
 
-// Solution 1 - As of Jan 2023, service workers cannot directly interact with
-// the system clipboard. To work around this, we'll create an offscreen document
-// and pass it the data we want to write to the clipboard.
-
+// Solution 1 - As of Jan 2023, service workers cannot directly interact with the system clipboard.
+// To work around this, we'll create an offscreen document and pass it the data we want to write to
+// the clipboard.
 async function addToClipboard(value) {
+  // This pattern show in this if-else ensures that the offscreen document exists before we try to
+  // send it a message. If we didn't await the `hasDocument()` and `createDocument()` calls, the
+  // `sendMessage()` call could be sent before the offscreen document can register it's
+  // `runtime.onMessage` listener.
   if (await chrome.offscreen.hasDocument()) {
-    console.debug('Offscreen doc already exists');
+    console.debug('Offscreen doc already exists.');
   } else {
     console.debug('Creating a new offscreen document.');
 
-    // TODO(dotproto): Follow up with eng to make sure that the doc's
-    // `runtime.onMessage` listener will be registered before the
-    // `createDocument()` call resolves. If not, we'll need to rewrite this to
-    // guarantee the correct order of operations.
     await chrome.offscreen.createDocument({
       url: 'offscreen.html',
       reasons: [chrome.offscreen.Reason.CLIPBOARD],
@@ -41,6 +41,7 @@ async function addToClipboard(value) {
     });
   }
 
+  // Now that are sure we have an off document, we can safely dispatch the message.
   chrome.runtime.sendMessage({
     type: 'copy-data-to-clipboard',
     target: 'offscreen-doc',
@@ -49,8 +50,7 @@ async function addToClipboard(value) {
 }
 
 // Solution 2 – Once extension service workers can use the Clipboard API,
-// replace the offscreen document based implementation with this.
-
+// replace the offscreen document based implementation with something like this.
 async function addToClipboardV2(value) {
-  navigator.clipboard.copyText(value)
+  navigator.clipboard.writeText(value)
 }
