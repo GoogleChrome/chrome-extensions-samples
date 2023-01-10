@@ -23,7 +23,7 @@ try:
     # Encode a message for transmission,
     # given its content.
     def encodeMessage(messageContent):
-        encodedContent = json.dumps(messageContent).encode('utf-8')
+        encodedContent = json.dumps(messageContent, separators=(',', ':')).encode('utf-8')
         encodedLength = struct.pack('@I', len(encodedContent))
         return {'length': encodedLength, 'content': encodedContent}
 
@@ -37,7 +37,11 @@ try:
         receivedMessage = getMessage()
         if receivedMessage == "ping":
             sendMessage(encodeMessage({"message":"pong3"}))
+            
 except Exception as e:
     sys.stdout.buffer.flush()
     sys.stdin.buffer.flush()
+    # https://discuss.python.org/t/how-to-read-1mb-of-input-from-stdin/22534/14
+    with open('nm_python.log', 'w', encoding='utf-8') as f:
+        traceback.print_exc(file=f)
     sys.exit(0)
