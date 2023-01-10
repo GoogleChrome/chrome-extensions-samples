@@ -5,10 +5,7 @@ function faviconURL(u) {
   return url.toString();
 }
 
-window.onload = e => {
-  const img = document.createElement('img');
-  // chrome-extension://EXTENSION_ID/_favicon/?pageUrl=https%3A%2F%2Fwww.google.com&size=32
-  img.src = faviconURL("https://www.google.com") 
-  document.body.appendChild(img);
-  ;
-}
+const img = document.createElement('img');
+// chrome-extension://EXTENSION_ID/_favicon/?pageUrl=https%3A%2F%2Fwww.google.com&size=32
+img.src = faviconURL("https://www.google.com") 
+document.body.appendChild(img);
