@@ -1,6 +1,7 @@
 .favicon-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
+    all: initial !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
   }
