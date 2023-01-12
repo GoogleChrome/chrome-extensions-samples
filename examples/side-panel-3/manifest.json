@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "2 - Side panel example",
+  "name": "3 - Side panel example",
   "version": "1.0",
   "description": "A simple extension with a sidePanel",
   "background": {
@@ -12,5 +12,5 @@
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
-  "permissions": ["sidePanel", "tabs"]
+  "permissions": ["sidePanel"]
 }

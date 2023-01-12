@@ -10,25 +10,27 @@ async function clearPanel() {
   await chrome.sidePanel.setOptions({ enabled: false });
 }
 
-
 const extensionsURL = "https://developer.chrome.com/docs/extensions/";
 
 chrome.tabs.onActivated.addListener(function (activeInfo) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let activeTab = tabs[0];
     console.log(activeTab.url);
+    getPanel();
     if (activeTab.url === extensionsURL) {
-      setPanel1();
+    setPanel1();
+    getPanel();
     } else {
-        clearPanel()
+      clearPanel()
     }
   });
 });
 
 
 async function getPanel() {
-  console.log("getPanel");
-  await chrome.sidePanel.getOptions({});
+  const result = await chrome.sidePanel.getOptions({});
+  console.log("getPanel", result);
+  return result
 }
 
 getPanel();
