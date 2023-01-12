@@ -1,7 +1,7 @@
 # Chrome Extensions samples
 
 Official samples for Chrome Extensions and the Chrome Apps platform.
-Note that Chrome Apps are deprecated - learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
+Note that Chrome Apps are deprecated. Learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
@@ -18,7 +18,7 @@ The directory structure is as follows:
 * [apps/](apps/) - deprecated Chrome Apps platform (not listed below)
 * [mv2-archive/](mv2-archive/) - resources for manifest version 2
 
-To experiment with these samples, please clone this repo and use `Load Unpacked Extension`.
+To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
 
 <table>
