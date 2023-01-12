@@ -10,7 +10,7 @@ Follow the instructions to load an [unpacked extension](https://developer.chrome
 
 It should look like this:
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/7koKMRuevoTu0pUPios2.png" alt="New tab with the focus of the day and optional feature button" width="500"/>
+<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/28zBZUTWK1aAZPnKs4ZD.png" alt="New tab with the focus of the day and optional feature button" width="500"/>
 
 Then, click on "Allow Extension to Access to top sites". 
 
