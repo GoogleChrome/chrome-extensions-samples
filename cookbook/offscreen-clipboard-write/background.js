@@ -15,20 +15,21 @@
 // The value that will be written to the clipboard.
 const textToCopy = `Hello world!`;
 
-// When the browser action is clicked, `addToClipboard()` will use an offscreen document to write
-// the value of `textToCopy` to the system clipboard.
+// When the browser action is clicked, `addToClipboard()` will use an offscreen
+// document to write the value of `textToCopy` to the system clipboard.
 chrome.action.onClicked.addListener(async () => {
   await addToClipboard(textToCopy);
 });
 
-// Solution 1 - As of Jan 2023, service workers cannot directly interact with the system clipboard.
-// To work around this, we'll create an offscreen document and pass it the data we want to write to
-// the clipboard.
+// Solution 1 - As of Jan 2023, service workers cannot directly interact with
+// the system clipboard. To work around this, we'll create an offscreen document
+// and pass it the data we want to write to the clipboard.
 async function addToClipboard(value) {
-  // This pattern show in this if-else ensures that the offscreen document exists before we try to
-  // send it a message. If we didn't await the `hasDocument()` and `createDocument()` calls, the
-  // `sendMessage()` call could be sent before the offscreen document can register it's
-  // `runtime.onMessage` listener.
+  // This pattern ensures that the offscreen document exists before we try to
+  // send it a message. If we didn't await the `hasDocument()` and
+  // `createDocument()` calls, the `sendMessage()` call could send a message
+  // before the offscreen document can register it's `runtime.onMessage`
+  // listener.
   if (await chrome.offscreen.hasDocument()) {
     console.debug('Offscreen doc already exists.');
   } else {
@@ -41,7 +42,8 @@ async function addToClipboard(value) {
     });
   }
 
-  // Now that are sure we have an offscreen document, we can safely dispatch the message.
+  // Now that are sure we have an offscreen document, we can safely dispatch the
+  // message.
   chrome.runtime.sendMessage({
     type: 'copy-data-to-clipboard',
     target: 'offscreen-doc',
