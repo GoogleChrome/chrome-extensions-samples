@@ -1,5 +1,3 @@
-console.log("content-script")
-
 function faviconURL(u) {
   const url = new URL(chrome.runtime.getURL("/_favicon/"));
   url.searchParams.set("pageUrl", u); // this encodes the URL as well
