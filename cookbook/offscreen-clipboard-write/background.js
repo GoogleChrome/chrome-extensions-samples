@@ -22,8 +22,9 @@ chrome.action.onClicked.addListener(async () => {
 });
 
 // Solution 1 - As of Jan 2023, service workers cannot directly interact with
-// the system clipboard. To work around this, we'll create an offscreen document
-// and pass it the data we want to write to the clipboard.
+// the system clipboard using either `navigator.clipboard` or
+// `document.execCommand()`. To work around this, we'll create an offscreen
+// document and pass it the data we want to write to the clipboard.
 async function addToClipboard(value) {
   // This pattern ensures that the offscreen document exists before we try to
   // send it a message. If we didn't await the `hasDocument()` and
