@@ -1,14 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "2 - Side panel example",
+  "name": "2 - VIOLET Side panel example",
   "version": "1.0",
-  "description": "A simple extension with a sidePanel",
+  "description": "Google.com sidePanel",
   "background": {
     "service_worker": "service-worker.js"
   },
   "icons": {
     "16": "images/icon-16.png",
-    "32": "images/icon-32.png",
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
