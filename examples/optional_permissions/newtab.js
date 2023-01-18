@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 'use strict';
 
 const newPerms = {
@@ -44,7 +43,9 @@ const createTop = () => { chrome.topSites.get((topSites) => {
   })
 })};
 
-chrome.permissions.contains({permissions: ['topSites']}, (result) => {
+
+
+chrome.permissions.contains({permissions: ['topSites']}).then((result)=>{
   if (result) {
     // The extension has the permissions.
     createTop();
@@ -53,7 +54,7 @@ chrome.permissions.contains({permissions: ['topSites']}, (result) => {
     let button = document.createElement('button');
     button.innerText = 'Allow Extension to Access Top Sites';
     button.addEventListener('click', (event) => {
-      chrome.permissions.request(newPerms, (granted) => {
+      chrome.permissions.request(newPerms).then((granted) => {
         if (granted) {
           console.log('granted');
           sites_div.innerText = '';
@@ -65,21 +66,21 @@ chrome.permissions.contains({permissions: ['topSites']}, (result) => {
     });
     footer.appendChild(button);
   }
-});
-
+})
+ 
 form.addEventListener('submit', () => {
   let todo_value = document.getElementById('todo_value');
   chrome.storage.sync.set({todo: todo_value.value});
 });
 
 function setToDo() {
-  chrome.storage.sync.get(['todo'], (value) => {
+  chrome.storage.sync.get(['todo']).then((value)=>{
     if (!value.todo) {
       todo.innerText = '';
     } else {
       todo.innerText = value.todo;
     }
-  });
+  })
 };
 
 setToDo();
