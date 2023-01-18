@@ -40,7 +40,7 @@ async function handleMessages(message) {
   }
 }
 
-// Use the offscreen document's `document` interface to write a new value ot the system clipboard
+// Use the offscreen document's `document` interface to write a new value to the system clipboard
 async function handleClipboardWrite(data) {
   // Error if we received the wrong kind of data.
   if (typeof data !== 'string') {
@@ -50,7 +50,7 @@ async function handleClipboardWrite(data) {
 
   // Write data the clipboard.
 
-  // `document.execCommand('copy')` works against the user's selected in a web page. As such, we
+  // `document.execCommand('copy')` works against the user's selection in a web page. As such, we
   // need to insert the updated text into the document and select it before it can be added to the
   // clipboard.
   textEl.value = data;

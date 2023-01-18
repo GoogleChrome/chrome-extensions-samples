@@ -41,7 +41,7 @@ async function addToClipboard(value) {
     });
   }
 
-  // Now that are sure we have an off document, we can safely dispatch the message.
+  // Now that are sure we have an offscreen document, we can safely dispatch the message.
   chrome.runtime.sendMessage({
     type: 'copy-data-to-clipboard',
     target: 'offscreen-doc',
