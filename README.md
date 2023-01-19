@@ -31,14 +31,12 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
   <tbody>
     <tr>
       <td style="vertical-align:top;">
-        Hello World <br>
-        <a href="examples/hello-world"><code>examples/hello-world</code></a>
+        Hello Extensions<br>
+        <a href="tutorials/hello-world"><code>tutorials/hello-world</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled">runtime.onInstalled</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#popup">Extension popup</a></li>
         </ul>
       </td>
     </tr>
