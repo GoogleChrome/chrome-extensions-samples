@@ -1,0 +1,53 @@
+Ejemplos de extensiones de Chrome
+Muestras oficiales para Chrome Extensions y la plataforma Chrome Apps. Tenga en cuenta que las aplicaciones de Chrome están obsoletas. Obtén más información en el blog de Chromium .
+
+Para obtener más información sobre las extensiones, consulte Desarrolladores de Chrome .
+
+Nota: Aún se están preparando muestras para el Manifiesto V3. Mientras tanto, considere consultar mv2-archive/ .
+
+Muestras
+La estructura del directorio es la siguiente:
+
+api/ - extensiones enfocadas en un solo paquete API
+(Se agregará) howto/ - extensiones que muestran cómo realizar una tarea en particular
+tutoriales/ - tutoriales de varios pasos a los que se hace referencia en línea en los documentos
+ejemplos/ - extensiones completas que abarcan varios paquetes de API
+apps/ : plataforma Chrome Apps en desuso (no incluida a continuación)
+mv2-archive/ - recursos para la versión 2 del manifiesto
+Para experimentar con estas muestras, clone este repositorio y use 'Cargar extensión desempaquetada'. Lea más sobre Primeros pasos .
+
+Muestra	Llamadas
+Hola Extensiones
+tutorials/hello-world	
+Ventana emergente de extensión
+página más roja
+examples/page-redder	
+action.onClicked
+secuencias de comandos.executeScript
+Mis marcadores
+examples/bookmarks	
+marcadores.crear
+marcadores.getTree
+marcadores.eliminar
+marcadores.actualizar
+Hitos de cromo
+examples/milestones	
+ventana emergente_predeterminada
+pestañas.consulta
+Limpiador de galletas
+api/cookies/cookie-clearer	
+cookies.getAll
+cookies.eliminar
+pestañas.consulta
+Omnibox - Nueva pestaña de búsqueda
+api/omnibox/new-tab-search	
+omnibox.onInputEntered
+pestañas.crear
+Recursos web accesibles
+api/web-accessible-resources	
+action.onClicked
+runtime.getURL
+runtime.onInstalado
+runtime.onInstalledReason
+pestañas.crear
+recursos_accesibles_web
