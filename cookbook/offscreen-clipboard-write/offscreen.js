@@ -65,4 +65,7 @@ async function handleClipboardWrite(data) {
   textEl.value = data;
   textEl.select();
   document.execCommand('copy');
+
+  //Job's done! Close the offscreen document.
+  window.close();
 }

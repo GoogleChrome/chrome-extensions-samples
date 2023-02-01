@@ -26,24 +26,13 @@ chrome.action.onClicked.addListener(async () => {
 // `document.execCommand()`. To work around this, we'll create an offscreen
 // document and pass it the data we want to write to the clipboard.
 async function addToClipboard(value) {
-  // This pattern ensures that the offscreen document exists before we try to
-  // send it a message. If we didn't await the `hasDocument()` and
-  // `createDocument()` calls, the `sendMessage()` call could send a message
-  // before the offscreen document can register it's `runtime.onMessage`
-  // listener.
-  if (await chrome.offscreen.hasDocument()) {
-    console.debug('Offscreen doc already exists.');
-  } else {
-    console.debug('Creating a new offscreen document.');
+  await chrome.offscreen.createDocument({
+    url: 'offscreen.html',
+    reasons: [chrome.offscreen.Reason.CLIPBOARD],
+    justification: 'Write text to the clipboard.',
+  });
 
-    await chrome.offscreen.createDocument({
-      url: 'offscreen.html',
-      reasons: [chrome.offscreen.Reason.CLIPBOARD],
-      justification: 'Write text to the clipboard.',
-    });
-  }
-
-  // Now that are sure we have an offscreen document, we can safely dispatch the
+  // Now that we have an offscreen document, we can dispatch the
   // message.
   chrome.runtime.sendMessage({
     type: 'copy-data-to-clipboard',
