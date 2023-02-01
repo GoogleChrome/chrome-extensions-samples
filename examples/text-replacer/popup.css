@@ -1,0 +1,91 @@
+/*
+Copyright 2021 Google LLC
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+*/
+
+html, body {
+  height: 200px;
+  width: 400px;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+body {
+  padding-bottom: 2em;
+}
+
+.form--table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form--input {
+  width: 100%;
+  padding: .25rem .5rem;
+  background: #eee;
+  box-sizing: border-box;
+  border: 1px solid #0004;
+  line-height: 1.5;
+}
+
+th {
+  text-transform: uppercase;
+  font-size: .7rem;
+  color: hsl(0, 0%, 30%);
+}
+
+td {
+  padding: .25rem .1rem;
+}
+
+td:first-child {
+  padding-left: .25rem;
+}
+td:last-child {
+  padding-right: .25rem;
+}
+
+.form--controls {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.form--controls > * {
+  flex: 1;
+}
+
+.form--controls > * {
+  border: none;
+  height: 2rem;
+  margin: .1rem;
+  cursor: pointer;
+  border: 1px solid hsla(0, 0%, 0%, .2);
+}
+
+.form--controls > *:first-child {
+  margin-left: .25rem;
+}
+.form--controls > *:last-child {
+  margin-right: .25rem;
+}
+
+#clear {
+  background: hsl(0, 0%, 100%);
+}
+#clear:hover,
+#clear:focus {
+  background: hsl(0, 0%, 80%);
+}
+#submit {
+  background: hsl(190, 100%, 60%);
+}
+#submit:hover,
+#submit:focus {
+  background: hsl(190, 80%, 50%);
+}
