@@ -17,7 +17,7 @@ The directory structure is as follows:
 * [_archive/mv2/](_archive/mv2/) - resources for manifest version 2
 
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
-Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
+Read more on [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 
 <table>
   <thead>
