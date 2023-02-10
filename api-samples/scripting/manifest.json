@@ -1,0 +1,17 @@
+{
+  "name": "Scripting API Demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "permissions": [
+    "scripting",
+    "webNavigation",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://example.com/*"
+  ],
+  "action": {}
+}
