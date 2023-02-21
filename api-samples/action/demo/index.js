@@ -25,10 +25,10 @@ function debounce(timeout, callback) {
 // have to track it ourselves.
 // Relevant feature request: https://bugs.chromium.org/p/chromium/issues/detail?id=1189295
 let actionEnabled = true;
-const showToggleState = document.getElementById("show-toggle-state");
+const showToggleState = document.getElementById('show-toggle-state');
 document
-  .getElementById("toggle-state-button")
-  .addEventListener("click", (_event) => {
+  .getElementById('toggle-state-button')
+  .addEventListener('click', (_event) => {
     if (actionEnabled) {
       chrome.action.disable();
     } else {
@@ -38,8 +38,8 @@ document
   });
 
 document
-  .getElementById("popup-options")
-  .addEventListener("change", async (event) => {
+  .getElementById('popup-options')
+  .addEventListener('change', async (event) => {
     const popup = event.target.value;
     await chrome.action.setPopup({ popup });
 
@@ -49,18 +49,18 @@ document
 
 async function getCurrentPopup() {
   const popup = await chrome.action.getPopup({});
-  document.getElementById("current-popup-value").value = popup;
+  document.getElementById('current-popup-value').value = popup;
   return popup;
 }
 
 async function showCurrentPage() {
   const popup = await getCurrentPopup();
-  let pathname = "";
+  let pathname = '';
   if (popup) {
     pathname = new URL(popup).pathname;
   }
 
-  const options = document.getElementById("popup-options");
+  const options = document.getElementById('popup-options');
   const option = options.querySelector(`option[value="${pathname}"]`);
   option.selected = true;
 }
@@ -76,21 +76,21 @@ showCurrentPage();
 // the `onclicked-button` handler to prevent the user from accidentally registering multiple
 // onClicked listeners.
 chrome.action.onClicked.addListener((tab) => {
-  chrome.tabs.create({ url: "https://html5zombo.com/" });
+  chrome.tabs.create({ url: 'https://html5zombo.com/' });
 });
 
 document
-  .getElementById("onclicked-button")
-  .addEventListener("click", async () => {
+  .getElementById('onclicked-button')
+  .addEventListener('click', async () => {
     // Our listener will only receive the action's click event after clear out the popup URL
-    await chrome.action.setPopup({ popup: "" });
+    await chrome.action.setPopup({ popup: '' });
     await showCurrentPage();
   });
 
 document
-  .getElementById("onclicked-reset-button")
-  .addEventListener("click", async () => {
-    await chrome.action.setPopup({ popup: "popups/popup.html" });
+  .getElementById('onclicked-reset-button')
+  .addEventListener('click', async () => {
+    await chrome.action.setPopup({ popup: 'popups/popup.html' });
     await showCurrentPage();
   });
 
@@ -100,15 +100,15 @@ document
 
 async function showBadgeText() {
   const text = await chrome.action.getBadgeText({});
-  document.getElementById("current-badge-text").value = text;
+  document.getElementById('current-badge-text').value = text;
 }
 
 // Populate badge text inputs on on page load
 showBadgeText();
 
 document
-  .getElementById("badge-text-input")
-  .addEventListener("input", async (event) => {
+  .getElementById('badge-text-input')
+  .addEventListener('input', async (event) => {
     const text = event.target.value;
     await chrome.action.setBadgeText({ text });
 
@@ -116,9 +116,9 @@ document
   });
 
 document
-  .getElementById("clear-badge-button")
-  .addEventListener("click", async () => {
-    await chrome.action.setBadgeText({ text: "" });
+  .getElementById('clear-badge-button')
+  .addEventListener('click', async () => {
+    await chrome.action.setBadgeText({ text: '' });
 
     showBadgeText();
   });
@@ -129,7 +129,7 @@ document
 
 async function showBadgeColor() {
   const color = await chrome.action.getBadgeBackgroundColor({});
-  document.getElementById("current-badge-bg-color").value = JSON.stringify(
+  document.getElementById('current-badge-bg-color').value = JSON.stringify(
     color,
     null,
     0
@@ -140,12 +140,12 @@ async function showBadgeColor() {
 showBadgeColor();
 
 document
-  .getElementById("set-badge-background-color-button")
-  .addEventListener("click", async () => {
+  .getElementById('set-badge-background-color-button')
+  .addEventListener('click', async () => {
     // To show off this method, we must first make sure the badge has text
     let currentText = await chrome.action.getBadgeText({});
     if (!currentText) {
-      chrome.action.setBadgeText({ text: "hi :)" });
+      chrome.action.setBadgeText({ text: 'hi :)' });
       showBadgeText();
     }
 
@@ -168,8 +168,8 @@ document
   });
 
 document
-  .getElementById("reset-badge-background-color-button")
-  .addEventListener("click", async () => {
+  .getElementById('reset-badge-background-color-button')
+  .addEventListener('click', async () => {
     chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
     showBadgeColor();
   });
@@ -178,14 +178,14 @@ document
 // action icon
 // -----------
 
-const EMOJI = ["confetti", "suit", "bow", "dog", "skull", "yoyo", "cat"];
+const EMOJI = ['confetti', 'suit', 'bow', 'dog', 'skull', 'yoyo', 'cat'];
 
 let lastIconIndex = 0;
 document
-  .getElementById("set-icon-button")
-  .addEventListener("click", async () => {
+  .getElementById('set-icon-button')
+  .addEventListener('click', async () => {
     // Clear out the badge text in order to make the icon change easier to see
-    chrome.action.setBadgeText({ text: "" });
+    chrome.action.setBadgeText({ text: '' });
 
     // Randomly pick a new icon
     let index = lastIconIndex;
@@ -203,14 +203,14 @@ document
     const blob = await response.blob();
     const imageBitmap = await createImageBitmap(blob);
     const osc = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
-    let ctx = osc.getContext("2d");
+    let ctx = osc.getContext('2d');
     ctx.drawImage(imageBitmap, 0, 0);
     const imageData = ctx.getImageData(0, 0, osc.width, osc.height);
 
     chrome.action.setIcon({ imageData });
   });
 
-document.getElementById("reset-icon-button").addEventListener("click", () => {
+document.getElementById('reset-icon-button').addEventListener('click', () => {
   const manifest = chrome.runtime.getManifest();
   chrome.action.setIcon({ path: manifest.action.default_icon });
 });
@@ -219,10 +219,10 @@ document.getElementById("reset-icon-button").addEventListener("click", () => {
 // get/set title
 // -------------
 
-const titleInput = document.getElementById("title-input");
+const titleInput = document.getElementById('title-input');
 const titleInputDebounce = Number.parseInt(titleInput.dataset.debounce || 100);
 titleInput.addEventListener(
-  "input",
+  'input',
   debounce(200, async (event) => {
     const title = event.target.value;
     chrome.action.setTitle({ title });
@@ -232,8 +232,8 @@ titleInput.addEventListener(
 );
 
 document
-  .getElementById("reset-title-button")
-  .addEventListener("click", async (event) => {
+  .getElementById('reset-title-button')
+  .addEventListener('click', async (event) => {
     const manifest = chrome.runtime.getManifest();
     let title = manifest.action.default_title;
 
@@ -246,13 +246,13 @@ async function showActionTitle() {
   let title = await chrome.action.getTitle({});
 
   // If empty, the title falls back to the name of the extension
-  if (title === "") {
+  if (title === '') {
     // … which we can get from the extension's manifest
     const manifest = chrome.runtime.getManifest();
     title = manifest.name;
   }
 
-  document.getElementById("current-title").value = title;
+  document.getElementById('current-title').value = title;
 }
 
 // Populate action title inputs on on page load

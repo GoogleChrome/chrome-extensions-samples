@@ -27,17 +27,17 @@ chrome.action.onClicked.addListener(async () => {
 // document and pass it the data we want to write to the clipboard.
 async function addToClipboard(value) {
   await chrome.offscreen.createDocument({
-    url: "offscreen.html",
+    url: 'offscreen.html',
     reasons: [chrome.offscreen.Reason.CLIPBOARD],
-    justification: "Write text to the clipboard.",
+    justification: 'Write text to the clipboard.'
   });
 
   // Now that we have an offscreen document, we can dispatch the
   // message.
   chrome.runtime.sendMessage({
-    type: "copy-data-to-clipboard",
-    target: "offscreen-doc",
-    data: value,
+    type: 'copy-data-to-clipboard',
+    target: 'offscreen-doc',
+    data: value
   });
 }
 

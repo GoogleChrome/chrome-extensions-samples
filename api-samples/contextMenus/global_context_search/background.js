@@ -4,7 +4,7 @@
 
 // When you specify "type": "module" in the manifest background,
 // you can include the service worker as an ES Module,
-import { tldLocales } from "./locales.js";
+import { tldLocales } from './locales.js';
 
 // Add a listener to create the initial context menu items,
 // context menu items only need to be created at runtime.onInstalled
@@ -13,8 +13,8 @@ chrome.runtime.onInstalled.addListener(async () => {
     chrome.contextMenus.create({
       id: tld,
       title: locale,
-      type: "normal",
-      contexts: ["selection"],
+      type: 'normal',
+      contexts: ['selection']
     });
   }
 });
@@ -23,14 +23,14 @@ chrome.runtime.onInstalled.addListener(async () => {
 chrome.contextMenus.onClicked.addListener((item, tab) => {
   const tld = item.menuItemId;
   const url = new URL(`https://google.${tld}/search`);
-  url.searchParams.set("q", item.selectionText);
+  url.searchParams.set('q', item.selectionText);
   chrome.tabs.create({ url: url.href, index: tab.index + 1 });
 });
 
 // Add or removes the locale from context menu
 // when the user checks or unchecks the locale in the popup
 chrome.storage.onChanged.addListener(({ enabledTlds }) => {
-  if (typeof enabledTlds === "undefined") return;
+  if (typeof enabledTlds === 'undefined') return;
 
   const allTlds = Object.keys(tldLocales);
   const currentTlds = new Set(enabledTlds.newValue);
@@ -38,7 +38,7 @@ chrome.storage.onChanged.addListener(({ enabledTlds }) => {
   const changes = allTlds.map((tld) => ({
     tld,
     added: currentTlds.has(tld) && !oldTlds.has(tld),
-    removed: !currentTlds.has(tld) && oldTlds.has(tld),
+    removed: !currentTlds.has(tld) && oldTlds.has(tld)
   }));
 
   for (const { tld, added, removed } of changes) {
@@ -46,8 +46,8 @@ chrome.storage.onChanged.addListener(({ enabledTlds }) => {
       chrome.contextMenus.create({
         id: tld,
         title: tldLocales[tld],
-        type: "normal",
-        contexts: ["selection"],
+        type: 'normal',
+        contexts: ['selection']
       });
     } else if (removed) {
       chrome.contextMenus.remove(tld);

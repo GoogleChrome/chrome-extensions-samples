@@ -12,7 +12,7 @@ chrome.commands.onCommand.addListener(async (command) => {
   });
   const lastTab = tabs.length - 1;
   let newIndex = -1;
-  if (command === "flip-tabs-forward") {
+  if (command === 'flip-tabs-forward') {
     newIndex = activeIndex === 0 ? lastTab : activeIndex - 1;
   }
   // 'flip-tabs-backwards'

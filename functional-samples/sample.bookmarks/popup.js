@@ -5,9 +5,9 @@
 // https://developers.google.com/open-source/licenses/bsd
 
 // Search the bookmarks when entering the search keyword.
-$("#search").change(function () {
-  $("#bookmarks").empty();
-  dumpBookmarks($("#search").val());
+$('#search').change(function () {
+  $('#bookmarks').empty();
+  dumpBookmarks($('#search').val());
 });
 
 // Traverse the bookmark tree, and print the folder and nodes.
@@ -15,12 +15,12 @@ function dumpBookmarks(query) {
   const bookmarkTreeNodes = chrome.bookmarks.getTree(function (
     bookmarkTreeNodes
   ) {
-    $("#bookmarks").append(dumpTreeNodes(bookmarkTreeNodes, query));
+    $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
   });
 }
 
 function dumpTreeNodes(bookmarkNodes, query) {
-  const list = $("<ul>");
+  const list = $('<ul>');
   for (let i = 0; i < bookmarkNodes.length; i++) {
     list.append(dumpNode(bookmarkNodes[i], query));
   }
@@ -35,12 +35,12 @@ function dumpNode(bookmarkNode, query) {
         String(bookmarkNode.title.toLowerCase()).indexOf(query.toLowerCase()) ==
         -1
       ) {
-        return $("<span></span>");
+        return $('<span></span>');
       }
     }
 
-    const anchor = $("<a>");
-    anchor.attr("href", bookmarkNode.url);
+    const anchor = $('<a>');
+    anchor.attr('href', bookmarkNode.url);
     anchor.text(bookmarkNode.title);
 
     /*
@@ -51,7 +51,7 @@ function dumpNode(bookmarkNode, query) {
       chrome.tabs.create({ url: bookmarkNode.url });
     });
 
-    var span = $("<span>");
+    var span = $('<span>');
     const options = bookmarkNode.children
       ? $('<span>[<a href="#" id="addlink">Add</a>]</span>')
       : $(
@@ -60,115 +60,115 @@ function dumpNode(bookmarkNode, query) {
         );
     const edit = bookmarkNode.children
       ? $(
-          "<table><tr><td>Name</td><td>" +
+          '<table><tr><td>Name</td><td>' +
             '<input id="title"></td></tr><tr><td>URL</td><td><input id="url">' +
-            "</td></tr></table>"
+            '</td></tr></table>'
         )
-      : $("<input>");
+      : $('<input>');
 
     // Show add and edit links when hover over.
     span
       .hover(
         function () {
           span.append(options);
-          $("#deletelink").click(function (event) {
+          $('#deletelink').click(function (event) {
             console.log(event);
-            $("#deletedialog")
+            $('#deletedialog')
               .empty()
               .dialog({
                 autoOpen: false,
                 closeOnEscape: true,
-                title: "Confirm Deletion",
+                title: 'Confirm Deletion',
                 modal: true,
-                show: "slide",
+                show: 'slide',
                 position: {
-                  my: "left",
-                  at: "center",
-                  of: event.target.parentElement.parentElement,
+                  my: 'left',
+                  at: 'center',
+                  of: event.target.parentElement.parentElement
                 },
                 buttons: {
-                  "Yes, Delete It!": function () {
+                  'Yes, Delete It!': function () {
                     chrome.bookmarks.remove(String(bookmarkNode.id));
                     span.parent().remove();
-                    $(this).dialog("destroy");
+                    $(this).dialog('destroy');
                   },
                   Cancel: function () {
-                    $(this).dialog("destroy");
-                  },
-                },
+                    $(this).dialog('destroy');
+                  }
+                }
               })
-              .dialog("open");
+              .dialog('open');
           });
-          $("#addlink").click(function (event) {
+          $('#addlink').click(function (event) {
             edit.show();
-            $("#adddialog")
+            $('#adddialog')
               .empty()
               .append(edit)
               .dialog({
                 autoOpen: false,
                 closeOnEscape: true,
-                title: "Add New Bookmark",
+                title: 'Add New Bookmark',
                 modal: true,
-                show: "slide",
+                show: 'slide',
                 position: {
-                  my: "left",
-                  at: "center",
-                  of: event.target.parentElement.parentElement,
+                  my: 'left',
+                  at: 'center',
+                  of: event.target.parentElement.parentElement
                 },
                 buttons: {
                   Add: function () {
                     edit.hide();
                     chrome.bookmarks.create({
                       parentId: bookmarkNode.id,
-                      title: $("#title").val(),
-                      url: $("#url").val(),
+                      title: $('#title').val(),
+                      url: $('#url').val()
                     });
-                    $("#bookmarks").empty();
-                    $(this).dialog("destroy");
+                    $('#bookmarks').empty();
+                    $(this).dialog('destroy');
                     window.dumpBookmarks();
                   },
                   Cancel: function () {
                     edit.hide();
-                    $(this).dialog("destroy");
-                  },
-                },
+                    $(this).dialog('destroy');
+                  }
+                }
               })
-              .dialog("open");
+              .dialog('open');
           });
-          $("#editlink").click(function (event) {
+          $('#editlink').click(function (event) {
             edit.show();
             edit.val(anchor.text());
-            $("#editdialog")
+            $('#editdialog')
               .empty()
               .append(edit)
               .dialog({
                 autoOpen: false,
                 closeOnEscape: true,
-                title: "Edit Title",
+                title: 'Edit Title',
                 modal: true,
-                show: "fade",
+                show: 'fade',
                 position: {
-                  my: "left",
-                  at: "center",
-                  of: event.target.parentElement.parentElement,
+                  my: 'left',
+                  at: 'center',
+                  of: event.target.parentElement.parentElement
                 },
                 buttons: {
                   Save: function () {
                     edit.hide();
                     chrome.bookmarks.update(String(bookmarkNode.id), {
-                      title: edit.val(),
+                      title: edit.val()
                     });
                     anchor.text(edit.val());
                     options.show();
-                    $(this).dialog("destroy");
+                    $(this).dialog('destroy');
                   },
                   Cancel: function () {
                     edit.hide();
-                    $(this).dialog("destroy");
-                  },
-                },
+                    $(this).dialog('destroy');
+                  }
+                }
               })
-              .dialog("open");
+              .dialog('open');
           });
           options.fadeIn();
         },
@@ -181,7 +181,7 @@ function dumpNode(bookmarkNode, query) {
       .append(anchor);
   }
 
-  const li = $(bookmarkNode.title ? "<li>" : "<div>").append(span);
+  const li = $(bookmarkNode.title ? '<li>' : '<div>').append(span);
   if (bookmarkNode.children && bookmarkNode.children.length > 0) {
     li.append(dumpTreeNodes(bookmarkNode.children, query));
   }
@@ -189,6 +189,6 @@ function dumpNode(bookmarkNode, query) {
   return li;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   dumpBookmarks();
 });

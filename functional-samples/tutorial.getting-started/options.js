@@ -1,6 +1,6 @@
-const page = document.getElementById("buttonDiv");
-const selectedClassName = "current";
-const presetButtonColors = ["#3aa757", "#e8453c", "#f9bb2d", "#4688f1"];
+const page = document.getElementById('buttonDiv');
+const selectedClassName = 'current';
+const presetButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
 
 // Reacts to a button click by marking the selected button and saving
 // the selection
@@ -21,13 +21,13 @@ function handleButtonClick(event) {
 
 // Add a button to the page for each supplied color
 function constructOptions(buttonColors) {
-  chrome.storage.sync.get("color", (data) => {
+  chrome.storage.sync.get('color', (data) => {
     const currentColor = data.color;
 
     // For each color we were provided…
     for (const buttonColor of buttonColors) {
       // …create a button with that color…
-      const button = document.createElement("button");
+      const button = document.createElement('button');
       button.dataset.color = buttonColor;
       button.style.backgroundColor = buttonColor;
 
@@ -37,7 +37,7 @@ function constructOptions(buttonColors) {
       }
 
       // …and register a listener for when that button is clicked
-      button.addEventListener("click", handleButtonClick);
+      button.addEventListener('click', handleButtonClick);
       page.appendChild(button);
     }
   });

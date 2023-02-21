@@ -1,10 +1,10 @@
-const imageIds = ["test2", "test4"];
+const imageIds = ['test2', 'test4'];
 
-const loadButton = document.createElement("button");
-loadButton.innerText = "Load images";
-loadButton.addEventListener("click", handleLoadRequest);
+const loadButton = document.createElement('button');
+loadButton.innerText = 'Load images';
+loadButton.addEventListener('click', handleLoadRequest);
 
-document.querySelector("body").append(loadButton);
+document.querySelector('body').append(loadButton);
 
 function handleLoadRequest() {
   for (const id of imageIds) {
