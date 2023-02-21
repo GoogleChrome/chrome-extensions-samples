@@ -5,8 +5,8 @@ function faviconURL(u) {
   return url.toString();
 }
 
-const imageOverlay = document.createElement('img');
+const imageOverlay = document.createElement("img");
 imageOverlay.src = faviconURL("https://www.google.com");
 imageOverlay.alt = "Google's favicon";
-imageOverlay.classList.add('favicon-overlay');
+imageOverlay.classList.add("favicon-overlay");
 document.body.appendChild(imageOverlay);

@@ -3,48 +3,47 @@
 // found in the LICENSE file.
 
 // TLD: top level domain; the "com" in "google.com"
-import { tldLocales } from './locales.js'
+import { tldLocales } from "./locales.js";
 
 createForm().catch(console.error);
 
 async function createForm() {
-  let { enabledTlds = Object.keys(tldLocales) } = await chrome.storage.sync.get('enabledTlds');
-  let checked = new Set(enabledTlds)
+  const { enabledTlds = Object.keys(tldLocales) } =
+    await chrome.storage.sync.get("enabledTlds");
+  const checked = new Set(enabledTlds);
 
-  let form = document.getElementById('form');
-  for (let [tld, locale] of Object.entries(tldLocales)) {
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
+  const form = document.getElementById("form");
+  for (const [tld, locale] of Object.entries(tldLocales)) {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
     checkbox.checked = checked.has(tld);
     checkbox.name = tld;
-    checkbox.addEventListener('click', (event) => {
-      handleCheckboxClick(event).catch(console.error)
-    })
-  
-    let span = document.createElement('span');
+    checkbox.addEventListener("click", (event) => {
+      handleCheckboxClick(event).catch(console.error);
+    });
+
+    const span = document.createElement("span");
     span.textContent = locale;
-  
-    let div = document.createElement('div');
+
+    const div = document.createElement("div");
     div.appendChild(checkbox);
     div.appendChild(span);
-  
+
     form.appendChild(div);
   }
 }
 
 async function handleCheckboxClick(event) {
-  let checkbox = event.target
-  let tld = checkbox.name
-  let enabled = checkbox.checked
+  const checkbox = event.target;
+  const tld = checkbox.name;
+  const enabled = checkbox.checked;
 
-  let { enabledTlds = Object.keys(tldLocales) } = await chrome.storage.sync.get('enabledTlds');
-  let tldSet = new Set(enabledTlds)
-  
-  if (enabled) tldSet.add(tld)
-  else tldSet.delete(tld)
-  
-  await chrome.storage.sync.set({ enabledTlds: [...tldSet] })
+  const { enabledTlds = Object.keys(tldLocales) } =
+    await chrome.storage.sync.get("enabledTlds");
+  const tldSet = new Set(enabledTlds);
+
+  if (enabled) tldSet.add(tld);
+  else tldSet.delete(tld);
+
+  await chrome.storage.sync.set({ enabledTlds: [...tldSet] });
 }
-
-
-

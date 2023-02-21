@@ -4,7 +4,7 @@ This example fetches the favicon from www.google.com and inserts it at the top l
 
 Note: This extension does not work on `chrome://extensions`.
 
-See [Fetching favicons](https://developer.chrome.com/docs/extensions/mv3/favicon) to learn more. 
+See [Fetching favicons](https://developer.chrome.com/docs/extensions/mv3/favicon) to learn more.
 
 ## Testing the extension
 

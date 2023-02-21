@@ -11,7 +11,9 @@ const message = document.getElementById("message");
     try {
       let url = new URL(tab.url);
       input.value = url.hostname;
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   input.focus();
@@ -38,11 +40,15 @@ function stringToUrl(input) {
   // Start with treating the provided value as a URL
   try {
     return new URL(input);
-  } catch {}
+  } catch {
+    // ignore
+  }
   // If that fails, try assuming the provided input is an HTTP host
   try {
     return new URL("http://" + input);
-  } catch {}
+  } catch {
+    // ignore
+  }
   // If that fails ¯\_(ツ)_/¯
   return null;
 }

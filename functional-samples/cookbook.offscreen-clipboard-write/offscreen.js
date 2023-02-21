@@ -27,13 +27,13 @@ chrome.runtime.onMessage.addListener(handleMessages);
 // message to a more specific message handler.
 async function handleMessages(message) {
   // Return early if this message isn't meant for the offscreen document.
-  if (message.target !== 'offscreen-doc') {
+  if (message.target !== "offscreen-doc") {
     return;
   }
 
   // Dispatch the message to an appropriate handler.
   switch (message.type) {
-    case 'copy-data-to-clipboard':
+    case "copy-data-to-clipboard":
       handleClipboardWrite(message.data);
       break;
     default:
@@ -41,11 +41,10 @@ async function handleMessages(message) {
   }
 }
 
-
 // We use a <textarea> element for two main reasons:
 //  1. preserve the formatting of multiline text,
 //  2. select the node's content using this element's `.select()` method.
-let textEl = document.querySelector('#text');
+const textEl = document.querySelector("#text");
 
 // Use the offscreen document's `document` interface to write a new value to the
 // system clipboard.
@@ -55,8 +54,10 @@ let textEl = document.querySelector('#text');
 // focused. As such, we have to fall back to `document.execCommand()`.
 async function handleClipboardWrite(data) {
   // Error if we received the wrong kind of data.
-  if (typeof data !== 'string') {
-    throw new TypeError(`Value provided must be a 'string', got '${typeof data}'.`);
+  if (typeof data !== "string") {
+    throw new TypeError(
+      `Value provided must be a 'string', got '${typeof data}'.`
+    );
   }
 
   // `document.execCommand('copy')` works against the user's selection in a web
@@ -64,8 +65,8 @@ async function handleClipboardWrite(data) {
   // and to select that content in the page before calling `execCommand()`.
   textEl.value = data;
   textEl.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
 
-  //Job's done! Close the offscreen document.
+  // Job's done! Close the offscreen document.
   window.close();
 }

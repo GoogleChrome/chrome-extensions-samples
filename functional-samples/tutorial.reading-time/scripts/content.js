@@ -24,7 +24,7 @@ if (article) {
    * regular expression character class "\w" to match against "word characters" because it only
    * matches against the Latin alphabet. Instead, we match against any sequence of characters that
    * *are not* a whitespace characters. See the below link for more information.
-   * 
+   *
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
    */
   const wordMatchRegExp = /[^\s]+/g;
