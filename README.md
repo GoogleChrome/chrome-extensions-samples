@@ -120,17 +120,10 @@ Read more on [Development Basics](https://developer.chrome.com/docs/extensions/m
   </tbody>
 </table>
 
-## Setting up your Environment
+## Contributing
 
-If you want to contribute to this repository, you need to first [create your own fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-After forking chrome-extensions-samples to your own Github account, run the following steps to get started:
+Please see [the CONTRIBUTING file](/CONTRIBUTING.md) for information on contributing to the `chrome-extensions-samples` project.
 
-```
-# clone your fork to your local machine
-git clone https://github.com/your-fork/chrome-extensions-samples.git
+## License
 
-cd chrome-extensions-samples
-
-# install dependencies
-npm install
-```
+`chrome-extensions-samples` are authored by Google and are licensed under the [Apache License, Version 2.0](/LICENSE).

@@ -13,12 +13,12 @@ const pad = (val, len = 2) => val.toString().padStart(len, '0');
 
 // DOM event bindings
 
-// // Alarm display buttons
+// Alarm display buttons
 
 clearButton.addEventListener('click', () => manager.cancelAllAlarms());
 refreshButton.addEventListener('click', () => manager.refreshDisplay());
 
-// // New alarm form
+// New alarm form
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
