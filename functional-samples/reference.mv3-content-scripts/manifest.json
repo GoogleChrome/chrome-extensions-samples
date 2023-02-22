@@ -5,10 +5,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": [
-    "scripting",
-    "activeTab"
-  ],
+  "permissions": ["scripting", "activeTab"],
   "action": {
     "default_popup": "popup.html"
   }

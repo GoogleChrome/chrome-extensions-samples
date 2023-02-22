@@ -1,7 +1,7 @@
-const form = document.getElementById("control-row");
-const go = document.getElementById("go");
-const input = document.getElementById("input");
-const message = document.getElementById("message");
+const form = document.getElementById('control-row');
+const go = document.getElementById('go');
+const input = document.getElementById('input');
+const message = document.getElementById('message');
 
 // The async IIFE is necessary because Chrome <89 does not support top level await.
 (async function initPopupWindow() {
@@ -11,13 +11,15 @@ const message = document.getElementById("message");
     try {
       let url = new URL(tab.url);
       input.value = url.hostname;
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   input.focus();
 })();
 
-form.addEventListener("submit", handleFormSubmit);
+form.addEventListener('submit', handleFormSubmit);
 
 async function handleFormSubmit(event) {
   event.preventDefault();
@@ -26,7 +28,7 @@ async function handleFormSubmit(event) {
 
   let url = stringToUrl(input.value);
   if (!url) {
-    setMessage("Invalid URL");
+    setMessage('Invalid URL');
     return;
   }
 
@@ -38,11 +40,15 @@ function stringToUrl(input) {
   // Start with treating the provided value as a URL
   try {
     return new URL(input);
-  } catch {}
+  } catch {
+    // ignore
+  }
   // If that fails, try assuming the provided input is an HTTP host
   try {
-    return new URL("http://" + input);
-  } catch {}
+    return new URL('http://' + input);
+  } catch {
+    // ignore
+  }
   // If that fails ¯\_(ツ)_/¯
   return null;
 }
@@ -53,7 +59,7 @@ async function deleteDomainCookies(domain) {
     const cookies = await chrome.cookies.getAll({ domain });
 
     if (cookies.length === 0) {
-      return "No cookies found";
+      return 'No cookies found';
     }
 
     let pending = cookies.map(deleteCookie);
@@ -76,7 +82,7 @@ function deleteCookie(cookie) {
   // To remove cookies set with a Secure attribute, we must provide the correct protocol in the
   // details object's `url` property.
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Secure
-  const protocol = cookie.secure ? "https:" : "http:";
+  const protocol = cookie.secure ? 'https:' : 'http:';
 
   // Note that the final URL may not be valid. The domain value for a standard cookie is prefixed
   // with a period (invalid) while cookies that are set to `cookie.hostOnly == true` do not have
@@ -87,7 +93,7 @@ function deleteCookie(cookie) {
   return chrome.cookies.remove({
     url: cookieUrl,
     name: cookie.name,
-    storeId: cookie.storeId,
+    storeId: cookie.storeId
   });
 }
 
@@ -98,5 +104,5 @@ function setMessage(str) {
 
 function clearMessage() {
   message.hidden = true;
-  message.textContent = "";
+  message.textContent = '';
 }

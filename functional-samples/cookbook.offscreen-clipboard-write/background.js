@@ -29,7 +29,7 @@ async function addToClipboard(value) {
   await chrome.offscreen.createDocument({
     url: 'offscreen.html',
     reasons: [chrome.offscreen.Reason.CLIPBOARD],
-    justification: 'Write text to the clipboard.',
+    justification: 'Write text to the clipboard.'
   });
 
   // Now that we have an offscreen document, we can dispatch the
@@ -37,11 +37,11 @@ async function addToClipboard(value) {
   chrome.runtime.sendMessage({
     type: 'copy-data-to-clipboard',
     target: 'offscreen-doc',
-    data: value,
+    data: value
   });
 }
 
-// Solution 2 – Once extension service workers can use the Clipboard API,
+// Solution 2 – Once extension service workers can use the Clipboard API,
 // replace the offscreen document based implementation with something like this.
 async function addToClipboardV2(value) {
   navigator.clipboard.writeText(value);
