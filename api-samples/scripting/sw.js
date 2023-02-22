@@ -11,14 +11,13 @@ function openDemoTab() {
 }
 
 chrome.webNavigation.onDOMContentLoaded.addListener(async ({ tabId, url }) => {
-  if (url === 'https://example.com/#inject-programmatic') {
-    const { options } = await chrome.storage.local.get('options');
-    chrome.scripting.executeScript({
-      target: { tabId },
-      files: ['content-script.js'],
-      ...options
-    });
-  }
+  if (url !== 'https://example.com/#inject-programmatic') return;
+  const { options } = await chrome.storage.local.get('options');
+  chrome.scripting.executeScript({
+    target: { tabId },
+    files: ['content-script.js'],
+    ...options
+  });
 });
 
 chrome.runtime.onMessage.addListener(async ({ name, options }) => {

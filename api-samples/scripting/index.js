@@ -14,7 +14,7 @@ async function isDynamicContentScriptRegistered() {
 document
   .querySelector('#inject-programmatic')
   .addEventListener('click', async () => {
-    // First, unregister the dynamic content script.
+    // Unregister the dynamic content script to avoid multiple injections.
     const dynamicContentScriptRegistered =
       await isDynamicContentScriptRegistered();
 

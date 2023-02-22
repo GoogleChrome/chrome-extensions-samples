@@ -1,6 +1,6 @@
 # chrome.scripting API
 
-This sample demonstrates basic usage of the [chrome.scripting](https://developer.chrome.com/docs/extensions/reference/scripting/) API.
+This sample demonstrates how to use the [chrome.scripting](https://developer.chrome.com/docs/extensions/reference/scripting/) API to inject JavaScript into web pages.
 
 ## Overview
 
