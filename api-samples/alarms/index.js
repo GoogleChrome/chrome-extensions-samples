@@ -13,26 +13,26 @@ const pad = (val, len = 2) => val.toString().padStart(len, '0');
 
 // DOM event bindings
 
-//// Alarm display buttons
+// Alarm display buttons
 
 clearButton.addEventListener('click', () => manager.cancelAllAlarms());
 refreshButton.addEventListener('click', () => manager.refreshDisplay());
 
-//// New alarm form
+// New alarm form
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
-  let formData = new FormData(form);
-  let data = Object.fromEntries(formData);
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
 
   // Extract form values
-  let name = data['alarm-name'];
-  let delay = Number.parseFloat(data['time-value']);
-  let delayFormat = data['time-format'];
-  let period = Number.parseFloat(data['period']);
+  const name = data['alarm-name'];
+  const delay = Number.parseFloat(data['time-value']);
+  const delayFormat = data['time-format'];
+  const period = Number.parseFloat(data['period']);
 
   // Prepare alarm info for creation call
-  let alarmInfo = {};
+  const alarmInfo = {};
 
   if (delayFormat === 'ms') {
     // Specified in milliseconds, use `when` property
@@ -62,15 +62,15 @@ class AlarmManager {
   }
 
   logMessage(message) {
-    let date = new Date();
-    let pad = (val, len = 2) => val.toString().padStart(len, '0');
-    let h = pad(date.getHours());
-    let m = pad(date.getMinutes());
-    let s = pad(date.getSeconds());
-    let ms = pad(date.getMilliseconds(), 3);
-    let time = `${h}:${m}:${s}.${ms}`;
+    const date = new Date();
+    const pad = (val, len = 2) => val.toString().padStart(len, '0');
+    const h = pad(date.getHours());
+    const m = pad(date.getMinutes());
+    const s = pad(date.getSeconds());
+    const ms = pad(date.getMilliseconds(), 3);
+    const time = `${h}:${m}:${s}.${ms}`;
 
-    let logLine = document.createElement('div');
+    const logLine = document.createElement('div');
     logLine.textContent = `[${time}] ${message}`;
 
     // Log events in reverse chronological order
@@ -78,20 +78,20 @@ class AlarmManager {
   }
 
   handleAlarm = async (alarm) => {
-    let json = JSON.stringify(alarm);
+    const json = JSON.stringify(alarm);
     this.logMessage(`Alarm "${alarm.name}" fired\n${json}}`);
     await this.refreshDisplay();
-  }
+  };
 
   handleCancelAlarm = async (event) => {
     if (!event.target.classList.contains('alarm-row__cancel-button')) {
       return;
     }
 
-    let name = event.target.parentElement.dataset.name;
+    const name = event.target.parentElement.dataset.name;
     await this.cancelAlarm(name);
     await this.refreshDisplay();
-  }
+  };
 
   async cancelAlarm(name) {
     // TODO: Remove custom promise wrapper once the Alarms API supports promises
@@ -111,18 +111,18 @@ class AlarmManager {
   // Thin wrapper around alarms.create to log creation event
   createAlarm(name, alarmInfo) {
     chrome.alarms.create(name, alarmInfo);
-    let json = JSON.stringify(alarmInfo, null, 2).replace(/\s+/g, ' ');
+    const json = JSON.stringify(alarmInfo, null, 2).replace(/\s+/g, ' ');
     this.logMessage(`Created "${name}"\n${json}`);
     this.refreshDisplay();
   }
 
   renderAlarm(alarm, isLast) {
-    let alarmEl = document.createElement('div');
+    const alarmEl = document.createElement('div');
     alarmEl.classList.add('alarm-row');
     alarmEl.dataset.name = alarm.name;
     alarmEl.textContent = JSON.stringify(alarm, 0, 2) + (isLast ? '' : ',');
 
-    let cancelButton = document.createElement('button');
+    const cancelButton = document.createElement('button');
     cancelButton.classList.add('alarm-row__cancel-button');
     cancelButton.textContent = 'cancel';
     alarmEl.appendChild(cancelButton);
@@ -142,15 +142,15 @@ class AlarmManager {
 
         resolve(wasCleared);
       });
-    })
+    });
   }
 
   async populateDisplay() {
     // TODO: Remove custom promise wrapper once the Alarms API supports promises
     return new Promise((resolve) => {
       chrome.alarms.getAll((alarms) => {
-        for (let [index, alarm] of alarms.entries()) {
-          let isLast = index === alarms.length - 1;
+        for (const [index, alarm] of alarms.entries()) {
+          const isLast = index === alarms.length - 1;
           this.renderAlarm(alarm, isLast);
         }
         resolve();
@@ -163,16 +163,15 @@ class AlarmManager {
   #refreshing = false;
 
   async refreshDisplay() {
-    if (this.#refreshing) { return } // refresh in progress, bail
+    if (this.#refreshing) {
+      return;
+    } // refresh in progress, bail
 
-    this.#refreshing = true;         // acquire lock
+    this.#refreshing = true; // acquire lock
     try {
-      await Promise.all([
-        this.clearDisplay(),
-        this.populateDisplay(),
-      ]);
+      await Promise.all([this.clearDisplay(), this.populateDisplay()]);
     } finally {
-      this.#refreshing = false;      // release lock
+      this.#refreshing = false; // release lock
     }
   }
 
@@ -181,5 +180,5 @@ class AlarmManager {
   }
 }
 
-let manager = new AlarmManager(display, log);
+const manager = new AlarmManager(display, log);
 manager.refreshDisplay();
