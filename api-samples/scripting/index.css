@@ -37,12 +37,13 @@ h1 {
 }
 
 .tabs label.selected {
-  background: #f6f9fe;
+  background: white;
   font-weight: bold;
 }
 
 .tabs label {
   display: block;
+  background: #f6f9fe;
   text-align: center;
   width: 100%;
   padding: 7px 0;
