@@ -21,20 +21,19 @@ function debounce(timeout, callback) {
 // .enable / .disable
 // ------------------
 
-// The action API does not expose a way to read the action's current enabled/disabled state, so we
-// have to track it ourselves.
-// Relevant feature request: https://bugs.chromium.org/p/chromium/issues/detail?id=1189295
-let actionEnabled = true;
+
 const showToggleState = document.getElementById('show-toggle-state');
 document
   .getElementById('toggle-state-button')
-  .addEventListener('click', (_event) => {
+  .addEventListener('click', async (_event) => {
+    // Use the isEnabled method to read the action's current state.
+    let actionEnabled = await chrome.action.isEnabled();
+    // when the button is clicked negate the state
     if (actionEnabled) {
       chrome.action.disable();
     } else {
       chrome.action.enable();
     }
-    actionEnabled = !actionEnabled;
   });
 
 document
@@ -121,6 +120,55 @@ document
     await chrome.action.setBadgeText({ text: '' });
 
     showBadgeText();
+  });
+
+// --------------------------
+// get/set badge text color
+// --------------------------
+async function showBadgeTextColor() {
+  const color = await chrome.action.getBadgeTextColor({});
+  document.getElementById('current-badge-txt-color').value = JSON.stringify(
+    color,
+    null,
+    0
+  );
+}
+
+showBadgeTextColor();
+
+document
+  .getElementById('set-badge-txt-color-button')
+  .addEventListener('click', async () => {
+    // To show off this method, we must first make sure the badge has text
+    let currentText = await chrome.action.getBadgeText({});
+    if (!currentText) {
+      chrome.action.setBadgeText({ text: 'hello :)' });
+      showBadgeText();
+    }
+
+    // Next, generate a random RGBA color
+    const color = [0, 0, 0].map(() => Math.floor(Math.random() * 255));
+
+    // Use the default background color ~10% of the time.
+    //
+    // NOTE: Alpha color cannot be set due to crbug.com/1184905. At the time of writing (Chrome 89),
+    // an alpha value of 0 sets the default color while a value of 1-255 will make the RGB color
+    // fully opaque.
+    if (Math.random() < 0.1) {
+      color.push(0);
+    } else {
+      color.push(255);
+    }
+
+    chrome.action.setBadgeTextColor({ color });
+    showBadgeTextColor();
+  });
+
+  document
+  .getElementById('reset-badge-txt-color-button')
+  .addEventListener('click', async () => {
+    chrome.action.setBadgeTextColor({ color: "#000000" });
+    showBadgeTextColor();
   });
 
 // ----------------------
