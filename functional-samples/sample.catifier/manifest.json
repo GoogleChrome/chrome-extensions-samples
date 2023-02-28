@@ -1,0 +1,16 @@
+{
+    "name": "Catifier",
+    "version": "1.0",
+    "description": "Replace every image by a cat's image in a website you visit",
+    "permissions": ["declarativeNetRequest"],
+    "host_permissions": ["*://*/*"],
+    "declarative_net_request": {
+        "rule_resources": [{
+          "id": "ruleset_1",
+          "enabled": true,
+          "path": "rules.json"
+        }]
+      },
+  
+    "manifest_version": 3
+  }
