@@ -12,11 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Close any existing offscreen documents to avoid inconsistencies
-// with an updated service worker version
-addEventListener('install', async (event) => {
-  closeOffscreenDocument();
-});
+const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
 chrome.runtime.onMessage.addListener(handleMessages);
 
@@ -51,9 +47,10 @@ async function handleAddExclamationMarkResult(dom) {
 }
 
 async function sendMessageToOffscreenDocument(type, data) {
-  if (!(await chrome.offscreen.hasDocument())) {
+  // Create an offscreen document if one doesn't exist yet
+  if (!(await hasDocument())) {
     await chrome.offscreen.createDocument({
-      url: 'offscreen.html',
+      url: OFFSCREEN_DOCUMENT_PATH,
       reasons: [chrome.offscreen.Reason.DOM_PARSER],
       justification: 'Parse DOM'
     });
@@ -68,9 +65,19 @@ async function sendMessageToOffscreenDocument(type, data) {
 }
 
 async function closeOffscreenDocument() {
-  if (!(await chrome.offscreen.hasDocument())) {
+  if (!(await hasDocument())) {
     return;
   }
-  console.log('closing offscreen doc');
   await chrome.offscreen.closeDocument();
+}
+
+async function hasDocument() {
+  // Check all windows controlled by the service worker if one of them is the offscreen document
+  const matchedClients = await clients.matchAll();
+  for (const client of matchedClients) {
+    if (client.url.endsWith(OFFSCREEN_DOCUMENT_PATH)) {
+      return true;
+    }
+  }
+  return false;
 }
