@@ -8,6 +8,9 @@
         { "header": "cookie", "operation": "remove" }
       ]
     },
-    "condition": { "resourceTypes": ["main_frame"] }
+    "condition": {
+      "urlFilter": "|*?no-cookies=1",
+      "resourceTypes": ["main_frame"]
+    }
   }
 ]
