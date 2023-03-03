@@ -1,10 +1,10 @@
 # chrome.scripting API
 
-This sample demonstrates how to use the [chrome.scripting](https://developer.chrome.com/docs/extensions/reference/scripting/) API to inject JavaScript into web pages.
+This sample demonstrates using the [chrome.scripting](https://developer.chrome.com/docs/extensions/reference/scripting/) API to inject JavaScript into web pages.
 
 ## Overview
 
-Once installed, clicking this extension's action icon will open an extension page.
+Once this extension is installed, clicking this extension's action icon will open an extension page.
 
 <img src="screenshot.png" height=300 alt="Screenshot showing the chrome.scripting API demo running in Chrome.">
 
