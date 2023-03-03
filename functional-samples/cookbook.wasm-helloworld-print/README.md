@@ -48,8 +48,8 @@ We have already built the WASM file for you. If you want to build it yourself, f
  "background": {
      "service_worker": "background.js",
 +    "type": "module"
-  },
-  ...
+ },
+ ...
 ```
 
 [0]: https://developer.chrome.com/docs/extensions/mv3/mv3-migration/#content-security-policy
