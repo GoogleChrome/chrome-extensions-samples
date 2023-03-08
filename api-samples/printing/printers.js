@@ -107,5 +107,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
-  console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
+  // console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
+  const statusDiv = document.getElementById('jobStatus');
+  if (statusDiv.firstChild) {
+    statusDiv.removeChild(statusDiv.firstChild);
+  }
+  statusDiv.innerHTML(`<p>Status: ${jobStatus} for job ${jobId}.`);
 })
