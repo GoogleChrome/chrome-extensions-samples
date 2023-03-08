@@ -123,6 +123,6 @@ chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
     statusDiv.setAttribute('style', 'display:block');
   } else {
     jobIdDiv.removeChild(jobIdDiv.firstChild);
-    statusDiv.setAttribute('style', 'display:none');
+    statusDiv.setAttribute('style', 'display:none !important');
   }
 })
