@@ -106,16 +106,22 @@ function createPrintersTable() {
 
 document.addEventListener('DOMContentLoaded', function () {
   createPrintersTable();
+  initStatusDiv();
 });
 
-const statusDiv = document.getElementById('statusDiv');
-const jobIdDiv = document.getElementById('jobIdDiv');
-const cancelBtn = document.getElementById('cancelBtn');
-cancelBtn.addListener('click', (e) => {
-  chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
-    console.log(`Job ${jobIdDiv.firstChild} canceled.`);
+let statusDiv;
+let jobIdDiv;
+function initStatusDiv() {
+  statusDiv = document.getElementById('statusDiv');
+  jobIdDiv = document.getElementById('jobIdDiv');
+  const cancelBtn = document.getElementById('cancelBtn');
+  cancelBtn.addListener('click', (e) => {
+    chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
+      console.log(`Job ${jobIdDiv.firstChild} canceled.`);
+    });
   });
-});
+}
+
 chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
   // console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
   if (jobStatus === 'PENDING' || jobStatus === 'IN_PROGRESS') {
