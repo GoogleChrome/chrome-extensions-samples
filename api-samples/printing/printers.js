@@ -112,5 +112,5 @@ chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
   if (statusDiv.firstChild) {
     statusDiv.removeChild(statusDiv.firstChild);
   }
-  statusDiv.innerHTML(`<p>Status: ${jobStatus} for job ${jobId}.`);
+  statusDiv.innerHTML = `<p>Status: ${jobStatus} for job ${jobId}.`;
 })
