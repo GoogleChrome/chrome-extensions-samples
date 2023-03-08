@@ -17,6 +17,6 @@ div {
   overflow: auto;
 }
 
-.statusDiv {
+#statusDiv {
   display: none !important;
 }
