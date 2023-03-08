@@ -105,3 +105,7 @@ function createPrintersTable() {
 document.addEventListener('DOMContentLoaded', function () {
   createPrintersTable();
 });
+
+chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
+  console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
+})
