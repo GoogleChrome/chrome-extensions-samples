@@ -27,7 +27,7 @@ async function onPrintButtonClicked(printerId, dpi) {
 
   const response = await fetch('test.pdf');
   const arrayBuffer = await response.arrayBuffer();
-  const request = {
+  const submitJobRequest = {
     job: {
       printerId: printerId,
       title: 'test job',
@@ -39,13 +39,14 @@ async function onPrintButtonClicked(printerId, dpi) {
     }
   };
 
-  const printResponse = chrome.printing.submitJob(request);
-  if (printResponse !== undefined) {
-    console.log(printResponse.status);
-  }
-  if (chrome.runtime.lastError !== undefined) {
-    console.log(chrome.runtime.lastError.message);
-  }
+  chrome.printing.submitJob(request, (response) => {
+    if (response !== undefined) {
+      console.log(response.status);
+    }
+    if (chrome.runtime.lastError !== undefined) {
+      console.log(chrome.runtime.lastError.message);
+    }
+  });
 }
 
 function createPrintButton(onClicked) {
@@ -86,7 +87,7 @@ async function createPrintersTable() {
         })
       );
       tr.appendChild(printTd);
-      
+
       for (const columnValue of columnValues) {
         const td = document.createElement('td');
         td.appendChild(document.createTextNode(columnValue));
