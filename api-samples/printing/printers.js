@@ -71,7 +71,7 @@ async function createPrintersTable() {
         printer.source,
         printer.isDefault,
         printer.recentlyUsedRank,
-        JSON.stringify(response.capabilities),
+        JSON.stringify(printerInfo.capabilities),
         printerInfo.status
       ];
 
