@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+
+
 function onPrintButtonClicked(printerId, dpi) {
   var ticket = {
     version: '1.0',
@@ -106,11 +108,21 @@ document.addEventListener('DOMContentLoaded', function () {
   createPrintersTable();
 });
 
+const statusDiv = document.getElementById('statusDiv');
+const jobIdDiv = document.getElementById('jobIdDiv');
+const cancelBtn = document.getElementById('cancelBtn');
+cancelBtn.addEventListener('click', (e) => {
+  chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
+    console.log(`Job ${jobIdDiv.firstChild} canceled.`);
+  });
+});
 chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
   // console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
-  const statusDiv = document.getElementById('jobStatus');
-  if (statusDiv.firstChild) {
-    statusDiv.removeChild(statusDiv.firstChild);
+  if (jobStatus === 'PENDING' || jobStatus === 'IN_PROGRESS') {
+    jobIdDiv.appendChild(jobId);
+    statusDiv.setAttribute('style', 'display:block');
+  } else {
+    jobIdDiv.removeChild(jobIdDiv.firstChild);
+    statusDiv.setAttribute('style', 'display:none');
   }
-  statusDiv.innerHTML = `<p>Status: ${jobStatus} for job ${jobId}.`;
 })

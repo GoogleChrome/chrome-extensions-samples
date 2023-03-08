@@ -16,3 +16,7 @@ table {
 div {
   overflow: auto;
 }
+
+.jobStatus {
+  display: none;
+}
