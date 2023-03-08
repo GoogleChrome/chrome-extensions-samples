@@ -4,7 +4,7 @@
 
 
 
-function onPrintButtonClicked(printerId, dpi) {
+async function onPrintButtonClicked(printerId, dpi) {
   var ticket = {
     version: '1.0',
     print: {
@@ -25,29 +25,27 @@ function onPrintButtonClicked(printerId, dpi) {
     }
   };
 
-  fetch('test.pdf')
-    .then((response) => response.arrayBuffer())
-    .then((arrayBuffer) => {
-      const request = {
-        job: {
-          printerId: printerId,
-          title: 'test job',
-          ticket: ticket,
-          contentType: 'application/pdf',
-          document: new Blob([new Uint8Array(arrayBuffer)], {
-            type: 'application/pdf'
-          })
-        }
-      };
-      chrome.printing.submitJob(request, (response) => {
-        if (response !== undefined) {
-          console.log(response.status);
-        }
-        if (chrome.runtime.lastError !== undefined) {
-          console.log(chrome.runtime.lastError.message);
-        }
-      });
-    });
+  const response = await fetch('test.pdf');
+  const arrayBuffer = await response.arrayBuffer();
+  const request = {
+    job: {
+      printerId: printerId,
+      title: 'test job',
+      ticket: ticket,
+      contentType: 'application/pdf',
+      document: new Blob([new Uint8Array(arrayBuffer)], {
+        type: 'application/pdf'
+      })
+    }
+  };
+
+  const printResponse = chrome.printing.submitJob(request);
+  if (printResponse !== undefined) {
+    console.log(printResponse.status);
+  }
+  if (chrome.runtime.lastError !== undefined) {
+    console.log(chrome.runtime.lastError.message);
+  }
 }
 
 function createPrintButton(onClicked) {
@@ -57,56 +55,58 @@ function createPrintButton(onClicked) {
   return button;
 }
 
-function createPrintersTable() {
-  chrome.printing.getPrinters(function (printers) {
+async function createPrintersTable() {
+  const printers = await chrome.printing.getPrinters();
+  if (printers) {
     const tbody = document.createElement('tbody');
 
     for (let i = 0; i < printers.length; ++i) {
       const printer = printers[i];
-      chrome.printing.getPrinterInfo(printer.id, function (response) {
-        const columnValues = [
-          printer.id,
-          printer.name,
-          printer.description,
-          printer.uri,
-          printer.source,
-          printer.isDefault,
-          printer.recentlyUsedRank,
-          JSON.stringify(response.capabilities),
-          response.status
-        ];
+      const printerInfo = await chrome.printing.getPrinterInfo(printer.id);
+      const columnValues = [
+        printer.id,
+        printer.name,
+        printer.description,
+        printer.uri,
+        printer.source,
+        printer.isDefault,
+        printer.recentlyUsedRank,
+        JSON.stringify(response.capabilities),
+        printerInfo.status
+      ];
 
-        let tr = document.createElement('tr');
-        for (const columnValue of columnValues) {
-          const td = document.createElement('td');
-          td.appendChild(document.createTextNode(columnValue));
-          td.setAttribute('align', 'center');
-          tr.appendChild(td);
-        }
+      let tr = document.createElement('tr');
+      for (const columnValue of columnValues) {
+        const td = document.createElement('td');
+        td.appendChild(document.createTextNode(columnValue));
+        td.setAttribute('align', 'center');
+        tr.appendChild(td);
+      }
 
-        const printTd = document.createElement('td');
-        printTd.appendChild(
-          createPrintButton(function () {
-            onPrintButtonClicked(
-              printer.id,
-              response.capabilities.printer.dpi.option[0]
-            );
-          })
-        );
-        tr.appendChild(printTd);
+      const printTd = document.createElement('td');
+      printTd.appendChild(
+        createPrintButton(async function () {
+          await onPrintButtonClicked(
+            printer.id,
+            response.capabilities.printer.dpi.option[0]
+          );
+        })
+      );
+      tr.appendChild(printTd);
 
-        tbody.appendChild(tr);
-      });
+      tbody.appendChild(tr);
     }
 
     const table = document.getElementById('printersTable');
     table.appendChild(tbody);
-  });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  createPrintersTable();
-  initStatusDiv();
+  createPrintersTable()
+  .then(() => {
+    initStatusDiv();
+  });
 });
 
 let statusDiv;
