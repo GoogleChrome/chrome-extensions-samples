@@ -76,23 +76,23 @@ async function createPrintersTable() {
       ];
 
       let tr = document.createElement('tr');
+      const printTd = document.createElement('td');
+      printTd.appendChild(
+        createPrintButton(async function () {
+          await onPrintButtonClicked(
+            printer.id,
+            printerInfo.capabilities.printer.dpi.option[0]
+          );
+        })
+      );
+      tr.appendChild(printTd);
+      
       for (const columnValue of columnValues) {
         const td = document.createElement('td');
         td.appendChild(document.createTextNode(columnValue));
         td.setAttribute('align', 'center');
         tr.appendChild(td);
       }
-
-      const printTd = document.createElement('td');
-      printTd.appendChild(
-        createPrintButton(async function () {
-          await onPrintButtonClicked(
-            printer.id,
-            response.capabilities.printer.dpi.option[0]
-          );
-        })
-      );
-      tr.appendChild(printTd);
 
       tbody.appendChild(tr);
     }
@@ -123,7 +123,6 @@ function initStatusDiv() {
 }
 
 chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
-  // console.log(`Job number ${jobId} changed to status ${jobStatus}.`);
   if (jobStatus === 'PENDING' || jobStatus === 'IN_PROGRESS') {
     jobIdDiv.appendChild(jobId);
     statusDiv.setAttribute('style', 'display:block');
