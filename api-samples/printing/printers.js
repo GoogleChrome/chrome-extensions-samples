@@ -39,7 +39,7 @@ async function onPrintButtonClicked(printerId, dpi) {
     }
   };
 
-  chrome.printing.submitJob(request, (response) => {
+  chrome.printing.submitJob(submitJobRequest, (response) => {
     if (response !== undefined) {
       console.log(response.status);
     }
@@ -116,7 +116,7 @@ function initStatusDiv() {
   statusDiv = document.getElementById('statusDiv');
   jobIdDiv = document.getElementById('jobIdDiv');
   const cancelBtn = document.getElementById('cancelBtn');
-  cancelBtn.addListener('click', (e) => {
+  cancelBtn.addEventListener('click', (e) => {
     chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
       console.log(`Job ${jobIdDiv.firstChild} canceled.`);
     });
@@ -125,7 +125,7 @@ function initStatusDiv() {
 
 chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
   if (jobStatus === 'PENDING' || jobStatus === 'IN_PROGRESS') {
-    jobIdDiv.appendChild(jobId);
+    jobIdDiv.innerHTML = jobId;
     statusDiv.setAttribute('style', 'display:block');
   } else {
     jobIdDiv.removeChild(jobIdDiv.firstChild);
