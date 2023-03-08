@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
 const statusDiv = document.getElementById('statusDiv');
 const jobIdDiv = document.getElementById('jobIdDiv');
 const cancelBtn = document.getElementById('cancelBtn');
-cancelBtn.addEventListener('click', (e) => {
+cancelBtn.addListener('click', (e) => {
   chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
     console.log(`Job ${jobIdDiv.firstChild} canceled.`);
   });

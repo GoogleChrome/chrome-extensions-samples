@@ -17,6 +17,6 @@ div {
   overflow: auto;
 }
 
-.jobStatus {
+.statusDiv {
   display: none;
 }
