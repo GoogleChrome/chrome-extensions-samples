@@ -17,7 +17,7 @@ module.exports = {
     webextensions: true,
     es2021: true,
     jquery: true,
-    worker: true
+    serviceworker: true
   },
   overrides: [],
   parserOptions: {

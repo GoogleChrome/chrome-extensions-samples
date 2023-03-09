@@ -53,20 +53,22 @@ const textEl = document.querySelector('#text');
 // requires that the window is focused, but offscreen documents cannot be
 // focused. As such, we have to fall back to `document.execCommand()`.
 async function handleClipboardWrite(data) {
-  // Error if we received the wrong kind of data.
-  if (typeof data !== 'string') {
-    throw new TypeError(
-      `Value provided must be a 'string', got '${typeof data}'.`
-    );
+  try {
+    // Error if we received the wrong kind of data.
+    if (typeof data !== 'string') {
+      throw new TypeError(
+        `Value provided must be a 'string', got '${typeof data}'.`
+      );
+    }
+
+    // `document.execCommand('copy')` works against the user's selection in a web
+    // page. As such, we must insert the string we want to copy to the web page
+    // and to select that content in the page before calling `execCommand()`.
+    textEl.value = data;
+    textEl.select();
+    document.execCommand('copy');
+  } finally {
+    // Job's done! Close the offscreen document.
+    window.close();
   }
-
-  // `document.execCommand('copy')` works against the user's selection in a web
-  // page. As such, we must insert the string we want to copy to the web page
-  // and to select that content in the page before calling `execCommand()`.
-  textEl.value = data;
-  textEl.select();
-  document.execCommand('copy');
-
-  // Job's done! Close the offscreen document.
-  window.close();
 }

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        { "header": "cookie", "operation": "remove" }
+      ]
+    },
+    "condition": {
+      "urlFilter": "|*?no-cookies=1",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
