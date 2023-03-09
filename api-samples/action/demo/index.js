@@ -142,7 +142,7 @@ document
     // To show off this method, we must first make sure the badge has text
     let currentText = await chrome.action.getBadgeText({});
     if (!currentText) {
-      chrome.action.setBadgeText({ text: 'hello :)' });
+      chrome.action.setBadgeText({ text: 'Test' });
       showBadgeText();
     }
 
@@ -167,7 +167,7 @@ document
   document
   .getElementById('reset-badge-txt-color-button')
   .addEventListener('click', async () => {
-    chrome.action.setBadgeTextColor({ color: "#000000" });
+    chrome.action.setBadgeTextColor({ color: '#000000' });
     showBadgeTextColor();
   });
 
