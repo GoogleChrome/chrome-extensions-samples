@@ -1,0 +1,39 @@
+{
+  "name": "chrome-extensions-samples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official samples for Chrome Extensions and the Chrome Apps platform.",
+  "scripts": {
+    "prettier": "npx prettier **/*.{md,html} -w",
+    "lint": "eslint **/*.js",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoogleChrome/chrome-extensions-samples.git"
+  },
+  "keywords": [],
+  "author": "The Chrome Team",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/GoogleChrome/chrome-extensions-samples/issues"
+  },
+  "homepage": "https://github.com/GoogleChrome/chrome-extensions-samples#readme",
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.2",
+    "prettier": "2.8.4"
+  },
+  "lint-staged":{
+    "**/*.js":[
+      "npx eslint --fix"
+    ],
+    "**/*.{md,html}":[
+      "npx prettier --write"
+    ]
+  }
+}

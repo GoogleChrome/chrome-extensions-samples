@@ -9,10 +9,8 @@ chrome.alarms.onAlarm.addListener(() => {
     type: 'basic',
     iconUrl: 'stay_hydrated.png',
     title: 'Time to Hydrate',
-    message: 'Everyday I\'m Guzzlin\'!',
-    buttons: [
-      { title: 'Keep it Flowing.' }
-    ],
+    message: "Everyday I'm Guzzlin'!",
+    buttons: [{ title: 'Keep it Flowing.' }],
     priority: 0
   });
 });

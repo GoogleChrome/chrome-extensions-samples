@@ -4,13 +4,13 @@ p {
 
 .flex {
   display: flex;
-  gap: .25em;
-  margin: .5em 0;
+  gap: 0.25em;
+  margin: 0.5em 0;
   align-items: flex-end;
 }
 
 .spaced {
-  margin: .5em 0;
+  margin: 0.5em 0;
 }
 
 .full-width {

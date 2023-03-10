@@ -1,17 +1,17 @@
-let injectFile = document.getElementById('inject-file');
-let injectFunction = document.getElementById('inject-function');
+const injectFile = document.getElementById('inject-file');
+const injectFunction = document.getElementById('inject-function');
 
 async function getCurrentTab() {
-  let queryOptions = { active: true, currentWindow: true };
-  let [tab] = await chrome.tabs.query(queryOptions);
+  const queryOptions = { active: true, currentWindow: true };
+  const [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
 
 injectFile.addEventListener('click', async () => {
-  let tab = await getCurrentTab();
+  const tab = await getCurrentTab();
 
   chrome.scripting.executeScript({
-    target: {tabId: tab.id},
+    target: { tabId: tab.id },
     files: ['content-script.js']
   });
 });
@@ -21,11 +21,11 @@ function showAlert(givenName) {
 }
 
 injectFunction.addEventListener('click', async () => {
-  let tab = await getCurrentTab();
+  const tab = await getCurrentTab();
 
-  let name = 'World';
+  const name = 'World';
   chrome.scripting.executeScript({
-    target: {tabId: tab.id},
+    target: { tabId: tab.id },
     func: showAlert,
     args: [name]
   });
