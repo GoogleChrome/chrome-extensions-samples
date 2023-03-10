@@ -1,0 +1,3 @@
+# Ignore reason: Packed extension for demo purposes.
+ignorePaths:
+  - _archive/mv2/api/permissions/extension-questions.crx
