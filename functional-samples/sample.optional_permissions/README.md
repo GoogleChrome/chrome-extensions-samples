@@ -19,4 +19,3 @@ Then, click on "Allow Extension to Access to top sites". You will see the follow
 If you accept, it will display a list of your top sites.
 
 <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/ibZ6PqWHsU2v0Y1h0ig2.png" alt="New tab displaying top sites" width="400"/>
-

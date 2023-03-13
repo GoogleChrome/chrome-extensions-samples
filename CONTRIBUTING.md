@@ -1,17 +1,48 @@
-# Contributing to this Repository
+# How to Contribute
 
-Thank you for your interest in contributing!
+We'd love to accept your patches and contributions to this project.
 
-Send us your patches early and often and in whatever shape or form.
+## Before you begin
 
-## Legal
+### Sign our Contributor License Agreement
 
-Unfortunately there are some legal hurdles. Sorry about that.
+Contributions to this project must be accompanied by a
+[Contributor License Agreement](https://cla.developers.google.com/about) (CLA).
+You (or your employer) retain the copyright to your contribution; this simply
+gives us permission to use and redistribute your contributions as part of the
+project.
 
-This repository is a Google open source project, and so we require contributors to sign Google's open source Contributor License Agreement.
-It's easy to do, just click here to sign as an [individual](https://developers.google.com/open-source/cla/individual) or [corporation](https://developers.google.com/open-source/cla/corporate).
-Individuals can sign electronically in seconds (see the bottom of the page); corporations will need to email a PDF, or mail.
+If you or your current employer have already signed the Google CLA (even if it
+was for a different project), you probably don't need to do it again.
 
-We cannot accept PRs or patches larger than fixing typos and the like without a signed CLA.
+Visit <https://cla.developers.google.com/> to see your current agreements or to
+sign a new one.
 
-If your Github account doesn't show the name you used to sign, please mention your name in your PR.
+### Review our Community Guidelines
+
+This project follows [Google's Open Source Community
+Guidelines](https://opensource.google/conduct/).
+
+## Contribution process
+
+### Code Reviews
+
+All submissions, including submissions by project members, require review. We
+use GitHub pull requests for this purpose. Consult
+[GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
+information on using pull requests.
+
+### Setting up your Environment
+
+If you want to contribute to this repository, you need to first [create your own fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+After forking chrome-extensions-samples to your own Github account, run the following steps to get started:
+
+```sh
+# clone your fork to your local machine
+git clone https://github.com/your-fork/chrome-extensions-samples.git
+
+cd chrome-extensions-samples
+
+# install dependencies
+npm install
+```

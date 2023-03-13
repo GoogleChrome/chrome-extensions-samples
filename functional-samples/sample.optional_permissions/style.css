@@ -37,11 +37,21 @@ h1 {
 }
 
 @keyframes color-extravaganza {
-  0%   {background-color: #4285F4;}
-  10%  {background-color: #4285F4;}
-  25%  {background-color: #EA4335;}
-  50%  {background-color: #FBBC04;}
-  100% {background-color: #34A853;}
+  0% {
+    background-color: #4285f4;
+  }
+  10% {
+    background-color: #4285f4;
+  }
+  25% {
+    background-color: #ea4335;
+  }
+  50% {
+    background-color: #fbbc04;
+  }
+  100% {
+    background-color: #34a853;
+  }
 }
 
 .colorFun {
@@ -69,8 +79,8 @@ h1 {
   transition: opacity 0.3s;
 }
 
-
-#todo_div, .colorFun:hover .tooltip {
+#todo_div,
+.colorFun:hover .tooltip {
   visibility: visible;
   opacity: 1;
   animation-name: color-extravaganza;

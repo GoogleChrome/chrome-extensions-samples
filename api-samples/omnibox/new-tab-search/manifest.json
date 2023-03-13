@@ -6,12 +6,12 @@
   "background": {
     "service_worker": "background.js"
   },
-  "omnibox": { "keyword" : "nt" },
+  "omnibox": { "keyword": "nt" },
   "action": {
     "default_icon": {
       "16": "newtab_search16.png",
       "32": "newtab_search32.png"
-      }
+    }
   },
   "icons": {
     "16": "newtab_search16.png",

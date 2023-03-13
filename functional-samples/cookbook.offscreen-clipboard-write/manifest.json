@@ -6,8 +6,5 @@
     "service_worker": "background.js"
   },
   "action": {},
-  "permissions": [
-    "offscreen",
-    "clipboardWrite"
-  ]
+  "permissions": ["offscreen", "clipboardWrite"]
 }

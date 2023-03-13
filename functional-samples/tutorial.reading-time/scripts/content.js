@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const article = document.querySelector("article");
+const article = document.querySelector('article');
 
 // `document.querySelector` may return null if the selector doesn't match anything.
 if (article) {
@@ -24,7 +24,7 @@ if (article) {
    * regular expression character class "\w" to match against "word characters" because it only
    * matches against the Latin alphabet. Instead, we match against any sequence of characters that
    * *are not* a whitespace characters. See the below link for more information.
-   * 
+   *
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
    */
   const wordMatchRegExp = /[^\s]+/g;
@@ -32,16 +32,16 @@ if (article) {
   // matchAll returns an iterator, convert to array to get word count
   const wordCount = [...words].length;
   const readingTime = Math.round(wordCount / 200);
-  const badge = document.createElement("p");
+  const badge = document.createElement('p');
   // Use the same styling as the publish information in an article's header
-  badge.classList.add("color-secondary-text", "type--caption");
+  badge.classList.add('color-secondary-text', 'type--caption');
   badge.textContent = `⏱️ ${readingTime} min read`;
 
   // Support for API reference docs
-  const heading = article.querySelector("h1");
+  const heading = article.querySelector('h1');
   // Support for article docs with date
-  const date = article.querySelector("time")?.parentNode;
+  const date = article.querySelector('time')?.parentNode;
 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
-  (date ?? heading).insertAdjacentElement("afterend", badge);
+  (date ?? heading).insertAdjacentElement('afterend', badge);
 }

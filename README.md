@@ -5,16 +5,16 @@ Note that Chrome Apps are deprecated. Learn more [on the Chromium blog](https://
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [_archive/mv2/](_archive/mv2/).**
+**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [\_archive/mv2/](_archive/mv2/).**
 
 ## Samples
 
 The directory structure is as follows:
 
-* [api-samples/](api-samples/) - extensions focused on a single API package
-* [functional-samples/](functional-samples/) - full featured extensions spanning multiple API packages
-* [_archive/apps/](_archive/apps/) - deprecated Chrome Apps platform (not listed below)
-* [_archive/mv2/](_archive/mv2/) - resources for manifest version 2
+- [api-samples/](api-samples/) - extensions focused on a single API package
+- [functional-samples/](functional-samples/) - full featured extensions spanning multiple API packages
+- [\_archive/apps/](_archive/apps/) - deprecated Chrome Apps platform (not listed below)
+- [\_archive/mv2/](_archive/mv2/) - resources for manifest version 2
 
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
@@ -119,3 +119,11 @@ Read more on [Development Basics](https://developer.chrome.com/docs/extensions/m
     </tr>
   </tbody>
 </table>
+
+## Contributing
+
+Please see [the CONTRIBUTING file](/CONTRIBUTING.md) for information on contributing to the `chrome-extensions-samples` project.
+
+## License
+
+`chrome-extensions-samples` are authored by Google and are licensed under the [Apache License, Version 2.0](/LICENSE).

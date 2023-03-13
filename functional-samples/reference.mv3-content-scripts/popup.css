@@ -13,7 +13,7 @@ body {
   min-height: 10em;
 }
 main {
-  padding: 1em .5em;
+  padding: 1em 0.5em;
   display: grid;
   place-items: center;
 }
