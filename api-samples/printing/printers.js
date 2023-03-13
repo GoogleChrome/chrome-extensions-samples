@@ -40,13 +40,19 @@ function onPrintButtonClicked(printerId, dpi) {
           if (chrome.runtime.lastError !== undefined) {
             console.log(chrome.runtime.lastError.message);
           }
+          window.scrollTo(0, document.body.scrollHeight);
         });
       });
 }
 
 function onCancelButtonClicked(jobId) {
   chrome.printing.cancelJob(jobId).then((response) => {
-    console.log(response);
+    if (response !== undefined) {
+      console.log(response.status);
+    }
+    if (chrome.runtime.lastError !== undefined) {
+      console.log(chrome.runtime.lastError.message);
+    }
   });
 }
 
@@ -110,13 +116,18 @@ function createPrintersTable() {
       jobTr.appendChild(jobStatusTd);
 
       const cancelTd = document.createElement('td');
-      cancelTd.appendChild(createButton('Cancel', function() {
+      let cancelBtn = createButton('Cancel', function() {
         onCancelButtonClicked(jobId);
-      }));
+      })
+      cancelBtn.setAttribute("id", jobId + "-cancelBtn");
+      cancelTd.appendChild(cancelBtn);
       jobTr.appendChild(cancelTd);
       document.getElementById("printJobTbody").appendChild(jobTr);
     } else {
       document.getElementById(jobId + "-status").innerHTML = status;
+      if (status !== "PENDDING" && status !== "IN_PROGRESS") {
+        document.getElementById(jobId + "-cancelBtn").style.visibility = 'hidden';
+      }
     }
   });
 }
