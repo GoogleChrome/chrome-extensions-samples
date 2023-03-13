@@ -2,44 +2,51 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-
-
-async function onPrintButtonClicked(printerId, dpi) {
+function onPrintButtonClicked(printerId, dpi) {
   var ticket = {
     version: '1.0',
     print: {
-      color: { type: 'STANDARD_MONOCHROME' },
-      duplex: { type: 'NO_DUPLEX' },
-      page_orientation: { type: 'LANDSCAPE' },
-      copies: { copies: 1 },
-      dpi: {
-        horizontal_dpi: dpi.horizontal_dpi,
-        vertical_dpi: dpi.vertical_dpi
-      },
+      color: {type: 'STANDARD_MONOCHROME'},
+      duplex: {type: 'NO_DUPLEX'},
+      page_orientation: {type: 'LANDSCAPE'},
+      copies: {copies: 1},
+      dpi: {horizontal_dpi: dpi.horizontal_dpi, vertical_dpi: dpi.vertical_dpi},
       media_size: {
         width_microns: 210000,
         height_microns: 297000,
         vendor_id: 'iso_a4_210x297mm'
       },
-      collate: { collate: false }
+      collate: {collate: false}
     }
   };
 
-  const response = await fetch('test.pdf');
-  const arrayBuffer = await response.arrayBuffer();
-  const submitJobRequest = {
-    job: {
-      printerId: printerId,
-      title: 'test job',
-      ticket: ticket,
-      contentType: 'application/pdf',
-      document: new Blob([new Uint8Array(arrayBuffer)], {
-        type: 'application/pdf'
-      })
-    }
-  };
+  fetch('test.pdf')
+      .then(response => response.arrayBuffer())
+      .then(arrayBuffer => {
+        const request = {
+          job: {
+            printerId: printerId,
+            title: 'test job',
+            ticket: ticket,
+            contentType: 'application/pdf',
+            document: new Blob(
+                [new Uint8Array(arrayBuffer)], {type: 'application/pdf'})
+          }
+        };
+        chrome.printing.submitJob(request, (response) => {
+          if (response !== undefined) {
+            console.log(response.status);
+          }
+          if (chrome.runtime.lastError !== undefined) {
+            console.log(chrome.runtime.lastError.message);
+          }
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+      });
+}
 
-  chrome.printing.submitJob(submitJobRequest, (response) => {
+function onCancelButtonClicked(jobId) {
+  chrome.printing.cancelJob(jobId).then((response) => {
     if (response !== undefined) {
       console.log(response.status);
     }
@@ -49,86 +56,82 @@ async function onPrintButtonClicked(printerId, dpi) {
   });
 }
 
-function createPrintButton(onClicked) {
+function createButton(label, onClicked) {
   const button = document.createElement('button');
-  button.innerHTML = 'Print';
+  button.innerHTML = label;
   button.onclick = onClicked;
   return button;
 }
 
-async function createPrintersTable() {
-  const printers = await chrome.printing.getPrinters();
-  if (printers) {
+function createPrintersTable() {
+  chrome.printing.getPrinters().then((printers) => {
     const tbody = document.createElement('tbody');
+    printers.forEach(printer => {
+      chrome.printing.getPrinterInfo(printer.id).then((printerInfo) => {
+        const columnValues = [
+          printer.id,
+          printer.name,
+          printer.description,
+          printer.uri,
+          printer.source,
+          printer.isDefault,
+          printer.recentlyUsedRank,
+          JSON.stringify(printerInfo.capabilities),
+          printerInfo.status,
+        ];
 
-    for (let i = 0; i < printers.length; ++i) {
-      const printer = printers[i];
-      const printerInfo = await chrome.printing.getPrinterInfo(printer.id);
-      const columnValues = [
-        printer.id,
-        printer.name,
-        printer.description,
-        printer.uri,
-        printer.source,
-        printer.isDefault,
-        printer.recentlyUsedRank,
-        JSON.stringify(printerInfo.capabilities),
-        printerInfo.status
-      ];
+        let tr = document.createElement('tr');
+        for (const columnValue of columnValues) {
+          const td = document.createElement('td');
+          td.appendChild(document.createTextNode(columnValue));
+          td.setAttribute('align', 'center');
+          tr.appendChild(td);
+        }
 
-      let tr = document.createElement('tr');
-      const printTd = document.createElement('td');
-      printTd.appendChild(
-        createPrintButton(async function () {
-          await onPrintButtonClicked(
-            printer.id,
-            printerInfo.capabilities.printer.dpi.option[0]
-          );
-        })
-      );
-      tr.appendChild(printTd);
+        const printTd = document.createElement('td');
+        printTd.appendChild(createButton('Print', function() {
+          onPrintButtonClicked(
+              printer.id, printerInfo.capabilities.printer.dpi.option[0]);
+        }));
+        tr.appendChild(printTd);
 
-      for (const columnValue of columnValues) {
-        const td = document.createElement('td');
-        td.appendChild(document.createTextNode(columnValue));
-        td.setAttribute('align', 'center');
-        tr.appendChild(td);
-      }
-
-      tbody.appendChild(tr);
-    }
-
+        tbody.appendChild(tr);
+      });
+    });
     const table = document.getElementById('printersTable');
     table.appendChild(tbody);
-  }
+  });
+  chrome.printing.onJobStatusChanged.addListener((jobId, status) => {
+    console.log("jobId: " + jobId + ", status: " + status);
+    let jobTr = document.getElementById(jobId);
+    if (jobTr == undefined) {
+      jobTr = document.createElement("tr");
+      jobTr.setAttribute("id", jobId);
+      const jobIdTd = document.createElement('td');
+      jobIdTd.appendChild(document.createTextNode(jobId));
+      jobTr.appendChild(jobIdTd);
+      let jobStatusTd = document.createElement('td');
+      jobStatusTd.setAttribute("id", jobId + "-status");
+      jobStatusTd.appendChild(document.createTextNode(status));
+      jobTr.appendChild(jobStatusTd);
+
+      const cancelTd = document.createElement('td');
+      let cancelBtn = createButton('Cancel', function() {
+        onCancelButtonClicked(jobId);
+      })
+      cancelBtn.setAttribute("id", jobId + "-cancelBtn");
+      cancelTd.appendChild(cancelBtn);
+      jobTr.appendChild(cancelTd);
+      document.getElementById("printJobTbody").appendChild(jobTr);
+    } else {
+      document.getElementById(jobId + "-status").innerHTML = status;
+      if (status !== "PENDDING" && status !== "IN_PROGRESS") {
+        document.getElementById(jobId + "-cancelBtn").style.visibility = 'hidden';
+      }
+    }
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  createPrintersTable()
-  .then(() => {
-    initStatusDiv();
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  createPrintersTable();
 });
-
-let statusDiv;
-let jobIdDiv;
-function initStatusDiv() {
-  statusDiv = document.getElementById('statusDiv');
-  jobIdDiv = document.getElementById('jobIdDiv');
-  const cancelBtn = document.getElementById('cancelBtn');
-  cancelBtn.addEventListener('click', (e) => {
-    chrome.printing.cancelJob(jobIdDiv.firstChild, () => {
-      console.log(`Job ${jobIdDiv.firstChild} canceled.`);
-    });
-  });
-}
-
-chrome.printing.onJobStatusChanged.addListener((jobId, jobStatus) => {
-  if (jobStatus === 'PENDING' || jobStatus === 'IN_PROGRESS') {
-    jobIdDiv.innerHTML = jobId;
-    statusDiv.setAttribute('style', 'display:block');
-  } else {
-    jobIdDiv.removeChild(jobIdDiv.firstChild);
-    statusDiv.setAttribute('style', 'display:none !important');
-  }
-})
