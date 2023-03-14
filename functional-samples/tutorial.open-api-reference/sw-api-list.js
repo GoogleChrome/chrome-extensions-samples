@@ -99,7 +99,7 @@ export async function getAPIsuggestions(input) {
     await chrome.omnibox.setDefaultSuggestion({
       description: 'No matches found. Choose from past searches'
     });
-    // get defaults if no match
+    // Retrieve defaults if keyword has no matches
     const { apiSugg } = await chrome.storage.local.get('apiSugg');
     return apiList.filter((item) => apiSugg.includes(item.content));
   }

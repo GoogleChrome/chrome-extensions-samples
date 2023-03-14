@@ -10,17 +10,16 @@
     "service_worker": "sw.js",
     "type": "module"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://developer.chrome.com/docs/extensions/*"],
-      "js": ["content.js"],
-      "css": ["content.css"]
-    }
-  ],
   "minimum_chrome_version": "102",
   "omnibox": {
     "keyword": "api"
   },
   "permissions": ["alarms", "storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://developer.chrome.com/docs/extensions/reference/*"],
+      "js": ["content.js"]
+    }
+  ],
   "host_permissions": ["https://extension-tips.glitch.me/*"]
 }
