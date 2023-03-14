@@ -9,21 +9,18 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-// OMNIBOX LOGIC
 const chromeURL = 'https://developer.chrome.com/docs/extensions/reference/';
 
+// Displays the suggestions after user starts typing
 chrome.omnibox.onInputChanged.addListener(async (input, suggest) => {
   const suggestions = await getAPIsuggestions(input);
-  console.log('suggestions', suggestions);
   suggest(suggestions);
 });
 
-/* 
-    Set omnibox to make suggestions of top APIs
-    when user selects one or types one open URLs 
-*/
+// Opens the reference page of the chosen API
 chrome.omnibox.onInputEntered.addListener(async (input) => {
   await chrome.tabs.create({ url: chromeURL + input });
+  // Saves the latest keyword
   updateHistory(input);
 });
 
