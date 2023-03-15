@@ -1,4 +1,6 @@
-import { getApiSuggestions } from './sw-suggestions';
+import { getApiSuggestions } from './sw-suggestions.js';
+
+console.log('sw-omnibox.js');
 
 // Save default API suggestions
 chrome.runtime.onInstalled.addListener(({ reason }) => {
