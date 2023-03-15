@@ -1,36 +1,34 @@
-import { getAPIsuggestions } from './sw-api-list.js';
-
-console.log('sw-omnibox.js');
+import { getApiSuggestions } from './sw-suggestions';
 
 // Save default API suggestions
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') {
-    chrome.storage.local.set({ apiSugg: ['tabs', 'storage', 'scripting'] });
+    chrome.storage.local.set({
+      apiSuggestions: ['tabs', 'storage', 'scripting']
+    });
   }
 });
 
 const chromeURL = 'https://developer.chrome.com/docs/extensions/reference/';
+const NUMBER_OF_PREVIOUS_SEARCHES = 4;
 
 // Displays the suggestions after user starts typing
 chrome.omnibox.onInputChanged.addListener(async (input, suggest) => {
-  const suggestions = await getAPIsuggestions(input);
+  const { description, suggestions } = await getApiSuggestions(input);
+  await chrome.omnibox.setDefaultSuggestion({ description });
   suggest(suggestions);
 });
 
 // Opens the reference page of the chosen API
-chrome.omnibox.onInputEntered.addListener(async (input) => {
-  await chrome.tabs.create({ url: chromeURL + input });
+chrome.omnibox.onInputEntered.addListener((input) => {
+  chrome.tabs.create({ url: chromeURL + input });
   // Saves the latest keyword
   updateHistory(input);
 });
 
 async function updateHistory(input) {
-  try {
-    const { apiSugg } = await chrome.storage.local.get('apiSugg');
-    apiSugg.unshift(input);
-    apiSugg.splice(4);
-    await chrome.storage.local.set({ apiSugg });
-  } catch (error) {
-    console.error(error);
-  }
+  const { apiSuggestions } = await chrome.storage.local.get('apiSuggestions');
+  apiSuggestions.unshift(input);
+  apiSuggestions.splice(NUMBER_OF_PREVIOUS_SEARCHES);
+  await chrome.storage.local.set({ apiSuggestions });
 }

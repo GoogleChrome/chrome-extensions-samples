@@ -4,8 +4,8 @@ console.log('sw-tips.js');
 const updateTip = async () => {
   const response = await fetch('https://extension-tips.glitch.me/tips.json');
   const tips = await response.json();
-  const index = Math.floor(Math.random() * tips.length);
-  await chrome.storage.local.set({ tip: tips[index] });
+  const randomIndex = Math.floor(Math.random() * tips.length);
+  await chrome.storage.local.set({ tip: tips[randomIndex] });
 };
 
 // Create a daily alarm and retrieves the first tip when extension is installed.

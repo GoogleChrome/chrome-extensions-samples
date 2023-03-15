@@ -1,4 +1,4 @@
-const apiList = [
+export default [
   {
     content: 'commands',
     description:
@@ -79,28 +79,3 @@ const apiList = [
       'Use the <match>WebNavigation API</match> to receive notifications about the status of navigation requests in-flight.'
   }
 ];
-
-export async function getAPIsuggestions(input) {
-  const result = [];
-  for (const api of apiList) {
-    if (api.content.startsWith(input)) {
-      result.push(api);
-      console.log('pushing api', api);
-    }
-  }
-
-  if (result.length) {
-    await chrome.omnibox.setDefaultSuggestion({
-      description: 'Matching Chrome APIs'
-    });
-    console.log('result', result);
-    return result;
-  } else {
-    await chrome.omnibox.setDefaultSuggestion({
-      description: 'No matches found. Choose from past searches'
-    });
-    // Retrieve defaults if keyword has no matches
-    const { apiSugg } = await chrome.storage.local.get('apiSugg');
-    return apiList.filter((item) => apiSugg.includes(item.content));
-  }
-}
