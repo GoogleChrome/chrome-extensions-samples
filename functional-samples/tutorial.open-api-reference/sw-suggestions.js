@@ -4,14 +4,13 @@ import apiList from './api-list.js';
  * Returns a list of suggestions and a description for the default suggestion
  */
 export async function getApiSuggestions(input) {
-  const filtered = apiList.filter((api) => api.content.startsWith(input));
-  console.log('filtered', filtered);
+  const suggestions = apiList.filter((api) => api.content.startsWith(input));
 
   // return suggestions if any exist
-  if (filtered.length) {
+  if (suggestions.length) {
     return {
       description: 'Matching Chrome APIs',
-      suggestions: filtered
+      suggestions: suggestions
     };
   }
 

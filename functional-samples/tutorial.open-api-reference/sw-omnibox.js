@@ -2,7 +2,7 @@ import { getApiSuggestions } from './sw-suggestions.js';
 
 console.log('sw-omnibox.js');
 
-// Save default API suggestions
+// Initialize default API suggestions
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') {
     chrome.storage.local.set({
@@ -11,7 +11,8 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-const chromeURL = 'https://developer.chrome.com/docs/extensions/reference/';
+const URL_CHROME_EXTENSIONS_DOC =
+  'https://developer.chrome.com/docs/extensions/reference/';
 const NUMBER_OF_PREVIOUS_SEARCHES = 4;
 
 // Displays the suggestions after user starts typing
@@ -23,7 +24,7 @@ chrome.omnibox.onInputChanged.addListener(async (input, suggest) => {
 
 // Opens the reference page of the chosen API
 chrome.omnibox.onInputEntered.addListener((input) => {
-  chrome.tabs.create({ url: chromeURL + input });
+  chrome.tabs.create({ url: URL_CHROME_EXTENSIONS_DOC + input });
   // Saves the latest keyword
   updateHistory(input);
 });
