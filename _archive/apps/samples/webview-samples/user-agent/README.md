@@ -1,10 +1,10 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/fbkdeonndngdbojbccanjnpnlpdmgchc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/fbkdeonndngdbojbccanjnpnlpdmgchc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # User Agent Override
 
 Sample that shows how to use the [webview
-tag](http://developer.chrome.com/apps/app_external.html#webview) in an app to
+tag](http://developer.chrome.com/apps/app_external#webview) in an app to
 create a browser with multiple personalities. The browser [overrides the user
 agent
 string](https://developer.chrome.com/apps/tags/webview#method-setUserAgentOverride)
@@ -21,9 +21,9 @@ security and reliability of your application.
 
 ## Resources
 
-* [Webview](http://developer.chrome.com/apps/app_external.html#webview)
-* [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
+* [Webview](http://developer.chrome.com/apps/app_external#webview)
+* [Permissions](http://developer.chrome.com/apps/manifest#permissions)
 
 
 ## Screenshot
-![screenshot](/apps/samples/webview-samples/user-agent/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/webview-samples/user-agent/assets/screenshot_1280_800.png)

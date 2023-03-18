@@ -1,8 +1,8 @@
 /**
  * Listens for the app launching then creates the window
  *
- * @see http://developer.chrome.com/apps/app.runtime.html
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_runtime
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   // Center window on screen.

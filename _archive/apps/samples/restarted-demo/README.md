@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ljngdccbopfaompkjfhepllagnijbdne">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ljngdccbopfaompkjfhepllagnijbdne">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # onRestarted event
@@ -10,10 +10,10 @@ This demo app creates a new counter on launch and restores any existing counters
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Storage](http://developer.chrome.com/apps/storage.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-     
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Storage](http://developer.chrome.com/apps/storage)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+
 ## Screenshot
-![screenshot](/apps/samples/restarted-demo/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/restarted-demo/assets/screenshot_1280_800.png)
 

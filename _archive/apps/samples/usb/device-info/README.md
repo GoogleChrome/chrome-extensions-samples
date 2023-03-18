@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/igkmggljimacfdfalpeelenjeicmfnll">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/igkmggljimacfdfalpeelenjeicmfnll">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # USB Device Info Demo
@@ -14,4 +14,4 @@ for arbitrary devices.
 * [Window](https://developer.chrome.com/apps/app_window)
 
 ## Screenshot
-![screenshot](/apps/samples/usb/device-info/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/usb/device-info/assets/screenshot_1280_800.png)

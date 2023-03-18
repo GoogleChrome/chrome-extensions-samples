@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/cnehcenehakkickcnoiaemcpjpaigmbb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/cnehcenehakkickcnoiaemcpjpaigmbb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Manga Camera
@@ -7,11 +7,11 @@ Chrome Packaged App with `videoCapture` permission can query user media without 
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-* [Sync File Systesm](http://developer.chrome.com/apps/syncFileSystem.html)
-* [videoCapture](http://developer.chrome.com/apps/manifest.html#permissions)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+* [Sync File Systesm](http://developer.chrome.com/apps/syncFileSystem)
+* [videoCapture](http://developer.chrome.com/apps/manifest#permissions)
 
 
 ## Screenshot
-![screenshot](/apps/samples/manga-cam/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/manga-cam/assets/screenshot_1280_800.png)

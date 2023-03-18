@@ -5,6 +5,6 @@ images.
 
 ## APIs
 
-* [Document scanning API](https://developer.chrome.com/apps/document_scan)
+* [Document scanning API](https://developer.chrome.com/apps/documentScan)
 * [Runtime](https://developer.chrome.com/apps/runtime)
 * [Window](https://developer.chrome.com/apps/app_window)

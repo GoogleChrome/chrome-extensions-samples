@@ -1,11 +1,11 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/kpgjodoohleggakakpaadgjeedfgeafi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/kpgjodoohleggakakpaadgjeedfgeafi">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # New Window API
 
 Sample that shows how to use the [New Window
 API](https://developer.chrome.com/apps/tags/webview#event-newwindow) for
-[webviews](http://developer.chrome.com/apps/app_external.html#webview). The
+[webviews](http://developer.chrome.com/apps/app_external#webview). The
 app behaves like a tabbed browser. When actions in we webview request a new
 tab or window, the browser responds appropriately. For example, clicking
 links with a foreign target opens a new tab in the foreground; ctrl+clicking
@@ -29,9 +29,9 @@ that identify a different window open a new window.
 ## Resources
 
 * [Webview New Window API](https://developer.chrome.com/apps/tags/webview#event-newwindow)
-* [Webview](http://developer.chrome.com/apps/app_external.html#webview)
-* [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
+* [Webview](http://developer.chrome.com/apps/app_external#webview)
+* [Permissions](http://developer.chrome.com/apps/manifest#permissions)
 
 
 ## Screenshot
-![screenshot](/apps/samples/webview-samples/new-window/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/webview-samples/new-window/assets/screenshot_1280_800.png)

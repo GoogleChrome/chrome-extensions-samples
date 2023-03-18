@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/nmfpplkdkcbhediajmbhljkafnlahcda">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/nmfpplkdkcbhediajmbhljkafnlahcda">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Hello World
@@ -32,9 +32,9 @@ and, at that point, creates a window using a basic HTML page, index.html, as the
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-     
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+
 ## Screenshot
-![screenshot](/apps/samples/hello-world/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/hello-world/assets/screenshot_1280_800.png)
 

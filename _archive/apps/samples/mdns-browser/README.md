@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/kipighjpklofchgbdgclfaoccdlghidp">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/kipighjpklofchgbdgclfaoccdlghidp">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # mDNS browser
@@ -17,7 +17,7 @@ This is a non-trivial sample which uses the UDP multicast support in Chrome Pack
 * [Runtime](http://developer.chrome.com/apps/app_runtime)
 * [Window](http://developer.chrome.com/apps/app_window)
 
-     
+
 ## Screenshot
-![screenshot](/apps/samples/mdns-browser/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/mdns-browser/assets/screenshot_1280_800.png)
 

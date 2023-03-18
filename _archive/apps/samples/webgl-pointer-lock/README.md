@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/pjfconokbhkicolnaaphhfhjpcgnnfpj">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/pjfconokbhkicolnaaphhfhjpcgnnfpj">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Hello 3D World
@@ -14,8 +14,8 @@ This sample uses the frameless window:
 
 ## APIs
 
-* [Window](http://developer.chrome.com/apps/app.window.html)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
 * [Pointer Lock](http://www.w3.org/TR/pointerlock/)
 
 ## External libs

@@ -18,7 +18,7 @@ To be expanded upon, but essentially:
 
 ## Examples:
 
-* [Tasks app using GAPI](https://github.com/GoogleChrome/chrome-app-samples/tree/master/tasks)
+* [Tasks app using GAPI](https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/_archive/apps/samples/tasks)
 
 ## Resources
 

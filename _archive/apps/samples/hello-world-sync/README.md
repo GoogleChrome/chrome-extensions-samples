@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ajjcafkkflbcealbcfjajolnkogffgcb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ajjcafkkflbcealbcfjajolnkogffgcb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Hello World storage.sync
@@ -17,7 +17,7 @@ Important: needs "key" in manifest.json to support testing outside of CWS, so th
       }
     );
     ...
-    chrome.storage.sync.get("myValue", 
+    chrome.storage.sync.get("myValue",
       function(val) {
         // do something
       }
@@ -25,8 +25,8 @@ Important: needs "key" in manifest.json to support testing outside of CWS, so th
 
 ## APIs
 
-* [Storage sync](http://developer.chrome.com/extensions/storage.html)
-     
+* [Storage sync](http://developer.chrome.com/extensions/storage)
+
 ## Screenshot
-![screenshot](/apps/samples/hello-world-sync/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/hello-world-sync/assets/screenshot_1280_800.png)
 
