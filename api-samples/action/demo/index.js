@@ -21,7 +21,6 @@ function debounce(timeout, callback) {
 // .enable / .disable
 // ------------------
 
-
 const showToggleState = document.getElementById('show-toggle-state');
 document
   .getElementById('toggle-state-button')
@@ -164,7 +163,7 @@ document
     showBadgeTextColor();
   });
 
-  document
+document
   .getElementById('reset-badge-txt-color-button')
   .addEventListener('click', async () => {
     chrome.action.setBadgeTextColor({ color: '#000000' });

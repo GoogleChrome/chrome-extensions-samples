@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
-  extends: ['prettier', 'eslint:recommended'],
+  extends: ['prettier', 'eslint:recommended', 'plugin:import/recommended'],
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error'],
