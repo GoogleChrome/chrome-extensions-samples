@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 // Feed
-var feedUrl = 'http://news.google.com/?output=rss';
+var feedUrl = 'https://news.google.com/?output=rss';
 
 // The XMLHttpRequest object that tries to load and parse the feed.
 var req;

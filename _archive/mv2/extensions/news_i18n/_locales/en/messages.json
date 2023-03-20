@@ -56,7 +56,7 @@
     }
   },
   "newsUrl": {
-    "message": "http://news.google.com",
+    "message": "https://news.google.com",
     "description": "Url to Google News."
   }
 }
