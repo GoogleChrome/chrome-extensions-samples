@@ -1,0 +1,18 @@
+{
+  "name": "Calculator",
+  "description": "A simple calculator.",
+  "manifest_version": 3,
+  "minimum_chrome_version": "23",
+  "version": "1.3",
+  "offline_enabled": true,
+    "background": {
+      "service_worker": "main.js"
+    },
+  "permissions" : [
+    "clipboardWrite"
+  ],
+  "icons": {
+    "16": "assets/icon-128x128.png",
+    "128": "assets/icon-128x128.png"
+  }
+}
