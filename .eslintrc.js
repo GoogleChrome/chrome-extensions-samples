@@ -4,6 +4,7 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error'],
+    'no-var': ['error'],
     'no-unused-vars': [
       'warn',
       {
