@@ -29,6 +29,7 @@ function dumpTreeNodes(bookmarkNodes, query) {
 }
 
 function dumpNode(bookmarkNode, query) {
+  let span = '';
   if (bookmarkNode.title) {
     if (query && !bookmarkNode.children) {
       if (
@@ -51,7 +52,7 @@ function dumpNode(bookmarkNode, query) {
       chrome.tabs.create({ url: bookmarkNode.url });
     });
 
-    var span = $('<span>');
+    span = $('<span>');
     const options = bookmarkNode.children
       ? $('<span>[<a href="#" id="addlink">Add</a>]</span>')
       : $(
@@ -182,6 +183,7 @@ function dumpNode(bookmarkNode, query) {
   }
 
   const li = $(bookmarkNode.title ? '<li>' : '<div>').append(span);
+
   if (bookmarkNode.children && bookmarkNode.children.length > 0) {
     li.append(dumpTreeNodes(bookmarkNode.children, query));
   }

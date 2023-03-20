@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 function onPrintButtonClicked(printerId, dpi) {
-  var ticket = {
+  let ticket = {
     version: '1.0',
     print: {
       color: { type: 'STANDARD_MONOCHROME' },
