@@ -23,16 +23,17 @@
   "devDependencies": {
     "eslint": "^8.34.0",
     "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-import": "2.27.5",
     "eslint-plugin-prettier": "4.2.1",
     "husky": "^8.0.0",
     "lint-staged": "^13.1.2",
     "prettier": "2.8.4"
   },
-  "lint-staged":{
-    "**/*.js":[
+  "lint-staged": {
+    "**/*.js": [
       "npx eslint --fix"
     ],
-    "**/*.{md,html}":[
+    "**/*.{md,html}": [
       "npx prettier --write"
     ]
   }

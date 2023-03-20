@@ -1,67 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scripting Demo</title>
-  <link rel="stylesheet" href="index.css">
-  <script defer src="index.js"></script>
-</head>
-<body>
-  <form>
-    <h1>Scripting Demo</h1>
-    <div class="tabs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scripting Demo</title>
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
+  </head>
+  <body>
+    <form>
+      <h1>Scripting Demo</h1>
+      <div class="tabs">
+        <label>
+          Dynamic
+          <input type="radio" name="type" value="dynamic" checked />
+        </label>
+        <label class="selected">
+          Programmatic
+          <input type="radio" name="type" value="programmatic" />
+        </label>
+      </div>
       <label>
-        Dynamic
-        <input type="radio" name="type" value="dynamic" checked></input>
+        <span>Persist across sessions</span>
+        <select name="persist" value="no">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
       </label>
-      <label class="selected">
-        Programmatic
-        <input type="radio" name="type" value="programmatic"></input>
+      <label>
+        <span>Run at</span>
+        <select name="run-at" value="document_idle">
+          <option value="document_start">document_start</option>
+          <option value="document_end">document_end</option>
+          <option value="document_idle">document_idle</option>
+        </select>
       </label>
-    </div>
-    <label>
-      <span>Persist across sessions</span>
-      <select name="persist" value="no">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </label>
-    <label>
-      <span>Run at</span>
-      <select name="run-at" value="document_idle">
-        <option value="document_start">document_start</option>
-        <option value="document_end">document_end</option>
-        <option value="document_idle">document_idle</option>
-      </select>
-    </label>
-    <label>
-      <span>World</span>
-      <select name="world" value="ISOLATED">
-        <option value="ISOLATED">ISOLATED</option>
-        <option value="MAIN">MAIN</option>
-      </select>
-    </label>
-    <label>
-      <span>All Frames</span>
-      <select name="all-frames" value="no">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </label>
-    <label>
-      <span>Matches</span>
-      <input type="text" name="matches" value='https://example.com/*'>
-    </label>
-    <p class="hint">Note: Make sure you request the required <code>host_permissions</code> in the manifest.</p>
-    <div class="buttons programmatic-buttons">
-      <button type="button" id="inject-programmatic">Execute Script</button>
-    </div>
-    <div class="buttons dynamic-buttons">
-      <button type="button" id="register-dynamic" disabled>Register Script</button>
-      <button type="button" id="unregister-dynamic" disabled>Unregister Script</button>
-    </div>
-  </form>
-</body>
+      <label>
+        <span>World</span>
+        <select name="world" value="ISOLATED">
+          <option value="ISOLATED">ISOLATED</option>
+          <option value="MAIN">MAIN</option>
+        </select>
+      </label>
+      <label>
+        <span>All Frames</span>
+        <select name="all-frames" value="no">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+      </label>
+      <label>
+        <span>Matches</span>
+        <input type="text" name="matches" value="https://example.com/*" />
+      </label>
+      <p class="hint">
+        Note: Make sure you request the required
+        <code>host_permissions</code> in the manifest.
+      </p>
+      <div class="buttons programmatic-buttons">
+        <button type="button" id="inject-programmatic">Execute Script</button>
+      </div>
+      <div class="buttons dynamic-buttons">
+        <button type="button" id="register-dynamic" disabled>
+          Register Script
+        </button>
+        <button type="button" id="unregister-dynamic" disabled>
+          Unregister Script
+        </button>
+      </div>
+    </form>
+  </body>
 </html>
