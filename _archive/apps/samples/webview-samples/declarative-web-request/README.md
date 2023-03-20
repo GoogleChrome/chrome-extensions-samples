@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/hhflblflkeainajnkamabjibdbfnbilb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/hhflblflkeainajnkamabjibdbfnbilb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Declarative Web Request API
@@ -26,9 +26,9 @@ top-right.
 ## Resources
 
 * [Declarative Web Request API](https://developer.chrome.com/extensions/declarativeWebRequest)
-* [Webview](http://developer.chrome.com/apps/app_external.html#webview)
-* [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
+* [Webview](http://developer.chrome.com/apps/app_external#webview)
+* [Permissions](http://developer.chrome.com/apps/manifest#permissions)
 
 
 ## Screenshot
-![screenshot](/apps/samples/webview-samples/declarative-web-request/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/webview-samples/declarative-web-request/assets/screenshot_1280_800.png)

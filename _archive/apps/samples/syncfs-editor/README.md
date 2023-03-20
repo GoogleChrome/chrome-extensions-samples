@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ccphiekjjhfnhbmpcbmkmjjhbfhlijkc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ccphiekjjhfnhbmpcbmkmjjhbfhlijkc">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 syncfs-editor
@@ -23,7 +23,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-     
+
 ## Screenshot
-![screenshot](/apps/samples/syncfs-editor/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/syncfs-editor/assets/screenshot_1280_800.png)
 

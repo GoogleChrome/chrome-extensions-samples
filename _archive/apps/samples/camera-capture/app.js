@@ -21,7 +21,7 @@ Author: Eric Bidelman (ericbidelman@chromium.org)
  * video from the selected device. Requires the permissions
  * for videoCapture to be set in the manifest.
  *
- * @see http://developer.chrome.com/apps/manifest.html#permissions
+ * @see http://developer.chrome.com/apps/manifest#permissions
  */
 
 var curStream = null; // keep track of current stream

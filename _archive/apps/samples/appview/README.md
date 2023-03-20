@@ -14,4 +14,4 @@ Add `host-app` and `embedded-app` and embed the `embedded-app` inside
 * [videoCapture](https://developer.chrome.com/apps/declare_permissions)
 
 ## Screenshot
-![screenshot](/apps/samples/appview/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/appview/assets/screenshot_1280_800.png)

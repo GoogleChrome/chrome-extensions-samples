@@ -1,6 +1,3 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/pbokgdgkaaenccneanahifaakldannno">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
-
-
 # URL Handler Sample App
 
 This is a basic Wikipedia viewer implemented as a packaged app.
@@ -13,10 +10,10 @@ Note that at least in this initial version of the feature in Chrome 31 stable ch
 
 ## Resources
 
-* [url_handlers in manifest](http://developer.chrome.com/apps/manifest/url_handlers.html)
-* [chrome.app.runtime.onLaunched](http://developer.chrome.com/apps/app_runtime.html#event-onLaunched)
+* [url_handlers in manifest](http://developer.chrome.com/apps/manifest/url_handlers)
+* [chrome.app.runtime.onLaunched](https://developer.chrome.com/docs/extensions/reference/app_runtime#event-onLaunched)
 * [webview](https://developer.chrome.com/apps/tags/webview)
-* [chrome.storage](http://developer.chrome.com/apps/storage.html)
+* [chrome.storage](http://developer.chrome.com/apps/storage)
 
 ## Screenshot
-![screenshot](/apps/samples/url-handler/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/url-handler/assets/screenshot_1280_800.png)

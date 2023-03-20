@@ -2,7 +2,7 @@
  * Listens for the app launching then creates the window
  *
  * @see http://developer.chrome.com/apps/experimental.app.html
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 chrome.app.runtime.onLaunched.addListener(function(data) {
   // App Launched

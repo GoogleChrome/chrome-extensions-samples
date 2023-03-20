@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/baaenjnmlaejajnalldcecpdafeggelb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/baaenjnmlaejajnalldcecpdafeggelb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Instagram Demo
@@ -20,10 +20,10 @@ The key *must* be removed before uploading it to the store.
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-* [Identity](http://developer.chrome.com/apps/app.identity.html)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+* [Identity](https://developer.chrome.com/docs/apps/app_identity/)
 
 
 ## Screenshot
-![screenshot](/apps/samples/instagram-auth/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/instagram-auth/assets/screenshot_1280_800.png)

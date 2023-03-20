@@ -1,21 +1,21 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/okhdmjejphblookgnkabaoaalhcoobec">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/okhdmjejphblookgnkabaoaalhcoobec">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # A simple UDP echo client
 
     ------------------------------
-    
+
     [127.0.0.1:3007    ] [Connect]
-    
+
                    **o
                       ..
                         .
-    
-    
-    
+
+
+
     ------------------------------
 
-Connects to a UDP echo server at the given address. 
+Connects to a UDP echo server at the given address.
 
 Each little dot represents a echo request.
 When the request receives a reply, it shoots away and blows up.
@@ -29,10 +29,10 @@ In the `server` directory, you will find a Node echo server that intentionally d
 
 ## APIs
 
-* [UDP Network](http://developer.chrome.com/apps/app_network.html#udp)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-     
+* [UDP Network](http://developer.chrome.com/apps/app_network#udp)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+
 ## Screenshot
-![screenshot](/apps/samples/udp/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/udp/assets/screenshot_1280_800.png)
 

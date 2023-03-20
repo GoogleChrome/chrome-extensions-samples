@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/nfeplfjagjlljomimjealpedhjgamkle">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/nfeplfjagjlljomimjealpedhjgamkle">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Package-Local Resources
@@ -18,10 +18,10 @@ to particular `webview` partitions to access trusted package-local content.
 
 ## Resources
 
-* [Webview](http://developer.chrome.com/apps/app_external.html#webview)
-* [Permissions](http://developer.chrome.com/apps/manifest.html#permissions)
+* [Webview](http://developer.chrome.com/apps/app_external#webview)
+* [Permissions](http://developer.chrome.com/apps/manifest#permissions)
 * [Partitions](https://developer.chrome.com/apps/tags/webview#partition)
 
 
 ## Screenshot
-![screenshot](/apps/samples/webview-samples/local-resources/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/webview-samples/local-resources/assets/screenshot_1280_800.png)

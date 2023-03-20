@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ebckmolcafdmfjbkmamhoacnmmkiohpe">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ebckmolcafdmfjbkmamhoacnmmkiohpe">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Telnet
@@ -20,7 +20,7 @@ Renders it in glorious ANSIColor for your viewing joy.
 
 Networking stuff, ANSI colors by Boris Smus.
 Terminal by Eric Bidelman: http://www.htmlfivewow.com/demos/terminal/terminal.html
-     
+
 ## Screenshot
-![screenshot](/apps/samples/telnet/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/telnet/assets/screenshot_1280_800.png)
 

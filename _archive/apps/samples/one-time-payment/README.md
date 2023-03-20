@@ -1,12 +1,12 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ebcgmmcbgnpoclkoibogeiokfdmjbbob">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ebcgmmcbgnpoclkoibogeiokfdmjbbob">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 # One time payments & free trials in Chrome Apps
 
 If you choose to charge users for your Chrome App, there are several options
-available to you. The Chrome Web Store has a built-in 
+available to you. The Chrome Web Store has a built-in
 [one-time payment system](https://developers.google.com/chrome/web-store/docs/payments-otp)
 called Chrome Web Store Payments.  With one-time payments, you can also
-offer a free trial experience for your users. 
+offer a free trial experience for your users.
 
 ### Note:
 The version that is published in the Chrome Web Store is not available for sale! This is to prevent people from accidentally purchasing a sample.  When installed, the user will be issued with a FREE_TRIAL license.  If you want to see the end to end flow, complete with the ability to purchase the app, you'll need to publish it in the store yourself and enable one time payments.  See the [documentation](https://developers.google.com/chrome/web-store/docs/payments-otp#using-otps) for full details.
@@ -20,4 +20,4 @@ to add the the key below to your manifest:
 * [Identity](http://developer.chrome.com/apps/identity.html)
 
 ## Screenshot
-![screenshot](/apps/samples/one-time-payment/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/one-time-payment/assets/screenshot_1280_800.png)

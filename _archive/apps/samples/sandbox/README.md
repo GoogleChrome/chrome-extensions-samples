@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ipchbpppeafbpnmnjbkljpfhkkiaeikd">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ipchbpppeafbpnmnjbkljpfhkkiaeikd">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Sandbox
@@ -9,17 +9,17 @@ passes a counter variable. The sandboxed page uses the
 using the counter variable which is then passed back to the main page for rendering.
 
 The default packaged app Content Security Policy (CSP) value
-[disallows](http://developer.chrome.com/apps/app_csp.html) the use of
+[disallows](https://developer.chrome.com/docs/apps/contentSecurityPolicy/) the use of
 `eval()` or `new Function()` (or variants like `Function.apply()`) so using a
 sandbox is necessary for this process. To enable sandboxing in your app you
-add the `sandbox` property to your app's [manifest file](http://developer.chrome.com/apps/manifest.html#sandbox).
+add the `sandbox` property to your app's [manifest file](http://developer.chrome.com/apps/manifest#sandbox).
 
-See more info on [using eval safely in packaged apps](http://developer.chrome.com/apps/sandboxingEval.html).
+See more info on [using eval safely in packaged apps](http://developer.chrome.com/apps/sandboxingEval).
 
 ## APIs
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-     
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+
 ## Screenshot
-![screenshot](/apps/samples/sandbox/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/sandbox/assets/screenshot_1280_800.png)
 

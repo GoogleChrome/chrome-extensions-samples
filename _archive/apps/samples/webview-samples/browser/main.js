@@ -1,8 +1,8 @@
 /**
  * Listens for the app launching then creates the window
  *
- * @see http://developer.chrome.com/apps/app.runtime.html
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_runtime
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 chrome.app.runtime.onLaunched.addListener(function() {
   runApp();
@@ -11,7 +11,7 @@ chrome.app.runtime.onLaunched.addListener(function() {
 /**
  * Listens for the app restarting then re-creates the window.
  *
- * @see http://developer.chrome.com/apps/app.runtime.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_runtime
  */
 chrome.app.runtime.onRestarted.addListener(function() {
   runApp();
@@ -20,7 +20,7 @@ chrome.app.runtime.onRestarted.addListener(function() {
 /**
  * Creates the window for the application.
  *
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 function runApp() {
   chrome.app.window.create('browser.html', {

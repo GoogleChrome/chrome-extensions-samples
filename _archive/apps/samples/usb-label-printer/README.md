@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/fgnncpfphbgfchijmoopegkdhihegfla">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/fgnncpfphbgfchijmoopegkdhihegfla">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 label-printer-app
@@ -28,7 +28,7 @@ var productId = 0x0021; // changed from 0x0020
 
 ### Windows issues
 
-Some Windows device drivers take ownership of the device and don't allow Chrome to connect to them. If openDevice or findDevice doesn't work for you, you can try to use a generic low level driver instead. 
+Some Windows device drivers take ownership of the device and don't allow Chrome to connect to them. If openDevice or findDevice doesn't work for you, you can try to use a generic low level driver instead.
 For more info, check this [chrome-app-samples issue](https://github.com/GoogleChrome/chrome-app-samples/issues/203).
 
 LICENSE
@@ -47,7 +47,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-     
+
 ## Screenshot
-![screenshot](/apps/samples/usb-label-printer/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/usb-label-printer/assets/screenshot_1280_800.png)
 

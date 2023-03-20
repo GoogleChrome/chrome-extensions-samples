@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/gpededflkpcoehfjpdecdkoiagajloin">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/gpededflkpcoehfjpdecdkoiagajloin">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # GCM Notifications Sample
@@ -13,4 +13,4 @@ Demonstrates the capability to receive the push messages from Google Cloud Messa
 
 
 ## Screenshot
-![screenshot](/apps/samples/gcm-notifications/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/gcm-notifications/assets/screenshot_1280_800.png)

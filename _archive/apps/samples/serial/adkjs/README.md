@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ieoiddehfkbacdideciijbdjfjegmpjo">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ieoiddehfkbacdideciijbdjfjegmpjo">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # ADK kit in Javascript
@@ -9,14 +9,14 @@ The demo simulates the same visual interface of the Android application, but in 
 
 In the firmware directory, there is the Arduino app you must upload. We could not use exactly the same arduino code from the original Android ADK because it uses a USB port where the board is the USB host, and that woudl conflict with the computer USB port that is always the host. Upload the arduino firmware code to the board and you are set.
 
-In the app directory, you will find the Chrome Packaged App. 
+In the app directory, you will find the Chrome Packaged App.
 
 ## APIs
 
 * [Serial API](http://developer.chrome.com/apps/app.hardware.html#serial)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-     
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+
 ## Screenshot
-![screenshot](/apps/samples/serial/adkjs/app/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/serial/adkjs/app/assets/screenshot_1280_800.png)
 

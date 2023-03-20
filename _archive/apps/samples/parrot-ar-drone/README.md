@@ -1,10 +1,10 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/lhdfniaagbjbipjmgfbnlbcmlbcgklkh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lhdfniaagbjbipjmgfbnlbcmlbcgklkh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Parrot AR.Drone 2.0 Controller
 
-This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/) and the [chrome.socket API](http://developer.chrome.com/apps/socket.html) to communicate with
-a [Parrot AR.Drone 2.0](http://ardrone2.parrot.com/).
+This app uses the [Gamepad API](http://www.html5rocks.com/en/tutorials/doodles/gamepad/) and the [chrome.socket API](https://developer.chrome.com/docs/extensions/reference/socket) to communicate with
+a [Parrot AR.Drone 2.0](https://www.parrot.com/us/support/documentation/ar-drone).
 
 The SDK specifies that there are 4 socket connections:
 
@@ -30,12 +30,12 @@ _Please note: this has only been tested with an Xbox 360 controller_
 
 ## Resources
 
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-* [Socket](http://developer.chrome.com/apps/socket.html)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+* [Socket](https://developer.chrome.com/docs/extensions/reference/socket)
 
 _Thanks to felixge for the [Node AR Drone lib](https://github.com/felixge/node-ar-drone), which served as a helpful reference._
      
 ## Screenshot
-![screenshot](/apps/samples/parrot-ar-drone/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/parrot-ar-drone/assets/screenshot_1280_800.png)
 

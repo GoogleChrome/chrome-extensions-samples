@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ghbnaccmkndoembcopnaklidmocbdkfp">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ghbnaccmkndoembcopnaklidmocbdkfp">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Espruino LED toggle
@@ -15,8 +15,8 @@ This sample lets you toggle the state of an LED on an [Espruino JavaScript board
 ## APIs
 
 * [Serial API](http://developer.chrome.com/apps/app.hardware.html#serial)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
-     
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
+
 ## Screenshot
-![screenshot](/apps/samples/serial/espruino/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/serial/espruino/assets/screenshot_1280_800.png)

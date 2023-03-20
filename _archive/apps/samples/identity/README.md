@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/oficlfehfenioickohognhdhmmcpceil">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/oficlfehfenioickohognhdhmmcpceil">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/main/_archive/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Identity
@@ -15,10 +15,10 @@ you should use the launchWebAuthFlow method instead.
 
 ## APIs
 
-* [Identity](http://developer.chrome.com/apps/app.identity.html)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
+* [Identity](https://developer.chrome.com/docs/apps/app_identity/)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/app_runtime)
+* [Window](https://developer.chrome.com/docs/extensions/reference/app_window)
 
 
 ## Screenshot
-![screenshot](/apps/samples/identity/assets/screenshot_1280_800.png)
+![screenshot](/_archive/apps/samples/identity/assets/screenshot_1280_800.png)

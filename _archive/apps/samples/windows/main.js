@@ -15,7 +15,7 @@ function reset() {
 
 /**
  * Initialise and launch the windows
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 function launch() {
 
@@ -91,7 +91,7 @@ function launch() {
 
 /**
  * Minimises both the original and copycat windows
- * @see http://developer.chrome.com/apps/app.window.html
+ * @see https://developer.chrome.com/docs/extensions/reference/app_window
  */
 function minimizeAll() {
 
@@ -100,5 +100,5 @@ function minimizeAll() {
   });
 }
 
-// @see http://developer.chrome.com/apps/app.runtime.html
+// @see https://developer.chrome.com/docs/extensions/reference/app_runtime
 chrome.app.runtime.onLaunched.addListener(launch);
