@@ -125,7 +125,7 @@ function createPrintersTable() {
       document.getElementById("printJobTbody").appendChild(jobTr);
     } else {
       document.getElementById(jobId + "-status").innerHTML = status;
-      if (status !== "PENDDING" && status !== "IN_PROGRESS") {
+      if (status !== "PENDING" && status !== "IN_PROGRESS") {
         document.getElementById(jobId + "-cancelBtn").style.visibility = 'hidden';
       }
     }
