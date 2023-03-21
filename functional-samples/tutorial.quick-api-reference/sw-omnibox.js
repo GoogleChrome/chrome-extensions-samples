@@ -36,5 +36,5 @@ async function updateHistory(input) {
   const { apiSuggestions } = await chrome.storage.local.get('apiSuggestions');
   apiSuggestions.unshift(input);
   apiSuggestions.splice(NUMBER_OF_PREVIOUS_SEARCHES);
-  await chrome.storage.local.set({ apiSuggestions });
+  return chrome.storage.local.set({ apiSuggestions });
 }
