@@ -5,14 +5,17 @@ const updateTip = async () => {
   const response = await fetch('https://extension-tips.glitch.me/tips.json');
   const tips = await response.json();
   const randomIndex = Math.floor(Math.random() * tips.length);
-  await chrome.storage.local.set({ tip: tips[randomIndex] });
+  return chrome.storage.local.set({ tip: tips[randomIndex] });
 };
 
 // Creates an alarm if it doesn't exist
 async function createAlarm() {
-  const alarm = await chrome.alarms.get("tip");
-  if (typeof alarm === "undefined") {
-    await chrome.alarms.create("tip", { delayInMinutes: 1, periodInMinutes: 1440 });
+  const alarm = await chrome.alarms.get('tip');
+  if (typeof alarm === 'undefined') {
+    await chrome.alarms.create('tip', {
+      delayInMinutes: 1,
+      periodInMinutes: 1440
+    });
     updateTip();
   }
 }
