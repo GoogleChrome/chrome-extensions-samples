@@ -1,0 +1,19 @@
+{
+	"name": "World Clock",
+	"version": "0.1.7",
+	"manifest_version": 3,
+	"minimum_chrome_version": "23",
+	"description": "A world clock application.",
+	"icons": {
+		"16": "assets/icon.png",
+		"128": "assets/icon.png"
+	},
+    "background": {
+		"service_worker":"main.js"
+  	},
+	"offline_enabled": true,
+	"permissions": ["geolocation",
+					"storage",
+					"notifications"
+					]
+}
