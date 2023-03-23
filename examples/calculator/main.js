@@ -6,18 +6,14 @@
 
 
 /**
- * Listens for the app launching then creates the window
+ * Listens for the extension launching then creates the window
  *
  * @see http://developer.chrome.com/apps/app.window.html
  */
 chrome.runtime.onStartup.addListener(function() {
-  chrome.windows.create('calculator.html', {
-    id: "calcWinID",
-    innerBounds: {
-      width: 244,
-      height: 380,
-      minWidth: 244,
-      minHeight: 380
-    }
+  chrome.windows.create({
+    url: 'calculator.html',
+    width: 244,
+    height: 380
   });
 });
