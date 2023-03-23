@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Dialog Element Example",
+  "version": "3",
+  "minimum_chrome_version": "31",
+    "background": {
+      "service_worker":"main.js"
+    }
+}
