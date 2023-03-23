@@ -1,0 +1,15 @@
+{
+  "name": "Desktop Capture Sample",
+  "version": "2",
+  "manifest_version": 3,
+  "icons": {
+    "16": "desktop.png",
+    "128": "desktop.png"
+  },
+    "background": {
+      "service_worker":"background.js"
+    },
+  "permissions": [
+    "desktopCapture"
+  ]
+}
