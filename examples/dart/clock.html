@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<!-- Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
+     for details. All rights reserved. Use of this source code is governed by a
+     BSD-style license that can be found in the LICENSE file. -->
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Clock Demo</title>
+    <link rel="stylesheet" href="css/clock.css">
+  </head>
+  <body>
+    <h1>Clock</h1>
+
+    <p>An html5 clock using absolutely positioned elements.</p>
+
+    <div id="canvas-content"></div>
+
+    <footer>
+      <p id="summary"> </p>
+      <p id="notes"> </p>
+    </footer>
+
+    <script type="application/dart" src="dart/clock.dart"></script>
+
+    <!-- dart.js detects whether the app is opened in Dartium or Chrome and
+         rewites the .dart includes appropriately. Use a derivative of the copy
+         in packages/browser/dart.js, as that does not yet handle the CSP
+         compliant "precompiled" version. It must come after any dart scripts.
+         -->
+    <script src="js/browser_dart_csp_safe.js"></script>
+  </body>
+</html>
