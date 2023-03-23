@@ -8,13 +8,16 @@ const updateTip = async () => {
   await chrome.storage.local.set({ tip: tips[randomIndex] });
 };
 
-// Create a daily alarm and retrieves the first tip when extension is installed.
-chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') {
-    chrome.alarms.create({ delayInMinutes: 1, periodInMinutes: 1440 });
+// Creates an alarm if it doesn't exist
+async function createAlarm() {
+  const alarm = await chrome.alarms.get("tip");
+  if (typeof alarm === "undefined") {
+    await chrome.alarms.create("tip", { delayInMinutes: 1, periodInMinutes: 1440 });
     updateTip();
   }
-});
+}
+
+createAlarm();
 
 // Retrieve tip of the day
 chrome.alarms.onAlarm.addListener(updateTip);
