@@ -1,0 +1,15 @@
+{
+  "name": "Sandboxed Content Sample",
+  "version": "1.0.3",
+  "manifest_version": 3,
+  "minimum_chrome_version": "23",
+    "background": {
+      "service_worker": "main.js"
+    },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "sandbox": {
+    "pages": ["sandboxed.html"]
+  }
+}

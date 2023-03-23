@@ -1,0 +1,19 @@
+{
+  "name": "Sandboxed Frame Sample",
+  "version": "1.0.3",
+  "manifest_version": 3,
+  "minimum_chrome_version": "23",
+  "background": {
+      "service_worker": "main.js"
+    },
+  "permissions": [
+    "offscreen",
+    "nativeMessaging"
+  ],
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  }
+}
