@@ -8,11 +8,14 @@ const updateTip = async () => {
   return chrome.storage.local.set({ tip: tips[randomIndex] });
 };
 
-// Creates an alarm if it doesn't exist
+const ALARM_NAME = 'tip';
+
+// Check if alarm exists to avoid resetting the timer.
+// The alarm might be removed when the browser session restarts.
 async function createAlarm() {
-  const alarm = await chrome.alarms.get('tip');
+  const alarm = await chrome.alarms.get(ALARM_NAME);
   if (typeof alarm === 'undefined') {
-    await chrome.alarms.create('tip', {
+    chrome.alarms.create(ALARM_NAME, {
       delayInMinutes: 1,
       periodInMinutes: 1440
     });
