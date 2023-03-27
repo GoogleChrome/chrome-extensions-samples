@@ -163,7 +163,7 @@ function buildPreview(doc) {
     // The story body is created as an iframe with a data: URL in order to
     // isolate it from this page and protect against XSS.  As a data URL, it
     // has limited privileges and must communicate back using postMessage().
-    desc.src='data:text/html,' + iframe_src + itemDesc + '</body></html>';
+    desc.src='data:text/html,' + btoa(unescape(encodeURIComponent(iframe_src + itemDesc + '</body></html>')));
 
     item.appendChild(desc);
     feed.appendChild(item);
