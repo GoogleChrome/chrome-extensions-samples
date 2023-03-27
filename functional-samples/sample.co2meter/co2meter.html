@@ -60,7 +60,6 @@
 </table>
 <script type="module">
 import storage from "./modules/storage.js";
-storage.saveCO2Value(1234);
 
 const connectButton = document.getElementById('connect');
 connectButton.addEventListener('click', connect);
@@ -193,6 +192,7 @@ function onInputReport(report) {
 
         chart.data.datasets[0].data.push({ x: date, y: val });
     } else if (op == 0x50) {
+        storage.saveCO2Value(val);
         currentCO2 = `${val} ppm`;
         newData = true;
 
