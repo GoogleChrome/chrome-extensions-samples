@@ -1,0 +1,22 @@
+{
+  "name": "CO2 meter extension",
+  "description": "An extension that connects to a CO2  meter using WebHID extension service workers",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "32": "images/icon32.png"
+    },
+    "default_title": "Click me",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+    "32": "images/icon32.png",
+    "128": "images/icon128.png"
+  }
+}
