@@ -30,16 +30,13 @@ changeColorButton.addEventListener('click', (event) => {
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
       args: [color],
-      func: (color) => {
-        // There's a typo in the line below;
-        // ❌ colors should be ✅ color.
-        document.body.style.backgroundColor = color;
-      }
+      func: setColor
     });
   });
 });
 
-async function setColor() {
-  let { color } = await chrome.storage.sync.get(['color']);
+async function setColor(color) {
+  // There's a typo in the line below;
+  // ❌ colors should be ✅ color.
   document.body.style.backgroundColor = color;
 }

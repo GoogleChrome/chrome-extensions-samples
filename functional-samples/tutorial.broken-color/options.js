@@ -15,7 +15,7 @@
 const buttonDiv = document.getElementById('buttonDiv');
 const buttonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
 
-const createButtonsWithOptions = (buttonColors) => {
+const createColorButtons = (buttonColors) => {
   buttonColors.forEach((color) => {
     const button = document.createElement('button');
     button.style.backgroundColor = color;
@@ -30,4 +30,4 @@ const createButtonsWithOptions = (buttonColors) => {
   });
 };
 
-createButtonsWithOptions(buttonColors);
+createColorButtons(buttonColors);
