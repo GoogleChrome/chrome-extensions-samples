@@ -1,7 +1,5 @@
 # chrome.printing
 
-_Describe what the sample demonstrates. If this is an API sample, link to the API._
-
 This sample demonstrates all four methods of the `chrome.printing` namespace. 
 
 ## Overview
