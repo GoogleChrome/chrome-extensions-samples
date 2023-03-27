@@ -12,4 +12,4 @@ If the extension is not listed in [`PrintingAPIExtensionsAllowlist`](https://chr
 
 ## Implementation Notes
 
-Note that the `submitJob()` function  throws an error when returning a promiseß ([crbug: 1422837](https://bugs.chromium.org/p/chromium/issues/detail?id=1422837)).
+Note that the `submitJob()` function  throws an error when returning a promise ([crbug: 1422837](https://bugs.chromium.org/p/chromium/issues/detail?id=1422837)).
