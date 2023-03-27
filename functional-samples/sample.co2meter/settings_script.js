@@ -1,5 +1,4 @@
 import storage from "./modules/storage.js";
-storage.saveCO2Value(1234); // TODO: Replace this test with actual usage.
 
 const createGrantDeviceButton = () => {
   let divElement = document.createElement('div');
@@ -24,6 +23,7 @@ const createTemperatureMetricButton = () => {
     const metric = document.getElementById("celsius").checked ? 'Celsius' : 'fahrenheit';
     // TODO: to update the storage so that pop up is showing intended metric.
     console.log(`Set temperature metric button clicked, set to use ${metric}`);
+    storage.saveTemperatureUnit(metric);
   };
 
   let celsiusInputElement = document.createElement('input');
@@ -68,6 +68,7 @@ const createIntervalButton = () => {
     const interval = document.getElementById("interval").value;
     // TODO: to update the storage so that pop up is showing intended metric.
     console.log(`Set CO2 reading interval button clicked, set to use ${interval}s`);
+    storage.saveInterval(interval);
   };
 
   let inputElement = document.createElement('input');
