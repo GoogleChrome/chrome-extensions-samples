@@ -1,3 +1,6 @@
+import storage from "./modules/storage.js";
+storage.saveCO2Value(1234); // TODO: Replace this test with actual usage.
+
 const createGrantDeviceButton = () => {
   let divElement = document.createElement('div');
   const buttonElement = document.createElement('button');
