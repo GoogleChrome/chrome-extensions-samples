@@ -1,8 +1,25 @@
 <html>
+
 <head>
-<title>CO2 meter settings</title>
-<script type="module" src="settings_script.js"></script>
+    <title>CO2 meter extension settings</title>
+    <script type="module" src="settings_script.js"></script>
 </head>
+
 <body>
+    <div>
+        <button type="button" id="grantPermission">Grant CO2 meter permission</button>
+    </div>
+    <div>
+        <button type="button" id="setTemperatureUnit">Set temperature unit</button>
+        <input type="radio" id="celsius" name="celsius">
+        <label for="celsius">Celsius</label>
+        <input type="radio" id="fahrenheit" name="fahrenheit">
+        <label for="fahrenheit">Fahrenheit</label>
+    </div>
+    <div>
+        <button type="button" id="setInterval">Set CO2 reading interval (in seconds)</button>
+        <input type="number" id="interval" name="interval" value="10">
+    </div>
 </body>
+
 </html>
