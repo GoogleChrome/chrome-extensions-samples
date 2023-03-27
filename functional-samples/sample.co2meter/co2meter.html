@@ -58,7 +58,9 @@
         <th>Temperature</th>
     </tr>
 </table>
-<script>
+<script type="module">
+import storage from "./modules/storage.js";
+storage.saveCO2Value(1234);
 
 const connectButton = document.getElementById('connect');
 connectButton.addEventListener('click', connect);
