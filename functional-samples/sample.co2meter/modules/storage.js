@@ -5,6 +5,12 @@ class Storage {
         console.log("saveCO2Value()", kelvin);
     };
 
+    getInterval() {
+        const storedInterval = 10;
+        console.log(`getInterval() ${storedInterval}`);
+        return storedInterval;
+    }
+    
     saveInterval(interval) {
         console.log("saveInterval()", interval);
     }

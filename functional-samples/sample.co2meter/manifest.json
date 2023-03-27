@@ -4,7 +4,8 @@
   "version": "1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_icon": {
@@ -13,7 +14,7 @@
     "default_title": "Click me",
     "default_popup": "popup.html"
   },
-  "permissions": ["scripting"],
+  "permissions": ["scripting","alarms"],
   "host_permissions": ["<all_urls>"],
   "icons": {
     "32": "images/icon32.png",
