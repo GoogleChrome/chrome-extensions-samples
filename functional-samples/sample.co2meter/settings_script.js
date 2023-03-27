@@ -26,7 +26,7 @@ const createTemperatureMetricButton = () => {
     console.log(`Set temperature metric button clicked, set to use ${metric}`);
   };
 
-  celsiusInputElement = document.createElement('input');
+  let celsiusInputElement = document.createElement('input');
   celsiusInputElement.setAttribute('type', 'radio');
   celsiusInputElement.setAttribute('id', 'celsius');
   celsiusInputElement.setAttribute('name', 'celsius');
@@ -35,11 +35,11 @@ const createTemperatureMetricButton = () => {
       document.getElementById("fahrenheit").checked = false;
     }
   }
-  celsiusLabelElement = document.createElement('label');
+  let celsiusLabelElement = document.createElement('label');
   celsiusLabelElement.setAttribute('for', 'celsius');
   celsiusLabelElement.innerHTML = 'Celsius';
 
-  fahrenheitInputElement = document.createElement('input');
+  let fahrenheitInputElement = document.createElement('input');
   fahrenheitInputElement.setAttribute('type', 'radio');
   fahrenheitInputElement.setAttribute('id', 'fahrenheit');
   fahrenheitInputElement.setAttribute('name', 'fahrenheit');
@@ -48,7 +48,7 @@ const createTemperatureMetricButton = () => {
       document.getElementById("celsius").checked = false;
     }
   }
-  FahrenheitLabelElement = document.createElement('label');
+  let FahrenheitLabelElement = document.createElement('label');
   FahrenheitLabelElement.setAttribute('for', 'fahrenheit');
   FahrenheitLabelElement.innerHTML = 'fahrenheit';
 
@@ -70,7 +70,7 @@ const createIntervalButton = () => {
     console.log(`Set CO2 reading interval button clicked, set to use ${interval}s`);
   };
 
-  inputElement = document.createElement('input');
+  let inputElement = document.createElement('input');
   inputElement.setAttribute('type', 'number');
   inputElement.setAttribute('id', 'interval');
   inputElement.setAttribute('name', 'interval');
