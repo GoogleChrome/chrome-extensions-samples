@@ -60,6 +60,7 @@
 </table>
 <script type="module">
 import storage from "./modules/storage.js";
+import {getCO2Reading} from "./modules/co2_meter.js";
 
 const connectButton = document.getElementById('connect');
 connectButton.addEventListener('click', connect);
@@ -218,6 +219,9 @@ let currentDevice = null;
 async function connectToDevice(device) {
     currentDevice = device;
 
+    let val = await getCO2Reading();
+    storage.saveCO2Value(val);
+    /*
     try {
         currentDevice.addEventListener('inputreport', onInputReport);
         await currentDevice.open();
@@ -228,7 +232,7 @@ async function connectToDevice(device) {
         currentDevice.removeEventListener('inputreport', onInputReport);
         currentDevice = null;
         connectButton.disabled = false;
-    }
+    }*/
 }
 
 async function connect() {
