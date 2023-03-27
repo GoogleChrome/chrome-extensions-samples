@@ -2,7 +2,7 @@
 
 _Describe what the sample demonstrates. If this is an API sample, link to the API._
 
-This sample demonstrates demonstrates all four methods of the `Chrome.printing` namespace. 
+This sample demonstrates all four methods of the `chrome.printing` namespace. 
 
 ## Overview
 
