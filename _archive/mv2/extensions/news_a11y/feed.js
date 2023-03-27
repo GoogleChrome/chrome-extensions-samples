@@ -79,11 +79,11 @@ function buildPreview(doc) {
   }
 
   // Construct the iframe's HTML.
-  var iframe_src = '<!doctype html><html><head><script ' +
-      'src="chrome-extension://ldglnfnokeifbcaeppacaejckagballg/' +
-      'feed_iframe.js"><' + '/script><link href="chrome-extension://ldglnf' +
-      'nokeifbcaeppacaejckagballg/feed_iframe.css" rel="stylesheet" ' +
-      'type="text/css"></head><body>';
+  var iframe_src = `<!doctype html><html><head><title>f</title>
+    <script src="${chrome.runtime.getURL('/feed_iframe.js')}"></script>
+    <link href="${chrome.runtime.getURL('/feed_iframe.css')} rel="stylesheet" type="text/css">
+    </head><body>`;
+
 
   var feed = document.getElementById('feed');
   // Set ARIA role indicating the feed element has a tree structure
@@ -159,11 +159,10 @@ function buildPreview(doc) {
     // Disable keyboard focus on elements in iFrames that have not been
     // displayed yet
     desc.tabIndex = -1;
-
     // The story body is created as an iframe with a data: URL in order to
     // isolate it from this page and protect against XSS.  As a data URL, it
     // has limited privileges and must communicate back using postMessage().
-    desc.src='data:text/html,' + btoa(unescape(encodeURIComponent(iframe_src + itemDesc + '</body></html>')));
+    desc.src=`data:text/html,${iframe_src}${itemDesc.replace(/#/g,"")}</body></html>`;
 
     item.appendChild(desc);
     feed.appendChild(item);
