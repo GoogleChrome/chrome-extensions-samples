@@ -90,6 +90,8 @@ class CO2Meter {
 
         this.reading = true;
 
+        await this.device.close();
+
         try {
             this.device.addEventListener('inputreport', this.onInputReport);
             await this.device.open();
