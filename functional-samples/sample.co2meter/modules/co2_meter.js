@@ -1,4 +1,5 @@
 // co2_meter.js
+
 /*
 Description:
 CO2Meter provides methods for accessing status and data of a CO2 meter.
@@ -19,27 +20,32 @@ const key = new Uint8Array([0xc4, 0xc6, 0xc0, 0x92, 0x40, 0x23, 0xdc, 0x96]);
 class CO2Meter {
     constructor() {
         this.device = null;
-        this.devices = null;
         this.resolver = null;
         this.useVitual = false;
         this.onInputReport = this.onInputReport.bind(this);
+        this.connectClientCB = null;
+        this.disconnectClientCB = null;
+        this.connectHanlder = this.connectHanlder.bind(this);
+        this.disconnectHandler = this.disconnectHandler.bind(this);
     }
 
     async init(useVirtual = false) {
-        this.devices = await navigator.hid.getDevices();
+        const devices = await navigator.hid.getDevices();
         this.useVitual = useVirtual;
-        if (this.devices.length == 1) this.device = this.devices[0];
+        if (devices.length == 1) this.device = devices[0];
+        navigator.hid.addEventListener("connect", this.connectHanlder);
+        navigator.hid.addEventListener("disconnect", this.disconnectHandler);
         console.log('CO2Meter init() done');
     }
 
     registerCallback(connectCallback, disconnectCallback) {
-        navigator.hid.addEventListener('connect', connectCallback);
-        navigator.hid.addEventListener('disconnect', disconnectCallback);
+        this.connectClientCB = connectCallback;
+        this.disconnectClientCB = disconnectCallback;
     }
 
     deregisterCallback() {
-        navigator.hid.removeEventListener('connect', connectCallback);
-        navigator.hid.removeEventListener('disconnect', disconnectCallback);
+        this.connectClientCB = null;
+        this.disconnectClientCB = null;
     }
 
     static requestPermission() {
@@ -48,6 +54,22 @@ class CO2Meter {
         navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
             console.log('CO2 meter permission granted!', device[0]);
         })
+    }
+
+    connectHanlder(e) {
+        this.device = e.device;
+        if (this.connectClientCB
+            && typeof this.connectClientCB === 'function') {
+            this.connectCallback();
+        }
+    }
+
+    disconnectHandler() {
+        this.device = null;
+        if (this.disconnectClientCB &&
+            typeof this.disconnectClientCB === 'function') {
+            this.disconnectClientCB();
+        }
     }
 
     async getCO2Reading() {
@@ -70,8 +92,12 @@ class CO2Meter {
         }
 
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.resolver = resolve;
+            // Currently we have a timeout for 10 sec if CO2 report is not received.
+            setTimeout(() => {
+                reject('Timeout for CO2 reading');
+            }, 10000);
         })
     }
 
