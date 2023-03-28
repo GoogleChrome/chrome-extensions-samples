@@ -48,4 +48,4 @@ npm install
 ```
 ### Writing a README
 
-All code samples should include a README file. Please copy the [provided template](./README-template.md) into your sample's folder and follow the instructions therein.
+All new code samples or samples updated form Manifest V2 should include a README file. Please copy the [provided template](./README-template.md) into your sample's folder and follow the instructions therein.
