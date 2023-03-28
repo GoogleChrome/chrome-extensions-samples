@@ -1,4 +1,4 @@
-// Copyright 2018 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ chrome.storage.sync.get('color', ({ color }) => {
   changeColorButton.setAttribute('value', color);
 });
 
-// Update the click event handler with an arrow function
 changeColorButton.addEventListener('click', (event) => {
   const color = event.target.value;
 
   // Query the active tab before injecting the content script
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    // Use the 'chrome.scripting' API to execute a script
+    // Use the Scripting API to execute a script
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
       args: [color],
@@ -35,7 +34,7 @@ changeColorButton.addEventListener('click', (event) => {
   });
 });
 
-async function setColor(color) {
+function setColor(color) {
   // There's a typo in the line below;
   // ❌ colors should be ✅ color.
   document.body.style.backgroundColor = color;
