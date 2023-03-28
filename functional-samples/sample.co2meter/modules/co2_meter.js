@@ -48,7 +48,7 @@ class CO2Meter {
         this.disconnectClientCB = null;
     }
 
-    static requestPermission() {
+    requestPermission() {
         // The extension currently only support this model:
         // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
         navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
@@ -60,7 +60,7 @@ class CO2Meter {
         this.device = e.device;
         if (this.connectClientCB
             && typeof this.connectClientCB === 'function') {
-            this.connectCallback();
+            this.connectClientCB();
         }
     }
 

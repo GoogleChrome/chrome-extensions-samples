@@ -1,14 +1,10 @@
 import storage from "./modules/storage.js";
+import CO2Meter from "./modules/co2_meter.js";
 
 const setupPermissionButton = () => {
   // document.querySelector('#grantPermission').addEventListener('click', grantCO2meterPermission);
   document.querySelector('#grantPermission').onclick = () => {
-    // TODO: call CO2 meter driver to request permission.
-    // The extension currently only support this model:
-    // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
-    navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
-      console.log('CO2 meter permission granted!', device[0]);
-    })
+    CO2Meter.requestPermission();
   };
 }
 
