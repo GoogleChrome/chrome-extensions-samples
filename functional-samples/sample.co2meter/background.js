@@ -1,5 +1,5 @@
 import storage from "./modules/storage.js";
-import {getCO2Reading} from "./modules/co2_meter.js";
+import CO2Meter from "./modules/co2_meter.js";
 
 console.log('Extension service worker background script (background.js)');
 
