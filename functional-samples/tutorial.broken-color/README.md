@@ -1,6 +1,6 @@
 ## Context
 
-This is a simple extension used as sample in the [Debuggins extensions][1] tutorial. This extension changes the background color of active tab.
+This is a simple sample extension used in the [Debugging extensions][1] tutorial. The purpose of this extension is to demonstrate how to debug different extension components. This extension changes the background color of active tab.
 
 ## Running this extension
 
