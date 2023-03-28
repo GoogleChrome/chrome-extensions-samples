@@ -85,7 +85,7 @@ class CO2Meter {
         }
 
         if(this.reading) {
-            throw new Error("Still waiting previous reading promise resolved!");
+            return Promise.reject("Still waiting previous reading promise resolved!");
         }
 
         this.reading = true;
