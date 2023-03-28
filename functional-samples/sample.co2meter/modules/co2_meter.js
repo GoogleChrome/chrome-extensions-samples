@@ -4,6 +4,10 @@ Description:
 CO2Meter provides methods for accessing status and data of a CO2 meter.
 When creating a CO2Meter, it has to await `init()` to finish before questing device status.
 
+async init(useVirtual = false):
+`init()` must be called right after CO2Meter created. `useVirtual` used to indicate whether 
+to use a virtual CO2meter or not.
+
 getDeviceStatus():
 It returns true when device is connected and granted with permission.
 Or it returns false instead.
@@ -17,16 +21,40 @@ class CO2Meter {
         this.device = null;
         this.devices = null;
         this.resolver = null;
+        this.useVitual = false;
         this.onInputReport = this.onInputReport.bind(this);
     }
 
-    async init() {
+    async init(useVirtual = false) {
         this.devices = await navigator.hid.getDevices();
+        this.useVitual = useVirtual;
         if (this.devices.length == 1) this.device = this.devices[0];
         console.log('CO2Meter init() done');
     }
 
+    registerCallback(connectCallback, disconnectCallback) {
+        navigator.hid.addEventListener('connect', connectCallback);
+        navigator.hid.addEventListener('disconnect', disconnectCallback);
+    }
+
+    deregisterCallback() {
+        navigator.hid.removeEventListener('connect', connectCallback);
+        navigator.hid.removeEventListener('disconnect', disconnectCallback);
+    }
+
+    static requestPermission() {
+        // The extension currently only support this model:
+        // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
+        navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
+            console.log('CO2 meter permission granted!', device[0]);
+        })
+    }
+
     async getCO2Reading() {
+        if (this.useVitual) {
+            return Promise.resolve(999);
+        }
+
         if (!navigator.hid) {
             console.log(`WebHID is not enabled.`);
             return;
@@ -44,12 +72,11 @@ class CO2Meter {
 
         return new Promise((resolve) => {
             this.resolver = resolve;
-            //resolver = resolve;
         })
     }
 
     getDeviceStatus() {
-        return Boolean(this.device);
+        return this.useVitual || Boolean(this.device);
     }
 
     onInputReport(report) {
