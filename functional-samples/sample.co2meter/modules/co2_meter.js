@@ -27,6 +27,7 @@ class CO2Meter {
         this.disconnectClientCB = null;
         this.connectHanlder = this.connectHanlder.bind(this);
         this.disconnectHandler = this.disconnectHandler.bind(this);
+        this.reading = false;
     }
 
     async init(useVirtual = false) {
@@ -65,6 +66,7 @@ class CO2Meter {
     }
 
     disconnectHandler() {
+        this.device.close();
         this.device = null;
         if (this.disconnectClientCB &&
             typeof this.disconnectClientCB === 'function') {
@@ -82,6 +84,12 @@ class CO2Meter {
             return;
         }
 
+        if(this.reading) {
+            throw new Error("Still waiting previous reading promise resolved!");
+        }
+
+        this.reading = true;
+
         try {
             this.device.addEventListener('inputreport', this.onInputReport);
             await this.device.open();
@@ -97,6 +105,7 @@ class CO2Meter {
             // Currently we have a timeout for 10 sec if CO2 report is not received.
             setTimeout(() => {
                 reject('Timeout for CO2 reading');
+                this.reading = false;
             }, 10000);
         })
     }
@@ -120,6 +129,8 @@ class CO2Meter {
             console.log(`Current CO2 reading is ${val}`);
             this.resolver(val);
             this.device.removeEventListener('inputreport', this.onInputReport);
+            this.device.close();
+            this.reading = false;
         }
     }
 }
