@@ -1,0 +1,7 @@
+/*!
+  * chartjs-adapter-moment v1.0.1
+  * https://www.chartjs.org
+  * (c) 2022 chartjs-adapter-moment Contributors
+  * Released under the MIT license
+  */
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(require("moment"),require("chart.js")):"function"==typeof define&&define.amd?define(["moment","chart.js"],t):t((e="undefined"!=typeof globalThis?globalThis:e||self).moment,e.Chart)}(this,(function(e,t){"use strict";function n(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var f=n(e);const a={datetime:"MMM D, YYYY, h:mm:ss a",millisecond:"h:mm:ss.SSS a",second:"h:mm:ss a",minute:"h:mm a",hour:"hA",day:"MMM D",week:"ll",month:"MMM YYYY",quarter:"[Q]Q - YYYY",year:"YYYY"};t._adapters._date.override("function"==typeof f.default?{_id:"moment",formats:function(){return a},parse:function(e,t){return"string"==typeof e&&"string"==typeof t?e=f.default(e,t):e instanceof f.default||(e=f.default(e)),e.isValid()?e.valueOf():null},format:function(e,t){return f.default(e).format(t)},add:function(e,t,n){return f.default(e).add(t,n).valueOf()},diff:function(e,t,n){return f.default(e).diff(f.default(t),n)},startOf:function(e,t,n){return e=f.default(e),"isoWeek"===t?(n=Math.trunc(Math.min(Math.max(0,n),6)),e.isoWeekday(n).startOf("day").valueOf()):e.startOf(t).valueOf()},endOf:function(e,t){return f.default(e).endOf(t).valueOf()}}:{})}));
