@@ -10,8 +10,8 @@
   },
   "permissions": [
     "tabs",
-    "http://news.google.com/*"
+    "https://news.google.com/*"
   ],
   "manifest_version": 2,
-  "content_security_policy": "img-src 'self' http://* https://*; script-src 'self'; connect-src http://news.google.com; frame-src data:"
+  "content_security_policy": "default-src; img-src 'self' http://* https://*; script-src 'self'; connect-src http://news.google.com; frame-src data:"
 }

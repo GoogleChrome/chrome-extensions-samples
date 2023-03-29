@@ -1,0 +1,7 @@
+# News (i18n)
+
+This sample demonstrates a popup panel that access a remote URL. In this case, we are the Google News RSS feed, and building a UI to display that information. Additionally, this sample was built for multiple languages, to demonstrate how to support multiple languages within one extension.
+
+## Implementation Notes
+
+Note that this is a _very_ old example, and is kept here purely for archival purposes. We do not recommend using this as a base of a new extension.

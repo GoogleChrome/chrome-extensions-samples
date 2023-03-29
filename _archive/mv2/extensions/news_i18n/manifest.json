@@ -1,17 +1,19 @@
 {
-  "name": "__MSG_name__",
+  "name": "News Reader",
   "version": "1.1",
-  "description": "__MSG_description__",
+  "description": "Displays the first 5 items from the 'Google News - top news' RSS feed in a popup.",
   "icons": { "128": "news_icon.png" },
   "browser_action": {
-    "default_title": "__MSG_default_title__",
+    "default_title": "Google News",
     "default_icon": "news_action.png",
     "default_popup": "feed.html"
   },
+  "default_locale": "en",
   "permissions": [
     "tabs",
-    "http://news.google.com/*",
-    "http://news.google.es/*"
+    "https://news.google.es/*",
+    "https://news.google.com/*"
   ],
-  "default_locale": "en"
+  "manifest_version": 2,
+  "content_security_policy": "default-src; img-src 'self' http://* https://*; script-src 'self'; connect-src https://news.google.com; frame-src data:"
 }
