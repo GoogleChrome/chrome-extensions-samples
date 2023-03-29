@@ -1,4 +1,4 @@
-import { get, set, update } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
+import { get, set, update } from '../third-party/idb-keyval/dist/index.js';
 
 class Storage {
     constructor() {
@@ -11,14 +11,15 @@ class Storage {
         console.log("saveCO2Value()", kelvin);
     };
 
-    getInterval() {
-        const storedInterval = 10;
-        console.log(`getInterval() ${storedInterval}`);
+    async getInterval() {
+        const storedInterval = await get("interval") || 60;
+        console.log("getInterval()", storedInterval);
         return storedInterval;
     }
     
-    saveInterval(interval) {
+    async saveInterval(interval) {
         console.log("saveInterval()", interval);
+        return await set("interval", interval);
     }
     
     saveTemperatureUnit(metric) {

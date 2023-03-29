@@ -27,7 +27,10 @@ const setupTemperatureUnitButton = () => {
   };
 }
 
-const setupIntervalButton = () => {
+const setupIntervalButton = async () => {
+    document.getElementById("interval").value = await storage.getInterval();
+
+
   // document.querySelector('#grantPermission').addEventListener('click', grantCO2meterPermission);
   document.querySelector('#setInterval').onclick = () => {
     const interval = document.getElementById("interval").value;
