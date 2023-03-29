@@ -27,7 +27,7 @@ class CO2Meter {
         this.disconnectClientCB = null;
         this.connectHanlder = this.connectHanlder.bind(this);
         this.disconnectHandler = this.disconnectHandler.bind(this);
-        this.reading = false;
+        this.reading = null;
     }
 
     async init(useVirtual = false) {
@@ -68,7 +68,7 @@ class CO2Meter {
     disconnectHandler() {
         this.device.close();
         this.device = null;
-        this.reading = false;
+        this.reading = null;
         if (this.disconnectClientCB &&
             typeof this.disconnectClientCB === 'function') {
             this.disconnectClientCB();
@@ -89,7 +89,7 @@ class CO2Meter {
             return Promise.reject("Still waiting previous reading promise resolved!");
         }
 
-        this.reading = true;
+        this.reading = {};
 
         await this.device.close();
 
@@ -117,6 +117,10 @@ class CO2Meter {
         return this.useVitual || Boolean(this.device);
     }
 
+    isReadingReady(reading) {
+        return reading.hasOwnProperty('CO2') && reading.hasOwnProperty('Temp');
+    }
+
     onInputReport(report) {
         const date = new Date();
 
@@ -127,13 +131,18 @@ class CO2Meter {
         const op = data[0];
         let val = data[1] << 8 | data[2];
 
-        // Currently we ignore all other report except for CO2 reading.
         if (op == 0x50) {
             console.log(`Current CO2 reading is ${val}`);
-            this.resolver(val);
+            this.reading = Object.assign(this.reading, {'CO2': val});
+        } else if (op == 0x42) {
+            val = val / 16;
+            this.reading = Object.assign(this.reading, {'Temp': val});
+        }
+
+        if (this.isReadingReady(this.reading)) {
+            this.resolver(this.reading);
             this.device.removeEventListener('inputreport', this.onInputReport);
             this.device.close();
-            this.reading = false;
         }
     }
 }
