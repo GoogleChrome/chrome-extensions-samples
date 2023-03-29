@@ -26,7 +26,7 @@ const setCO2MeterConnectedIcon = () => {
 const co2MeterConnected = async () => {
   setCO2MeterConnectedIcon();
   await CO2Meter.init();
-  createAlarm(storage.getInterval());
+  createAlarm(await storage.getInterval());
 }
 
 const co2MeterDisconnected = () => {
@@ -35,9 +35,25 @@ const co2MeterDisconnected = () => {
 }
 
 const clearAlarm = () => {
-  chrome.alarms.clear(WAKEUP_ALARM, () => {
-    console.log('Cleared wakeup alarm as CO2 meter is not visible anymore!');
+  chrome.alarms.clear(WAKEUP_ALARM, (wasCleared) => {
+    console.log(`Clear alarm ${WAKEUP_ALARM} wasCleared:${wasCleared}`);
   })
+}
+
+const initAlarm = () => {
+  chrome.alarms.onAlarm.addListener(async (alarm) => {
+    if (!CO2Meter.getDeviceStatus()) {
+      clearAlarm();
+      setCO2MeterDisconnectedIcon();
+      return;
+    }
+    try {
+      var co2Reading = await CO2Meter.getCO2Reading();
+      storage.setCO2Value(co2Reading);
+    } catch (e) {
+      console.log('Exception when reading CO2!', e);
+    }
+  });
 }
 
 const createAlarm = (interval) => {
@@ -45,32 +61,17 @@ const createAlarm = (interval) => {
     delayInMinutes: 0,
     periodInMinutes: secondToMinute(interval)
   });
-
-  chrome.alarms.onAlarm.addListener(async () => {
-    if (!CO2Meter.getDeviceStatus()) {
-      clearAlarm();
-      setCO2MeterDisconnectedIcon();
-      return;
-    }
-    try {
-      // var co2Reading = await CO2Meter.getCO2Reading();
-      // storage.saveCO2Value(co2Reading);
-      console.log('to read CO2');
-    } catch (e) {
-      console.log('Exception when reading CO2!', e);
-    }
-
-  });
 }
 
 const initilize = async () => {
   await CO2Meter.init();
+  initAlarm();
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
     setCO2MeterDisconnectedIcon();
     return;
   }
-  createAlarm(storage.getInterval());
+  createAlarm(await storage.getInterval());
 }
 
 if (navigator.hid) {

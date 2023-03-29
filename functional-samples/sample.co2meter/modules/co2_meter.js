@@ -68,6 +68,7 @@ class CO2Meter {
     disconnectHandler() {
         this.device.close();
         this.device = null;
+        this.reading = false;
         if (this.disconnectClientCB &&
             typeof this.disconnectClientCB === 'function') {
             this.disconnectClientCB();
