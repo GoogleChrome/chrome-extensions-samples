@@ -1,0 +1,7 @@
+# News
+
+This sample demonstrates a popup panel that access a remote URL. In this case, we are the Google News RSS feed, and building a UI to display that information.
+
+## Implementation Notes
+
+Note that this is a _very_ old example, and is kept here purely for archival purposes. We do not recommend using this as a base of a new extension.
