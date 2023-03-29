@@ -4,9 +4,13 @@ class Storage {
   constructor() {
   }
 
-  setCO2Value(kelvin) {
-    console.log("setCO2Value()", kelvin);
+  setCO2Value(ppm) {
+    console.log("setCO2Value()", ppm);
   };
+
+  setTempValue(kelvin) {
+    console.log("setTempValue()", kelvin);
+  };  
 
   async getInterval() {
     return await get("interval") || 60;

@@ -48,8 +48,9 @@ const initAlarm = () => {
       return;
     }
     try {
-      var co2Reading = await CO2Meter.getCO2Reading();
-      storage.setCO2Value(co2Reading);
+      var reading = await CO2Meter.getCO2Reading();
+      storage.setCO2Value(reading['CO2']);
+      storage.setTempValue(reading['Temp']);
     } catch (e) {
       console.log('Exception when reading CO2!', e);
     }
