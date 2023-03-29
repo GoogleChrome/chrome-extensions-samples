@@ -1,3 +1,4 @@
+import icon from "./modules/icon.js";
 import storage from "./modules/storage.js";
 import CO2Meter from "./modules/co2_meter.js";
 
@@ -9,28 +10,14 @@ const secondToMinute = (seconds) => {
   return seconds / 60;
 }
 
-const setCO2MeterDisconnectedIcon = () => {
-  chrome.action.setIcon(
-    { path: { '32': 'images/icon32_disconnected.png' } },
-    () => { console.log('Update the extension icon to CO2 disconnected!') },
-  );
-}
-
-const setCO2MeterConnectedIcon = () => {
-  chrome.action.setIcon(
-    { path: { '32': 'images/icon32.png' } },
-    () => { console.log('Update the extension icon to CO2 connected!') },
-  );
-}
-
 const co2MeterConnected = async () => {
-  setCO2MeterConnectedIcon();
+  icon.setConnected();
   await CO2Meter.init();
   createAlarm(await storage.getInterval());
-}
+};
 
 const co2MeterDisconnected = () => {
-  setCO2MeterDisconnectedIcon();
+  icon.setDisconnected();
   clearAlarm();
 }
 
@@ -44,7 +31,7 @@ const initAlarm = () => {
   chrome.alarms.onAlarm.addListener(async (alarm) => {
     if (!CO2Meter.getDeviceStatus()) {
       clearAlarm();
-      setCO2MeterDisconnectedIcon();
+      icon.setDisconnected();
       return;
     }
     try {
@@ -69,7 +56,7 @@ const initilize = async () => {
   initAlarm();
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
-    setCO2MeterDisconnectedIcon();
+    icon.setDisconnected();
     return;
   }
   createAlarm(await storage.getInterval());

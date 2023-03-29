@@ -14,6 +14,7 @@ It returns true when device is connected and granted with permission.
 Or it returns false instead.
 */
 
+import icon from "./icon.js";
 
 const key = new Uint8Array([0xc4, 0xc6, 0xc0, 0x92, 0x40, 0x23, 0xdc, 0x96]);
 
@@ -54,6 +55,7 @@ class CO2Meter {
         // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
         navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
             console.log('CO2 meter permission granted!', device[0]);
+            icon.setConnected();
         })
     }
 
