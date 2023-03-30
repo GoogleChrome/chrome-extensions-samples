@@ -21,7 +21,7 @@ import {
   CO2_READING_KEY, TEMPERATURE_READING_KEY, NEW_READING_SAVED_MESSAGE
 } from "./modules/constant.js";
 
-var clients = {};
+var clients = new Set();
 
 async function co2MeterConnected() {
   icon.setConnected();
@@ -59,8 +59,8 @@ async function onAlarmGetReading(alarm) {
 }
 
 async function broadcastNewReading() {
-  for (let client in clients) {
-    clients[client].postMessage(NEW_READING_SAVED_MESSAGE);
+  for (const client of clients.values()) {
+    client.postMessage(NEW_READING_SAVED_MESSAGE);
   }
 }
 
@@ -69,9 +69,9 @@ async function initilize() {
     console.log(`${port.name} connected`);
     port.onDisconnect.addListener(function (port) {
       console.log(`${port.name} disconnected`);
-      delete clients[port.name];
+      clients.delete(port);
     });
-    clients[port.name] = port;
+    clients.add(port);
   });
 
 

@@ -20,20 +20,19 @@ import {
 } from "./modules/constant.js";
 
 function registerMessageChannel() {
-  // TODO: randomUUID to differentiate multiple multiple popup.html.
-  // Is there any better way to get unique id for different extension document?
+  // Background page use port address as key, the UUID here just for debugging purpose.
   var port = chrome.runtime.connect({ name: 'popup client-' + crypto.randomUUID() });
   port.onMessage.addListener(function (msg) {
     if (msg === NEW_READING_SAVED_MESSAGE) {
       // TODO: refresh the chart with new data in the storage.
       console.log('to refresh the chart');
       storage.getCO2ValueInRange(1680151566926).then((e) => console.log('CO2:', e));
-      storage.getTempValueInRange(1680151566926).then((e) => console.log('Temp', e));      
+      storage.getTempValueInRange(1680151566926).then((e) => console.log('Temp', e));
     }
   });
 }
 
 window.onload = async e => {
   mainPageButton.onclick = e => { window.open('main-page.html', '_blank'); };
-  registerMessageChannel();  
+  registerMessageChannel();
 };
