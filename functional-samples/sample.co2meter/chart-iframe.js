@@ -1,20 +1,10 @@
 import storage from "./modules/storage.js";
+import { NEW_READING_SAVED_MESSAGE } from "./modules/constant.js";
 
 let lastChartUpdateTimeMs = 
   new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).getTime();  // Initialize to one week ago.
 
-chrome.runtime.onMessage.addListener(
-  chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-      console.log('popup.js:', request, sender);
-      if (request.msg == 'new reading saved') {
-        // TODO: refresh the chart with new data in the storage.
-        console.log('to refresh the chart');
-        storage.getCO2ValueInRange(1680151566926).then((e) => console.log('CO2:', e));
-        storage.getTempValueInRange(1680151566926).then((e) => console.log('Temp', e));
-      }
-    }
-  ));
+let chart = null;
 
 window.onload = async e => {
   const chartConfig = {
@@ -59,16 +49,27 @@ window.onload = async e => {
       }
     }
   };
-  const chart = new Chart(document.getElementById('chart'), chartConfig);
 
-  /*
-  let CO2Temp = await Promise.all(
-    [storage.getCO2ValueInRange(lastChartUpdateTimeMs),
-    storage.getTempValueInRange(lastChartUpdateTimeMs)]);*/
+  chart = new Chart(document.getElementById('chart'), chartConfig);
+  await updateChart();
   
+  // Update when document becomes visible.
+  document.onvisibilitychange = updateChart;
+
+  // Register for messages to update chart upon new data readings.
+  chrome.runtime.connect().onMessage.addListener((msg) => {
+    if (msg === NEW_READING_SAVED_MESSAGE) { updateChart() }
+  });
+}
+
+async function updateChart() {
+  if (document.visibilityState == 'hidden')
+    return;  // Don't update if hidden.
+
   let TempData = await storage.getTempValueInRange(lastChartUpdateTimeMs);
   let CO2Data = await storage.getCO2ValueInRange(lastChartUpdateTimeMs);
   lastChartUpdateTimeMs = new Date().getTime();
+
   TempData.forEach(datum => {
     chart.data.datasets[0].data.push({ x: datum.time, y: datum.reading });
   });

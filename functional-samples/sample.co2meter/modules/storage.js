@@ -89,10 +89,6 @@ class Storage {
 
   async updateStore(storeName, item) {
     await this.dbInitialized;
-    if (!this.db) {
-      console.log("indexedDB is not ready!!");
-      return;
-    }
     const transaction = this.db.transaction(storeName, 'readwrite');
     const store = transaction.objectStore(storeName);
     store.add(item);
