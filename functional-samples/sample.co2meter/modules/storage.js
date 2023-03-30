@@ -1,11 +1,8 @@
-import { get, set, update } from '../third-party/idb-keyval/dist/index.js';
-
-/*
-Storage use built-in indexedDB for storing CO2 readings and temperature reading. Readings are stored in form of {time: epochTime, reading: ppm || kelvin}.
-
-`getCO2ValueInRange` and `getTempValueInRange`:
- take start epoch time and end epoch time (default as Date()) and return promise resolved to an array of {time, reading} pairs.
-*/
+/**
+ * @fileoverview Use built-in indexedDB for storing CO2 readings and temperature reading. Readings are stored in the form of {time: epochTime, reading: ppm || kelvin}.
+ * 
+ * @description Storage is backed by indexedDB for storing CO2/Temperature readings and support range query.
+ */
 
 class Storage {
   constructor() {
@@ -32,6 +29,13 @@ class Storage {
           TemperatureStore.createIndex('TempTimeIndex', 'time');
         }
 
+        if (!this.db.objectStoreNames.contains('SettingStore')) {
+          // Create a SettingStore.
+          const setttingStore = this.db.createObjectStore('SettingStore', { keyPath: 'key' });
+          setttingStore.put({ key: 'interval', value: 60 });
+          setttingStore.put({ key: 'temperature-unit', value: "Celsius" });
+        }
+
         resolveDBInitialized();
       };
 
@@ -43,10 +47,10 @@ class Storage {
     })
   }
 
-  setCO2Value(ppm) {
+  async setCO2Value(ppm) {
     console.log("setCO2Value()", ppm);
     const item = { time: new Date().getTime(), reading: ppm };
-    this.updateStore('CO2Store', item);
+    this.addStore('CO2Store', item);
   };
 
   // returns Promise with array similar to [{"time":1680213918765,"reading":561},...]
@@ -59,7 +63,7 @@ class Storage {
   setTempValue(kelvin) {
     console.log("setTempValue()", kelvin);
     const item = { time: new Date().getTime(), reading: kelvin };
-    this.updateStore('TempStore', item);
+    this.addStore('TempStore', item);
   };
 
   // returns Promise with array similar to [{"time":1680213918765,"reading":297.5},...]
@@ -69,29 +73,56 @@ class Storage {
     });
   }
 
-  async getIntervalInSeconds() {
-    return await get("interval") || 60;
+  getIntervalInSeconds() {
+    return new Promise((resolve, reject) => {
+      this.getKeyValueFromStore('SettingStore', 'interval', resolve, reject);
+    });
   }
 
   async setIntervalInSeconds(interval) {
     console.log("setInterval()", interval);
-    return await set("interval", interval);
+    await this.putKeyValueToStore('SettingStore', { key: 'interval', value: interval });
   }
 
-  async getTemperatureUnit() {
-    return await get("temperature-unit") || "Celsius";
+  getTemperatureUnit() {
+    return new Promise((resolve, reject) => {
+      this.getKeyValueFromStore('SettingStore', 'temperature-unit', resolve, reject);
+    });
   }
 
-  async setTemperatureUnit(metric) {
-    console.log("setTemperatureUnit()", metric);
-    set("temperature-unit", metric);
+  async setTemperatureUnit(unit) {
+    console.log("setTemperatureUnit()", unit);
+    await this.putKeyValueToStore('SettingStore', { key: 'temperature-unit', value: unit });
   }
 
-  async updateStore(storeName, item) {
+  async addStore(storeName, item) {
     await this.dbInitialized;
     const transaction = this.db.transaction(storeName, 'readwrite');
     const store = transaction.objectStore(storeName);
     store.add(item);
+  }
+
+  async putKeyValueToStore(storeName, keyValue) {
+    await this.dbInitialized;
+    const transaction = this.db.transaction(storeName, 'readwrite');
+    const store = transaction.objectStore(storeName);
+    store.put(keyValue);
+  }
+
+  async getKeyValueFromStore(storeName, key, resolve, reject) {
+    await this.dbInitialized;
+    const transaction = this.db.transaction(storeName, 'readwrite');
+    const store = transaction.objectStore(storeName);
+    const request = store.get(key);
+
+    request.onsuccess = function (event) {
+      resolve(request.result.value);
+    };
+
+    request.onerror = function (event) {
+      console.log('getKeyValueFromStore error getting item: ', event.target.error);
+      reject(event);
+    };
   }
 
   async getValueInRange(resolve, reject, startTimeInMs, endMs, name, indexName) {
