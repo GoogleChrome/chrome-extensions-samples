@@ -53,6 +53,7 @@ const createAlarm = (interval) => {
 
 const initilize = async () => {
   await CO2Meter.init();
+  await storage.init();
   initAlarm();
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
