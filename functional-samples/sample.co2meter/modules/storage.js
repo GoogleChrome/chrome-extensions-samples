@@ -10,32 +10,36 @@ Storage use built-in indexedDB for storing CO2 readings and temperature reading.
 class Storage {
   constructor() {
     this.dbInitialized = new Promise((resolveDBInitialized) => {
-        this.db = null;
-        this.getValueInRange = this.getValueInRange.bind(this);
-    
-        const request = indexedDB.open('TheDB',
-          2); // Change Version number when changing any database configuration.
-    
-        request.onupgradeneeded = (event) => {
-          console.log('indexedDB onupgradeneeded.');
-    
+      this.db = null;
+      this.getValueInRange = this.getValueInRange.bind(this);
+
+      const request = indexedDB.open('TheDB',
+        2); // Change Version number when changing any database configuration.
+
+      request.onupgradeneeded = (event) => {
+        console.log('indexedDB onupgradeneeded.');
+        this.db = event.target.result;
+
+        if (!this.db.objectStoreNames.contains('CO2Store')) {
           // Create a CO2Store with a timeIndex.
-          this.db = event.target.result;
           const CO2Store = this.db.createObjectStore('CO2Store', { autoIncrement: true });
           CO2Store.createIndex('CO2TimeIndex', 'time');
-    
+        }
+
+        if (!this.db.objectStoreNames.contains('TempStore')) {
           // Create a TemperatureStore with a timeIndex.
           const TemperatureStore = this.db.createObjectStore('TempStore', { autoIncrement: true });
           TemperatureStore.createIndex('TempTimeIndex', 'time');
+        }
 
-          resolveDBInitialized();
-        };
-    
-        request.onsuccess = (event) => {
-          console.log('Open indexedDB request succeed.');
-          this.db = event.target.result;
-          resolveDBInitialized();
-        };    
+        resolveDBInitialized();
+      };
+
+      request.onsuccess = (event) => {
+        console.log('Open indexedDB request succeed.');
+        this.db = event.target.result;
+        resolveDBInitialized();
+      };
     })
   }
 
@@ -83,7 +87,8 @@ class Storage {
     set("temperature-unit", metric);
   }
 
-  updateStore(storeName, item) {
+  async updateStore(storeName, item) {
+    await this.dbInitialized;
     if (!this.db) {
       console.log("indexedDB is not ready!!");
       return;
