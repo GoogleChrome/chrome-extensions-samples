@@ -1,3 +1,8 @@
+import storage from "./modules/storage.js";
+
+let lastChartUpdateTimeMs = 
+  new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).getTime();  // Initialize to one week ago.
+
 chrome.runtime.onMessage.addListener(
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -55,7 +60,9 @@ window.onload = async e => {
     }
   };
   const chart = new Chart(document.getElementById('chart'), chartConfig);
-  // TODO replace this test dummy data with real updates.
+
+  // TODO first test: let CO2Data = storage.getCO2ValueInRange(lastChartUpdateTimeMs);
+
   chart.data.datasets[0].data.push({ x: new Date(1), y: 5 });
   chart.data.datasets[0].data.push({ x: new Date(2), y: 2 });
   chart.data.datasets[0].data.push({ x: new Date(3), y: 4 });

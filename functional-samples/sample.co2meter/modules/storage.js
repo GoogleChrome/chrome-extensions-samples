@@ -9,6 +9,8 @@ Storage use built-in indexedDB for storing CO2 readings and temperature reading.
 
 class Storage {
   constructor() {
+    this.promiseResolver = 
+    this.dbInitialized = new Promise(promiseResolver);
     this.db = null;
     this.getValueInRange = this.getValueInRange.bind(this);
 
@@ -39,9 +41,9 @@ class Storage {
     this.updateStore('CO2Store', item);
   };
 
-  getCO2ValueInRange(start, end = new Date().getTime()) {
+  getCO2ValueInRange(startTimeInMs, endMs = new Date().getTime()) {
     return new Promise((resolve, reject) => {
-      this.getValueInRange(resolve, reject, start, end, 'CO2Store', 'CO2TimeIndex');
+      this.getValueInRange(resolve, reject, startTimeInMs, endMs, 'CO2Store', 'CO2TimeIndex');
     });
   }
 
@@ -51,9 +53,9 @@ class Storage {
     this.updateStore('TempStore', item);
   };
 
-  getTempValueInRange(start, end = new Date().getTime()) {
+  getTempValueInRange(startTimeInMs, endMs = new Date().getTime()) {
     return new Promise((resolve, reject) => {
-      this.getValueInRange(resolve, reject, start, end, 'TempStore', 'TempTimeIndex');
+      this.getValueInRange(resolve, reject, startTimeInMs, endMs, 'TempStore', 'TempTimeIndex');
     });
   }
 
@@ -85,7 +87,7 @@ class Storage {
     store.add(item);
   }
 
-  getValueInRange(resolve, reject, start, end, name, indexName) {
+  getValueInRange(resolve, reject, startTimeInMs, endMs, name, indexName) {
     const transaction = this.db.transaction(name, 'readonly');
     const objectStore = transaction.objectStore(name);
 
@@ -94,7 +96,7 @@ class Storage {
 
     // Query for epoch time between start and end both included and resolve with a array of all reading 
     const results = [];
-    const range = IDBKeyRange.bound(start, end, false, false);
+    const range = IDBKeyRange.bound(startTimeInMs, endMs, false, false);
     const getRequest = index.openCursor(range);
     getRequest.onsuccess = function (event) {
       const cursor = event.target.result;
