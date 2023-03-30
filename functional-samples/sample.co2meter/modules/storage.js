@@ -9,30 +9,33 @@ Storage use built-in indexedDB for storing CO2 readings and temperature reading.
 
 class Storage {
   constructor() {
-    this.promiseResolver = 
-    this.dbInitialized = new Promise(promiseResolver);
-    this.db = null;
-    this.getValueInRange = this.getValueInRange.bind(this);
+    this.dbInitialized = new Promise((resolveDBInitialized) => {
+        this.db = null;
+        this.getValueInRange = this.getValueInRange.bind(this);
+    
+        const request = indexedDB.open('TheDB');
+    
+        request.onupgradeneeded = (event) => {
+          console.log('indexedDB onupgradeneeded.');
+    
+          // Create a CO2Store with a timeIndex.
+          this.db = event.target.result;
+          const CO2Store = this.db.createObjectStore('CO2Store', { autoIncrement: true });
+          CO2Store.createIndex('CO2TimeIndex', 'time');
+    
+          // Create a TemperatureStore with a timeIndex.
+          const TemperatureStore = this.db.createObjectStore('TempStore', { autoIncrement: true });
+          TemperatureStore.createIndex('TempTimeIndex', 'time');
 
-    const request = indexedDB.open('TheDB');
-
-    request.onupgradeneeded = (event) => {
-      console.log('indexedDB onupgradeneeded.');
-
-      // Create a CO2Store with a timeIndex.
-      this.db = event.target.result;
-      const CO2Store = this.db.createObjectStore('CO2Store', { autoIncrement: true });
-      CO2Store.createIndex('CO2TimeIndex', 'time');
-
-      // Create a TemperatureStore with a timeIndex.
-      const TemperatureStore = this.db.createObjectStore('TempStore', { autoIncrement: true });
-      TemperatureStore.createIndex('TempTimeIndex', 'time');
-    };
-
-    request.onsuccess = (event) => {
-      console.log('Open indexedDB request succeed.');
-      this.db = event.target.result;
-    };
+          resolveDBInitialized();
+        };
+    
+        request.onsuccess = (event) => {
+          console.log('Open indexedDB request succeed.');
+          this.db = event.target.result;
+          resolveDBInitialized();
+        };    
+    })
   }
 
   setCO2Value(ppm) {
@@ -87,7 +90,8 @@ class Storage {
     store.add(item);
   }
 
-  getValueInRange(resolve, reject, startTimeInMs, endMs, name, indexName) {
+  async getValueInRange(resolve, reject, startTimeInMs, endMs, name, indexName) {
+    await this.dbInitialized;
     const transaction = this.db.transaction(name, 'readonly');
     const objectStore = transaction.objectStore(name);
 

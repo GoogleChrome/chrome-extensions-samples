@@ -61,7 +61,14 @@ window.onload = async e => {
   };
   const chart = new Chart(document.getElementById('chart'), chartConfig);
 
-  // TODO first test: let CO2Data = storage.getCO2ValueInRange(lastChartUpdateTimeMs);
+  /*
+  let CO2Temp = await Promise.all(
+    [storage.getCO2ValueInRange(lastChartUpdateTimeMs),
+    storage.getTempValueInRange(lastChartUpdateTimeMs)]);*/
+  // TODO lastChartUpdateTimeMs = new Date().getTime();
+
+  // TODO first test: 
+  let CO2Data = storage.getCO2ValueInRange(lastChartUpdateTimeMs);
 
   chart.data.datasets[0].data.push({ x: new Date(1), y: 5 });
   chart.data.datasets[0].data.push({ x: new Date(2), y: 2 });
