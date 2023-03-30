@@ -15,6 +15,9 @@ Or it returns false instead.
 */
 
 import icon from "./icon.js";
+import {
+    CO2_READING_KEY, TEMPERATURE_READING_KEY
+  } from "./constant.js";
 
 const key = new Uint8Array([0xc4, 0xc6, 0xc0, 0x92, 0x40, 0x23, 0xdc, 0x96]);
 
@@ -120,7 +123,7 @@ class CO2Meter {
     }
 
     isReadingReady(reading) {
-        return reading.hasOwnProperty('CO2') && reading.hasOwnProperty('Temp');
+        return reading.hasOwnProperty(CO2_READING_KEY) && reading.hasOwnProperty(TEMPERATURE_READING_KEY);
     }
 
     onInputReport(report) {
@@ -134,11 +137,12 @@ class CO2Meter {
         let val = data[1] << 8 | data[2];
 
         if (op == 0x50) {
-            console.log(`Current CO2 reading is ${val}`);
-            this.reading = Object.assign(this.reading, {'CO2': val});
+            console.log(`Current CO2 reading is ${val}`, this.reading);
+            this.reading = Object.assign(this.reading, {[CO2_READING_KEY]: val});
         } else if (op == 0x42) {
             val = val / 16;
-            this.reading = Object.assign(this.reading, {'Temp': val});
+            console.log(`Current Temp reading is ${val}`, this.reading);
+            this.reading = Object.assign(this.reading, {[TEMPERATURE_READING_KEY]: val});
         }
 
         if (this.isReadingReady(this.reading)) {
