@@ -67,11 +67,11 @@ class Storage {
     console.log("setTempValue()", kelvin);
   };  
 
-  async getInterval() {
+  async getIntervalInSeconds() {
     return await get("interval") || 60;
   }
   
-  async setInterval(interval) {
+  async setIntervalInSeconds(interval) {
     console.log("setInterval()", interval);
     return await set("interval", interval);
   }

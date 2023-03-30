@@ -2,70 +2,56 @@ import icon from "./modules/icon.js";
 import storage from "./modules/storage.js";
 import CO2Meter from "./modules/co2_meter.js";
 
-const WAKEUP_ALARM = "wakeup alarm";
-
 console.log('Extension service worker background script (background.js)');
 
-const secondToMinute = (seconds) => {
-  return seconds / 60;
-}
-
-const co2MeterConnected = async () => {
+async function co2MeterConnected() {
   icon.setConnected();
   await CO2Meter.init();
-  createAlarm(await storage.getInterval());
+  createAlarm();
 };
 
-const co2MeterDisconnected = () => {
+function co2MeterDisconnected() {
   icon.setDisconnected();
-  clearAlarm();
+  chrome.alarms.clearAll();
 }
 
-const clearAlarm = () => {
-  chrome.alarms.clear(WAKEUP_ALARM, (wasCleared) => {
-    console.log(`Clear alarm ${WAKEUP_ALARM} wasCleared:${wasCleared}`);
-  })
-}
-
-const initAlarm = () => {
-  chrome.alarms.onAlarm.addListener(async (alarm) => {
-    if (!CO2Meter.getDeviceStatus()) {
-      clearAlarm();
-      icon.setDisconnected();
-      return;
-    }
-    try {
-      var reading = await CO2Meter.getCO2Reading();
-      storage.setCO2Value(reading['CO2']);
-      storage.setTempValue(reading['Temp']);
-    } catch (e) {
-      console.log('Exception when reading CO2!', e);
-    }
-  });
-}
-
-const createAlarm = (interval) => {
-  chrome.alarms.create(WAKEUP_ALARM, {
+async function createAlarm() {
+  chrome.alarms.create("getReadingAlarm", {
     delayInMinutes: 0,
-    periodInMinutes: secondToMinute(interval)
+    periodInMinutes: await storage.getIntervalInSeconds() / 60
   });
 }
 
-const initilize = async () => {
+async function onAlarmGetReading(alarm) {
+  if (!CO2Meter.getDeviceStatus()) {
+    chrome.alarms.clearAll();
+    icon.setDisconnected();
+    return;
+  }
+
+  try {
+    var reading = await CO2Meter.getCO2Reading();
+    storage.setCO2Value(reading['CO2']);
+    storage.setTempValue(reading['Temp']);
+  } catch (e) {
+    console.log('Exception when reading CO2!', e);
+  }
+}
+
+async function initilize() {
   await CO2Meter.init();
   await storage.init();
-  initAlarm();
+  chrome.alarms.onAlarm.addListener(onAlarmGetReading);
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
     icon.setDisconnected();
     return;
   }
-  createAlarm(await storage.getInterval());
+  createAlarm();
 }
 
 if (navigator.hid) {
   initilize();
 } else {
-  console.log('WebHID not available!');
+  console.error('WebHID not available!');
 }
-

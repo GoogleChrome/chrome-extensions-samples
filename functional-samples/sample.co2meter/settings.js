@@ -18,9 +18,9 @@ window.onload = async () => {
   };
 
   // Interval
-  intervalInput.value = await storage.getInterval();
+  intervalInput.value = await storage.getIntervalInSeconds();
   intervalInput.onchange = () => {
     const interval = intervalInput.value;
-    storage.setInterval(interval);
+    storage.setIntervalInSeconds(interval);
   };
 };
