@@ -13,7 +13,8 @@ class Storage {
         this.db = null;
         this.getValueInRange = this.getValueInRange.bind(this);
     
-        const request = indexedDB.open('TheDB');
+        const request = indexedDB.open('TheDB',
+          2); // Change Version number when changing any database configuration.
     
         request.onupgradeneeded = (event) => {
           console.log('indexedDB onupgradeneeded.');

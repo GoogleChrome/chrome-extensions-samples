@@ -68,7 +68,7 @@ window.onload = async e => {
   // TODO lastChartUpdateTimeMs = new Date().getTime();
 
   // TODO first test: 
-  let CO2Data = storage.getCO2ValueInRange(lastChartUpdateTimeMs);
+  let CO2Data = await storage.getCO2ValueInRange(lastChartUpdateTimeMs);
 
   chart.data.datasets[0].data.push({ x: new Date(1), y: 5 });
   chart.data.datasets[0].data.push({ x: new Date(2), y: 2 });
