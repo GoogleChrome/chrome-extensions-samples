@@ -1,3 +1,18 @@
+import storage from "./modules/storage.js";
+
+chrome.runtime.onMessage.addListener(
+  chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+      console.log('popup.js:', request, sender);
+      if (request.msg == 'new reading saved') {
+        // TODO: refresh the chart with new data in the storage.
+        console.log('to refresh the chart');
+        storage.getCO2ValueInRange(1680151566926).then((e) => console.log('CO2:', e));
+        storage.getTempValueInRange(1680151566926).then((e) => console.log('Temp', e));
+      }
+    }
+  ));
+
 window.onload = async e => {
   const openTabButtonElement = document.createElement('button');
   openTabButtonElement.appendChild(document.createTextNode('Settings Page'));

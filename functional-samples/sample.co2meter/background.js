@@ -33,14 +33,21 @@ async function onAlarmGetReading(alarm) {
     var reading = await CO2Meter.getCO2Reading();
     storage.setCO2Value(reading['CO2']);
     storage.setTempValue(reading['Temp']);
-
-    // Reading out storage here for testing.
-    // TODO: Remove below reading once function is verified.
-    storage.getCO2ValueInRange(1680151566926).then((e) => console.log(e));
-    storage.getTempValueInRange(1680151566926).then((e) => console.log(e));
+    broadcastNewReading();
   } catch (e) {
     console.log('Exception when reading CO2!', e);
   }
+}
+
+function broadcastNewReading() {
+  try {
+    chrome.runtime.sendMessage({
+      msg: "new reading saved"
+    });
+  } catch (e) {
+    console.log('Exception when broadcasting:', e);
+  }
+
 }
 
 async function initilize() {
