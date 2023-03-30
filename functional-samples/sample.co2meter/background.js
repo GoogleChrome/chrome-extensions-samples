@@ -33,6 +33,11 @@ async function onAlarmGetReading(alarm) {
     var reading = await CO2Meter.getCO2Reading();
     storage.setCO2Value(reading['CO2']);
     storage.setTempValue(reading['Temp']);
+
+    // Reading out storage here for testing.
+    // TODO: Remove below reading once function is verified.
+    storage.getCO2ValueInRange(1680151566926).then((e) => console.log(e));
+    storage.getTempValueInRange(1680151566926).then((e) => console.log(e));
   } catch (e) {
     console.log('Exception when reading CO2!', e);
   }
@@ -40,7 +45,6 @@ async function onAlarmGetReading(alarm) {
 
 async function initilize() {
   await CO2Meter.init();
-  await storage.init();
   chrome.alarms.onAlarm.addListener(onAlarmGetReading);
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
