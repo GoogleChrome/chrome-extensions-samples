@@ -45,6 +45,7 @@ class Storage {
     this.updateStore('CO2Store', item);
   };
 
+  // returns Promise with array similar to [{"time":1680213918765,"reading":561},...]
   getCO2ValueInRange(startTimeInMs, endMs = new Date().getTime()) {
     return new Promise((resolve, reject) => {
       this.getValueInRange(resolve, reject, startTimeInMs, endMs, 'CO2Store', 'CO2TimeIndex');
@@ -57,6 +58,7 @@ class Storage {
     this.updateStore('TempStore', item);
   };
 
+  // returns Promise with array similar to [{"time":1680213918765,"reading":297.5},...]
   getTempValueInRange(startTimeInMs, endMs = new Date().getTime()) {
     return new Promise((resolve, reject) => {
       this.getValueInRange(resolve, reject, startTimeInMs, endMs, 'TempStore', 'TempTimeIndex');

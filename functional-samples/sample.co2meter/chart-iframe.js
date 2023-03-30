@@ -65,19 +65,15 @@ window.onload = async e => {
   let CO2Temp = await Promise.all(
     [storage.getCO2ValueInRange(lastChartUpdateTimeMs),
     storage.getTempValueInRange(lastChartUpdateTimeMs)]);*/
-  // TODO lastChartUpdateTimeMs = new Date().getTime();
-
-  // TODO first test: 
+  
+  let TempData = await storage.getTempValueInRange(lastChartUpdateTimeMs);
   let CO2Data = await storage.getCO2ValueInRange(lastChartUpdateTimeMs);
-
-  chart.data.datasets[0].data.push({ x: new Date(1), y: 5 });
-  chart.data.datasets[0].data.push({ x: new Date(2), y: 2 });
-  chart.data.datasets[0].data.push({ x: new Date(3), y: 4 });
-  chart.data.datasets[0].data.push({ x: new Date(4), y: 5 });
-  chart.data.datasets[0].data.push({ x: new Date(5), y: 4 });
-  chart.data.datasets[1].data.push({ x: new Date(2), y: 1 });
-  chart.data.datasets[1].data.push({ x: new Date(4), y: 3 });
-  chart.data.datasets[1].data.push({ x: new Date(5), y: 7 });
-  chart.data.datasets[1].data.push({ x: new Date(6), y: 4 });
+  lastChartUpdateTimeMs = new Date().getTime();
+  TempData.forEach(datum => {
+    chart.data.datasets[0].data.push({ x: datum.time, y: datum.reading });
+  });
+  CO2Data.forEach(datum => {
+    chart.data.datasets[1].data.push({ x: datum.time, y: datum.reading });
+  });
   chart.update();
 }    
