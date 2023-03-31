@@ -7,6 +7,8 @@
  * readings and support epoch time range query.
  */
 
+import { ExampleTempData, ExampleCO2Data } from "./storage-example-data.js";
+
 class Storage {
   constructor() {
     this.dbInitialized = new Promise((resolveDBInitialized) => {
@@ -116,6 +118,15 @@ class Storage {
     });
   }
 
+  /**
+   * @description Loads example data into storage.
+   */
+  addExampleData() {
+    this.addStoreArray('TempStore', ExampleTempData);
+    this.addStoreArray('CO2Store', ExampleCO2Data);
+    location.reload();
+  }
+
   getIntervalInSeconds() {
     return new Promise((resolve, reject) => {
       this.getKeyValueFromStore('SettingStore', 'interval', resolve, reject);
@@ -152,6 +163,13 @@ class Storage {
     const transaction = this.db.transaction(storeName, 'readwrite');
     const store = transaction.objectStore(storeName);
     store.add(item);
+  }
+
+  async addStoreArray(storeName, arrayOfItems) {
+    await this.dbInitialized;
+    const transaction = this.db.transaction(storeName, 'readwrite');
+    const store = transaction.objectStore(storeName);
+    arrayOfItems.forEach((item) => store.add(item));
   }
 
   async putKeyValueToStore(storeName, keyValue) {

@@ -23,4 +23,9 @@ window.onload = async () => {
     const interval = intervalInput.value;
     storage.setIntervalInSeconds(interval);
   };
+
+  // Example Data
+  updateChartWithExampleDataButton.onclick = () => {
+    storage.addExampleData();
+  }
 };

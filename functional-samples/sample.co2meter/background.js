@@ -109,5 +109,5 @@ async function initilize() {
 if (navigator.hid) {
   initilize();
 } else {
-  console.error('WebHID is not available!');
+  console.error('WebHID is not available!  Use chrome://flags#enable-web-hid-on-extension-service-worker');
 }

@@ -19,9 +19,7 @@
 </head>
 <body>
     <div>
-        <div>
-            <button type="button" id="grantPermissionButton">Grant CO2 meter permission</button>
-        </div>
+        <button type="button" id="grantPermissionButton">Grant CO2 meter permission</button>
         <div>
             Set Temperature Unit to:
             <input type="radio" id="celsiusInput" name="metric">
@@ -33,6 +31,7 @@
             Sensor reading interval (in seconds):
             <input type="number" id="intervalInput">
         </div>
+        <button type="button" id="updateChartWithExampleDataButton">Add Example Data to Chart</button> if you do not have a device and want to see a chart.
     </div>
     <iframe src="chart-iframe.html"></iframe>
 </body>
