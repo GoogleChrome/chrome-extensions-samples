@@ -52,8 +52,6 @@ async function onAlarmGetReading(alarm) {
     var reading = await CO2Meter.getCO2Reading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
-    storage.getIntervalInSeconds().then((e) => {console.log(e)});
-    storage.getTemperatureUnit().then((e) => {console.log(e)});
     await broadcastNewReading();
   } catch (e) {
     console.log('Exception when reading CO2!', e);
