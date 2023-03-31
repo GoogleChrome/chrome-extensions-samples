@@ -66,18 +66,20 @@ window.onload = async e => {
     else if (msg === CO2_METER_UNAVAILABLE) { updateCO2MeterStatus(false); }
   });
 
+  // Dialog
+  closeDialogButton.onclick = () => { noDeviceDialog.close(); }
+
   await CO2Meter.init();
   updateCO2MeterStatus(CO2Meter.getDeviceStatus());
   CO2Meter.registerCallback(CO2MeterConnected, CO2MeterDisconnected);
 }
 
 function updateCO2MeterStatus(connected) {
-  let dialog = document.getElementById('device-disconnected');
   if (connected) {
-    dialog.close();
+    noDeviceDialog.close();
   } else {
-    if (!dialog.open) {
-      dialog.showModal();
+    if (!noDeviceDialog.open) {
+      noDeviceDialog.showModal();
     }
   }
 }
