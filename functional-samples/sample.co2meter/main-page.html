@@ -3,27 +3,36 @@
     <title>CO2 Meter</title>
     <script type="module" src="main-page.js"></script>
     <style>
-        iframe {
-            border: none;
+        body {
             width: 100%;
             height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+           
+        iframe {
+            border: none;
+            flex: auto;
         }
     </style>
 </head>
 <body>
     <div>
-        <button type="button" id="grantPermissionButton">Grant CO2 meter permission</button>
-    </div>
-    <div>
-        Set Temperature Unit to:
-        <input type="radio" id="celsiusInput" name="metric">
-        <label for="celsiusInput">Celsius</label>
-        <input type="radio" id="fahrenheitInput" name="metric">
-        <label for="fahrenheitInput">Fahrenheit</label>
-    </div>
-    <div>
-        Sensor reading interval (in seconds):
-        <input type="number" id="intervalInput">
+        <div>
+            <button type="button" id="grantPermissionButton">Grant CO2 meter permission</button>
+        </div>
+        <div>
+            Set Temperature Unit to:
+            <input type="radio" id="celsiusInput" name="metric">
+            <label for="celsiusInput">Celsius</label>
+            <input type="radio" id="fahrenheitInput" name="metric">
+            <label for="fahrenheitInput">Fahrenheit</label>
+        </div>
+        <div>
+            Sensor reading interval (in seconds):
+            <input type="number" id="intervalInput">
+        </div>
     </div>
     <iframe src="chart-iframe.html"></iframe>
 </body>

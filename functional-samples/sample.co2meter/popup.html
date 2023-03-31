@@ -3,17 +3,22 @@
 <style>
     body {
         width: 700px;
-        height: 500px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
     }
+
     iframe {
         border: none;
-        width: 600px;
-        height: 400px;
+        flex: auto;
     }
 </style>
+
 <body>
+    <div>
+        <button type="button" id="mainPageButton">Large Chart and Settings</button>
+    </div>
     <iframe src="chart-iframe.html"></iframe>
-    <button type="button" id="mainPageButton">Large Chart and Settings</button>
 </body>
 
 </html>
