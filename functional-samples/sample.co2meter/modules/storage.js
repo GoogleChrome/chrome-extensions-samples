@@ -36,7 +36,8 @@ class Storage {
           setttingStore.put({ key: 'temperature-unit', value: "Celsius" });
         }
 
-        resolveDBInitialized();
+        const transaction = event.target.transaction;
+        transaction.oncomplete = () => {resolveDBInitialized();}
       };
 
       request.onsuccess = (event) => {
