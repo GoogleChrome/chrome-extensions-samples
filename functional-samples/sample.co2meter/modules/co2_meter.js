@@ -16,7 +16,8 @@ Or it returns false instead.
 
 import icon from "./icon.js";
 import {
-    CO2_READING_KEY, TEMPERATURE_READING_KEY
+    CO2_READING_KEY, TEMPERATURE_READING_KEY,
+    PERMISSION_GRANTED_MESSAGE
   } from "./constant.js";
 
 const key = new Uint8Array([0xc4, 0xc6, 0xc0, 0x92, 0x40, 0x23, 0xdc, 0x96]);
@@ -89,9 +90,9 @@ class CO2Meter {
     requestPermission() {
         // The extension currently only support this model:
         // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
-        navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {
+        navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {        
             console.log('CO2 meter permission granted!', device[0]);
-            icon.setConnected();
+            chrome.runtime.sendMessage(PERMISSION_GRANTED_MESSAGE);
         })
     }
 
@@ -105,7 +106,9 @@ class CO2Meter {
     }
 
     disconnectHandler() {
-        this.device.close();
+        if (this.device) {
+            this.device.close();
+        }
         this.device = null;
         this.reading = null;
         if (this.disconnectClientCB &&
@@ -155,7 +158,8 @@ class CO2Meter {
                 this.device.addEventListener('inputreport', onInputReport);
                 await this.device.open();
                 await this.device.sendFeatureReport(0, key);
-            } catch {
+            } catch (e) {
+                console.log('CO2 reading exception:', e);
                 this.device.removeEventListener('inputreport', onInputReport);                
                 await this.device.close();
                 reject('Fail to open CO2 meter for reading');

@@ -16,3 +16,5 @@ export const CO2_READING_KEY = 'CO2';
 export const TEMPERATURE_READING_KEY = 'Temperature';
 
 export const NEW_READING_SAVED_MESSAGE = 'new reading saved';
+export const PERMISSION_GRANTED_MESSAGE = 'permission granted';
+export const CO2_METER_UNAVAILABLE = 'co2 meter unavailable';

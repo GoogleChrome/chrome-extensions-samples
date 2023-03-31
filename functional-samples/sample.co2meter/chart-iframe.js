@@ -1,7 +1,8 @@
 import storage from "./modules/storage.js";
-import { NEW_READING_SAVED_MESSAGE } from "./modules/constant.js";
+import { NEW_READING_SAVED_MESSAGE, PERMISSION_GRANTED_MESSAGE, CO2_METER_UNAVAILABLE } from "./modules/constant.js";
+import CO2Meter from "./modules/co2_meter.js";
 
-let lastChartUpdateTimeMs = 
+let lastChartUpdateTimeMs =
   new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).getTime();  // Initialize to one week ago.
 
 let chart = null;
@@ -54,14 +55,39 @@ window.onload = async e => {
 
   chart = new Chart(document.getElementById('chart'), chartConfig);
   await updateChart();
-  
+
   // Update when document becomes visible.
   document.onvisibilitychange = updateChart;
 
   // Register for messages to update chart upon new data readings.
   chrome.runtime.connect().onMessage.addListener((msg) => {
-    if (msg === NEW_READING_SAVED_MESSAGE) { updateChart() }
+    if (msg === NEW_READING_SAVED_MESSAGE) { updateChart(); }
+    else if (msg === PERMISSION_GRANTED_MESSAGE) { updateCO2MeterStatus(true); }
+    else if (msg === CO2_METER_UNAVAILABLE) { updateCO2MeterStatus(false); }
   });
+
+  await CO2Meter.init();
+  updateCO2MeterStatus(CO2Meter.getDeviceStatus());
+  CO2Meter.registerCallback(CO2MeterConnected, CO2MeterDisconnected);
+}
+
+function updateCO2MeterStatus(connected) {
+  let dialog = document.getElementById('device-disconnected');
+  if (connected) {
+    dialog.close();
+  } else {
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+  }
+}
+
+function CO2MeterConnected() {
+  updateCO2MeterStatus(true);
+}
+
+function CO2MeterDisconnected() {
+  updateCO2MeterStatus(false);
 }
 
 async function updateChart() {

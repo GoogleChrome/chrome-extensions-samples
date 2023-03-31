@@ -18,7 +18,8 @@ import icon from "./modules/icon.js";
 import storage from "./modules/storage.js";
 import CO2Meter from "./modules/co2_meter.js";
 import {
-  CO2_READING_KEY, TEMPERATURE_READING_KEY, NEW_READING_SAVED_MESSAGE
+  CO2_READING_KEY, TEMPERATURE_READING_KEY, NEW_READING_SAVED_MESSAGE,
+  PERMISSION_GRANTED_MESSAGE, CO2_METER_UNAVAILABLE
 } from "./modules/constant.js";
 
 var clients = new Set();
@@ -26,15 +27,24 @@ var clients = new Set();
 async function co2MeterConnected() {
   icon.setConnected();
   await CO2Meter.init();
-  createAlarm();
+  if (CO2Meter.getDeviceStatus()) {
+    createAlarm();
+  }
 };
 
 function co2MeterDisconnected() {
+  broadcastMessage(CO2_METER_UNAVAILABLE);
   icon.setDisconnected();
+  clearAlarm();
+}
+
+function clearAlarm() {
+  console.log('Clear Alarm');
   chrome.alarms.clearAll();
 }
 
 async function createAlarm() {
+  console.log('Start Alarm');
   chrome.alarms.create("getReadingAlarm", {
     delayInMinutes: 0,
     periodInMinutes: await storage.getIntervalInSeconds() / 60
@@ -43,28 +53,39 @@ async function createAlarm() {
 
 async function onAlarmGetReading(alarm) {
   if (!CO2Meter.getDeviceStatus()) {
-    chrome.alarms.clearAll();
-    icon.setDisconnected();
+    co2MeterDisconnected();
     return;
   }
 
   try {
+    console.log('To read CO2');
     var reading = await CO2Meter.getCO2Reading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
-    await broadcastNewReading();
+    await broadcastMessage(NEW_READING_SAVED_MESSAGE);
   } catch (e) {
     console.log('Exception when reading CO2!', e);
   }
 }
 
-async function broadcastNewReading() {
+async function broadcastMessage(message) {
   for (const client of clients.values()) {
-    client.postMessage(NEW_READING_SAVED_MESSAGE);
+    client.postMessage(message);
   }
 }
 
+function onPermissionGranted() {
+  co2MeterConnected();
+}
+
 async function initilize() {
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message === PERMISSION_GRANTED_MESSAGE) {
+      onPermissionGranted();
+      broadcastMessage(PERMISSION_GRANTED_MESSAGE);
+    }
+  });
+
   chrome.runtime.onConnect.addListener(function (port) {
     console.log(`${port.name} connected`);
     port.onDisconnect.addListener(function (port) {
