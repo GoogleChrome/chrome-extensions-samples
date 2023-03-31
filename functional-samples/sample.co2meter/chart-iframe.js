@@ -28,9 +28,11 @@ window.onload = async e => {
       ]
     },
     options: {
+      type: 'line',
+      pointStyle: false,
       scales: {
         x: {
-          type: 'timeseries'
+          type: 'time'
         },
         y: {
           type: 'linear',
