@@ -209,8 +209,7 @@ function buildPreview(doc) {
     // The story body is created as an iframe with a data: URL in order to
     // isolate it from this page and protect against XSS.  As a data URL, it
     // has limited privileges and must communicate back using postMessage().
-    desc.src = 'data:text/html;charset=utf-8,' + iframe_src + itemDesc +
-      '</body></html>';
+    desc.src = 'data:text/html;charset=utf-8,' + btoa(unescape(encodeURIComponent(iframe_src + itemDesc + '</body></html>')));
   }
   if (moreStoriesUrl && entries.length != 0) {
     var more = document.createElement('a');
