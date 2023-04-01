@@ -13,7 +13,7 @@ window.onload = async e => {
     data: {
       datasets: [
         {
-          label: "Temperature (F)",
+          label: "Temperature",
           data: [],
           borderColor: 'rgba(255, 0, 0, 1)',
           backgroundColor: 'rgba(255, 0, 0, 0.5)',
@@ -101,8 +101,13 @@ async function updateChart() {
   lastChartUpdateTimeMs = new Date().getTime();
 
   function KelvinToFahrenheit(k) { return (k - 273.15) * 9/5 + 32; }
+  function KelvinToCelsius(k) { return k - 273.15; }
+  let isCelsius = await storage.getTemperatureUnit() == "Celsius";
+  let convert = isCelsius ? KelvinToCelsius : KelvinToFahrenheit
+  chart.data.datasets[0].label = "Temperature " + (isCelsius ? "(C)" : "(F)");
+  
   TempData.forEach(datum => {
-    chart.data.datasets[0].data.push({ x: datum.time, y: KelvinToFahrenheit(datum.reading) });
+    chart.data.datasets[0].data.push({ x: datum.time, y: convert(datum.reading) });
   });
   CO2Data.forEach(datum => {
     chart.data.datasets[1].data.push({ x: datum.time, y: datum.reading });

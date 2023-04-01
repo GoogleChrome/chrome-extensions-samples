@@ -13,8 +13,13 @@ window.onload = async () => {
   const isCelsius = await storage.getTemperatureUnit() == "Celsius";
   celsiusInput.checked = isCelsius;
   fahrenheitInput.checked = !isCelsius;
-  celsiusInput.onclick = fahrenheitInput.onclick = () => {
-    storage.setTemperatureUnit(celsiusInput.checked ? "Celsius" : "Fahrenheit");
+  celsiusInput.onclick = fahrenheitInput.onclick = async () => {
+    let newValue = celsiusInput.checked ? "Celsius" : "Fahrenheit";
+    let previous = await storage.getTemperatureUnit();
+    if (newValue != previous) {
+      storage.setTemperatureUnit(newValue);
+      location.reload();
+    }
   };
 
   // Interval

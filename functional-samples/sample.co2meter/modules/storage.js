@@ -127,10 +127,11 @@ class Storage {
     location.reload();
   }
 
-  getIntervalInSeconds() {
-    return new Promise((resolve, reject) => {
+  async getIntervalInSeconds() {
+    let result = await new Promise((resolve, reject) => {
       this.getKeyValueFromStore('SettingStore', 'interval', resolve, reject);
     });
+    return result || 60;  // Default.
   }
 
   async setIntervalInSeconds(interval) {
@@ -140,8 +141,8 @@ class Storage {
     });
   }
 
-  getTemperatureUnit() {
-    return new Promise((resolve, reject) => {
+  async getTemperatureUnit() {
+    let result = await new Promise((resolve, reject) => {
       this.getKeyValueFromStore(
         'SettingStore',
         'temperature-unit',
@@ -149,6 +150,7 @@ class Storage {
         reject
       );
     });
+    return result || "Celsius";  // Default.
   }
 
   async setTemperatureUnit(unit) {
