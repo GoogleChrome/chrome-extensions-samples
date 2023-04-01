@@ -1,20 +1,11 @@
-// co2_meter.js
+/**
+ * @filename co2_meter.js
+ *
+ * @description CO2Meter provides methods for accessing status and data of a 
+ * CO2 meter. When creating a CO2Meter, it has to await `init()` to finish
+ * before quering device status.
+ */
 
-/*
-Description:
-CO2Meter provides methods for accessing status and data of a CO2 meter.
-When creating a CO2Meter, it has to await `init()` to finish before questing device status.
-
-async init(useVirtual = false):
-`init()` must be called right after CO2Meter created. `useVirtual` used to indicate whether 
-to use a virtual CO2meter or not.
-
-getDeviceStatus():
-It returns true when device is connected and granted with permission.
-Or it returns false instead.
-*/
-
-import icon from "./icon.js";
 import {
     CO2_READING_KEY, TEMPERATURE_READING_KEY,
     PERMISSION_GRANTED_MESSAGE
@@ -48,7 +39,6 @@ function isReadingReady(reading) {
 class CO2Meter {
     constructor() {
         this.device = null;
-        this.useVitual = false;
         this.connectClientCB = null;
         this.disconnectClientCB = null;
         this.connectHanlder = this.connectHanlder.bind(this);
@@ -56,18 +46,14 @@ class CO2Meter {
         this.reading = null;
         this.calibration = false;        
     }
-
-    startCalibration() {
-        this.calibration = true;
-        // Assuming the device takes 20s for calibration.
-        setTimeout(() => {
-            this.calibration = false;
-        }, 20000);    
-    }
-
-    async init(useVirtual = false) {
+    
+    /**
+     * @description This function initializes the CO2Meter object and sets up 
+     * event handlers for connection and disconnection events. It also starts 
+     * the calibration process.
+     */
+    async init() {
         const devices = await navigator.hid.getDevices();
-        this.useVitual = useVirtual;
         if (devices.length == 1) this.device = devices[0];
         navigator.hid.addEventListener("connect", this.connectHanlder);
         navigator.hid.addEventListener("disconnect", this.disconnectHandler);
@@ -87,9 +73,24 @@ class CO2Meter {
         this.disconnectClientCB = null;
     }
 
+    /**
+     * @description This function provides a convenient way to pause reading 
+     * for 20 seconds. This is useful when the device is undergoing 
+     * calibration, as it prevents exaggerated readings from being recorded.
+     */
+    startCalibration() {
+        this.calibration = true;
+        setTimeout(() => {
+            this.calibration = false;
+        }, 20000);    
+    }
+
+    /**
+     * @description Request user to grant permission for using CO2 meter. 
+     * The extension currently only support this model:
+     * https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
+     */
     requestPermission() {
-        // The extension currently only support this model:
-        // https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
         navigator.hid.requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] }).then((device) => {        
             console.log('CO2 meter permission granted!', device[0]);
             chrome.runtime.sendMessage(PERMISSION_GRANTED_MESSAGE);
@@ -117,11 +118,12 @@ class CO2Meter {
         }
     }
 
-    async getCO2Reading() {
-        if (this.useVitual) {
-            return Promise.resolve(999);
-        }
-
+    /**
+     * @description Get CO2 or Temperature reading. Resolve the promise once 
+     * the reading is ready.
+     * @return {Promise<{CO2_READING_KEY||TEMPERATURE_READING_KEY: value}>} 
+     */
+    async getReading() {
         if(this.reading) {
             return Promise.reject("Still waiting previous reading promise resolved!");
         }
@@ -168,8 +170,12 @@ class CO2Meter {
         })
     }
 
+    /**
+     * @description Get Device connected status.
+     * @return {Boolean} 
+     */
     getDeviceStatus() {
-        return this.useVitual || Boolean(this.device);
+        return Boolean(this.device);
     }
 }
 

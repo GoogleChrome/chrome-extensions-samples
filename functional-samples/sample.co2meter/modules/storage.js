@@ -1,10 +1,9 @@
 /**
- * @fileoverview Use built-in indexedDB for storing CO2 readings and 
+ * @filename storage.js
+ *
+ * @description Use built-in indexedDB for storing CO2 readings and 
  * temperature reading. Readings are stored in the form of {time: epochTime, 
  * reading: ppm || kelvin}.
- *
- * @description Storage is backed by indexedDB for storing CO2/Temperature 
- * readings and support epoch time range query.
  */
 
 import { ExampleTempData, ExampleCO2Data } from "./storage-example-data.js";
@@ -42,7 +41,7 @@ class Storage {
           const setttingStore = this.db.createObjectStore('SettingStore', {
             keyPath: 'key'
           });
-          setttingStore.put({ key: 'interval', value: 60 });
+          setttingStore.put({ key: 'interval', value: 30 });
           setttingStore.put({ key: 'temperature-unit', value: 'Celsius' });
         }
 

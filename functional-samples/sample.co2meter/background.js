@@ -59,7 +59,7 @@ async function onAlarmGetReading(alarm) {
 
   try {
     console.log('To read CO2');
-    var reading = await CO2Meter.getCO2Reading();
+    var reading = await CO2Meter.getReading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
     await broadcastMessage(NEW_READING_SAVED_MESSAGE);
