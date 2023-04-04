@@ -130,7 +130,7 @@ class Storage {
     let result = await new Promise((resolve, reject) => {
       this.getKeyValueFromStore('SettingStore', 'interval', resolve, reject);
     });
-    return result || 60;  // Default.
+    return result || 30;  // Default.
   }
 
   async setIntervalInSeconds(interval) {
