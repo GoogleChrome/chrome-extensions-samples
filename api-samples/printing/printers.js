@@ -115,6 +115,13 @@ function createPrintersTable() {
     if (jobTr == undefined) {
       jobTr = document.createElement("tr");
       jobTr.setAttribute("id", jobId);
+      
+      const cancelTd = addCell(jobTr);
+      let cancelBtn = createButton('Cancel', function() {
+        onCancelButtonClicked(jobId);
+      })
+      cancelBtn.setAttribute("id", jobId + "-cancelBtn");
+      cancelTd.appendChild(cancelBtn);
 
       const jobIdTd = addCell(jobTr);
       jobIdTd.appendChild(document.createTextNode(jobId));
@@ -123,18 +130,12 @@ function createPrintersTable() {
       jobStatusTd.id = `${jobId}-status`;
       jobStatusTd.appendChild(document.createTextNode(status));
 
-      const cancelTd = addCell(jobTr);
-      let cancelBtn = createButton('Cancel', function() {
-        onCancelButtonClicked(jobId);
-      })
-      cancelBtn.setAttribute("id", jobId + "-cancelBtn");
-      cancelTd.appendChild(cancelBtn);
 
       document.getElementById("printJobTbody").appendChild(jobTr);
     } else {
       document.getElementById(jobId + "-status").innerText = status;
       if (status !== "PENDING" && status !== "IN_PROGRESS") {
-        document.getElementById(jobId + "-cancelBtn").remove();
+        jobTr.remove();
       }
     }
   });
