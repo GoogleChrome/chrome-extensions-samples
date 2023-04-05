@@ -88,19 +88,19 @@ function createPrintersTable() {
         ];
 
         let tr = document.createElement('tr');
-        for (const columnValue of columnValues) {
-          const td = document.createElement('td');
-          td.appendChild(document.createTextNode(columnValue));
-          td.setAttribute('align', 'center');
-          tr.appendChild(td);
-        }
-
         const printTd = document.createElement('td');
         printTd.appendChild(createButton('Print', function() {
           onPrintButtonClicked(
               printer.id, printerInfo.capabilities.printer.dpi.option[0]);
         }));
         tr.appendChild(printTd);
+
+        for (const columnValue of columnValues) {
+          const td = document.createElement('td');
+          td.appendChild(document.createTextNode(columnValue));
+          td.setAttribute('align', 'center');
+          tr.appendChild(td);
+        }
 
         tbody.appendChild(tr);
       });
@@ -134,7 +134,7 @@ function createPrintersTable() {
     } else {
       document.getElementById(jobId + "-status").innerText = status;
       if (status !== "PENDING" && status !== "IN_PROGRESS") {
-        document.getElementById(jobId + "-cancelBtn").style.visibility = 'hidden';
+        document.getElementById(jobId + "-cancelBtn").remove();
       }
     }
   });
