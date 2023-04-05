@@ -44,24 +44,40 @@ function onPrintButtonClicked(printerId, dpi) {
         if (chrome.runtime.lastError !== undefined) {
           console.log(chrome.runtime.lastError.message);
         }
+        window.scrollTo(0, document.body.scrollHeight);
       });
     });
 }
 
-function createPrintButton(onClicked) {
+function onCancelButtonClicked(jobId) {
+  chrome.printing.cancelJob(jobId).then((response) => {
+    if (response !== undefined) {
+      console.log(response.status);
+    }
+    if (chrome.runtime.lastError !== undefined) {
+      console.log(chrome.runtime.lastError.message);
+    }
+  });
+}
+
+function createButton(label, onClicked) {
   const button = document.createElement('button');
-  button.innerHTML = 'Print';
+  button.innerHTML = label;
   button.onclick = onClicked;
   return button;
 }
 
-function createPrintersTable() {
-  chrome.printing.getPrinters(function (printers) {
-    const tbody = document.createElement('tbody');
+function addCell(parent) {
+  const newCell = document.createElement('td');
+  parent.appendChild(newCell);
+  return newCell;
+}
 
-    for (let i = 0; i < printers.length; ++i) {
-      const printer = printers[i];
-      chrome.printing.getPrinterInfo(printer.id, function (response) {
+function createPrintersTable() {
+  chrome.printing.getPrinters().then((printers) => {
+    const tbody = document.createElement('tbody');
+    printers.forEach((printer) => {
+      chrome.printing.getPrinterInfo(printer.id).then((printerInfo) => {
         const columnValues = [
           printer.id,
           printer.name,
@@ -70,11 +86,23 @@ function createPrintersTable() {
           printer.source,
           printer.isDefault,
           printer.recentlyUsedRank,
-          JSON.stringify(response.capabilities),
-          response.status
+          JSON.stringify(printerInfo.capabilities),
+          printerInfo.status
         ];
 
         let tr = document.createElement('tr');
+        const printTd = document.createElement('td');
+        printTd.appendChild(
+          createButton('Print', () => {
+            onPrintButtonClicked(
+              printer.id,
+              printerInfo.capabilities.printer.dpi.option[0]
+            );
+          })
+        );
+
+        tr.appendChild(printTd);
+
         for (const columnValue of columnValues) {
           const td = document.createElement('td');
           td.appendChild(document.createTextNode(columnValue));
@@ -82,26 +110,44 @@ function createPrintersTable() {
           tr.appendChild(td);
         }
 
-        const printTd = document.createElement('td');
-        printTd.appendChild(
-          createPrintButton(function () {
-            onPrintButtonClicked(
-              printer.id,
-              response.capabilities.printer.dpi.option[0]
-            );
-          })
-        );
-        tr.appendChild(printTd);
-
         tbody.appendChild(tr);
       });
-    }
-
+    });
     const table = document.getElementById('printersTable');
     table.appendChild(tbody);
   });
+
+  chrome.printing.onJobStatusChanged.addListener((jobId, status) => {
+    console.log(`jobId: ${jobId}, status: ${status}`);
+    let jobTr = document.getElementById(jobId);
+    if (jobTr == undefined) {
+      jobTr = document.createElement('tr');
+      jobTr.setAttribute('id', jobId);
+
+      const cancelTd = addCell(jobTr);
+      let cancelBtn = createButton('Cancel', () => {
+        onCancelButtonClicked(jobId);
+      });
+      cancelBtn.setAttribute(`id ${jobId}-cancelBtn`);
+      cancelTd.appendChild(cancelBtn);
+
+      const jobIdTd = addCell(jobTr);
+      jobIdTd.appendChild(document.createTextNode(jobId));
+
+      let jobStatusTd = addCell(jobTr);
+      jobStatusTd.id = `${jobId}-status`;
+      jobStatusTd.appendChild(document.createTextNode(status));
+
+      document.getElementById('printJobTbody').appendChild(jobTr);
+    } else {
+      document.getElementById(`jobId${-status}`).innerText = status;
+      if (status !== 'PENDING' && status !== 'IN_PROGRESS') {
+        jobTr.remove();
+      }
+    }
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   createPrintersTable();
 });
