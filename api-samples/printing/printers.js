@@ -89,7 +89,7 @@ function createPrintersTable() {
 
         let tr = document.createElement('tr');
         const printTd = document.createElement('td');
-        printTd.appendChild(createButton('Print', function() {
+        printTd.appendChild(createButton('Print', () => {
           onPrintButtonClicked(
               printer.id, printerInfo.capabilities.printer.dpi.option[0]);
         }));
@@ -117,7 +117,7 @@ function createPrintersTable() {
       jobTr.setAttribute("id", jobId);
       
       const cancelTd = addCell(jobTr);
-      let cancelBtn = createButton('Cancel', function() {
+      let cancelBtn = createButton('Cancel', () => {
         onCancelButtonClicked(jobId);
       })
       cancelBtn.setAttribute("id", jobId + "-cancelBtn");
@@ -141,6 +141,6 @@ function createPrintersTable() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
   createPrintersTable();
 });

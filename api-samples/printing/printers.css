@@ -16,7 +16,3 @@ table {
 div {
   overflow: auto;
 }
-
-#statusDiv {
-  display: none !important;
-}
