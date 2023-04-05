@@ -63,6 +63,13 @@ function createButton(label, onClicked) {
   return button;
 }
 
+
+function addCell(parent) {
+  const newCell = document.createElement('td');
+  parent.appendChild(newCell);
+  return newCell;
+}
+
 function createPrintersTable() {
   chrome.printing.getPrinters().then((printers) => {
     const tbody = document.createElement('tbody');
@@ -102,12 +109,6 @@ function createPrintersTable() {
     table.appendChild(tbody);
   });
 
-function addCell(parent) {
-  const newCell = document.createElement('td');
-  parent.appendChild(newCell);
-  return newCell;
-}
-
   chrome.printing.onJobStatusChanged.addListener((jobId, status) => {
     console.log("jobId: " + jobId + ", status: " + status);
     let jobTr = document.getElementById(jobId);
@@ -119,7 +120,7 @@ function addCell(parent) {
       jobIdTd.appendChild(document.createTextNode(jobId));
 
       let jobStatusTd = addCell(jobTr);
-      jobStatusTd.setAttribute("id", `${jobId}-status`);
+      jobStatusTd.id = `${jobId}-status`;
       jobStatusTd.appendChild(document.createTextNode(status));
 
       const cancelTd = addCell(jobTr);
