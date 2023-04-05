@@ -101,27 +101,34 @@ function createPrintersTable() {
     const table = document.getElementById('printersTable');
     table.appendChild(tbody);
   });
+
+function addCell(parent) {
+  const newCell = document.createElement('td');
+  parent.appendChild(newCell);
+  return newCell;
+}
+
   chrome.printing.onJobStatusChanged.addListener((jobId, status) => {
     console.log("jobId: " + jobId + ", status: " + status);
     let jobTr = document.getElementById(jobId);
     if (jobTr == undefined) {
       jobTr = document.createElement("tr");
       jobTr.setAttribute("id", jobId);
-      const jobIdTd = document.createElement('td');
-      jobIdTd.appendChild(document.createTextNode(jobId));
-      jobTr.appendChild(jobIdTd);
-      let jobStatusTd = document.createElement('td');
-      jobStatusTd.setAttribute("id", jobId + "-status");
-      jobStatusTd.appendChild(document.createTextNode(status));
-      jobTr.appendChild(jobStatusTd);
 
-      const cancelTd = document.createElement('td');
+      const jobIdTd = addCell(jobTr);
+      jobIdTd.appendChild(document.createTextNode(jobId));
+
+      let jobStatusTd = addCell(jobTr);
+      jobStatusTd.setAttribute("id", `${jobId}-status`);
+      jobStatusTd.appendChild(document.createTextNode(status));
+
+      const cancelTd = addCell(jobTr);
       let cancelBtn = createButton('Cancel', function() {
         onCancelButtonClicked(jobId);
       })
       cancelBtn.setAttribute("id", jobId + "-cancelBtn");
       cancelTd.appendChild(cancelBtn);
-      jobTr.appendChild(cancelTd);
+
       document.getElementById("printJobTbody").appendChild(jobTr);
     } else {
       document.getElementById(jobId + "-status").innerText = status;
