@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/cnehcenehakkickcnoiaemcpjpaigmbb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/cnehcenehakkickcnoiaemcpjpaigmbb">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Manga Camera
@@ -14,4 +14,4 @@ Chrome Packaged App with `videoCapture` permission can query user media without 
 
 
 ## Screenshot
-![screenshot](/samples/manga-cam/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/manga-cam/assets/screenshot_1280_800.png)

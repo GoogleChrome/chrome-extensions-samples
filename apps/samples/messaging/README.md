@@ -9,5 +9,5 @@ This sample shows how to communicate between two apps or one app and one extensi
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](/samples/messaging/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/messaging/assets/screenshot_1280_800.png)
 

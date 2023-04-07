@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/hknlnnbpihcamokfeggmahjgldbcpkof">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/hknlnnbpihcamokfeggmahjgldbcpkof">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # IOIO Bluetooth device
@@ -16,5 +16,5 @@ The constants and information about the protocol was taken from https://github.c
 * [Bluetooth](http://developer.chrome.com/apps/bluetooth.html)
      
 ## Screenshot
-![screenshot](/samples/ioio/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/ioio/assets/screenshot_1280_800.png)
 

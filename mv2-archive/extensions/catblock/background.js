@@ -5,12 +5,17 @@
 // Simple extension to replace lolcat images from
 // http://icanhascheezburger.com/ with loldog images instead.
 
+chrome.browserAction.onClicked.addListener(() => {
+  let url = "https://icanhas.cheezburger.com/";
+  chrome.tabs.create({ url });
+});
+
 chrome.webRequest.onBeforeRequest.addListener(
-  function(info) {
+  (info) => {
     console.log("Cat intercepted: " + info.url);
     // Redirect the lolcal request to a random loldog URL.
     var i = Math.round(Math.random() * loldogs.length);
-    return {redirectUrl: loldogs[i]};
+    return { redirectUrl: loldogs[i] };
   },
   // filters
   {
@@ -20,4 +25,5 @@ chrome.webRequest.onBeforeRequest.addListener(
     types: ["image"]
   },
   // extraInfoSpec
-  ["blocking"]);
+  ["blocking"]
+);

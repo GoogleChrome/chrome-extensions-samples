@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/foibnkkcggahkmckladbmgkajodpcjfh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/foibnkkcggahkmckladbmgkajodpcjfh">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Crop Tool - Image Edit
@@ -12,4 +12,4 @@ Works offline.
 ## Try it: [Crop Tool - Image Edit](https://chrome.google.com/webstore/detail/crop-tool-image-edit/foibnkkcggahkmckladbmgkajodpcjfh)
 
 ## Screenshot
-![screenshot](/samples/image-edit/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/image-edit/assets/screenshot_1280_800.png)

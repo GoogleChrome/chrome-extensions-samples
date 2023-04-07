@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/pbokgdgkaaenccneanahifaakldannno">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/pbokgdgkaaenccneanahifaakldannno">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # URL Handler Sample App
@@ -19,4 +19,4 @@ Note that at least in this initial version of the feature in Chrome 31 stable ch
 * [chrome.storage](http://developer.chrome.com/apps/storage.html)
 
 ## Screenshot
-![screenshot](/samples/url-handler/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/url-handler/assets/screenshot_1280_800.png)

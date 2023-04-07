@@ -1,0 +1,97 @@
+:root {
+  --card-min-width: 20em;
+  --card-max-width: 25em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+}
+
+/* Alarm creation form */
+
+.create-alarm {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(150px, 2fr);
+  column-gap: 20px;
+  row-gap: 10px;
+
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.create-alarm__label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.create-alarm__submit {
+  grid-column: 1 / -1;
+}
+
+/* Alarm list and log wrapper */
+
+.col-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+
+.alarm-display,
+.alarm-log {
+  min-height: 2em;
+  padding: .5em;
+  background-color: hsl(0, 0%, 95%);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 4px;
+  padding: 0;
+}
+
+.alarm-log {
+  white-space: pre-wrap;
+}
+
+.alarm-log > * {
+  padding: .5em;
+}
+
+.alarm-log > *:not(:first-child) {
+  border-top: 1px solid hsl(0, 0%, 70%);
+}
+
+.display-buttons {
+  display: inline-block;
+}
+
+.alarm-row {
+  padding: .5em;
+  position: relative;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.alarm-row:hover,
+.alarm-log > *:hover {
+  background: hsl(190, 20%, 90%)
+}
+
+.alarm-row:not(:first-child) {
+  margin-top: -1px;
+}
+
+.alarm-row:not(:first-child):hover {
+  border-top: 1px solid hsl(0, 0%, 70%);
+}
+
+.alarm-row:not(:last-child):hover {
+  border-bottom: 1px solid hsl(0, 0%, 70%);
+}
+
+.alarm-row__cancel-button {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+}

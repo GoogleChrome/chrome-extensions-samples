@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/fgnncpfphbgfchijmoopegkdhihegfla">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/fgnncpfphbgfchijmoopegkdhihegfla">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 label-printer-app
@@ -49,5 +49,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
      
 ## Screenshot
-![screenshot](/samples/usb-label-printer/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/usb-label-printer/assets/screenshot_1280_800.png)
 
