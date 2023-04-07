@@ -1,0 +1,22 @@
+p {
+  hyphens: initial;
+}
+
+.flex {
+  display: flex;
+  gap: 0.25em;
+  margin: 0.5em 0;
+  align-items: flex-end;
+}
+
+.spaced {
+  margin: 0.5em 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button {
+  white-space: nowrap;
+}

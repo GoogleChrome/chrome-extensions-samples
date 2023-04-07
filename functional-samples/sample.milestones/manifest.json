@@ -1,0 +1,9 @@
+{
+  "name": "Chromium Milestones",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": { "default_popup": "popup.html" },
+  "description": "Shows the Chromium release milestone a given code review was merged into.",
+  "host_permissions": ["https://crrie.com/"],
+  "permissions": ["activeTab"]
+}

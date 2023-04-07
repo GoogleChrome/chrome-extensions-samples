@@ -5,21 +5,19 @@ Note that Chrome Apps are deprecated. Learn more [on the Chromium blog](https://
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/).**
+
 
 ## Samples
 
 The directory structure is as follows:
 
-* [api/](api/) - extensions focused on a single API package
-* (To be added) [howto/](mv2-archive/howto/) - extensions that show how to perform a particular task
-* [tutorials/](tutorials/) - multi-step walkthroughs referenced inline in the docs
-* [examples/](examples/) - full featured extensions spanning multiple API packages
-* [apps/](apps/) - deprecated Chrome Apps platform (not listed below)
-* [mv2-archive/](mv2-archive/) - resources for manifest version 2
+- [api-samples/](api-samples/) - extensions focused on a single API package
+- [functional-samples/](functional-samples/) - full featured extensions spanning multiple API packages
+- [\_archive/apps/](_archive/apps/) - deprecated Chrome Apps platform (not listed below)
+- [\_archive/mv2/](_archive/mv2/) - resources for manifest version 2
 
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
-Read more on [Getting Started](https://developer.chrome.com/extensions/getstarted).
+Read more on [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 
 <table>
   <thead>
@@ -32,7 +30,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Hello Extensions<br>
-        <a href="tutorials/hello-world"><code>tutorials/hello-world</code></a>
+        <a href="functional-samples/tutorial.hello-world"><code>tutorial.hello-world</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -43,7 +41,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Page Redder <br>
-        <a href="examples/page-redder"><code>examples/page-redder</code></a>
+        <a href="functional-samples/sample.page-redder"><code>sample.page-redder</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -55,7 +53,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
          My Bookmarks <br>
-        <a href="examples/bookmarks"><code>examples/bookmarks</code></a>
+        <a href="functional-samples/sample.bookmarks"><code>sample.bookmarks</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -69,7 +67,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
          Chromium Milestones<br>
-        <a href="examples/milestones"><code>examples/milestones</code></a>
+        <a href="functional-samples/sample.milestones"><code>sample.milestones</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -81,7 +79,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Cookie Clearer <br>
-        <a href="api/cookies/cookie-clearer"><code>api/cookies/cookie-clearer</code></a>
+        <a href="api-samples/cookies/cookie-clearer"><code>api-samples/cookies/cookie-clearer</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -94,7 +92,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Omnibox - New Tab Search <br>
-        <a href="api/omnibox/new-tab-search"><code>api/omnibox/new-tab-search</code></a>
+        <a href="api-samples/omnibox/new-tab-search"><code>api-samples/omnibox/new-tab-search</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
@@ -106,7 +104,7 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     <tr>
       <td style="vertical-align:top;">
         Web Accessible Resources <br>
-        <a href="api/web-accessible-resources"><code>api/web-accessible-resources</code></a>
+        <a href="api-samples/web-accessible-resources"><code>api-samples/web-accessible-resources</code></a>
       </td>
       <td style="vertical-align:top;">
         <ul>
@@ -121,3 +119,11 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
     </tr>
   </tbody>
 </table>
+
+## Contributing
+
+Please see [the CONTRIBUTING file](/CONTRIBUTING.md) for information on contributing to the `chrome-extensions-samples` project.
+
+## License
+
+`chrome-extensions-samples` are authored by Google and are licensed under the [Apache License, Version 2.0](/LICENSE).
