@@ -3,8 +3,10 @@ function reddenPage() {
 }
 
 chrome.action.onClicked.addListener((tab) => {
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: reddenPage
-  });
+  if(!tab.url.includes("chrome://")) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: reddenPage
+    });
+  }
 });
