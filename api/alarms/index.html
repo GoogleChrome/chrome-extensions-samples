@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+  <script defer src="index.js"></script>
+</head>
+<body>
+  <section>
+    <h2>Create Alarm</h2>
+    <form class="create-alarm">
+      <div class="create-alarm__label">Name</div>
+      <div class="create-alarm__value">
+        <input type="text" name="alarm-name" value="my-alarm">
+      </div>
+
+      <div class="create-alarm__label">Initial delay *</div>
+      <div class="create-alarm__value">
+        <input type="number" step="0.1" name="time-value" min="0" value=1>
+
+        <select name="time-format">
+          <option id="format-minutes" value="min" selected>minutes</option>
+          <option id="format-ms" value="ms">milliseconds</option>
+        </select>
+      </div>
+
+      <div class="create-alarm__label">Repetition period *</div>
+      <div class="create-alarm__value">
+        <input type="number" step="0.1" min="0" name="period" value="0"> minutes
+        <br><i>Non-zero values create a repeating alarm that repeats every period.</i>
+      </div>
+
+      <div class="create-alarm__label">
+        *
+      </div>
+      <div class="create-alarm__value">
+        <i>Can be set to &lt; 1 min in an unpacked extension, but not in a distributed CRX file.</i>
+      </div>
+
+      <button type="submit" class="create-alarm__submit">Submit</button>
+    </form>
+  </section>
+
+
+  <section class="col-2">
+    <section class="">
+      <h2>Current Alarms
+        <div class="display-buttons">
+          <button id="clear-display">Cancel all alarms</button>
+          <button id="refresh-display" title="Clear display and re-recreate alarm UI">Refresh</button>
+        </div>
+      </h2>
+
+      <pre class="alarm-display"></pre>
+    </section>
+
+    <section>
+      <h2>Alarm log</h2>
+      <pre class="alarm-log"></pre>
+    </section>
+  </section>
+</body>
+</html>

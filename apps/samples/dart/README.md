@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/pcbbhbaibaphjlbaoahmahgmncbdkeli">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/pcbbhbaibaphjlbaoahmahgmncbdkeli">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Using DART in a Chrome Packaged App
@@ -14,5 +14,5 @@ if you want to recompile dart to JS. See the correct, CSP compatible, command-li
 
      
 ## Screenshot
-![screenshot](/samples/dart/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/dart/assets/screenshot_1280_800.png)
 

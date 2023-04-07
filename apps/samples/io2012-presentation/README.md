@@ -13,5 +13,5 @@ The `servo` directory contains the standalone version of the serial port API spi
 The `windowing_api` directory contains the source for the custom window frame and windowing API documentation (it's launched via the "Demo" link on slide 7).
      
 ## Screenshot
-![screenshot](/samples/io2012-presentation/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/io2012-presentation/assets/screenshot_1280_800.png)
 

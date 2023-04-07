@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/ipchbpppeafbpnmnjbkljpfhkkiaeikd">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/ipchbpppeafbpnmnjbkljpfhkkiaeikd">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Sandbox
@@ -21,5 +21,5 @@ See more info on [using eval safely in packaged apps](http://developer.chrome.co
 * [Runtime](http://developer.chrome.com/apps/app.runtime.html)
      
 ## Screenshot
-![screenshot](/samples/sandbox/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/sandbox/assets/screenshot_1280_800.png)
 

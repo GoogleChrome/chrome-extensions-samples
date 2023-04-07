@@ -1,4 +1,4 @@
-<a target="_blank" href="https://chrome.google.com/webstore/detail/lhedgapiolhajjkgokaplenafmdppmak">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/lhedgapiolhajjkgokaplenafmdppmak">![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-extensions-samples/master/apps/tryitnowbutton.png "Click here to install this sample from the Chrome Web Store")</a>
 
 
 # Arduino servo control
@@ -15,5 +15,5 @@ This app displays a slider that, when dragged, causes a servo attached to an Ard
 * [Window](http://developer.chrome.com/apps/app.window.html)
      
 ## Screenshot
-![screenshot](/samples/servo/assets/screenshot_1280_800.png)
+![screenshot](/apps/samples/servo/assets/screenshot_1280_800.png)
 
