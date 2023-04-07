@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Tab Manager for Google Dev Docs",
+  "name": "Tab Manager for Chrome Dev Docs",
   "version": "1.0",
   "icons": {
     "16": "images/icon-16.png",
