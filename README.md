@@ -1,11 +1,11 @@
 # Chrome Extensions samples
 
 Official samples for Chrome Extensions and the Chrome Apps platform.
-Note that Chrome Apps are deprecated—learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
+Note that Chrome Apps are deprecated. Learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html).
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/)**
+**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [mv2-archive/](mv2-archive/).**
 
 ## Samples
 
@@ -31,14 +31,12 @@ Read more on [Getting Started](https://developer.chrome.com/extensions/getstarte
   <tbody>
     <tr>
       <td style="vertical-align:top;">
-        Hello World <br>
-        <a href="examples/hello-world"><code>examples/hello-world</code></a>
+        Hello Extensions<br>
+        <a href="tutorials/hello-world"><code>tutorials/hello-world</code></a>
       </td>
       <td  style="vertical-align:top;">
         <ul>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onInstalled">runtime.onInstalled</a></li>
-          <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+          <li><a href="https://developer.chrome.com/docs/extensions/reference/action/#popup">Extension popup</a></li>
         </ul>
       </td>
     </tr>
