@@ -34,9 +34,9 @@ for (const tab of tabs) {
   element.querySelector(".title").textContent = title;
   element.querySelector(".pathname").textContent = pathname;
   element.querySelector("a").addEventListener("click", async () => {
-    // need to focus window as well as activate tab
-    await chrome.windows.update(tab.windowId, { focused: true });
+    // need to focus window as well as the active tab
     await chrome.tabs.update(tab.id, { active: true });
+    await chrome.windows.update(tab.windowId, { focused: true });
   });
 
   elements.add(element);
@@ -45,6 +45,7 @@ document.querySelector("ul").append(...elements);
 
 const button = document.querySelector("button");
 button.addEventListener("click", async () => {
-  const group = await chrome.tabs.group({ tabIds: tabs.map(({ id }) => id) });
+  const tabIds = tabs.map(({ id }) => id);
+  const group = await chrome.tabs.group({ tabIds });
   await chrome.tabGroups.update(group, { title: "DOCS" });
 });
