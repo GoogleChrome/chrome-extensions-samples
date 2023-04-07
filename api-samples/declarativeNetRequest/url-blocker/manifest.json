@@ -1,0 +1,20 @@
+{
+  "name": "URL Blocker",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "Blocks all main frame requests to example.com.",
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "ruleset_1",
+      "enabled": true,
+      "path": "rules_1.json"
+    }]
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ]
+}

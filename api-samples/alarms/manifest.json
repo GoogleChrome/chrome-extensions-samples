@@ -1,0 +1,10 @@
+{
+  "name": "Alarms API Demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "bg-wrapper.js"
+  },
+  "permissions": ["alarms"],
+  "action": {}
+}

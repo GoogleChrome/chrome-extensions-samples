@@ -1,0 +1,24 @@
+{
+  "name": "URL Redirect",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "Redirects MV2 documents to equivalent MV3 documents on developer.chrome.com.",
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "ruleset_1",
+      "enabled": true,
+      "path": "rules_1.json"
+    }]
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://developer.chrome.com/"
+  ]
+}
