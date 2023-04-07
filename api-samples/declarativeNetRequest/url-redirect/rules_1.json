@@ -1,0 +1,62 @@
+[
+  {
+    "id" : 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "url": "https://developer.chrome.com/docs/extensions/mv3/intro/" }
+    },
+    "condition": {
+      "urlFilter": "https://developer.chrome.com/docs/extensions/mv2/",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id" : 2,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "url": "https://developer.chrome.com/docs/extensions/reference/action/" }
+    },
+    "condition": {
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/browserAction/",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id" : 3,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "url": "https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/" }
+    },
+    "condition": {
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/declarativeWebRequest/",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id" : 4,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "url": "https://developer.chrome.com/docs/extensions/reference/action/" }
+    },
+    "condition": {
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/pageAction/",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id" : 5,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "url": "https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/" }
+    },
+    "condition": {
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/webRequest/",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
