@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "RED Side panel example",
+  "version": "1.0",
+  "description": "Displays welcome sidePanel on installation, then shows the main panel",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "permissions": ["sidePanel"]
+}
