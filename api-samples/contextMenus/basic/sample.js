@@ -87,7 +87,7 @@ chrome.contextMenus.create(
   { title: "Oops", parentId: 999, id: "errorItem" },
   function () {
     if (chrome.runtime.lastError) {
-      console.log("Got expected error: " + chrome.extension.lastError.message);
+      console.log("Got expected error: " + chrome.runtime.lastError.message);
     }
   }
 );
