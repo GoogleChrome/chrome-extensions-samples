@@ -19,30 +19,13 @@ chrome.contextMenus.onClicked.addListener(genericOnClick);
 function genericOnClick(info, tab) {
   switch(info.menuItemId){
     case "radio":
-      console.log(
-        "radio item " +
-          info.menuItemId +
-          " was clicked (previous checked state was " +
-          info.wasChecked +
-          ")"
-      );
+      // Radio item function
       break;
     case "checkbox":
-      console.log(JSON.stringify(info));
-      console.log(
-        "checkbox item " +
-         info.menuItemId +
-         " was clicked, state is now: " +
-         info.checked +
-         "(previous state was " +
-         info.wasChecked +
-         ")"
-                );
+      // Checkbox item function
       break;
     default:
-      console.log("item " + info.menuItemId + " was clicked");
-      console.log("info: " + JSON.stringify(info));
-      console.log("tab: " + JSON.stringify(tab));
+      // Standard context menu item function
   }
 }
 chrome.runtime.onStartup.addListener(function(){
@@ -65,7 +48,6 @@ for (var i = 0; i < contexts.length; i++) {
     contexts: [context],
     id: context,
   });
-  console.log("'" + context + "' item:" + id);
 }
 
 // Create a parent item and two children.
@@ -83,17 +65,14 @@ var child2 = chrome.contextMenus.create({
   parentId: parent,
   id: "child2",
 });
-console.log("parent:" + parent + " child1:" + child1 + " child2:" + child2);
 
 
 // Create a radio item.
 var radio1 = chrome.contextMenus.create({
   title: "radio",
   type: "radio",
-  id: title,
+  id: "radio",
 });
-
-console.log("radio:" + radio1);
 
 // Create a checkbox item.
 var checkbox1 = chrome.contextMenus.create({
@@ -102,14 +81,8 @@ var checkbox1 = chrome.contextMenus.create({
   id: "checkbox",
 });
 
-console.log("checkbox1:" + checkbox1);
-
 // Intentionally create an invalid item, to show off error checking in the
 // create callback.
-console.log(
-  "About to try creating an invalid item - an error about " +
-    "item 999 should show up"
-);
 chrome.contextMenus.create(
   { title: "Oops", parentId: 999, id: "errorItem" },
   function () {
