@@ -20,15 +20,18 @@ function genericOnClick(info, tab) {
   switch (info.menuItemId) {
     case 'radio':
       // Radio item function
+      console.log('Radio item clicked. Status:', info.checked);
       break;
     case 'checkbox':
       // Checkbox item function
+      console.log('Checkbox item clicked. Status:', info.checked);
       break;
     default:
-    // Standard context menu item function
+      // Standard context menu item function
+      console.log('Standard context menu item clicked.');
   }
 }
-chrome.runtime.onStartup.addListener(function () {
+chrome.runtime.onInstalled.addListener(function () {
   // Create one test item for each context type.
   let contexts = [
     'page',
