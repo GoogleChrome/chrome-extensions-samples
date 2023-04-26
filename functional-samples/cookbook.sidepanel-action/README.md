@@ -1,4 +1,4 @@
-# Global Side panel example
+# Google.com side panel example
 
 This example demonstrates how to display the side panel only on google.com using the [SidePanel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/). It also allows users to open the side panel by clicking on the action icon or a keyboard shortcut.
 
