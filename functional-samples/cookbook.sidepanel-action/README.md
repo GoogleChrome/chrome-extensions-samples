@@ -5,7 +5,7 @@ This example demonstrates how to display the side panel only on google.com using
 ## Running this extension
 
 1. Clone this repository.
-2. Load this directory in Chrome as an [unpacked extension][https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked].
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Pin the extension.
 4. Go to google.com
 5. Click on the action icon to open.
