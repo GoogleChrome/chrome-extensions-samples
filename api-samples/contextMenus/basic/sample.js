@@ -17,79 +17,76 @@ chrome.contextMenus.onClicked.addListener(genericOnClick);
 
 // A generic onclick callback function.
 function genericOnClick(info, tab) {
-  switch(info.menuItemId){
-    case "radio":
+  switch (info.menuItemId) {
+    case 'radio':
       // Radio item function
       break;
-    case "checkbox":
+    case 'checkbox':
       // Checkbox item function
       break;
     default:
-      // Standard context menu item function
+    // Standard context menu item function
   }
 }
-chrome.runtime.onStartup.addListener(function(){
+chrome.runtime.onStartup.addListener(function () {
+  // Create one test item for each context type.
+  let contexts = [
+    'page',
+    'selection',
+    'link',
+    'editable',
+    'image',
+    'video',
+    'audio'
+  ];
+  for (let i = 0; i < contexts.length; i++) {
+    let context = contexts[i];
+    let title = "Test '" + context + "' menu item";
+    let id = chrome.contextMenus.create({
+      title: title,
+      contexts: [context],
+      id: context
+    });
+  }
 
-// Create one test item for each context type.
-var contexts = [
-  "page",
-  "selection",
-  "link",
-  "editable",
-  "image",
-  "video",
-  "audio",
-];
-for (var i = 0; i < contexts.length; i++) {
-  var context = contexts[i];
-  var title = "Test '" + context + "' menu item";
-  var id = chrome.contextMenus.create({
-    title: title,
-    contexts: [context],
-    id: context,
+  // Create a parent item and two children.
+  let parent = chrome.contextMenus.create({
+    title: 'Test parent item',
+    id: 'parent'
   });
-}
+  let child1 = chrome.contextMenus.create({
+    title: 'Child 1',
+    parentId: parent,
+    id: 'child1'
+  });
+  let child2 = chrome.contextMenus.create({
+    title: 'Child 2',
+    parentId: parent,
+    id: 'child2'
+  });
 
-// Create a parent item and two children.
-var parent = chrome.contextMenus.create({
-  title: "Test parent item",
-  id: "parent",
-});
-var child1 = chrome.contextMenus.create({
-  title: "Child 1",
-  parentId: parent,
-  id: "child1",
-});
-var child2 = chrome.contextMenus.create({
-  title: "Child 2",
-  parentId: parent,
-  id: "child2",
-});
+  // Create a radio item.
+  let radio1 = chrome.contextMenus.create({
+    title: 'radio',
+    type: 'radio',
+    id: 'radio'
+  });
 
+  // Create a checkbox item.
+  let checkbox1 = chrome.contextMenus.create({
+    title: 'checkbox',
+    type: 'checkbox',
+    id: 'checkbox'
+  });
 
-// Create a radio item.
-var radio1 = chrome.contextMenus.create({
-  title: "radio",
-  type: "radio",
-  id: "radio",
-});
-
-// Create a checkbox item.
-var checkbox1 = chrome.contextMenus.create({
-  title: "checkbox",
-  type: "checkbox",
-  id: "checkbox",
-});
-
-// Intentionally create an invalid item, to show off error checking in the
-// create callback.
-chrome.contextMenus.create(
-  { title: "Oops", parentId: 999, id: "errorItem" },
-  function () {
-    if (chrome.runtime.lastError) {
-      console.log("Got expected error: " + chrome.runtime.lastError.message);
+  // Intentionally create an invalid item, to show off error checking in the
+  // create callback.
+  chrome.contextMenus.create(
+    { title: 'Oops', parentId: 999, id: 'errorItem' },
+    function () {
+      if (chrome.runtime.lastError) {
+        console.log('Got expected error: ' + chrome.runtime.lastError.message);
+      }
     }
-  }
-);
-  
+  );
 });
