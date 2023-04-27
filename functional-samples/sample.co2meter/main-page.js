@@ -17,8 +17,6 @@ import CO2Meter from './modules/co2_meter.js';
 import { CELSIUS, FAHRENHEIT } from './modules/constant.js';
 
 window.onload = async () => {
-  console.info('Settings Page loading');
-
   // Permission
   document.getElementById('grantPermissionButton').onclick = () => {
     CO2Meter.requestPermission();

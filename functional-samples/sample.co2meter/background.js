@@ -61,7 +61,6 @@ async function onAlarmGetReading() {
   }
 
   try {
-    console.log('To read CO2');
     let reading = await CO2Meter.getReading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
@@ -90,9 +89,7 @@ async function initilize() {
   });
 
   chrome.runtime.onConnect.addListener(function (port) {
-    console.log(`${port.name} connected`);
     port.onDisconnect.addListener(function (port) {
-      console.log(`${port.name} disconnected`);
       clients.delete(port);
     });
     clients.add(port);
