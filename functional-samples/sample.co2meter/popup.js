@@ -14,8 +14,8 @@
 
 'use strict';
 
-import storage from "./modules/storage.js";
-
-window.onload = async e => {
-  mainPageButton.onclick = e => { window.open('main-page.html', '_blank'); };
+window.onload = async () => {
+  document.getElementById('mainPageButton').onclick = () => {
+    window.open('main-page.html', '_blank');
+  };
 };

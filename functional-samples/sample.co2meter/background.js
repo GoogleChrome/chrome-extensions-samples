@@ -14,15 +14,18 @@
 
 'use strict';
 
-import icon from "./modules/icon.js";
-import storage from "./modules/storage.js";
-import CO2Meter from "./modules/co2_meter.js";
+import icon from './modules/icon.js';
+import storage from './modules/storage.js';
+import CO2Meter from './modules/co2_meter.js';
 import {
-  CO2_READING_KEY, TEMPERATURE_READING_KEY, NEW_READING_SAVED_MESSAGE,
-  PERMISSION_GRANTED_MESSAGE, CO2_METER_UNAVAILABLE
-} from "./modules/constant.js";
+  CO2_READING_KEY,
+  TEMPERATURE_READING_KEY,
+  NEW_READING_SAVED_MESSAGE,
+  PERMISSION_GRANTED_MESSAGE,
+  CO2_METER_UNAVAILABLE
+} from './modules/constant.js';
 
-var clients = new Set();
+let clients = new Set();
 
 async function co2MeterConnected() {
   icon.setConnected();
@@ -30,7 +33,7 @@ async function co2MeterConnected() {
   if (CO2Meter.getDeviceStatus()) {
     createAlarm();
   }
-};
+}
 
 function co2MeterDisconnected() {
   broadcastMessage(CO2_METER_UNAVAILABLE);
@@ -45,13 +48,13 @@ function clearAlarm() {
 
 async function createAlarm() {
   console.log('Start Alarm');
-  chrome.alarms.create("getReadingAlarm", {
+  chrome.alarms.create('getReadingAlarm', {
     delayInMinutes: 0,
-    periodInMinutes: await storage.getIntervalInSeconds() / 60
+    periodInMinutes: (await storage.getIntervalInSeconds()) / 60
   });
 }
 
-async function onAlarmGetReading(alarm) {
+async function onAlarmGetReading() {
   if (!CO2Meter.getDeviceStatus()) {
     co2MeterDisconnected();
     return;
@@ -59,7 +62,7 @@ async function onAlarmGetReading(alarm) {
 
   try {
     console.log('To read CO2');
-    var reading = await CO2Meter.getReading();
+    let reading = await CO2Meter.getReading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
     await broadcastMessage(NEW_READING_SAVED_MESSAGE);
@@ -79,7 +82,7 @@ function onPermissionGranted() {
 }
 
 async function initilize() {
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  chrome.runtime.onMessage.addListener((message) => {
     if (message === PERMISSION_GRANTED_MESSAGE) {
       onPermissionGranted();
       broadcastMessage(PERMISSION_GRANTED_MESSAGE);
@@ -95,7 +98,6 @@ async function initilize() {
     clients.add(port);
   });
 
-
   await CO2Meter.init();
   chrome.alarms.onAlarm.addListener(onAlarmGetReading);
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
@@ -109,5 +111,7 @@ async function initilize() {
 if (navigator.hid) {
   initilize();
 } else {
-  console.error('WebHID is not available!  Use chrome://flags#enable-web-hid-on-extension-service-worker');
+  console.error(
+    'WebHID is not available! Use chrome://flags#enable-web-hid-on-extension-service-worker'
+  );
 }

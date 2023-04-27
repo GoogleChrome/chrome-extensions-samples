@@ -6,6 +6,6 @@ Design Doc: [go/fugu-exploration-sprint-2023-CO2-meter-extension](https://docs.g
 
 [TODO add the reason of this project and how this sample can help developers]
 
-
 ## Known Issue
-* The extension couldn't detect device status properly when the device permission is revoked.
+
+- The extension couldn't detect device status properly when the device permission is revoked.

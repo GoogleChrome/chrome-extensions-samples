@@ -1,17 +1,19 @@
 <html>
-<script src="./third-party/chartjs/dist/chart.umd.js"></script>
-<script src="./third-party/moment/min/moment.min.js"></script>
-<script src="./third-party/chartjs-adapter-moment/dist/chartjs-adapter-moment.min.js"></script>
-<script type="module" src="chart-iframe.js"></script>
+  <script src="./third-party/chartjs/dist/chart.umd.js"></script>
+  <script src="./third-party/moment/min/moment.min.js"></script>
+  <script src="./third-party/chartjs-adapter-moment/dist/chartjs-adapter-moment.min.js"></script>
+  <script type="module" src="chart-iframe.js"></script>
 
-<body>
+  <body>
     <canvas id="chart"></canvas>
-</body>
-
+  </body>
 </html>
 
 <dialog id="noDeviceDialog">
-    <p>Device is not detected, please make sure the CO2 meter is connected and the permission is granted!</p>
-    <p>Permission can be granted in the settings page.</p>
-    <button id="closeDialogButton">Close</button>
+  <p>
+    Device is not detected, please make sure the CO2 meter is connected and the
+    permission is granted!
+  </p>
+  <p>Permission can be granted in the settings page.</p>
+  <button id="closeDialogButton">Close</button>
 </dialog>

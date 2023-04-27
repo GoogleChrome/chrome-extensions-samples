@@ -1,12 +1,27 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 /**
  * @filename storage.js
  *
- * @description Use built-in indexedDB for storing CO2 readings and 
- * temperature reading. Readings are stored in the form of {time: epochTime, 
+ * @description Use built-in indexedDB for storing CO2 readings and
+ * temperature reading. Readings are stored in the form of {time: epochTime,
  * reading: ppm || kelvin}.
  */
 
-import { ExampleTempData, ExampleCO2Data } from "./storage-example-data.js";
+import { ExampleTempData, ExampleCO2Data } from './storage-example-data.js';
+import { CELSIUS } from './constant.js';
 
 class Storage {
   constructor() {
@@ -42,7 +57,7 @@ class Storage {
             keyPath: 'key'
           });
           setttingStore.put({ key: 'interval', value: 30 });
-          setttingStore.put({ key: 'temperature-unit', value: 'Celsius' });
+          setttingStore.put({ key: 'temperature-unit', value: CELSIUS });
         }
 
         const transaction = event.target.transaction;
@@ -58,9 +73,9 @@ class Storage {
       };
     });
   }
-  
+
   /**
-   * @description Save CO reading in CO2 reading store in form of 
+   * @description Save CO reading in CO2 reading store in form of
    * {time: epoch_time_stamp, reading: ppm}.
    * @param {*} ppm
    */
@@ -87,9 +102,9 @@ class Storage {
       );
     });
   }
-  
+
   /**
-   * @description Save temperature reading in teperature reading store 
+   * @description Save temperature reading in teperature reading store
    * in form of {time: epoch_time_stamp, reading: ppm}.
    * @param {*} kelvin
    */
@@ -130,7 +145,7 @@ class Storage {
     let result = await new Promise((resolve, reject) => {
       this.getKeyValueFromStore('SettingStore', 'interval', resolve, reject);
     });
-    return result || 30;  // Default.
+    return result || 30; // Default.
   }
 
   async setIntervalInSeconds(interval) {
@@ -149,7 +164,7 @@ class Storage {
         reject
       );
     });
-    return result || "Celsius";  // Default.
+    return result || CELSIUS; // Default.
   }
 
   async setTemperatureUnit(unit) {
@@ -186,7 +201,7 @@ class Storage {
     const store = transaction.objectStore(storeName);
     const request = store.get(key);
 
-    request.onsuccess = function (event) {
+    request.onsuccess = function () {
       resolve(request.result.value);
     };
 
