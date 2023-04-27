@@ -1,8 +1,10 @@
-chrome.runtime.onInstalled.addListener(async () => {
-  await chrome.sidePanel.setOptions({
-    path: 'sidepanels/welcome-sp.html',
-    enabled: true
-  });
+chrome.runtime.onInstalled.addListener(async ({ reason }) => {
+  if (reason === 'install') {
+    await chrome.sidePanel.setOptions({
+      path: 'sidepanels/welcome-sp.html',
+      enabled: true
+    });
+  }
 });
 
 chrome.tabs.onActivated.addListener(async () => {
