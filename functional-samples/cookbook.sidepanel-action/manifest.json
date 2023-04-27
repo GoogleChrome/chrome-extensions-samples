@@ -6,7 +6,9 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "action": {},
+  "action": {
+    "default_title": "Click to open panel"
+  },
   "permissions": ["sidePanel", "tabs"],
   "icons": {
     "16": "images/icon-16.png",
