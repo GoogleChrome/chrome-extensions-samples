@@ -46,3 +46,6 @@ cd chrome-extensions-samples
 # install dependencies
 npm install
 ```
+### Writing a README
+
+All new code samples or samples updated from Manifest V2 should include a README file. Please copy the [provided template](./README-template.md) into your sample's folder and follow the instructions therein.

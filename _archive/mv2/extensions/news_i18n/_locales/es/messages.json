@@ -1,11 +1,11 @@
 {
   "name": {
     "message": "Lector de noticias",
-    "description": "Nombre de la extensión en el manifiesto."
+    "description": "Nombre de la extensi\xC3\xB3n en el manifiesto."
   },
   "description": {
     "message": "Muestra los primeros 5 eventos de '$Google$ noticias - destacados' RSS feed en una ventana.",
-    "description": "Descripción de la extensión en el manifiesto.",
+    "description": "Descripci\xC3\xB3n de la extensi\xC3\xB3n en el manifiesto.",
     "placeholders": {
       "google": {
         "content": "Google",
@@ -15,7 +15,7 @@
   },
   "default_title": {
     "message": "$Google$ noticias",
-    "description": "Texto de la accion de menú de la extension en el manifiesto.",
+    "description": "Texto de la accion de men\xC3\xBA de la extension en el manifiesto.",
     "placeholders": {
       "google": {
         "content": "Google",
@@ -24,12 +24,12 @@
     }
   },
   "unknown_title": {
-    "message": "Título desconocido",
-    "description": "Noticia con título desconocido."
+    "message": "T\xC3\xADtulo desconocido",
+    "description": "Noticia con t\xC3\xADtulo desconocido."
   },
   "error": {
     "message": "Error: $error$",
-    "description": "Plantilla de error genérico. Hace falta pasar un parámetro de error.",
+    "description": "Plantilla de error gen\xC3\xA9rico. Hace falta pasar un par\xC3\xA1metro de error.",
     "placeholders": {
       "error": {
         "content": "$1",
@@ -42,7 +42,7 @@
     "description": "Mensaje de error visible para el usuario."
   },
   "not_a_valid_feed": {
-    "message": "Feed no válido.",
+    "message": "Feed no v\xC3\xA1lido.",
     "description": "Mensaje de error visible para el usuario."
   },
   "more_stories": {
@@ -56,8 +56,8 @@
     }
   },
   "newsUrl": {
-    "message": "http://news.google.es",
-    "description": "Dirección de Google News."
+    "message": "https://news.google.es",
+    "description": "Direcci\xC3\xB3n de Google News."
   }
 }
 
