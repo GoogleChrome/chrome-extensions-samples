@@ -1,16 +1,13 @@
-chrome.runtime.onInstalled.addListener(async ({ reason }) => {
-  if (reason === 'install') {
-    await chrome.sidePanel.setOptions({
-      path: 'sidepanels/welcome-sp.html'
-    });
-  }
+const welcomePage = 'sidepanels/welcome-sp.html';
+const mainPage = 'sidepanels/main-sp.html';
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.sidePanel.setOptions({ path: welcomePage });
 });
 
-chrome.tabs.onActivated.addListener(async () => {
-  const result = await chrome.sidePanel.getOptions({});
-  if (result.path === 'sidepanels/welcome-sp.html') {
-    await chrome.sidePanel.setOptions({
-      path: 'sidepanels/main-sp.html'
-    });
+chrome.tabs.onActivated.addListener(async ({ tabId }) => {
+  const { path } = await chrome.sidePanel.getOptions({ tabId });
+  if (path === welcomePage) {
+    chrome.sidePanel.setOptions({ path: mainPage });
   }
 });
