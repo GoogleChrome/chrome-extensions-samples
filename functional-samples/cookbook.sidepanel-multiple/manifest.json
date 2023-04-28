@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "RED Side panel example",
+  "name": "Multiple side panels",
   "version": "1.0",
   "description": "Displays welcome sidePanel on installation, then shows the main panel",
   "background": {

@@ -1,22 +1,21 @@
-async function setPanel() {
-  await chrome.sidePanel.setOptions({ path: 'sidepanel.html', enabled: true });
-  await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
-}
-
-async function clearPanel() {
-  await chrome.sidePanel.setOptions({ enabled: false });
-}
 // Enabled on google.com - disabled on all other sites
-const googleURL = 'https://www.google.com/';
+const googleURL = 'https://www.google.com';
+// Allows users to open the side panel by clicking on the action toolbar icon
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false });
 
-chrome.tabs.onActivated.addListener(() => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    let activeTab = tabs[0];
-    console.log(activeTab.url);
-    if (activeTab.url === googleURL) {
-      setPanel();
-    } else {
-      clearPanel();
-    }
-  });
+chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
+  if (!tab.url) return;
+  const url = new URL(tab.url);
+  if (url.origin === googleURL) {
+    chrome.sidePanel.setOptions({
+      tabId,
+      path: 'sidepanel.html',
+      enabled: true
+    });
+  } else {
+    chrome.sidePanel.setOptions({
+      tabId,
+      enabled: false
+    });
+  }
 });

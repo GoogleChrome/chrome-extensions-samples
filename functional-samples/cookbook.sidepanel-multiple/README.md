@@ -1,4 +1,4 @@
-# Switching displaying different side panels example
+# Multiple side panels example
 
 You can use [`sidepanel.getOptions()`](https://developer.chrome.com/docs/extensions/reference/sidePanel/#method-getOptions) to retrieve the current side panel and switch between side panels. This example sets a welcome side panel when the extension is first installed, then when the user navigates to a different tab, it replaces it with the main side panel.
 
@@ -10,7 +10,7 @@ You can use [`sidepanel.getOptions()`](https://developer.chrome.com/docs/extensi
 
 <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/voYard36Ju5HoccL6n4R.png" alt="Open side panel pane">
 
-4. Choose the "RED Side panel example" side panel to see the welcome page.
+4. Choose "Multiple side panels" to see the welcome page.
 
 <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/zUa9r0iO88IDhJrqkwAs.png" alt="Welcome side panel">
 

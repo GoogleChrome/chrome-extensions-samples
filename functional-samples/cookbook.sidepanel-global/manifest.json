@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "BLUE Global side panel",
+  "name": "Global side panel",
   "version": "1.0",
   "description": "Sidepanel declared only in the manifest visible to all sites",
   "icons": {
