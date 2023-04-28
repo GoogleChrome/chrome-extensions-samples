@@ -151,7 +151,7 @@ class CO2Meter {
     }
 
     if (this.calibration) {
-      return Promise.reject('The CO2 meter is in calibration!');
+      return Promise.reject('The CO2 meter is in 20s calibration!');
     }
 
     this.reading = {};

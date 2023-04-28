@@ -25,7 +25,21 @@ import {
   CO2_METER_UNAVAILABLE
 } from './modules/constant.js';
 
+const KEEP_ALIVE_ALARM = 'keepAliveAlarm';
+const GET_READING_ALARM = 'getReadingAlarm';
+const KEEP_ALIVE_FOR_READING_ALARM = 'keepAliveForReadingAlarm';
+
 let clients = new Set();
+
+function keepServiceWorkerAlive(seconds) {
+  chrome.alarms.create(KEEP_ALIVE_ALARM, {
+    delayInMinutes: 0,
+    periodInMinutes: 20 / 60
+  });
+  setTimeout(() => {
+    chrome.alarms.clear(KEEP_ALIVE_ALARM);
+  }, seconds * 1000);
+}
 
 async function co2MeterConnected() {
   icon.setConnected();
@@ -48,10 +62,16 @@ function clearAlarm() {
 
 async function createAlarm() {
   console.log('Start Alarm');
-  chrome.alarms.create('getReadingAlarm', {
+  chrome.alarms.create(GET_READING_ALARM, {
     delayInMinutes: 0,
     periodInMinutes: (await storage.getIntervalInSeconds()) / 60
   });
+}
+
+async function alarmHandler(alarm) {
+  if (alarm.name == GET_READING_ALARM) {
+    onAlarmGetReading();
+  }
 }
 
 async function onAlarmGetReading() {
@@ -61,12 +81,26 @@ async function onAlarmGetReading() {
   }
 
   try {
+    // Use an alarm to keep the service worker alive during the device session.
+    // The alarm will be cleared when the session completes.
+    chrome.alarms.create(KEEP_ALIVE_FOR_READING_ALARM, {
+      delayInMinutes: 0,
+      periodInMinutes: 20 / 60
+    });
     let reading = await CO2Meter.getReading();
     storage.setCO2Value(reading[CO2_READING_KEY]);
     storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
     await broadcastMessage(NEW_READING_SAVED_MESSAGE);
   } catch (e) {
+    if (e == 'The CO2 meter is in 20s calibration!') {
+      // If we don't keep service worker alive and the reading interval is large (ex: 60s),
+      // the next time the reading alarm goes off, it will hit this exception again because
+      // it is a service worker cold start and it needs to initialize CO2 driver.
+      keepServiceWorkerAlive(await storage.getIntervalInSeconds());
+    }
     console.log('Exception when reading CO2!', e);
+  } finally {
+    chrome.alarms.clear(KEEP_ALIVE_FOR_READING_ALARM);
   }
 }
 
@@ -96,7 +130,7 @@ async function initilize() {
   });
 
   await CO2Meter.init();
-  chrome.alarms.onAlarm.addListener(onAlarmGetReading);
+  chrome.alarms.onAlarm.addListener(alarmHandler);
   CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
   if (!CO2Meter.getDeviceStatus()) {
     icon.setDisconnected();
