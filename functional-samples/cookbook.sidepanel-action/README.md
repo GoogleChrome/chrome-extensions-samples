@@ -8,10 +8,8 @@ This example demonstrates how to display the side panel only on google.com using
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Pin the extension.
 4. Go to https://www.google.com.
-5. Click on the action icon to open.
+5. Click on the action icon to open the side panel.
 
-<aside>
-  <p>You can also open it by pressing "Ctrl+B" on Windows, or "Command+B" on macOS.</p>
-</aside>
+💡 You can also open de side panel by pressing "Ctrl+B" (Windows) or "Cmd+B" (macOS).
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/pJBpSMMyuQtyQ8MVWsUG.png?auto=format&w=500" alt="Google.com side panel">
+<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/pJBpSMMyuQtyQ8MVWsUG.png?auto=format&w=700" alt="Google.com side panel">
