@@ -1,6 +1,6 @@
 # chrome.contextMenus
 
-A sample extension demonstrating use the chrome.contextMenu API.
+A sample extension demonstrating use of the chrome.contextMenus API.
 
 ## Overview
 
