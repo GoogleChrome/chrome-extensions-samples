@@ -7,13 +7,10 @@ You can use [`sidepanel.getOptions()`](https://developer.chrome.com/docs/extensi
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Open the side panel UI
-
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/voYard36Ju5HoccL6n4R.png" alt="Open side panel pane">
-
 4. Choose "Multiple side panels" to see the welcome page.
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/dhSqpr4hqDX0EFy8NlzE.png" alt="Welcome side panel">
+<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/dhSqpr4hqDX0EFy8NlzE.png?auto=format&w=600" alt="Welcome side panel">
 
 5. Navigate to https://developer.chrome.com to see the main side panel.
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/vtTL1BW8HLukz7jlrqZb.png" alt="Main side panel">
+<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/vtTL1BW8HLukz7jlrqZb.png?auto=format&w=600" alt="Main side panel">
