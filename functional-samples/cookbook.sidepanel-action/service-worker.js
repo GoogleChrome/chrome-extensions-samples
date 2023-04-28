@@ -1,11 +1,11 @@
-// Enabled on google.com - disabled on all other sites
 const googleURL = 'https://www.google.com';
 // Allows users to open the side panel by clicking on the action toolbar icon
-chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false });
+chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 
-chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
+chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
   if (!tab.url) return;
   const url = new URL(tab.url);
+  // Enables the side panel on google.com
   if (url.origin === googleURL) {
     chrome.sidePanel.setOptions({
       tabId,
@@ -13,6 +13,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
       enabled: true
     });
   } else {
+    // Disables the side panel on all other sites
     chrome.sidePanel.setOptions({
       tabId,
       enabled: false
