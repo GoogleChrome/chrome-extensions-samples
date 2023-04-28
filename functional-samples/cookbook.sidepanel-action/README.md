@@ -10,6 +10,6 @@ This example demonstrates how to display the side panel only on google.com using
 4. Go to https://www.google.com.
 5. Click on the action icon to open the side panel.
 
-💡 You can also open de side panel by pressing "Ctrl+B" (Windows) or "Cmd+B" (macOS).
+💡 You can also open the side panel by pressing `Ctrl+B` (Windows) or `Cmd+B` (macOS).
 
 <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/pJBpSMMyuQtyQ8MVWsUG.png?auto=format&w=700" alt="Google.com side panel">
