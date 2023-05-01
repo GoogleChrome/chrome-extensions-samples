@@ -4,7 +4,7 @@
   "private": true,
   "description": "Official samples for Chrome Extensions and the Chrome Apps platform.",
   "scripts": {
-    "prettier": "npx prettier **/*.{md,html} -w",
+    "prettier": "npx prettier **/*.{md,html,json} -w",
     "lint": "eslint **/*.js",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install"
@@ -33,7 +33,7 @@
     "**/*.js": [
       "npx eslint --fix"
     ],
-    "**/*.{md,html}": [
+    "**/*.{md,html,json}": [
       "npx prettier --write"
     ]
   }
