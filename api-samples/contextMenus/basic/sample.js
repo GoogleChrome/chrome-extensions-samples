@@ -16,7 +16,7 @@
 chrome.contextMenus.onClicked.addListener(genericOnClick);
 
 // A generic onclick callback function.
-function genericOnClick(info, tab) {
+function genericOnClick(info) {
   switch (info.menuItemId) {
     case 'radio':
       // Radio item function
@@ -45,7 +45,7 @@ chrome.runtime.onInstalled.addListener(function () {
   for (let i = 0; i < contexts.length; i++) {
     let context = contexts[i];
     let title = "Test '" + context + "' menu item";
-    let id = chrome.contextMenus.create({
+    chrome.contextMenus.create({
       title: title,
       contexts: [context],
       id: context
@@ -57,26 +57,26 @@ chrome.runtime.onInstalled.addListener(function () {
     title: 'Test parent item',
     id: 'parent'
   });
-  let child1 = chrome.contextMenus.create({
+  chrome.contextMenus.create({
     title: 'Child 1',
     parentId: parent,
     id: 'child1'
   });
-  let child2 = chrome.contextMenus.create({
+  chrome.contextMenus.create({
     title: 'Child 2',
     parentId: parent,
     id: 'child2'
   });
 
   // Create a radio item.
-  let radio1 = chrome.contextMenus.create({
+  chrome.contextMenus.create({
     title: 'radio',
     type: 'radio',
     id: 'radio'
   });
 
   // Create a checkbox item.
-  let checkbox1 = chrome.contextMenus.create({
+  chrome.contextMenus.create({
     title: 'checkbox',
     type: 'checkbox',
     id: 'checkbox'
