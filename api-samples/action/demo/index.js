@@ -21,10 +21,9 @@ function debounce(timeout, callback) {
 // .enable / .disable
 // ------------------
 
-const showToggleState = document.getElementById('show-toggle-state');
 document
   .getElementById('toggle-state-button')
-  .addEventListener('click', async (_event) => {
+  .addEventListener('click', async () => {
     // Use the isEnabled method to read the action's current state.
     let actionEnabled = await chrome.action.isEnabled();
     // when the button is clicked negate the state
@@ -63,7 +62,7 @@ async function showCurrentPage() {
   option.selected = true;
 }
 
-// Populate popup inputs on on page load
+// Populate popup inputs on page load
 showCurrentPage();
 
 // ----------
@@ -73,7 +72,7 @@ showCurrentPage();
 // If a popup is specified, our on click handler won't be called. We declare it here rather than in
 // the `onclicked-button` handler to prevent the user from accidentally registering multiple
 // onClicked listeners.
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(() => {
   chrome.tabs.create({ url: 'https://html5zombo.com/' });
 });
 
@@ -101,7 +100,7 @@ async function showBadgeText() {
   document.getElementById('current-badge-text').value = text;
 }
 
-// Populate badge text inputs on on page load
+// Populate badge text inputs on page load
 showBadgeText();
 
 document
@@ -183,7 +182,7 @@ async function showBadgeColor() {
   );
 }
 
-// Populate badge background color inputs on on page load
+// Populate badge background color inputs on page load
 showBadgeColor();
 
 document
@@ -267,7 +266,6 @@ document.getElementById('reset-icon-button').addEventListener('click', () => {
 // -------------
 
 const titleInput = document.getElementById('title-input');
-const titleInputDebounce = Number.parseInt(titleInput.dataset.debounce || 100);
 titleInput.addEventListener(
   'input',
   debounce(200, async (event) => {
@@ -280,7 +278,7 @@ titleInput.addEventListener(
 
 document
   .getElementById('reset-title-button')
-  .addEventListener('click', async (event) => {
+  .addEventListener('click', async () => {
     const manifest = chrome.runtime.getManifest();
     let title = manifest.action.default_title;
 
@@ -302,5 +300,5 @@ async function showActionTitle() {
   document.getElementById('current-title').value = title;
 }
 
-// Populate action title inputs on on page load
+// Populate action title inputs on page load
 showActionTitle();
