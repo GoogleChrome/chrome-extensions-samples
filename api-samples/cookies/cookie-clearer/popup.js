@@ -1,5 +1,4 @@
 const form = document.getElementById('control-row');
-const go = document.getElementById('go');
 const input = document.getElementById('input');
 const message = document.getElementById('message');
 
