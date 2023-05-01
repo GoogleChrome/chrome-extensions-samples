@@ -33,7 +33,7 @@
     "**/*.js": [
       "npx eslint --fix"
     ],
-    "**/*.{md,html}": [
+    "**/*.{md,html,json}": [
       "npx prettier --write"
     ]
   }
