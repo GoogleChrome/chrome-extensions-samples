@@ -14,7 +14,7 @@ const URL_CHROME_EXTENSIONS_DOC =
 const NUMBER_OF_PREVIOUS_SEARCHES = 4;
 
 // Display the suggestions after user starts typing
-chrome.omnibox.onInputChanged.addListener(async (input, suggest) => {
+chrome.omnibox.onInputChanged.addListener(async (_input, suggest) => {
   await chrome.omnibox.setDefaultSuggestion({
     description: 'Enter a Chrome API or choose from past searches'
   });

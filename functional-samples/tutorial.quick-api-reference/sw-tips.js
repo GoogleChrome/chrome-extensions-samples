@@ -29,7 +29,7 @@ createAlarm();
 chrome.alarms.onAlarm.addListener(updateTip);
 
 // Send tip to content script via messaging
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.greeting === 'tip') {
     chrome.storage.local.get('tip').then(sendResponse);
     return true;
