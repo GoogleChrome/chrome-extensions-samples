@@ -5,13 +5,7 @@
   "background": {
     "service_worker": "sw.js"
   },
-  "permissions": [
-    "scripting",
-    "webNavigation",
-    "storage"
-  ],
-  "host_permissions": [
-    "https://example.com/*"
-  ],
+  "permissions": ["scripting", "webNavigation", "storage"],
+  "host_permissions": ["https://example.com/*"],
   "action": {}
 }

@@ -4,9 +4,7 @@
     "priority": 1,
     "action": {
       "type": "modifyHeaders",
-      "requestHeaders": [
-        { "header": "cookie", "operation": "remove" }
-      ]
+      "requestHeaders": [{ "header": "cookie", "operation": "remove" }]
     },
     "condition": {
       "urlFilter": "|*?no-cookies=1",

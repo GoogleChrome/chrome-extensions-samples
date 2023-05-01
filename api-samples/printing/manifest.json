@@ -2,12 +2,14 @@
   "name": "Print Extension",
   "version": "1.0",
   "description": "Sends print job directly to the printers installed on the Chromebook",
-  "permissions": [
-    "printing"
-  ],
+  "permissions": ["printing"],
   "action": {
     "default_popup": "printers.html",
-    "default_icon": "icons/icon.png"
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
   },
   "icons": {
     "16": "icons/icon16.png",

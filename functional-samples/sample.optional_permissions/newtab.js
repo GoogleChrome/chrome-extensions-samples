@@ -53,7 +53,7 @@ chrome.permissions.contains({ permissions: ['topSites'] }).then((result) => {
     // The extension doesn't have the permissions.
     const button = document.createElement('button');
     button.innerText = 'Allow Extension to Access Top Sites';
-    button.addEventListener('click', (event) => {
+    button.addEventListener('click', () => {
       chrome.permissions.request(newPerms).then((granted) => {
         if (granted) {
           console.log('granted');

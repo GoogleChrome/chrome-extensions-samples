@@ -1,3 +1,8 @@
+body {
+  width: 400px;
+  min-height: 150px;
+}
+
 #editdialog input {
   width: 100%;
 }
