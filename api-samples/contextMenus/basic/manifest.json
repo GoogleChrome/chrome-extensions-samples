@@ -4,7 +4,7 @@
   "version": "0.7",
   "permissions": ["contextMenus"],
   "background": {
-    "service_worker": "sample.js"    
+    "service_worker": "sample.js"
   },
   "manifest_version": 3
 }

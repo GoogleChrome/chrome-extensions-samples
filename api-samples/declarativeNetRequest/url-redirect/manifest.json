@@ -6,19 +6,19 @@
   "background": {
     "service_worker": "service_worker.js"
   },
-  "declarative_net_request" : {
-    "rule_resources" : [{
-      "id": "ruleset_1",
-      "enabled": true,
-      "path": "rules_1.json"
-    }]
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules_1.json"
+      }
+    ]
   },
   "permissions": [
     "declarativeNetRequest",
     "declarativeNetRequestFeedback",
     "declarativeNetRequestWithHostAccess"
   ],
-  "host_permissions": [
-    "https://developer.chrome.com/"
-  ]
+  "host_permissions": ["https://developer.chrome.com/"]
 }
