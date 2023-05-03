@@ -10,6 +10,6 @@ This example demonstrates how to display the same side panel on every site using
 
    <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/2uFG8qxM7cqyMuXWlD9R.png?auto=format&w=400" alt="Global side panel">
 
-4. Choose the "Global Side panel".
+4. Choose the "Global side panel".
 
    <img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/iidZp01nIEHRUjrpt6Hn.png?auto=format&w=700" alt="Global side panel">

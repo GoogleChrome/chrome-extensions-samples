@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Multiple side panels",
   "version": "1.0",
-  "description": "Displays welcome sidePanel on installation, then shows the main panel",
+  "description": "Displays welcome side panel on installation, then shows the main panel",
   "background": {
     "service_worker": "service-worker.js"
   },
