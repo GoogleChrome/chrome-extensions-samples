@@ -1,6 +1,6 @@
 # Dictionary Side panel example
 
-This example allows users to right-click on a word and see the definition on the side panel using the [SidePanel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).
+This example allows users to right-click on a word and see the definition on the side panel using the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).
 
 NOTE: This example only defines the word extensions and popup.
 

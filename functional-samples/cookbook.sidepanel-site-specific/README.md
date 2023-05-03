@@ -1,6 +1,6 @@
 # Site-specific side panel example
 
-This example demonstrates how to display the side panel only on google.com using the [SidePanel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/). It also allows users to open the side panel by clicking on the [action icon](https://developer.chrome.com/docs/extensions/reference/action/) or a keyboard shortcut.
+This example demonstrates how to display the side panel only on google.com using the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/). It also allows users to open the side panel by clicking on the [action icon](https://developer.chrome.com/docs/extensions/reference/action/) or a keyboard shortcut.
 
 ## Running this extension
 

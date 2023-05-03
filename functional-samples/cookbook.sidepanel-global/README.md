@@ -1,6 +1,6 @@
 # Global Side panel example
 
-This example demonstrates how to display the same side panel on every site using the [SidePanel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).
+This example demonstrates how to display the same side panel on every site using the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).
 
 ## Running this extension
 
