@@ -1,0 +1,20 @@
+{
+  "name": "Dictionary side panel",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "Provides definitions in the side panel.",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "icons": {
+    "128": "images/icon-128.png",
+    "16": "images/icon-16.png"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": [
+    "sidePanel",
+    "contextMenus"
+  ]
+}

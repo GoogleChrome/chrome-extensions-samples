@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Site-specific side panel",
+  "version": "1.0",
+  "description": "Use the action icon or keyboard shortcut to open the side panel on google.com",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "permissions": ["sidePanel", "tabs"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      }
+    }
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}
