@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@ const GOOGLE_ORIGIN = 'https://www.google.com';
 // Allows users to open the side panel by clicking on the action toolbar icon
 chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 
-chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
   if (!tab.url) return;
   const url = new URL(tab.url);
   // Enables the side panel on google.com
   if (url.origin === GOOGLE_ORIGIN) {
-    await chrome.sidePanel.setOptions({
+    chrome.sidePanel.setOptions({
       tabId,
-      paths: 'sidepanel.html',
+      path: 'sidepanel.html',
       enabled: true
     });
   } else {
