@@ -1,0 +1,33 @@
+{
+  "name": "Sandboxed Frame",
+  "description": "Demonstrate use of handlebars inside a sandboxed frame",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "notifications"
+  ],
+  "background": {
+    "page": "eventpage.html",
+    "persistent": false
+  },
+  "sandbox": {
+    "pages": [
+      "sandbox.html"
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icon.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Start Event Page"
+  },
+  "content_security_policy": {}
+}

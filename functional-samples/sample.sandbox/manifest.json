@@ -1,0 +1,33 @@
+{
+  "name": "Sandboxed Frame",
+  "description": "Demonstrate a sandboxed frame to run code.",
+  "version": "2.0",
+  "manifest_version": 3,
+  "permissions": [
+    "notifications",
+    "offscreen"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "sandbox": {
+    "pages": [
+      "sandbox.html"
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icon.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Start Event Page"
+  },
+  "content_security_policy": {}
+}

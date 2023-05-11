@@ -2,13 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-chrome.browserAction.onClicked.addListener(function() {
+chrome.action.onClicked.addListener(function() {
   var iframe = document.getElementById('theFrame');
   var message = {
     command: 'render',
     context: {thing: 'world'}
   };
-  console.log(message);
   iframe.contentWindow.postMessage(message, '*');
 });
 
