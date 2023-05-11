@@ -1,10 +1,12 @@
-# WASM HelloWorld Demo
+# Using WASM in Manifest V3
 
 This recipe shows how to use WASM in Manifest V3.
 
 To load WASM in Manifest V3, we need to use the `wasm-unsafe-eval` CSP directive ([Content Security Policy][0]).
 
-## Running this extension
+## Overview
+
+### Running this extension
 
 1. Clone this repository.
 2. Load this directory in Chrome as an unpacked extension.
@@ -18,7 +20,7 @@ You will see the following output:
 [from wasm] Hello John
 ```
 
-## Build WASM locally
+### Build WASM locally
 
 We have already built the WASM file for you. If you want to build it yourself, follow the steps below.
 
