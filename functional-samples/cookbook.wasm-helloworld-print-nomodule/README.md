@@ -37,5 +37,5 @@ We have already built the WASM file for you. If you want to build it yourself, f
    wasm-pack build --target no-modules
    ```
 
-[0]: https://developer.chrome.com/docs/extensions/mv3/mv3-migration/#content-security-policy
+[0]: https://developer.chrome.com/docs/extensions/mv3/manifest/content_security_policy/
 [1]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
