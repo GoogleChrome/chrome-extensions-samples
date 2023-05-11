@@ -1,5 +1,3 @@
-extern crate wasm_bindgen;
-
 use wasm_bindgen::prelude::*;
 use web_sys::console;
 
@@ -17,9 +15,6 @@ pub fn print() {
 
 #[wasm_bindgen]
 pub fn print_with_value(value: &str) {
-    // with format! macro
-    console::log_1(&format!("[from wasm] Hello {}", value).into());
-
     // with 2-args log function
-    console::log_2(&"[from wasm] Hello ".into(), &value.into());
+    console::log_2(&"[from wasm] Hello".into(), &value.into());
 }
