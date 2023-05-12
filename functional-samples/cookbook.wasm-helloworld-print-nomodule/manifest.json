@@ -1,0 +1,12 @@
+{
+  "name": "WASM Load Example - Helloworld (no-modules)",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Inspect background service worker console for output",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self' 'wasm-unsafe-eval'"
+  }
+}
