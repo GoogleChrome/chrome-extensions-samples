@@ -8,7 +8,5 @@
   "permissions": [
     "webRequest",
     "webRequestAuthProvider",
-    "<all_urls>",
-    "onauthRequired"
   ]
 }
