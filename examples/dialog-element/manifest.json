@@ -5,5 +5,6 @@
   "minimum_chrome_version": "31",
     "background": {
       "service_worker":"main.js"
-    }
+    },
+    "default_locale": "en"
 }
