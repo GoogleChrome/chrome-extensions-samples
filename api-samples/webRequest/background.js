@@ -13,6 +13,19 @@
 // limitations under the License.
 
 // Alerts the user when an authorization request is requested via the console
-chrome.webRequest.onAuthRequired.addListener((details, callbackFunction) => {
+chrome.webRequest.onAuthRequired.addListener((details, callback) => {
   console.log('An authorization request has been detected');
+  if (details.url == "https://jigsaw.w3.org/HTTP/Basic/") {
+    // Creating some credentials
+    const username = "username";
+    const password = "password";
+    // Creating an auth handler to use the credentials
+    const authCredentials = {
+      authCredentials: {
+        username: username,
+        password: password
+      }
+    };
+    callback(authCredentials);
+    }
 });
