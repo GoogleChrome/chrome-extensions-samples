@@ -28,4 +28,7 @@ chrome.webRequest.onAuthRequired.addListener((details, callback) => {
     };
     callback(authCredentials);
   }
-});
+},
+{urls: ["https://jigsaw.w3.org/HTTP/Basic/"]},
+["blocking"]
+);
