@@ -1,3 +1,5 @@
 {
-    "hello": "Bonjour!"
+        "title": "Titre",
+        "content": "Bonjour le monde!",
+        "close": "Fermer"
 }

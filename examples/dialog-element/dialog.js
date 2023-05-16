@@ -17,3 +17,12 @@ window.addEventListener('load', function (e) {
     dialog.close('canceled');
   });
 });
+
+const title = chrome.il8n.getmessage('title');
+document.getElementById('title').textContent = title;
+
+const content = chrome.il8n.getmessage('content');
+document.getElementById('content').textContent = content;
+
+const closeButton = chrome.il8n.getmessage('close');
+document.getElementById('close').textContent = closeButton;
