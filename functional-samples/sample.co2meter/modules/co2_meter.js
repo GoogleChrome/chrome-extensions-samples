@@ -78,7 +78,6 @@ class CO2Meter {
     navigator.hid.addEventListener('disconnect', this.disconnectHandler);
     // Assuming the worst case that user just plugged in while start
     // the extension at the same time.
-    this.startCalibration();
     console.log('CO2Meter init() done');
   }
 
@@ -151,7 +150,7 @@ class CO2Meter {
     }
 
     if (this.calibration) {
-      return Promise.reject('The CO2 meter is in 20s calibration!');
+      return Promise.reject('The CO2 meter is in calibration!');
     }
 
     this.reading = {};
