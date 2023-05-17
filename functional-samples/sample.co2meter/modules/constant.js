@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export const CO2_READING_KEY = 'CO2';
-export const TEMPERATURE_READING_KEY = 'Temperature';
-
-export const NEW_READING_SAVED_MESSAGE = 'new reading saved';
+export const REFRESH_CHART = 'new reading saved';
 export const PERMISSION_GRANTED_MESSAGE = 'permission granted';
 export const CO2_METER_UNAVAILABLE = 'co2 meter unavailable';
+export const CO2_METER_AVAILABLE = 'co2 meter available';
 
 export const CELSIUS = 'Celsius';
 export const FAHRENHEIT = 'Fahrenheit';
+
+export const NO_CO2_METER_FOR_READING = 'No CO2 meter for reading!';

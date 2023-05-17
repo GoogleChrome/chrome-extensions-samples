@@ -18,63 +18,52 @@ import icon from './modules/icon.js';
 import storage from './modules/storage.js';
 import CO2Meter from './modules/co2_meter.js';
 import {
-  CO2_READING_KEY,
-  TEMPERATURE_READING_KEY,
-  NEW_READING_SAVED_MESSAGE,
+  REFRESH_CHART,
   PERMISSION_GRANTED_MESSAGE,
-  CO2_METER_UNAVAILABLE
+  CO2_METER_UNAVAILABLE,
+  CO2_METER_AVAILABLE,
+  NO_CO2_METER_FOR_READING
 } from './modules/constant.js';
 
-const GET_READING_ALARM = 'getReadingAlarm';
+const REFRESH_ALARM = 'refreshAlarm';
 
 let clients = new Set();
 
 async function co2MeterConnected() {
+  broadcastMessage(CO2_METER_AVAILABLE);
   icon.setConnected();
-  await CO2Meter.init();
-  if (CO2Meter.getDeviceStatus()) {
-    createAlarm();
-  }
+  startCO2Reading();
 }
 
-function co2MeterDisconnected() {
+async function co2MeterDisconnected() {
+  CO2Meter.stopReading();
   broadcastMessage(CO2_METER_UNAVAILABLE);
   icon.setDisconnected();
-  clearAlarm();
 }
 
-function clearAlarm() {
-  console.log('Clear Alarm');
-  chrome.alarms.clearAll();
-}
-
-async function createAlarm() {
-  console.log('Start Alarm');
-  chrome.alarms.create(GET_READING_ALARM, {
+async function createRefreshAlarm() {
+  console.log('createRefreshAlarm');
+  chrome.alarms.create(REFRESH_ALARM, {
     delayInMinutes: 0,
     periodInMinutes: (await storage.getIntervalInSeconds()) / 60
   });
 }
 
 async function alarmHandler(alarm) {
-  if (alarm.name == GET_READING_ALARM) {
-    onAlarmGetReading();
+  if (alarm.name == REFRESH_ALARM) {
+    onRefreshAlarm();
   }
 }
 
-async function onAlarmGetReading() {
-  if (!CO2Meter.getDeviceStatus()) {
-    co2MeterDisconnected();
-    return;
-  }
+async function onRefreshAlarm() {
+  console.log('onRefreshAlarm');
+  await broadcastMessage(REFRESH_CHART);
 
-  try {
-    let reading = await CO2Meter.getReading();
-    storage.setCO2Value(reading[CO2_READING_KEY]);
-    storage.setTempValue(reading[TEMPERATURE_READING_KEY]);
-    await broadcastMessage(NEW_READING_SAVED_MESSAGE);
-  } catch (e) {
-    console.log('Exception when reading CO2!', e);
+  // This is for detecting when the permission is revoked.
+  // There is no callback for permission revocation, so we need to poll the status periodically.
+  const deviceStatus = await CO2Meter.getDeviceStatus();
+  if (!deviceStatus) {
+    co2MeterDisconnected();
   }
 }
 
@@ -88,11 +77,22 @@ function onPermissionGranted() {
   co2MeterConnected();
 }
 
+async function startCO2Reading() {
+  try {
+    await CO2Meter.startReading();
+  } catch (e) {
+    console.log('Exception when startCO2Reading:', e);
+    if (e === NO_CO2_METER_FOR_READING) {
+      co2MeterDisconnected();
+    }
+  }
+}
+
 async function initilize() {
   chrome.runtime.onMessage.addListener((message) => {
     if (message === PERMISSION_GRANTED_MESSAGE) {
       onPermissionGranted();
-      broadcastMessage(PERMISSION_GRANTED_MESSAGE);
+      broadcastMessage(CO2_METER_AVAILABLE);
     }
   });
 
@@ -103,14 +103,15 @@ async function initilize() {
     clients.add(port);
   });
 
-  await CO2Meter.init();
+  await CO2Meter.init(
+    co2MeterConnected,
+    co2MeterDisconnected,
+    storage.setCO2Value.bind(storage),
+    storage.setTempValue.bind(storage)
+  );
+  startCO2Reading();
   chrome.alarms.onAlarm.addListener(alarmHandler);
-  CO2Meter.registerCallback(co2MeterConnected, co2MeterDisconnected);
-  if (!CO2Meter.getDeviceStatus()) {
-    icon.setDisconnected();
-    return;
-  }
-  createAlarm();
+  createRefreshAlarm();
 }
 
 if (navigator.hid) {

@@ -14,10 +14,10 @@
 
 import storage from './modules/storage.js';
 import {
-  NEW_READING_SAVED_MESSAGE,
-  PERMISSION_GRANTED_MESSAGE,
+  REFRESH_CHART,
   CO2_METER_UNAVAILABLE,
-  CELSIUS
+  CELSIUS,
+  CO2_METER_AVAILABLE
 } from './modules/constant.js';
 import CO2Meter from './modules/co2_meter.js';
 
@@ -88,9 +88,9 @@ window.onload = async () => {
 
   // Register for messages to update chart upon new data readings.
   chrome.runtime.connect().onMessage.addListener((msg) => {
-    if (msg === NEW_READING_SAVED_MESSAGE) {
+    if (msg === REFRESH_CHART) {
       updateChart();
-    } else if (msg === PERMISSION_GRANTED_MESSAGE) {
+    } else if (msg === CO2_METER_AVAILABLE) {
       updateCO2MeterStatus(true);
     } else if (msg === CO2_METER_UNAVAILABLE) {
       updateCO2MeterStatus(false);
@@ -102,9 +102,9 @@ window.onload = async () => {
     document.getElementById('noDeviceDialog').close();
   };
 
-  await CO2Meter.init();
-  updateCO2MeterStatus(CO2Meter.getDeviceStatus());
-  CO2Meter.registerCallback(CO2MeterConnected, CO2MeterDisconnected);
+  await CO2Meter.init(CO2MeterConnected, CO2MeterDisconnected);
+  const deviceStatus = await CO2Meter.getDeviceStatus();
+  updateCO2MeterStatus(deviceStatus);
 };
 
 function updateCO2MeterStatus(connected) {
