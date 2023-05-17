@@ -9,8 +9,8 @@ To load WASM in Manifest V3, we need to use the `wasm-unsafe-eval` CSP directive
 ### Running this extension
 
 1. Clone this repository.
-2. Load this directory in Chrome as an unpacked extension.
-3. Find the extension named "WASM Load Example - Helloworld" and inspect the service worker.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Find the extension named "WASM Load Example - Helloworld" and [inspect the service worker](https://developer.chrome.com/docs/extensions/mv3/tut_debugging/#debug-bg).
 
 You will see the following output:
 
