@@ -1,0 +1,10 @@
+{
+  "name": "Context Menus Sample",
+  "description": "Shows some of the features of the Context Menus API",
+  "version": "0.7",
+  "permissions": ["contextMenus"],
+  "background": {
+    "service_worker": "sample.js"
+  },
+  "manifest_version": 3
+}

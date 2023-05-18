@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Global side panel",
+  "version": "1.0",
+  "description": "Sidepanel declared only in the manifest visible to all sites",
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": ["sidePanel"]
+}

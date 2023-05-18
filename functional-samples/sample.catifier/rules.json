@@ -1,14 +1,24 @@
 [
-    {
-      "id": 1,
-      "priority": 100,
-      "action": { "type": "redirect", "redirect": { "url": "https://i.chzbgr.com/completestore/12/8/23/S__rxG9hIUK4sNuMdTIY9w2.jpg" } },
-      "condition": {"urlFilter": "*.jpeg", "resourceType": ["image"]} 
+  {
+    "id": 1,
+    "priority": 100,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "url": "https://i.chzbgr.com/completestore/12/8/23/S__rxG9hIUK4sNuMdTIY9w2.jpg"
+      }
     },
-    {
-       "id": 2,
-       "priority": 100,
-       "action": { "type": "redirect", "redirect": { "url": "https://i.chzbgr.com/completestore/12/8/23/S__rxG9hIUK4sNuMdTIY9w2.jpg" } },
-       "condition": {"urlFilter": "*.jpg", "resourceType": ["image"]} 
-    }
-  ]
+    "condition": { "urlFilter": "*.jpeg", "resourceType": ["image"] }
+  },
+  {
+    "id": 2,
+    "priority": 100,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "url": "https://i.chzbgr.com/completestore/12/8/23/S__rxG9hIUK4sNuMdTIY9w2.jpg"
+      }
+    },
+    "condition": { "urlFilter": "*.jpg", "resourceType": ["image"] }
+  }
+]
