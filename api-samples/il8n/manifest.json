@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "il8n API Example",
+  "version": "3",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "default_locale": "en",
+  "permissions": ["activeTab"]
+}

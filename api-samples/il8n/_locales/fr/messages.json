@@ -1,0 +1,10 @@
+{
+  "title": {
+    "message": "C'est une Titre",
+    "description": "le titre de la page d'extension"
+  },
+  "content": {
+    "message": "Bonjour le monde!",
+    "description": "le contenu de la page d'extension"
+  }
+}
