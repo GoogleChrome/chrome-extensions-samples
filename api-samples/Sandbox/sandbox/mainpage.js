@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-var counter=0;
+let counter=0;
 document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('reset').addEventListener('click', function(event) {
