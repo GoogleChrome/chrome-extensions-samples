@@ -4,7 +4,7 @@
  * @see http://developer.chrome.com/apps/app.runtime.html
  * @see http://developer.chrome.com/apps/app.window.html
  */
-chrome.runtime.onStartup.addListener(function () {
+chrome.runtime.onStartup.addListener(() => {
   console.log('started the function');
   chrome.tabs.create({
     url: 'mainpage.html'
