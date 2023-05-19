@@ -8,7 +8,9 @@
     },
   "permissions": [
     "offscreen",
-    "nativeMessaging"
+    "nativeMessaging",
+    "tabs",
+    "activeTab"
   ],
   "icons": {
     "128": "icon_128.png"

@@ -11,5 +11,9 @@
   },
   "sandbox": {
     "pages": ["sandboxed.html"]
-  }
+  }, 
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ]
 }
