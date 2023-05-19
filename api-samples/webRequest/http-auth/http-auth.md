@@ -1,6 +1,6 @@
 # webRequest.onAuthRequired
 
-This sample demonstrates the use of the `webRequest.onAuthRequired` listener to detect an authentication request and log the user into designated site.
+This sample demonstrates the `webRequest.onAuthRequired` listener to detect an authentication request and log the user into the designated site.
 
 ## Overview
 
