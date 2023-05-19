@@ -1,4 +1,4 @@
-# Title
+# Sandbox
 
 This sample creates a sandboxed iframe (`sandbox.html`) to which the main page (`mainpage.html`)
 passes a counter variable. The sandboxed page uses the
