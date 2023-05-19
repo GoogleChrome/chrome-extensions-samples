@@ -1,5 +1,5 @@
 {
-  "name": "webRequest Demo",
+  "name": "webRequest.onAuthRequired Demo",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
