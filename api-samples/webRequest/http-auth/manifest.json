@@ -8,5 +8,8 @@
   "permissions": [
     "webRequest",
     "webRequestAuthProvider"
+  ],
+  "host_permissions": [
+    "https://jigsaw.w3.org/*"
   ]
 }
