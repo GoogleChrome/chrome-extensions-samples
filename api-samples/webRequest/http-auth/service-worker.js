@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Alerts the user when an authorization request is requested via the console
+// Provides credentials when an HTTP Basic Auth request is received.
 chrome.webRequest.onAuthRequired.addListener(
   (details, callback) => {
     console.log('An authorization request has been detected');
