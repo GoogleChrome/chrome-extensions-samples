@@ -1,6 +1,6 @@
 # Sandbox
 
-This sample creates a sandboxed iframe (`sandbox.html`) to which the main page (`mainpage.html`)
+This sample creates a tab with a sandboxed iframe (`sandbox.html`) to which the main page (`mainpage.html`)
 passes a counter variable. The sandboxed page uses the
 Handlebars template library to evaluate and compose a message
 using the counter variable which is then passed back to the main page for rendering.
