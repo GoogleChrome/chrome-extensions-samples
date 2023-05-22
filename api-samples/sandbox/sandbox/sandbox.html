@@ -40,7 +40,7 @@ limitations under the License.
     </script>
 
     <script>
-          templatesElements = document.querySelectorAll(
+      let templatesElements = document.querySelectorAll(
           "script[type='text/x-handlebars-template']"
         ),
         templates = {},
@@ -48,7 +48,7 @@ limitations under the License.
         name;
 
       // precompile all templates in this page
-      for (i = 0; i < templatesElements.length; i++) {
+      for (let i = 0; i < templatesElements.length; i++) {
         source = templatesElements[i].innerHTML;
         name = templatesElements[i].id;
         templates[name] = Handlebars.compile(source);
@@ -56,9 +56,9 @@ limitations under the License.
 
       // Set up message event handler:
       window.addEventListener('message', function (event) {
-        (command = event.data.command),
-          (template = templates[event.data.templateName]),
-          (result = 'invalid request');
+        let command = event.data.command,
+          template = templates[event.data.templateName],
+          result = 'invalid request';
 
         // if we don't know the templateName requested, return an error message
         if (!template) {
