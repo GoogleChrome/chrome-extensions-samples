@@ -16,7 +16,7 @@
 chrome.webRequest.onAuthRequired.addListener(
   (details, callback) => {
     console.log('An authorization request has been detected');
-    if (details.url == 'https://jigsaw.w3.org/HTTP/Basic/') {
+    if (details.url == 'https://httpbin.org/basic-auth/guest/guest') {
       // Creating some credentials
       const username = 'guest';
       const password = 'guest';
@@ -30,6 +30,6 @@ chrome.webRequest.onAuthRequired.addListener(
       callback(authCredentials);
     }
   },
-  { urls: ['https://jigsaw.w3.org/HTTP/Basic/'] },
+  { urls: ['https://httpbin.org/basic-auth/guest/guest'] },
   ['asyncBlocking']
 );
