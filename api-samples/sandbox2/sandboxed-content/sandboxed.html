@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sandboxed Content</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <h1>Sandboxed Content</h1>
+    <p>I am the sandboxed iframe.</p>
+    <div id="message"></div>
+    <script>
+      eval(
+        "document.getElementById('message').innerHTML = '<p>I am the " +
+          "output of an eval-ed inline script.</p>'"
+      );
+    </script>
+  </body>
+</html>

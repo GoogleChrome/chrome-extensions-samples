@@ -12,27 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-let counter=0;
-document.addEventListener('DOMContentLoaded', function() {
-
-  document.getElementById('reset').addEventListener('click', function(event) {
-    counter=0;
-    document.querySelector("#result").innerHTML="";
+let counter = 0;
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('reset').addEventListener('click', function () {
+    counter = 0;
+    document.querySelector('#result').innerHTML = '';
   });
 
-  document.getElementById('sendMessage').addEventListener('click', function(event) {
+  document.getElementById('sendMessage').addEventListener('click', function () {
     counter++;
-    var message = {
+    let message = {
       command: 'render',
-      templateName: 'sample-template-'+counter,
-      context: {'counter': counter}
+      templateName: 'sample-template-' + counter,
+      context: { counter: counter }
     };
     document.getElementById('theFrame').contentWindow.postMessage(message, '*');
   });
 
   // on result from sandboxed frame:
-  window.addEventListener('message', function(event) {
-    document.querySelector("#result").innerHTML=event.data.result || "invalid result"
+  window.addEventListener('message', function () {
+    document.querySelector('#result').innerHTML =
+      event.data.result || 'invalid result';
   });
 });
-
