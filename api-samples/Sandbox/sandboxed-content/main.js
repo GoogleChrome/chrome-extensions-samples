@@ -18,7 +18,7 @@
  * @see http://developer.chrome.com/docs/extensions/reference/runtime.html
  * @see http://developer.chrome.com/docs/extensions/reference/tab.html
  */
-chrome.runtime.onStartup.addListener(function () {
+chrome.runtime.onInstalled.addListener(function () {
   chrome.tabs.create({
     url: 'main.html'
   });
