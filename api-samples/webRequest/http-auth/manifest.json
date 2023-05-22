@@ -10,6 +10,6 @@
     "webRequestAuthProvider"
   ],
   "host_permissions": [
-    "https://jigsaw.w3.org/*"
+    "https://httpbin.org/*"
   ]
 }
