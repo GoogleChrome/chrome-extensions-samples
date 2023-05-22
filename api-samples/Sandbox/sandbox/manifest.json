@@ -6,12 +6,6 @@
   "background": {
       "service_worker": "main.js"
     },
-  "permissions": [
-    "offscreen",
-    "nativeMessaging",
-    "tabs",
-    "activeTab"
-  ],
   "icons": {
     "128": "icon_128.png"
   },
