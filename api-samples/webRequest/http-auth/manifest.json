@@ -1,0 +1,15 @@
+{
+  "name": "webRequest.onAuthRequired Demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestAuthProvider"
+  ],
+  "host_permissions": [
+    "https://httpbin.org/*"
+  ]
+}
