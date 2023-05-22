@@ -40,7 +40,7 @@ limitations under the License.
     </script>
 
     <script>
-      let templatesElements = document.querySelectorAll(
+      const templatesElements = document.querySelectorAll(
           "script[type='text/x-handlebars-template']"
         ),
         templates = {},
@@ -56,7 +56,7 @@ limitations under the License.
 
       // Set up message event handler:
       window.addEventListener('message', function (event) {
-        let command = event.data.command,
+        const command = event.data.command,
           template = templates[event.data.templateName],
           result = 'invalid request';
 
