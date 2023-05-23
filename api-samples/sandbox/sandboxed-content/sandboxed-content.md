@@ -1,7 +1,7 @@
 # Sandboxed Content
 
 This sample creates a tab containing a sandboxed iframe (`sandbox.html`).
-The sandbox uses `eval()` function to write some HTML to its own document.
+The sandbox calls `eval()` to write some HTML to its own document.
 
 ## Overview
 
