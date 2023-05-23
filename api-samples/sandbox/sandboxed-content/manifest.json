@@ -4,7 +4,7 @@
   "manifest_version": 3,
   "minimum_chrome_version": "23",
     "background": {
-      "service_worker": "main.js"
+      "service_worker": "service-worker.js"
     },
   "icons": {
     "128": "icon_128.png"
