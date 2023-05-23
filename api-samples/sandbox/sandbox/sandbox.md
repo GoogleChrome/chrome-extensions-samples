@@ -7,4 +7,4 @@ using the counter variable which is then passed back to the main page for render
 
 ## Overview
 
-The default packaged app Content Security Policy (CSP) value disallows the use of eval() so using a sandbox is necessary to make use of external resources for this extension.
+The default packaged app Content Security Policy (CSP) value disallows the use of `eval()` so using a sandbox is necessary to use external resources for this extension.
