@@ -1,5 +1,5 @@
 {
-  "name": "chrome-extensions-samples",
+  "name": "chrome-extensions",
   "version": "1.0.0",
   "private": true,
   "description": "Official samples for Chrome Extensions and the Chrome Apps platform.",
