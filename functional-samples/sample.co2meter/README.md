@@ -1,19 +1,15 @@
 # **Sample CO₂ Meter Chrome Extension**
 
-The extension uses [WebHID](https://developer.chrome.com/en/articles/hid/) to access a device for measuring the CO₂ level and temperature in your surroundings, and then stores the data in your browser's local storage for historical readings.
+The extension uses [WebHID](https://developer.chrome.com/en/articles/hid/) to access a device for measuring the CO₂ level and temperature in your surroundings.
 
 ## **Testing the extension**
 
 1. Follow the instructions to load an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 2. Connect the CO₂ meter (currently it only supports the [CO2Mini Indoor Air Quality Monitor](https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor) from CO2Meter.com).
-3. Open the extension popup window and click “Large Chart and Settings” button to go to the settings page.
+3. Open the extension popup window and click “Settings” button to go to the settings page.
 4. Click the “Grant CO2 meter permission” button and grant the permission to the CO₂ meter.
 
-Following the above steps, the device connection session to the CO₂ meter will be created when the extension is running. The input reports from the device will be processed and stored in the storage. The CO₂ meter reading chart will be updated at regular intervals, as specified in the "Chart refresh interval (in seconds)" field on the settings page, and will be displayed in the chart in both the pop-up window and the larger chart settings page.
-
-## **Additional instructions**
-
-- After changing the "Chart refresh interval (in seconds):" setting, please reload the extension to get the extension using the latest interval.
+Following the above steps, the device connection session to the CO₂ meter will be created when the extension is running. The input reports from the device will be processed and are visble from the popup window or settings page.
 
 ## **WebHID limitations in extension service workers**
 

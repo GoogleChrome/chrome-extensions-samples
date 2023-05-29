@@ -1,0 +1,22 @@
+<html>
+  <script type="module" src="co2-state-iframe.js"></script>
+  <body>
+    <dl>
+      <dt><b>CO2 meter</b></dt>
+      <dd id="co2_meter_connected_status">unknown</dd>
+      <dt><b>CO2 reading (&#13273;)</b></dt>
+      <dd id="co2_reading">unknown</dd>
+      <dt><b>Temperature reading (&#8457;)</b></dt>
+      <dd id="temp_reading">unknown</dd>
+    </dl>
+  </body>
+</html>
+
+<dialog id="noDeviceDialog">
+  <p>
+    Device is not detected, please make sure the CO2 meter is connected and the
+    permission is granted!
+  </p>
+  <p>Permission can be granted in the settings page.</p>
+  <button id="closeDialogButton">Close</button>
+</dialog>

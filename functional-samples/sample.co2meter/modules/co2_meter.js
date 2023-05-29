@@ -24,6 +24,10 @@ import { PERMISSION_GRANTED_MESSAGE } from './constant.js';
 
 const key = new Uint8Array([0xc4, 0xc6, 0xc0, 0x92, 0x40, 0x23, 0xdc, 0x96]);
 
+function KelvinToFahrenheit(k) {
+  return Math.trunc(((k - 273.15) * 9) / 5 + 32);
+}
+
 class CO2Meter {
   constructor() {
     this.device = null;
@@ -34,8 +38,6 @@ class CO2Meter {
     this.connectHandler = this.connectHandler.bind(this);
     this.disconnectHandler = this.disconnectHandler.bind(this);
     this.onInputReport = this.onInputReport.bind(this);
-    this.reading = null;
-    this.calibration = false;
   }
 
   /**
@@ -77,13 +79,6 @@ class CO2Meter {
       throw 'Fail to open CO2 meter for reading!';
     }
 
-    // Ignore readings during the first 20 seconds to prevent exaggerated readings.
-    // This is to err on the side of caution and assume the CO2 meter is just
-    // powered up when starting reading.
-    this.calibration = true;
-    setTimeout(() => {
-      this.calibration = false;
-    }, 20000);
     this.device.addEventListener('inputreport', this.onInputReport);
   }
 
@@ -96,11 +91,6 @@ class CO2Meter {
   }
 
   onInputReport(report) {
-    // Ignore the reading during calibration.
-    if (this.calibration) {
-      console.log('Ignore the report during calibratin.');
-      return;
-    }
     let data = new Uint8Array(
       report.data.buffer,
       report.data.byteOffset,
@@ -164,6 +154,10 @@ class CO2Meter {
   async getDeviceStatus() {
     const devices = await navigator.hid.getDevices();
     return devices.length > 0;
+  }
+
+  tempReadingToFahrenheit(temp_reading) {
+    return KelvinToFahrenheit(temp_reading);
   }
 }
 
