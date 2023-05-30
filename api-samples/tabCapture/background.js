@@ -1,17 +1,20 @@
-let currentReceiverTabId = null;
+async function closePrevReceiverTab() {
+  const tabs = await chrome.tabs.query({
+    url: chrome.runtime.getURL('receiver.html')
+  });
+
+  await Promise.all(tabs.map((tab) => chrome.tabs.remove(tab.id)));
+}
 
 chrome.action.onClicked.addListener(async (tab) => {
   const currentTabId = tab.id;
 
-  if (currentReceiverTabId) {
-    await chrome.tabs.remove(currentReceiverTabId);
-  }
+  await closePrevReceiverTab();
 
   // Open a new tab with the receiver.html page
   const { id: receiverTabId } = await chrome.tabs.create({
     url: chrome.runtime.getURL('receiver.html')
   });
-  currentReceiverTabId = receiverTabId;
 
   // Wait for the receiver tab to load
   await new Promise((resolve) => {
