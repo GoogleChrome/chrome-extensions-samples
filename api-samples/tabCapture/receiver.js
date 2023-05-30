@@ -57,7 +57,6 @@ function playCapturedStream(stream) {
 }
 
 function testGetMediaStreamId(targetTabId, consumerTabId) {
-  printLogMessage('Test with method getMediaStreamId().');
   chrome.tabCapture.getMediaStreamId(
     { targetTabId, consumerTabId },
     function (streamId) {
