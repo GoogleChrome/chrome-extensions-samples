@@ -4,8 +4,10 @@
   "version": "1",
   "manifest_version": 3,
   "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "permissions": ["tabs", "tabCapture"]
 }
