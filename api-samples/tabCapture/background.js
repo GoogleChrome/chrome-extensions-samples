@@ -12,9 +12,11 @@ chrome.action.onClicked.addListener(async (tab) => {
   await closePrevReceiverTab();
 
   // Open a new tab with the receiver.html page
-  const { id: receiverTabId } = await chrome.tabs.create({
+  const { tabs } = await chrome.windows.create({
     url: chrome.runtime.getURL('receiver.html')
   });
+
+  const receiverTabId = tabs[0].id;
 
   // Wait for the receiver tab to load
   await new Promise((resolve) => {
