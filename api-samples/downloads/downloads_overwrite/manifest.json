@@ -1,0 +1,10 @@
+{
+  "name": "Downloads Overwrite Existing Files",
+  "description": "All downloads overwrite existing files instead of adding ' (1)', ' (2)', etc.",
+  "version": "0.1",
+  "background": {
+    "service_worker": "bg.js"
+  },
+  "permissions": ["downloads"],
+  "manifest_version": 3
+}
