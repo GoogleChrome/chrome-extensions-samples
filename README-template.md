@@ -19,3 +19,9 @@ _Describe how the sample demonstrates the API or use case and briefly describe h
 ## Implementation Notes
 
 _Add any information that doesn't fit elsewhere in the README._
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. _Add the rest of the instruction here_
