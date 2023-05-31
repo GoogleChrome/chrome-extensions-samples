@@ -1,6 +1,6 @@
 # chrome.tabCapture
 
-A sample demonstrates using the [`chrome.tabCapture`](https://developer.chrome.com/docs/extensions/reference/tabCapture/) API.
+A sample that demonstrates how to use the [`chrome.tabCapture`](https://developer.chrome.com/docs/extensions/reference/tabCapture/) API.
 
 ## Overview
 
