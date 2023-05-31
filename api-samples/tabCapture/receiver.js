@@ -6,12 +6,6 @@ function printErrorMessage(message) {
   console.error(message);
 }
 
-function printLogMessage(message) {
-  const element = document.getElementById('echo-msg');
-  element.innerText = message;
-  console.log(message);
-}
-
 // Stop video play-out and stop the MediaStreamTracks.
 function shutdownReceiver() {
   if (!currentStream) {
@@ -89,7 +83,7 @@ function testGetMediaStreamId(targetTabId, consumerTabId) {
   );
 }
 
-chrome.runtime.onMessage.addListener(async function (request) {
+chrome.runtime.onMessage.addListener(function (request) {
   const { targetTabId, consumerTabId } = request;
   testGetMediaStreamId(targetTabId, consumerTabId);
 });
