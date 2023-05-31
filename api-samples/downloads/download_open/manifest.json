@@ -1,0 +1,15 @@
+{
+  "name": "__MSG_extName__",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "__MSG_extDesc__",
+  "icons": {
+    "16": "icon16.png",
+    "128": "icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "default_locale": "en",
+  "permissions": ["contextMenus", "downloads", "downloads.open", "storage"]
+}
