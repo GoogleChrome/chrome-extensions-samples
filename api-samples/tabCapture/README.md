@@ -4,7 +4,7 @@ A sample that demonstrates how to use the [`chrome.tabCapture`](https://develope
 
 ## Overview
 
-In this sample, the `chrome.tabCapture` API is used to capture the contents of the active tab. The captured stream will be displayed in a newly created window.
+In this sample, the `chrome.tabCapture` API captures the contents of the active tab. The captured stream is displayed in a new window.
 
 ## Implementation Notes
 
