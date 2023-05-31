@@ -8,7 +8,7 @@ In this sample, the `chrome.tabCapture` API captures the contents of the active 
 
 ## Implementation Notes
 
-To specify capturing specific tabs, [`tabCapture.getMediaStreamId`](https://developer.chrome.com/docs/extensions/reference/tabCapture/#method-getMediaStreamId) is used.
+Use [`tabCapture.getMediaStreamId`](https://developer.chrome.com/docs/extensions/reference/tabCapture/#method-getMediaStreamId) to capture specific tabs.
 
 The `targetTabId` and `consumerTabId` are obtained in the Service Worker, and then passed to the receiver page through the [`tabs.sendMessage`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-sendMessage) method.
 
