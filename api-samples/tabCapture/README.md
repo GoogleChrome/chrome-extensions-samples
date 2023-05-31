@@ -12,4 +12,4 @@ Use [`tabCapture.getMediaStreamId`](https://developer.chrome.com/docs/extensions
 
 The `targetTabId` and `consumerTabId` are obtained in the Service Worker, and then passed to the receiver page through the [`tabs.sendMessage`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-sendMessage) method.
 
-You can find a more detailed implementation guide on audio recording and screen capture at <https://developer.chrome.com/docs/extensions/mv3/screen_capture/#audio-and-video>.
+See the [Audio recording and Screen capture guide](https://developer.chrome.com/docs/extensions/mv3/screen_capture/#audio-and-video) for a more detailed implementation.
