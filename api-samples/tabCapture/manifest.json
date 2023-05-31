@@ -7,7 +7,7 @@
     "default_icon": "icon.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js"
   },
   "permissions": ["tabs", "tabCapture"]
 }
