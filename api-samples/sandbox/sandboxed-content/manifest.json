@@ -2,7 +2,6 @@
   "name": "Sandboxed Content Sample",
   "version": "1.0.3",
   "manifest_version": 3,
-  "minimum_chrome_version": "88",
     "background": {
       "service_worker": "service-worker.js"
     },
