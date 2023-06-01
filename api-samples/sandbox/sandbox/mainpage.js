@@ -13,7 +13,7 @@
 // limitations under the License.
 
 let counter = 0;
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('reset').addEventListener('click', function () {
     counter = 0;
     document.querySelector('#result').innerHTML = '';
