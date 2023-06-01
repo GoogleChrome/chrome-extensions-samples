@@ -3,7 +3,7 @@
   "description": "Download Filename Controller",
   "version": "0.1",
   "background": {
-    "service_worker": "bg.js"
+    "service_worker": "service-worker.js"
   },
   "options_page": "options.html",
   "permissions": ["downloads", "storage"],
