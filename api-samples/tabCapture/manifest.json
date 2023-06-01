@@ -1,6 +1,6 @@
 {
   "name": "Tab Capture Example",
-  "description": "Capture a tab and play in a <video> element in a separate tab.",
+  "description": "Capture a tab and play in a <video> element in a separate window.",
   "version": "1",
   "manifest_version": 3,
   "action": {
