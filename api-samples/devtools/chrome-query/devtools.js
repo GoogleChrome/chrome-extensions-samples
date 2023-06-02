@@ -14,7 +14,7 @@
 
 // The function below is executed in the context of the inspected page.
 /*global $0*/
-let page_getProperties = function () {
+const page_getProperties = function () {
   let data = window.jQuery && $0 ? jQuery.data($0) : {};
   // Make a shallow copy with a null prototype, so that sidebar does not
   // expose prototype.
