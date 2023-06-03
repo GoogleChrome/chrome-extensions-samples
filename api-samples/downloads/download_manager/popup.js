@@ -259,7 +259,7 @@ class DownloadItem {
     };
 
     item.more_mousemove = function (evt) {
-      const mouse = { x: evt.x, y: evt.y + document.body.scrollTop };
+      const mouse = { x: evt.x, y: evt.y + document.documentElement.scrollTop };
       if (
         item.getElement('more') &&
         (pointInElement(mouse, item.div) ||
