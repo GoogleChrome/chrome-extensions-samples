@@ -771,12 +771,8 @@ window.onload = function () {
     DownloadManager.clearAll();
     return false;
   };
-  if (chrome.downloads.showDefaultFolder) {
-    document.getElementById('open-folder').onclick = function () {
-      chrome.downloads.showDefaultFolder();
-      return false;
-    };
-  } else {
-    document.getElementById('open-folder').hidden = true;
-  }
+  document.getElementById('open-folder').onclick = function () {
+    chrome.downloads.showDefaultFolder();
+    return false;
+  };
 };
