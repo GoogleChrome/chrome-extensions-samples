@@ -7,10 +7,6 @@
     "message": "Browser Action Download Manager User Interface for Google Chrome",
     "description": "Extension description"
   },
-  "badChromeVersion": {
-    "message": "The downloads API is only available on the canary, dev, and beta channels.",
-    "description": ""
-  },
   "tabTitle": {
     "message": "Downloads",
     "description": "tab title"
