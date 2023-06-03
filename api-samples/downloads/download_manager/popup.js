@@ -44,7 +44,6 @@ function loadI18nMessages() {
   setProperty('.url', 'title', 'retryTitle');
   setProperty('.referrer', 'title', 'referrerTitle');
   setProperty('.open-filename', 'title', 'openTitle');
-  setProperty('#bad-chrome-version', 'innerText', 'badChromeVersion');
   setProperty('.remove-file', 'title', 'removeFileTitle');
 
   document.querySelector('.progress').style.minWidth =
