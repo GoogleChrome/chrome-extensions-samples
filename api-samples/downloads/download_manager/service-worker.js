@@ -1,4 +1,4 @@
-if (chrome.downloads.setShelfEnabled) chrome.downloads.setShelfEnabled(false);
+chrome.downloads.setShelfEnabled(false);
 
 const colors = {
   progressColor: '#0d0',
@@ -124,22 +124,6 @@ function drawIcon(side, options) {
   return canvas;
 }
 
-async function maybeOpen(id) {
-  let openWhenComplete = (await chrome.storage.local.get(['openWhenComplete']))
-    .openWhenComplete;
-
-  if (!openWhenComplete) {
-    openWhenComplete = [];
-    await chrome.storage.local.set({ openWhenComplete });
-  }
-  const openNowIndex = openWhenComplete.indexOf(id);
-  if (openNowIndex >= 0) {
-    chrome.downloads.open(id);
-    openWhenComplete.splice(openNowIndex, 1);
-    await chrome.storage.local.set({ openWhenComplete });
-  }
-}
-
 function setActionIcon(options) {
   const canvas1 = drawIcon(19, options);
   const canvas2 = drawIcon(38, options);
@@ -188,7 +172,6 @@ async function pollProgress() {
       options.anyRecentlyCompleted =
         options.anyRecentlyCompleted ||
         new Date(item.endTime).getTime() >= popupLastOpened;
-      maybeOpen(item.id);
     }
   });
 
@@ -214,31 +197,11 @@ pollProgress.start = function () {
   }
 };
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
 chrome.downloads.onCreated.addListener(function (item) {
   pollProgress();
 });
 
 pollProgress();
-
-async function openWhenComplete(downloadId) {
-  let ids = (await chrome.storage.local.get(['openWhenComplete']))
-    .openWhenComplete;
-
-  if (!ids) {
-    ids = [];
-    await chrome.storage.local.set({ openWhenComplete: ids });
-  }
-  pollProgress.start();
-  if (ids.indexOf(downloadId) >= 0) {
-    return;
-  }
-  ids.push(downloadId);
-  await chrome.storage.local.set({ openWhenComplete: ids });
-}
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request == 'poll') {
@@ -252,8 +215,5 @@ chrome.runtime.onMessage.addListener(function (request) {
         filename: 'icon' + s + '.png'
       });
     });
-  }
-  if (isNumber(request.openWhenComplete)) {
-    openWhenComplete(request.openWhenComplete);
   }
 });
