@@ -348,6 +348,11 @@ class DownloadItem {
     item.getElement('open-filename').style.display = openable
       ? 'inline'
       : 'none';
+    if (in_progress) {
+      item.getElement('open-filename').removeAttribute('href');
+    } else {
+      item.getElement('open-filename').setAttribute('href', '#');
+    }
     item.getElement('in-progress').hidden = !in_progress;
     item.getElement('pause').style.display =
       !in_progress || item.paused ? 'none' : 'inline-block';
