@@ -1,6 +1,6 @@
-# chrome.downloads - `download` method
+# chrome.downloads - Download Links
 
-A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API.
+A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API to download links visible on the active page.
 
 ## Overview
 
