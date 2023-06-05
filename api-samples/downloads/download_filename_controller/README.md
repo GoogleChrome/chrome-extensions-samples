@@ -1,10 +1,10 @@
-# chrome.downloads - `onDeterminingFilename` event
+# chrome.downloads - Download Filename Controller
 
-A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads/) API.
+A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads/) API to control the filename of the files being downloaded.
 
 ## Overview
 
-In this sample, the [`chrome.downloads.onDeterminingFilename`](https://developer.chrome.com/docs/extensions/reference/downloads/#event-onDeterminingFilename) event is used to set conflict action for the files being downloaded.
+You could add rules to the extension's options page to set the conflict action for the files being downloaded.
 
 ## Running this extension
 
