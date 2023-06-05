@@ -53,16 +53,14 @@ function loadI18nMessages() {
         formatBytes(1024 * 1024 * 1023.9)
     ) + 'px';
 
-  // This only covers {timeLeft,openWhenComplete}{Finishing,Days}. If
+  // This only covers {timeLeft}{Finishing,Days}. If
   // ...Hours/Minutes/Seconds could be longer for any locale, then this should
   // test them.
   let max_time_left_width = 0;
   for (let i = 0; i < 4; ++i) {
     max_time_left_width = Math.max(
       max_time_left_width,
-      getTextWidth(
-        formatTimeLeft(0 == i % 2, i < 2 ? 0 : (100 * 24 + 23) * 60 * 60 * 1000)
-      )
+      getTextWidth(formatTimeLeft(i < 2 ? 0 : (100 * 24 + 23) * 60 * 60 * 1000))
     );
   }
   document.querySelector('body div.item span.time-left').style.minWidth =
@@ -119,8 +117,8 @@ function formatBytes(n) {
   return '!!!';
 }
 
-function formatTimeLeft(openWhenComplete, ms) {
-  const prefix = openWhenComplete ? 'openWhenComplete' : 'timeLeft';
+function formatTimeLeft(ms) {
+  const prefix = 'timeLeft';
   if (ms < 1000) {
     return chrome.i18n.getMessage(prefix + 'Finishing');
   }
@@ -442,12 +440,7 @@ class DownloadItem {
 
     if (in_progress) {
       if (item.estimatedEndTime && !item.paused) {
-        let openWhenComplete =
-          (await chrome.storage.local.get(['openWhenComplete']))
-            .openWhenComplete || [];
-        openWhenComplete = openWhenComplete.indexOf(item.id) >= 0;
         item.getElement('time-left').innerText = formatTimeLeft(
-          openWhenComplete,
           item.estimatedEndTime.getTime() - now.getTime()
         );
       } else {
@@ -496,7 +489,6 @@ class DownloadItem {
       chrome.downloads.open(this.id);
       return;
     }
-    chrome.runtime.sendMessage({ openWhenComplete: this.id });
   }
   removeFile() {
     chrome.downloads.removeFile(this.id);
