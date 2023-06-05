@@ -1,4 +1,4 @@
-# chrome.downloads
+# chrome.downloads - Download Manager
 
 A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API.
 
