@@ -1,0 +1,11 @@
+{
+  "name": "BrowsingData API: Basics",
+  "version": "1.2",
+  "description": "An example implementation of the chrome.browsingData API",
+  "permissions": ["browsingData"],
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}
