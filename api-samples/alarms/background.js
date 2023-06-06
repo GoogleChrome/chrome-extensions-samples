@@ -5,7 +5,7 @@
 // https://developers.google.com/open-source/licenses/bsd
 
 // Initialize the demo on install
-chrome.runtime.onInstalled.addListener((reason) => {
+chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason !== chrome.runtime.OnInstalledReason.INSTALL) {
     return;
   }
