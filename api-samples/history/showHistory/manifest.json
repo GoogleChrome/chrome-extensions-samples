@@ -4,7 +4,7 @@
   "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
   "permissions": ["history"],
   "action": {
-    "default_popup": "typedUrls.html",
+    "default_popup": "typed-urls.html",
     "default_icon": "clock.png"
   },
   "manifest_version": 3
