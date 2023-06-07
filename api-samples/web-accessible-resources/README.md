@@ -11,4 +11,4 @@ This sample shows how image assets within an extension can be exposed to pages o
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-3. On the opened tab, click the "Load images" button in each frame to see dynamically injected images shown.
+3. Follow the instructions on the newly opened tab.
