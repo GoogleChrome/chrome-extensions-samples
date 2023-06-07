@@ -4,7 +4,7 @@ This sample demonstrates using the devtools API to add a sidebar that displays t
 
 ## Overview
 
-The devtools window can be expanded with new elements created by the user. The extension contains html and js files that are injected into the devtools page to expand its functionality.
+This extension shows how DevTools can be expanded with new elements. It contains HTML and JavaScript files that are injected into the DevTools page to expand its functionality.
 
 ## Running this extension
 
