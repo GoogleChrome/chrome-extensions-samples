@@ -1,0 +1,115 @@
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; /* make scrollbar invisible */
+}
+
+#searchBar {
+  float: left;
+  width: 250px;
+  height: auto;
+  position: absolute;
+  top: 10;
+  left: 10;
+}
+
+#historyDiv {
+  color: white;
+  font-size: 16px;
+  max-width: 1020px;
+  min-width: 320px;
+  max-height: 98vh;
+  min-height: 500px;
+  position: absolute;
+  top: 10;
+  left: 260;
+  overflow: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.history {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 150px;
+  word-wrap: break-word;
+  padding: 10px;
+  background: #4688f1;
+  position: relative;
+}
+
+.titleLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+img {
+  margin-right: 8px;
+}
+
+.imageDiv {
+  background-color: white;
+  width: 310px;
+}
+
+.removeDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.removeButton {
+  height: 30px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.urlDiv {
+  height: 90px;
+  width: 300px;
+  overflow-y: hidden;
+}
+
+.removeCheck {
+  height: 30px;
+}
+
+#searchSubmit {
+  height: 30px;
+  border: none;
+  background-color: #3aa757;
+}
+
+#deleteSelected {
+  height: 30px;
+  width: 185px;
+  border: none;
+  background-color: #f9bb2d;
+}
+
+#removeAll {
+  height: 30px;
+  width: 185px;
+  border: none;
+  background-color: #e8453c;
+}
+
+#seeAll {
+  height: 30px;
+  width: 185px;
+  border: none;
+  background-color: #4688f1;
+}
+
+#searchInput {
+  height: 30px;
+}
+
+h1 {
+  font-size: 50px;
+  font-family: Impact, Charcoal, sans-serif;
+}
