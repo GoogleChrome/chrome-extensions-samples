@@ -4,7 +4,7 @@ This sample demonstrates using `chrome.contentSettings` to display the settings 
 
 ## Overview
 
-The extension uses both the `chrome.contentSettings` and `chrome.contentSettings` APIs to check the value of each content setting on the user's currently active tab.
+The extension calls the `chrome.contentSettings` and `chrome.contentSettings` APIs to check the value of each content setting on the user's currently active tab.
 
 ## Running this extension
 
