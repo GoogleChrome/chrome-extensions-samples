@@ -9,6 +9,5 @@ chrome.action.onClicked.addListener(() => {
 });
 
 function showReadme() {
-  const url = chrome.runtime.getURL('readme.html');
-  chrome.tabs.create({ url });
+  chrome.tabs.create({ url: '/index.html' });
 }
