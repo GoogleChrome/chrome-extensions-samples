@@ -7,7 +7,7 @@ To get geolocation information in extensions, use the same [`navigator.geolocati
 ## Running this extension
 
 1. Clone this repository.
-1. Load this directory in Chrome as an [unpacked extension][2].
+1. Load this directory in Chrome as an [unpacked extension][1].
 1. Open the Extension menu and click the extension named "Geolocation - offscreen".
 
 [1]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
