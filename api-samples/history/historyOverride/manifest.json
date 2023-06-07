@@ -6,9 +6,6 @@
   "chrome_url_overrides": {
     "history": "history.html"
   },
-  "action": {
-    "default_title": "History"
-  },
   "permissions": ["history", "favicon"],
   "icons": {
     "16": "history16.png",
