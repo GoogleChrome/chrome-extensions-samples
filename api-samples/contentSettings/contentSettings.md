@@ -1,6 +1,6 @@
 # chrome.contentSettings
 
-This sample demonstrates the use of `chrome.contentSettings` to display the settings of a given page in the extension's popup.
+This sample demonstrates using `chrome.contentSettings` to display the settings of a given page in the extension's popup.
 
 ## Overview
 
