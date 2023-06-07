@@ -7,7 +7,7 @@ In extensions, geolocation uses the same web APIs you are used to. Instead, if y
 ## Running this extension
 
 1. Clone this repository.
-1. Load this directory in Chrome as an [unpacked extension][2].
+1. Load this directory in Chrome as an [unpacked extension][1].
 1. Open the Extension menu and click the extension named "Geolocation - content script".
 
 [1]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
