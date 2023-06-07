@@ -15,3 +15,4 @@ To get geolocation information in extensions, use the same [`navigator.geolocati
 [3]: functional-samples/cookbook.geolocation-popup
 [4]: functional-samples/cookbook.geolocation-contentscript
 [5]: functional-samples/cookbook.geolocation-offscreen
+[6]: https://developer.mozilla.org/docs/Web/API/Navigator/geolocation
