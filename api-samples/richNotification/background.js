@@ -30,12 +30,9 @@ function createNotification(type) {
   let options = {
     type: type,
     title: title,
-    message: message
+    message: message,
+    iconUrl: 'icon.png'
   };
-
-  if (type == 'image') {
-    options.iconUrl = 'icon.png';
-  }
 
   if (type == 'list') {
     options.items = [
@@ -48,8 +45,18 @@ function createNotification(type) {
     options.progress = 99;
   }
 
-  chrome.notifications.create(options, () => {
-    createNotification(nextType);
+  chrome.notifications.create(options);
+  chrome.notifications.onClicked.addListener((notificationId) => {
+    console.log('something');
+    if (notificationId == 'basic') {
+      createNotification('image');
+    } else if (notificationId == 'image') {
+      createNotification('progress');
+    } else if (notificationId == 'progress') {
+      createNotification('list');
+    } else if (notificationId == 'list') {
+      createNotification('basic');
+    }
   });
 }
 
@@ -58,14 +65,3 @@ chrome.action.onClicked.addListener(() => {
 });
 
 //cycle through notification templates based on the previously created type.
-chrome.notifications.onClicked.addListener((notificationId) => {
-  if (notificationId == 'basic') {
-    createNotification('image');
-  } else if (notificationId == 'image') {
-    createNotification('progress');
-  } else if (notificationId == 'progress') {
-    createNotification('list');
-  } else if (notificationId == 'list') {
-    createNotification('basic');
-  }
-});
