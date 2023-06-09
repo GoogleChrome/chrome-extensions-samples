@@ -1,6 +1,6 @@
 # chrome.history
 
-This sample demonstrates using the [`chrome.history`](https://developer.chrome.com/docs/extensions/reference/history/) API to display the user's most visited pages in the extension popup.
+This sample uses the [`chrome.history`](https://developer.chrome.com/docs/extensions/reference/history/) API to display in a popup the user's most visited pages.
 
 ## Overview
 
