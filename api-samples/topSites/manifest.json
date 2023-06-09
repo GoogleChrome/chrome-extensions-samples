@@ -1,0 +1,10 @@
+{
+  "name": "topSites API sample",
+  "version": "2",
+  "description": "extension to prototype new NTP designs",
+  "chrome_url_overrides": {
+    "newtab": "newTab.html"
+  },
+  "permissions": ["topSites"],
+  "manifest_version": 3
+}
