@@ -28,9 +28,11 @@ function parseMilliseconds(timeframe) {
   return null;
 }
 
-function buttonClicked(value) {
-  let removal_start = parseMilliseconds(value);
-  if (removal_start !== undefined) {
+function buttonClicked() {
+  let option = document.getElementById('timeframe');
+  let selectedTimeframe = option.value;
+  let removal_start = parseMilliseconds(selectedTimeframe);
+  if (removal_start == undefined) {
     return null;
   }
   chrome.browsingData.remove(
@@ -68,9 +70,8 @@ function buttonClicked(value) {
   }, 4000);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function () {
   let option = document.getElementById('timeframe');
-  let selectedTimeframe = option.value;
   const selection = document.getElementById('button');
-  selection.addEventListener('click', buttonClicked(selectedTimeframe));
+  selection.addEventListener('click', buttonClicked);
 });
