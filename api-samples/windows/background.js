@@ -2,25 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-function start() {
-  const current = chrome.windows.getCurrent();
-  let numWindows = chrome.windows.length;
-  for (let i = 0; i < numWindows; i++) {
-    let win = chrome.windows[i];
+async function start() {
+  const current = await chrome.windows.getCurrent();
 
-    if (current.id != win.id) {
-      let tabCount = chrome.tabs.query(win.id);
-
-      for (let j = 0; j < tabCount; j++) {
-        let tab = win.tabs[j];
-        // Move the tab into the window that triggered the browser action.
-        chrome.tabs.move(tab.id, {
-          windowId: current.id,
-          index: chrome.tabs.tabPosition
-        });
-      }
+  const allTabs = await chrome.tabs.query({});
+  allTabs.forEach((tab) => {
+    if (tab.windowId != current.id) {
+      chrome.tabs.move(tab.id, {
+        windowId: current.id,
+        index: tab.index
+      });
     }
-  }
+  });
 }
 
 // Set up a click handler so that we can merge all the windows.
