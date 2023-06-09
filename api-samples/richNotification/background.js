@@ -34,6 +34,10 @@ function createNotification(type) {
     iconUrl: 'icon.png'
   };
 
+  if (type == 'image') {
+    options.imageUrl = chrome.runtime.getURL('/images/tahoe-320x215.png');
+  }
+
   if (type == 'list') {
     options.items = [
       { title: 'list element 1', message: 'list message 1' },
@@ -45,20 +49,21 @@ function createNotification(type) {
     options.progress = 99;
   }
 
-  chrome.notifications.create(options);
-  chrome.notifications.onClicked.addListener((notificationId) => {
-    console.log('something');
-    if (notificationId == 'basic') {
-      createNotification('image');
-    } else if (notificationId == 'image') {
-      createNotification('progress');
-    } else if (notificationId == 'progress') {
-      createNotification('list');
-    } else if (notificationId == 'list') {
-      createNotification('basic');
-    }
-  });
+  chrome.notifications.create(type, options);
 }
+
+chrome.notifications.onClicked.addListener((notificationId) => {
+  console.log('something');
+  if (notificationId == 'basic') {
+    createNotification('image');
+  } else if (notificationId == 'image') {
+    createNotification('progress');
+  } else if (notificationId == 'progress') {
+    createNotification('list');
+  } else if (notificationId == 'list') {
+    createNotification('basic');
+  }
+});
 
 chrome.action.onClicked.addListener(() => {
   createNotification('basic');
