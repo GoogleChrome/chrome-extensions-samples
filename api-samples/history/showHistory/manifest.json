@@ -1,0 +1,11 @@
+{
+  "name": "Typed URL History",
+  "version": "1.3",
+  "description": "Reads your history and uses the transition type of each history item to filter out a list of the top ten pages you go to specifically by typing the URL.",
+  "permissions": ["history"],
+  "action": {
+    "default_popup": "typed-urls.html",
+    "default_icon": "clock.png"
+  },
+  "manifest_version": 3
+}
