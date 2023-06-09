@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Debugger Extension",
+  "version": "1.0",
+  "permissions": ["debugger", "tabs"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {}
+}
