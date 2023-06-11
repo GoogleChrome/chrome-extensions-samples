@@ -1,10 +1,9 @@
 {
   "name": "webNavigation API Sample",
   "version": "2",
-  "description": "__MSG_extDescription__",
-  "default_locale": "en",
+  "description": "A demonstration of the webNavigation API",
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js"
   },
   "permissions": ["webNavigation", "notifications"],
   "manifest_version": 3
