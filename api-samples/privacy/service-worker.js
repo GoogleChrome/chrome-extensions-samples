@@ -13,14 +13,14 @@
 // limitations under the License.
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.privacy.services.autofillEnabled.set({ value: true });
+  chrome.privacy.services.autofillAddressEnabled.set({ value: true });
 });
 
 chrome.action.onClicked.addListener(() => {
-  chrome.privacy.services.autofillEnabled.get({}, (details) => {
-    const autofilledEnabled = details.value;
-    const badgeText = autofilledEnabled ? 'Enabled' : 'Disabled';
-    const badgeColor = autofilledEnabled ? '#00FF00' : '#FF0000';
+  chrome.privacy.services.autofillAddressEnabled.get({}, (details) => {
+    const autofillAddressEnabled = details.value;
+    const badgeText = autofillAddressEnabled ? 'Enabled' : 'Disabled';
+    const badgeColor = autofillAddressEnabled ? '#00FF00' : '#FF0000';
     chrome.action.setBadgeBackgroundColor({ color: badgeColor });
     chrome.action.setBadgeText({ text: badgeText });
   });
