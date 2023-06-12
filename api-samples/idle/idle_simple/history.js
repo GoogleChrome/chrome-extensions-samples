@@ -70,6 +70,27 @@ async function renderHistory() {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+  // Set the threshold to the last value the user set, or 15 if not set.
+  let { threshold: stored_threshold } = await chrome.storage.local.get([
+    'threshold'
+  ]);
+  if (!stored_threshold || ![15, 30, 60].includes(stored_threshold)) {
+    stored_threshold = 15;
+  }
+
+  document.querySelector(
+    `#idle-threshold option[value="${stored_threshold}"]`
+  ).selected = true;
+  chrome.idle.setDetectionInterval(stored_threshold);
+
+  document
+    .querySelector('#idle-threshold')
+    .addEventListener('change', function (e) {
+      const threshold = parseInt(e.target.value);
+      chrome.storage.local.set({ threshold: threshold });
+      chrome.idle.setDetectionInterval(threshold);
+    });
+
   // Check every second (even though this is overkill - minimum idle
   // threshold is 15 seconds) so that the numbers appear to be counting up.
   checkState();
