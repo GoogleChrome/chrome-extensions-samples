@@ -52,8 +52,8 @@ async function checkState() {
 }
 
 /**
- * Render the data gathered by the background service_worker - should show a log
- * of "active" states.  No events are fired upon idle.
+ * Render the data gathered by the background service worker - should show a log
+ * of "active" states.
  */
 async function renderHistory() {
   const dom_history = document.querySelector('#idle-history');

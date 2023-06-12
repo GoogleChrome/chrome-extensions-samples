@@ -1,5 +1,5 @@
 /**
- * Stores a state every time an "active" event is sent, up to 20 items.
+ * Stores a state every time it changes, up to 20 items.
  */
 chrome.idle.onStateChanged.addListener(async function (newstate) {
   let { history_log } = await chrome.storage.session.get(['history_log']);
