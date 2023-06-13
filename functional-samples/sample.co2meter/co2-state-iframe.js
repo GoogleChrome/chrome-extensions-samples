@@ -24,14 +24,19 @@ import CO2Meter from './modules/co2_meter.js';
 window.onload = async () => {
   // Register for messages to update chart upon new data readings.
   chrome.runtime.connect().onMessage.addListener((msg) => {
-    if (msg.type === NEW_CO2_READING) {
-      updateCO2Reading(msg.data);
-    } else if (msg.type === NEW_TEMP_READING) {
-      updateTempReading(msg.data);
-    } else if (msg.type === CO2_METER_AVAILABLE) {
-      updateCO2MeterStatus(true);
-    } else if (msg.type === CO2_METER_UNAVAILABLE) {
-      updateCO2MeterStatus(false);
+    switch (msg.type) {
+      case NEW_CO2_READING:
+        updateCO2Reading(msg.data);
+        break;
+      case NEW_TEMP_READING:
+        updateTempReading(msg.data);
+        break;
+      case CO2_METER_AVAILABLE:
+        updateCO2MeterStatus(true);
+        break;
+      case CO2_METER_UNAVAILABLE:
+        updateCO2MeterStatus(false);
+        break;
     }
   });
 

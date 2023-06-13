@@ -119,13 +119,12 @@ class CO2Meter {
    * The extension currently only support this model:
    * https://www.co2meter.com/products/co2mini-co2-indoor-air-quality-monitor
    */
-  requestPermission() {
-    navigator.hid
-      .requestDevice({ filters: [{ vendorId: 1241, productId: 41042 }] })
-      .then((device) => {
-        console.log('CO2 meter permission granted!', device[0]);
-        chrome.runtime.sendMessage(PERMISSION_GRANTED_MESSAGE);
-      });
+  async requestPermission() {
+    const devices = await navigator.hid.requestDevice({
+      filters: [{ vendorId: 1241, productId: 41042 }]
+    });
+    console.log('CO2 meter permission granted!', devices[0]);
+    chrome.runtime.sendMessage(PERMISSION_GRANTED_MESSAGE);
   }
 
   connectHandler() {

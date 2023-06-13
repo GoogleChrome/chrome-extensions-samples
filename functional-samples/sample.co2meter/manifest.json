@@ -11,11 +11,9 @@
     "default_icon": {
       "32": "images/icon32.png"
     },
-    "default_title": "Click me",
+    "default_title": "Show CO2 meter status",
     "default_popup": "popup.html"
   },
-  "permissions": ["scripting","alarms"],
-  "host_permissions": ["<all_urls>"],
   "icons": {
     "32": "images/icon32.png",
     "128": "images/icon128.png"

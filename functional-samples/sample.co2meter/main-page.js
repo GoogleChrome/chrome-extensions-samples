@@ -16,7 +16,7 @@ import CO2Meter from './modules/co2_meter.js';
 
 window.onload = async () => {
   // Permission
-  // Popup window can't open a permission prompt so we have to result to a page.
+  // Popup window can't open a permission prompt so we have to use a page instead.
   // This issue is being tracked by crbug.com/1349183.
   document.getElementById('grantPermissionButton').onclick = () => {
     CO2Meter.requestPermission();

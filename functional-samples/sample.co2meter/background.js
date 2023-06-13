@@ -81,7 +81,7 @@ async function OnTempReading(temp_reading) {
   await broadcastMessage(NEW_TEMP_READING, temp_reading);
 }
 
-async function initilize() {
+async function initialize() {
   chrome.runtime.onMessage.addListener((message) => {
     if (message === PERMISSION_GRANTED_MESSAGE) {
       onPermissionGranted();
@@ -108,7 +108,7 @@ async function initilize() {
 }
 
 if (navigator.hid) {
-  initilize();
+  initialize();
 } else {
   console.error(
     'WebHID is not available! Use chrome://flags#enable-web-hid-on-extension-service-worker'
