@@ -21,10 +21,9 @@ let creating; // A global promise to avoid concurrency issues
 async function hasDocument() {
   // Check all windows controlled by the service worker to see if one
   // of them is the offscreen document with the given path
-  const offscreenUrl = chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH);
   const matchedClients = await clients.matchAll();
 
-  return matchedClients.some((c) => c.url === offscreenUrl);
+  return matchedClients.some((c) => c.url === OFFSCREEN_DOCUMENT_PATH);
 }
 
 async function setupOffscreenDocument(path) {
