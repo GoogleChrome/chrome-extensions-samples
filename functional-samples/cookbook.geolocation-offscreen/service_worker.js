@@ -16,6 +16,7 @@ const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
 // A global promise to avoid concurrency issues
 let creating;
+let locating;
 
 // There can only be one offscreenDocument. So we create a helper function
 // that returns a boolean indicating if a document is already active.
@@ -69,3 +70,40 @@ async function closeOffscreenDocument() {
   }
   await chrome.offscreen.closeDocument();
 }
+
+// takes a raw coordinate, and returns a DMS formatted string
+const C = (coords, isLat) => {
+  const abs = Math.abs(coords);
+  const deg = Math.floor(abs);
+  const min = Math.floor((abs - deg) * 60);
+  const sec = ((abs - deg - min / 60) * 3600).toFixed(1);
+  const direction = coords >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
+
+  return `${deg}°${min}'${sec}"${direction}`;
+};
+
+async function setTitle(title) {
+  return chrome.action.setTitle({ title });
+}
+
+chrome.action.onClicked.addListener(async () => {
+  try {
+    if (locating) {
+      return await locating;
+    }
+
+    chrome.action.setIcon({ path: 'images/lightgreen.png' });
+    await setTitle('locating...');
+
+    locating = await getGeolocation();
+    const { coords } = locating;
+    const { latitude, longitude } = coords;
+
+    chrome.action.setIcon({ path: 'images/green.png' });
+    await setTitle(`position: ${C(latitude, true)}, ${C(longitude)}`);
+    locating = null;
+  } catch (e) {
+    chrome.action.setIcon({ path: 'images/red.png' });
+    await setTitle(`unable to set location - ${e.message}`);
+  }
+});
