@@ -14,6 +14,7 @@ let EXTENSION_API_MAP: TExtensionApiMap = {};
 export const getApiListForSample = async (
   folderPath: string
 ): Promise<IApiItem[]> => {
+  // get all js files in the folder
   const jsFiles = (await getAllFiles(folderPath)).filter((file) =>
     file.endsWith('.js')
   );
@@ -84,7 +85,7 @@ export const extractApiCalls = (
                         `${property.name}_${_property.name}`
                       )
                     ) {
-                      // special case such as devtools.network
+                      // special case such as devtools.network (apis with dot)
                       const apiCategory = `${property.name}_${_property.name}`;
                       const apiName = getNextLevelPropertyForSpecialCases(
                         path.parentPath as babel.NodePath<babel.types.MemberExpression>

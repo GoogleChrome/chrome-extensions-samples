@@ -10,6 +10,7 @@ const getAllSamples = async () => {
   let samples: ISampleItem[] = [];
 
   // loop through all available folders
+  // e.g. api-samples, functional-samples
   for (let samplesFolder of AVAILABLE_FOLDERS) {
     const currentSamples = await getSamples(samplesFolder.path, samplesFolder);
     samples = [...samples, ...currentSamples];
@@ -25,7 +26,7 @@ const getSamples = async (
   const samples: ISampleItem[] = [];
   const basePath = getBasePath();
 
-  // get all folders in the folder path
+  // get all subfolders in the folder
   const folders = await fs.readdir(path.join(basePath, folderPath));
 
   for (let folder of folders) {
