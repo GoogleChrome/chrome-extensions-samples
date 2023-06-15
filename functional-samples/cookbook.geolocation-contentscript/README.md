@@ -2,7 +2,7 @@ This recipe shows how to get `geolocation` access within a [content script][5]
 
 ## Context
 
-To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would. This demo shows how to access this data in a [content script][5]. We also have demos for a [Service Worker][4](via [offscreenDocument][2], and using a [popup][3].
+To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would. This demo shows how to access this data in a [content script][5]. We also have demos for a [Service Worker][4] (via [offscreen document][2]), and using a [popup][3].
 
 ## Running this extension
 
