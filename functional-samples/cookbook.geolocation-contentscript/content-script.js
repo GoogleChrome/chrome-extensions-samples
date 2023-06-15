@@ -18,7 +18,7 @@
 
 const header = document.querySelector('h1');
 
-const C = (coords, isLat) => {
+const generateDMS = (coords, isLat) => {
   const absCoords = Math.abs(coords);
   const deg = Math.floor(absCoords);
   const min = Math.floor((absCoords - deg) * 60);
@@ -31,8 +31,11 @@ const C = (coords, isLat) => {
 navigator.geolocation.getCurrentPosition(
   (loc) => {
     const { coords } = loc;
-    const { latitude, longitude } = coords;
-    console.log(`position: ${C(latitude, true)}, ${C(longitude)}`);
+    let { latitude, longitude } = coords;
+    latitude = generateDMS(latitude, true);
+    longitude = generateDMS(longitude);
+
+    console.log(`position: ${latitude}, ${longitude}`);
   },
   (err) => {
     header.innerText = 'error (check console)';

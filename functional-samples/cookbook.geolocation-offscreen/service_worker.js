@@ -72,7 +72,7 @@ async function closeOffscreenDocument() {
 }
 
 // takes a raw coordinate, and returns a DMS formatted string
-const C = (coords, isLat) => {
+const generateDMS = (coords, isLat) => {
   const abs = Math.abs(coords);
   const deg = Math.floor(abs);
   const min = Math.floor((abs - deg) * 60);
@@ -86,24 +86,30 @@ async function setTitle(title) {
   return chrome.action.setTitle({ title });
 }
 
+async function setIcon(filename) {
+  return chrome.action.setIcon({ path: `images/${filename}.png` });
+}
+
 chrome.action.onClicked.addListener(async () => {
   try {
     if (locating) {
       return await locating;
     }
 
-    chrome.action.setIcon({ path: 'images/lightgreen.png' });
+    setIcon('lightgreen');
     await setTitle('locating...');
 
     locating = await getGeolocation();
     const { coords } = locating;
-    const { latitude, longitude } = coords;
+    let { latitude, longitude } = coords;
+    latitude = generateDMS(latitude, true);
+    longitude = generateDMS(longitude);
 
-    chrome.action.setIcon({ path: 'images/green.png' });
-    await setTitle(`position: ${C(latitude, true)}, ${C(longitude)}`);
+    setIcon('green');
+    await setTitle(`position: ${latitude}, ${longitude}`);
     locating = null;
   } catch (e) {
-    chrome.action.setIcon({ path: 'images/red.png' });
+    setIcon('red');
     await setTitle(`unable to set location - ${e.message}`);
   }
 });

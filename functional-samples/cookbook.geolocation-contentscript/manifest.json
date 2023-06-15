@@ -5,7 +5,6 @@
   "content_scripts": [
     {
       "matches": ["https://example.com/*"],
-      "match_origin_as_fallback": true,
       "js": ["content-script.js"]
     }
   ]
