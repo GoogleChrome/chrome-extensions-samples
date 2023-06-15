@@ -8,6 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
   Analytics.fireEvent('install');
 });
 
+// Throw an exception after a timeout to trigger an exception analytics event
 setTimeout(throwAnException, 2000);
 
 async function throwAnException() {

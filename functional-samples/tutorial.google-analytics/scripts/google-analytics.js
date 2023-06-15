@@ -14,12 +14,11 @@ export class Analytics {
     this.debug = debug;
   }
 
-  // Returns the client ID, or creates a new one if one doesn't exist.
-  // Stores client id in local storage to keep the same client_id as long as
+  // Returns the client id, or creates a new one if one doesn't exist.
+  // Stores client id in local storage to keep the same client id as long as
   // the extension is installed.
   async getOrCreateClientId() {
-    const result = await chrome.storage.local.get('clientId');
-    let clientId = result.clientId;
+    let { clientId } = await chrome.storage.local.get('clientId');
     if (!clientId) {
       // Generate a unique client ID, the actual value is not relevant
       clientId = self.crypto.randomUUID();
@@ -28,20 +27,19 @@ export class Analytics {
     return clientId;
   }
 
-  // Returns the current session ID, or creates a new one if one doesn't exist or
+  // Returns the current session id, or creates a new one if one doesn't exist or
   // the previous one has expired.
   async getOrCreateSessionId() {
-    // Store session in memory storage
-    const result = await chrome.storage.session.get('sessionData');
-    let sessionData = result.sessionData;
-    // Check if session exists and is still valid
+    // Use storage.session because it is only in memory
+    let { sessionData } = await chrome.storage.session.get('sessionData');
     const currentTimeInMs = Date.now();
+    // Check if session exists and is still valid
     if (sessionData && sessionData.timestamp) {
       // Calculate how long ago the session was last updated
       const durationInMin = (currentTimeInMs - sessionData.timestamp) / 60000;
       // Check if last update lays past the session expiration threshold
       if (durationInMin > SESSION_EXPIRATION_IN_MIN) {
-        // Delete old session id to start a new session
+        // Clear old session id to start a new session
         sessionData = null;
       } else {
         // Update timestamp to keep session alive
@@ -94,15 +92,15 @@ export class Analytics {
       }
       console.log(await response.text());
     } catch (e) {
-      console.log('Google Analytics request failed with an exception', e);
+      console.error('Google Analytics request failed with an exception', e);
     }
   }
 
   // Fire a page view event.
-  async firePageViewEvent(title, location, additionalParams = {}) {
+  async firePageViewEvent(pageTitle, pageLocation, additionalParams = {}) {
     return this.fireEvent('page_view', {
-      page_title: title,
-      page_location: location,
+      page_title: pageTitle,
+      page_location: pageLocation,
       ...additionalParams
     });
   }
@@ -112,8 +110,7 @@ export class Analytics {
     // Note: 'error' is a reserved event name and cannot be used
     // see https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference?client_type=gtag#reserved_names
     return this.fireEvent('extension_error', {
-      message: error.message,
-      stack: error.stack,
+      ...error,
       ...additionalParams
     });
   }
