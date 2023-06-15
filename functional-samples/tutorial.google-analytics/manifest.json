@@ -1,0 +1,14 @@
+{
+  "name": "Google Analytics Demo",
+  "description": "How to use Google Analytics 4 in your extension.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
+}
