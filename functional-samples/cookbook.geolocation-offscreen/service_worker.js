@@ -14,16 +14,19 @@
 
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
-chrome.runtime.onMessage.addListener(handleMessages);
+// A global promise to avoid concurrency issues
+let creating;
 
-let creating; // A global promise to avoid concurrency issues
-
+// There can only be one offscreenDocument. So we create a helper function
+// that returns a boolean indicating if a document is already active.
 async function hasDocument() {
   // Check all windows controlled by the service worker to see if one
   // of them is the offscreen document with the given path
   const matchedClients = await clients.matchAll();
 
-  return matchedClients.some((c) => c.url === OFFSCREEN_DOCUMENT_PATH);
+  return matchedClients.some(
+    (c) => c.url === chrome.runtime.getURL(OFFSCREEN_DOCUMENT_PATH)
+  );
 }
 
 async function setupOffscreenDocument(path) {
@@ -48,27 +51,16 @@ async function setupOffscreenDocument(path) {
   }
 }
 
-async function handleMessages(message) {
-  switch (message.type) {
-    case 'geolocation-success':
-      console.log(message.data);
-      closeOffscreenDocument();
-      break;
-    case 'geolocation-err':
-      console.error(message.data);
-      break;
-    default:
-      console.warn(`Unexpected message type received: '${message.type}'.`);
-  }
-}
-
-async function sendMessageToOffscreenDocument(type) {
+async function getGeolocation() {
   await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
 
-  chrome.runtime.sendMessage({
-    type,
+  const geolocation = await chrome.runtime.sendMessage({
+    type: 'get-geolocation',
     target: 'offscreen'
   });
+
+  await closeOffscreenDocument();
+  return geolocation;
 }
 
 async function closeOffscreenDocument() {
