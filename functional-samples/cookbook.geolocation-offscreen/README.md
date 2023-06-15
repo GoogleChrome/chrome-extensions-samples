@@ -1,10 +1,10 @@
 This recipe shows how to get `geolocation` access within a service worker
 
-# geolocation via offscreenDocument
+# geolocation via offscreen document
 
 ## Overview
 
-To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would. This demo shows how to access this data in a Service Worker (via [offscreenDocument][2]. We also have samples for a [popup][3], or a [content script][4].
+To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would. This demo shows how to access this data in a Service Worker (via [offscreen document][2]. We also have samples for a [popup][3], or a [content script][4].
 
 ## Running this extension
 

@@ -107,9 +107,10 @@ chrome.action.onClicked.addListener(async () => {
 
     setIcon('green');
     await setTitle(`position: ${latitude}, ${longitude}`);
-    locating = null;
   } catch (e) {
     setIcon('red');
     await setTitle(`unable to set location - ${e.message}`);
   }
+
+  locating = null;
 });

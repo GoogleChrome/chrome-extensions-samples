@@ -4,7 +4,7 @@ This recipe shows how to get `geolocation` access within a popup
 
 ## Overview
 
-To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would.This demo shows how to access this data in a [popup][3]. We also have demos for a [Service Worker][5](via [offscreenDocument][2], and using a [content script][4]
+To get geolocation information in extensions, use the same [`navigator.geolocation`][6] DOM API that any website normally would.This demo shows how to access this data in a [popup][3]. We also have demos for a [Service Worker][5](via [offscreen document][2], and using a [content script][4]
 
 ## Running this extension
 
