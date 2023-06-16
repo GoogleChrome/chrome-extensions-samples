@@ -13,12 +13,12 @@ Following the above steps, the device connection session to the CO₂ meter will
 
 ## **Design**
 
-- `co2_meter.js`: A CO2 meter device driver layer that uses WebHID to communicate with the device.
-- `co2-state-iframe.js`: A module to be embedded in a regular page or popup window for showing the current CO2 meter status. It listens for events from the extension service worker, such as meter readings or availability, and renders the results.
-- `popup.js`: For the extension popup window. It includes `co2-state-iframe.js` and a link to open `main-page.js`.
-- `main-page.js`: The settings page for opening a popup to grant permission to the device. It includes `co2-state-iframe.js` as well.
-- `background.js`: The script that runs on the extension service worker. This is the central piece of this extension, and it will:
-  - Initialize the CO2 meter for starting to generate reading input reports using `co2_meter.js`.
+- [co2_meter.js](modules/co2_meter.js): A CO2 meter device driver layer that uses WebHID to communicate with the device.
+- [co2-state-iframe.js](./co2-state-iframe.js): A module to be embedded in a regular page or popup window for showing the current CO2 meter status. It listens for events from the extension service worker, such as meter readings or availability, and renders the results.
+- [popup.js](./popup.js): For the extension popup window. It includes [co2-state-iframe.js](./co2-state-iframe.js) and a link to open [main-page.js](./main-page.js).
+- [main-page.js](./main-page.js): The settings page for opening a popup to grant permission to the device. It includes [co2-state-iframe.js](./co2-state-iframe.js) as well.
+- [background.js](./background.js): The script that runs on the extension service worker. This is the central piece of this extension, and it will:
+  - Initialize the CO2 meter for starting to generate reading input reports using [co2_meter.js](modules/co2_meter.js).
   - Broadcast events (e.g., CO2 readings, CO2 availability) to registered clients (e.g., the popup window).
 
 ## **WebHID limitations in extension service workers**
