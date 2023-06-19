@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Tabs Zoom API Demo",
+  "description": "This extension allows the user to explore features of the new tabs zoom api.",
+  "version": "0.1",
+  "icons": {
+    "16": "zoom16.png",
+    "48": "zoom48.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_icon": "zoom19.png",
+    "default_title": "Zoom Extension Demo",
+    "default_popup": "popup.html"
+  }
+}
