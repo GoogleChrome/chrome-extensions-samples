@@ -1,0 +1,21 @@
+# chrome.tabs - Tab Zoom
+
+A sample that demonstrates how to use the [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) API.
+
+## Overview
+
+In this sample, the zoom related [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) APIs are used to manipulate the zoom level and zoom mode of the current tab.
+
+## Implementation Notes
+
+- The [`chrome.tabs.getZoom`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoom) method is used to get the current zoom level of the tab.
+- The [`chrome.tabs.setZoom`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoom) method is used to set the zoom level of the tab.
+- The [`chrome.tabs.setZoomSettings`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoomSettings) method is used to set the zoom settings of the tab.
+- The [`chrome.tabs.getZoomSettings`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoomSettings) method is used to get the zoom settings of the tab.
+- The [`chrome.tabs.onZoomChange`](https://developer.chrome.com/docs/extensions/reference/tabs/#event-onZoomChange) event is used to listen for zoom changes in the tab.
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Click the extension's icon to open the popup.
