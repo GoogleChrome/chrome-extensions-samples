@@ -14,7 +14,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const basic = document.getElementById('basic');
-  const image = document.getElementById('image');
   const progressNotif = document.getElementById('progress');
   const list = document.getElementById('list');
 
@@ -24,17 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Basic Notification',
       message: 'This is a Basic Notification',
       iconUrl: 'icon.png'
-    };
-    chrome.notifications.create(options);
-  });
-
-  image.addEventListener('click', () => {
-    let options = {
-      type: 'image',
-      title: 'Image Notification',
-      message: 'This is an Image Notification',
-      iconUrl: 'icon.png',
-      imageUrl: chrome.runtime.getURL('/images/tahoe-320x215.png')
     };
     chrome.notifications.create(options);
   });
