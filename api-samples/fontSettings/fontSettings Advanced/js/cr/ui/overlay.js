@@ -34,14 +34,12 @@ cr.define('cr.ui.overlay', function () {
    */
   function globalInitialization() {
     // Close the overlay on escape.
-    document.addEventListener('keydown', function (e) {
-      if (e.keyCode == 27) {
-        // Escape
-        let overlay = getTopOverlay();
-        if (!overlay) return;
+    document.addEventListener('keydown', function () {
+      // Escape
+      let overlay = getTopOverlay();
+      if (!overlay) return;
 
-        cr.dispatchSimpleEvent(overlay, 'cancelOverlay');
-      }
+      cr.dispatchSimpleEvent(overlay, 'cancelOverlay');
     });
 
     window.addEventListener('resize', setMaxHeightAllPages);
@@ -84,16 +82,10 @@ cr.define('cr.ui.overlay', function () {
     });
 
     // Shake when the user clicks away.
-    overlay.addEventListener('click', function (e) {
-      // Only pulse if the overlay was the target of the click.
-      if (this != e.target) return;
-
+    overlay.addEventListener('click', function () {
       // This may be null while the overlay is closing.
       let overlayPage = this.querySelector('.page:not([hidden])');
       if (overlayPage) overlayPage.classList.add('pulse');
-    });
-    overlay.addEventListener('animationend', function (e) {
-      e.target.classList.remove('pulse');
     });
   }
 
