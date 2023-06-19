@@ -17,9 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const increaseFontSizeButton = document.getElementById('increaseFontSize');
   const decreaseFontSizeButton = document.getElementById('decreaseFontSize');
   const fontSizeElement = document.getElementById('fontSize');
-  const fontScriptElement = document.getElementById('fontScript');
   const minFontSizeElement = document.getElementById('minFontSize');
-  const resetSettingsButton = document.getElementById('resetSettings');
 
   function updateFontSize(newFontSize) {
     chrome.fontSettings.setDefaultFontSize({ pixelSize: newFontSize }, () => {
