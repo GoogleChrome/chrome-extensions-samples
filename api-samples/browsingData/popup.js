@@ -29,7 +29,7 @@ function parseMilliseconds(timeframe) {
 }
 
 function buttonClicked() {
-  let option = document.getElementById('timeframe');
+  const option = document.getElementById('timeframe');
   let selectedTimeframe = option.value;
   let removal_start = parseMilliseconds(selectedTimeframe);
   if (removal_start == undefined) {
@@ -71,7 +71,6 @@ function buttonClicked() {
 }
 
 window.addEventListener('DOMContentLoaded', function () {
-  let option = document.getElementById('timeframe');
   const selection = document.getElementById('button');
   selection.addEventListener('click', buttonClicked);
 });
