@@ -1,6 +1,6 @@
-This recipe shows how to get `geolocation` access within a [content script][5]
-
 # geolocation via content script
+
+This recipe shows how to get `geolocation` access within a [content script][5]
 
 ## Overview
 
