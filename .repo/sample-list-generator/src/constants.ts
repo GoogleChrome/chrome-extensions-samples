@@ -1,16 +1,16 @@
-import { IAvailableFolderItem } from "./types";
+export type TAvailableFolderTypes = (typeof AVAILABLE_FOLDERS)[number]['type'];
 
 // Define all available folders for samples
-export const AVAILABLE_FOLDERS: IAvailableFolderItem[] = [
+export const AVAILABLE_FOLDERS = [
   {
     path: 'api-samples',
-    type: 0
+    type: 'API_SAMPLE'
   },
   {
     path: 'functional-samples',
-    type: 1
+    type: 'FUNCTIONAL_SAMPLE'
   }
-];
+] as const;
 
 export const REPO_BASE_URL =
   'https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/';

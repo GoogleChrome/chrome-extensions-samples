@@ -1,3 +1,5 @@
+import type { TAvailableFolderTypes } from "./constants";
+
 export interface IApiItem {
   type: TApiTypeResult;
   catagory: string;
@@ -5,7 +7,7 @@ export interface IApiItem {
 }
 
 export interface ISampleItem {
-  type: number;
+  type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
   name: string;
   title: string;
   description: string;
@@ -16,7 +18,7 @@ export interface ISampleItem {
 
 export interface IAvailableFolderItem {
   path: string;
-  type: number;
+  type: TAvailableFolderTypes;
 }
 
 export type TApiTypeResult =

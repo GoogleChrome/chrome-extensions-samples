@@ -40,7 +40,7 @@ interface IApiItem {
 }
 
 interface ISampleItem {
-  type: number; // 0: api-samples, 1: functional-samples
+  type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
   name: string;
   title: string;
   description: string;
@@ -59,7 +59,7 @@ interface ISampleItem {
 
 [
   {
-    "type": 0,
+    "type": "API_SAMPLE",
     "name": "alarms",
     "title": "Alarms API Demo",
     "description": "",
@@ -114,7 +114,7 @@ interface ISampleItem {
     ]
   },
   {
-    "type": 1,
+    "type": "FUNCTIONAL_SAMPLE",
     "name": "tutorial.getting-started",
     "title": "Getting Started Example",
     "description": "Build an Extension!",
