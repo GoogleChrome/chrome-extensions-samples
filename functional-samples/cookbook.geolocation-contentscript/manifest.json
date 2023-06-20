@@ -1,0 +1,11 @@
+{
+  "name": "Geolocation - content script",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://example.com/*"],
+      "js": ["content-script.js"]
+    }
+  ]
+}

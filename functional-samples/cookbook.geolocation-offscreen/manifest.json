@@ -1,0 +1,15 @@
+{
+  "name": "Geolocation - offscreen",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "action": {
+    "default_title": "Click to find location...",
+    "default_icon": {
+      "48": "images/grey.png"
+    }
+  },
+  "permissions": ["offscreen", "geolocation"]
+}
