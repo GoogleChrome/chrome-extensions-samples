@@ -1,4 +1,4 @@
-# Title
+# chrome.topSites
 
 This sample demonstrates using the `chrome.topSites` API to suggest which sites a user should visit.
 

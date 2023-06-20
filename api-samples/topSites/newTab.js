@@ -12,12 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function $(id) {
-  return document.getElementById(id);
-}
-
 function thumbnailsGotten(data) {
-  let eightBallWindow = $('mostVisitedThumb');
+  let eightBallWindow = document.getElementById('mostVisitedThumb');
   let rand = Math.floor(Math.random() * data.length);
   eightBallWindow.href = data[rand].url;
   eightBallWindow.textContent = data[rand].title;
