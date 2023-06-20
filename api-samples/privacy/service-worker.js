@@ -13,15 +13,38 @@
 // limitations under the License.
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.privacy.services.autofillAddressEnabled.set({ value: true });
+  // Set default value for Autofill Enabled
+  chrome.privacy.services.autofillEnabled.set({ value: true });
 });
 
-chrome.action.onClicked.addListener(() => {
-  chrome.privacy.services.autofillAddressEnabled.get({}, (details) => {
-    const autofillAddressEnabled = details.value;
-    const badgeText = autofillAddressEnabled ? 'Enabled' : 'Disabled';
-    const badgeColor = autofillAddressEnabled ? '#00FF00' : '#FF0000';
-    chrome.action.setBadgeBackgroundColor({ color: badgeColor });
+chrome.runtime.onStartup.addListener(() => {
+  getAutofillEnabledStatus();
+});
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete' && tab.active) {
+    getAutofillEnabledStatus();
+  }
+});
+
+function getAutofillEnabledStatus() {
+  chrome.privacy.services.autofillEnabled.get({}, (details) => {
+    const autofillEnabled = details.value;
+    const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
+    const badgeColor = autofillEnabled ? '#00FF00' : '#FF0000';
+
     chrome.action.setBadgeText({ text: badgeText });
+    chrome.action.setBadgeBackgroundColor({ color: badgeColor });
+  });
+}
+
+chrome.action.onClicked.addListener(() => {
+  chrome.privacy.services.autofillEnabled.get({}, (details) => {
+    const autofillEnabled = details.value;
+    const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
+    const badgeColor = autofillEnabled ? '#00FF00' : '#FF0000';
+
+    chrome.action.setBadgeText({ text: badgeText });
+    chrome.action.setBadgeBackgroundColor({ color: badgeColor });
   });
 });
