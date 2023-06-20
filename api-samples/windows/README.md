@@ -6,10 +6,6 @@ This sample demonstrates using the `chrome.windows` and `chrome.tabs` API to man
 
 The extension interates across all tabs and moves them to the currently active window.
 
-## Implementation Notes
-
-_Add any information that doesn't fit elsewhere in the README._
-
 ## Running this extension
 
 1. Clone this repository.
