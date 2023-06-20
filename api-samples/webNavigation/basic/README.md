@@ -1,4 +1,4 @@
-# Title
+# chrome.webNavigation
 
 This sample demonstrates using the webNavigation API to send notifications.
 

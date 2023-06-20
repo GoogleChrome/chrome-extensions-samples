@@ -12,11 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-chrome.webNavigation.onCompleted.addListener(() => {
+chrome.webNavigation.onCompleted.addListener((details) => {
   chrome.notifications.create({
     type: 'basic',
     iconUrl: 'icon.png',
     title: 'page loaded',
-    message: 'Page has completed loading'
+    message:
+      'Completed loading: ' +
+      details.url +
+      ' at ' +
+      details.timeStamp +
+      ' milliseconds since the epoch.'
   });
 });
