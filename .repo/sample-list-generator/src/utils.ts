@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { TExtensionApiMap } from './types';
 
 export const getAllFiles = async (dir: string): Promise<string[]> => {
   const result: string[] = [];
@@ -39,4 +40,20 @@ export const singularize = (word: string): string => {
   } else {
     return word;
   }
+};
+
+export const loadExtensionApis = async (): Promise<TExtensionApiMap> => {
+  const filePath = path.join(__dirname, '../extension-apis.json');
+  
+  // check if extension-apis.json exists
+  if (!(await isFileExists(filePath))) {
+    console.error(
+      'extension-apis.json does not exist. Please run "npm run prefetch" first.'
+    );
+    process.exit(1);
+  }
+
+  let _EXTENSION_API_MAP = await fs.readFile(filePath, 'utf8');
+  let EXTENSION_API_MAP = JSON.parse(_EXTENSION_API_MAP) as TExtensionApiMap;
+  return EXTENSION_API_MAP;
 };

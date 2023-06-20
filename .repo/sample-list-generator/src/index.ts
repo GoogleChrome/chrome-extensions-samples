@@ -63,14 +63,6 @@ const getSamples = async (
 };
 
 (async () => {
-  // check if extension-apis.json exists
-  if (!(await isFileExists(path.join(__dirname, '../extension-apis.json')))) {
-    console.error(
-      'extension-apis.json does not exist. Please run "npm run prefetch" first.'
-    );
-    return;
-  }
-
   const samples = await getAllSamples();
 
   // write to extension-samples.json

@@ -1,14 +1,11 @@
 import { IApiItem, TApiTypeResult, TExtensionApiMap } from './types';
 import * as babel from '@babel/core';
 import fs from 'fs/promises';
-import { getAllFiles, singularize } from './utils';
+import { getAllFiles, loadExtensionApis, singularize } from './utils';
 
 let EXTENSION_API_MAP: TExtensionApiMap = {};
 (async () => {
-  try {
-    let _EXTENSION_API_MAP = await fs.readFile('./extension-apis.json', 'utf8');
-    EXTENSION_API_MAP = JSON.parse(_EXTENSION_API_MAP);
-  } catch (error) {}
+  EXTENSION_API_MAP = await loadExtensionApis();
 })();
 
 export const getApiListForSample = async (
