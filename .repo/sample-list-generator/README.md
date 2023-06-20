@@ -2,7 +2,7 @@
 
 ## Overview
 
-It's a script that generates `./extension-samples.json` with the list of all the samples available.
+It's a script that generates `./extension-samples.json` with the list of all the samples available. Currently, this JSON will be provided to [developer.chrome.com](https://developer.chrome.com) for generating a list page containing all the samples. This allows developers to quickly find the sample they want to reference.
 
 ## How to use
 
