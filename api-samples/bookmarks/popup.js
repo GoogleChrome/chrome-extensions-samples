@@ -59,11 +59,10 @@ function removeBookmark() {
   chrome.bookmarks.search({ url: 'https://www.google.com/' }, (results) => {
     for (const result of results) {
       if (result.url === 'https://www.google.com/') {
-        chrome.bookmarks.remove(result.id, () => {
-          location.reload();
-        });
+        chrome.bookmarks.remove(result.id, () => {});
       }
     }
+    location.reload();
   });
 }
 
