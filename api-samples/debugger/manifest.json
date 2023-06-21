@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Debugger Extension",
+  "description": "Demonstrates the API by attaching a debugger to a webpage and capturing network data.",
+  "version": "1.0",
+  "permissions": ["debugger", "tabs"],
+  "host_permissions": ["https://www.google.com/*"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {}
+}
