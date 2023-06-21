@@ -1,0 +1,10 @@
+{
+  "name": "Notifications API sample",
+  "description": "An extension that cycles through template types of notifications whenever the user interacts with one.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["notifications"]
+}
