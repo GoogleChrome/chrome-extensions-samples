@@ -1,0 +1,10 @@
+{
+  "name": "Font Settings API Sample",
+  "version": "1",
+  "manifest_version": 3,
+  "description": "Customize font settings.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["fontSettings"]
+}
