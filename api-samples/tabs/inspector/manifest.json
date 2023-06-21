@@ -1,0 +1,13 @@
+{
+  "name": "Tab Inspector",
+  "description": "Utility for working with the extension tabs api",
+  "version": "0.3",
+  "permissions": ["tabs"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Show tab inspector"
+  },
+  "manifest_version": 3
+}

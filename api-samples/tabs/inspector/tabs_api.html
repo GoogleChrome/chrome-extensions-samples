@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tabs Inspector</title>
+  </head>
+
+  <body>
+    <div id="windowList">
+      <!-- WindowItems Here -->
+    </div>
+    <template id="windowItem">
+      <div
+        style="
+          background-color: #aaeeee;
+          margin: 4px;
+          padding: 8px;
+          margin: 20px;
+        "
+      >
+        <div style="font-style: italic; width: 80px; display: inline-block">
+          Window: <span class="window_id"></span>
+        </div>
+        <div style="display: inline-block">
+          left:
+          <input style="width: 60px" type="text" class="window_left" /> top:
+          <input style="width: 60px" type="text" class="window_top" /> width:
+          <input style="width: 60px" type="text" class="window_width" /> height:
+          <input style="width: 60px" type="text" class="window_height" />
+          <input type="checkbox" class="window_focused" /> Focused
+          <input type="checkbox" class="window_current" /> Current
+          <button class="window_refresh">Refresh</button>
+        </div>
+        <div id="tabList">
+          <!-- TabItems Here -->
+        </div>
+        <button class="update_window_button">Update Window</button>
+        <button class="remove_window_button">Close Window</button>
+        <button class="refresh_selected_tab_button">
+          Refresh Selected Tab
+        </button>
+      </div>
+    </template>
+    <template id="tabItem">
+      <div style="background-color: #eeeeee; margin: 8px; padding: 4px">
+        <div style="margin: 8px">
+          <div
+            style="font-style: italic; width: 80px; display: inline-block"
+            class="tab_id"
+          ></div>
+          <div style="display: inline-block">
+            index:
+            <input style="width: 20px" type="text" class="tab_index" />
+            windowId:
+            <input style="width: 80px" type="text" class="tab_window_id" />
+            <button class="move_tab_button">Move</button>
+            <button class="refresh_tab_button">Refresh</button>
+          </div>
+        </div>
+        <div style="margin: 8px">
+          <div>
+            <div style="width: 40px; display: inline-block">title:</div>
+            <input style="width: 90%" type="text" class="tab_title" />
+          </div>
+          <div>
+            <div style="width: 40px; display: inline-block">url:</div>
+            <input style="width: 90%" type="text" class="tab_url" />
+          </div>
+          <div><input type="checkbox" class="tab_selected" /> Selected</div>
+        </div>
+        <button class="update_tab_button">Update Tab</button>
+        <button class="remove_tab_button">Close Tab</button>
+      </div>
+    </template>
+    <div style="background-color: #eeeebb; margin: 20px; padding: 8px">
+      <h3 style="text-align: center; margin: 8px">Create Window</h3>
+      <div style="margin: 8px">
+        <div style="width: 300px; display: inline-block">
+          left:
+          <input style="width: 20px" type="text" id="new_window_left" /> top:
+          <input style="width: 20px" type="text" id="new_window_top" /> width:
+          <input style="width: 20px" type="text" id="new_window_width" />
+          height:
+          <input style="width: 20px" type="text" id="new_window_height" />
+        </div>
+      </div>
+      <div style="margin: 8px">
+        <div>
+          <div style="width: 40px; display: inline-block">url:</div>
+          <input style="width: 90%" type="text" id="new_window_url" />
+        </div>
+      </div>
+      <button id="create_window_button">Create</button>
+    </div>
+    <div style="background-color: #eeeeaa; margin: 20px; padding: 8px">
+      <h3 style="text-align: center; margin: 8px">Create Tab</h3>
+      <div style="margin: 8px">
+        <div>
+          <div style="width: 40px; display: inline-block">title:</div>
+          <input style="width: 90%" type="text" id="title_new" />
+        </div>
+        <div>
+          <div style="width: 40px; display: inline-block">url:</div>
+          <input style="width: 90%" type="text" id="url_new" />
+        </div>
+        <div><input type="checkbox" id="selected_new" /> Selected</div>
+      </div>
+      <button id="create_tab_button">Create</button>
+    </div>
+    <div style="margin: 20px">
+      <button class="load_window_list_button">Refresh</button>
+      <button class="update_all_button">Update All</button>
+      <button class="move_all_button">Move All</button>
+      <button class="clear_log_button">-->Clear Log</button>
+      <button class="new_window_button">New Window</button>
+    </div>
+    <div
+      id="log"
+      style="background-color: #eeaaee; margin: 20px; padding: 8px"
+    ></div>
+    <script src="tabs_api.js"></script>
+  </body>
+</html>
