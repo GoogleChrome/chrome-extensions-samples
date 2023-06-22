@@ -12,13 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function faviconURL(u) {
+  const url = new URL(chrome.runtime.getURL('/_favicon/'));
+  url.searchParams.set('pageUrl', u); // this encodes the URL as well
+  url.searchParams.set('size', '16');
+  return url.toString();
+}
+
 function thumbnailsGotten(data) {
   let eightBallWindow = document.getElementById('mostVisitedThumb');
   let rand = Math.floor(Math.random() * data.length);
   eightBallWindow.href = data[rand].url;
   eightBallWindow.textContent = data[rand].title;
   eightBallWindow.style.backgroundImage =
-    'url(chrome://favicon/' + data[rand].url + ')';
+    'url(' + faviconURL(data[rand].url) + ')';
 }
 
 window.onload = function () {

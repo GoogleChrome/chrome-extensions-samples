@@ -5,6 +5,6 @@
   "chrome_url_overrides": {
     "newtab": "newTab.html"
   },
-  "permissions": ["topSites"],
+  "permissions": ["topSites", "favicon"],
   "manifest_version": 3
 }
