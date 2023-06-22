@@ -1,7 +1,7 @@
 {
   "name": "Top Sites",
   "version": "1.2",
-  "description": "Shows the top sites in a browser action",
+  "description": "Shows the top sites in the popup.",
   "permissions": ["topSites"],
   "action": {
     "default_icon": "icon.png",
