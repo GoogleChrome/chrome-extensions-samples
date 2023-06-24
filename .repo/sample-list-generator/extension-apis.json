@@ -1,4 +1,26 @@
 {
+  "$special": [
+    "app_runtime",
+    "app_window",
+    "devtools_inspectedWindow",
+    "devtools_network",
+    "devtools_panels",
+    "devtools_recorder",
+    "enterprise_deviceAttributes",
+    "enterprise_hardwarePlatform",
+    "enterprise_networkingAttributes",
+    "enterprise_platformKeys",
+    "input_ime",
+    "networking_onc",
+    "sockets_tcp",
+    "sockets_tcpServer",
+    "sockets_udp",
+    "system_cpu",
+    "system_display",
+    "system_memory",
+    "system_network",
+    "system_storage"
+  ],
   "accessibilityFeatures": {
     "properties": [
       "animationPolicy",
@@ -19,8 +41,8 @@
       "virtualKeyboard"
     ],
     "methods": [],
-    "events": [],
-    "types": []
+    "types": [],
+    "events": []
   },
   "action": {
     "properties": [],
@@ -42,14 +64,67 @@
       "setPopup",
       "setTitle"
     ],
-    "events": ["onClicked"],
-    "types": ["OpenPopupOptions", "TabDetails", "UserSettings"]
+    "types": ["OpenPopupOptions", "TabDetails", "UserSettings"],
+    "events": ["onClicked"]
   },
   "alarms": {
     "properties": [],
     "methods": ["clear", "clearAll", "create", "get", "getAll"],
-    "events": ["onAlarm"],
-    "types": ["Alarm", "AlarmCreateInfo"]
+    "types": ["Alarm", "AlarmCreateInfo"],
+    "events": ["onAlarm"]
+  },
+  "app.runtime": {
+    "properties": [],
+    "methods": [],
+    "types": [
+      "ActionData",
+      "EmbedRequest",
+      "LaunchData",
+      "LaunchItem",
+      "ActionType",
+      "LaunchSource"
+    ],
+    "events": ["onEmbedRequested", "onLaunched", "onRestarted"]
+  },
+  "app.window": {
+    "properties": [],
+    "methods": [
+      "canSetVisibleOnAllWorkspaces",
+      "create",
+      "current",
+      "get",
+      "getAll"
+    ],
+    "types": [
+      "AppWindow",
+      "Bounds",
+      "BoundsSpecification",
+      "ContentBounds",
+      "CreateWindowOptions",
+      "FrameOptions",
+      "State",
+      "WindowType"
+    ],
+    "events": [
+      "onBoundsChanged",
+      "onClosed",
+      "onFullscreened",
+      "onMaximized",
+      "onMinimized",
+      "onRestored"
+    ]
+  },
+  "app": {
+    "properties": [],
+    "methods": ["getDetails", "getIsInstalled", "installState", "runningState"],
+    "types": ["DOMWindow", "Details", "InstallState", "RunningState"],
+    "events": []
+  },
+  "appviewTag": {
+    "properties": [],
+    "methods": ["connect"],
+    "types": ["EmbedRequest"],
+    "events": []
   },
   "audio": {
     "properties": [],
@@ -60,17 +135,131 @@
       "setMute",
       "setProperties"
     ],
-    "events": ["onDeviceListChanged", "onLevelChanged", "onMuteChanged"],
     "types": [
       "AudioDeviceInfo",
       "DeviceFilter",
       "DeviceIdLists",
       "DeviceProperties",
-      "DeviceType",
       "LevelChangedEvent",
       "MuteChangedEvent",
+      "DeviceType",
       "StreamType"
+    ],
+    "events": ["onDeviceListChanged", "onLevelChanged", "onMuteChanged"]
+  },
+  "bluetooth": {
+    "properties": [],
+    "methods": [
+      "getAdapterState",
+      "getDevice",
+      "getDevices",
+      "startDiscovery",
+      "stopDiscovery"
+    ],
+    "types": [
+      "AdapterState",
+      "BluetoothFilter",
+      "Device",
+      "DeviceType",
+      "FilterType",
+      "Transport",
+      "VendorIdSource"
+    ],
+    "events": [
+      "onAdapterStateChanged",
+      "onDeviceAdded",
+      "onDeviceChanged",
+      "onDeviceRemoved"
     ]
+  },
+  "bluetoothLowEnergy": {
+    "properties": [],
+    "methods": [
+      "connect",
+      "createCharacteristic",
+      "createDescriptor",
+      "createService",
+      "disconnect",
+      "getCharacteristic",
+      "getCharacteristics",
+      "getDescriptor",
+      "getDescriptors",
+      "getIncludedServices",
+      "getService",
+      "getServices",
+      "notifyCharacteristicValueChanged",
+      "readCharacteristicValue",
+      "readDescriptorValue",
+      "registerAdvertisement",
+      "registerService",
+      "removeService",
+      "resetAdvertising",
+      "sendRequestResponse",
+      "setAdvertisingInterval",
+      "startCharacteristicNotifications",
+      "stopCharacteristicNotifications",
+      "unregisterAdvertisement",
+      "unregisterService",
+      "writeCharacteristicValue",
+      "writeDescriptorValue"
+    ],
+    "types": [
+      "Advertisement",
+      "Characteristic",
+      "ConnectProperties",
+      "Descriptor",
+      "Device",
+      "ManufacturerData",
+      "Notification",
+      "NotificationProperties",
+      "Request",
+      "Response",
+      "Service",
+      "ServiceData",
+      "AdvertisementType",
+      "CharacteristicProperty",
+      "DescriptorPermission"
+    ],
+    "events": [
+      "onCharacteristicReadRequest",
+      "onCharacteristicValueChanged",
+      "onCharacteristicWriteRequest",
+      "onDescriptorReadRequest",
+      "onDescriptorValueChanged",
+      "onDescriptorWriteRequest",
+      "onServiceAdded",
+      "onServiceChanged",
+      "onServiceRemoved"
+    ]
+  },
+  "bluetoothSocket": {
+    "properties": [],
+    "methods": [
+      "close",
+      "connect",
+      "create",
+      "disconnect",
+      "getInfo",
+      "getSockets",
+      "listenUsingL2cap",
+      "listenUsingRfcomm",
+      "send",
+      "setPaused",
+      "update"
+    ],
+    "types": [
+      "AcceptErrorInfo",
+      "AcceptInfo",
+      "CreateInfo",
+      "ListenOptions",
+      "ReceiveErrorInfo",
+      "ReceiveInfo",
+      "SocketInfo",
+      "SocketProperties",
+      "AcceptError",
+      "ReceiveError"
+    ],
+    "events": ["onAccept", "onAcceptError", "onReceive", "onReceiveError"]
   },
   "bookmarks": {
     "properties": [
@@ -90,6 +279,11 @@
       "search",
       "update"
     ],
+    "types": [
+      "BookmarkTreeNode",
+      "CreateDetails",
+      "BookmarkTreeNodeUnmodifiable"
+    ],
     "events": [
       "onChanged",
       "onChildrenReordered",
@@ -98,12 +292,13 @@
       "onImportEnded",
       "onMoved",
       "onRemoved"
-    ],
-    "types": [
-      "BookmarkTreeNode",
-      "BookmarkTreeNodeUnmodifiable",
-      "CreateDetails"
     ]
+  },
+  "browser": {
+    "properties": [],
+    "methods": ["openTab"],
+    "types": ["OpenTabOptions"],
+    "events": []
   },
   "browserAction": {
     "properties": [],
@@ -120,8 +315,8 @@
       "setPopup",
       "setTitle"
     ],
-    "events": ["onClicked"],
-    "types": ["ColorArray", "ImageDataType", "TabDetails"]
+    "types": ["TabDetails", "ColorArray", "ImageDataType"],
+    "events": ["onClicked"]
   },
   "browsingData": {
     "properties": [],
@@ -143,8 +338,8 @@
       "removeWebSQL",
       "settings"
     ],
-    "events": [],
-    "types": ["DataTypeSet", "RemovalOptions"]
+    "types": ["DataTypeSet", "RemovalOptions"],
+    "events": []
   },
   "certificateProvider": {
     "properties": [],
@@ -154,40 +349,58 @@
       "setCertificates",
       "stopPinRequest"
     ],
-    "events": [
-      "onCertificatesRequested",
-      "onCertificatesUpdateRequested",
-      "onSignatureRequested",
-      "onSignDigestRequested"
-    ],
     "types": [
-      "Algorithm",
       "CertificateInfo",
       "CertificatesUpdateRequest",
       "ClientCertificateInfo",
-      "Error",
-      "Hash",
-      "PinRequestErrorType",
-      "PinRequestType",
       "PinResponseDetails",
       "ReportSignatureDetails",
       "RequestPinDetails",
       "SetCertificatesDetails",
-      "SignatureRequest",
       "SignRequest",
-      "StopPinRequestDetails"
+      "SignatureRequest",
+      "StopPinRequestDetails",
+      "Algorithm",
+      "Error",
+      "Hash",
+      "PinRequestErrorType",
+      "PinRequestType"
+    ],
+    "events": [
+      "onCertificatesRequested",
+      "onCertificatesUpdateRequested",
+      "onSignDigestRequested",
+      "onSignatureRequested"
     ]
+  },
+  "chrome_url_overrides": {
+    "properties": [],
+    "methods": [],
+    "types": ["UrlOverrideInfo"],
+    "events": []
+  },
+  "clipboard": {
+    "properties": [],
+    "methods": ["setImageData"],
+    "types": ["AdditionalDataItem", "DataItemType", "ImageType"],
+    "events": ["onClipboardDataChanged"]
   },
   "commands": {
     "properties": [],
     "methods": ["getAll"],
-    "events": ["onCommand"],
-    "types": ["Command"]
+    "types": ["Command"],
+    "events": ["onCommand"]
+  },
+  "contentScripts": {
+    "properties": [],
+    "methods": [],
+    "types": ["ContentScript", "RunAt"],
+    "events": []
   },
   "contentSettings": {
     "properties": [
-      "automaticDownloads",
       "autoVerify",
+      "automaticDownloads",
       "camera",
       "cookies",
       "fullscreen",
@@ -202,11 +415,11 @@
       "unsandboxedPlugins"
     ],
     "methods": [],
-    "events": [],
     "types": [
+      "ContentSetting",
+      "ResourceIdentifier",
       "AutoVerifyContentSetting",
       "CameraContentSetting",
-      "ContentSetting",
       "CookiesContentSetting",
       "FullscreenContentSetting",
       "ImagesContentSetting",
@@ -219,46 +432,52 @@
       "PluginsContentSetting",
       "PopupsContentSetting",
       "PpapiBrokerContentSetting",
-      "ResourceIdentifier",
       "Scope"
-    ]
+    ],
+    "events": []
   },
   "contextMenus": {
     "properties": ["ACTION_MENU_TOP_LEVEL_LIMIT"],
     "methods": ["create", "remove", "removeAll", "update"],
-    "events": ["onClicked"],
-    "types": ["ContextType", "ItemType", "OnClickData"]
+    "types": ["OnClickData", "ContextType", "ItemType"],
+    "events": ["onClicked"]
   },
   "cookies": {
     "properties": [],
     "methods": ["get", "getAll", "getAllCookieStores", "remove", "set"],
-    "events": ["onChanged"],
     "types": [
       "Cookie",
       "CookieDetails",
       "CookieStore",
       "OnChangedCause",
       "SameSiteStatus"
-    ]
+    ],
+    "events": ["onChanged"]
+  },
+  "crossOriginIsolation": {
+    "properties": [],
+    "methods": [],
+    "types": ["ResponseHeader"],
+    "events": []
   },
   "debugger": {
     "properties": [],
     "methods": ["attach", "detach", "getTargets", "sendCommand"],
-    "events": ["onDetach", "onEvent"],
-    "types": ["Debuggee", "DetachReason", "TargetInfo", "TargetInfoType"]
+    "types": ["Debuggee", "TargetInfo", "DetachReason", "TargetInfoType"],
+    "events": ["onDetach", "onEvent"]
   },
   "declarativeContent": {
     "properties": [],
     "methods": [],
-    "events": ["onPageChanged"],
     "types": [
-      "ImageDataType",
       "PageStateMatcher",
       "RequestContentScript",
       "SetIcon",
       "ShowAction",
-      "ShowPageAction"
-    ]
+      "ShowPageAction",
+      "ImageDataType"
+    ],
+    "events": ["onPageChanged"]
   },
   "declarativeNetRequest": {
     "properties": [
@@ -285,13 +504,10 @@
       "updateEnabledRulesets",
       "updateSessionRules"
     ],
-    "events": ["onRuleMatchedDebug"],
     "types": [
-      "DomainType",
       "ExtensionActionOptions",
       "GetDisabledRuleIdsOptions",
       "GetRulesFilter",
-      "HeaderOperation",
       "IsRegexSupportedResult",
       "MatchedRule",
       "MatchedRuleInfo",
@@ -303,75 +519,120 @@
       "Redirect",
       "RegexOptions",
       "RequestDetails",
-      "RequestMethod",
-      "ResourceType",
       "Rule",
       "RuleAction",
-      "RuleActionType",
       "RuleCondition",
-      "Ruleset",
       "RulesMatchedDetails",
+      "Ruleset",
       "TabActionCountUpdate",
       "TestMatchOutcomeResult",
       "TestMatchRequestDetails",
-      "UnsupportedRegexReason",
+      "URLTransform",
       "UpdateRuleOptions",
       "UpdateRulesetOptions",
       "UpdateStaticRulesOptions",
-      "URLTransform"
-    ]
+      "DomainType",
+      "HeaderOperation",
+      "RequestMethod",
+      "ResourceType",
+      "RuleActionType",
+      "UnsupportedRegexReason"
+    ],
+    "events": ["onRuleMatchedDebug"]
+  },
+  "declarativeWebRequest": {
+    "properties": [],
+    "methods": [],
+    "types": [
+      "AddRequestCookie",
+      "AddResponseCookie",
+      "AddResponseHeader",
+      "CancelRequest",
+      "EditRequestCookie",
+      "EditResponseCookie",
+      "IgnoreRules",
+      "RedirectByRegEx",
+      "RedirectRequest",
+      "RedirectToEmptyDocument",
+      "RedirectToTransparentImage",
+      "RemoveRequestCookie",
+      "RemoveRequestHeader",
+      "RemoveResponseCookie",
+      "RemoveResponseHeader",
+      "RequestMatcher",
+      "SendMessageToExtension",
+      "SetRequestHeader",
+      "FilterResponseCookie",
+      "HeaderFilter",
+      "RequestCookie",
+      "ResponseCookie",
+      "Stage"
+    ],
+    "events": ["onMessage", "onRequest"]
   },
   "desktopCapture": {
     "properties": [],
     "methods": ["cancelChooseDesktopMedia", "chooseDesktopMedia"],
-    "events": [],
     "types": [
       "DesktopCaptureSourceType",
       "SelfCapturePreferenceEnum",
       "SystemAudioPreferenceEnum"
-    ]
+    ],
+    "events": []
   },
-  "devtools_inspectedWindow": {
+  "devtools.inspectedWindow": {
     "properties": ["tabId"],
     "methods": ["eval", "getResources", "reload"],
-    "events": ["onResourceAdded", "onResourceContentCommitted"],
-    "types": ["Resource"]
+    "types": ["Resource"],
+    "events": ["onResourceAdded", "onResourceContentCommitted"]
   },
-  "devtools_network": {
+  "devtools.network": {
     "properties": [],
     "methods": ["getHAR"],
-    "events": ["onNavigated", "onRequestFinished"],
-    "types": ["Request"]
+    "types": ["Request"],
+    "events": ["onNavigated", "onRequestFinished"]
   },
-  "devtools_panels": {
+  "devtools.panels": {
     "properties": ["elements", "sources", "themeName"],
     "methods": ["create", "openResource", "setOpenResourceHandler"],
-    "events": [],
     "types": [
       "Button",
       "ElementsPanel",
       "ExtensionPanel",
       "ExtensionSidebarPane",
       "SourcesPanel"
-    ]
+    ],
+    "events": []
   },
-  "devtools_recorder": {
+  "devtools.recorder": {
     "properties": [],
     "methods": ["createView", "registerRecorderExtensionPlugin"],
-    "events": [],
-    "types": ["RecorderExtensionPlugin", "RecorderView"]
+    "types": ["RecorderExtensionPlugin", "RecorderView"],
+    "events": []
+  },
+  "diagnostics": {
+    "properties": [],
+    "methods": ["sendPacket"],
+    "types": ["SendPacketOptions", "SendPacketResult"],
+    "events": []
+  },
+  "dns": {
+    "properties": [],
+    "methods": ["resolve"],
+    "types": ["ResolveCallbackResolveInfo"],
+    "events": []
   },
   "documentScan": {
     "properties": [],
     "methods": ["scan"],
-    "events": [],
-    "types": ["ScanOptions", "ScanResults"]
+    "types": ["ScanOptions", "ScanResults"],
+    "events": []
   },
   "dom": {
     "properties": [],
     "methods": ["openOrClosedShadowRoot"],
-    "events": [],
-    "types": []
+    "types": [],
+    "events": []
   },
   "downloads": {
     "properties": [],
@@ -391,27 +652,27 @@
       "show",
       "showDefaultFolder"
     ],
-    "events": ["onChanged", "onCreated", "onDeterminingFilename", "onErased"],
     "types": [
       "BooleanDelta",
-      "DangerType",
       "DoubleDelta",
       "DownloadDelta",
       "DownloadItem",
       "DownloadOptions",
       "DownloadQuery",
-      "FilenameConflictAction",
       "FilenameSuggestion",
       "GetFileIconOptions",
       "HeaderNameValuePair",
+      "StringDelta",
+      "UiOptions",
+      "DangerType",
+      "FilenameConflictAction",
       "HttpMethod",
       "InterruptReason",
-      "State",
-      "StringDelta",
-      "UiOptions"
-    ]
+      "State"
+    ],
+    "events": ["onChanged", "onCreated", "onDeterminingFilename", "onErased"]
   },
-  "enterprise_deviceAttributes": {
+  "enterprise.deviceAttributes": {
     "properties": [],
     "methods": [
       "getDeviceAnnotatedLocation",
@@ -420,22 +681,22 @@
       "getDeviceSerialNumber",
       "getDirectoryDeviceId"
     ],
-    "events": [],
-    "types": []
+    "types": [],
+    "events": []
   },
-  "enterprise_hardwarePlatform": {
+  "enterprise.hardwarePlatform": {
     "properties": [],
     "methods": ["getHardwarePlatformInfo"],
-    "events": [],
-    "types": ["HardwarePlatformInfo"]
+    "types": ["HardwarePlatformInfo"],
+    "events": []
   },
-  "enterprise_networkingAttributes": {
+  "enterprise.networkingAttributes": {
     "properties": [],
     "methods": ["getNetworkDetails"],
-    "events": [],
-    "types": ["NetworkDetails"]
+    "types": ["NetworkDetails"],
+    "events": []
   },
-  "enterprise_platformKeys": {
+  "enterprise.platformKeys": {
     "properties": [],
     "methods": [
       "challengeKey",
@@ -446,20 +707,20 @@
       "importCertificate",
       "removeCertificate"
     ],
-    "events": [],
     "types": [
-      "Algorithm",
       "ChallengeKeyOptions",
       "RegisterKeyOptions",
-      "Scope",
-      "Token"
-    ]
+      "Token",
+      "Algorithm",
+      "Scope"
+    ],
+    "events": []
   },
   "events": {
     "properties": [],
     "methods": [],
-    "events": ["# Event objects"],
-    "types": ["Event", "Rule", "UrlFilter"]
+    "types": ["Event", "Rule", "UrlFilter"],
+    "events": []
   },
   "extension": {
     "properties": ["inIncognitoContext", "lastError"],
@@ -473,33 +734,112 @@
       "sendRequest",
       "setUpdateUrlData"
     ],
-    "events": ["onRequest", "onRequestExternal"],
-    "types": ["ViewType"]
+    "types": ["ViewType"],
+    "events": ["onRequest", "onRequestExternal"]
   },
   "extensionTypes": {
     "properties": [],
     "methods": [],
-    "events": [],
     "types": [
-      "CSSOrigin",
       "DeleteInjectionDetails",
+      "ImageDetails",
+      "InjectDetails",
+      "CSSOrigin",
       "DocumentLifecycle",
       "FrameType",
-      "ImageDetails",
       "ImageFormat",
-      "InjectDetails",
       "RunAt"
-    ]
+    ],
+    "events": []
+  },
+  "extensionsManifestTypes": {
+    "properties": [],
+    "methods": [],
+    "types": [
+      "ContentCapabilities",
+      "ExternallyConnectable",
+      "OptionsUI",
+      "UsbPrinters",
+      "bluetooth",
+      "sockets",
+      "KioskSecondaryApps",
+      "SocketHostPatterns",
+      "automation"
+    ],
+    "events": []
   },
   "fileBrowserHandler": {
     "properties": [],
     "methods": [],
-    "events": ["onExecute"],
-    "types": ["FileHandlerExecuteEventDetails"]
+    "types": ["FileHandlerExecuteEventDetails"],
+    "events": ["onExecute"]
+  },
+  "fileHandlers": {
+    "properties": [],
+    "methods": [],
+    "types": ["FileHandler", "Icon"],
+    "events": []
+  },
+  "fileSystem": {
+    "properties": [],
+    "methods": [
+      "chooseEntry",
+      "getDisplayPath",
+      "getVolumeList",
+      "getWritableEntry",
+      "isRestorable",
+      "isWritableEntry",
+      "requestFileSystem",
+      "restoreEntry",
+      "retainEntry"
+    ],
+    "types": [
+      "AcceptOption",
+      "ChooseEntryOptions",
+      "RequestFileSystemOptions",
+      "Volume",
+      "VolumeListChangedEvent",
+      "ChooseEntryType"
+    ],
+    "events": ["onVolumeListChanged"]
   },
   "fileSystemProvider": {
     "properties": [],
     "methods": ["get", "getAll", "mount", "notify", "unmount"],
+    "types": [
+      "AbortRequestedOptions",
+      "Action",
+      "AddWatcherRequestedOptions",
+      "Change",
+      "CloseFileRequestedOptions",
+      "ConfigureRequestedOptions",
+      "CopyEntryRequestedOptions",
+      "CreateDirectoryRequestedOptions",
+      "CreateFileRequestedOptions",
+      "DeleteEntryRequestedOptions",
+      "EntryMetadata",
+      "ExecuteActionRequestedOptions",
+      "FileSystemInfo",
+      "GetActionsRequestedOptions",
+      "GetMetadataRequestedOptions",
+      "MountOptions",
+      "MoveEntryRequestedOptions",
+      "NotifyOptions",
+      "OpenFileRequestedOptions",
+      "OpenedFile",
+      "ReadDirectoryRequestedOptions",
+      "ReadFileRequestedOptions",
+      "RemoveWatcherRequestedOptions",
+      "TruncateRequestedOptions",
+      "UnmountOptions",
+      "UnmountRequestedOptions",
+      "Watcher",
+      "WriteFileRequestedOptions",
+      "ChangeType",
+      "CommonActionId",
+      "OpenFileMode",
+      "ProviderError"
+    ],
     "events": [
       "onAbortRequested",
       "onAddWatcherRequested",
@@ -521,40 +861,6 @@
       "onTruncateRequested",
       "onUnmountRequested",
       "onWriteFileRequested"
-    ],
-    "types": [
-      "AbortRequestedOptions",
-      "Action",
-      "AddWatcherRequestedOptions",
-      "Change",
-      "ChangeType",
-      "CloseFileRequestedOptions",
-      "CommonActionId",
-      "ConfigureRequestedOptions",
-      "CopyEntryRequestedOptions",
-      "CreateDirectoryRequestedOptions",
-      "CreateFileRequestedOptions",
-      "DeleteEntryRequestedOptions",
-      "EntryMetadata",
-      "ExecuteActionRequestedOptions",
-      "FileSystemInfo",
-      "GetActionsRequestedOptions",
-      "GetMetadataRequestedOptions",
-      "MountOptions",
-      "MoveEntryRequestedOptions",
-      "NotifyOptions",
-      "OpenedFile",
-      "OpenFileMode",
-      "OpenFileRequestedOptions",
-      "ProviderError",
-      "ReadDirectoryRequestedOptions",
-      "ReadFileRequestedOptions",
-      "RemoveWatcherRequestedOptions",
-      "TruncateRequestedOptions",
-      "UnmountOptions",
-      "UnmountRequestedOptions",
-      "Watcher",
-      "WriteFileRequestedOptions"
     ]
   },
   "fontSettings": {
@@ -574,19 +880,39 @@
       "setFont",
       "setMinimumFontSize"
     ],
+    "types": ["FontName", "GenericFamily", "LevelOfControl", "ScriptCode"],
     "events": [
       "onDefaultFixedFontSizeChanged",
       "onDefaultFontSizeChanged",
       "onFontChanged",
       "onMinimumFontSizeChanged"
-    ],
-    "types": ["FontName", "GenericFamily", "LevelOfControl", "ScriptCode"]
+    ]
   },
   "gcm": {
     "properties": ["MAX_MESSAGE_SIZE"],
     "methods": ["register", "send", "unregister"],
-    "events": ["onMessage", "onMessagesDeleted", "onSendError"],
-    "types": []
+    "types": [],
+    "events": ["onMessage", "onMessagesDeleted", "onSendError"]
+  },
+  "hid": {
+    "properties": [],
+    "methods": [
+      "connect",
+      "disconnect",
+      "getDevices",
+      "receive",
+      "receiveFeatureReport",
+      "send",
+      "sendFeatureReport"
+    ],
+    "types": [
+      "DeviceFilter",
+      "GetDevicesOptions",
+      "HidCollectionInfo",
+      "HidConnectInfo",
+      "HidDeviceInfo"
+    ],
+    "events": ["onDeviceAdded", "onDeviceRemoved"]
   },
   "history": {
     "properties": [],
@@ -598,8 +924,8 @@
       "getVisits",
       "search"
     ],
-    "events": ["onVisited", "onVisitRemoved"],
-    "types": ["HistoryItem", "TransitionType", "UrlDetails", "VisitItem"]
+    "types": ["HistoryItem", "UrlDetails", "VisitItem", "TransitionType"],
+    "events": ["onVisitRemoved", "onVisited"]
   },
   "i18n": {
     "properties": [],
@@ -609,8 +935,8 @@
       "getMessage",
       "getUILanguage"
     ],
-    "events": [],
-    "types": ["LanguageCode"]
+    "types": ["LanguageCode"],
+    "events": []
   },
   "identity": {
     "properties": [],
@@ -623,25 +949,31 @@
       "launchWebAuthFlow",
       "removeCachedAuthToken"
     ],
-    "events": ["onSignInChanged"],
     "types": [
       "AccountInfo",
-      "AccountStatus",
       "GetAuthTokenResult",
       "InvalidTokenDetails",
       "ProfileDetails",
       "ProfileUserInfo",
       "TokenDetails",
-      "WebAuthFlowDetails"
-    ]
+      "WebAuthFlowDetails",
+      "AccountStatus"
+    ],
+    "events": ["onSignInChanged"]
   },
   "idle": {
     "properties": [],
     "methods": ["getAutoLockDelay", "queryState", "setDetectionInterval"],
-    "events": ["onStateChanged"],
-    "types": ["IdleState"]
+    "types": ["IdleState"],
+    "events": ["onStateChanged"]
   },
-  "input_ime": {
+  "incognito": {
+    "properties": [],
+    "methods": [],
+    "types": ["IncognitoMode"],
+    "events": []
+  },
+  "input.ime": {
     "properties": [],
     "methods": [
       "clearComposition",
@@ -652,12 +984,29 @@
       "sendKeyEvents",
       "setAssistiveWindowButtonHighlighted",
       "setAssistiveWindowProperties",
-      "setCandidates",
       "setCandidateWindowProperties",
+      "setCandidates",
       "setComposition",
       "setCursorPosition",
       "setMenuItems",
       "updateMenuItems"
+    ],
+    "types": [
+      "AssistiveWindowProperties",
+      "InputContext",
+      "KeyboardEvent",
+      "MenuItem",
+      "MenuParameters",
+      "AssistiveWindowButton",
+      "AssistiveWindowType",
+      "AutoCapitalizeType",
+      "InputContextType",
+      "KeyboardEventType",
+      "MenuItemStyle",
+      "MouseButton",
+      "ScreenType",
+      "UnderlineStyle",
+      "WindowPosition"
     ],
     "events": [
       "onActivate",
@@ -671,23 +1020,6 @@
       "onMenuItemActivated",
       "onReset",
       "onSurroundingTextChanged"
-    ],
-    "types": [
-      "AssistiveWindowButton",
-      "AssistiveWindowProperties",
-      "AssistiveWindowType",
-      "AutoCapitalizeType",
-      "InputContext",
-      "InputContextType",
-      "KeyboardEvent",
-      "KeyboardEventType",
-      "MenuItem",
-      "MenuItemStyle",
-      "MenuParameters",
-      "MouseButton",
-      "ScreenType",
-      "UnderlineStyle",
-      "WindowPosition"
     ]
   },
   "instanceID": {
@@ -699,19 +1031,18 @@
       "getID",
       "getToken"
     ],
-    "events": ["onTokenRefresh"],
-    "types": []
+    "types": [],
+    "events": ["onTokenRefresh"]
   },
   "loginState": {
     "properties": [],
     "methods": ["getProfileType", "getSessionState"],
-    "events": ["onSessionStateChanged"],
-    "types": ["ProfileType", "SessionState"]
+    "types": ["ProfileType", "SessionState"],
+    "events": ["onSessionStateChanged"]
   },
   "management": {
     "properties": [],
     "methods": [
-      "canInstallReplacementAndroidApp",
       "createAppShortcut",
       "generateAppForLink",
       "get",
@@ -719,7 +1050,6 @@
       "getPermissionWarningsById",
       "getPermissionWarningsByManifest",
       "getSelf",
-      "installReplacementAndroidApp",
       "installReplacementWebApp",
       "launchApp",
       "setEnabled",
@@ -727,27 +1057,139 @@
       "uninstall",
       "uninstallSelf"
     ],
-    "events": ["onDisabled", "onEnabled", "onInstalled", "onUninstalled"],
     "types": [
-      "ExtensionDisabledReason",
       "ExtensionInfo",
+      "IconInfo",
+      "UninstallOptions",
+      "ExtensionDisabledReason",
       "ExtensionInstallType",
       "ExtensionType",
-      "IconInfo",
-      "LaunchType",
-      "UninstallOptions"
+      "LaunchType"
+    ],
+    "events": ["onDisabled", "onEnabled", "onInstalled", "onUninstalled"]
+  },
+  "manifestTypes": {
+    "properties": [],
+    "methods": [],
+    "types": [
+      "ChromeSettingsOverrides",
+      "FileSystemProviderCapabilities",
+      "FileSystemProviderSource"
+    ],
+    "events": []
+  },
+  "mdns": {
+    "properties": ["MAX_SERVICE_INSTANCES_PER_EVENT"],
+    "methods": ["forceDiscovery"],
+    "types": ["MDnsService"],
+    "events": ["onServiceList"]
+  },
+  "mediaGalleries": {
+    "properties": [],
+    "methods": [
+      "addGalleryWatch",
+      "addUserSelectedFolder",
+      "getMediaFileSystemMetadata",
+      "getMediaFileSystems",
+      "getMetadata",
+      "removeGalleryWatch"
+    ],
+    "types": [
+      "AddGalleryWatchResult",
+      "GalleryChangeDetails",
+      "MediaFileSystemMetadata",
+      "MediaFileSystemsDetails",
+      "MediaMetadata",
+      "MediaMetadataOptions",
+      "StreamInfo",
+      "GalleryChangeType",
+      "GetMediaFileSystemsInteractivity",
+      "GetMetadataType"
+    ],
+    "events": ["onGalleryChanged"]
+  },
+  "networking.onc": {
+    "properties": [],
+    "methods": [
+      "createNetwork",
+      "disableNetworkType",
+      "enableNetworkType",
+      "forgetNetwork",
+      "getCaptivePortalStatus",
+      "getDeviceStates",
+      "getGlobalPolicy",
+      "getManagedProperties",
+      "getNetworks",
+      "getProperties",
+      "getState",
+      "requestNetworkScan",
+      "setProperties",
+      "startConnect",
+      "startDisconnect"
+    ],
+    "types": [
+      "CellularProperties",
+      "CellularProviderProperties",
+      "CellularStateProperties",
+      "CertificatePattern",
+      "DeviceStateProperties",
+      "EAPProperties",
+      "EthernetProperties",
+      "EthernetStateProperties",
+      "FoundNetworkProperties",
+      "GlobalPolicy",
+      "IPConfigProperties",
+      "IssuerSubjectPattern",
+      "ManagedBoolean",
+      "ManagedCellularProperties",
+      "ManagedDOMString",
+      "ManagedDOMStringList",
+      "ManagedEthernetProperties",
+      "ManagedIPConfigProperties",
+      "ManagedIPConfigType",
+      "ManagedLong",
+      "ManagedManualProxySettings",
+      "ManagedProperties",
+      "ManagedProxyLocation",
+      "ManagedProxySettings",
+      "ManagedProxySettingsType",
+      "ManagedThirdPartyVPNProperties",
+      "ManagedVPNProperties",
+      "ManagedWiFiProperties",
+      "ManualProxySettings",
+      "NetworkConfigProperties",
+      "NetworkFilter",
+      "NetworkProperties",
+      "NetworkStateProperties",
+      "PaymentPortal",
+      "ProxyLocation",
+      "ProxySettings",
+      "SIMLockStatus",
+      "ThirdPartyVPNProperties",
+      "VPNProperties",
+      "VPNStateProperties",
+      "WiFiProperties",
+      "WiFiStateProperties",
+      "WiMAXProperties",
+      "ActivationStateType",
+      "CaptivePortalStatus",
+      "ClientCertificateType",
+      "ConnectionStateType",
+      "DeviceStateType",
+      "IPConfigType",
+      "NetworkType",
+      "ProxySettingsType"
+    ],
+    "events": [
+      "onDeviceStateListChanged",
+      "onNetworkListChanged",
+      "onNetworksChanged",
+      "onPortalDetectionCompleted"
     ]
   },
   "notifications": {
     "properties": [],
     "methods": ["clear", "create", "getAll", "getPermissionLevel", "update"],
-    "events": [
-      "onButtonClicked",
-      "onClicked",
-      "onClosed",
-      "onPermissionLevelChanged",
-      "onShowSettings"
-    ],
     "types": [
       "NotificationBitmap",
       "NotificationButton",
@@ -755,29 +1197,42 @@
       "NotificationOptions",
       "PermissionLevel",
       "TemplateType"
+    ],
+    "events": [
+      "onButtonClicked",
+      "onClicked",
+      "onClosed",
+      "onPermissionLevelChanged",
+      "onShowSettings"
     ]
+  },
+  "oauth2": {
+    "properties": [],
+    "methods": [],
+    "types": ["OAuth2Info"],
+    "events": []
   },
   "offscreen": {
     "properties": [],
     "methods": ["closeDocument", "createDocument"],
-    "events": [],
-    "types": ["CreateParameters", "Reason"]
+    "types": ["CreateParameters", "Reason"],
+    "events": []
   },
   "omnibox": {
     "properties": [],
     "methods": ["setDefaultSuggestion"],
+    "types": [
+      "DefaultSuggestResult",
+      "SuggestResult",
+      "DescriptionStyleType",
+      "OnInputEnteredDisposition"
+    ],
     "events": [
       "onDeleteSuggestion",
       "onInputCancelled",
       "onInputChanged",
       "onInputEntered",
       "onInputStarted"
-    ],
-    "types": [
-      "DefaultSuggestResult",
-      "DescriptionStyleType",
-      "OnInputEnteredDisposition",
-      "SuggestResult"
     ]
   },
   "pageAction": {
@@ -791,20 +1246,20 @@
       "setTitle",
       "show"
     ],
-    "events": ["onClicked"],
-    "types": ["ImageDataType", "TabDetails"]
+    "types": ["TabDetails", "ImageDataType"],
+    "events": ["onClicked"]
   },
   "pageCapture": {
     "properties": [],
     "methods": ["saveAsMHTML"],
-    "events": [],
-    "types": []
+    "types": [],
+    "events": []
   },
   "permissions": {
     "properties": [],
     "methods": ["contains", "getAll", "remove", "request"],
-    "events": ["onAdded", "onRemoved"],
-    "types": ["Permissions"]
+    "types": ["Permissions"],
+    "events": ["onAdded", "onRemoved"]
   },
   "platformKeys": {
     "properties": [],
@@ -815,32 +1270,32 @@
       "subtleCrypto",
       "verifyTLSServerCertificate"
     ],
-    "events": [],
     "types": [
       "ClientCertificateRequest",
-      "ClientCertificateType",
       "Match",
       "SelectDetails",
       "VerificationDetails",
-      "VerificationResult"
-    ]
+      "VerificationResult",
+      "ClientCertificateType"
+    ],
+    "events": []
   },
   "power": {
     "properties": [],
     "methods": ["releaseKeepAwake", "reportActivity", "requestKeepAwake"],
-    "events": [],
-    "types": ["Level"]
+    "types": ["Level"],
+    "events": []
   },
   "printerProvider": {
     "properties": [],
     "methods": [],
+    "types": ["PrintJob", "PrinterInfo", "PrintError"],
     "events": [
       "onGetCapabilityRequested",
       "onGetPrintersRequested",
       "onGetUsbPrinterInfoRequested",
       "onPrintRequested"
-    ],
-    "types": ["PrinterInfo", "PrintError", "PrintJob"]
+    ]
   },
   "printing": {
     "properties": [
@@ -848,52 +1303,64 @@
       "MAX_SUBMIT_JOB_CALLS_PER_MINUTE"
     ],
     "methods": ["cancelJob", "getPrinterInfo", "getPrinters", "submitJob"],
-    "events": ["onJobStatusChanged"],
     "types": [
       "GetPrinterInfoResponse",
-      "JobStatus",
       "Printer",
-      "PrinterSource",
-      "PrinterStatus",
       "SubmitJobRequest",
       "SubmitJobResponse",
+      "JobStatus",
+      "PrinterSource",
+      "PrinterStatus",
       "SubmitJobStatus"
-    ]
+    ],
+    "events": ["onJobStatusChanged"]
   },
   "printingMetrics": {
     "properties": [],
     "methods": ["getPrintJobs"],
-    "events": ["onPrintJobFinished"],
     "types": [
+      "MediaSize",
+      "PrintJobInfo",
+      "PrintSettings",
+      "Printer",
       "ColorMode",
       "DuplexMode",
-      "MediaSize",
-      "Printer",
-      "PrinterSource",
-      "PrintJobInfo",
       "PrintJobSource",
       "PrintJobStatus",
-      "PrintSettings"
-    ]
+      "PrinterSource"
+    ],
+    "events": ["onPrintJobFinished"]
   },
   "privacy": {
     "properties": ["network", "services", "websites"],
     "methods": [],
-    "events": [],
-    "types": ["IPHandlingPolicy"]
+    "types": ["IPHandlingPolicy"],
+    "events": []
+  },
+  "processes": {
+    "properties": [],
+    "methods": ["getProcessIdForTab", "getProcessInfo", "terminate"],
+    "types": ["Cache", "Process", "TaskInfo", "ProcessType"],
+    "events": [
+      "onCreated",
+      "onExited",
+      "onUnresponsive",
+      "onUpdated",
+      "onUpdatedWithMemory"
+    ]
   },
   "proxy": {
     "properties": ["settings"],
     "methods": [],
-    "events": ["onProxyError"],
     "types": [
-      "Mode",
       "PacScript",
       "ProxyConfig",
       "ProxyRules",
       "ProxyServer",
+      "Mode",
       "Scheme"
-    ]
+    ],
+    "events": ["onProxyError"]
   },
   "runtime": {
     "properties": ["id", "lastError"],
@@ -915,6 +1382,20 @@
       "sendNativeMessage",
       "setUninstallURL"
     ],
+    "types": [
+      "ContextFilter",
+      "ExtensionContext",
+      "MessageSender",
+      "PlatformInfo",
+      "Port",
+      "ContextType",
+      "OnInstalledReason",
+      "OnRestartRequiredReason",
+      "PlatformArch",
+      "PlatformNaclArch",
+      "PlatformOs",
+      "RequestUpdateCheckStatus"
+    ],
     "events": [
       "onBrowserUpdateAvailable",
       "onConnect",
@@ -928,20 +1409,6 @@
       "onSuspend",
       "onSuspendCanceled",
       "onUpdateAvailable"
-    ],
-    "types": [
-      "ContextFilter",
-      "ContextType",
-      "ExtensionContext",
-      "MessageSender",
-      "OnInstalledReason",
-      "OnRestartRequiredReason",
-      "PlatformArch",
-      "PlatformInfo",
-      "PlatformNaclArch",
-      "PlatformOs",
-      "Port",
-      "RequestUpdateCheckStatus"
     ]
   },
   "scripting": {
@@ -955,29 +1422,69 @@
       "unregisterContentScripts",
       "updateContentScripts"
     ],
-    "events": [],
     "types": [
-      "ContentScriptFilter",
       "CSSInjection",
-      "ExecutionWorld",
+      "ContentScriptFilter",
       "InjectionResult",
       "InjectionTarget",
       "RegisteredContentScript",
       "ScriptInjection",
+      "ExecutionWorld",
       "StyleOrigin"
-    ]
+    ],
+    "events": []
   },
   "search": {
     "properties": [],
     "methods": ["query"],
-    "events": [],
-    "types": ["Disposition", "QueryInfo"]
+    "types": ["QueryInfo", "Disposition"],
+    "events": []
+  },
+  "serial": {
+    "properties": [],
+    "methods": [
+      "clearBreak",
+      "connect",
+      "disconnect",
+      "flush",
+      "getConnections",
+      "getControlSignals",
+      "getDevices",
+      "getInfo",
+      "send",
+      "setBreak",
+      "setControlSignals",
+      "setPaused",
+      "update"
+    ],
+    "types": [
+      "ConnectionInfo",
+      "ConnectionOptions",
+      "DeviceControlSignals",
+      "DeviceInfo",
+      "HostControlSignals",
+      "ReceiveErrorInfo",
+      "ReceiveInfo",
+      "SendInfo",
+      "DataBits",
+      "ParityBit",
+      "ReceiveError",
+      "SendError",
+      "StopBits"
+    ],
+    "events": ["onReceive", "onReceiveError"]
   },
   "sessions": {
     "properties": ["MAX_SESSION_RESULTS"],
     "methods": ["getDevices", "getRecentlyClosed", "restore"],
-    "events": ["onChanged"],
-    "types": ["Device", "Filter", "Session"]
+    "types": ["Device", "Filter", "Session"],
+    "events": ["onChanged"]
+  },
+  "sharedModule": {
+    "properties": [],
+    "methods": [],
+    "types": ["Export", "Import"],
+    "events": []
   },
   "sidePanel": {
     "properties": [],
@@ -987,22 +1494,165 @@
       "setOptions",
       "setPanelBehavior"
     ],
-    "events": [],
-    "types": ["GetPanelOptions", "PanelBehavior", "PanelOptions", "SidePanel"]
+    "types": ["GetPanelOptions", "PanelBehavior", "PanelOptions", "SidePanel"],
+    "events": []
+  },
+  "socket": {
+    "properties": [],
+    "methods": [
+      "accept",
+      "bind",
+      "connect",
+      "create",
+      "destroy",
+      "disconnect",
+      "getInfo",
+      "getJoinedGroups",
+      "getNetworkList",
+      "joinGroup",
+      "leaveGroup",
+      "listen",
+      "read",
+      "recvFrom",
+      "secure",
+      "sendTo",
+      "setKeepAlive",
+      "setMulticastLoopbackMode",
+      "setMulticastTimeToLive",
+      "setNoDelay",
+      "write"
+    ],
+    "types": [
+      "AcceptInfo",
+      "CreateInfo",
+      "CreateOptions",
+      "NetworkInterface",
+      "ReadInfo",
+      "RecvFromInfo",
+      "SecureOptions",
+      "SocketInfo",
+      "TLSVersionConstraints",
+      "WriteInfo",
+      "SocketType"
+    ],
+    "events": []
+  },
+  "sockets.tcp": {
+    "properties": [],
+    "methods": [
+      "close",
+      "connect",
+      "create",
+      "disconnect",
+      "getInfo",
+      "getSockets",
+      "secure",
+      "send",
+      "setKeepAlive",
+      "setNoDelay",
+      "setPaused",
+      "update"
+    ],
+    "types": [
+      "CreateInfo",
+      "ReceiveErrorInfo",
+      "ReceiveInfo",
+      "SecureOptions",
+      "SendInfo",
+      "SocketInfo",
+      "SocketProperties",
+      "TLSVersionConstraints",
+      "DnsQueryType"
+    ],
+    "events": ["onReceive", "onReceiveError"]
+  },
+  "sockets.tcpServer": {
+    "properties": [],
+    "methods": [
+      "close",
+      "create",
+      "disconnect",
+      "getInfo",
+      "getSockets",
+      "listen",
+      "setPaused",
+      "update"
+    ],
+    "types": [
+      "AcceptErrorInfo",
+      "AcceptInfo",
+      "CreateInfo",
+      "SocketInfo",
+      "SocketProperties"
+    ],
+    "events": ["onAccept", "onAcceptError"]
+  },
+  "sockets.udp": {
+    "properties": [],
+    "methods": [
+      "bind",
+      "close",
+      "create",
+      "getInfo",
+      "getJoinedGroups",
+      "getSockets",
+      "joinGroup",
+      "leaveGroup",
+      "send",
+      "setBroadcast",
+      "setMulticastLoopbackMode",
+      "setMulticastTimeToLive",
+      "setPaused",
+      "update"
+    ],
+    "types": [
+      "CreateInfo",
+      "ReceiveErrorInfo",
+      "ReceiveInfo",
+      "SendInfo",
+      "SocketInfo",
+      "SocketProperties",
+      "DnsQueryType"
+    ],
+    "events": ["onReceive", "onReceiveError"]
   },
   "storage": {
     "properties": ["local", "managed", "session", "sync"],
     "methods": [],
-    "events": ["onChanged"],
-    "types": ["AccessLevel", "StorageArea", "StorageChange"]
+    "types": ["StorageArea", "StorageChange", "AccessLevel"],
+    "events": ["onChanged"]
   },
-  "system_cpu": {
+  "syncFileSystem": {
+    "properties": [],
+    "methods": [
+      "getConflictResolutionPolicy",
+      "getFileStatus",
+      "getFileStatuses",
+      "getServiceStatus",
+      "getUsageAndQuota",
+      "requestFileSystem",
+      "setConflictResolutionPolicy"
+    ],
+    "types": [
+      "FileInfo",
+      "FileStatusInfo",
+      "ServiceInfo",
+      "StorageInfo",
+      "ConflictResolutionPolicy",
+      "FileStatus",
+      "ServiceStatus",
+      "SyncAction",
+      "SyncDirection"
+    ],
+    "events": ["onFileStatusChanged", "onServiceStatusChanged"]
+  },
+  "system.cpu": {
     "properties": [],
     "methods": ["getInfo"],
-    "events": [],
-    "types": ["CpuInfo", "CpuTime", "ProcessorInfo"]
+    "types": ["CpuInfo", "CpuTime", "ProcessorInfo"],
+    "events": []
   },
-  "system_display": {
+  "system.display": {
     "properties": [],
     "methods": [
       "clearTouchCalibration",
@@ -1020,7 +1670,6 @@
       "showNativeTouchCalibration",
       "startCustomTouchCalibration"
     ],
-    "events": ["onDisplayChanged"],
     "types": [
       "Bounds",
       "DisplayLayout",
@@ -1030,48 +1679,55 @@
       "Edid",
       "GetInfoFlags",
       "Insets",
-      "LayoutPosition",
-      "MirrorMode",
       "MirrorModeInfo",
       "Point",
       "TouchCalibrationPair",
-      "TouchCalibrationPairQuad"
-    ]
+      "TouchCalibrationPairQuad",
+      "LayoutPosition",
+      "MirrorMode"
+    ],
+    "events": ["onDisplayChanged"]
   },
-  "system_memory": {
+  "system.memory": {
     "properties": [],
     "methods": ["getInfo"],
-    "events": [],
-    "types": ["MemoryInfo"]
+    "types": ["MemoryInfo"],
+    "events": []
   },
-  "system_storage": {
+  "system.network": {
+    "properties": [],
+    "methods": ["getNetworkInterfaces"],
+    "types": ["NetworkInterface"],
+    "events": []
+  },
+  "system.storage": {
     "properties": [],
     "methods": ["ejectDevice", "getAvailableCapacity", "getInfo"],
-    "events": ["onAttached", "onDetached"],
     "types": [
-      "EjectDeviceResultCode",
       "StorageAvailableCapacityInfo",
       "StorageUnitInfo",
+      "EjectDeviceResultCode",
       "StorageUnitType"
-    ]
+    ],
+    "events": ["onAttached", "onDetached"]
   },
   "tabCapture": {
     "properties": [],
     "methods": ["capture", "getCapturedTabs", "getMediaStreamId"],
-    "events": ["onStatusChanged"],
     "types": [
       "CaptureInfo",
       "CaptureOptions",
       "GetMediaStreamOptions",
       "MediaStreamConstraint",
       "TabCaptureState"
-    ]
+    ],
+    "events": ["onStatusChanged"]
   },
   "tabGroups": {
     "properties": ["TAB_GROUP_ID_NONE"],
     "methods": ["get", "move", "query", "update"],
-    "events": ["onCreated", "onMoved", "onRemoved", "onUpdated"],
-    "types": ["Color", "TabGroup"]
+    "types": ["TabGroup", "Color"],
+    "events": ["onCreated", "onMoved", "onRemoved", "onUpdated"]
   },
   "tabs": {
     "properties": ["MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND", "TAB_ID_NONE"],
@@ -1106,6 +1762,16 @@
       "ungroup",
       "update"
     ],
+    "types": [
+      "MutedInfo",
+      "Tab",
+      "ZoomSettings",
+      "MutedInfoReason",
+      "TabStatus",
+      "WindowType",
+      "ZoomSettingsMode",
+      "ZoomSettingsScope"
+    ],
     "events": [
       "onActivated",
       "onActiveChanged",
@@ -1120,722 +1786,42 @@
       "onSelectionChanged",
       "onUpdated",
       "onZoomChange"
-    ],
-    "types": [
-      "MutedInfo",
-      "MutedInfoReason",
-      "Tab",
-      "TabStatus",
-      "WindowType",
-      "ZoomSettings",
-      "ZoomSettingsMode",
-      "ZoomSettingsScope"
     ]
   },
   "topSites": {
     "properties": [],
     "methods": ["get"],
-    "events": [],
-    "types": ["MostVisitedURL"]
+    "types": ["MostVisitedURL"],
+    "events": []
   },
   "tts": {
     "properties": [],
     "methods": ["getVoices", "isSpeaking", "pause", "resume", "speak", "stop"],
-    "events": [],
-    "types": ["EventType", "TtsEvent", "TtsOptions", "TtsVoice", "VoiceGender"]
+    "types": ["TtsEvent", "TtsOptions", "TtsVoice", "EventType", "VoiceGender"],
+    "events": []
   },
   "ttsEngine": {
     "properties": [],
     "methods": ["updateVoices"],
+    "types": [
+      "AudioBuffer",
+      "AudioStreamOptions",
+      "SpeakOptions",
+      "VoiceGender"
+    ],
     "events": [
       "onPause",
       "onResume",
       "onSpeak",
       "onSpeakWithAudioStream",
       "onStop"
-    ],
-    "types": [
-      "AudioBuffer",
-      "AudioStreamOptions",
-      "SpeakOptions",
-      "VoiceGender"
     ]
   },
   "types": {
     "properties": [],
     "methods": [],
-    "events": [],
-    "types": ["ChromeSetting", "ChromeSettingScope", "LevelOfControl"]
-  },
-  "vpnProvider": {
-    "properties": [],
-    "methods": [
-      "createConfig",
-      "destroyConfig",
-      "notifyConnectionStateChanged",
-      "sendPacket",
-      "setParameters"
-    ],
-    "events": [
-      "onConfigCreated",
-      "onConfigRemoved",
-      "onPacketReceived",
-      "onPlatformMessage",
-      "onUIEvent"
-    ],
-    "types": ["Parameters", "PlatformMessage", "UIEvent", "VpnConnectionState"]
-  },
-  "wallpaper": {
-    "properties": [],
-    "methods": ["setWallpaper"],
-    "events": [],
-    "types": ["WallpaperLayout"]
-  },
-  "webAuthenticationProxy": {
-    "properties": [],
-    "methods": [
-      "attach",
-      "completeCreateRequest",
-      "completeGetRequest",
-      "completeIsUvpaaRequest",
-      "detach"
-    ],
-    "events": [
-      "onCreateRequest",
-      "onGetRequest",
-      "onIsUvpaaRequest",
-      "onRemoteSessionStateChange",
-      "onRequestCanceled"
-    ],
-    "types": [
-      "CreateRequest",
-      "CreateResponseDetails",
-      "DOMExceptionDetails",
-      "GetRequest",
-      "GetResponseDetails",
-      "IsUvpaaRequest",
-      "IsUvpaaResponseDetails"
-    ]
-  },
-  "webNavigation": {
-    "properties": [],
-    "methods": ["getAllFrames", "getFrame"],
-    "events": [
-      "onBeforeNavigate",
-      "onCommitted",
-      "onCompleted",
-      "onCreatedNavigationTarget",
-      "onDOMContentLoaded",
-      "onErrorOccurred",
-      "onHistoryStateUpdated",
-      "onReferenceFragmentUpdated",
-      "onTabReplaced"
-    ],
-    "types": ["TransitionQualifier", "TransitionType"]
-  },
-  "webRequest": {
-    "properties": ["MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES"],
-    "methods": ["handlerBehaviorChanged"],
-    "events": [
-      "onActionIgnored",
-      "onAuthRequired",
-      "onBeforeRedirect",
-      "onBeforeRequest",
-      "onBeforeSendHeaders",
-      "onCompleted",
-      "onErrorOccurred",
-      "onHeadersReceived",
-      "onResponseStarted",
-      "onSendHeaders"
-    ],
-    "types": [
-      "BlockingResponse",
-      "FormDataItem",
-      "HttpHeaders",
-      "IgnoredActionType",
-      "OnAuthRequiredOptions",
-      "OnBeforeRedirectOptions",
-      "OnBeforeRequestOptions",
-      "OnBeforeSendHeadersOptions",
-      "OnCompletedOptions",
-      "OnErrorOccurredOptions",
-      "OnHeadersReceivedOptions",
-      "OnResponseStartedOptions",
-      "OnSendHeadersOptions",
-      "RequestFilter",
-      "ResourceType",
-      "UploadData"
-    ]
-  },
-  "windows": {
-    "properties": ["WINDOW_ID_CURRENT", "WINDOW_ID_NONE"],
-    "methods": [
-      "create",
-      "get",
-      "getAll",
-      "getCurrent",
-      "getLastFocused",
-      "remove",
-      "update"
-    ],
-    "events": ["onBoundsChanged", "onCreated", "onFocusChanged", "onRemoved"],
-    "types": [
-      "CreateType",
-      "QueryOptions",
-      "Window",
-      "WindowState",
-      "WindowType"
-    ]
-  },
-  "declarativeWebRequest": {
-    "properties": [],
-    "methods": [],
-    "events": ["onMessage", "onRequest"],
-    "types": [
-      "AddRequestCookie",
-      "AddResponseCookie",
-      "AddResponseHeader",
-      "CancelRequest",
-      "EditRequestCookie",
-      "EditResponseCookie",
-      "FilterResponseCookie",
-      "HeaderFilter",
-      "IgnoreRules",
-      "RedirectByRegEx",
-      "RedirectRequest",
-      "RedirectToEmptyDocument",
-      "RedirectToTransparentImage",
-      "RemoveRequestCookie",
-      "RemoveRequestHeader",
-      "RemoveResponseCookie",
-      "RemoveResponseHeader",
-      "RequestCookie",
-      "RequestMatcher",
-      "ResponseCookie",
-      "SendMessageToExtension",
-      "SetRequestHeader",
-      "Stage"
-    ]
-  },
-  "processes": {
-    "properties": [],
-    "methods": ["getProcessIdForTab", "getProcessInfo", "terminate"],
-    "events": [
-      "onCreated",
-      "onExited",
-      "onUnresponsive",
-      "onUpdated",
-      "onUpdatedWithMemory"
-    ],
-    "types": ["Cache", "Process", "ProcessType", "TaskInfo"]
-  },
-  "app_runtime": {
-    "properties": [],
-    "methods": [],
-    "events": ["onEmbedRequested", "onLaunched", "onRestarted"],
-    "types": [
-      "ActionData",
-      "ActionType",
-      "EmbedRequest",
-      "LaunchData",
-      "LaunchItem",
-      "LaunchSource"
-    ]
-  },
-  "app_window": {
-    "properties": [],
-    "methods": [
-      "canSetVisibleOnAllWorkspaces",
-      "create",
-      "current",
-      "get",
-      "getAll"
-    ],
-    "events": [
-      "onBoundsChanged",
-      "onClosed",
-      "onFullscreened",
-      "onMaximized",
-      "onMinimized",
-      "onRestored"
-    ],
-    "types": [
-      "AppWindow",
-      "Bounds",
-      "BoundsSpecification",
-      "ContentBounds",
-      "CreateWindowOptions",
-      "FrameOptions",
-      "State",
-      "WindowType"
-    ]
-  },
-  "appviewTag": {
-    "properties": [],
-    "methods": ["connect"],
-    "events": [],
-    "types": ["EmbedRequest"]
-  },
-  "bluetooth": {
-    "properties": [],
-    "methods": [
-      "getAdapterState",
-      "getDevice",
-      "getDevices",
-      "startDiscovery",
-      "stopDiscovery"
-    ],
-    "events": [
-      "onAdapterStateChanged",
-      "onDeviceAdded",
-      "onDeviceChanged",
-      "onDeviceRemoved"
-    ],
-    "types": [
-      "AdapterState",
-      "BluetoothFilter",
-      "Device",
-      "DeviceType",
-      "FilterType",
-      "Transport",
-      "VendorIdSource"
-    ]
-  },
-  "bluetoothLowEnergy": {
-    "properties": [],
-    "methods": [
-      "connect",
-      "createCharacteristic",
-      "createDescriptor",
-      "createService",
-      "disconnect",
-      "getCharacteristic",
-      "getCharacteristics",
-      "getDescriptor",
-      "getDescriptors",
-      "getIncludedServices",
-      "getService",
-      "getServices",
-      "notifyCharacteristicValueChanged",
-      "readCharacteristicValue",
-      "readDescriptorValue",
-      "registerAdvertisement",
-      "registerService",
-      "removeService",
-      "resetAdvertising",
-      "sendRequestResponse",
-      "setAdvertisingInterval",
-      "startCharacteristicNotifications",
-      "stopCharacteristicNotifications",
-      "unregisterAdvertisement",
-      "unregisterService",
-      "writeCharacteristicValue",
-      "writeDescriptorValue"
-    ],
-    "events": [
-      "onCharacteristicReadRequest",
-      "onCharacteristicValueChanged",
-      "onCharacteristicWriteRequest",
-      "onDescriptorReadRequest",
-      "onDescriptorValueChanged",
-      "onDescriptorWriteRequest",
-      "onServiceAdded",
-      "onServiceChanged",
-      "onServiceRemoved"
-    ],
-    "types": [
-      "Advertisement",
-      "AdvertisementType",
-      "Characteristic",
-      "CharacteristicProperty",
-      "ConnectProperties",
-      "Descriptor",
-      "DescriptorPermission",
-      "Device",
-      "ManufacturerData",
-      "Notification",
-      "NotificationProperties",
-      "Request",
-      "Response",
-      "Service",
-      "ServiceData"
-    ]
-  },
-  "bluetoothSocket": {
-    "properties": [],
-    "methods": [
-      "close",
-      "connect",
-      "create",
-      "disconnect",
-      "getInfo",
-      "getSockets",
-      "listenUsingL2cap",
-      "listenUsingRfcomm",
-      "send",
-      "setPaused",
-      "update"
-    ],
-    "events": ["onAccept", "onAcceptError", "onReceive", "onReceiveError"],
-    "types": [
-      "AcceptError",
-      "AcceptErrorInfo",
-      "AcceptInfo",
-      "CreateInfo",
-      "ListenOptions",
-      "ReceiveError",
-      "ReceiveErrorInfo",
-      "ReceiveInfo",
-      "SocketInfo",
-      "SocketProperties"
-    ]
-  },
-  "browser": {
-    "properties": [],
-    "methods": ["openTab"],
-    "events": [],
-    "types": ["OpenTabOptions"]
-  },
-  "clipboard": {
-    "properties": [],
-    "methods": ["setImageData"],
-    "events": ["onClipboardDataChanged"],
-    "types": ["AdditionalDataItem", "DataItemType", "ImageType"]
-  },
-  "fileSystem": {
-    "properties": [],
-    "methods": [
-      "chooseEntry",
-      "getDisplayPath",
-      "getVolumeList",
-      "getWritableEntry",
-      "isRestorable",
-      "isWritableEntry",
-      "requestFileSystem",
-      "restoreEntry",
-      "retainEntry"
-    ],
-    "events": ["onVolumeListChanged"],
-    "types": [
-      "AcceptOption",
-      "ChooseEntryOptions",
-      "ChooseEntryType",
-      "RequestFileSystemOptions",
-      "Volume",
-      "VolumeListChangedEvent"
-    ]
-  },
-  "hid": {
-    "properties": [],
-    "methods": [
-      "connect",
-      "disconnect",
-      "getDevices",
-      "receive",
-      "receiveFeatureReport",
-      "send",
-      "sendFeatureReport"
-    ],
-    "events": ["onDeviceAdded", "onDeviceRemoved"],
-    "types": [
-      "DeviceFilter",
-      "GetDevicesOptions",
-      "HidCollectionInfo",
-      "HidConnectInfo",
-      "HidDeviceInfo"
-    ]
-  },
-  "mdns": {
-    "properties": ["MAX_SERVICE_INSTANCES_PER_EVENT"],
-    "methods": ["forceDiscovery"],
-    "events": ["onServiceList"],
-    "types": ["MDnsService"]
-  },
-  "mediaGalleries": {
-    "properties": [],
-    "methods": [
-      "addGalleryWatch",
-      "addUserSelectedFolder",
-      "getMediaFileSystemMetadata",
-      "getMediaFileSystems",
-      "getMetadata",
-      "removeGalleryWatch"
-    ],
-    "events": ["onGalleryChanged"],
-    "types": [
-      "AddGalleryWatchResult",
-      "GalleryChangeDetails",
-      "GalleryChangeType",
-      "GetMediaFileSystemsInteractivity",
-      "GetMetadataType",
-      "MediaFileSystemMetadata",
-      "MediaFileSystemsDetails",
-      "MediaMetadata",
-      "MediaMetadataOptions",
-      "StreamInfo"
-    ]
-  },
-  "networking_onc": {
-    "properties": [],
-    "methods": [
-      "createNetwork",
-      "disableNetworkType",
-      "enableNetworkType",
-      "forgetNetwork",
-      "getCaptivePortalStatus",
-      "getDeviceStates",
-      "getGlobalPolicy",
-      "getManagedProperties",
-      "getNetworks",
-      "getProperties",
-      "getState",
-      "requestNetworkScan",
-      "setProperties",
-      "startConnect",
-      "startDisconnect"
-    ],
-    "events": [
-      "onDeviceStateListChanged",
-      "onNetworkListChanged",
-      "onNetworksChanged",
-      "onPortalDetectionCompleted"
-    ],
-    "types": [
-      "ActivationStateType",
-      "CaptivePortalStatus",
-      "CellularProperties",
-      "CellularProviderProperties",
-      "CellularStateProperties",
-      "CertificatePattern",
-      "ClientCertificateType",
-      "ConnectionStateType",
-      "DeviceStateProperties",
-      "DeviceStateType",
-      "EAPProperties",
-      "EthernetProperties",
-      "EthernetStateProperties",
-      "FoundNetworkProperties",
-      "GlobalPolicy",
-      "IPConfigProperties",
-      "IPConfigType",
-      "IssuerSubjectPattern",
-      "ManagedBoolean",
-      "ManagedCellularProperties",
-      "ManagedDOMString",
-      "ManagedDOMStringList",
-      "ManagedEthernetProperties",
-      "ManagedIPConfigProperties",
-      "ManagedIPConfigType",
-      "ManagedLong",
-      "ManagedManualProxySettings",
-      "ManagedProperties",
-      "ManagedProxyLocation",
-      "ManagedProxySettings",
-      "ManagedProxySettingsType",
-      "ManagedThirdPartyVPNProperties",
-      "ManagedVPNProperties",
-      "ManagedWiFiProperties",
-      "ManualProxySettings",
-      "NetworkConfigProperties",
-      "NetworkFilter",
-      "NetworkProperties",
-      "NetworkStateProperties",
-      "NetworkType",
-      "PaymentPortal",
-      "ProxyLocation",
-      "ProxySettings",
-      "ProxySettingsType",
-      "SIMLockStatus",
-      "ThirdPartyVPNProperties",
-      "VPNProperties",
-      "VPNStateProperties",
-      "WiFiProperties",
-      "WiFiStateProperties",
-      "WiMAXProperties"
-    ]
-  },
-  "serial": {
-    "properties": [],
-    "methods": [
-      "clearBreak",
-      "connect",
-      "disconnect",
-      "flush",
-      "getConnections",
-      "getControlSignals",
-      "getDevices",
-      "getInfo",
-      "send",
-      "setBreak",
-      "setControlSignals",
-      "setPaused",
-      "update"
-    ],
-    "events": ["onReceive", "onReceiveError"],
-    "types": [
-      "ConnectionInfo",
-      "ConnectionOptions",
-      "DataBits",
-      "DeviceControlSignals",
-      "DeviceInfo",
-      "HostControlSignals",
-      "ParityBit",
-      "ReceiveError",
-      "ReceiveErrorInfo",
-      "ReceiveInfo",
-      "SendError",
-      "SendInfo",
-      "StopBits"
-    ]
-  },
-  "socket": {
-    "properties": [],
-    "methods": [
-      "accept",
-      "bind",
-      "connect",
-      "create",
-      "destroy",
-      "disconnect",
-      "getInfo",
-      "getJoinedGroups",
-      "getNetworkList",
-      "joinGroup",
-      "leaveGroup",
-      "listen",
-      "read",
-      "recvFrom",
-      "secure",
-      "sendTo",
-      "setKeepAlive",
-      "setMulticastLoopbackMode",
-      "setMulticastTimeToLive",
-      "setNoDelay",
-      "write"
-    ],
-    "events": [],
-    "types": [
-      "AcceptInfo",
-      "CreateInfo",
-      "CreateOptions",
-      "NetworkInterface",
-      "ReadInfo",
-      "RecvFromInfo",
-      "SecureOptions",
-      "SocketInfo",
-      "SocketType",
-      "TLSVersionConstraints",
-      "WriteInfo"
-    ]
-  },
-  "sockets_tcp": {
-    "properties": [],
-    "methods": [
-      "close",
-      "connect",
-      "create",
-      "disconnect",
-      "getInfo",
-      "getSockets",
-      "secure",
-      "send",
-      "setKeepAlive",
-      "setNoDelay",
-      "setPaused",
-      "update"
-    ],
-    "events": ["onReceive", "onReceiveError"],
-    "types": [
-      "CreateInfo",
-      "DnsQueryType",
-      "ReceiveErrorInfo",
-      "ReceiveInfo",
-      "SecureOptions",
-      "SendInfo",
-      "SocketInfo",
-      "SocketProperties",
-      "TLSVersionConstraints"
-    ]
-  },
-  "sockets_tcpServer": {
-    "properties": [],
-    "methods": [
-      "close",
-      "create",
-      "disconnect",
-      "getInfo",
-      "getSockets",
-      "listen",
-      "setPaused",
-      "update"
-    ],
-    "events": ["onAccept", "onAcceptError"],
-    "types": [
-      "AcceptErrorInfo",
-      "AcceptInfo",
-      "CreateInfo",
-      "SocketInfo",
-      "SocketProperties"
-    ]
-  },
-  "sockets_udp": {
-    "properties": [],
-    "methods": [
-      "bind",
-      "close",
-      "create",
-      "getInfo",
-      "getJoinedGroups",
-      "getSockets",
-      "joinGroup",
-      "leaveGroup",
-      "send",
-      "setBroadcast",
-      "setMulticastLoopbackMode",
-      "setMulticastTimeToLive",
-      "setPaused",
-      "update"
-    ],
-    "events": ["onReceive", "onReceiveError"],
-    "types": [
-      "CreateInfo",
-      "DnsQueryType",
-      "ReceiveErrorInfo",
-      "ReceiveInfo",
-      "SendInfo",
-      "SocketInfo",
-      "SocketProperties"
-    ]
-  },
-  "syncFileSystem": {
-    "properties": [],
-    "methods": [
-      "getConflictResolutionPolicy",
-      "getFileStatus",
-      "getFileStatuses",
-      "getServiceStatus",
-      "getUsageAndQuota",
-      "requestFileSystem",
-      "setConflictResolutionPolicy"
-    ],
-    "events": ["onFileStatusChanged", "onServiceStatusChanged"],
-    "types": [
-      "ConflictResolutionPolicy",
-      "FileInfo",
-      "FileStatus",
-      "FileStatusInfo",
-      "ServiceInfo",
-      "ServiceStatus",
-      "StorageInfo",
-      "SyncAction",
-      "SyncDirection"
-    ]
-  },
-  "system_network": {
-    "properties": [],
-    "methods": ["getNetworkInterfaces"],
-    "events": [],
-    "types": ["NetworkInterface"]
+    "types": ["ChromeSetting", "ChromeSettingScope", "LevelOfControl"],
+    "events": []
   },
   "usb": {
     "properties": [],
@@ -1859,7 +1845,6 @@
       "setConfiguration",
       "setInterfaceAlternateSetting"
     ],
-    "events": ["onDeviceAdded", "onDeviceRemoved"],
     "types": [
       "ConfigDescriptor",
       "ConnectionHandle",
@@ -1867,26 +1852,133 @@
       "Device",
       "DeviceFilter",
       "DevicePromptOptions",
-      "Direction",
       "EndpointDescriptor",
       "EnumerateDevicesAndRequestAccessOptions",
       "EnumerateDevicesOptions",
       "GenericTransferInfo",
       "InterfaceDescriptor",
       "IsochronousTransferInfo",
+      "TransferResultInfo",
+      "Direction",
       "Recipient",
       "RequestType",
       "SynchronizationType",
-      "TransferResultInfo",
       "TransferType",
       "UsageType"
-    ]
+    ],
+    "events": ["onDeviceAdded", "onDeviceRemoved"]
   },
   "virtualKeyboard": {
     "properties": [],
     "methods": ["restrictFeatures"],
-    "events": [],
-    "types": ["FeatureRestrictions"]
+    "types": ["FeatureRestrictions"],
+    "events": []
+  },
+  "vpnProvider": {
+    "properties": [],
+    "methods": [
+      "createConfig",
+      "destroyConfig",
+      "notifyConnectionStateChanged",
+      "sendPacket",
+      "setParameters"
+    ],
+    "types": ["Parameters", "PlatformMessage", "UIEvent", "VpnConnectionState"],
+    "events": [
+      "onConfigCreated",
+      "onConfigRemoved",
+      "onPacketReceived",
+      "onPlatformMessage",
+      "onUIEvent"
+    ]
+  },
+  "wallpaper": {
+    "properties": [],
+    "methods": ["setWallpaper"],
+    "types": ["WallpaperLayout"],
+    "events": []
+  },
+  "webAccessibleResources": {
+    "properties": [],
+    "methods": [],
+    "types": ["WebAccessibleResource"],
+    "events": []
+  },
+  "webAuthenticationProxy": {
+    "properties": [],
+    "methods": [
+      "attach",
+      "completeCreateRequest",
+      "completeGetRequest",
+      "completeIsUvpaaRequest",
+      "detach"
+    ],
+    "types": [
+      "CreateRequest",
+      "CreateResponseDetails",
+      "DOMExceptionDetails",
+      "GetRequest",
+      "GetResponseDetails",
+      "IsUvpaaRequest",
+      "IsUvpaaResponseDetails"
+    ],
+    "events": [
+      "onCreateRequest",
+      "onGetRequest",
+      "onIsUvpaaRequest",
+      "onRemoteSessionStateChange",
+      "onRequestCanceled"
+    ]
+  },
+  "webNavigation": {
+    "properties": [],
+    "methods": ["getAllFrames", "getFrame"],
+    "types": ["TransitionQualifier", "TransitionType"],
+    "events": [
+      "onBeforeNavigate",
+      "onCommitted",
+      "onCompleted",
+      "onCreatedNavigationTarget",
+      "onDOMContentLoaded",
+      "onErrorOccurred",
+      "onHistoryStateUpdated",
+      "onReferenceFragmentUpdated",
+      "onTabReplaced"
+    ]
+  },
+  "webRequest": {
+    "properties": ["MAX_HANDLER_BEHAVIOR_CHANGED_CALLS_PER_10_MINUTES"],
+    "methods": ["handlerBehaviorChanged"],
+    "types": [
+      "BlockingResponse",
+      "RequestFilter",
+      "UploadData",
+      "FormDataItem",
+      "HttpHeaders",
+      "IgnoredActionType",
+      "OnAuthRequiredOptions",
+      "OnBeforeRedirectOptions",
+      "OnBeforeRequestOptions",
+      "OnBeforeSendHeadersOptions",
+      "OnCompletedOptions",
+      "OnErrorOccurredOptions",
+      "OnHeadersReceivedOptions",
+      "OnResponseStartedOptions",
+      "OnSendHeadersOptions",
+      "ResourceType"
+    ],
+    "events": [
+      "onActionIgnored",
+      "onAuthRequired",
+      "onBeforeRedirect",
+      "onBeforeRequest",
+      "onBeforeSendHeaders",
+      "onCompleted",
+      "onErrorOccurred",
+      "onHeadersReceived",
+      "onResponseStarted",
+      "onSendHeaders"
+    ]
   },
   "webviewTag": {
     "properties": ["contentWindow", "contextMenus", "request"],
@@ -1923,6 +2015,32 @@
       "stopFinding",
       "terminate"
     ],
+    "types": [
+      "ClearDataOptions",
+      "ClearDataTypeSet",
+      "ContentScriptDetails",
+      "ContentWindow",
+      "ContextMenuCreateProperties",
+      "ContextMenuUpdateProperties",
+      "ContextMenus",
+      "DialogController",
+      "DownloadPermissionRequest",
+      "FileSystemPermissionRequest",
+      "FindCallbackResults",
+      "FindOptions",
+      "FullscreenPermissionRequest",
+      "GeolocationPermissionRequest",
+      "InjectDetails",
+      "InjectionItems",
+      "LoadPluginPermissionRequest",
+      "MediaPermissionRequest",
+      "NewWindow",
+      "PointerLockPermissionRequest",
+      "SelectionRect",
+      "WebRequestEventInterface",
+      "ContextType",
+      "ZoomMode"
+    ],
     "events": [
       "close",
       "consolemessage",
@@ -1941,54 +2059,26 @@
       "sizechanged",
       "unresponsive",
       "zoomchange"
-    ],
-    "types": [
-      "ClearDataOptions",
-      "ClearDataTypeSet",
-      "ContentScriptDetails",
-      "ContentWindow",
-      "ContextMenuCreateProperties",
-      "ContextMenus",
-      "ContextMenuUpdateProperties",
-      "ContextType",
-      "DialogController",
-      "DownloadPermissionRequest",
-      "FileSystemPermissionRequest",
-      "FindCallbackResults",
-      "FindOptions",
-      "FullscreenPermissionRequest",
-      "GeolocationPermissionRequest",
-      "InjectDetails",
-      "InjectionItems",
-      "LoadPluginPermissionRequest",
-      "MediaPermissionRequest",
-      "NewWindow",
-      "PointerLockPermissionRequest",
-      "SelectionRect",
-      "WebRequestEventInterface",
-      "ZoomMode"
     ]
   },
-  "$special": [
-    "devtools_inspectedWindow",
-    "devtools_network",
-    "devtools_panels",
-    "devtools_recorder",
-    "enterprise_deviceAttributes",
-    "enterprise_hardwarePlatform",
-    "enterprise_networkingAttributes",
-    "enterprise_platformKeys",
-    "input_ime",
-    "system_cpu",
-    "system_display",
-    "system_memory",
-    "system_storage",
-    "app_runtime",
-    "app_window",
-    "networking_onc",
-    "sockets_tcp",
-    "sockets_tcpServer",
-    "sockets_udp",
-    "system_network"
-  ]
+  "windows": {
+    "properties": ["WINDOW_ID_CURRENT", "WINDOW_ID_NONE"],
+    "methods": [
+      "create",
+      "get",
+      "getAll",
+      "getCurrent",
+      "getLastFocused",
+      "remove",
+      "update"
+    ],
+    "types": [
+      "QueryOptions",
+      "Window",
+      "CreateType",
+      "WindowState",
+      "WindowType"
+    ],
+    "events": ["onBoundsChanged", "onCreated", "onFocusChanged", "onRemoved"]
+  }
 }
