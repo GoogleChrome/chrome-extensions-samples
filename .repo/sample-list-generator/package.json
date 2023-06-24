@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "prefetch": "ts-node src/prepare-chrome-types.ts"
+    "prepare-chrome-types": "ts-node src/prepare-chrome-types.ts"
   },
   "devDependencies": {
     "@types/babel__core": "7.20.1",

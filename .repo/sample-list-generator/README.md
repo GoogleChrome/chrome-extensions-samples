@@ -19,7 +19,7 @@ The prefetch script will generate a list of all the available extension apis on 
 The file `./extension-apis.json` will be committed so you don't need to run this script unless you want to update the list.
 
 ```bash
-npm run prefetch
+npm run prepare-chrome-types
 ```
 
 ### Run the generator
