@@ -18,16 +18,16 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  getAutofillEnabledStatus();
+  updateAutofillEnabledStatus();
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.active) {
-    getAutofillEnabledStatus();
+    updateAutofillEnabledStatus();
   }
 });
 
-function getAutofillEnabledStatus() {
+function updateAutofillEnabledStatus() {
   chrome.privacy.services.autofillEnabled.get({}, (details) => {
     const autofillEnabled = details.value;
     const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
@@ -39,12 +39,5 @@ function getAutofillEnabledStatus() {
 }
 
 chrome.action.onClicked.addListener(() => {
-  chrome.privacy.services.autofillEnabled.get({}, (details) => {
-    const autofillEnabled = details.value;
-    const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
-    const badgeColor = autofillEnabled ? '#00FF00' : '#FF0000';
-
-    chrome.action.setBadgeText({ text: badgeText });
-    chrome.action.setBadgeBackgroundColor({ color: badgeColor });
-  });
+  updateAutofillEnabledStatus();
 });
