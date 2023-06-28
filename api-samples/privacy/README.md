@@ -4,7 +4,7 @@ This sample demonstrates using `chrome.privacy.services` to get and set privacy 
 
 ## Overview
 
-The service worker sets the default value for Autofill using `chrome.privacy.services.autofillEnabled.set()` when the extension is installed. Whenever a page is loaded, or when the action button is clicked, the extension will display the current Autofill setting of `autofillAddressEnabled` by updating the extension badge.
+The service worker sets the default value for autofill using `chrome.privacy.services.autofillEnabled.set()` when the extension is installed. Whenever a page is loaded, or when the action button is clicked, the extension will display the current autofill setting of `autofillAddressEnabled` by updating the extension badge.
 
 ## Running this extension
 
