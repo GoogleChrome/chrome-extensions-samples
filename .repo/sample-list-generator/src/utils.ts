@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { TExtensionApiMap } from './types';
+import { ExtensionApiMap } from './types';
 
 export const getAllFiles = async (dir: string): Promise<string[]> => {
   const result: string[] = [];
@@ -42,7 +42,7 @@ export const singularize = (word: string): string => {
   }
 };
 
-export const loadExtensionApis = async (): Promise<TExtensionApiMap> => {
+export const loadExtensionApis = async (): Promise<ExtensionApiMap> => {
   const filePath = path.join(__dirname, '../extension-apis.json');
   
   // check if extension-apis.json exists
@@ -54,6 +54,6 @@ export const loadExtensionApis = async (): Promise<TExtensionApiMap> => {
   }
 
   let _EXTENSION_API_MAP = await fs.readFile(filePath, 'utf8');
-  let EXTENSION_API_MAP = JSON.parse(_EXTENSION_API_MAP) as TExtensionApiMap;
+  let EXTENSION_API_MAP = JSON.parse(_EXTENSION_API_MAP) as ExtensionApiMap;
   return EXTENSION_API_MAP;
 };

@@ -1,4 +1,4 @@
-export type TAvailableFolderTypes = (typeof AVAILABLE_FOLDERS)[number]['type'];
+export type AvailableFolderTypes = (typeof AVAILABLE_FOLDERS)[number]['type'];
 
 // Define all available folders for samples
 export const AVAILABLE_FOLDERS = [

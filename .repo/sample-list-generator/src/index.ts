@@ -3,11 +3,11 @@ import fs from 'fs/promises';
 
 import { AVAILABLE_FOLDERS, REPO_BASE_URL } from './constants';
 import { getApiListForSample } from './api-detector';
-import type { IAvailableFolderItem, ISampleItem } from './types';
+import type { AvailableFolderItem, SampleItem } from './types';
 import { getBasePath, isFileExists } from './utils';
 
 const getAllSamples = async () => {
-  let samples: ISampleItem[] = [];
+  let samples: SampleItem[] = [];
 
   // loop through all available folders
   // e.g. api-samples, functional-samples
@@ -21,9 +21,9 @@ const getAllSamples = async () => {
 
 const getSamples = async (
   folderPath: string,
-  samplesFolder: IAvailableFolderItem
-): Promise<ISampleItem[]> => {
-  const samples: ISampleItem[] = [];
+  samplesFolder: AvailableFolderItem
+): Promise<SampleItem[]> => {
+  const samples: SampleItem[] = [];
   const basePath = getBasePath();
 
   // get all subfolders in the folder

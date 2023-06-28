@@ -1,16 +1,16 @@
-import { IApiItem, TApiTypeResult, TExtensionApiMap } from './types';
+import { ApiItem, ApiTypeResult, ExtensionApiMap } from './types';
 import * as babel from '@babel/core';
 import fs from 'fs/promises';
 import { getAllFiles, loadExtensionApis, singularize } from './utils';
 
-let EXTENSION_API_MAP: TExtensionApiMap = {};
+let EXTENSION_API_MAP: ExtensionApiMap = {};
 (async () => {
   EXTENSION_API_MAP = await loadExtensionApis();
 })();
 
 export const getApiListForSample = async (
   folderPath: string
-): Promise<IApiItem[]> => {
+): Promise<ApiItem[]> => {
   // get all js files in the folder
   const jsFiles = (await getAllFiles(folderPath)).filter((file) =>
     file.endsWith('.js')
@@ -30,12 +30,12 @@ export const getApiListForSample = async (
     });
   }
 
-  const result: IApiItem[] = [];
+  const result: ApiItem[] = [];
 
   Object.keys(apis).forEach((apiType) => {
     apis[apiType].forEach((apiName) => {
       result.push({
-        type: singularize(apiType) as TApiTypeResult,
+        type: singularize(apiType) as ApiTypeResult,
         catagory: apiName.split('.')[0],
         name: apiName.split('.')[1]
       });
@@ -116,13 +116,13 @@ export const extractApiCalls = (
   });
 };
 
-const getApiType = (apiCategory: string, apiName: string): TApiTypeResult => {
+const getApiType = (apiCategory: string, apiName: string): ApiTypeResult => {
   if (EXTENSION_API_MAP[apiCategory]) {
     const apiTypes = EXTENSION_API_MAP[apiCategory];
 
     for (let type of Object.keys(apiTypes)) {
       if (apiTypes[type].includes(apiName)) {
-        return type as TApiTypeResult;
+        return type as ApiTypeResult;
       }
     }
   }

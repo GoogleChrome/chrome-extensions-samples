@@ -1,33 +1,33 @@
-import type { TAvailableFolderTypes } from "./constants";
+import type { AvailableFolderTypes } from "./constants";
 
-export interface IApiItem {
-  type: TApiTypeResult;
+export interface ApiItem {
+  type: ApiTypeResult;
   catagory: string;
   name: string;
 }
 
-export interface ISampleItem {
+export interface SampleItem {
   type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
   name: string;
   title: string;
   description: string;
   repo_link: string;
-  apis: IApiItem[];
+  apis: ApiItem[];
   permissions: string[];
 }
 
-export interface IAvailableFolderItem {
+export interface AvailableFolderItem {
   path: string;
-  type: TAvailableFolderTypes;
+  type: AvailableFolderTypes;
 }
 
-export type TApiTypeResult =
+export type ApiTypeResult =
   | 'event'
   | 'method'
   | 'property'
   | 'type'
   | 'unknown';
 
-export type TExtensionApiMap = Record<string, Record<string, string[]>> & {
+export type ExtensionApiMap = Record<string, Record<string, string[]>> & {
   $special?: string[];
 };
