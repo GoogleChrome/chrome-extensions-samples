@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getAllSamples } from './libs/sample-collector';
 
-(async () => {
+const start = async () => {
   const samples = await getAllSamples();
 
   // write to extension-samples.json
@@ -12,4 +12,6 @@ import { getAllSamples } from './libs/sample-collector';
   );
 
   console.log('Done!');
-})();
+};
+
+start();
