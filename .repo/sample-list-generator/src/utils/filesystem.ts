@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import { accessSync } from 'fs';
 import path from 'path';
 
 export const getAllFiles = async (dir: string): Promise<string[]> => {
@@ -21,6 +22,15 @@ export const getAllFiles = async (dir: string): Promise<string[]> => {
 export const isFileExists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const isFileExistsSync = (filePath: string): boolean => {
+  try {
+    accessSync(filePath);
     return true;
   } catch {
     return false;

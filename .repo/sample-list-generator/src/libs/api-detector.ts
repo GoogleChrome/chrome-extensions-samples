@@ -9,10 +9,7 @@ import { ParallelController } from '../utils/parallel';
 
 const CPU_CORES = os.cpus().length;
 
-let EXTENSION_API_MAP: ExtensionApiMap = {};
-loadExtensionApis().then((apis) => {
-  EXTENSION_API_MAP = apis;
-});
+let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
 
 const getApiType = (apiCategory: string, apiName: string): ApiTypeResult => {
   if (EXTENSION_API_MAP[apiCategory]) {
