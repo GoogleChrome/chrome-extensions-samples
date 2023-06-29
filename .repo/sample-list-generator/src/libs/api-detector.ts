@@ -11,7 +11,12 @@ const CPU_CORES = os.cpus().length;
 
 let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
 
-const getApiType = (apiCategory: string, apiName: string): ApiTypeResult => {
+export const getApiType = (
+  apiCategory: string,
+  apiName: string
+): ApiTypeResult => {
+  apiCategory = apiCategory.replace(/_/g, '.');
+
   if (EXTENSION_API_MAP[apiCategory]) {
     const apiTypes = EXTENSION_API_MAP[apiCategory];
 
