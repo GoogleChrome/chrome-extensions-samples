@@ -20,10 +20,17 @@ export const getApiType = (
   if (EXTENSION_API_MAP[namespace]) {
     const apiTypes = EXTENSION_API_MAP[namespace];
 
-    for (let type of Object.keys(apiTypes)) {
-      if (apiTypes[type].includes(propertyName)) {
-        return type as ApiTypeResult;
-      }
+    if (apiTypes.methods.includes(propertyName)) {
+      return 'method';
+    }
+    if (apiTypes.events.includes(propertyName)) {
+      return 'event';
+    }
+    if (apiTypes.properties.includes(propertyName)) {
+      return 'property';
+    }
+    if (apiTypes.types.includes(propertyName)) {
+      return 'type';
     }
   }
   console.log('api not found', namespace, propertyName);
@@ -72,10 +79,10 @@ export const getApiListForSample = async (
 
   const result: ApiItem[] = [];
 
-  Object.keys(apis).forEach((apiType) => {
+  (Object.keys(apis) as ApiTypeResult[]).forEach((apiType) => {
     apis[apiType].forEach((api) => {
       result.push({
-        type: singularize(apiType) as ApiTypeResult,
+        type: apiType,
         namespace: api.split('.')[0],
         name: api.split('.')[1]
       });
