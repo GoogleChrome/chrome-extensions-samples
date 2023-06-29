@@ -77,7 +77,7 @@ export const getApiListForSample = async (
 export const extractApiCalls = (
   file: Buffer
 ): Promise<Record<string, string[]>> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const calls: Record<string, string[]> = {};
 
     babel.parse(
@@ -85,7 +85,7 @@ export const extractApiCalls = (
       { ast: true, compact: false },
       (err, result) => {
         if (err || !result) {
-          resolve(calls);
+          reject(err);
           return;
         }
 
