@@ -76,12 +76,12 @@ describe('API Detector', function () {
   describe('getApiType()', function () {
     it('should return correct type of api in normal case', function () {
       let apiType = getApiType('action', 'getBadgeText');
-      assert.equal(apiType, 'methods');
+      assert.equal(apiType, 'method');
     });
 
     it('should return correct type of api in special case', function () {
       let apiType = getApiType('devtools.network', 'onNavigated');
-      assert.equal(apiType, 'events');
+      assert.equal(apiType, 'event');
     });
 
     it('should return unknown when api not found', function () {
