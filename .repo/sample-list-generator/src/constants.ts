@@ -1,4 +1,4 @@
-export type AvailableFolderTypes = (typeof AVAILABLE_FOLDERS)[number]['type'];
+export type FolderTypes = "API_SAMPLE" | "FUNCTIONAL_SAMPLE";
 
 // Define all available folders for samples
 export const AVAILABLE_FOLDERS = [
@@ -10,7 +10,7 @@ export const AVAILABLE_FOLDERS = [
     path: 'functional-samples',
     type: 'FUNCTIONAL_SAMPLE'
   }
-] as const;
+] as { path: string, type: FolderTypes }[];
 
 export const REPO_BASE_URL =
   'https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/';
