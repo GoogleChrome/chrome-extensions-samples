@@ -1,8 +1,8 @@
-import type { AvailableFolderTypes } from './constants';
+import type { FolderTypes } from './constants';
 
 export interface ApiItem {
   type: ApiTypeResult;
-  catagory: string;
+  namespace: string;
   name: string;
 }
 
@@ -21,7 +21,7 @@ export type SampleItem = {
 
 export interface AvailableFolderItem {
   path: string;
-  type: AvailableFolderTypes;
+  type: FolderTypes;
 }
 
 export type ApiTypeResult =

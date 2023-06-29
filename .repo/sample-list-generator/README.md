@@ -35,7 +35,7 @@ type TApiTypeResult = 'event' | 'method' | 'property' | 'type' | 'unknown';
 
 interface IApiItem {
   type: TApiTypeResult;
-  catagory: string;
+  namespace: string;
   name: string;
 }
 
@@ -68,47 +68,47 @@ interface ISampleItem {
     "apis": [
       {
         "type": "event",
-        "catagory": "runtime",
+        "namespace": "runtime",
         "name": "onInstalled"
       },
       {
         "type": "event",
-        "catagory": "action",
+        "namespace": "action",
         "name": "onClicked"
       },
       {
         "type": "event",
-        "catagory": "alarms",
+        "namespace": "alarms",
         "name": "onAlarm"
       },
       {
         "type": "type",
-        "catagory": "runtime",
+        "namespace": "runtime",
         "name": "OnInstalledReason"
       },
       {
         "type": "method",
-        "catagory": "alarms",
+        "namespace": "alarms",
         "name": "create"
       },
       {
         "type": "method",
-        "catagory": "tabs",
+        "namespace": "tabs",
         "name": "create"
       },
       {
         "type": "method",
-        "catagory": "alarms",
+        "namespace": "alarms",
         "name": "clear"
       },
       {
         "type": "method",
-        "catagory": "alarms",
+        "namespace": "alarms",
         "name": "clearAll"
       },
       {
         "type": "method",
-        "catagory": "alarms",
+        "namespace": "alarms",
         "name": "getAll"
       }
     ]
@@ -123,22 +123,22 @@ interface ISampleItem {
     "apis": [
       {
         "type": "event",
-        "catagory": "runtime",
+        "namespace": "runtime",
         "name": "onInstalled"
       },
       {
         "type": "property",
-        "catagory": "storage",
+        "namespace": "storage",
         "name": "sync"
       },
       {
         "type": "method",
-        "catagory": "tabs",
+        "namespace": "tabs",
         "name": "query"
       },
       {
         "type": "method",
-        "catagory": "scripting",
+        "namespace": "scripting",
         "name": "executeScript"
       }
     ]

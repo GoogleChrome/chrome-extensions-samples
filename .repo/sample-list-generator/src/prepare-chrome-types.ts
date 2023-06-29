@@ -34,7 +34,7 @@ const run = async () => {
 
   // find all apis with dot
   result['$special'] = Object.keys(chromeTypes)
-    .filter((apiName) => apiName.includes('.'))
+    .filter((namespace) => namespace.includes('.'))
     .map((item) => item.replace('.', '_'));
 
   for (const [chromeApiKey, chromeApiDetails] of Object.entries(chromeTypes)) {

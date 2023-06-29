@@ -12,21 +12,21 @@ const CPU_CORES = os.cpus().length;
 let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
 
 export const getApiType = (
-  apiCategory: string,
-  apiName: string
+  namespace: string,
+  propertyName: string
 ): ApiTypeResult => {
-  apiCategory = apiCategory.replace(/_/g, '.');
+  namespace = namespace.replace(/_/g, '.');
 
-  if (EXTENSION_API_MAP[apiCategory]) {
-    const apiTypes = EXTENSION_API_MAP[apiCategory];
+  if (EXTENSION_API_MAP[namespace]) {
+    const apiTypes = EXTENSION_API_MAP[namespace];
 
     for (let type of Object.keys(apiTypes)) {
-      if (apiTypes[type].includes(apiName)) {
+      if (apiTypes[type].includes(propertyName)) {
         return type as ApiTypeResult;
       }
     }
   }
-  console.log('api not found', apiCategory, apiName);
+  console.log('api not found', namespace, propertyName);
   return 'unknown';
 };
 
@@ -73,11 +73,11 @@ export const getApiListForSample = async (
   const result: ApiItem[] = [];
 
   Object.keys(apis).forEach((apiType) => {
-    apis[apiType].forEach((apiName) => {
+    apis[apiType].forEach((api) => {
       result.push({
         type: singularize(apiType) as ApiTypeResult,
-        catagory: apiName.split('.')[0],
-        name: apiName.split('.')[1]
+        namespace: api.split('.')[0],
+        name: api.split('.')[1]
       });
     });
   });
@@ -141,12 +141,12 @@ export const extractApiCalls = (
               )
             ) {
               // special case such as devtools.network (apis with dot)
-              const apiCategory = `${property.name}_${_property.name}`;
-              const apiName = getNextLevelProperty(
+              const namespace = `${property.name}_${_property.name}`;
+              const propetyName = getNextLevelProperty(
                 path.parentPath as babel.NodePath<babel.types.MemberExpression>
               );
-              apiFullName = `${apiCategory}.${apiName}`;
-              apiType = getApiType(apiCategory, apiName);
+              apiFullName = `${namespace}.${propetyName}`;
+              apiType = getApiType(namespace, propetyName);
             } else {
               // normal case
               apiFullName = `${property.name}.${_property.name}`;
