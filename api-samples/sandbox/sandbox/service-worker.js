@@ -18,7 +18,7 @@
  * @see http://developer.chrome.com/docs/extensions/reference/runtime
  * @see http://developer.chrome.com/docs/extensions/reference/tabs
  */
-chrome.runtime.onInstalled.addListener(() => {
+chrome.action.onClicked.addListener(() => {
   chrome.tabs.create({
     url: 'mainpage.html'
   });
