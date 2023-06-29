@@ -1,4 +1,4 @@
-import type { AvailableFolderTypes } from "./constants";
+import type { AvailableFolderTypes } from './constants';
 
 export interface ApiItem {
   type: ApiTypeResult;
@@ -6,15 +6,18 @@ export interface ApiItem {
   name: string;
 }
 
-export interface SampleItem {
-  type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
-  name: string;
+export interface ManifestMetadata {
   title: string;
   description: string;
-  repo_link: string;
-  apis: ApiItem[];
   permissions: string[];
 }
+
+export type SampleItem = {
+  type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
+  name: string;
+  repo_link: string;
+  apis: ApiItem[];
+} & ManifestMetadata;
 
 export interface AvailableFolderItem {
   path: string;
