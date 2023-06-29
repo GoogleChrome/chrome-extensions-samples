@@ -26,9 +26,9 @@ describe('API Detector', function () {
       );
       const result = await extractApiCalls(file);
       assert.deepEqual(result, {
-        events: ['action.onClicked'],
-        methods: ['action.getBadgeText', 'action.setBadgeText'],
-        properties: ['contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT']
+        event: ['action.onClicked'],
+        method: ['action.getBadgeText', 'action.setBadgeText'],
+        property: ['contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT']
       });
     });
 
@@ -43,7 +43,7 @@ describe('API Detector', function () {
       );
       const result = await extractApiCalls(file);
       assert.deepEqual(result, {
-        methods: ['action.getBadgeText', 'action.setBadgeText']
+        method: ['action.getBadgeText', 'action.setBadgeText']
       });
     });
 
@@ -67,8 +67,8 @@ describe('API Detector', function () {
 
       const result = await extractApiCalls(file);
       assert.deepEqual(result, {
-        events: ['devtools_network.onRequestFinished'],
-        methods: ['system_cpu.getInfo', 'devtools_inspectedWindow.eval']
+        event: ['devtools_network.onRequestFinished'],
+        method: ['system_cpu.getInfo', 'devtools_inspectedWindow.eval']
       });
     });
   });
