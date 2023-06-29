@@ -14,7 +14,6 @@ export const loadExtensionApis = (): ExtensionApiMap => {
     process.exit(1);
   }
 
-  let _EXTENSION_API_MAP = fs.readFileSync(filePath, 'utf8');
-  let EXTENSION_API_MAP = JSON.parse(_EXTENSION_API_MAP) as ExtensionApiMap;
-  return EXTENSION_API_MAP;
+  let data = fs.readFileSync(filePath, 'utf8');
+  return JSON.parse(data);
 };
