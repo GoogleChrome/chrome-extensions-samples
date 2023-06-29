@@ -2,7 +2,6 @@ import { ApiItem, ApiTypeResult, ExtensionApiMap } from '../types';
 import * as babel from '@babel/core';
 import fs from 'fs/promises';
 import { getAllFiles } from '../utils/filesystem';
-import { singularize } from '../utils/string';
 import { loadExtensionApis } from './api-loader';
 import os from 'os';
 import { ParallelController } from '../utils/parallel';
