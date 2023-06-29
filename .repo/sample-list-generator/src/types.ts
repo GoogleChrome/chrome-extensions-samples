@@ -13,7 +13,7 @@ export interface ManifestMetadata {
 }
 
 export type SampleItem = {
-  type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
+  type: FolderTypes;
   name: string;
   repo_link: string;
   apis: ApiItem[];

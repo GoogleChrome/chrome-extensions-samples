@@ -31,21 +31,21 @@ npm start
 ## Types
 
 ```ts
-type TApiTypeResult = 'event' | 'method' | 'property' | 'type' | 'unknown';
+type ApiTypeResult = 'event' | 'method' | 'property' | 'type' | 'unknown';
 
-interface IApiItem {
-  type: TApiTypeResult;
+interface ApiItem {
+  type: ApiTypeResult;
   namespace: string;
   name: string;
 }
 
-interface ISampleItem {
+interface SampleItem {
   type: 'API_SAMPLE' | 'FUNCTIONAL_SAMPLE';
   name: string;
   title: string;
   description: string;
   repo_link: string;
-  apis: IApiItem[];
+  apis: ApiItem[];
   permissions: string[];
 }
 
