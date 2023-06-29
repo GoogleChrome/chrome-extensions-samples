@@ -30,7 +30,9 @@ const getSamples = async (
   const basePath = getBasePath();
 
   // get all subfolders in the folder
-  const subfolders = await fs.readdir(path.join(basePath, currentRootFolderPath));
+  const subfolders = await fs.readdir(
+    path.join(basePath, currentRootFolderPath)
+  );
 
   for (let subfolder of subfolders) {
     const currentPath = path.join(basePath, currentRootFolderPath, subfolder);
@@ -39,8 +41,11 @@ const getSamples = async (
     const manifestExists = await isFileExists(manifestPath);
     if (manifestExists) {
       // get manifest metadata
-      const manifestMetadata = await getManifestMetadata(manifestPath, subfolder);
-      
+      const manifestMetadata = await getManifestMetadata(
+        manifestPath,
+        subfolder
+      );
+
       // add to samples
       samples.push({
         type: sampleType,

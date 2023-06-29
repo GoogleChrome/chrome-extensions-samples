@@ -4,6 +4,10 @@ import fs from 'fs/promises';
 import { getAllFiles } from '../utils/filesystem';
 import { singularize } from '../utils/string';
 import { loadExtensionApis } from './api-loader';
+import os from 'os';
+import { ParallelController } from '../utils/parallel';
+
+const CPU_CORES = os.cpus().length;
 
 let EXTENSION_API_MAP: ExtensionApiMap = {};
 loadExtensionApis().then((apis) => {
@@ -47,8 +51,11 @@ export const getApiListForSample = async (
 
   const apis: Record<string, Set<string>> = {};
 
-  for (let file of jsFiles) {
+  const parallelController = new ParallelController(CPU_CORES);
+  const parallelHandler = jsFiles.map(async (file) => {
+    await parallelController.start();
     const apiCalls = await extractApiCalls(await fs.readFile(file));
+    parallelController.finish();
     Object.keys(apiCalls).forEach((apiType) => {
       if (!apis[apiType]) {
         apis[apiType] = new Set();
@@ -57,7 +64,9 @@ export const getApiListForSample = async (
         apis[apiType].add(api);
       });
     });
-  }
+  });
+
+  await Promise.all(parallelHandler);
 
   const result: ApiItem[] = [];
 
