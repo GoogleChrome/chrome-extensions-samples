@@ -61,9 +61,7 @@ limitations under the License.
           result = 'invalid request';
 
         // if we don't know the templateName requested, return an error message
-        if !(template) {
-          result = 'Unknown template: ' + event.data.templateName;
-        } else {
+        if (template) {
           switch (command) {
             case 'render':
               result = template(event.data.context);
@@ -75,6 +73,8 @@ limitations under the License.
             //   result = template(event.data.context);
             //   break;
           }
+        } else {
+          result = 'Unknown template: ' + event.data.templateName;
         }
         event.source.postMessage({ result: result }, event.origin);
       });
