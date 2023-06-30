@@ -4,7 +4,7 @@ This sample demonstrates the `chrome.alarms` API by allowing the user to set ala
 
 ## Overview
 
-The extension uses `chrome.alarms.create()` to set an initial alarm that is displated on the extension page. More alarms can be set with user input.
+The extension calls `chrome.alarms.create()` to set an initial alarm that is displayed on the extension page. More alarms can be set with user input.
 
 ## Running this extension
 
