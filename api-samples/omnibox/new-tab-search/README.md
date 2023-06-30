@@ -4,7 +4,7 @@ This sample demonstrates using the `"omnibox"` manifest key and API to create a 
 
 ## Overview
 
-The extension uses `"omnibox"` manifest key and its parameter `"keyword"`. When `chrome.omnibox.onInputEntered.addListener()` is triggered and the keyword 'nt' is used, a new tab is opened with a google search for the user's input text.
+The extension uses the `"omnibox"` manifest key and its parameter `"keyword"`. When `chrome.omnibox.onInputEntered.addListener()` is called and the keyword 'nt' is used, a new tab is opened with a google search for the user's input text.
 
 ## Running this extension
 
