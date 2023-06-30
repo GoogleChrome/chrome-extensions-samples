@@ -1,6 +1,6 @@
 # chrome.fontSettings
 
-This extension demonstrates the `chrome.fontSettings` API by allowing users to modify the styling displayed fonts on webpages.
+This extension demonstrates the `chrome.fontSettings` API by allowing users to modify the size of fonts on webpages.
 
 ## Overview
 
