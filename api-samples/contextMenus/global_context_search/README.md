@@ -1,6 +1,6 @@
 # chrome.contextMenus
 
-This sample demonstrates using the `chrome.contextMenus` API to let a user switch between searching different countries' versions of Google via a contextMenu.
+This sample demonstrates the `chrome.contextMenus` API by letting a user switch between searching different countries' versions of Google via a `contextMenu`.
 
 ## Overview
 
