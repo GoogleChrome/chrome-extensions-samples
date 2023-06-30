@@ -4,7 +4,7 @@ This sample demonstrates the favicon manifest permission by displaying the favic
 
 ## Overview
 
-The extension uses `chrome.runtime.getURL('/_favicon/')` to create a fully-qualified URL pointing to the "\_favicon/" folder. Then it returns a new string representing the URL with several query parameters. Finally, the extension appends the image to the body of the extension popup.
+The extension calls `chrome.runtime.getURL('/_favicon/')` to create a fully-qualified URL pointing to the "\_favicon/" folder. Then it returns a new string representing the URL with several query parameters. Finally, the extension appends the image to the body of the extension popup.
 
 ## Running this extension
 
