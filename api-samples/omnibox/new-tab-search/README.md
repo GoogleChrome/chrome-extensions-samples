@@ -1,6 +1,6 @@
 # chrome.omnibox
 
-This sample demonstrates using the `"omnibox"` manifest key and API to create a keyword that opens up a browser search in a new tab.
+This sample demonstrates the `"omnibox"` manifest key and API by creating a keyword that opens up a browser search in a new tab.
 
 ## Overview
 
