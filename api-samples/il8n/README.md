@@ -1,6 +1,6 @@
 # chrome.i18n
 
-This sample demonstrates using the `chrome.i18n` API localize text in the extension popup.
+This sample demonstrates the `chrome.i18n` API by localizing text in the extension popup.
 
 ## Overview
 
