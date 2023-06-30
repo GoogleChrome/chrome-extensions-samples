@@ -4,7 +4,7 @@ This extension demonstrates the `chrome.fontSettings` API by allowing users to m
 
 ## Overview
 
-Creates a user interface in the extension's options page that allows users to see and modify font settings using `chrome.fontSettings` to change parameters.
+The extension creates a user interface in the extension's options page that allows users to see and modify font settings using `chrome.fontSettings` to change parameters.
 
 ## Running this extension
 
