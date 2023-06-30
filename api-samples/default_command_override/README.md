@@ -1,6 +1,6 @@
 # chrome.cookies
 
-This sample demonstrates using the `chrome.commands` API to create a new keyboard macro for switching tabs in the browser window.
+This sample demonstrates the `chrome.commands` API by creating a new keyboard macro for switching tabs in the browser window.
 
 ## Overview
 
