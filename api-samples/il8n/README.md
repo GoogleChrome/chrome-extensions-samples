@@ -4,7 +4,7 @@ This sample demonstrates the `chrome.i18n` API by localizing text in the extensi
 
 ## Overview
 
-The extension includes localized translations of its UI text in the \_locales folder. It then uses `chrome.i18n.getMessage()` to populate the text in the extension UI with either French or English, depending on the current language setting.
+The extension includes localized translations of its UI text in the `\_locales\' folder. It then calls `chrome.i18n.getMessage()` to populate the text in the extension UI with either French or English, depending on the current language setting.
 
 ## Running this extension
 
