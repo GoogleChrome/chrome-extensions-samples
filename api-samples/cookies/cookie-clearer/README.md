@@ -1,6 +1,6 @@
 # chrome.cookies
 
-This sample demonstrates using the `chrome.cookies` API to let a user delete their cookies via a popup UI.
+This sample demonstrates the `chrome.cookies` API by letting a user delete their cookies via a popup UI.
 
 ## Overview
 
