@@ -1,6 +1,6 @@
 # favicon
 
-This sample demonstrates using the favicon manifest permission to display the favicon of a url in the extension popup.
+This sample demonstrates the favicon manifest permission by displaying the favicon of a url in the extension popup.
 
 ## Overview
 
