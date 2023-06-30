@@ -4,7 +4,7 @@ This sample demonstrates the `chrome.commands` API by creating a new keyboard ma
 
 ## Overview
 
-The extension sets Ctrl+Shift+Left and "Ctrl+Shift+Right as command inputs in the manifest, and uses `chrome.commands.onCommand.addListener()` to trigger switching tabs.
+The extension sets Ctrl+Shift+Left and Ctrl+Shift+Right as command inputs in the manifest, and uses `chrome.commands.onCommand.addListener()` to trigger switching tabs.
 
 ## Running this extension
 
