@@ -32,7 +32,11 @@ export const getApiType = (
   return 'unknown';
 };
 
-const getNextLevelProperty = (
+/**
+ * Given a path to a MemberExpression node, returns the name of the next level property.
+ * e.g. For `chrome.devtools.network.sendHAR`, given the path to `chrome.devtools`, returns `sendHAR`.
+ */
+const getNextLevelPropertyName = (
   path: babel.NodePath<babel.types.MemberExpression>
 ) => {
   const parentNode = path.parentPath.node;
@@ -53,16 +57,16 @@ export const getApiListForSample = async (
     file.endsWith('.js')
   );
 
-  const apis: Record<string, Set<string>> = {};
+  const apis: Partial<Record<ApiTypeResult, Set<string>>> = {};
 
   const parallelHandler = jsFiles.map(async (file) => {
     const apiCalls = await extractApiCalls(await fs.readFile(file));
-    Object.keys(apiCalls).forEach((apiType) => {
+    (Object.keys(apis) as ApiTypeResult[]).forEach((apiType) => {
       if (!apis[apiType]) {
-        apis[apiType] = new Set();
+        apis[apiType] = new Set<string>();
       }
-      apiCalls[apiType].forEach((api) => {
-        apis[apiType].add(api);
+      apiCalls[apiType]?.forEach((api: string) => {
+        apis[apiType]?.add(api);
       });
     });
   });
@@ -72,7 +76,7 @@ export const getApiListForSample = async (
   const result: ApiItem[] = [];
 
   (Object.keys(apis) as ApiTypeResult[]).forEach((apiType) => {
-    apis[apiType].forEach((api) => {
+    apis[apiType]?.forEach((api: string) => {
       result.push({
         type: apiType,
         namespace: api.split('.')[0],
@@ -86,9 +90,9 @@ export const getApiListForSample = async (
 
 export const extractApiCalls = (
   file: Buffer
-): Promise<Record<string, string[]>> => {
+): Promise<Partial<Record<ApiTypeResult, string[]>>> => {
   return new Promise((resolve, reject) => {
-    const calls: Record<string, string[]> = {};
+    const calls: Partial<Record<ApiTypeResult, string[]>> = {};
 
     babel.parse(
       file.toString('utf8'),
@@ -111,8 +115,9 @@ export const extractApiCalls = (
               return;
             }
 
-            // get api category
+            // get api namespace
             // e.g. chrome.tabs.sendMessage -> tabs
+            // NOTE: for special cases such as `chrome.devtools.network.getHAR`, the namespace is `devtools.network`, but now it's `devtools`
             const property = path.node.property;
 
             if (
@@ -123,25 +128,26 @@ export const extractApiCalls = (
             }
 
             const parentNode = path.parentPath.node;
-            // get api name
+            // get api propertyName
             // e.g. chrome.tabs.sendMessage -> sendMessage
+            // NOTE: for special cases such as `chrome.devtools.network.getHAR`, the propertyName is `network`, but now it's `network`
             const _property = parentNode.property;
 
             if (_property.type !== 'Identifier') {
               return;
             }
 
-            let apiType = 'unknown';
-            let apiFullName = '';
+            let apiType: ApiTypeResult = 'unknown';
+            let apiFullName: string = '';
 
             if (
               EXTENSION_API_MAP['$special']?.includes(
                 `${property.name}_${_property.name}`
               )
             ) {
-              // special case such as devtools.network (apis with dot)
+              // special case such as chrome.devtools.network (apis with dot)
               const namespace = `${property.name}_${_property.name}`;
-              const propetyName = getNextLevelProperty(
+              const propetyName = getNextLevelPropertyName(
                 path.parentPath as babel.NodePath<babel.types.MemberExpression>
               );
               apiFullName = `${namespace}.${propetyName}`;
@@ -160,8 +166,9 @@ export const extractApiCalls = (
             if (!calls[apiType]) {
               calls[apiType] = [];
             }
-            if (!calls[apiType].includes(apiFullName)) {
-              calls[apiType].push(apiFullName);
+
+            if (!calls[apiType]?.includes(apiFullName)) {
+              calls[apiType]?.push(apiFullName);
             }
           }
         });
