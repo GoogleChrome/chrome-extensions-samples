@@ -1,0 +1,13 @@
+{
+  "name": "Tab Capture - Recorder",
+  "description": "Records the current tab in an offscreen document.",
+  "version": "1",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["tabs", "tabCapture", "offscreen", "downloads"]
+}
