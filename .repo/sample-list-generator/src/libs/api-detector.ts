@@ -1,5 +1,11 @@
-import { ApiItem, ApiTypeResult, ExtensionApiMap } from '../types';
+import {
+  ApiItem,
+  ApiItemWithType,
+  ApiTypeResult,
+  ExtensionApiMap
+} from '../types';
 import * as babel from '@babel/core';
+import { isMemberExpression } from '@babel/types';
 import fs from 'fs/promises';
 import { getAllFiles } from '../utils/filesystem';
 import { loadExtensionApis } from './api-loader';
@@ -32,67 +38,82 @@ export const getApiType = (
   return 'unknown';
 };
 
-/**
- * Given a path to a MemberExpression node, returns the name of the next level property.
- * e.g. For `chrome.devtools.network.sendHAR`, given the path to `chrome.devtools`, returns `sendHAR`.
- */
-const getNextLevelPropertyName = (
-  path: babel.NodePath<babel.types.MemberExpression>
-) => {
-  const parentNode = path.parentPath.node;
-  if (parentNode.type === 'MemberExpression') {
-    const property = parentNode.property;
-    if (property.type === 'Identifier') {
-      return property.name;
-    }
-  }
-  return '';
-};
-
 export const getApiListForSample = async (
   sampleFolderPath: string
-): Promise<ApiItem[]> => {
+): Promise<ApiItemWithType[]> => {
   // get all js files in the folder
   const jsFiles = (await getAllFiles(sampleFolderPath)).filter((file) =>
     file.endsWith('.js')
   );
 
-  const apis: Partial<Record<ApiTypeResult, Set<string>>> = {};
+  const calls: ApiItemWithType[] = [];
 
   const parallelHandler = jsFiles.map(async (file) => {
-    const apiCalls = await extractApiCalls(await fs.readFile(file));
-    (Object.keys(apis) as ApiTypeResult[]).forEach((apiType) => {
-      if (!apis[apiType]) {
-        apis[apiType] = new Set<string>();
-      }
-      apiCalls[apiType]?.forEach((api: string) => {
-        apis[apiType]?.add(api);
-      });
-    });
+    const _calls = await extractApiCalls(await fs.readFile(file));
+    calls.push(..._calls);
   });
-
   await Promise.all(parallelHandler);
 
-  const result: ApiItem[] = [];
-
-  (Object.keys(apis) as ApiTypeResult[]).forEach((apiType) => {
-    apis[apiType]?.forEach((api: string) => {
-      result.push({
-        type: apiType,
-        namespace: api.split('.')[0],
-        name: api.split('.')[1]
-      });
-    });
-  });
-
-  return result;
+  return uniqueItems(calls);
 };
 
-export const extractApiCalls = (
-  file: Buffer
-): Promise<Partial<Record<ApiTypeResult, string[]>>> => {
+export function getFullMemberExpression(
+  path: babel.NodePath<babel.types.MemberExpression>
+): string[] {
+  const result: string[] = [];
+  const property = path.node.property;
+
+  if (property.type === 'Identifier') {
+    result.push(property.name);
+  }
+
+  const parentNode = path.parentPath.node;
+
+  if (isMemberExpression(parentNode)) {
+    result.push(
+      ...getFullMemberExpression(
+        path.parentPath as babel.NodePath<babel.types.MemberExpression>
+      )
+    );
+  }
+
+  return result;
+}
+
+export function getApiItem(parts: string[]): ApiItem {
+  // special case for `chrome.storage`
+  if (parts[0] === 'storage') {
+    return {
+      namespace: 'storage',
+      propertyName: parts.includes('onChanged') ? 'onChanged' : parts[1]
+    };
+  }
+
+  let namespace = '';
+  let propertyName = '';
+
+  if (EXTENSION_API_MAP[`${parts[0]}.${parts[1]}`]) {
+    namespace = `${parts[0]}.${parts[1]}`;
+    propertyName = parts[2];
+  } else {
+    namespace = parts[0];
+    propertyName = parts[1];
+  }
+
+  return { namespace, propertyName };
+}
+
+function uniqueItems(array: ApiItemWithType[]) {
+  const tmp = new Map();
+  return array.filter((item) => {
+    const fullApiString = `${item.namespace}.${item.propertyName}`;
+    return !tmp.has(fullApiString) && tmp.set(fullApiString, 1);
+  });
+}
+
+export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
   return new Promise((resolve, reject) => {
-    const calls: Partial<Record<ApiTypeResult, string[]>> = {};
+    const calls: ApiItemWithType[] = [];
 
     babel.parse(
       file.toString('utf8'),
@@ -115,65 +136,20 @@ export const extractApiCalls = (
               return;
             }
 
-            // get api namespace
-            // e.g. chrome.tabs.sendMessage -> tabs
-            // NOTE: for special cases such as `chrome.devtools.network.getHAR`, the namespace is `devtools.network`, but now it's `devtools`
-            const property = path.node.property;
+            const parts = getFullMemberExpression(path);
 
-            if (
-              property.type !== 'Identifier' ||
-              path.parentPath.node.type !== 'MemberExpression'
-            ) {
-              return;
-            }
-
-            const parentNode = path.parentPath.node;
-            // get api propertyName
-            // e.g. chrome.tabs.sendMessage -> sendMessage
-            // NOTE: for special cases such as `chrome.devtools.network.getHAR`, the propertyName is `network`, but now it's `network`
-            const _property = parentNode.property;
-
-            if (_property.type !== 'Identifier') {
-              return;
-            }
-
-            let apiType: ApiTypeResult = 'unknown';
-            let apiFullName: string = '';
-
-            if (
-              EXTENSION_API_MAP['$special']?.includes(
-                `${property.name}_${_property.name}`
-              )
-            ) {
-              // special case such as chrome.devtools.network (apis with dot)
-              const namespace = `${property.name}_${_property.name}`;
-              const propetyName = getNextLevelPropertyName(
-                path.parentPath as babel.NodePath<babel.types.MemberExpression>
-              );
-              apiFullName = `${namespace}.${propetyName}`;
-              apiType = getApiType(namespace, propetyName);
-            } else {
-              // normal case
-              apiFullName = `${property.name}.${_property.name}`;
-              apiType = getApiType(property.name, _property.name);
-            }
+            const { namespace, propertyName } = getApiItem(parts);
+            let apiType = getApiType(namespace, propertyName);
 
             // api not found
             if (apiType === 'unknown') {
               return;
             }
-
-            if (!calls[apiType]) {
-              calls[apiType] = [];
-            }
-
-            if (!calls[apiType]?.includes(apiFullName)) {
-              calls[apiType]?.push(apiFullName);
-            }
+            calls.push({ type: apiType, namespace, propertyName });
           }
         });
 
-        resolve(calls);
+        resolve(uniqueItems(calls));
       }
     );
   });
