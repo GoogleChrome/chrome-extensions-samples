@@ -25,11 +25,69 @@ describe('API Detector', function () {
         'utf8'
       );
       const result = await extractApiCalls(file);
-      assert.deepEqual(result, {
-        event: ['action.onClicked'],
-        method: ['action.getBadgeText', 'action.setBadgeText'],
-        property: ['contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT']
-      });
+      assert.deepEqual(result, [
+        {
+          namespace: 'action',
+          propertyName: 'getBadgeText',
+          type: 'method'
+        },
+        {
+          namespace: 'action',
+          propertyName: 'setBadgeText',
+          type: 'method'
+        },
+        {
+          namespace: 'action',
+          propertyName: 'onClicked',
+          type: 'event'
+        },
+        {
+          namespace: 'contextMenus',
+          propertyName: 'ACTION_MENU_TOP_LEVEL_LIMIT',
+          type: 'property'
+        }
+      ]);
+    });
+
+    it('should return correct api list for sample file (storage)', async function () {
+      const file = Buffer.from(
+        `
+        let b = await chrome.storage.local.get();
+        let c = await chrome.storage.sync.get();
+        let d = await chrome.storage.managed.get();
+        let e = await chrome.storage.session.get();
+        let f = await chrome.storage.onChanged.addListener();
+      `,
+        'utf8'
+      );
+      const result = await extractApiCalls(file);
+      assert.deepEqual(result, [
+        {
+          namespace: 'storage',
+          propertyName: 'local',
+          type: 'property'
+        },
+        {
+          namespace: 'storage',
+          propertyName: 'sync',
+          type: 'property'
+        },
+        {
+          namespace: 'storage',
+          propertyName: 'managed',
+          type: 'property'
+        },
+        {
+          namespace: 'storage',
+          propertyName: 'session',
+          type: 'property'
+        },
+        {
+          namespace: 'storage',
+          propertyName: 'onChanged',
+          type: 'event'
+        }
+      ]);
     });
 
     it('should return correct api list for sample file (async)', async function () {
@@ -42,9 +100,18 @@ describe('API Detector', function () {
         'utf8'
       );
       const result = await extractApiCalls(file);
-      assert.deepEqual(result, {
-        method: ['action.getBadgeText', 'action.setBadgeText']
-      });
+      assert.deepEqual(result, [
+        {
+          namespace: 'action',
+          propertyName: 'getBadgeText',
+          type: 'method'
+        },
+        {
+          namespace: 'action',
+          propertyName: 'setBadgeText',
+          type: 'method'
+        }
+      ]);
     });
 
     it('should return correct api list for sample file (special case)', async function () {
@@ -66,10 +133,23 @@ describe('API Detector', function () {
       );
 
       const result = await extractApiCalls(file);
-      assert.deepEqual(result, {
-        event: ['devtools_network.onRequestFinished'],
-        method: ['system_cpu.getInfo', 'devtools_inspectedWindow.eval']
-      });
+      assert.deepEqual(result, [
+        {
+          namespace: 'system.cpu',
+          propertyName: 'getInfo',
+          type: 'method'
+        },
+        {
+          namespace: 'devtools.network',
+          propertyName: 'onRequestFinished',
+          type: 'event'
+        },
+        {
+          namespace: 'devtools.inspectedWindow',
+          propertyName: 'eval',
+          type: 'method'
+        }
+      ]);
     });
   });
 
