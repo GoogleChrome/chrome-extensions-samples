@@ -2,7 +2,7 @@
 
 This sample demonstrates the use of Action API which changes the badge text,icon,hover text or popup page depending on the user's choice or action.
 
-[chrome.action_API_Link]('https://developer.chrome.com/docs/extensions/reference/action/')
+[API Link](https://developer.chrome.com/docs/extensions/reference/action/)
 
 ## Overview
 
@@ -16,4 +16,4 @@ This sample demonstrates the Action API by allowing the user to perform the belo
 
 ## Implementation Notes
 
-The user can set values to implement above functionalities from [here]('../demo/index.html')
+The user can set values to implement above functionalities from [here](demo/index.html)
