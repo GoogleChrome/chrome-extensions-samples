@@ -1,7 +1,11 @@
 import { describe, it, beforeEach } from 'mocha';
 import assert from 'assert';
 import sinon from 'sinon';
-import { getApiType, extractApiCalls } from '../../src/libs/api-detector';
+import {
+  getApiType,
+  extractApiCalls,
+  getApiItem
+} from '../../src/libs/api-detector';
 
 describe('API Detector', function () {
   beforeEach(function () {
@@ -175,6 +179,49 @@ describe('API Detector', function () {
         'action',
         '123'
       );
+    });
+  });
+
+  describe('getApiItem()', function () {
+    it('should return correct api item', function () {
+      let apiItem = getApiItem(['action', 'getBadgeText']);
+      assert.deepEqual(apiItem, {
+        namespace: 'action',
+        propertyName: 'getBadgeText'
+      });
+    });
+
+    it('should return correct api item (storage)', function () {
+      let apiItem = getApiItem(['storage', 'sync', 'get']);
+      assert.deepEqual(apiItem, {
+        namespace: 'storage',
+        propertyName: 'sync'
+      });
+
+      apiItem = getApiItem(['storage', 'sync', 'onChanged']);
+      assert.deepEqual(apiItem, {
+        namespace: 'storage',
+        propertyName: 'onChanged'
+      });
+
+      apiItem = getApiItem(['storage', 'onChanged']);
+      assert.deepEqual(apiItem, {
+        namespace: 'storage',
+        propertyName: 'onChanged'
+      });
+    });
+
+    it('should return correct api item (special case)', function () {
+      let apiItem = getApiItem([
+        'devtools',
+        'network',
+        'onRequestFinished',
+        'addListener'
+      ]);
+      assert.deepEqual(apiItem, {
+        namespace: 'devtools.network',
+        propertyName: 'onRequestFinished'
+      });
     });
   });
 });
