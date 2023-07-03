@@ -32,11 +32,6 @@ const run = async () => {
 
   const chromeTypes = await fetchChromeTypes();
 
-  // find all apis with dot
-  result['$special'] = Object.keys(chromeTypes)
-    .filter((namespace) => namespace.includes('.'))
-    .map((item) => item.replace('.', '_'));
-
   for (const [chromeApiKey, chromeApiDetails] of Object.entries(chromeTypes)) {
     const apiDetails: ExtensionApiMap[string] = {
       properties: [],

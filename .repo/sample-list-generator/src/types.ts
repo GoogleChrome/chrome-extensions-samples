@@ -34,6 +34,4 @@ export type ApiTypeResult =
   | 'type'
   | 'unknown';
 
-export type ExtensionApiMap = Record<string, Record<string, string[]>> & {
-  $special?: string[];
-};
+export type ExtensionApiMap = Record<string, Record<string, string[]>>
