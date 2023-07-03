@@ -1,9 +1,12 @@
 import type { FolderTypes } from './constants';
 
 export interface ApiItem {
-  type: ApiTypeResult;
   namespace: string;
-  name: string;
+  propertyName: string;
+}
+
+export interface ApiItemWithType extends ApiItem {
+  type: ApiTypeResult;
 }
 
 export interface ManifestMetadata {

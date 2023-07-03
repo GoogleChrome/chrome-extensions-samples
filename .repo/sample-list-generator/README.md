@@ -36,7 +36,7 @@ type ApiTypeResult = 'event' | 'method' | 'property' | 'type' | 'unknown';
 interface ApiItem {
   type: ApiTypeResult;
   namespace: string;
-  name: string;
+  propertyName: string;
 }
 
 interface SampleItem {
@@ -69,47 +69,47 @@ interface SampleItem {
       {
         "type": "event",
         "namespace": "runtime",
-        "name": "onInstalled"
+        "propertyName": "onInstalled"
       },
       {
         "type": "event",
         "namespace": "action",
-        "name": "onClicked"
+        "propertyName": "onClicked"
       },
       {
         "type": "event",
         "namespace": "alarms",
-        "name": "onAlarm"
+        "propertyName": "onAlarm"
       },
       {
         "type": "type",
         "namespace": "runtime",
-        "name": "OnInstalledReason"
+        "propertyName": "OnInstalledReason"
       },
       {
         "type": "method",
         "namespace": "alarms",
-        "name": "create"
+        "propertyName": "create"
       },
       {
         "type": "method",
         "namespace": "tabs",
-        "name": "create"
+        "propertyName": "create"
       },
       {
         "type": "method",
         "namespace": "alarms",
-        "name": "clear"
+        "propertyName": "clear"
       },
       {
         "type": "method",
         "namespace": "alarms",
-        "name": "clearAll"
+        "propertyName": "clearAll"
       },
       {
         "type": "method",
         "namespace": "alarms",
-        "name": "getAll"
+        "propertyName": "getAll"
       }
     ]
   },
@@ -124,22 +124,22 @@ interface SampleItem {
       {
         "type": "event",
         "namespace": "runtime",
-        "name": "onInstalled"
+        "propertyName": "onInstalled"
       },
       {
         "type": "property",
         "namespace": "storage",
-        "name": "sync"
+        "propertyName": "sync"
       },
       {
         "type": "method",
         "namespace": "tabs",
-        "name": "query"
+        "propertyName": "query"
       },
       {
         "type": "method",
         "namespace": "scripting",
-        "name": "executeScript"
+        "propertyName": "executeScript"
       }
     ]
   }
