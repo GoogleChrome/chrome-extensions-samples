@@ -4,10 +4,10 @@
   "version": "1",
   "manifest_version": 3,
   "action": {
-    "default_icon": "icon.png"
+    "default_icon": "icons/not-recording.png"
   },
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": ["tabs", "tabCapture", "offscreen", "downloads"]
+  "permissions": ["tabCapture", "offscreen"]
 }

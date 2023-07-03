@@ -1,6 +1,6 @@
 # chrome.tabCapture recorder
 
-A sample that demonstrates how to use the [`chrome.tabCapture`](https://developer.chrome.com/docs/extensions/reference/tabCapture/) API to record in the background, using a service worker and [offscreen document].
+A sample that demonstrates how to use the [`chrome.tabCapture`](https://developer.chrome.com/docs/extensions/reference/tabCapture/) API to record in the background, using a service worker and [offscreen document](https://developer.chrome.com/docs/extensions/reference/offscreen/).
 
 ## Overview
 
