@@ -1,0 +1,14 @@
+{
+  "name": "WebSocket Demo",
+  "description": "How to use WebSockets in your Chrome Extension.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": "icons/socket-inactive.png"
+  },
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
+}
