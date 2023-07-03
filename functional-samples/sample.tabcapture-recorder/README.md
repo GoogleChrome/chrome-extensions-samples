@@ -14,5 +14,6 @@ See the [Audio recording and screen capture guide](https://developer.chrome.com/
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-3. Click the extension's action icon to start recording.
-4. Click the extension's action again to stop recording.
+3. Pin the extension from the extension menu.
+4. Click the extension's action icon to start recording.
+5. Click the extension's action again to stop recording.
