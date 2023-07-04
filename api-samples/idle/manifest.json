@@ -5,7 +5,7 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": ["idle", "tabs", "storage"],
+  "permissions": ["idle", "storage"],
   "action": {
     "default_icon": "sample-19.png"
   },
