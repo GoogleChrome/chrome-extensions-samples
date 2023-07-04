@@ -1,12 +1,11 @@
-// Event listener for clicks on links in a browser action popup.
+// Event listener for clicks on links in an action popup.
 // Open the link in a new tab of the current window.
 function onAnchorClick(event) {
   chrome.tabs.create({ url: event.target.href });
   return false;
 }
 
-// Given an array of URLs, build a DOM list of these URLs in the
-// browser action popup.
+// Given an array of URLs, build a DOM list of these URLs in the action popup.
 function buildPopupDom(mostVisitedURLs) {
   const popupDiv = document.getElementById('mostVisited_div');
   const ol = popupDiv.appendChild(document.createElement('ol'));
