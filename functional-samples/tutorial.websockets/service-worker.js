@@ -1,6 +1,9 @@
 const TEN_SECONDS_MS = 10 * 1000;
 let webSocket = null;
 
+// Make sure the Glitch demo server is running
+fetch('https://chrome-extension-websockets.glitch.me/', { mode: 'no-cors' });
+
 // Toggle WebSocket connection on action button click
 // Send a message every 10 seconds, the ServiceWorker will
 // be kept alive as long as messages are being sent.
@@ -38,12 +41,17 @@ function disconnect() {
 }
 
 function keepAlive() {
-  const keepAliveIntervalId = setInterval(() => {
-    if (webSocket) {
-      console.log('ping');
-      webSocket.send('ping');
-    } else {
-      clearInterval(keepAliveIntervalId);
-    }
-  }, TEN_SECONDS_MS);
+  const keepAliveIntervalId = setInterval(
+    () => {
+      if (webSocket) {
+        console.log('ping');
+        webSocket.send('ping');
+      } else {
+        clearInterval(keepAliveIntervalId);
+      }
+    },
+    // It's important to pick an interval that's shorter than 30s, to
+    // avoid that the service worker becomes inactive.
+    TEN_SECONDS_MS
+  );
 }

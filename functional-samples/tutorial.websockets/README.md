@@ -1,6 +1,8 @@
 # Chrome Extension WebSocket Example
 
-This example demonstrates how to use WebSockets in a MV3 Chrome Extension starting with Chrome version M116.
+This example demonstrates how to use WebSockets in a MV3 Chrome Extension. Starting with Chrome version M116, WebSocket
+activity will extend the service worker lifetime. In previous Chrome versions, the service worker will become inactive
+while waiting for messages and disconnect the WebSocket.
 
 ## Running this extension
 
