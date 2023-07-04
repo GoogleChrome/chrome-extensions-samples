@@ -1,6 +1,6 @@
 # Chrome Extension WebSocket Example
 
-This example demonstrates how to use WebSockets in a MV3 Chrome Extension.
+This example demonstrates how to use WebSockets in a MV3 Chrome Extension starting with Chrome version M116.
 
 ## Running this extension
 
