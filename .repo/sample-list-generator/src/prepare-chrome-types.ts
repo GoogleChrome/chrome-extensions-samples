@@ -40,9 +40,9 @@ const run = async () => {
       events: []
     };
 
-    for (let variable of chromeApiDetails._type.properties) {
-      const name = variable.name as string;
-      const type = getTypeFromPageId(variable._pageId) as string;
+    for (let property of chromeApiDetails._type.properties) {
+      const name = property.name as string;
+      const type = getTypeFromPageId(property._pageId) as string;
       apiDetails[type].push(name);
     }
 
