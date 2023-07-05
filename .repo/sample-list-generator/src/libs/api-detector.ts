@@ -34,7 +34,6 @@ export const getApiType = (
       return 'type';
     }
   }
-  console.log('api not found', namespace, propertyName);
   return 'unknown';
 };
 
@@ -143,6 +142,7 @@ export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
 
             // api not found
             if (type === 'unknown') {
+              console.warn('api not found', namespace, propertyName);
               return;
             }
             calls.push({ type, namespace, propertyName });

@@ -169,16 +169,8 @@ describe('API Detector', function () {
     });
 
     it('should return unknown when api not found', function () {
-      const consoleCall = sinon.stub(console, 'log');
-
       let apiType = getApiType('action', '123');
       assert.equal(apiType, 'unknown');
-      sinon.assert.calledOnceWithMatch(
-        consoleCall,
-        'api not found',
-        'action',
-        '123'
-      );
     });
   });
 
