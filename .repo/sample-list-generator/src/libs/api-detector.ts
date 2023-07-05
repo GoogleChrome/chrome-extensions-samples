@@ -139,13 +139,13 @@ export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
             const parts = getFullMemberExpression(path);
 
             const { namespace, propertyName } = getApiItem(parts);
-            let apiType = getApiType(namespace, propertyName);
+            let type = getApiType(namespace, propertyName);
 
             // api not found
-            if (apiType === 'unknown') {
+            if (type === 'unknown') {
               return;
             }
-            calls.push({ type: apiType, namespace, propertyName });
+            calls.push({ type, namespace, propertyName });
           }
         });
 
