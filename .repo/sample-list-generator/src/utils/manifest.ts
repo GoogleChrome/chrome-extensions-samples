@@ -2,10 +2,10 @@ import fs from 'fs/promises';
 import { ManifestMetadata } from '../types';
 
 export const getManifestMetadata = async (
-  manifesPath: string,
+  manifestPath: string,
   defaultName: string
 ): Promise<ManifestMetadata> => {
-  const manifest = await fs.readFile(manifesPath, 'utf8');
+  const manifest = await fs.readFile(manifestPath, 'utf8');
   const parsedManifest = JSON.parse(manifest);
   const {
     name: title = defaultName,
