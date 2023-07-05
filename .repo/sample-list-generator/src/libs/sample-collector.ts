@@ -16,7 +16,7 @@ export const getAllSamples = async () => {
       samplesFolder.path,
       samplesFolder.type
     );
-    samples = [...samples, ...currentSamples];
+    samples.push(...currentSamples);
   }
 
   return samples;
