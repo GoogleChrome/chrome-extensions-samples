@@ -4,7 +4,7 @@ A sample that demonstrates how to use the [`chrome.idle`](https://developer.chro
 
 ## Overview
 
-In this sample, the `chrome.idle` API is used to detect when the user is idle and to store the history of the user's idle state.
+In this sample, the `chrome.idle` API detects and stores the history of the user's idle state.
 
 ## Implementation Notes
 
