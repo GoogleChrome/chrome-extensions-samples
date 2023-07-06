@@ -10,7 +10,7 @@ In this sample, the `chrome.idle` API detects and stores the history of the user
 
 The detection interval of [`chrome.idle.onStateChanged`](https://developer.chrome.com/docs/extensions/reference/idle/#event-onStateChanged) event needs to be modified using the [`chrome.idle.setDetectionInterval`](https://developer.chrome.com/docs/extensions/reference/idle/#method-setDetectionInterval) method.
 
-The idle state history will be stored in the [`chrome.storage.session`](https://developer.chrome.com/docs/extensions/reference/storage/#property-session) storage area.
+The idle state history is stored in the [`chrome.storage.session`](https://developer.chrome.com/docs/extensions/reference/storage/#property-session) storage area.
 
 ## Running this extension
 
