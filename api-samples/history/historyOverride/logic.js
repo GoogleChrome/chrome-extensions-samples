@@ -66,12 +66,10 @@ document.getElementById('seeAll').onclick = function () {
   location.reload();
 };
 
-(async function () {
-  const historyItems = await chrome.history.search({
+chrome.history
+  .search({
     text: '',
     startTime: kOneWeekAgo,
     maxResults: 99
-  });
-
-  constructHistory(historyItems);
-})();
+  })
+  .then(constructHistory);
