@@ -19,7 +19,7 @@ chrome.idle.onStateChanged.addListener(async function (newstate) {
  */
 chrome.action.onClicked.addListener(function () {
   chrome.windows.create({
-    url: chrome.runtime.getURL('history.html'),
+    url: 'history.html',
     width: 700,
     height: 600,
     type: 'popup'
