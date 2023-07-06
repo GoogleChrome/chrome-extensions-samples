@@ -5,8 +5,12 @@
   </head>
 
   <body>
-    <div id="searchBar">
-      <h1>Custom History Page</h1>
+    <div id="searchbar">
+      <h1>
+        Custom History Page
+        <br />
+        <small>Only show the history within one week.</small>
+      </h1>
       <input
         id="searchInput"
         type="text"
@@ -14,28 +18,23 @@
         placeholder="Search History"
       />
       <input type="submit" id="searchSubmit" value="Search" />
-      <br />
-      <br />
-      <input type="submit" id="seeAll" value="See All" />
-      <br />
-      <br />
-      <input type="submit" id="deleteSelected" value="Delete Selected" />
-      <br />
-      <br />
+      <input type="submit" id="deleteSelected" value="Remove Selected" />
       <input type="submit" id="removeAll" value="Remove All" />
     </div>
     <div id="historyDiv"></div>
     <template id="historyTemplate">
       <div class="history">
-        <div class="imageDiv">
-          <a class="titleLink" target="_blank"></a>
+        <div class="image-wrapper"></div>
+        <div class="page-meta">
+          <div class="page-detail">
+            <p class="page-title"></p>
+            <a class="page-link" target="_blank"></a>
+          </div>
+          <div class="page-visit-time"></div>
         </div>
-        <div class="urlDiv">
-          <p class="pageName"></p>
-        </div>
-        <div class="removeDiv">
-          <button class="removeButton">Delete</button>
+        <div class="actions">
           <input type="checkbox" class="removeCheck" />
+          <button class="removeButton">remove</button>
         </div>
       </div>
     </template>

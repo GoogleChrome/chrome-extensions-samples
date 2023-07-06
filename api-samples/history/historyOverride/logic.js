@@ -5,33 +5,42 @@ const historyDiv = document.getElementById('historyDiv');
 function faviconURL(u) {
   const url = new URL(chrome.runtime.getURL('/_favicon/'));
   url.searchParams.set('pageUrl', u);
-  url.searchParams.set('size', '16');
+  url.searchParams.set('size', '24');
   return url.toString();
 }
 
 function constructHistory(historyItems) {
   const template = document.getElementById('historyTemplate');
   for (let item of historyItems) {
-    const titleLink = template.content.querySelector('.titleLink, a');
-    const pageName = template.content.querySelector('.pageName, p');
-    const checkbox = template.content.querySelector('.removeCheck, input');
+    const clone = document.importNode(template.content, true);
+    const pageLinkEl = clone.querySelector('.page-link');
+    const pageTitleEl = clone.querySelector('.page-title');
+    const pageVisitTimeEl = clone.querySelector('.page-visit-time');
+    const imageWrapperEl = clone.querySelector('.image-wrapper');
+    const checkbox = clone.querySelector('.removeCheck, input');
     checkbox.setAttribute('value', item.url);
     const favicon = document.createElement('img');
-    const host = new URL(item.url).host;
-    titleLink.href = item.url;
+    pageLinkEl.href = item.url;
     favicon.src = faviconURL(item.url);
-    titleLink.textContent = host;
-    titleLink.prepend(favicon);
-    pageName.innerText = item.title;
-    if (item.title === '') {
-      pageName.innerText = host;
+    pageLinkEl.textContent = item.url;
+    imageWrapperEl.prepend(favicon);
+    pageVisitTimeEl.textContent = new Date(item.lastVisitTime).toLocaleString();
+    if (!item.title) {
+      pageTitleEl.style.display = 'none';
     }
-    const clone = document.importNode(template.content, true);
+    pageTitleEl.innerText = item.title;
+
     clone
       .querySelector('.removeButton, button')
       .addEventListener('click', async function () {
         await chrome.history.deleteUrl({ url: item.url });
         location.reload();
+      });
+
+    clone
+      .querySelector('.history')
+      .addEventListener('click', async function () {
+        checkbox.checked = !checkbox.checked;
       });
     historyDiv.appendChild(clone);
   }
@@ -59,10 +68,6 @@ document.getElementById('deleteSelected').onclick = async function () {
 
 document.getElementById('removeAll').onclick = async function () {
   await chrome.history.deleteAll();
-  location.reload();
-};
-
-document.getElementById('seeAll').onclick = function () {
   location.reload();
 };
 

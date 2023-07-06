@@ -1,115 +1,88 @@
-::-webkit-scrollbar {
-  width: 0px; /* remove scrollbar space */
-  background: transparent; /* make scrollbar invisible */
-}
-
-#searchBar {
-  float: left;
-  width: 250px;
-  height: auto;
-  position: absolute;
-  top: 10;
-  left: 10;
+small {
+  font-size: 12px;
+  font-weight: normal;
 }
 
 #historyDiv {
-  color: white;
-  font-size: 16px;
-  max-width: 1020px;
-  min-width: 320px;
-  max-height: 98vh;
-  min-height: 500px;
-  position: absolute;
-  top: 10;
-  left: 260;
-  overflow: scroll;
-  overflow-x: hidden;
+  margin-top: 10px;
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1000px;
 }
 
 .history {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  width: 300px;
-  height: 150px;
-  word-wrap: break-word;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  height: 60px;
   padding: 10px;
-  background: #4688f1;
-  position: relative;
-}
-
-.titleLink {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-img {
-  margin-right: 8px;
-}
-
-.imageDiv {
-  background-color: white;
-  width: 310px;
-}
-
-.removeDiv {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.removeButton {
-  height: 30px;
-  border: none;
-  background-color: white;
   cursor: pointer;
 }
 
-.urlDiv {
-  height: 90px;
-  width: 300px;
-  overflow-y: hidden;
+.image-wrapper {
+  width: 24px;
+  height: 100%;
+  margin-right: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
-.removeCheck {
-  height: 30px;
+.image-wrapper img {
+  width: 100%;
 }
 
-#searchSubmit {
-  height: 30px;
-  border: none;
-  background-color: #3aa757;
+.page-meta {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: calc(100% - 180px);
 }
 
-#deleteSelected {
-  height: 30px;
-  width: 185px;
-  border: none;
-  background-color: #f9bb2d;
+.page-title {
+  font-weight: bold;
+  font-size: 0.8rem;
 }
 
-#removeAll {
-  height: 30px;
-  width: 185px;
-  border: none;
-  background-color: #e8453c;
+.page-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
-#seeAll {
-  height: 30px;
-  width: 185px;
-  border: none;
-  background-color: #4688f1;
+.page-link,
+.page-title {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  margin: 0;
 }
 
-#searchInput {
-  height: 30px;
+.page-link {
+  font-size: 0.8rem;
+  color: #8c8c8c;
 }
 
-h1 {
-  font-size: 50px;
-  font-family: Impact, Charcoal, sans-serif;
+.page-link:hover {
+  color: #000;
+}
+
+.page-visit-time {
+  font-size: 0.8rem;
+  color: #a5a5a5;
+}
+
+.actions {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  gap: 5px;
 }
