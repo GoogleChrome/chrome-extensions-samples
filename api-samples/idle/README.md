@@ -1,6 +1,6 @@
 # chrome.idle
 
-A sample that demonstrates how to use the [`chrome.idle`](https://developer.chrome.com/docs/extensions/reference/idle/) API.
+This sample demonstrates how to use the [`chrome.idle`](https://developer.chrome.com/docs/extensions/reference/idle/) API.
 
 ## Overview
 
