@@ -1,4 +1,4 @@
-# chrome.topSites
+# chrome.topSites - New Tab Page
 
 This sample demonstrates using the `chrome.topSites` API to suggest which sites a user should visit.
 

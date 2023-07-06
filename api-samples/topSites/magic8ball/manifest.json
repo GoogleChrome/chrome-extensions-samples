@@ -1,0 +1,10 @@
+{
+  "name": "topSites API sample",
+  "version": "2",
+  "description": "An extension that demonstrates the chrome.topSites API by registering a custom new tab page.",
+  "chrome_url_overrides": {
+    "newtab": "newTab.html"
+  },
+  "permissions": ["topSites", "favicon"],
+  "manifest_version": 3
+}
