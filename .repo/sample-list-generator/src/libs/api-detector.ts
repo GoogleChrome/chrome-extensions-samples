@@ -5,7 +5,7 @@ import {
   ExtensionApiMap
 } from '../types';
 import * as babel from '@babel/core';
-import { isMemberExpression } from '@babel/types';
+import { isMemberExpression, isIdentifier } from '@babel/types';
 import fs from 'fs/promises';
 import { getAllFiles } from '../utils/filesystem';
 import { loadExtensionApis } from './api-loader';
@@ -60,20 +60,30 @@ export function getFullMemberExpression(
   path: babel.NodePath<babel.types.MemberExpression>
 ): string[] {
   const result: string[] = [];
-  const property = path.node.property;
 
-  if (property.type === 'Identifier') {
-    result.push(property.name);
+  // Include the chrome. or browser. identifier
+  if (isIdentifier(path.node.object)) {
+    result.push(path.node.object.name);
+  } else {
+    // We don't support expressions
+    return result;
   }
 
-  const parentNode = path.parentPath.node;
+  while (path) {
+    if (isIdentifier(path.node.property)) {
+      result.push(path.node.property.name);
+    } else {
+      // We don't support expressions
+      break;
+    }
 
-  if (isMemberExpression(parentNode)) {
-    result.push(
-      ...getFullMemberExpression(
-        path.parentPath as babel.NodePath<babel.types.MemberExpression>
-      )
-    );
+    const parentPath = path.parentPath;
+
+    if (!parentPath || !parentPath.isMemberExpression()) {
+      break;
+    } else {
+      path = parentPath;
+    }
   }
 
   return result;
@@ -125,17 +135,12 @@ export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
 
         babel.traverse(result, {
           MemberExpression(path) {
-            const object = path.node.object;
+            const parts = getFullMemberExpression(path);
 
-            // check if expression isn't browser.xxx or chrome.xxx
-            if (
-              object.type !== 'Identifier' ||
-              !['browser', 'chrome'].includes(object.name)
-            ) {
+            // not a chrome or browser api
+            if (!['chrome', 'browser'].includes(parts.shift() || '')) {
               return;
             }
-
-            const parts = getFullMemberExpression(path);
 
             const { namespace, propertyName } = getApiItem(parts);
             let type = getApiType(namespace, propertyName);
