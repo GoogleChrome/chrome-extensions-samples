@@ -39,7 +39,12 @@ function constructHistory(historyItems) {
 
     clone
       .querySelector('.history')
-      .addEventListener('click', async function () {
+      .addEventListener('click', async function (event) {
+        // fix double click
+        if (event.target.className === 'removeCheck') {
+          return;
+        }
+
         checkbox.checked = !checkbox.checked;
       });
     historyDiv.appendChild(clone);
