@@ -1,0 +1,88 @@
+small {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+#historyDiv {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1000px;
+}
+
+.history {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  height: 60px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.image-wrapper {
+  width: 24px;
+  height: 100%;
+  margin-right: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.image-wrapper img {
+  width: 100%;
+}
+
+.page-meta {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: calc(100% - 180px);
+}
+
+.page-title {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.page-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.page-link,
+.page-title {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.page-link {
+  font-size: 0.8rem;
+  color: #8c8c8c;
+}
+
+.page-link:hover {
+  color: #000;
+}
+
+.page-visit-time {
+  font-size: 0.8rem;
+  color: #a5a5a5;
+}
+
+.actions {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  gap: 5px;
+}
