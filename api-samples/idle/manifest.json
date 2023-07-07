@@ -1,0 +1,18 @@
+{
+  "name": "Idle - Simple Example",
+  "version": "1.0.1",
+  "description": "Demonstrates the Idle API",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["idle", "storage"],
+  "action": {
+    "default_icon": "sample-19.png"
+  },
+  "icons": {
+    "16": "sample-16.png",
+    "48": "sample-48.png",
+    "128": "sample-128.png"
+  },
+  "manifest_version": 3
+}
