@@ -1,4 +1,4 @@
-# Action
+# chrome.action
 
 This sample demonstrates the use of Action API which changes the badge text,icon,hover text or popup page depending on the user's choice or action.
 
