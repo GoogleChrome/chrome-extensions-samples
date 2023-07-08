@@ -17,3 +17,9 @@ This sample demonstrates the Action API by allowing the user to perform the belo
 ## Implementation Notes
 
 The user can set values to implement above functionalities from [here](demo/index.html)
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Click the extension's icon in the toolbar to open the demo page.
