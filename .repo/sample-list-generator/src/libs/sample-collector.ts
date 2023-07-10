@@ -29,13 +29,17 @@ const getSamples = async (
   const samples: SampleItem[] = [];
   const basePath = getBasePath();
 
-  // get all subfolders in the folder
-  const subfolders = await fs.readdir(
-    path.join(basePath, currentRootFolderPath)
-  );
+  // get all contents in the folder
+  const contents = await fs.readdir(path.join(basePath, currentRootFolderPath));
 
-  for (let subfolder of subfolders) {
-    const currentPath = path.join(basePath, currentRootFolderPath, subfolder);
+  for (let content of contents) {
+    const currentPath = path.join(basePath, currentRootFolderPath, content);
+
+    // if content is not a folder, skip
+    if (!(await fs.stat(currentPath)).isDirectory()) {
+      continue;
+    }
+
     const manifestPath = path.join(currentPath, 'manifest.json');
     // check if manifest.json exists
     const manifestExists = await isFileExists(manifestPath);
@@ -46,19 +50,19 @@ const getSamples = async (
       // add to samples
       samples.push({
         type: sampleType,
-        name: subfolder,
+        name: content,
         repo_link: new URL(
           `${REPO_BASE_URL}${currentPath.replace(basePath, '')}`
         ).toString(),
         apis: await getApiListForSample(currentPath),
-        title: manifestData.name || subfolder,
+        title: manifestData.name || content,
         description: manifestData.description || '',
         permissions: manifestData.permissions || []
       });
     } else {
       // if manifest.json does not exist, loop through all folders in current folder
       const currentSamples = await getSamples(
-        path.join(currentRootFolderPath, subfolder),
+        path.join(currentRootFolderPath, content),
         sampleType
       );
       samples.push(...currentSamples);
