@@ -90,14 +90,6 @@ export function getFullMemberExpression(
 }
 
 export function getApiItem(parts: string[]): ApiItem {
-  // special case for `chrome.storage`
-  if (parts[0] === 'storage') {
-    return {
-      namespace: 'storage',
-      propertyName: parts.includes('onChanged') ? 'onChanged' : parts[1]
-    };
-  }
-
   let namespace = '';
   let propertyName = '';
 
