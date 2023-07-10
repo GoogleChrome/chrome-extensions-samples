@@ -4,7 +4,7 @@ import { AVAILABLE_FOLDERS, REPO_BASE_URL } from '../constants';
 import { getApiListForSample } from './api-detector';
 import type { AvailableFolderItem, SampleItem } from '../types';
 import { getBasePath, isFileExists } from '../utils/filesystem';
-import { getManifestMetadata } from '../utils/manifest';
+import { getManifest } from '../utils/manifest';
 
 export const getAllSamples = async () => {
   let samples: SampleItem[] = [];
@@ -41,10 +41,7 @@ const getSamples = async (
     const manifestExists = await isFileExists(manifestPath);
     if (manifestExists) {
       // get manifest metadata
-      const manifestMetadata = await getManifestMetadata(
-        manifestPath,
-        subfolder
-      );
+      const manifestData = await getManifest(manifestPath);
 
       // add to samples
       samples.push({
@@ -54,7 +51,9 @@ const getSamples = async (
           `${REPO_BASE_URL}${currentPath.replace(basePath, '')}`
         ).toString(),
         apis: await getApiListForSample(currentPath),
-        ...manifestMetadata
+        title: manifestData.name || subfolder,
+        description: manifestData.description || '',
+        permissions: manifestData.permissions || []
       });
     } else {
       // if manifest.json does not exist, loop through all folders in current folder

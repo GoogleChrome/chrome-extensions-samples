@@ -9,8 +9,8 @@ export interface ApiItemWithType extends ApiItem {
   type: ApiTypeResult;
 }
 
-export interface ManifestMetadata {
-  title: string;
+export interface ManifestData {
+  name: string;
   description: string;
   permissions: string[];
 }
@@ -20,7 +20,10 @@ export type SampleItem = {
   name: string;
   repo_link: string;
   apis: ApiItem[];
-} & ManifestMetadata;
+  title: string;
+  description: string;
+  permissions: string[];
+};
 
 export interface AvailableFolderItem {
   path: string;
