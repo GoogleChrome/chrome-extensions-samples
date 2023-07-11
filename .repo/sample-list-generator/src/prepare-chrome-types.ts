@@ -2,19 +2,7 @@ import fetch from 'node-fetch';
 import path from 'path';
 import fs from 'fs/promises';
 import { ExtensionApiMap } from './types';
-
-const SINGULAR_TO_PLURAL_MAP: Record<string, string> = {
-  property: 'properties',
-  method: 'methods',
-  event: 'events',
-  type: 'types'
-};
-
-// get variable type
-// e.g. method-openPopup -> methods
-const getTypeFromPageId = (pageId: string) => {
-  return SINGULAR_TO_PLURAL_MAP[pageId.split('-').shift() as string];
-};
+import { ReflectionKind } from 'typedoc';
 
 // Fetch the latest version of the chrome types from storage
 const fetchChromeTypes = async (): Promise<Record<string, any>> => {
@@ -42,8 +30,25 @@ const run = async () => {
 
     for (let property of chromeApiDetails._type.properties) {
       const name = property.name as string;
-      const type = getTypeFromPageId(property._pageId) as string;
-      apiDetails[type].push(name);
+
+      // check property type
+      let propertyType = 'types';
+      if (property.kind & ReflectionKind.VariableOrProperty) {
+        propertyType = 'properties';
+      }
+      if (
+        property.type?.type === 'reference' &&
+        ['CustomChromeEvent', 'events.Event', 'Event'].includes(
+          property.type.name
+        )
+      ) {
+        propertyType = 'events';
+      }
+      if (property.signatures) {
+        propertyType = 'methods';
+      }
+
+      apiDetails[propertyType].push(name);
     }
 
     result[chromeApiKey] = apiDetails;

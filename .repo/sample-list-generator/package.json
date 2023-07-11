@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@babel/core": "7.22.5",
-    "node-fetch": "2.6.11"
+    "node-fetch": "2.6.11",
+    "typedoc": "^0.24.8"
   }
 }
