@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Open side panel",
+  "version": "1.0",
+  "description": "Use user interactions to open the side panel",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel-menu.html"
+  },
+  "permissions": ["sidePanel", "activeTab", "contextMenus"],
+  "commands": {
+    "open_side_panel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Opens the side panel"
+    }
+  },
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}
