@@ -5,7 +5,7 @@ import {
   ExtensionApiMap
 } from '../types';
 import * as babel from '@babel/core';
-import { isMemberExpression, isIdentifier } from '@babel/types';
+import { isIdentifier } from '@babel/types';
 import fs from 'fs/promises';
 import { getAllFiles } from '../utils/filesystem';
 import { loadExtensionApis } from './api-loader';
