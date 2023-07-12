@@ -7,16 +7,16 @@
     "service_worker": "service-worker.js"
   },
   "side_panel": {
-    "default_path": "sidepanel-menu.html"
+    "default_path": "sidepanel-global.html"
   },
-  "permissions": ["sidePanel", "activeTab", "contextMenus"],
+  "permissions": ["sidePanel", "contextMenus"],
   "commands": {
     "open_side_panel": {
       "suggested_key": {
         "default": "Ctrl+Shift+Y",
         "mac": "Command+Shift+Y"
       },
-      "description": "Opens the side panel"
+      "description": "Opens the tab-specific side panel"
     }
   },
   "icons": {
