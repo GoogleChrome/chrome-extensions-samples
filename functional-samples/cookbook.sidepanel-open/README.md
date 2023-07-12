@@ -1,6 +1,6 @@
 # Site-specific side panel example
 
-This example demonstrates using [`chrome.sidePanel.open()`](https://developer.chrome.com/docs/extensions/reference/sidePanel/#method-open) to open a global side panel across all tabs via a context menu and a tab-specific side panel using a keyboard shortcut in the current tab.
+This example demonstrates using [`chrome.sidePanel.open()`](https://developer.chrome.com/docs/extensions/reference/sidePanel/#method-open) to open a global side panel across all tabs via a context menu and a tab-specific side panel using a keyboard shortcut in the current tab. This feature will be released on Chrome 116.
 
 ## Running this extension
 
