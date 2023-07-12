@@ -10,6 +10,7 @@
     "default_path": "sidepanel-global.html"
   },
   "permissions": ["sidePanel", "contextMenus"],
+  "minimum_chrome_version": "116",
   "commands": {
     "open_side_panel": {
       "suggested_key": {
