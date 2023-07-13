@@ -4,11 +4,6 @@ const [tab] = await chrome.tabs.query({
   lastFocusedWindow: true
 });
 
-// tab is undefined if no tabs match
-if (tab === undefined) {
-  throw new Error('No active tab returned from query.');
-}
-
 const tabId = tab.id;
 const button = document.getElementById('openSidePanel');
 button.addEventListener('click', async () => {
