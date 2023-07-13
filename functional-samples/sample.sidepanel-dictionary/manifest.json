@@ -13,8 +13,5 @@
   "side_panel": {
     "default_path": "sidepanel.html"
   },
-  "permissions": [
-    "sidePanel",
-    "contextMenus"
-  ]
+  "permissions": ["sidePanel", "contextMenus"]
 }
