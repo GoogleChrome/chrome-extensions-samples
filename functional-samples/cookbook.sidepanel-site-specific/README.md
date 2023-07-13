@@ -1,13 +1,6 @@
-# Open the side panel with user interactions
+# Site-specific side panel example
 
-This example demonstrates how to display the side panel when the user does any of the following:
-
-<!-- TODO: Add links -->
-
-- Use a context menu
-- Use the omnibox
-- Click on the [action icon](https://developer.chrome.com/docs/extensions/reference/action/)
-- Press a shortcut
+This example demonstrates how to display the side panel only on google.com using the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/). It also allows users to open the side panel by clicking on the [action icon](https://developer.chrome.com/docs/extensions/reference/action/) or a keyboard shortcut.
 
 ## Running this extension
 
@@ -16,3 +9,7 @@ This example demonstrates how to display the side panel when the user does any o
 3. [Pin](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#pin) the extension.
 4. Go to https://www.google.com.
 5. Click on the action icon to open the side panel.
+
+💡 You can also open the side panel by pressing `Ctrl+B` (Windows) or `Cmd+B` (macOS).
+
+<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/3vhkSp1cBQOydpYZoRbD.png?auto=format&w=700" alt="Google.com side panel">
