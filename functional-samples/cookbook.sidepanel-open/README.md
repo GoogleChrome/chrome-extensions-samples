@@ -1,6 +1,6 @@
-# Site-specific side panel example
+# Opening the side panel through a user interaction
 
-This example demonstrates using [`chrome.sidePanel.open()`](https://developer.chrome.com/docs/extensions/reference/sidePanel/#method-open) to open a global side panel across all tabs using a context menu and a tab-specific side panel by clicking a button in an extension page or a button injected by a content script. This feature will be available on Chrome 116.
+This example demonstrates using [`chrome.sidePanel.open()`](https://developer.chrome.com/docs/extensions/reference/sidePanel/#method-open) to open a global side panel through a context menu click and a tab-specific side panel by clicking a button in an extension page or a button injected by a content script. This feature will be available on Chrome 116.
 
 ## Running this extension
 
