@@ -1,4 +1,4 @@
-# chrome.browsingData
+# chrome.alarms
 
 This sample demonstrates the `chrome.alarms` API by allowing the user to set alarms using an extension page.
 
