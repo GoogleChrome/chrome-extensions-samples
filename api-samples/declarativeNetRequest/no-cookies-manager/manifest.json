@@ -15,5 +15,9 @@
     "declarativeNetRequest",
     "declarativeNetRequestFeedback",
     "activeTab"
-  ]
+  ],
+  "options_ui": {
+    "page": "manager.html",
+    "open_in_tab": true
+  }
 }
