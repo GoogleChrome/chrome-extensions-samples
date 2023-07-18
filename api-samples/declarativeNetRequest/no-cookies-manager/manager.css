@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+#rulesList {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rule-item {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    position: relative;
+}
+
+.rule-id {
+    width: 4em;
+}
+
+.condition-value {
+    width: 50em;
+    max-width: calc(100vw - 26px);
+}
+
+.actions {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
