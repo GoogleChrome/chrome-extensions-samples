@@ -11,7 +11,7 @@ This example demonstrates using [`chrome.sidePanel.open()`](https://developer.ch
 
 1. Navigate to any page, like [example.com](http://example.com/).
 2. Right-click on any word.
-3. Choose the context menu "Open side panel"
+3. Choose the context menu "Open side panel".
 
 ### Test in an extension page
 
@@ -21,5 +21,5 @@ This example demonstrates using [`chrome.sidePanel.open()`](https://developer.ch
 ### Test by clicking on an injected element
 
 1. Navigate to [google.com](http://www.google.com/).
-2. Scroll to the very bottom of the page
+2. Scroll to the very bottom of the page.
 3. Click on the "Open side panel" button.
