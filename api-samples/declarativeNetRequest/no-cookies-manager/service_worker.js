@@ -32,19 +32,13 @@ chrome.runtime.onInstalled.addListener(async function () {
           ]
         },
         condition: {
-          regexFilter: '.*.google.com',
+          regexFilter: '.*\\.google\\.com',
           resourceTypes: ['main_frame', 'xmlhttprequest']
         }
       }
     ]
   });
 });
-
-chrome.action.onClicked.addListener(openManagerTab);
-
-function openManagerTab() {
-  chrome.tabs.create({ url: 'manager.html' });
-}
 
 chrome.declarativeNetRequest.setExtensionActionOptions({
   displayActionCountAsBadgeText: true
