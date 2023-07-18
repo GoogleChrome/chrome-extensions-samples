@@ -1,0 +1,19 @@
+# chrome.declarativeNetRequest - No Cookies
+
+This sample demonstrates using the [`chrome.declarativeNetRequest`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/) API to remove the "Cookie" header from requests matching custom url filters.
+
+## Overview
+
+Once this extension is installed, there will be two default rules:
+
+1. Any main frame or XHR requests ending with `?nocookies=1` will have their cookies removed (URL Filter).
+
+2. Any main frame or XHR requests matching `.*\.google\.com` will have their cookies removed (Regex Filter).
+
+For example, install this extension and try navigating to <https://github.com/GoogleChrome/chrome-extensions-samples?no-cookies=1> or <https://www.google.com> You should appear signed out. The number of requests modified by this extension will be displayed on the extension's badge.
+
+You can edit these rules by clicking on the extension's icon in the toolbar.
+
+## Implementation Notes
+
+[`chrome.declarativeNetRequest.setExtensionActionOptions`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#method-setExtensionActionOptions) is used to set the extension's badge text to the number of requests modified by the extension.
