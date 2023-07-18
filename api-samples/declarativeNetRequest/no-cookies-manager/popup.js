@@ -7,7 +7,6 @@ const matchedRulesList = document.getElementById('matchedRulesList');
 async function init() {
   const tabId = (await chrome.tabs.query({ active: true }))[0].id;
   const result = await chrome.declarativeNetRequest.getMatchedRules({ tabId });
-  console.log(result.rulesMatchedInfo);
   if (result.rulesMatchedInfo.length === 0) {
     document.querySelector('.tips').style.display = 'block';
     return;
