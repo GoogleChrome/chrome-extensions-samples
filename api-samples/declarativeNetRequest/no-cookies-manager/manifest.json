@@ -7,8 +7,13 @@
     "service_worker": "service_worker.js"
   },
   "action": {
-    "default_title": "no-cookies Rule Manager"
+    "default_title": "no-cookies Rule Manager",
+    "default_popup": "popup.html"
   },
   "host_permissions": ["<all_urls>"],
-  "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"]
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "activeTab"
+  ]
 }
