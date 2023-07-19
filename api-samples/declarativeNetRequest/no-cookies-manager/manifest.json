@@ -11,11 +11,7 @@
     "default_popup": "popup.html"
   },
   "host_permissions": ["<all_urls>"],
-  "permissions": [
-    "declarativeNetRequest",
-    "declarativeNetRequestFeedback",
-    "activeTab"
-  ],
+  "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback"],
   "options_ui": {
     "page": "manager.html",
     "open_in_tab": true
