@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Tabs Inspector</title>
+    <link rel="stylesheet" href="./tabs_api.css" />
   </head>
 
   <body>
@@ -9,25 +10,18 @@
       <!-- WindowItems Here -->
     </div>
     <template id="windowItem">
-      <div
-        style="
-          background-color: #aaeeee;
-          margin: 4px;
-          padding: 8px;
-          margin: 20px;
-        "
-      >
-        <div style="font-style: italic; width: 80px; display: inline-block">
+      <div class="window-item">
+        <div class="window-id-wrapper">
           Window: <span class="window_id"></span>
         </div>
-        <div style="display: inline-block">
+        <div class="window-status-wrapper">
           left:
-          <input style="width: 60px" type="text" class="window_left" /> top:
-          <input style="width: 60px" type="text" class="window_top" /> width:
-          <input style="width: 60px" type="text" class="window_width" /> height:
-          <input style="width: 60px" type="text" class="window_height" />
-          <input type="checkbox" class="window_focused" /> Focused
-          <input type="checkbox" class="window_current" /> Current
+          <input class="window_left" type="text" /> top:
+          <input class="window_top" type="text" /> width:
+          <input class="window_width" type="text" /> height:
+          <input class="window_height" type="text" />
+          <input class="window_focused" type="checkbox" /> Focused
+          <input class="window_current" type="checkbox" /> Current
           <button class="window_refresh">Refresh</button>
         </div>
         <div id="tabList">
@@ -41,29 +35,26 @@
       </div>
     </template>
     <template id="tabItem">
-      <div style="background-color: #eeeeee; margin: 8px; padding: 4px">
-        <div style="margin: 8px">
-          <div
-            style="font-style: italic; width: 80px; display: inline-block"
-            class="tab_id"
-          ></div>
-          <div style="display: inline-block">
+      <div class="tab-item">
+        <div class="wrapper">
+          <div class="tab_id"></div>
+          <div class="tab-actions-wrapper">
             index:
-            <input style="width: 20px" type="text" class="tab_index" />
+            <input type="text" class="tab_index" />
             windowId:
-            <input style="width: 80px" type="text" class="tab_window_id" />
+            <input type="text" class="tab_window_id" />
             <button class="move_tab_button">Move</button>
             <button class="refresh_tab_button">Refresh</button>
           </div>
         </div>
-        <div style="margin: 8px">
+        <div class="wrapper">
           <div>
-            <div style="width: 40px; display: inline-block">title:</div>
-            <input style="width: 90%" type="text" class="tab_title" />
+            <div class="label">title:</div>
+            <input type="text" class="tab_title" />
           </div>
           <div>
-            <div style="width: 40px; display: inline-block">url:</div>
-            <input style="width: 90%" type="text" class="tab_url" />
+            <div class="label">url:</div>
+            <input type="text" class="tab_url" />
           </div>
           <div><input type="checkbox" class="tab_selected" /> Selected</div>
         </div>
@@ -71,52 +62,49 @@
         <button class="remove_tab_button">Close Tab</button>
       </div>
     </template>
-    <div style="background-color: #eeeebb; margin: 20px; padding: 8px">
-      <h3 style="text-align: center; margin: 8px">Create Window</h3>
-      <div style="margin: 8px">
-        <div style="width: 300px; display: inline-block">
+    <div class="new-window-wrapper">
+      <h3>Create Window</h3>
+      <div class="wrapper">
+        <div class="new-window-status-wrapper">
           left:
-          <input style="width: 20px" type="text" id="new_window_left" /> top:
-          <input style="width: 20px" type="text" id="new_window_top" /> width:
-          <input style="width: 20px" type="text" id="new_window_width" />
+          <input type="text" id="new_window_left" /> top:
+          <input type="text" id="new_window_top" /> width:
+          <input type="text" id="new_window_width" />
           height:
-          <input style="width: 20px" type="text" id="new_window_height" />
+          <input type="text" id="new_window_height" />
         </div>
       </div>
-      <div style="margin: 8px">
+      <div class="wrapper">
         <div>
-          <div style="width: 40px; display: inline-block">url:</div>
-          <input style="width: 90%" type="text" id="new_window_url" />
+          <div class="label">url:</div>
+          <input type="text" id="new_window_url" />
         </div>
       </div>
       <button id="create_window_button">Create</button>
     </div>
-    <div style="background-color: #eeeeaa; margin: 20px; padding: 8px">
-      <h3 style="text-align: center; margin: 8px">Create Tab</h3>
-      <div style="margin: 8px">
+    <div class="new-tab-wrapper">
+      <h3>Create Tab</h3>
+      <div class="wrapper">
         <div>
-          <div style="width: 40px; display: inline-block">title:</div>
-          <input style="width: 90%" type="text" id="title_new" />
+          <div class="label">title:</div>
+          <input type="text" id="title_new" />
         </div>
         <div>
-          <div style="width: 40px; display: inline-block">url:</div>
-          <input style="width: 90%" type="text" id="url_new" />
+          <div class="label">url:</div>
+          <input type="text" id="url_new" />
         </div>
         <div><input type="checkbox" id="selected_new" /> Selected</div>
       </div>
       <button id="create_tab_button">Create</button>
     </div>
-    <div style="margin: 20px">
+    <div class="actions-wrapper">
       <button class="load_window_list_button">Refresh</button>
       <button class="update_all_button">Update All</button>
       <button class="move_all_button">Move All</button>
       <button class="clear_log_button">-->Clear Log</button>
       <button class="new_window_button">New Window</button>
     </div>
-    <div
-      id="log"
-      style="background-color: #eeaaee; margin: 20px; padding: 8px"
-    ></div>
+    <div id="log"></div>
     <script src="tabs_api.js"></script>
   </body>
 </html>
