@@ -10,7 +10,7 @@ In this sample, a new keyboard shortcut (Alt + Shift + P) is enabled to pin the 
 
 [`chrome.commands.onCommand`](https://developer.chrome.com/docs/extensions/reference/commands/#event-onCommand) will be fired when the user presses a registered keyboard shortcut.
 
-[`chrome.tabs.update`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-update) is used to pin the current tab.
+[`chrome.tabs.update()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-update) is used to pin the current tab.
 
 ## Running this extension
 
