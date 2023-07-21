@@ -8,7 +8,7 @@ In this sample, the zoom related [`chrome.tabs`](https://developer.chrome.com/do
 
 ## Implementation Notes
 
-- The [`chrome.tabs.getZoom`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoom) method is used to get the current zoom level of the tab.
+- The [`chrome.tabs.getZoom()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoom) method is used to get the current zoom level of the tab.
 - The [`chrome.tabs.setZoom`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoom) method is used to set the zoom level of the tab.
 - The [`chrome.tabs.setZoomSettings`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoomSettings) method is used to set the zoom settings of the tab.
 - The [`chrome.tabs.getZoomSettings`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoomSettings) method is used to get the zoom settings of the tab.
