@@ -4,7 +4,7 @@ A sample that demonstrates how to use the [`chrome.tabs`](https://developer.chro
 
 ## Overview
 
-In the sample, a simple tab inspector is implemented to manipulate the tabs and windows.
+In the sample, a simple tab inspector manipulates the tabs and windows.
 
 ## Running this extension
 
