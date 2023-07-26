@@ -49,7 +49,7 @@ interface SampleItem {
   permissions: string[];
 }
 
-// the type of extension-samples.json file is ISampleItem[]
+// the type of extension-samples.json file is SampleItem[]
 ```
 
 ## Example
