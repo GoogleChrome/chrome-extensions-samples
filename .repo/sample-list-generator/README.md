@@ -54,9 +54,9 @@ interface SampleItem {
 
 ## Example
 
-```json
-// extension-samples.json
+Here is an example of the generated `extension-samples.json` file:
 
+```json
 [
   {
     "type": "API_SAMPLE",
