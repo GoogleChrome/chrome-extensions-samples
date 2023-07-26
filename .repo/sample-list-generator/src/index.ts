@@ -10,8 +10,6 @@ const start = async () => {
     path.join(__dirname, '../extension-samples.json'),
     JSON.stringify(samples, null, 2)
   );
-
-  console.log('Done!');
 };
 
 start();
