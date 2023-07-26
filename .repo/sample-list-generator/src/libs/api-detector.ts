@@ -114,10 +114,10 @@ export function getApiItem(parts: string[]): ApiItem {
 }
 
 function uniqueItems(array: ApiItemWithType[]) {
-  const tmp = new Map();
+  const tmp = new Set<string>();
   return array.filter((item) => {
     const fullApiString = `${item.namespace}.${item.propertyName}`;
-    return !tmp.has(fullApiString) && tmp.set(fullApiString, 1);
+    return !tmp.has(fullApiString) && tmp.add(fullApiString);
   });
 }
 
