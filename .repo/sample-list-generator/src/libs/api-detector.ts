@@ -12,6 +12,15 @@ import { loadExtensionApis } from './api-loader';
 
 let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
 
+/**
+ * Gets the type of an api call.
+ * @param namespace - The namespace of the api call.
+ * @param propertyName - The property name of the api call.
+ * @returns The type of the api call.
+ * @example
+ * getApiType('tabs', 'query')
+ * // returns 'method'
+ */
 export const getApiType = (
   namespace: string,
   propertyName: string
@@ -37,6 +46,11 @@ export const getApiType = (
   return 'unknown';
 };
 
+/**
+ * Gets all the api calls in a sample.
+ * @param sampleFolderPath - The path to the sample folder.
+ * @returns A promise that resolves to an array of apis the sample uses.
+ */
 export const getApiListForSample = async (
   sampleFolderPath: string
 ): Promise<ApiItemWithType[]> => {
@@ -57,6 +71,14 @@ export const getApiListForSample = async (
   return uniqueItems(calls);
 };
 
+/**
+ * Gets the complete API call for the member expression.
+ * @param path - The path to the MemberExpression node.
+ * @returns The full member expression.
+ * @example
+ * getFullMemberExpression(path.node)
+ * // returns ['chrome', 'tabs', 'query']
+ */
 export function getFullMemberExpression(
   path: babel.NodePath<babel.types.MemberExpression>
 ): string[] {
@@ -90,6 +112,16 @@ export function getFullMemberExpression(
   return result;
 }
 
+/**
+ * Gets the namespace and property name of an api call.
+ * @param parts - The parts of the api call.
+ * @returns The namespace and property name of the api call.
+ * @example
+ * getApiItem(['chrome', 'tabs', 'query'])
+ * // returns { namespace: 'tabs', propertyName: 'query' }
+ * getApiItem(['chrome', 'devtools', 'inspectedWindow', 'eval'])
+ * // returns { namespace: 'devtools.inspectedWindow', propertyName: 'eval' }
+ */
 export function getApiItem(parts: string[]): ApiItem {
   let namespace = '';
   let propertyName = '';
@@ -108,6 +140,10 @@ export function getApiItem(parts: string[]): ApiItem {
   return { namespace, propertyName };
 }
 
+/**
+ * Filters an array of ApiItemWithType to remove duplicates.
+ * @param array - The array of ApiItemWithType to filter.
+ */
 function uniqueItems(array: ApiItemWithType[]) {
   const tmp = new Set<string>();
   return array.filter((item) => {
@@ -116,6 +152,14 @@ function uniqueItems(array: ApiItemWithType[]) {
   });
 }
 
+/**
+ * Extracts all chrome and browser api calls from a file.
+ * @param file - The file to extract api calls from.
+ * @returns A promise that resolves to an array of ApiItemWithType.
+ * @example
+ * extractApiCalls(Buffer.from('chrome.tabs.query({})'))
+ * // returns [{ type: 'method', namespace: 'tabs', propertyName: 'query' }]
+ */
 export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
   return new Promise((resolve, reject) => {
     const calls: ApiItemWithType[] = [];
