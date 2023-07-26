@@ -49,8 +49,8 @@ export const getApiListForSample = async (
 
   await Promise.all(
     jsFiles.map(async (file) => {
-      const _calls = await extractApiCalls(await fs.readFile(file));
-      calls.push(..._calls);
+      const callsFromFile = await extractApiCalls(await fs.readFile(file));
+      calls.push(...callsFromFile);
     })
   );
 
