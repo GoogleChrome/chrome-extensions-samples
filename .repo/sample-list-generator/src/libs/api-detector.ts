@@ -102,6 +102,9 @@ export function getApiItem(parts: string[]): ApiItem {
   let namespace = '';
   let propertyName = '';
 
+  // For some apis like `chrome.devtools.inspectedWindow.eval`,
+  // the namespace is actually `devtools.inspectedWindow`.
+  // So we need to check if the first two parts combined is a valid namespace.
   if (EXTENSION_API_MAP[`${parts[0]}.${parts[1]}`]) {
     namespace = `${parts[0]}.${parts[1]}`;
     propertyName = parts[2];
