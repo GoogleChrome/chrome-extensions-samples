@@ -193,7 +193,7 @@ describe('API Detector', function () {
       apiItem = getApiItem(['storage', 'sync', 'onChanged']);
       assert.deepEqual(apiItem, {
         namespace: 'storage',
-        propertyName: 'onChanged'
+        propertyName: 'sync'
       });
 
       apiItem = getApiItem(['storage', 'onChanged']);
