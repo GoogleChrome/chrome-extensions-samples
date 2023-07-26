@@ -47,11 +47,12 @@ export const getApiListForSample = async (
 
   const calls: ApiItemWithType[] = [];
 
-  const parallelHandler = jsFiles.map(async (file) => {
-    const _calls = await extractApiCalls(await fs.readFile(file));
-    calls.push(..._calls);
-  });
-  await Promise.all(parallelHandler);
+  await Promise.all(
+    jsFiles.map(async (file) => {
+      const _calls = await extractApiCalls(await fs.readFile(file));
+      calls.push(..._calls);
+    })
+  );
 
   return uniqueItems(calls);
 };
