@@ -18,4 +18,4 @@ In this sample, the zoom related [`chrome.tabs`](https://developer.chrome.com/do
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-3. Open any website in a new tab, such as <https://google.com>, and then click on the extension icon to open the popup.
+3. Open any website, such as `https://google.com` in a new tab, and then click the extension icon to open the popup.
