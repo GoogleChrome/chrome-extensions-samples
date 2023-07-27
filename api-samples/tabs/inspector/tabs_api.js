@@ -24,9 +24,6 @@ async function loadWindowList() {
   tabs = {};
   tabIds = [];
   for (let window of windowList) {
-    window.current = window.id == currentWindowId;
-    window.focused = window.id == focusedWindowId;
-
     for (let tab of window.tabs) {
       tabIds.push(tabIds);
       tabs[tab.id] = tab;
@@ -58,8 +55,10 @@ function renderWindow(window, windowItem) {
   windowItem.querySelector('.window_top').value = window.top;
   windowItem.querySelector('.window_width').value = window.width;
   windowItem.querySelector('.window_height').value = window.height;
-  windowItem.querySelector('.window_focused').checked = window.focused;
-  windowItem.querySelector('.window_current').checked = window.current;
+  windowItem.querySelector('.window_focused').checked =
+    window.id == focusedWindowId;
+  windowItem.querySelector('.window_current').checked =
+    window.id == currentWindowId;
 
   windowItem.querySelector('#tabList').innerHTML = '';
   for (let tab of window.tabs) {
@@ -153,20 +152,19 @@ function moveTab(id) {
   chrome.tabs.move(id, moveTabData(id)).catch(alert);
 }
 
-function createTabData(id) {
+function createTabData() {
   return {
-    index: parseInt(document.getElementById('index_' + id).value),
-    windowId: parseInt(document.getElementById('windowId_' + id).value),
-    url: document.getElementById('url_' + id).value,
-    active: document.getElementById('active_' + id).value ? true : false
+    windowId: parseInt(document.getElementById('window_id_new').value),
+    url: document.getElementById('url_new').value,
+    active: document.getElementById('active_new').checked
   };
 }
 
 function createTab() {
-  const args = createTabData('new');
+  const args = createTabData();
 
   if (!isInt(args.windowId)) delete args.windowId;
-  if (!isInt(args.index)) delete args.index;
+  if (!args.url) delete args.url;
 
   chrome.tabs.create(args).catch(alert);
 }
@@ -351,7 +349,6 @@ async function refreshWindow(windowId) {
   const output = document.getElementById('window_' + window.id);
   if (!output) return;
   renderWindow(window, output);
-  console.log(1);
 }
 
 function updateWindowData(id) {
