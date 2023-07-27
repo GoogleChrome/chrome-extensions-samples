@@ -38,7 +38,7 @@ async function loadWindowList() {
 
   for (let window of windowList) {
     const windowItem = document.importNode(windowTemplate, true);
-    renderWindow(window, windowItem.children[0]);
+    renderWindow(window, windowItem);
 
     output.appendChild(windowItem);
   }
@@ -85,7 +85,7 @@ function renderWindow(window, windowItem) {
   windowItem.querySelector('#tabList').innerHTML = '';
   for (let tab of window.tabs) {
     const tabItem = document.importNode(tabTemplate, true);
-    renderTab(tab, tabItem.children[0]);
+    renderTab(tab, tabItem);
     windowItem.querySelector('#tabList').appendChild(tabItem);
   }
 }
