@@ -7,7 +7,7 @@ import {
 import * as babel from '@babel/core';
 import { isIdentifier } from '@babel/types';
 import fs from 'fs/promises';
-import { getAllFiles } from '../utils/filesystem';
+import { getAllJsFiles } from '../utils/filesystem';
 import { loadExtensionApis } from './api-loader';
 
 let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
@@ -55,9 +55,7 @@ export const getApiListForSample = async (
   sampleFolderPath: string
 ): Promise<ApiItemWithType[]> => {
   // get all js files in the folder
-  const jsFiles = (await getAllFiles(sampleFolderPath)).filter((file) =>
-    file.endsWith('.js')
-  );
+  const jsFiles = await getAllJsFiles(sampleFolderPath);
 
   const calls: ApiItemWithType[] = [];
 

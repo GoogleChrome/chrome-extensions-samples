@@ -19,6 +19,13 @@ export const getAllFiles = async (dir: string): Promise<string[]> => {
   return result;
 };
 
+export const getAllJsFiles = async (dir: string): Promise<string[]> => {
+  const allFiles = await getAllFiles(dir);
+  return allFiles.filter((file) =>
+    file.endsWith('.js')
+  );
+}
+
 export const isFileExists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath);
