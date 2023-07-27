@@ -14,8 +14,7 @@ describe('API Detector', function () {
 
   describe('extractApiCalls()', function () {
     it('should return correct api list for sample file (normal)', async function () {
-      const file = Buffer.from(
-        `
+      const file = `
         let a = 1;
         let b = chrome.action.getBadgeText();
         let c = chrome.action.setBadgeText(a);
@@ -25,9 +24,7 @@ describe('API Detector', function () {
         });
 
         alert(chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT)
-      `,
-        'utf8'
-      );
+      `;
       const result = await extractApiCalls(file);
       assert.deepEqual(result, [
         {
@@ -54,16 +51,13 @@ describe('API Detector', function () {
     });
 
     it('should return correct api list for sample file (storage)', async function () {
-      const file = Buffer.from(
-        `
+      const file = `
         let b = await chrome.storage.local.get();
         let c = await chrome.storage.sync.get();
         let d = await chrome.storage.managed.get();
         let e = await chrome.storage.session.get();
         let f = await chrome.storage.onChanged.addListener();
-      `,
-        'utf8'
-      );
+      `;
       const result = await extractApiCalls(file);
       assert.deepEqual(result, [
         {
@@ -95,14 +89,11 @@ describe('API Detector', function () {
     });
 
     it('should return correct api list for sample file (async)', async function () {
-      const file = Buffer.from(
-        `
+      const file = `
         let a = 1;
         let b = await chrome.action.getBadgeText();
         await chrome.action.setBadgeText(a);
-      `,
-        'utf8'
-      );
+      `;
       const result = await extractApiCalls(file);
       assert.deepEqual(result, [
         {
@@ -119,8 +110,7 @@ describe('API Detector', function () {
     });
 
     it('should return correct api list for sample file (special case)', async function () {
-      const file = Buffer.from(
-        `
+      const file = `
         let a = 1;
         let b = await chrome.system.cpu.getInfo();
         chrome.devtools.network.onRequestFinished.addListener(
@@ -132,9 +122,7 @@ describe('API Detector', function () {
             }
           }
         );
-      `,
-        'utf8'
-      );
+      `;
 
       const result = await extractApiCalls(file);
       assert.deepEqual(result, [
