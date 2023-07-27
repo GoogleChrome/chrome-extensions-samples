@@ -29,9 +29,7 @@
         </div>
         <button class="update_window_button">Update Window</button>
         <button class="remove_window_button">Close Window</button>
-        <button class="refresh_selected_tab_button">
-          Refresh Selected Tab
-        </button>
+        <button class="refresh_active_tab_button">Refresh Active Tab</button>
       </div>
     </template>
     <template id="tabItem">
@@ -56,7 +54,9 @@
             <div class="label">url:</div>
             <input type="text" class="tab_url" />
           </div>
-          <div><input type="checkbox" class="tab_selected" /> Selected</div>
+          <div>
+            <input type="checkbox" class="tab_active" disabled /> Active
+          </div>
         </div>
         <button class="update_tab_button">Update Tab</button>
         <button class="remove_tab_button">Close Tab</button>

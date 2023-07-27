@@ -77,9 +77,9 @@ function renderWindow(window, windowItem) {
     });
 
   windowItem
-    .querySelector('.refresh_selected_tab_button')
+    .querySelector('.refresh_active_tab_button')
     .addEventListener('click', () => {
-      refreshSelectedTab(window.id);
+      refreshActiveTab(window.id);
     });
 
   windowItem.querySelector('#tabList').innerHTML = '';
@@ -96,14 +96,14 @@ function renderTab(tab, tabItem) {
   tabItem.querySelector('.tab_window_id').id = `windowId_${tab.id}`;
   tabItem.querySelector('.tab_title').id = `title_${tab.id}`;
   tabItem.querySelector('.tab_url').id = `url_${tab.id}`;
-  tabItem.querySelector('.tab_selected').id = `selected_${tab.id}`;
+  tabItem.querySelector('.tab_active').id = `active_${tab.id}`;
 
   tabItem.querySelector('.tab_id').innerText = `TabId: ${tab.id}`;
   tabItem.querySelector('.tab_index').value = tab.index;
   tabItem.querySelector('.tab_window_id').value = tab.windowId;
   tabItem.querySelector('.tab_title').value = tab.title;
   tabItem.querySelector('.tab_url').value = tab.url;
-  tabItem.querySelector('.tab_selected').checked = tab.selected;
+  tabItem.querySelector('.tab_active').checked = tab.active;
 
   tabItem.querySelector('.move_tab_button').addEventListener('click', () => {
     moveTab(tab.id);
@@ -122,7 +122,7 @@ function renderTab(tab, tabItem) {
 function updateTabData(id) {
   const retval = {
     url: document.getElementById('url_' + id).value,
-    selected: document.getElementById('selected_' + id).value ? true : false
+    active: document.getElementById('active_' + id).value ? true : false
   };
 
   return retval;
@@ -152,7 +152,7 @@ function createTabData(id) {
     index: parseInt(document.getElementById('index_' + id).value),
     windowId: parseInt(document.getElementById('windowId_' + id).value),
     url: document.getElementById('url_' + id).value,
-    selected: document.getElementById('selected_' + id).value ? true : false
+    active: document.getElementById('active_' + id).value ? true : false
   };
 }
 
@@ -370,13 +370,13 @@ function removeWindow(windowId) {
     .catch(alert);
 }
 
-async function refreshSelectedTab(windowId) {
-  const tabs = await chrome.tabs.query({ active: true, windowId: windowId });
+async function refreshActiveTab(windowId) {
+  const tabs = await chrome.tabs.query({ active: true, windowId });
   const output = document.getElementById('tab_' + tabs[0].id);
   if (!output) return;
   renderTab(tabs[0], output);
   appendToLog(
-    'selected tab refreshed -- tabId: ' + tabs[0].id + ' url:' + tabs[0].url
+    'Active tab refreshed -- tabId: ' + tabs[0].id + ' url:' + tabs[0].url
   );
 }
 
