@@ -23,13 +23,13 @@ async function loadWindowList() {
   const windowList = await chrome.windows.getAll({ populate: true });
   tabs = {};
   tabIds = [];
-  for (let i = 0; i < windowList.length; i++) {
-    windowList[i].current = windowList[i].id == currentWindowId;
-    windowList[i].focused = windowList[i].id == focusedWindowId;
+  for (let window of windowList) {
+    window.current = window.id == currentWindowId;
+    window.focused = window.id == focusedWindowId;
 
-    for (let j = 0; j < windowList[i].tabs.length; j++) {
-      tabIds[tabIds.length] = windowList[i].tabs[j].id;
-      tabs[windowList[i].tabs[j].id] = windowList[i].tabs[j];
+    for (let tab of window.tabs) {
+      tabIds.push(tabIds);
+      tabs[tab.id] = tab;
     }
   }
 
