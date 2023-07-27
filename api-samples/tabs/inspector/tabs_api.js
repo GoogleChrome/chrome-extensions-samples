@@ -37,7 +37,7 @@ async function loadWindowList() {
   output.innerHTML = '';
 
   for (let window of windowList) {
-    const windowItem = document.importNode(windowTemplate, true);
+    const windowItem = document.importNode(windowTemplate, true).children[0];
     renderWindow(window, windowItem);
     registerWindowEvents(window, windowItem);
 
@@ -63,7 +63,7 @@ function renderWindow(window, windowItem) {
 
   windowItem.querySelector('#tabList').innerHTML = '';
   for (let tab of window.tabs) {
-    const tabItem = document.importNode(tabTemplate, true);
+    const tabItem = document.importNode(tabTemplate, true).children[0];
     renderTab(tab, tabItem);
     registerTabEvents(tab, tabItem);
     windowItem.querySelector('#tabList').appendChild(tabItem);
@@ -220,6 +220,11 @@ chrome.windows.onCreated.addListener(function (createInfo) {
   loadWindowList();
 });
 
+chrome.windows.onBoundsChanged.addListener(function (window) {
+  appendToLog('windows.onBoundsChanged -- window: ' + window.id);
+  refreshWindow(window.id);
+});
+
 chrome.windows.onFocusChanged.addListener(function (windowId) {
   focusedWindowId = windowId;
   appendToLog('windows.onFocusChanged -- window: ' + windowId);
@@ -341,11 +346,12 @@ document
 
 async function refreshWindow(windowId) {
   const window = await chrome.windows.get(windowId);
-  const tabList = await chrome.tabs.query({ windowId: windowId });
+  const tabList = await chrome.tabs.query({ windowId });
   window.tabs = tabList;
   const output = document.getElementById('window_' + window.id);
   if (!output) return;
   renderWindow(window, output);
+  console.log(1);
 }
 
 function updateWindowData(id) {
