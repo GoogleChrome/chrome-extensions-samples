@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import { AVAILABLE_FOLDERS, REPO_BASE_URL } from '../constants';
 import { getApiListForSample } from './api-detector';
 import type { AvailableFolderItem, SampleItem } from '../types';
-import { getBasePath, isFileExists } from '../utils/filesystem';
+import { getBasePath, isDirectory, isFileExists } from '../utils/filesystem';
 import { getManifest } from '../utils/manifest';
 
 export const getAllSamples = async () => {
@@ -36,7 +36,7 @@ const getSamples = async (
     const currentPath = path.join(basePath, currentRootFolderPath, content);
 
     // if content is not a folder, skip
-    if (!(await fs.stat(currentPath)).isDirectory()) {
+    if (!(await isDirectory(currentPath))) {
       continue;
     }
 

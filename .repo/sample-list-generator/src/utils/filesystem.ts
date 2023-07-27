@@ -26,6 +26,10 @@ export const getAllJsFiles = async (dir: string): Promise<string[]> => {
   );
 }
 
+export const isDirectory = async (path: string): Promise<boolean> => {
+  return (await fs.stat(path)).isDirectory()
+}
+
 export const isFileExists = async (filePath: string): Promise<boolean> => {
   try {
     await fs.access(filePath);
