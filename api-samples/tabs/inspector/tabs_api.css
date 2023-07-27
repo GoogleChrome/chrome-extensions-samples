@@ -56,15 +56,19 @@
     padding: 8px;
 }
 
+.input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
 .label {
-    width: 40px;
     display: inline-block;
 }
 
 .tab_title,
 .tab_url,
 #new_window_url,
-#title_new,
+#window_id_new,
 #url_new {
     width: 90%;
 }
@@ -86,15 +90,18 @@ h3 {
     margin: 8px;
 }
 
+.window_left,
+.window_top,
+.window_width,
+.window_height,
 #new_window_left,
 #new_window_top,
 #new_window_width,
 #new_window_height {
-    width: 20px;
+    width: 50px;
 }
 
 .new-window-status-wrapper {
-    width: 300px;
     display: inline-block;
 }
 
