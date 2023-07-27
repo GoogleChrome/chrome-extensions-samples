@@ -28,6 +28,12 @@ npm run prepare-chrome-types
 npm start
 ```
 
+### Run the tests
+
+```bash
+npm test
+```
+
 ## Types
 
 ```ts
