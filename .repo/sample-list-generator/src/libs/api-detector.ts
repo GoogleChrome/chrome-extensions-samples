@@ -60,7 +60,7 @@ export const getApiListForSample = async (
 
   await Promise.all(
     jsFiles.map(async (file) => {
-      const callsFromFile = await extractApiCalls(await fs.readFile(file));
+      const callsFromFile = await extractApiCalls((await fs.readFile(file)).toString('utf-8'));
       calls.push(...callsFromFile);
     })
   );
@@ -151,18 +151,18 @@ function uniqueItems(array: ApiItemWithType[]) {
 
 /**
  * Extracts all chrome and browser api calls from a file.
- * @param file - The file to extract api calls from.
+ * @param script - The script string to extract api calls from.
  * @returns A promise that resolves to an array of ApiItemWithType.
  * @example
- * extractApiCalls(Buffer.from('chrome.tabs.query({})'))
+ * extractApiCalls('chrome.tabs.query({})')
  * // returns [{ type: 'method', namespace: 'tabs', propertyName: 'query' }]
  */
-export const extractApiCalls = (file: Buffer): Promise<ApiItemWithType[]> => {
+export const extractApiCalls = (script: string): Promise<ApiItemWithType[]> => {
   return new Promise((resolve, reject) => {
     const calls: ApiItemWithType[] = [];
 
     babel.parse(
-      file.toString('utf8'),
+      script,
       { ast: true, compact: false },
       (err, result) => {
         if (err || !result) {
