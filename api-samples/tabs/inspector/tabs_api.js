@@ -39,6 +39,7 @@ async function loadWindowList() {
   for (let window of windowList) {
     const windowItem = document.importNode(windowTemplate, true);
     renderWindow(window, windowItem);
+    registerWindowEvents(window, windowItem);
 
     output.appendChild(windowItem);
   }
@@ -60,6 +61,16 @@ function renderWindow(window, windowItem) {
   windowItem.querySelector('.window_focused').checked = window.focused;
   windowItem.querySelector('.window_current').checked = window.current;
 
+  windowItem.querySelector('#tabList').innerHTML = '';
+  for (let tab of window.tabs) {
+    const tabItem = document.importNode(tabTemplate, true);
+    renderTab(tab, tabItem);
+    registerTabEvents(tab, tabItem);
+    windowItem.querySelector('#tabList').appendChild(tabItem);
+  }
+}
+
+function registerWindowEvents(window, windowItem) {
   windowItem.querySelector('.window_refresh').addEventListener('click', () => {
     refreshWindow(window.id);
   });
@@ -81,13 +92,6 @@ function renderWindow(window, windowItem) {
     .addEventListener('click', () => {
       refreshActiveTab(window.id);
     });
-
-  windowItem.querySelector('#tabList').innerHTML = '';
-  for (let tab of window.tabs) {
-    const tabItem = document.importNode(tabTemplate, true);
-    renderTab(tab, tabItem);
-    windowItem.querySelector('#tabList').appendChild(tabItem);
-  }
 }
 
 function renderTab(tab, tabItem) {
@@ -104,7 +108,9 @@ function renderTab(tab, tabItem) {
   tabItem.querySelector('.tab_title').value = tab.title;
   tabItem.querySelector('.tab_url').value = tab.url;
   tabItem.querySelector('.tab_active').checked = tab.active;
+}
 
+function registerTabEvents(tab, tabItem) {
   tabItem.querySelector('.move_tab_button').addEventListener('click', () => {
     moveTab(tab.id);
   });
