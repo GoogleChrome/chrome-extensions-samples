@@ -27,9 +27,8 @@ export const getApiType = (
 ): ApiTypeResult => {
   namespace = namespace.replace(/_/g, '.');
 
-  if (EXTENSION_API_MAP[namespace]) {
-    const apiTypes = EXTENSION_API_MAP[namespace];
-
+  const apiTypes = EXTENSION_API_MAP[namespace];
+  if (apiTypes) {
     if (apiTypes.methods.includes(propertyName)) {
       return 'method';
     }
