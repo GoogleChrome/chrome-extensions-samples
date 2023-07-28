@@ -28,9 +28,8 @@ function appendRuleItem(
   { id, conditionType, conditionValue, caseSensitive }
 ) {
   // Create a new rule item from the template
-  let ruleItem = ruleItemTemplate.content.cloneNode(true);
+  let ruleItem = ruleItemTemplate.content.cloneNode(true).children[0];
   container.appendChild(ruleItem);
-  ruleItem = container.lastElementChild;
 
   // Set the rule ID
   ruleItem.querySelector('.rule-id').value = id;
