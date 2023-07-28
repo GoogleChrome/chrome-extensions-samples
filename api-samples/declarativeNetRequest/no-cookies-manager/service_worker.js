@@ -1,8 +1,8 @@
 chrome.runtime.onInstalled.addListener(async function () {
   // restore the default rule if the extension is installed or updated
-  const _rules = await chrome.declarativeNetRequest.getDynamicRules();
+  const existingRules = await chrome.declarativeNetRequest.getDynamicRules();
   chrome.declarativeNetRequest.updateDynamicRules({
-    removeRuleIds: _rules.map((rule) => rule.id),
+    removeRuleIds: existingRules.map((rule) => rule.id),
     addRules: [
       {
         id: 1,
