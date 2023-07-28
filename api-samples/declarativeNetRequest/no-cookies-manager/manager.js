@@ -1,6 +1,7 @@
 const ruleItemTemplate = document.getElementById('ruleItemTemplate');
 const rulesList = document.getElementById('rulesList');
 const addRuleButton = document.getElementById('addRuleButton');
+const viewRuleButton = document.getElementById('viewRuleButton');
 
 async function getNextRuleId() {
   const rules = await chrome.declarativeNetRequest.getDynamicRules();
@@ -21,6 +22,15 @@ addRuleButton.addEventListener('click', () => {
     conditionValue: '',
     caseSensitive: true
   });
+});
+
+viewRuleButton.addEventListener('click', async () => {
+  const rules = await chrome.declarativeNetRequest.getDynamicRules();
+  const rulesString = JSON.stringify(rules, null, 2);
+  const newWindow = window.open();
+  newWindow.document.write(
+    `<pre style="font-size: 1rem;">${rulesString}</pre>`
+  );
 });
 
 function appendRuleItem(
