@@ -23,22 +23,26 @@
     <template id="ruleItemTemplate">
       <div class="rule-item">
         <div>
-          <span>Rule ID: </span>
-          <input
-            class="rule-id"
-            type="text"
-            placeholder="Rule ID"
-            disabled
-            value="NEW"
-          />
+          <label>
+            Rule ID:
+            <input
+              class="rule-id"
+              type="text"
+              placeholder="Rule ID"
+              disabled
+              value="NEW"
+            />
+          </label>
         </div>
         <div class="condition">
           <div>
-            Condition Type:
-            <select class="condition-type">
-              <option value="urlFilter">URL Filter</option>
-              <option value="regexFilter">Regex Filter</option>
-            </select>
+            <label>
+              Condition Type:
+              <select class="condition-type">
+                <option value="urlFilter">URL Filter</option>
+                <option value="regexFilter">Regex Filter</option>
+              </select>
+            </label>
             <small>
               <a
                 href="https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#property-RuleCondition-urlFilter"
@@ -54,7 +58,9 @@
             </small>
           </div>
           <div>
-            Case Sensitive: <input type="checkbox" class="case-sensitive" />
+            <label>
+              Case Sensitive: <input type="checkbox" class="case-sensitive" />
+            </label>
             <small>
               <a
                 href="https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#property-RuleCondition-isUrlFilterCaseSensitive"
@@ -64,12 +70,14 @@
             </small>
           </div>
           <div>
-            Condition Value:
-            <input
-              class="condition-value"
-              type="text"
-              placeholder="Condition Value"
-            />
+            <label>
+              Condition Value:
+              <input
+                class="condition-value"
+                type="text"
+                placeholder="Condition Value"
+              />
+            </label>
           </div>
         </div>
         <div class="actions">
