@@ -1,0 +1,33 @@
+name: Sample List Generator
+on:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: ./.repo/sample-list-generator
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate sample list
+        run: npm run start
+
+      - name: Upload to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-samples.json
+          path: ./.repo/sample-list-generator/extension-samples.json
+          if-no-files-found: error
