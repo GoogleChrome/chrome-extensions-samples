@@ -13,5 +13,5 @@ The extension uses the `"omnibox"` manifest key and its parameter `"keyword"`. T
 3. Click the extension's action icon to open the logs page.
 4. Type `omnix` in the omnibox and press `Space` to see the suggestions.
 5. Try to type something to see how the `onInputChanged` event is triggered.
-6. Try to left-click or middle-click on the suggestions to see how the event `onInputEntered` is triggered.
+6. Try to left-click or middle-click on the suggestions to see how the `onInputEntered` event is triggered.
 7. Try to remove some suggestions by clicking the `x` icon on the right of the suggestion to see how the event `onInputCancelled` is triggered.
