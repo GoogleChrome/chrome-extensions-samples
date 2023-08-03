@@ -9,7 +9,7 @@ The extension uses the `"omnibox"` manifest key and its parameter `"keyword"`. T
 ## Running this extension
 
 1. Clone this repository.
-2. Load this directory in Chrome as an [unpacked extension].(https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Click the extension's action icon to open the logs page.
 4. Type `omnix` in the omnibox and press `Space` to see the suggestions.
 5. Try to type something to see how the `onInputChanged` event is triggered.
