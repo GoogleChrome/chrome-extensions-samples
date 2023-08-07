@@ -64,6 +64,24 @@ Read more on [Development Basics](https://developer.chrome.com/docs/extensions/m
         </ul>
       </td>
     </tr>
+	<tr>
+	  <td style="vertical-align:top;">
+	     Message Transport<br>
+	    <a href="examples/bookmarks"><code>examples/message-transport</code></a>
+	  </td>
+	  <td  style="vertical-align:top;">
+	    <ul>
+	      <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#property-id">runtime.id</a></li>
+		  <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-getURL">runtime.getURL</a></li>
+	      <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#event-onMessage">runtime.onMessage</a></li>
+	      <li><a href="https://developer.chrome.com/docs/extensions/reference/runtime/#method-sendMessage">runtime.sendMessage</a></li>
+		  <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-create">tabs.create</a></li>
+		  <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-get">tabs.get</a></li>
+	      <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-query">tabs.query</a></li>
+	      <li><a href="https://developer.chrome.com/docs/extensions/reference/tabs/#method-sendMessage">tabs.sendMessage</a></li>
+	    </ul>
+	  </td>
+	</tr>
     <tr>
       <td style="vertical-align:top;">
          Chromium Milestones<br>
