@@ -1,6 +1,7 @@
 {
   "name": "Action API Demo",
   "version": "1.0",
+  "description": "This sample demonstrates the use of Action API which changes the badge text,icon,hover text or popup page depending on the user's choice or action.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
