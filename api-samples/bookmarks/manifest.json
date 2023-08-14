@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Bookmark Viewer",
   "version": "1.0",
-  "description": "This sample demonstrates using the chrome.browsingData API to clear the user's history without having to visit the history page.",
+  "description": "This sample demonstrates using the chrome.bookmarks API to search through, add, and delete bookmarks from the user's bookmark tree.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
