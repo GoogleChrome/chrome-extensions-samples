@@ -2,7 +2,7 @@
   "name": "URL Redirect",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Redirects MV2 documents to equivalent MV3 documents on developer.chrome.com.",
+  "description": "Uses the chrome.declarativeNetRequest API to redirect requests.",
   "background": {
     "service_worker": "service_worker.js"
   },

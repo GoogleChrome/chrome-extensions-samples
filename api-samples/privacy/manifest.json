@@ -2,6 +2,7 @@
   "name": "Privacy API sample",
   "version": "1.0",
   "manifest_version": 3,
+  "description": "Uses the chrome.privacy.services API to get and set privacy settings.",
   "background": {
     "service_worker": "service-worker.js"
   },

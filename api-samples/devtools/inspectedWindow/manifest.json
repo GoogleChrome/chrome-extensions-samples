@@ -1,6 +1,6 @@
 {
   "name": "Devtools - inspectedWindow API sample",
-  "description": "Makes use of the devtools.inspectedWindow API to collect data and display it inside of a devtools panel.",
+  "description": "Uses the inspectedWindow API to collect and use data on the resouces used in a webpage.",
   "version": "1.0",
   "manifest_version": 3,
   "devtools_page": "devtools.html"

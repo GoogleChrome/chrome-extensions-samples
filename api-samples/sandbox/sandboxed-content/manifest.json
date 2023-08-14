@@ -2,9 +2,10 @@
   "name": "Sandboxed Content Sample",
   "version": "1.0.3",
   "manifest_version": 3,
-    "background": {
-      "service_worker": "service-worker.js"
-    },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "description": "This sample creates a tab containing a sandboxed iframe. The sandbox calls eval() to write some HTML to its own document.",
   "icons": {
     "128": "icon_128.png"
   },

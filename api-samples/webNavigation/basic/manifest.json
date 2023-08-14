@@ -1,7 +1,7 @@
 {
   "name": "webNavigation API Sample",
   "version": "2",
-  "description": "A demonstration of the webNavigation API",
+  "description": "Uses the webNavigation API to send notifications.",
   "background": {
     "service_worker": "service-worker.js"
   },

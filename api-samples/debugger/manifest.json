@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Debugger Extension",
-  "description": "This sample demonstrates using the chrome.debugger API to capture network events on webpages.",
+  "description": "Uses the chrome.debugger API to capture network events on webpages.",
   "version": "1.0",
   "permissions": ["debugger", "tabs"],
   "host_permissions": ["https://www.google.com/*"],

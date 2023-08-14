@@ -5,6 +5,7 @@
   "background": {
     "service_worker": "service-worker.js"
   },
+  "description": "Uses the web_accessible_resources key in the manifest.json file to control access to assets within an extension.",
   "action": {},
   "content_scripts": [
     {
