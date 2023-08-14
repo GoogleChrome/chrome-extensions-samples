@@ -1,6 +1,6 @@
 {
   "name": "Blank new tab page",
-  "description": "Override the new tab page with a blank one",
+  "description": "Uses the \"chrome_url_overrides\" manifest key by replacing the user's default New Tab page with a new html file.",
   "version": "0.3",
   "incognito": "split",
   "chrome_url_overrides": {
