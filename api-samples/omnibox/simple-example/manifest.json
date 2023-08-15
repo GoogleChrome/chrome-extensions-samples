@@ -1,6 +1,6 @@
 {
   "name": "Omnibox Simple Example",
-  "description": "To use, type 'omnix' plus a search term into the Omnibox.",
+  "description": "Demonstrates the \"omnibox\" manifest key and most of the omnibox APIs.",
   "version": "1.1",
   "background": {
     "service_worker": "service-worker.js"
