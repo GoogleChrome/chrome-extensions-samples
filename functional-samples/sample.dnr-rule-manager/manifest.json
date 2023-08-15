@@ -2,7 +2,7 @@
   "name": "no-cookies Rule Manager",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Manage in which conditions cookies are denied to be send",
+  "description": "Uses the chrome.declarativeNetRequest API to remove the \"Cookie\" header from requests matching custom url filters.",
   "background": {
     "service_worker": "service_worker.js"
   },
