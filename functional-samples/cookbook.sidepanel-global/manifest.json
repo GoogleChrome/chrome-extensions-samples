@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Global side panel",
   "version": "1.0",
-  "description": "Sidepanel declared only in the manifest visible to all sites",
+  "description": "This recipe shows how to display the same side panel on every site using the Side Panel API.",
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",

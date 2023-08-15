@@ -1,7 +1,7 @@
 {
   "name": "Geolocation - offscreen",
   "version": "1.0",
-  "description": "This recipe shows how to get geolocation access within a service worker",
+  "description": "This recipe shows how to get geolocation access within a service worker.",
   "manifest_version": 3,
   "background": {
     "service_worker": "service_worker.js"
