@@ -1,6 +1,6 @@
 {
   "name": "Stylizr",
-  "description": "Spruce up your pages with custom CSS.",
+  "description": "Demonstrates how to use the chrome.storage API.",
   "version": "1.0",
   "permissions": ["activeTab", "storage", "scripting"],
   "options_page": "options.html",
