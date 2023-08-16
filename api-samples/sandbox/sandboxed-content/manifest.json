@@ -5,7 +5,7 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "description": "This sample creates a tab containing a sandboxed iframe. The sandbox calls eval() to write some HTML to its own document.",
+  "description": "Demonstrates creating a tab for a sandboxed iframe. The sandbox calls eval() to write HTML to its own document.",
   "icons": {
     "128": "icon_128.png"
   },
