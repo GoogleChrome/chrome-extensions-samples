@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Site-specific side panel",
   "version": "1.0",
-  "description": "This recipe shows how to display the side panel only on google.com using the Side Panel API.",
+  "description": "Shows how to display the side panel only on google.com using the Side Panel API.",
   "background": {
     "service_worker": "service-worker.js"
   },
