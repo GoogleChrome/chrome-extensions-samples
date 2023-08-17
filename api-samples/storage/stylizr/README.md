@@ -4,7 +4,7 @@ A sample that demonstrates how to use the [`chrome.storage`](https://developer.c
 
 ## Overview
 
-In this sample, the `chrome.storage` API is used to store the custom style string. The style will be applied to the active page when the extension's action icon is clicked.
+In this sample, the `chrome.storage` API stores a custom style string that will be applied to the active page when the extension's action icon is clicked.
 
 ## Running this extension
 
