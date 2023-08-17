@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Open side panel",
   "version": "1.0",
-  "description": "Use user interactions to open the side panel",
+  "description": "Shows how to call sidePanel.open() to open a global side panel.",
   "minimum_chrome_version": "116",
   "background": {
     "service_worker": "service-worker.js"

@@ -1,4 +1,4 @@
-This recipe shows how to write a string to the system clipboard using the [Offscreen API][1].
+This recipe shows how to write a string to the system clipboard using the [Offscreen document][1].
 
 ## Context
 

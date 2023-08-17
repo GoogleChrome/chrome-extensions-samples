@@ -2,7 +2,7 @@
   "name": "URL Blocker",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Blocks all main frame requests to example.com.",
+  "description": "Uses the chrome.declarativeNetRequest API to block requests.",
   "background": {
     "service_worker": "service_worker.js"
   },

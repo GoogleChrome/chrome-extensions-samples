@@ -1,7 +1,7 @@
 {
   "name": "Print Extension",
   "version": "1.0",
-  "description": "Sends print job directly to the printers installed on the Chromebook",
+  "description": "Demonstrates all four methods of the chrome.printing namespace.",
   "permissions": ["printing"],
   "action": {
     "default_popup": "printers.html",

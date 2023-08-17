@@ -1,6 +1,6 @@
 {
   "name": "Omnibox - New Tab Search",
-  "description": "Type 'newTab' plus a search term into the Omnibox to open search in new tab.",
+  "description": "Demonstrates the \"omnibox\" manifest key and API by creating a keyword that opens a browser search in a new tab.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

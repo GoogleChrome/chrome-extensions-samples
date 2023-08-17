@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "History Override",
-  "description": "Overrides the History Page",
+  "description": "Demonstrates how to override the default history page.",
   "version": "1.0",
   "chrome_url_overrides": {
     "history": "history.html"

@@ -2,6 +2,7 @@
   "name": "Offscreen API - Clipboard",
   "version": "1.0",
   "manifest_version": 3,
+  "description": "Shows how to write a string to the system clipboard using the offscreen document.",
   "background": {
     "service_worker": "background.js"
   },

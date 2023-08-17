@@ -2,7 +2,7 @@
   "name": "Advanced Font Settings",
   "version": "0.7",
   "manifest_version": 3,
-  "description": "Customize per-script font settings.",
+  "description": "Demonstrates the chrome.fontSettings API by allowing users to modify the style of displayed fonts on web pages.",
   "options_page": "options.html",
   "icons": {
     "16": "fonts16.png",

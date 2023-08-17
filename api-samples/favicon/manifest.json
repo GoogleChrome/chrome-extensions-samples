@@ -1,6 +1,7 @@
 {
   "name": "Favicon API in a popup",
   "version": "1.1",
+  "description": "Demonstrates the favicon manifest permission by displaying the favicon of a url in the extension popup.",
   "manifest_version": 3,
   "permissions": ["favicon"],
   "action": {

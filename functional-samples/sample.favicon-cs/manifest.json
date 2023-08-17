@@ -1,6 +1,7 @@
 {
   "name": "Favicon API in content scripts",
   "version": "1.1",
+  "description": "Demonstrates fetching the favicon from www.google.com and inserting it at the top left of every page.",
   "manifest_version": 3,
   "content_scripts": [
     {

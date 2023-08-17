@@ -1,6 +1,7 @@
 {
   "name": "Offscreen API - DOM Parsing",
   "version": "1.0",
+  "description": "Shows how to use DOMParser in an extension service worker using the offscreen document.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

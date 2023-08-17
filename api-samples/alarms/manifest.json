@@ -1,6 +1,7 @@
 {
   "name": "Alarms API Demo",
   "version": "1.0",
+  "description": "Uses the chrome.alarms API to allow the user to set alarms using an extension page.",
   "manifest_version": 3,
   "background": {
     "service_worker": "bg-wrapper.js"

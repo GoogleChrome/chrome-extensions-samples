@@ -2,14 +2,10 @@
   "name": "webRequest.onAuthRequired Demo",
   "version": "1.0",
   "manifest_version": 3,
+  "description": "Demonstrates the webRequest.onAuthRequired listener to detect an authentication request and log the user into the designated site.",
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": [
-    "webRequest",
-    "webRequestAuthProvider"
-  ],
-  "host_permissions": [
-    "https://httpbin.org/*"
-  ]
+  "permissions": ["webRequest", "webRequestAuthProvider"],
+  "host_permissions": ["https://httpbin.org/*"]
 }

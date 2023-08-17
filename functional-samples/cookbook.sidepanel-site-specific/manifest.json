@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Site-specific side panel",
   "version": "1.0",
-  "description": "Use the action icon or keyboard shortcut to open the side panel on google.com",
+  "description": "Shows how to display the side panel only on google.com using the Side Panel API.",
   "background": {
     "service_worker": "service-worker.js"
   },

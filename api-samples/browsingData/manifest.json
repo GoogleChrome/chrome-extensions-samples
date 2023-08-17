@@ -1,7 +1,7 @@
 {
   "name": "BrowsingData API: Basics",
   "version": "1.2",
-  "description": "An example implementation of the chrome.browsingData API",
+  "description": "Uses the chrome.browsingData API to clear the user's history without requiring the user to visit the history page.",
   "permissions": ["browsingData"],
   "action": {
     "default_icon": "icon.png",

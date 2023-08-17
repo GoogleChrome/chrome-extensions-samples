@@ -1,6 +1,7 @@
 {
   "name": "Action API Demo",
   "version": "1.0",
+  "description": "Uses the Action API to change the badge text, icon, hover text, or popup page.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

@@ -1,6 +1,6 @@
 {
   "name": "Tab Flipper",
-  "description": "Press Ctrl+Shift+Right or Ctrl+Shift+Left (Command+Shift+Right or Command+Shift+Left on a Mac) to flip through window tabs",
+  "description": "Uses the chrome.commands API by creating a new keyboard macro for switching tabs in the browser window.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
