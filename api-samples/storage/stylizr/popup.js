@@ -18,18 +18,19 @@ const message = document.querySelector('#message');
           tabId: currentTab.id
         }
       });
+      message.innerText = 'Injected style!';
     } catch (e) {
-      if (e) {
-        message.innerText = 'Not allowed to inject CSS into special page.';
-      } else {
-        message.innerText = 'Injected style!';
-      }
+      message.innerText = 'Not allowed to inject CSS into special page.';
     }
   } else {
-    const optionsUrl = chrome.extension.getURL('options.html');
-    message.innerHTML =
-      'Set a style in the <a target="_blank" href="' +
-      optionsUrl +
-      '">options page</a> first.';
+    const optionsUrl = chrome.runtime.getURL('options.html');
+    const optionsPageLink = document.createElement('a');
+    optionsPageLink.target = '_blank';
+    optionsPageLink.href = optionsUrl;
+    optionsPageLink.textContent = 'options page';
+    message.innerText = '';
+    message.appendChild(document.createTextNode('Set a style in the '));
+    message.appendChild(optionsPageLink);
+    message.appendChild(document.createTextNode(' first.'));
   }
 })();
