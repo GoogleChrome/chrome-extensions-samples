@@ -45,10 +45,12 @@ async function reset() {
   textarea.value = '';
 }
 
+let messageClearTimer;
 function message(msg) {
+  clearTimeout(messageClearTimer);
   const message = document.querySelector('.message');
   message.innerText = msg;
-  setTimeout(function () {
+  messageClearTimer = setTimeout(function () {
     message.innerText = '';
   }, 3000);
 }
