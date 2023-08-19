@@ -1,6 +1,6 @@
 # chrome.declarativeNetRequest - No Cookies Rule Manager
 
-This sample demonstrates using the [`chrome.declarativeNetRequest`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/) API to remove the "Cookie" header from requests matching custom url filters.
+This sample demonstrates using the [`chrome.declarativeNetRequest`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/) API to remove the `Cookie` header from requests matching custom URL filters.
 
 ## Overview
 
