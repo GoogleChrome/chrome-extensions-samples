@@ -4,7 +4,7 @@ This sample demonstrates using the [`chrome.declarativeNetRequest`](https://deve
 
 ## Overview
 
-Once this extension is installed, there will be two default rules:
+This extension has two default rules:
 
 1. Any main frame or XHR requests ending with `?nocookies=1` will have their cookies removed (URL Filter).
 
