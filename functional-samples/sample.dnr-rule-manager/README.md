@@ -16,7 +16,7 @@ You can edit these rules in the manager page.
 
 ## Implementation Notes
 
-[`chrome.declarativeNetRequest.setExtensionActionOptions`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#method-setExtensionActionOptions) is used to set the extension's badge text to the number of requests modified by the extension.
+[`chrome.declarativeNetRequest.setExtensionActionOptions()`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#method-setExtensionActionOptions) sets the extension's badge text to the number of requests modified by the extension.
 
 `declarativeNetRequestFeedback` permission is required to show the matching history.
 
