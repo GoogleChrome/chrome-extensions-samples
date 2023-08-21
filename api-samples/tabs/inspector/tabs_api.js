@@ -25,7 +25,7 @@ async function loadWindowList() {
   tabIds = [];
   for (let window of windowList) {
     for (let tab of window.tabs) {
-      tabIds.push(tabIds);
+      tabIds.push(tab.id);
       tabs[tab.id] = tab;
     }
   }
