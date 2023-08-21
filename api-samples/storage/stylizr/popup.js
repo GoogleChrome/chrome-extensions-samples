@@ -4,7 +4,7 @@ const storage = chrome.storage.local;
 const message = document.querySelector('#message');
 
 // Check if there is CSS specified.
-(async function () {
+async function run() {
   const items = await storage.get('css');
   if (items.css) {
     const [currentTab] = await chrome.tabs.query({
@@ -34,4 +34,6 @@ const message = document.querySelector('#message');
     message.appendChild(optionsPageLink);
     message.appendChild(document.createTextNode(' first.'));
   }
-})();
+}
+
+run();
