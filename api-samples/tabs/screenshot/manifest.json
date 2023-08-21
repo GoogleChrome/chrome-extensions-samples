@@ -1,7 +1,7 @@
 {
   "name": "Test Screenshot Extension",
   "version": "1.3",
-  "description": "Demonstrate screenshot functionality in the chrome.tabs api.",
+  "description": "Uses the chrome.tabs API to take a screenshot of the active tab.",
   "background": {
     "service_worker": "service-worker.js"
   },
