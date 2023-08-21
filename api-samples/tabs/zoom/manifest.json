@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tabs Zoom API Demo",
-  "description": "This extension allows the user to explore features of the new tabs zoom api.",
+  "description": "Uses the tabs.zoom API to manipulate the zoom level of the current tab.",
   "version": "0.1",
   "icons": {
     "16": "zoom16.png",
