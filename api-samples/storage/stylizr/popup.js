@@ -20,7 +20,8 @@ const message = document.querySelector('#message');
       });
       message.innerText = 'Injected style!';
     } catch (e) {
-      message.innerText = 'Not allowed to inject CSS into special page.';
+      console.error(e);
+      message.innerText = 'Injection failed. Are you on a special page?';
     }
   } else {
     const optionsUrl = chrome.runtime.getURL('options.html');
