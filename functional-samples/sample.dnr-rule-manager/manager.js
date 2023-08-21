@@ -55,13 +55,15 @@ function appendRuleItem(
 
   // Set button click handlers
   function getCurrentRuleValues() {
-    const _conditionValue = ruleItem.querySelector('.condition-value').value;
-    const _conditionType = ruleItem.querySelector('.condition-type').value;
-    const _caseSensitive = ruleItem.querySelector('.case-sensitive').checked;
+    const conditionValue = ruleItem
+      .querySelector('.condition-value')
+      .value.trim();
+    const conditionType = ruleItem.querySelector('.condition-type').value;
+    const caseSensitive = ruleItem.querySelector('.case-sensitive').checked;
     return {
-      conditionValue: _conditionValue.trim(),
-      conditionType: _conditionType,
-      caseSensitive: _caseSensitive
+      conditionValue,
+      conditionType,
+      caseSensitive
     };
   }
   ruleItem.querySelector('.remove-rule').addEventListener('click', async () => {
@@ -87,7 +89,7 @@ function appendRuleItem(
     // Update the rule ID
     ruleItem.querySelector('.rule-id').value = _id;
     // Disable the save button
-    setSaveButtonDisabled();
+    setSaveButtonEnabled(false);
     // Update parameter
     id = _id;
     conditionType = _conditionType;
@@ -96,13 +98,10 @@ function appendRuleItem(
   });
 
   // Disable the save button
-  function setSaveButtonEnabled() {
-    ruleItem.querySelector('.save-rule').disabled = false;
+  function setSaveButtonEnabled(enabled) {
+    ruleItem.querySelector('.save-rule').disabled = !enabled;
   }
-  function setSaveButtonDisabled() {
-    ruleItem.querySelector('.save-rule').disabled = true;
-  }
-  setSaveButtonDisabled();
+  setSaveButtonEnabled(false);
 
   // Set input change handlers
   async function verify() {
@@ -118,12 +117,12 @@ function appendRuleItem(
       conditionType === _conditionType
     ) {
       // If the rule is not changed, disable the save button
-      setSaveButtonDisabled();
+      setSaveButtonEnabled(false);
       return;
     }
     if (_conditionValue.trim() === '') {
       // If the condition value is empty, disable the save button
-      setSaveButtonDisabled();
+      setSaveButtonEnabled(false);
       return;
     }
     // For the regex filter, verify if the regex is supported
@@ -134,13 +133,13 @@ function appendRuleItem(
       });
       if (!result.isSupported) {
         // If the regex is invalid, disable the save button
-        setSaveButtonDisabled();
+        setSaveButtonEnabled(false);
         alert(`Invalid regex: ${result.reason}`);
         return;
       }
     }
 
-    setSaveButtonEnabled();
+    setSaveButtonEnabled(true);
   }
   ruleItem.querySelector('.condition-type').addEventListener('change', verify);
   ruleItem.querySelector('.case-sensitive').addEventListener('change', verify);
