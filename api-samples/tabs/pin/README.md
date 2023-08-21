@@ -1,6 +1,6 @@
 # chrome.tabs - Keyboard Pin
 
-A sample that demonstrates how to use the [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) API.
+A sample that demonstrates how to use the [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) API to toggle the pinned state of the current tab.
 
 ## Overview
 

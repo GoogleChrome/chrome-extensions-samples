@@ -1,7 +1,7 @@
 {
   "name": "Keyboard Pin",
   "version": "0.3",
-  "description": "Creates a keyboard shortcut (Alt + Shift + P) to toggle the pinned state of the currently selected tab",
+  "description": "Uses the chrome.tabs API to toggle the pinned state of the current tab.",
   "background": {
     "service_worker": "service-worker.js"
   },
