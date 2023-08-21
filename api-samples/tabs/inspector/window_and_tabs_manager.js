@@ -122,6 +122,11 @@ function registerTabEvents(tab, tabItem) {
   tabItem.querySelector('.remove_tab_button').addEventListener('click', () => {
     removeTab(tab.id);
   });
+  tabItem.querySelector('.tab_active').addEventListener('change', (event) => {
+    const active = event.target.checked;
+    const tabId = parseInt(event.target.id.split('_')[1]);
+    chrome.tabs.update(tabId, { active });
+  });
 }
 
 function updateTabData(id) {
