@@ -70,25 +70,27 @@ function renderWindow(window, windowItem) {
 }
 
 function registerWindowEvents(window, windowItem) {
-  windowItem.querySelector('.window_refresh').addEventListener('click', () => {
-    refreshWindow(window.id);
-  });
+  windowItem
+    .querySelector('.window_refresh')
+    .addEventListener('click', function () {
+      refreshWindow(window.id);
+    });
 
   windowItem
     .querySelector('.update_window_button')
-    .addEventListener('click', () => {
+    .addEventListener('click', function () {
       updateWindow(window.id);
     });
 
   windowItem
     .querySelector('.remove_window_button')
-    .addEventListener('click', () => {
+    .addEventListener('click', function () {
       removeWindow(window.id);
     });
 
   windowItem
     .querySelector('.refresh_active_tab_button')
-    .addEventListener('click', () => {
+    .addEventListener('click', function () {
       refreshActiveTab(window.id);
     });
 }
@@ -110,23 +112,33 @@ function renderTab(tab, tabItem) {
 }
 
 function registerTabEvents(tab, tabItem) {
-  tabItem.querySelector('.move_tab_button').addEventListener('click', () => {
-    moveTab(tab.id);
-  });
-  tabItem.querySelector('.refresh_tab_button').addEventListener('click', () => {
-    refreshTab(tab.id);
-  });
-  tabItem.querySelector('.update_tab_button').addEventListener('click', () => {
-    updateTab(tab.id);
-  });
-  tabItem.querySelector('.remove_tab_button').addEventListener('click', () => {
-    removeTab(tab.id);
-  });
-  tabItem.querySelector('.tab_active').addEventListener('change', (event) => {
-    const active = event.target.checked;
-    const tabId = parseInt(event.target.id.split('_')[1]);
-    chrome.tabs.update(tabId, { active });
-  });
+  tabItem
+    .querySelector('.move_tab_button')
+    .addEventListener('click', function () {
+      moveTab(tab.id);
+    });
+  tabItem
+    .querySelector('.refresh_tab_button')
+    .addEventListener('click', function () {
+      refreshTab(tab.id);
+    });
+  tabItem
+    .querySelector('.update_tab_button')
+    .addEventListener('click', function () {
+      updateTab(tab.id);
+    });
+  tabItem
+    .querySelector('.remove_tab_button')
+    .addEventListener('click', function () {
+      removeTab(tab.id);
+    });
+  tabItem
+    .querySelector('.tab_active')
+    .addEventListener('change', function (event) {
+      const active = event.target.checked;
+      const tabId = parseInt(event.target.id.split('_')[1]);
+      chrome.tabs.update(tabId, { active });
+    });
 }
 
 function updateTabData(id) {
@@ -175,7 +187,7 @@ function createTab() {
 }
 
 document
-  .querySelector('#create_tab_button')
+  .getElementById('create_tab_button')
   .addEventListener('click', createTab);
 
 async function updateAll() {
@@ -202,7 +214,7 @@ async function moveAll() {
 function removeTab(tabId) {
   chrome.tabs
     .remove(tabId)
-    .then(() => {
+    .then(function () {
       appendToLog('tab: ' + tabId + ' removed.');
     })
     .catch(alert);
@@ -378,7 +390,7 @@ function updateWindow(id) {
 function removeWindow(windowId) {
   chrome.windows
     .remove(windowId)
-    .then(() => {
+    .then(function () {
       appendToLog('window: ' + windowId + ' removed.');
     })
     .catch(alert);
@@ -399,19 +411,27 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document
-  .querySelector('.load_window_list_button')
-  .addEventListener('click', () => {
+  .getElementById('load_window_list_button')
+  .addEventListener('click', function () {
     loadWindowList();
   });
-document.querySelector('.update_all_button').addEventListener('click', () => {
-  updateAll();
-});
-document.querySelector('.move_all_button').addEventListener('click', () => {
-  moveAll();
-});
-document.querySelector('.clear_log_button').addEventListener('click', () => {
-  clearLog();
-});
-document.querySelector('.new_window_button').addEventListener('click', () => {
-  chrome.windows.create();
-});
+document
+  .getElementById('update_all_button')
+  .addEventListener('click', function () {
+    updateAll();
+  });
+document
+  .getElementById('move_all_button')
+  .addEventListener('click', function () {
+    moveAll();
+  });
+document
+  .getElementById('clear_log_button')
+  .addEventListener('click', function () {
+    clearLog();
+  });
+document
+  .getElementById('new_window_button')
+  .addEventListener('click', function () {
+    chrome.windows.create();
+  });
