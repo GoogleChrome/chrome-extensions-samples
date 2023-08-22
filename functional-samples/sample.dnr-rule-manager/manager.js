@@ -34,10 +34,8 @@ viewRuleButton.addEventListener('click', async () => {
   newWindow.document.body.appendChild(preElement);
 });
 
-function appendRuleItem(
-  container,
-  { id, conditionType, conditionValue, caseSensitive }
-) {
+function appendRuleItem(container, initialData) {
+  const { id, conditionType, conditionValue, caseSensitive } = initialData;
   // Create a new rule item from the template
   const ruleItem = ruleItemTemplate.content.cloneNode(true).children[0];
   container.appendChild(ruleItem);
@@ -54,97 +52,90 @@ function appendRuleItem(
   // Set the conditionValue input
   ruleItem.querySelector('.condition-value').value = conditionValue;
 
-  // Set button click handlers
-  function getCurrentRuleValues() {
-    const conditionValue = ruleItem
-      .querySelector('.condition-value')
-      .value.trim();
-    const conditionType = ruleItem.querySelector('.condition-type').value;
-    const caseSensitive = ruleItem.querySelector('.case-sensitive').checked;
-    return {
-      conditionValue,
-      conditionType,
-      caseSensitive
-    };
-  }
   ruleItem.querySelector('.remove-rule').addEventListener('click', async () => {
+    const { id } = getCurrentRuleValues(ruleItem);
     // For a new rule, just remove the item from the DOM
     if (id !== 'NEW') {
       await removeRule(id);
     }
     ruleItem.remove();
   });
+
   ruleItem.querySelector('.save-rule').addEventListener('click', async () => {
-    const {
-      conditionValue: _conditionValue,
-      conditionType: _conditionType,
-      caseSensitive: _caseSensitive
-    } = getCurrentRuleValues();
-    const _id = id === 'NEW' ? await getNextRuleId() : id;
+    const { id, conditionValue, conditionType, caseSensitive } =
+      getCurrentRuleValues(ruleItem);
+    const realId = id === 'NEW' ? await getNextRuleId() : id;
     await saveRule({
-      id: _id,
-      conditionType: _conditionType,
-      conditionValue: _conditionValue,
-      caseSensitive: _caseSensitive
+      id: realId,
+      conditionType,
+      conditionValue,
+      caseSensitive
     });
     // Update the rule ID
-    ruleItem.querySelector('.rule-id').value = _id;
+    ruleItem.querySelector('.rule-id').value = realId;
     // Disable the save button
-    setSaveButtonEnabled(false);
-    // Update parameter
-    id = _id;
-    conditionType = _conditionType;
-    conditionValue = _conditionValue;
-    caseSensitive = _caseSensitive;
+    setSaveButtonEnabled(ruleItem, false);
   });
 
   // Disable the save button
-  function setSaveButtonEnabled(enabled) {
-    ruleItem.querySelector('.save-rule').disabled = !enabled;
-  }
-  setSaveButtonEnabled(false);
+  setSaveButtonEnabled(ruleItem, false);
 
   // Set input change handlers
-  async function verify() {
-    const {
-      conditionValue: _conditionValue,
-      conditionType: _conditionType,
-      caseSensitive: _caseSensitive
-    } = getCurrentRuleValues();
+  ruleItem
+    .querySelector('.condition-type')
+    .addEventListener('change', verify.bind(null, ruleItem));
+  ruleItem
+    .querySelector('.case-sensitive')
+    .addEventListener('change', verify.bind(null, ruleItem));
+  ruleItem
+    .querySelector('.condition-value')
+    .addEventListener('change', verify.bind(null, ruleItem));
+}
 
-    if (
-      conditionValue === _conditionValue &&
-      caseSensitive === _caseSensitive &&
-      conditionType === _conditionType
-    ) {
-      // If the rule is not changed, disable the save button
-      setSaveButtonEnabled(false);
-      return;
-    }
-    if (_conditionValue.trim() === '') {
-      // If the condition value is empty, disable the save button
-      setSaveButtonEnabled(false);
-      return;
-    }
-    // For the regex filter, verify if the regex is supported
-    if (_conditionType === 'regexFilter') {
-      const result = await chrome.declarativeNetRequest.isRegexSupported({
-        isCaseSensitive: _caseSensitive,
-        regex: _conditionValue
-      });
-      if (!result.isSupported) {
-        // If the regex is invalid, disable the save button
-        setSaveButtonEnabled(false);
-        alert(`Invalid regex: ${result.reason}`);
-        return;
-      }
-    }
+function setSaveButtonEnabled(ruleItem, enabled) {
+  ruleItem.querySelector('.save-rule').disabled = !enabled;
+}
 
-    setSaveButtonEnabled(true);
+function getCurrentRuleValues(ruleItem) {
+  let id = ruleItem.querySelector('.rule-id').value;
+  if (id !== 'NEW') id = parseInt(id);
+  const conditionValue = ruleItem
+    .querySelector('.condition-value')
+    .value.trim();
+  const conditionType = ruleItem.querySelector('.condition-type').value;
+  const caseSensitive = ruleItem.querySelector('.case-sensitive').checked;
+  return {
+    id,
+    conditionValue,
+    conditionType,
+    caseSensitive
+  };
+}
+
+async function verify(ruleItem) {
+  const { conditionValue, conditionType, caseSensitive } =
+    getCurrentRuleValues(ruleItem);
+
+  if (conditionValue.trim() === '') {
+    // If the condition value is empty, disable the save button
+    setSaveButtonEnabled(ruleItem, false);
+    return;
   }
-  ruleItem.querySelector('.condition-type').addEventListener('change', verify);
-  ruleItem.querySelector('.case-sensitive').addEventListener('change', verify);
-  ruleItem.querySelector('.condition-value').addEventListener('change', verify);
+  // For the regex filter, verify if the regex is supported
+  if (conditionType === 'regexFilter') {
+    const result = await chrome.declarativeNetRequest.isRegexSupported({
+      isCaseSensitive: caseSensitive,
+      regex: conditionValue
+    });
+    if (!result.isSupported) {
+      // If the regex is invalid, disable the save button
+      setSaveButtonEnabled(ruleItem, false);
+      alert(`Invalid regex: ${result.reason}`);
+      return;
+    }
+  }
+
+  setSaveButtonEnabled(ruleItem, true);
 }
 
 function renderRules(rules) {
