@@ -28,9 +28,10 @@ viewRuleButton.addEventListener('click', async () => {
   const rules = await chrome.declarativeNetRequest.getDynamicRules();
   const rulesString = JSON.stringify(rules, null, 2);
   const newWindow = window.open();
-  newWindow.document.write(
-    `<pre style="font-size: 1rem;">${rulesString}</pre>`
-  );
+  const preElement = newWindow.document.createElement('pre');
+  preElement.style.fontSize = '1rem';
+  preElement.textContent = rulesString;
+  newWindow.document.body.appendChild(preElement);
 });
 
 function appendRuleItem(
