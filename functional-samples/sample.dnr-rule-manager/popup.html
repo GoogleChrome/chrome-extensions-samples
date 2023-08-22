@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>popup</title>
+    <style>
+      html {
+        min-width: 300px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="openManagerTab">Open Manager Tab</button>
+    <div class="tips" style="display: none">
+      No matched rules found for this tab.
+    </div>
+    <div class="matched-rules" style="display: none">
+      <h3>Matched Rules</h3>
+      <div id="matchedRulesList">
+        <!-- Matched Rules will be added here -->
+      </div>
+    </div>
+    <script src="./popup.js"></script>
+  </body>
+</html>
