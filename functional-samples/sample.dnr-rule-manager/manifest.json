@@ -2,7 +2,7 @@
   "name": "no-cookies Rule Manager",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Uses the chrome.declarativeNetRequest API to remove the \"Cookie\" header from requests matching custom url filters.",
+  "description": "Demonstrates the chrome.declarativeNetRequest API by provide a UI to manipulate declarativeNetRequest rule dynamically.",
   "background": {
     "service_worker": "service_worker.js"
   },
