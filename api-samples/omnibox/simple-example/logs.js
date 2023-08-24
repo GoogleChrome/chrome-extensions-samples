@@ -1,4 +1,4 @@
-const LogsContainer = document.getElementById('logs');
+const LOGS_CONTAINER = document.getElementById('logs');
 
 const getFormattedTime = () => {
   const now = new Date();
@@ -13,8 +13,8 @@ const appendLog = (text) => {
   const log = document.createElement('div');
   log.classList.add('log-item');
   log.innerText = `[${getFormattedTime()}] ${text}`;
-  LogsContainer.appendChild(log);
-  LogsContainer.scrollTop = LogsContainer.scrollHeight;
+  LOGS_CONTAINER.appendChild(log);
+  LOGS_CONTAINER.scrollTop = LOGS_CONTAINER.scrollHeight;
 };
 
 chrome.runtime.onMessage.addListener((message) => {
