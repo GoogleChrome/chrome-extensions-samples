@@ -1,18 +1,23 @@
 function matches(rule, item) {
-  if (rule.matcher == 'hostname') {
-    const link = new URL(item.url);
-    const host = rule.match_param.indexOf(':') < 0 ? link.hostname : link.host;
-    return (
-      host.indexOf(rule.match_param.toLowerCase()) ==
-      host.length - rule.match_param.length
-    );
+  switch (rule.matcher) {
+    case 'hostname': {
+      const link = new URL(item.url);
+      const host =
+        rule.match_param.indexOf(':') < 0 ? link.hostname : link.host;
+      return (
+        host.indexOf(rule.match_param.toLowerCase()) ==
+        host.length - rule.match_param.length
+      );
+    }
+    case 'default':
+      return item.filename == rule.match_param;
+    case 'url-regex':
+      return new RegExp(rule.match_param).test(item.url);
+    case 'default-regex':
+      return new RegExp(rule.match_param).test(item.filename);
+    default:
+      return false;
   }
-  if (rule.matcher == 'default') return item.filename == rule.match_param;
-  if (rule.matcher == 'url-regex')
-    return new RegExp(rule.match_param).test(item.url);
-  if (rule.matcher == 'default-regex')
-    return new RegExp(rule.match_param).test(item.filename);
-  return false;
 }
 
 chrome.downloads.onDeterminingFilename.addListener(function (item, suggest) {
@@ -36,4 +41,8 @@ chrome.downloads.onDeterminingFilename.addListener(function (item, suggest) {
 
   // return true to indicate that suggest() was called asynchronously
   return true;
+});
+
+chrome.action.onClicked.addListener(function () {
+  chrome.runtime.openOptionsPage();
 });
