@@ -5,6 +5,7 @@
   "background": {
     "service_worker": "service-worker.js"
   },
+  "action": {},
   "options_page": "options.html",
   "permissions": ["downloads", "storage"],
   "manifest_version": 3
