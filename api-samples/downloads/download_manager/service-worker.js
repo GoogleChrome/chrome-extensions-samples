@@ -1,4 +1,4 @@
-chrome.downloads.setShelfEnabled(false);
+chrome.downloads.setUiOptions({ enabled: false });
 
 const colors = {
   progressColor: '#0d0',
