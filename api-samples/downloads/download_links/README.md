@@ -1,10 +1,10 @@
 # chrome.downloads - Download Links
 
-A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API to download links visible on the active page.
+This sample demonstrates using the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API to download links visible on the active page.
 
 ## Overview
 
-In this sample, all available links on the active page will be listed in the popup. The [`chrome.downloads.download`](https://developer.chrome.com/docs/extensions/reference/downloads/#method-download) method is used to download all selected links.
+This sample lists all available links from the active page in a popup. The [`chrome.downloads.download()`](https://developer.chrome.com/docs/extensions/reference/downloads/#method-download) method is used to download all selected links.
 
 ## Running this extension
 

@@ -1,10 +1,10 @@
 # chrome.downloads
 
-A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads/) API.
+Demonstrates using the [`chrome.downloads.onDeterminingFilename`](https://developer.chrome.com/docs/extensions/reference/downloads/) handler.
 
 ## Overview
 
-In this sample, the [`chrome.downloads.onDeterminingFilename`](https://developer.chrome.com/docs/extensions/reference/downloads/#event-onDeterminingFilename) event is used to set conflict action to `overwrite` for all downloads.
+This sample uses the [`chrome.downloads.onDeterminingFilename`](https://developer.chrome.com/docs/extensions/reference/downloads/#event-onDeterminingFilename) handler to override target filenames for all downloads instead of adding ' (1)', ' (2)', etc..
 
 ## Running this extension
 
