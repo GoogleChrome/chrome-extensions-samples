@@ -4,15 +4,15 @@ A sample that demonstrates how to use the Zoom features of the [`chrome.tabs`](h
 
 ## Overview
 
-In this sample, the zoom related [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) APIs are used to manipulate the zoom level and zoom mode of the current tab.
+In this sample, the zoom related [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) APIs are used to change the magnification and zoom mode of the active tab.
 
 ## Implementation Notes
 
-- The [`chrome.tabs.getZoom()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoom) method is used to get the current zoom level of the tab.
-- The [`chrome.tabs.setZoom()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoom) method is used to set the zoom level of the tab.
-- The [`chrome.tabs.setZoomSettings()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoomSettings) method is used to set the zoom settings of the tab.
-- The [`chrome.tabs.getZoomSettings()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoomSettings) method is used to get the zoom settings of the tab.
-- The [`chrome.tabs.onZoomChange()`](https://developer.chrome.com/docs/extensions/reference/tabs/#event-onZoomChange) event is used to listen for zoom changes in the tab.
+- [`chrome.tabs.getZoom()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoom) returns the current zoom level of the tab.
+- [`chrome.tabs.setZoom()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoom) changes the zoom level of the tab.
+- [`chrome.tabs.setZoomSettings()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-setZoomSettings) sets the zoom settings of the tab.
+- [`chrome.tabs.getZoomSettings()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-getZoomSettings) returns the zoom settings of the tab.
+- [`chrome.tabs.onZoomChange()`](https://developer.chrome.com/docs/extensions/reference/tabs/#event-onZoomChange) listens for zoom changes in the tab.
 
 ## Running this extension
 

@@ -8,7 +8,7 @@ When the user clicks the action icon, the extension takes a screenshot of the cu
 
 ## Implementation Notes
 
-[`chrome.tabs.captureVisibleTab()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-captureVisibleTab) will be used to capture the visible area of the current tab.
+Calls [`chrome.tabs.captureVisibleTab()`](https://developer.chrome.com/docs/extensions/reference/tabs/#method-captureVisibleTab) to capture the visible area of the current tab.
 
 ## Running this extension
 
