@@ -178,10 +178,6 @@ class DownloadItem {
       item[prop] = data[prop];
     }
     item.startTime = new Date(item.startTime);
-    if (item.canResume == undefined) {
-      DownloadItem.canResumeHack = true;
-    }
-
     item.div = document.querySelector('body>div.item').cloneNode(true);
     item.div.id = 'item' + item.id;
     item.div.item = item;
@@ -204,7 +200,7 @@ class DownloadItem {
       const adjacent_div =
         items_div.childNodes[
           binarySearch(
-            arrayFrom(items_div.chilWdNodes),
+            arrayFrom(items_div.childNodes),
             item.startTime.getTime(),
             function (target, other) {
               return target - other.item.startTime.getTime();
@@ -315,9 +311,7 @@ class DownloadItem {
       item.state != 'interrupted' && item.exists && !item.deleted;
 
     item.startTime = new Date(item.startTime);
-    if (DownloadItem.canResumeHack) {
-      item.canResume = in_progress && item.paused;
-    }
+    item.canResume = in_progress && item.paused;
     if (item.filename) {
       item.basename = item.filename.substring(
         Math.max(
@@ -538,7 +532,6 @@ class DownloadItem {
     });
   }
 }
-DownloadItem.canResumeHack = false;
 
 DownloadItem.prototype.maybeAccept.accepting_danger = false;
 
@@ -757,6 +750,7 @@ window.onload = function () {
   setLastOpened();
   loadI18nMessages();
   DownloadManager.loadItems.onWindowLoaded();
+  DownloadManager.startPollingProgress();
   document.getElementById('older').onclick = function () {
     DownloadManager.showOlder();
     return false;

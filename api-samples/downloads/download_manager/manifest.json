@@ -19,5 +19,5 @@
   },
   "default_locale": "en",
   "optional_permissions": ["management"],
-  "permissions": ["downloads", "downloads.open", "downloads.shelf", "storage"]
+  "permissions": ["downloads", "downloads.open", "downloads.ui", "storage"]
 }
