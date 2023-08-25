@@ -1,10 +1,10 @@
 # chrome.downloads - Download Manager
 
-A sample that demonstrates how to use the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API.
+A sample that demonstrates using the [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) API.
 
 ## Overview
 
-In this sample, multiple [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) APIs are comprehensively used to implement a simple download manager.
+This sample uses multiple [`chrome.downloads`](https://developer.chrome.com/docs/extensions/reference/downloads) APIs to implement a simple download manager.
 
 ## Running this extension
 

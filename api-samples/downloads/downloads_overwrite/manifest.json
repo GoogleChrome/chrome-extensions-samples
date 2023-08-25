@@ -1,6 +1,6 @@
 {
   "name": "Downloads Overwrite Existing Files",
-  "description": "All downloads overwrite existing files instead of adding ' (1)', ' (2)', etc.",
+  "description": "Uses the [`chrome.downloads.onDeterminingFilename`](https://developer.chrome.com/docs/extensions/reference/downloads/#event-onDeterminingFilename) handler to override target file names for all downloads instead of adding ' (1)', ' (2)', etc.",
   "version": "0.1",
   "background": {
     "service_worker": "service-worker.js"

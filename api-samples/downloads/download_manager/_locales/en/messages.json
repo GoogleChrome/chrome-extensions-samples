@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-    "message": "Browser Action Download Manager User Interface for Google Chrome",
+    "message": "Uses multiple chrome.downloads APIs to implement a simple download manager.",
     "description": "Extension description"
   },
   "tabTitle": {
