@@ -15,10 +15,7 @@ function matches(rule, item) {
   return false;
 }
 
-chrome.downloads.onDeterminingFilename.addListener(function (item, __suggest) {
-  function suggest(filename, conflictAction) {
-    __suggest({ filename: filename, conflictAction: conflictAction });
-  }
+chrome.downloads.onDeterminingFilename.addListener(function (item, suggest) {
   chrome.storage.local.get('rules').then(({ rules }) => {
     if (!rules) {
       rules = [];
@@ -27,14 +24,14 @@ chrome.downloads.onDeterminingFilename.addListener(function (item, __suggest) {
     for (let rule of rules) {
       if (rule.enabled && matches(rule, item)) {
         if (rule.action == 'overwrite') {
-          suggest(item.filename, 'overwrite');
+          suggest({ filename: item.filename, conflictAction: 'overwrite' });
         } else if (rule.action == 'prompt') {
-          suggest(item.filename, 'prompt');
+          suggest({ filename: item.filename, conflictAction: 'prompt' });
         }
         return;
       }
     }
-    suggest(item.filename);
+    suggest({ filename: item.filename });
   });
 
   // return true to indicate that suggest() was called asynchronously
