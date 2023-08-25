@@ -1,6 +1,6 @@
 # chrome.tabs - Tab Zoom
 
-A sample that demonstrates how to use the [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) API.
+A sample that demonstrates how to use the Zoom features of the [`chrome.tabs`](https://developer.chrome.com/docs/extensions/reference/tabs/) API.
 
 ## Overview
 
