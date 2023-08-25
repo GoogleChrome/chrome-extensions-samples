@@ -144,7 +144,7 @@ async function pollProgress() {
   let popupLastOpened = (await chrome.storage.local.get(['popupLastOpened']))
     .popupLastOpened;
   if (!popupLastOpened) {
-    popupLastOpened = '' + new Date().getTime();
+    popupLastOpened = new Date().getTime();
     await chrome.storage.local.set({ popupLastOpened });
   }
   const options = {
@@ -197,7 +197,7 @@ pollProgress.start = function () {
   }
 };
 
-chrome.downloads.onCreated.addListener(function (item) {
+chrome.downloads.onCreated.addListener(function () {
   pollProgress();
 });
 
