@@ -1,12 +1,4 @@
 {
-  "extName": {
-    "message": "Download Manager Button",
-    "description": "Extension name"
-  },
-  "extDesc": {
-    "message": "Uses multiple chrome.downloads APIs to implement a simple download manager.",
-    "description": "Extension description"
-  },
   "tabTitle": {
     "message": "Downloads",
     "description": "tab title"
