@@ -1,8 +1,8 @@
 {
-  "name": "__MSG_extName__",
+  "name": "Download Manager Button",
   "version": "0.3",
   "manifest_version": 3,
-  "description": "__MSG_extDesc__",
+  "description": "Uses multiple chrome.downloads APIs to implement a simple download manager.",
   "icons": {
     "128": "icon128.png"
   },
