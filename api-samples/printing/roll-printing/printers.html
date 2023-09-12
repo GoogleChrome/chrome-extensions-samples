@@ -1,0 +1,50 @@
+<!--
+ * Copyright 2020 The Chromium Authors. All rights reserved.  Use of this
+ * source code is governed by a BSD-style license that can be found in the
+ * LICENSE file.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Printers</title>
+    <link href="printers.css" rel="stylesheet" type="text/css" />
+    <script src="printers.js"></script>
+  </head>
+
+  <body>
+    <h2>Print Job:</h2>
+    <p>On some systems, the print job may leave the queue too quickly to be visible in this list.</p>
+    <div id="printJob">
+      <table id="printJobTable">
+        <thread>
+          <tr>
+            <th>Cancel</th>
+            <th>Job Id</th>
+            <th>Status</th>
+          </tr>
+        </thread>
+        <tbody id="printJobTbody"></tbody>
+      </table>
+    </div>
+
+    <h2>Printers:</h2>
+    <div id="statusDiv">
+      <p id="jobStatus">JobId: <div id="jobIdDiv"></div></p>
+      <button id="cancelBtn">Cancel Printing</button>
+    </div>
+    <div id="printers">
+      <table id="printersTable">
+        <thead>
+          <tr>
+            <th>Print</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Size</th>
+            <th>Supports trim</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </body>
+</html>

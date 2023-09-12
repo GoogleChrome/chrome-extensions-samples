@@ -1,0 +1,20 @@
+{
+  "name": "Roll-printing Extension",
+  "version": "1.0",
+  "description": "Demonstrates roll-printing using the chrome.printing namespace.",
+  "permissions": ["printing"],
+  "action": {
+    "default_popup": "printers.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "manifest_version": 3
+}
