@@ -1,6 +1,6 @@
 # chrome.printing
 
-This sample demonstrates how to print to a roll printer with the `chrome.printing` namespace.
+This sample demonstrates printing to a roll printer with the `chrome.printing` namespace.
 
 ## Overview
 
