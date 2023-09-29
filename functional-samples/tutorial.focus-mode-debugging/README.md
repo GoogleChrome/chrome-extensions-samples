@@ -1,6 +1,6 @@
 # Oliver Focus Mode
 
-Extension used in the [Debugging Chrome extensions](https://www.youtube.com/watch?v=Ta-YTDhiBIQ) DevTools Tips video. This extension simplifies the styling of the Extensions and Chrome Web Store documentation pages so that they are easier to read when the action icon is clicked.
+Extension used in the [Debugging Chrome extensions](https://www.youtube.com/watch?v=Ta-YTDhiBIQ) DevTools Tips video. This extension simplifies the styling of the extensions and Chrome Web Store documentation pages so that they are easier to read when the action icon is clicked.
 
 This extension is based on the [Focus Mode](/functional-samples/tutorial.focus-mode/) extension.
 
