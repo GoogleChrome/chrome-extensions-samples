@@ -1,10 +1,10 @@
 # "chrome_url_overrides"
 
-This sample demonstrates the ` "chrome_url_overrides"` manifest key by replacing the user's default New Tab page with a new html file.
+This sample demonstrates the `"chrome_url_overrides"` manifest key by replacing the user's default New Tab page with a new html file.
 
 ## Overview
 
-The extension calls ` "chrome_url_overrides"` and its parameter `"newtab"` to replace the New Tab page with blank.html.
+The extension calls `"chrome_url_overrides"` and its parameter `"newtab"` to replace the New Tab page with blank.html.
 
 ## Running this extension
 
