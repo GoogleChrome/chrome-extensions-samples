@@ -1,0 +1,10 @@
+{
+  "name": "puppeteer-demo",
+  "version": "1.0",
+  "dependencies": {
+    "puppeteer": "^21.3.6"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
