@@ -93,7 +93,7 @@ class AlarmManager {
   };
 
   async cancelAlarm(name) {
-    await chrome.alarms.clear(name, (wasCleared) => {
+    return chrome.alarms.clear(name, (wasCleared) => {
       if (wasCleared) {
         this.logMessage(`Manager: canceled alarm "${name}"`);
       } else {
@@ -125,7 +125,7 @@ class AlarmManager {
   }
 
   async cancelAllAlarms() {
-    await chrome.alarms.clearAll((wasCleared) => {
+    return chrome.alarms.clearAll((wasCleared) => {
       if (wasCleared) {
         this.logMessage(`Manager: canceled all alarms"`);
       } else {
@@ -135,7 +135,7 @@ class AlarmManager {
   }
 
   async populateDisplay() {
-    await chrome.alarms.getAll((alarms) => {
+    return chrome.alarms.getAll((alarms) => {
       for (const [index, alarm] of alarms.entries()) {
         const isLast = index === alarms.length - 1;
         this.renderAlarm(alarm, isLast);
