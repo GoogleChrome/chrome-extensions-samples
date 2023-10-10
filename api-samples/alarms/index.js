@@ -9,7 +9,6 @@ const log = document.querySelector('.alarm-log');
 const form = document.querySelector('.create-alarm');
 const clearButton = document.getElementById('clear-display');
 const refreshButton = document.getElementById('refresh-display');
-const pad = (val, len = 2) => val.toString().padStart(len, '0');
 
 // DOM event bindings
 
@@ -94,17 +93,12 @@ class AlarmManager {
   };
 
   async cancelAlarm(name) {
-    // TODO: Remove custom promise wrapper once the Alarms API supports promises
-    return new Promise((resolve) => {
-      chrome.alarms.clear(name, (wasCleared) => {
-        if (wasCleared) {
-          this.logMessage(`Manager: canceled alarm "${name}"`);
-        } else {
-          this.logMessage(`Manager: could not canceled alarm "${name}"`);
-        }
-
-        resolve(wasCleared);
-      });
+    return chrome.alarms.clear(name, (wasCleared) => {
+      if (wasCleared) {
+        this.logMessage(`Manager: canceled alarm "${name}"`);
+      } else {
+        this.logMessage(`Manager: could not canceled alarm "${name}"`);
+      }
     });
   }
 
@@ -131,30 +125,21 @@ class AlarmManager {
   }
 
   async cancelAllAlarms() {
-    // TODO: Remove custom promise wrapper once the Alarms API supports promises
-    return new Promise((resolve) => {
-      chrome.alarms.clearAll((wasCleared) => {
-        if (wasCleared) {
-          this.logMessage(`Manager: canceled all alarms"`);
-        } else {
-          this.logMessage(`Manager: could not canceled all alarms`);
-        }
-
-        resolve(wasCleared);
-      });
+    return chrome.alarms.clearAll((wasCleared) => {
+      if (wasCleared) {
+        this.logMessage(`Manager: canceled all alarms"`);
+      } else {
+        this.logMessage(`Manager: could not canceled all alarms`);
+      }
     });
   }
 
   async populateDisplay() {
-    // TODO: Remove custom promise wrapper once the Alarms API supports promises
-    return new Promise((resolve) => {
-      chrome.alarms.getAll((alarms) => {
-        for (const [index, alarm] of alarms.entries()) {
-          const isLast = index === alarms.length - 1;
-          this.renderAlarm(alarm, isLast);
-        }
-        resolve();
-      });
+    return chrome.alarms.getAll((alarms) => {
+      for (const [index, alarm] of alarms.entries()) {
+        const isLast = index === alarms.length - 1;
+        this.renderAlarm(alarm, isLast);
+      }
     });
   }
 
@@ -169,7 +154,8 @@ class AlarmManager {
 
     this.#refreshing = true; // acquire lock
     try {
-      await Promise.all([this.clearDisplay(), this.populateDisplay()]);
+      await this.clearDisplay();
+      await this.populateDisplay();
     } finally {
       this.#refreshing = false; // release lock
     }
