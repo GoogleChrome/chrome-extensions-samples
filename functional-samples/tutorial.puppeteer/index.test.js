@@ -22,6 +22,7 @@ let browser;
 
 beforeEach(async () => {
   browser = await puppeteer.launch({
+    // Set to 'new' to hide Chrome if running as part of an automated build.
     headless: false,
     args: [
       `--disable-extensions-except=${EXTENSION_PATH}`,
