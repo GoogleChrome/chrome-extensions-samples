@@ -10,4 +10,4 @@ Calling `submitJob()` triggers a dialog box asking the user to confirm printing.
 
 ## Implementation Notes
 
-Note that the `submitJob()` function throws an error when returning a promise ([crbug: 1422837](https://bugs.chromium.org/p/chromium/issues/detail?id=1422837)).
+Before Chrome 120, `submitJob()` function throws an error when returning a promise ([crbug: 1422837](https://bugs.chromium.org/p/chromium/issues/detail?id=1422837)).
