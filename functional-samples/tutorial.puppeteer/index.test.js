@@ -18,26 +18,29 @@ const puppeteer = require('puppeteer');
 const EXTENSION_PATH = '../../api-samples/history/showHistory';
 const EXTENSION_ID = 'jkomgjfbbjocikdmilgaehbfpllalmia';
 
-async function run() {
-  const browser = await puppeteer.launch({
+let browser;
+
+beforeEach(async () => {
+  browser = await puppeteer.launch({
     headless: false,
     args: [
       `--disable-extensions-except=${EXTENSION_PATH}`,
       `--load-extension=${EXTENSION_PATH}`
     ]
   });
+});
 
+afterEach(async () => {
+  await browser.close();
+  browser = undefined;
+});
+
+test('one history item is visible', async () => {
   const page = await browser.newPage();
   await page.goto(`chrome-extension://${EXTENSION_ID}/popup.html`);
 
   const list = await page.$('ul');
   const children = await list.$$('li');
 
-  if (children.length !== 1) {
-    throw new Error('Unexpected number of list elements!');
-  }
-
-  await browser.close();
-}
-
-run();
+  expect(children.length).toBe(1);
+});
