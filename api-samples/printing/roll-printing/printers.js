@@ -154,7 +154,7 @@ function createPrintersTable() {
       let cancelBtn = createButton('Cancel', () => {
         onCancelButtonClicked(jobId);
       });
-      cancelBtn.setAttribute(`id ${jobId}-cancelBtn`);
+      cancelBtn.setAttribute('id', `id ${jobId}-cancelBtn`);
       cancelTd.appendChild(cancelBtn);
 
       const jobIdTd = addCell(jobTr);
@@ -166,7 +166,7 @@ function createPrintersTable() {
 
       document.getElementById('printJobTbody').appendChild(jobTr);
     } else {
-      document.getElementById(`jobId${-status}`).innerText = status;
+      document.getElementById(`${jobId}-status`).innerText = status;
       if (status !== 'PENDING' && status !== 'IN_PROGRESS') {
         jobTr.remove();
       }
