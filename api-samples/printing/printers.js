@@ -37,7 +37,7 @@ function onPrintButtonClicked(printerId, dpi) {
           })
         }
       };
-      chrome.printing.submitJob(request, (response) => {
+      chrome.printing.submitJob(request).then((response) => {
         if (response !== undefined) {
           console.log(response.status);
         }
