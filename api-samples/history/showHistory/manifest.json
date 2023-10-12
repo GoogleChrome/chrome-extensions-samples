@@ -1,10 +1,11 @@
 {
   "name": "Typed URL History",
   "version": "1.3",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0FAp+xWiJpGBmsKPhGcqF4/gQN9F5tmXgEVYEHUHc8HcBIUcT+9w+jo4q2OtXa2ThqgEXsx2zcNZIWJ/5yXcofVry5E2/HKBuLWHNtYOlI1rhwc/CLujo0RHhzF7rIiYcMPQdBhzr6L0u5u9N29VUWjLozltquKRcUbjXNe4LT7+q/akhn5tvfvWHkQ9qC6mRjvGwGTFlh1A6+vWKKSVYx/J+IBHW+I2X5NlAxwG734OMYVWRWK487jf1wsWZ2jHRTqg9TB3htT+84r7+E3kFYMycow9+2EhvoI2k5VGhZw1tAJcpie1Poozc5u8CTrZ4sZ5LK4h59OCOxmejC048QIDAQAB",
   "description": "Uses the chrome.history API to display in a popup the user's most visited pages.",
   "permissions": ["history"],
   "action": {
-    "default_popup": "typed-urls.html",
+    "default_popup": "popup.html",
     "default_icon": "clock.png"
   },
   "manifest_version": 3
