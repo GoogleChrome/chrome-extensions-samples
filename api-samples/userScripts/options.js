@@ -67,7 +67,9 @@ async function onSave() {
     script
   });
 
-  const existingScripts = await chrome.userScripts.getScripts();
+  const existingScripts = await chrome.userScripts.getScripts({
+    ids: [USER_SCRIPT_ID]
+  });
 
   if (existingScripts.length > 0) {
     // Update existing script.
