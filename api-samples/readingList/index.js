@@ -59,7 +59,7 @@ async function updateUI() {
   for (const item of items) {
     // Use existing row if possible, otherwise create a new one.
     const row =
-      document.querySelector(`[data-url="${item.url}"`) ||
+      document.querySelector(`[data-url="${item.url}"]`) ||
       document.getElementById(TABLE_ITEM_TEMPLATE_ID).content.cloneNode(true)
         .children[0];
 
