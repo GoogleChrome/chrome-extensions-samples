@@ -24,6 +24,6 @@ This sample allows you to inject the following:
 
 ## Implementation Notes
 
-The User Scripts API requires users to have developer mode enabled. We check for this by attempting to access `chrome.userScripts`, which throws an error on property access if it is disabled.
+The User Scripts API requires users to enabled developer mode. We check for this by attempting to access `chrome.userScripts`, which throws an error on property access if it is disabled.
 
-When a change is made on the options page, we use the `chrome.userScripts` API to update the user script registration.
+When a change is made on the options page, use the `chrome.userScripts` API to update the user script registration.
