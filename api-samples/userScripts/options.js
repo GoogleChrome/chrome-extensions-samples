@@ -67,36 +67,26 @@ async function onSave() {
     script
   });
 
-  // Unregister existing script.
-  try {
-    await chrome.userScripts.unregister({ ids: [USER_SCRIPT_ID] });
-  } catch {
-    // This might be our first time registering a script.
-  }
+  const existingScripts = await chrome.userScripts.getScripts();
 
-  // Register new script.
-  switch (type) {
-    case 'file':
-      await chrome.userScripts.register([
-        {
-          id: USER_SCRIPT_ID,
-          matches: ['https://example.com/*'],
-          js: [{ file: 'user-script.js' }]
-        }
-      ]);
-      break;
-    case 'custom':
-      await chrome.userScripts.register([
-        {
-          id: USER_SCRIPT_ID,
-          matches: ['https://example.com/*'],
-          js: [{ code: script }]
-        }
-      ]);
-      break;
-    default:
-      console.warn('Unknown type:', type);
-      return;
+  if (existingScripts.length > 0) {
+    // Update existing script.
+    await chrome.userScripts.update([
+      {
+        id: USER_SCRIPT_ID,
+        matches: ['https://example.com/*'],
+        js: type === 'file' ? [{ file: 'user-script.js' }] : [{ code: script }]
+      }
+    ]);
+  } else {
+    // Register new script.
+    await chrome.userScripts.register([
+      {
+        id: USER_SCRIPT_ID,
+        matches: ['https://example.com/*'],
+        js: type === 'file' ? [{ file: 'user-script.js' }] : [{ code: script }]
+      }
+    ]);
   }
 }
 
