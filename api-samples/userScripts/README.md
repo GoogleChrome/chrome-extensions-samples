@@ -4,7 +4,7 @@ This sample demonstrates using the [`chrome.userScripts`](https://developer.chro
 
 ## Overview
 
-Once this extension is installed, clicking this extension's action icon will open an options page.
+Clicking this extension's action icon opens an options page.
 
 <img src="screenshot.png" height=250 alt="Screenshot showing the chrome.userScripts API demo running in Chrome.">
 
@@ -24,6 +24,6 @@ This sample allows you to inject the following:
 
 ## Implementation Notes
 
-The User Scripts API requires developer mode. We check for this by attempting to access `chrome.userScripts`, which throws an error on property access if it is disabled.
+The User Scripts API requires users to have developer mode enabled. We check for this by attempting to access `chrome.userScripts`, which throws an error on property access if it is disabled.
 
 When a change is made on the options page, we use the `chrome.userScripts` API to update the user script registration.
