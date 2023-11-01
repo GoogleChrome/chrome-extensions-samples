@@ -10,6 +10,10 @@ way as the
 [equivalent API](https://developer.chrome.com/articles/file-handling/) in web
 applications.
 
+With this extension installed, you can open .txt files with the extension and see their name and size on the opened extension page. This could be a good starting point for building an extension which displays or interacts with an opened file.
+
+<img src="screenshot.png" height=300 alt="Screenshot showing the File Handling API demo running in Chrome.">
+
 ## Running this extension
 
 **This API is only supported on ChromeOS**.
