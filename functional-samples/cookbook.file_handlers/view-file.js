@@ -20,7 +20,7 @@ async function consumer(launchParams) {
   // Get metadata for each file.
   const files = await Promise.all(
     launchParams.files.map(async (f) => {
-      const file = await f.file();
+      const file = await f.getFile();
 
       return {
         name: file.name,

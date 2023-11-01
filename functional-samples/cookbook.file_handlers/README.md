@@ -18,4 +18,4 @@ applications.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Create a .txt file on your ChromeOS device.
 4. In the Files app, select the file.
-5. In the toolbar, choose "Open with..." and then "File Handling API".
+5. In the toolbar, choose "Open" and then "File Handling API".
