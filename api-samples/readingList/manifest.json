@@ -1,0 +1,12 @@
+{
+  "name": "Reading List API Demo",
+  "version": "1.0",
+  "minimum_chrome_version": "120",
+  "manifest_version": 3,
+  "description": "Uses the chrome.readingList API to display, update and remove reading list entries.",
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "permissions": ["readingList"],
+  "action": {}
+}
