@@ -1,6 +1,7 @@
 {
   "name": "File Handling API",
   "version": "1.0",
+  "minimum_chrome_version": "120",
   "description": "Shows how to use the file_handlers manifest key.",
   "manifest_version": 3,
   "file_handlers": [
