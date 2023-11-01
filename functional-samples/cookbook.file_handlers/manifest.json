@@ -1,0 +1,15 @@
+{
+  "name": "File Handling API",
+  "version": "1.0",
+  "description": "Shows how to use the file_handlers manifest key.",
+  "manifest_version": 3,
+  "file_handlers": [
+    {
+      "name": "TXT file",
+      "action": "/view-file.html",
+      "accept": {
+        "text/plain": [".txt"]
+      }
+    }
+  ]
+}
