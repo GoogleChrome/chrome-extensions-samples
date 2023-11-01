@@ -10,7 +10,7 @@ way as the
 [equivalent API](https://developer.chrome.com/articles/file-handling/) in web
 applications.
 
-With this extension installed, you can open .txt files with the extension and see their name and size on the opened extension page. This could be a good starting point for building an extension which displays or interacts with an opened file.
+With this extension installed, you can open text files with the extension and see their name and size on the opened extension page. This could be a good starting point for building an extension that displays or interacts with an opened file.
 
 <img src="screenshot.png" height=300 alt="Screenshot showing the File Handling API demo running in Chrome.">
 
@@ -20,6 +20,6 @@ With this extension installed, you can open .txt files with the extension and se
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-3. Create a .txt file on your ChromeOS device.
+3. Create a text file on your ChromeOS device.
 4. In the Files app, select the file.
 5. In the toolbar, choose "Open" and then "File Handling API".
