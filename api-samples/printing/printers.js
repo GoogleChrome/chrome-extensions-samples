@@ -99,12 +99,8 @@ function addCell(parent) {
 
 function supportsRollPrinting(printerInfo) {
   // If any of the media size options support continuous feed, return true.
-  const newOptions = printerInfo.capabilities.printer.media_size.option.filter(
+  return printerInfo.capabilities.printer.media_size.option.find(
       (option) => option.is_continuous_feed);
-  if (newOptions.length > 0) {
-    return true;
-  }
-  return false;
 }
 
 function createPrintersTable() {
