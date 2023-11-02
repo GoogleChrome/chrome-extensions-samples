@@ -4,8 +4,6 @@ Official samples for Chrome Extensions and the Chrome Apps platform. (Chrome App
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
-**Note: Samples for Manifest V3 are still being prepared. In the mean time, consider referring to [\_archive/mv2/](_archive/mv2/).**
-
 ## Explore samples
 
 The directory structure is as follows:
@@ -18,9 +16,9 @@ The directory structure is as follows:
 You can also use the [Samples](https://developer.chrome.com/docs/extensions/samples/) page to discover extensions by type, permissions, and extension API.
 
 ## Installation
+
 To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
 Read more on [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-
 
 ## Contributing
 
