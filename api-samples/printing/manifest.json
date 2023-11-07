@@ -3,8 +3,10 @@
   "version": "1.0",
   "description": "Demonstrates all four methods of the chrome.printing namespace.",
   "permissions": ["printing"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
-    "default_popup": "printers.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
