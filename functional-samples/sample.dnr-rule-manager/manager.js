@@ -5,7 +5,7 @@ const viewRuleButton = document.getElementById('viewRuleButton');
 
 async function getNextRuleId() {
   const rules = await chrome.declarativeNetRequest.getDynamicRules();
-  return Math.max(...rules.map((rule) => rule.id)) + 1;
+  return Math.max(0, ...rules.map((rule) => rule.id)) + 1;
 }
 
 async function refresh() {
