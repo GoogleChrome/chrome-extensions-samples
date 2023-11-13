@@ -1,6 +1,6 @@
 {
   "name": "Tab Inspector",
-  "description": "Demonstrates the chrome.tabs API and the chrome.windows API by provide-ing a user interface to manage tabs and windows.",
+  "description": "Demonstrates the chrome.tabs API and the chrome.windows API by providing a user interface to manage tabs and windows.",
   "version": "0.3",
   "permissions": ["tabs"],
   "background": {
