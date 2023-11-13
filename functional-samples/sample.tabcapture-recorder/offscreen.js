@@ -56,7 +56,22 @@ async function startRecording(streamId) {
   source.connect(output.destination);
 
   // Start recording.
-  recorder = new MediaRecorder(media, { mimeType: 'video/webm' });
+  const microphone = await navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: false }
+  });
+
+  const mixedContext = new AudioContext();
+  const mixedDest = mixedContext.createMediaStreamDestination();
+
+  mixedContext.createMediaStreamSource(microphone).connect(mixedDest);
+  mixedContext.createMediaStreamSource(media).connect(mixedDest);
+
+  const combinedStream = new MediaStream([
+    media.getVideoTracks()[0],
+    mixedDest.stream.getTracks()[0]
+  ]);
+
+  recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
   recorder.ondataavailable = (event) => data.push(event.data);
   recorder.onstop = () => {
     const blob = new Blob(data, { type: 'video/webm' });
