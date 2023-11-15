@@ -1,4 +1,4 @@
-# chrome.cookies
+# chrome.commands
 
 This sample demonstrates the `chrome.commands` API by creating a new keyboard macro for switching tabs in the browser window.
 
