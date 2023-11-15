@@ -1,5 +1,5 @@
 {
-  "name": "Tab Flipper",
+  "name": "chrome.commands",
   "description": "Uses the chrome.commands API by creating a new keyboard macro for switching tabs in the browser window.",
   "version": "1.0",
   "manifest_version": 3,
