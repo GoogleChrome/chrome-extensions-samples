@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 let listOfPrinters = [];
+let filename;
 
 function rollPrintingEnabled() {
   return document.getElementById('rollPrinters').checked;
@@ -36,7 +37,7 @@ function onPrintButtonClicked(printerId, dpi, performTrim) {
     // This only makese sense to specify if the printer supports the trim
     // option.
     if (performTrim) {
-      ticket.print.vendor_ticket_item = [{id: 'finishings', value: 'trim'}];
+      ticket.print.vendor_ticket_item = [{ id: 'finishings', value: 'trim' }];
     }
   } else {
     filename = 'test.pdf';
@@ -100,7 +101,8 @@ function addCell(parent) {
 function supportsRollPrinting(printerInfo) {
   // If any of the media size options support continuous feed, return true.
   return printerInfo.capabilities.printer.media_size.option.find(
-      (option) => option.is_continuous_feed);
+    (option) => option.is_continuous_feed
+  );
 }
 
 function createPrintersTable() {
@@ -116,8 +118,9 @@ function createPrintersTable() {
       // The printer needs to support this specific vendor capability if the
       // print job ticket is going to specify the trim option.
       const supportsTrim =
-            printer.info.capabilities.printer.vendor_capability.some(
-                (capability) => capability.display_name == "finishings/11");
+        printer.info.capabilities.printer.vendor_capability.some(
+          (capability) => capability.display_name == 'finishings/11'
+        );
       const columnValues = [
         printer.data.id,
         printer.data.name,
@@ -134,13 +137,13 @@ function createPrintersTable() {
       let tr = document.createElement('tr');
       const printTd = document.createElement('td');
       printTd.appendChild(
-          createButton('Print', () => {
-            onPrintButtonClicked(
-                printer.data.id,
-                printer.info.capabilities.printer.dpi.option[0],
-                supportsTrim
-            );
-          })
+        createButton('Print', () => {
+          onPrintButtonClicked(
+            printer.data.id,
+            printer.info.capabilities.printer.dpi.option[0],
+            supportsTrim
+          );
+        })
       );
 
       tr.appendChild(printTd);
@@ -191,14 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.printing.getPrinters().then((printers) => {
     printers.forEach((printer) => {
       chrome.printing.getPrinterInfo(printer.id).then((printerInfo) => {
-        listOfPrinters.push({data: printer, info: printerInfo});
+        listOfPrinters.push({ data: printer, info: printerInfo });
         createPrintersTable();
       });
     });
   });
 
-  let checkbox = document.getElementById('rollPrinters')
-  checkbox.addEventListener('change', function() {
+  let checkbox = document.getElementById('rollPrinters');
+  checkbox.addEventListener('change', function () {
     createPrintersTable();
   });
 });
