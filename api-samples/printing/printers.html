@@ -28,11 +28,9 @@
     </div>
 
     <h2>Printers:</h2>
-    <div id="statusDiv">
-      <p id="jobStatus">JobId: <div id="jobIdDiv"></div></p>
-      <button id="cancelBtn">Cancel Printing</button>
-    </div>
     <div id="printers">
+      <input type='checkbox' id='rollPrinters' name='rollPrinters'>
+      <label for='rollPrinters'>Roll Printers</label>
       <table id="printersTable">
         <thead>
           <tr>
@@ -45,9 +43,11 @@
             <th>Default</th>
             <th>Recently used</th>
             <th>Capabilities</th>
+            <th>Supports trim</th>
             <th>Status</th>
           </tr>
         </thead>
+        <tbody id="tbody"/>
       </table>
     </div>
   </body>

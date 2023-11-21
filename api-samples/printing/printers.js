@@ -2,7 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-function onPrintButtonClicked(printerId, dpi) {
+let listOfPrinters = [];
+
+function rollPrintingEnabled() {
+  return document.getElementById('rollPrinters').checked;
+}
+
+function onPrintButtonClicked(printerId, dpi, performTrim) {
   let ticket = {
     version: '1.0',
     print: {
@@ -14,16 +20,34 @@ function onPrintButtonClicked(printerId, dpi) {
         horizontal_dpi: dpi.horizontal_dpi,
         vertical_dpi: dpi.vertical_dpi
       },
-      media_size: {
-        width_microns: 210000,
-        height_microns: 297000,
-        vendor_id: 'iso_a4_210x297mm'
-      },
       collate: { collate: false }
     }
   };
 
-  fetch('test.pdf')
+  if (rollPrintingEnabled()) {
+    filename = 'test-rollprinting.pdf';
+    ticket.print.media_size = {
+      width_microns: 72320,
+      // Note that this value needs to be between min_height_microns and
+      // max_height_microns.  Usually this matches the height of the document
+      // being printed.
+      height_microns: 110000
+    };
+    // This only makese sense to specify if the printer supports the trim
+    // option.
+    if (performTrim) {
+      ticket.print.vendor_ticket_item = [{id: 'finishings', value: 'trim'}];
+    }
+  } else {
+    filename = 'test.pdf';
+    ticket.print.media_size = {
+      width_microns: 210000,
+      height_microns: 297000,
+      vendor_id: 'iso_a4_210x297mm'
+    };
+  }
+
+  fetch(filename)
     .then((response) => response.arrayBuffer())
     .then((arrayBuffer) => {
       const request = {
@@ -37,7 +61,7 @@ function onPrintButtonClicked(printerId, dpi) {
           })
         }
       };
-      chrome.printing.submitJob(request, (response) => {
+      chrome.printing.submitJob(request).then((response) => {
         if (response !== undefined) {
           console.log(response.status);
         }
@@ -73,48 +97,63 @@ function addCell(parent) {
   return newCell;
 }
 
-function createPrintersTable() {
-  chrome.printing.getPrinters().then((printers) => {
-    const tbody = document.createElement('tbody');
-    printers.forEach((printer) => {
-      chrome.printing.getPrinterInfo(printer.id).then((printerInfo) => {
-        const columnValues = [
-          printer.id,
-          printer.name,
-          printer.description,
-          printer.uri,
-          printer.source,
-          printer.isDefault,
-          printer.recentlyUsedRank,
-          JSON.stringify(printerInfo.capabilities),
-          printerInfo.status
-        ];
+function supportsRollPrinting(printerInfo) {
+  // If any of the media size options support continuous feed, return true.
+  return printerInfo.capabilities.printer.media_size.option.find(
+      (option) => option.is_continuous_feed);
+}
 
-        let tr = document.createElement('tr');
-        const printTd = document.createElement('td');
-        printTd.appendChild(
+function createPrintersTable() {
+  // Reset this so the table can be rebuilt with either all printers or just
+  // printers capable of roll printing.
+  let tbody = document.getElementById('tbody');
+  while (tbody.firstChild) {
+    tbody.removeChild(tbody.firstChild);
+  }
+
+  listOfPrinters.forEach((printer) => {
+    if (!rollPrintingEnabled() || supportsRollPrinting(printer.info)) {
+      // The printer needs to support this specific vendor capability if the
+      // print job ticket is going to specify the trim option.
+      const supportsTrim =
+            printer.info.capabilities.printer.vendor_capability.some(
+                (capability) => capability.display_name == "finishings/11");
+      const columnValues = [
+        printer.data.id,
+        printer.data.name,
+        printer.data.description,
+        printer.data.uri,
+        printer.data.source,
+        printer.data.isDefault,
+        printer.data.recentlyUsedRank,
+        JSON.stringify(printer.info.capabilities),
+        supportsTrim,
+        printer.info.status
+      ];
+
+      let tr = document.createElement('tr');
+      const printTd = document.createElement('td');
+      printTd.appendChild(
           createButton('Print', () => {
             onPrintButtonClicked(
-              printer.id,
-              printerInfo.capabilities.printer.dpi.option[0]
+                printer.data.id,
+                printer.info.capabilities.printer.dpi.option[0],
+                supportsTrim
             );
           })
-        );
+      );
 
-        tr.appendChild(printTd);
+      tr.appendChild(printTd);
 
-        for (const columnValue of columnValues) {
-          const td = document.createElement('td');
-          td.appendChild(document.createTextNode(columnValue));
-          td.setAttribute('align', 'center');
-          tr.appendChild(td);
-        }
+      for (const columnValue of columnValues) {
+        const td = document.createElement('td');
+        td.appendChild(document.createTextNode(columnValue));
+        td.setAttribute('align', 'center');
+        tr.appendChild(td);
+      }
 
-        tbody.appendChild(tr);
-      });
-    });
-    const table = document.getElementById('printersTable');
-    table.appendChild(tbody);
+      tbody.appendChild(tr);
+    }
   });
 
   chrome.printing.onJobStatusChanged.addListener((jobId, status) => {
@@ -128,7 +167,7 @@ function createPrintersTable() {
       let cancelBtn = createButton('Cancel', () => {
         onCancelButtonClicked(jobId);
       });
-      cancelBtn.setAttribute(`id ${jobId}-cancelBtn`);
+      cancelBtn.setAttribute('id', `id ${jobId}-cancelBtn`);
       cancelTd.appendChild(cancelBtn);
 
       const jobIdTd = addCell(jobTr);
@@ -140,7 +179,7 @@ function createPrintersTable() {
 
       document.getElementById('printJobTbody').appendChild(jobTr);
     } else {
-      document.getElementById(`jobId${-status}`).innerText = status;
+      document.getElementById(`${jobId}-status`).innerText = status;
       if (status !== 'PENDING' && status !== 'IN_PROGRESS') {
         jobTr.remove();
       }
@@ -149,5 +188,17 @@ function createPrintersTable() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  createPrintersTable();
+  chrome.printing.getPrinters().then((printers) => {
+    printers.forEach((printer) => {
+      chrome.printing.getPrinterInfo(printer.id).then((printerInfo) => {
+        listOfPrinters.push({data: printer, info: printerInfo});
+        createPrintersTable();
+      });
+    });
+  });
+
+  let checkbox = document.getElementById('rollPrinters')
+  checkbox.addEventListener('change', function() {
+    createPrintersTable();
+  });
 });
