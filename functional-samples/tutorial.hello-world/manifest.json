@@ -1,10 +1,10 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
-  "version": "1.0",
+  "name": "Hello Syed Ahsan Raza damm",
+  "description": "You are the best",
+  "version": "90099",
   "manifest_version": 3,
   "action": {
-    "default_popup": "hello.html",
-    "default_icon": "hello_extensions.png"
+    "default_popup": "hellobrother.html",
+    "default_icon": "images/Kiay_masla_ha_image.png"
   }
 }
