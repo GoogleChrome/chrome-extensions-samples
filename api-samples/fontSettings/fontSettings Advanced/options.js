@@ -657,6 +657,18 @@ const isNumeric = function (key, config) {
   }
 };
 
+const isString = function (...data) {
+  const result = data.every((e) => typeof e === 'string');
+
+  if (!result) {
+    console.error(
+      `Invalid value provided. It needs to be a string, recieved ${typeof data}`
+    );
+  }
+
+  return result;
+};
+
 advancedFonts.applyImportedSettings = async function (config) {
   if (isNumeric('defaultFixedFontSize', config)) {
     await chrome.fontSettings.setDefaultFixedFontSize({
@@ -674,15 +686,31 @@ advancedFonts.applyImportedSettings = async function (config) {
     });
   }
 
-  config.configuredFonts.forEach(({ script, scriptData }) => {
-    scriptData.forEach(async ({ fontId, genericFamily }) => {
-      await chrome.fontSettings.setFont({
-        fontId,
-        genericFamily,
-        script
+  if (Array.isArray(config.configuredFonts)) {
+    config.configuredFonts.forEach(({ script, scriptData }) => {
+      scriptData.forEach(async ({ fontId, genericFamily }) => {
+        if (isString(fontId, genericFamily, script)) {
+          try {
+            await chrome.fontSettings.setFont({
+              fontId,
+              genericFamily,
+              script
+            });
+          } catch (e) {
+            console.warn(
+              `Unable to set ${script},${fonId},${genericFamily}: ${e}`
+            );
+          }
+        }
       });
     });
-  });
+  } else if (typeof config.configuredFonts !== 'undefined') {
+    console.error(
+      `Invalid value for configuredFonts. It needs to be an array, recieved ${typeof config[
+        key
+      ]}`
+    );
+  }
 };
 
 /**
