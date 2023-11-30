@@ -688,21 +688,23 @@ advancedFonts.applyImportedSettings = async function (config) {
 
   if (Array.isArray(config.configuredFonts)) {
     config.configuredFonts.forEach(({ script, scriptData }) => {
-      scriptData.forEach(async ({ fontId, genericFamily }) => {
-        if (isString(fontId, genericFamily, script)) {
-          try {
-            await chrome.fontSettings.setFont({
-              fontId,
-              genericFamily,
-              script
-            });
-          } catch (e) {
-            console.warn(
-              `Unable to set ${script},${fonId},${genericFamily}: ${e}`
-            );
+      if (Array.isArray(scriptData)) {
+        scriptData.forEach(async ({ fontId, genericFamily }) => {
+          if (isString(fontId, genericFamily, script)) {
+            try {
+              await chrome.fontSettings.setFont({
+                fontId,
+                genericFamily,
+                script
+              });
+            } catch (e) {
+              console.warn(
+                `Unable to set ${script},${fonId},${genericFamily}: ${e}`
+              );
+            }
           }
-        }
-      });
+        });
+      }
     });
   } else if (typeof config.configuredFonts !== 'undefined') {
     console.error(
