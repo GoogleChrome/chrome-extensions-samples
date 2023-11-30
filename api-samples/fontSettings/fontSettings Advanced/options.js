@@ -26,6 +26,12 @@ function $(id) {
 }
 
 /**
+ * A version, for any config files that are exported. Otherwise unused as of now
+ * @const
+ */
+const SETTINGS_VERSION = 1;
+
+/**
  * @namespace
  */
 let advancedFonts = {};
@@ -594,6 +600,207 @@ advancedFonts.closeOverlay = function () {
 };
 
 /**
+ * Import a JSON file of existing font settings
+ */
+advancedFonts.importSettings = function () {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.json'; // Only allow JSON files
+
+  // Set the event listener for file selection
+  fileInput.addEventListener('change', handleFileSelection);
+
+  function handleFileSelection(event) {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      if (selectedFile.type === 'application/json') {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const jsonContent = e.target.result;
+
+          try {
+            const parsedConfig = JSON.parse(jsonContent);
+
+            advancedFonts.applyImportedSettings(parsedConfig);
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+          }
+        };
+
+        reader.readAsText(selectedFile);
+      } else {
+        console.error('Please select a valid JSON file.');
+      }
+    }
+  }
+
+  fileInput.click();
+};
+
+const isNumeric = function (key, config) {
+  if (key in config) {
+    if (typeof config[key] === 'number') {
+      return true;
+    } else {
+      console.error(
+        `Invalid value for ${key}. It needs to be an integer, recieved ${typeof config[
+          key
+        ]}`
+      );
+      return false;
+    }
+  } else {
+    console.error(`${key} not found in config.`);
+    return false;
+  }
+};
+
+const isString = function (...data) {
+  const result = data.every((e) => typeof e === 'string');
+
+  if (!result) {
+    console.error(
+      `Invalid value provided. It needs to be a string, recieved ${typeof data}`
+    );
+  }
+
+  return result;
+};
+
+advancedFonts.applyImportedSettings = async function (config) {
+  if (isNumeric('defaultFixedFontSize', config)) {
+    await chrome.fontSettings.setDefaultFixedFontSize({
+      pixelSize: config.defaultFixedFontSize
+    });
+  }
+  if (isNumeric('minimumFontSize', config)) {
+    await chrome.fontSettings.setMinimumFontSize({
+      pixelSize: config.minimumFontSize
+    });
+  }
+  if (isNumeric('defaultFontSize', config)) {
+    await chrome.fontSettings.setDefaultFontSize({
+      pixelSize: config.minimumFontSize
+    });
+  }
+
+  if (Array.isArray(config.configuredFonts)) {
+    config.configuredFonts.forEach(({ script, scriptData }) => {
+      if (Array.isArray(scriptData)) {
+        scriptData.forEach(async ({ fontId, genericFamily }) => {
+          if (isString(fontId, genericFamily, script)) {
+            try {
+              await chrome.fontSettings.setFont({
+                fontId,
+                genericFamily,
+                script
+              });
+            } catch (e) {
+              console.warn(
+                `Unable to set ${script},${fonId},${genericFamily}: ${e}`
+              );
+            }
+          }
+        });
+      }
+    });
+  } else if (typeof config.configuredFonts !== 'undefined') {
+    console.error(
+      `Invalid value for configuredFonts. It needs to be an array, recieved ${typeof config[
+        key
+      ]}`
+    );
+  }
+};
+
+/**
+ * Export a JSON file of the current font settings;
+ */
+advancedFonts.exportSettings = async function () {
+  const settings = await advancedFonts.getCurrentSettings();
+  const blob = new Blob([JSON.stringify(settings)], {
+    type: 'application/json'
+  });
+  const blobUrl = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+  downloadLink.href = blobUrl;
+  downloadLink.download = `"Advanced_Font_Settings_Data.v${SETTINGS_VERSION}".json`;
+
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(blobUrl);
+};
+
+/**
+ * Generate a JSON object that represents all of the font settings data
+ */
+advancedFonts.getCurrentSettings = async function () {
+  const configuredFonts = [
+    ...(await Promise.all(
+      // iterate over every script (i.e. language code - "Cyrl", "Hebr", etc)
+      advancedFonts.scripts.map(async (scriptInfo) => {
+        const script = scriptInfo.scriptCode;
+
+        // for each script, we also iterage over any font that is configured for any generic value (e.g. "fixed", "sansserif", etc)
+        let scriptData = [
+          ...(await Promise.all(
+            advancedFonts.FAMILIES.map(async (genericFamily) => {
+              const { fontId } = await chrome.fontSettings.getFont({
+                genericFamily,
+                script
+              });
+
+              return {
+                genericFamily,
+                fontId
+              };
+            })
+          ))
+        ]
+          .filter((entry) => {
+            // any entry that is blank hasnt been configured, so no need to include it
+            return entry.fontId !== '';
+          })
+          .map(({ fontId, genericFamily }) => {
+            // filter the output to only the data we care about
+            return {
+              fontId,
+              genericFamily
+            };
+          });
+
+        return {
+          script,
+          scriptData
+        };
+      })
+    ))
+  ].filter((entry) => {
+    // remove any script that has no scriptData, in order to reduce our file size
+    return entry.scriptData.length > 0;
+  });
+
+  const defaultFixedFontSize = (
+    await chrome.fontSettings.getDefaultFixedFontSize()
+  ).pixelSize;
+  const minimumFontSize = (await chrome.fontSettings.getMinimumFontSize())
+    .pixelSize;
+  const defaultFontSize = (await chrome.fontSettings.getDefaultFontSize())
+    .pixelSize;
+
+  return {
+    defaultFixedFontSize,
+    defaultFontSize,
+    minimumFontSize,
+    configuredFonts,
+    _version: SETTINGS_VERSION
+  };
+};
+
+/**
  * Initializes apply and reset buttons.
  */
 advancedFonts.initApplyAndResetButtons = function () {
@@ -636,6 +843,9 @@ advancedFonts.initApplyAndResetButtons = function () {
     advancedFonts.refresh();
   };
   $('reset-all-cancel').onclick = advancedFonts.closeOverlay;
+
+  $('import-settings').onclick = advancedFonts.importSettings;
+  $('export-settings').onclick = advancedFonts.exportSettings;
 };
 
 /**
