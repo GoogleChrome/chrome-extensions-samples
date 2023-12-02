@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <title>New Tab</title>
+    <style>
+      /* Animate chrome icon - communicate tab is part of chrome. */
+      @keyframes one {
+        0% {
+          left: 100px;
+          opacity: 1;
+          transform: rotate(0deg);
+        }
+        50% {
+          opacity: 0.25;
+        }
+        100% {
+          left: 600px;
+          opacity: 0;
+          transform: rotate(180deg);
+        }
+      }
+      /* Animate google icon - communicate tab is becoming Google. */
+      @keyframes two {
+        0% {
+          left: 100px;
+          height: 32px;
+          width: 32px;
+          opacity: 0;
+          transform: rotate(0deg);
+        }
+        100% {
+          left: 1100px;
+          height: 160px;
+          width: 160px;
+          opacity: 1;
+          transform: rotate(360deg);
+        }
+      }
+      /* Bring in closing text element. */
+      @keyframes three {
+        0% {
+          opacity: 0;
+        }
+        75% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* All to inline-block, allowing top,left,etc. with position relative. */
+      body * {
+        display: inline-block;
+      }
+
+      /* Set style for Chrmoe icon - for start and end of animation. */
+      img#chromeIcon {
+        position: absolute;
+        left: 100px;
+        top: 100px;
+        height: 32px;
+        width: 32px;
+        opacity: 0;
+        animation-name: one;
+        animation-duration: 2s;
+      }
+
+      /* Set style for Google icon - for start and end of animation. */
+      img#googleIcon {
+        position: absolute;
+        left: 1100px;
+        top: 100px;
+        height: 160px;
+        width: 160px;
+        padding: 10px;
+        border-radius: 100%;
+        opacity: 1;
+        animation-name: two;
+        animation-duration: 3s;
+      }
+
+      /* Styling text in a div element, using(mostly) blank_ntp prop:val. */
+      div#textElement {
+        position: relative;
+        left: 730px;
+        top: 150px;
+        opacity: 1;
+        color: #cccccc;
+        vertical-align: 50%;
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 370%;
+      }
+
+      /* Style small tag for graphic design. */
+      div#textElement small {
+        position: relative;
+        top: -60px;
+        font-size: 50%;
+      }
+
+      div#textElement,
+      div#textElement * {
+        animation-name: three;
+        animation-duration: 3s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="textElement">Click<small>(<em>anywhere</em>)</small> to:</div>
+    <img id="chromeIcon" src="chrome_icon.png" alt="chrome icon" />
+    <img id="googleIcon" src="google_icon.svg" alt="chrome icon" />
+
+    <script src="script.js"></script>
+  </body>
+</html>

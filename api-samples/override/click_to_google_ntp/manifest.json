@@ -1,0 +1,14 @@
+{
+  "name": "Click To Google's home page",
+  "description": "Uses the \"chrome_url_overrides\" manifest key by replacing the user's default new tab page with an animated html file with linked JavaScript that makes the new tab a clickable link to Google's home page.",
+  "version": "0.1",
+  "icons": {
+    "16": "click_to_google_icon16.png",
+    "48": "click_to_google_icon48.png"
+  },
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "click_to_google.html"
+  },
+  "manifest_version": 3
+}
