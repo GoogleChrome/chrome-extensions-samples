@@ -9,15 +9,12 @@ By calling a method in the sample and using an external push server website we c
 ## Running this extension
 
 1. Clone this repository.
-2. Ensure your operating system allows your browser to show desktop notification. For [MacOS](https://support.apple.com/guide/mac-help/change-notifications-settings-mh40583/mac), and for for Google Chrome, it requires "Google Chrome" and "Google Chrome Helper (Alerts)" to be allowed.
-3. Go to [web-push-codelab.glitch.me](web-push-codelab.glitch.me) and copy the “Public Key” to the `applicationServerPublicKey` variable in background.js.
-4. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-5. Click “service worker (Inactive)” on the extension to load DevTools for background.js
-6. Call `subscribeUser(true);`
-7. Copy the output after “Subscription data to be sent to the push notification server:” and paste it into [web-push-codelab.glitch.me](web-push-codelab.glitch.me) inside “Subscription to Send To” text box
-8. Enter some text into “Text to Send”
-9. Click “SEND PUSH MESSAGE”
-10. Observe the notification being sent to the browser that has the text from step #8. You’ll also see the text you sent in the dev console log
-11. In DevTools call: `subscribeUser(false);`
-12. Go back to web-push-codelab.glitch.me and click “SEND PUSH MESSAGE”
-13. Observe that there is no notification with the text you sent and no generic notification notification being shown by the browser. You’ll also see the text you sent in the DevTools log, but the message was received silently.
+1. Ensure your operating system allows your browser to show desktop notification. For [MacOS](https://support.apple.com/guide/mac-help/change-notifications-settings-mh40583/mac) this, for Google Chrome, requires "Google Chrome" and "Google Chrome Helper (Alerts)" to be allowed.
+1. Go to the [web push test server](https://web-push-codelab.glitch.me/) and copy the “Public Key” to the `APPLICATION_SERVER_PUBLIC_KEY` variable in background.js.
+1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+1. Click “service worker (Inactive)” on the extension to load DevTools for background.js
+1. In DevTools call: `await SubscribeUserVisibleOnlyFalse();`
+1. Copy the output after “Subscription data to be sent to the push notification server:” and paste it into the [web push test server](https://web-push-codelab.glitch.me/) inside “Subscription to Send To” text box
+1. Enter some text into “Text to Send”
+1. Click “SEND PUSH MESSAGE”
+1. Observe that there is no notification with the text you sent in the browser and no generic notification notification being shown by the browser (that is usually enforced). You’ll see the text you sent in the DevTools log proving the extension service worker received the push data.
