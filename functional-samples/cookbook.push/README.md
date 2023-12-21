@@ -13,7 +13,7 @@ By calling a method in the sample and using an external push server website we c
 1. Go to the [web push test server](https://web-push-codelab.glitch.me/) and copy the “Public Key” to the `APPLICATION_SERVER_PUBLIC_KEY` variable in background.js.
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 1. Click “service worker (Inactive)” on the extension to load DevTools for background.js
-1. In DevTools call: `await SubscribeUserVisibleOnlyFalse();`
+1. In DevTools call: `await subscribeUserVisibleOnlyFalse();`
 1. Copy the output after “Subscription data to be sent to the push notification server:” and paste it into the [web push test server](https://web-push-codelab.glitch.me/) inside “Subscription to Send To” text box
 1. Enter some text into “Text to Send”
 1. Click “SEND PUSH MESSAGE”
