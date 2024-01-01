@@ -1,0 +1,13 @@
+# chrome.power
+
+This extension demonstrates the `chrome.power` API by allowing users to override their system's power management features.
+
+## Overview
+
+The extension creates add a popup, that cycles different states when clicked. It will go though a mode that prevents the display from dimming or going to sleep, a mode that keeps the system awake but allows the screen to dim/go to sleep, and whatever the system's default is.
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Pin the extension to the taskbar and click the action button.
