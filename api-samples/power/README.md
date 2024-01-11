@@ -4,7 +4,7 @@ This extension demonstrates the `chrome.power` API by allowing users to override
 
 ## Overview
 
-The extension creates add a popup, that cycles different states when clicked. It will go though a mode that prevents the display from dimming or going to sleep, a mode that keeps the system awake but allows the screen to dim/go to sleep, and whatever the system's default is.
+The extension adds a popup that cycles different states when clicked. It will go though a mode that prevents the display from dimming or going to sleep, a mode that keeps the system awake but allows the screen to dim/go to sleep, and a mode that uses the system's default.
 
 ## Running this extension
 
