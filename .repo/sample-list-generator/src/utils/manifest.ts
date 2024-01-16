@@ -20,7 +20,6 @@ export const getManifest = async (
 ): Promise<ManifestData> => {
   const manifest = await fs.readFile(manifestPath, 'utf8');
   const parsedManifest = JSON.parse(manifest);
-  const localeKeyUsed = false;
 
   if (usesLocaleFiles(parsedManifest)) {
     const directory = dirname(manifestPath);
