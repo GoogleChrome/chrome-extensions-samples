@@ -10,9 +10,17 @@ export interface ApiItemWithType extends ApiItem {
 }
 
 export interface ManifestData {
+  [key: string]: string;
   name: string;
   description: string;
   permissions: string[];
+}
+
+export interface LocaleData {
+  [key: string]: {
+    message: string;
+    description: string;
+  };
 }
 
 export type SampleItem = {
