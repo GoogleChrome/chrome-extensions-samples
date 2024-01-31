@@ -8,12 +8,21 @@ set -e
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 if [ $(uname -s) == 'Darwin' ]; then
   if [ "$(whoami)" == "root" ]; then
+    # Due to macOS permission changes we need to put the host in /Applications
+    HOST_PATH="/Applications/native-messaging-example-host"
+    cp "$DIR/native-messaging-example-host" $HOST_PATH
+
     TARGET_DIR="/Library/Google/Chrome/NativeMessagingHosts"
     chmod a+x "$DIR/native-messaging-example-host"
   else
+    # Due to macOS permission changes we need to put the host in ~/Applications
+    HOST_PATH="/Users/$USER/Applications/native-messaging-example-host"
+    cp "$DIR/native-messaging-example-host" $HOST_PATH
+
     TARGET_DIR="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts"
   fi
 else
+  HOST_PATH="$DIR/native-messaging-example-host"
   if [ "$(whoami)" == "root" ]; then
     TARGET_DIR="/etc/opt/chrome/native-messaging-hosts"
     chmod a+x "$DIR/native-messaging-example-host"
@@ -31,7 +40,6 @@ mkdir -p "$TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 
 # Update host path in the manifest.
-HOST_PATH="$DIR/native-messaging-example-host"
 ESCAPED_HOST_PATH=${HOST_PATH////\\/}
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$TARGET_DIR/$HOST_NAME.json"
 
