@@ -7,8 +7,12 @@ set -e
 
 if [ "$(uname -s)" = "Darwin" ]; then
   if [ "$(whoami)" = "root" ]; then
+    HOST_PATH="/Applications/native-messaging-example-host"
+    rm $HOST_PATH
     TARGET_DIR="/Library/Google/Chrome/NativeMessagingHosts"
   else
+    HOST_PATH="/Users/$USER/Applications/native-messaging-example-host"
+    rm $HOST_PATH
     TARGET_DIR="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts"
   fi
 else
