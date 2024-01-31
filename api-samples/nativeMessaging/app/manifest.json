@@ -4,9 +4,6 @@
   "name": "Native Messaging Example",
   "version": "1.0",
   "description": "Send a message to a native application.",
-  "background": {
-    "service_worker": "main.js"
-  },
   "action": {
     "default_title": "Native Messaging Example",
     "default_popup": "main.html"
