@@ -1,3 +1,3 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  sendResponse('pong');
+  sendResponse(chrome.runtime.getManifest().version);
 });
