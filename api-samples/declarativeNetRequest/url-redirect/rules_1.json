@@ -9,7 +9,7 @@
       }
     },
     "condition": {
-      "urlFilter": "https://developer.chrome.com/docs/extensions/mv2/",
+      "urlFilter": "https://developer.chrome.com/docs/extensions/mv2",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -23,7 +23,7 @@
       }
     },
     "condition": {
-      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/browserAction/",
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/browserAction",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -37,7 +37,7 @@
       }
     },
     "condition": {
-      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/declarativeWebRequest/",
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/declarativeWebRequest",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -51,7 +51,7 @@
       }
     },
     "condition": {
-      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/pageAction/",
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/pageAction",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -65,7 +65,7 @@
       }
     },
     "condition": {
-      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/webRequest/",
+      "urlFilter": "https://developer.chrome.com/docs/extensions/reference/webRequest",
       "resourceTypes": ["main_frame"]
     }
   }
