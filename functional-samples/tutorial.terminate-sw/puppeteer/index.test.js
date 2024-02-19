@@ -41,32 +41,18 @@ afterEach(async () => {
  * by creating a new Chrome DevTools Protocol session, finding the target ID
  * associated with the worker and running the Target.closeTarget command.
  *
- * @param {Page} page Puppeteer page that CDP session can be started from
+ * @param {Page} browser Browser instance
  * @param {string} extensionId Extension ID of worker to terminate
  */
-async function stopServiceWorker(page, extensionId) {
+async function stopServiceWorker(browser, extensionId) {
   const host = `chrome-extension://${extensionId}`;
 
-  // Create a new CDP session
-  const client = await page.target().createCDPSession();
-
-  // Find the extension service worker
-  const targets = await client.send('Target.getTargets');
-  const worker = targets.targetInfos.find(
-    (t) => t.type === 'service_worker' && t.url.startsWith(host)
-  );
-
-  if (!worker) {
-    throw new Error(`No worker found for ${host}`);
-  }
-
-  // Terminate the service worker
-  await client.send('Target.closeTarget', {
-    targetId: worker.targetId
+  const target = await browser.waitForTarget((t) => {
+    return t.type() === 'service_worker' && t.url().startsWith(host);
   });
 
-  // End the CDP session
-  await client.detach();
+  const worker = await target.worker();
+  await worker.close();
 }
 
 test('can message service worker when terminated', async () => {
@@ -78,7 +64,7 @@ test('can message service worker when terminated', async () => {
   await page.waitForSelector('#response-0');
 
   // Terminate service worker
-  await stopServiceWorker(page, EXTENSION_ID);
+  await stopServiceWorker(browser, EXTENSION_ID);
 
   // Try to send another message
   await page.click('button');
