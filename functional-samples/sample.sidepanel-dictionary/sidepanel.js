@@ -19,14 +19,27 @@ const words = {
     "A UI surface which appears when an extension's action icon is clicked."
 };
 
-chrome.runtime.onMessage.addListener(({ name, data }) => {
-  if (name === 'define-word') {
-    // Hide instructions.
-    document.body.querySelector('#select-a-word').style.display = 'none';
+chrome.storage.session.get('lastWord', ({ lastWord }) => {
+  updateDefinition(lastWord);
+});
 
-    // Show word and definition.
-    document.body.querySelector('#definition-word').innerText = data.value;
-    document.body.querySelector('#definition-text').innerText =
-      words[data.value.toLowerCase()];
+chrome.storage.session.onChanged.addListener((changes) => {
+  if ('lastWord' in changes) {
+    updateDefinition(changes['lastWord'].newValue);
   }
 });
+
+function updateDefinition(word) {
+  // If the side panel was opened manually, rather than using the context menu,
+  // we might not have a word to show the definition for.
+  if (!word) return;
+
+  // Hide instructions.
+  document.body.querySelector('#select-a-word').style.display = 'none';
+
+  // Show word and definition.
+  document.body.querySelector('#definition-word').innerText = word;
+  document.body.querySelector('#definition-text').innerText =
+    words[word.toLowerCase()] ??
+    `Unknown word! Supported words: ${Object.keys(words).join(', ')}`;
+}
