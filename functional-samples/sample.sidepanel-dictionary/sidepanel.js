@@ -24,9 +24,13 @@ chrome.storage.session.get('lastWord', ({ lastWord }) => {
 });
 
 chrome.storage.session.onChanged.addListener((changes) => {
-  if ('lastWord' in changes) {
-    updateDefinition(changes['lastWord'].newValue);
+  const lastWordChange = changes['lastWord'];
+
+  if (!lastWordChange) {
+    return;
   }
+
+  updateDefinition(lastWordChange.newValue);
 });
 
 function updateDefinition(word) {
