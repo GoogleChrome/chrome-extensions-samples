@@ -13,31 +13,35 @@
 // limitations under the License.
 
 chrome.runtime.onInstalled.addListener(() => {
-  // Set default value for Autofill Enabled
-  chrome.privacy.services.autofillEnabled.set({ value: true });
+  // Set default value for credit card autofill enabled
+  chrome.privacy.services.autofillCreditCardEnabled.set({ value: true });
+  updateAutofillEnabledStatus();
 });
 
 chrome.runtime.onStartup.addListener(() => {
   updateAutofillEnabledStatus();
 });
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === 'complete' && tab.active) {
-    updateAutofillEnabledStatus();
+async function updateAutofillEnabledStatus(toggle = false) {
+  const details = await chrome.privacy.services.autofillCreditCardEnabled.get(
+    {}
+  );
+  let autofillEnabled = details.value;
+
+  if (toggle) {
+    autofillEnabled = !autofillEnabled;
+    await chrome.privacy.services.autofillCreditCardEnabled.set({
+      value: autofillEnabled
+    });
   }
-});
 
-function updateAutofillEnabledStatus() {
-  chrome.privacy.services.autofillEnabled.get({}, (details) => {
-    const autofillEnabled = details.value;
-    const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
-    const badgeColor = autofillEnabled ? '#00FF00' : '#FF0000';
+  const badgeText = autofillEnabled ? 'Enabled' : 'Disabled';
+  const badgeColor = autofillEnabled ? '#00FF00' : '#FF0000';
 
-    chrome.action.setBadgeText({ text: badgeText });
-    chrome.action.setBadgeBackgroundColor({ color: badgeColor });
-  });
+  chrome.action.setBadgeText({ text: badgeText });
+  chrome.action.setBadgeBackgroundColor({ color: badgeColor });
 }
 
 chrome.action.onClicked.addListener(() => {
-  updateAutofillEnabledStatus();
+  updateAutofillEnabledStatus(true);
 });
