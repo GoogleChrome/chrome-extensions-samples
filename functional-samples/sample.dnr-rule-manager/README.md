@@ -6,9 +6,9 @@ This sample demonstrates using the [`chrome.declarativeNetRequest`](https://deve
 
 This extension has two default rules:
 
-* Any main frame or XHR requests ending with `?nocookies=1` will have their cookies removed (URL Filter).
+- Any main frame or XHR requests ending with `?nocookies=1` will have their cookies removed (URL Filter).
 
-* Any main frame or XHR requests matching `.*\.google\.com` will have their cookies removed (Regex Filter).
+- Any main frame or XHR requests matching `.*\.google\.com` will have their cookies removed (Regex Filter).
 
 For example, install this extension and try navigating to <https://github.com/GoogleChrome/chrome-extensions-samples?no-cookies=1> or <https://www.google.com> - you should appear signed out. The number of requests modified by this extension will be displayed on the extension's badge.
 

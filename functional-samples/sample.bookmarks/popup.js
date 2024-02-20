@@ -12,9 +12,7 @@ $('#search').change(function () {
 
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
-  const bookmarkTreeNodes = chrome.bookmarks.getTree(function (
-    bookmarkTreeNodes
-  ) {
+  chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
     $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
   });
 }

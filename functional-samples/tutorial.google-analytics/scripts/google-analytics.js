@@ -9,7 +9,7 @@ const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
 // Duration of inactivity after which a new session is created
 const SESSION_EXPIRATION_IN_MIN = 30;
 
-export class Analytics {
+class Analytics {
   constructor(debug = false) {
     this.debug = debug;
   }
