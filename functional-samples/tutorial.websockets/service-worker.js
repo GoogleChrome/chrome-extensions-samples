@@ -19,7 +19,7 @@ chrome.action.onClicked.addListener(async () => {
 function connect() {
   webSocket = new WebSocket('wss://chrome-extension-websockets.glitch.me/ws');
 
-  webSocket.onopen = (event) => {
+  webSocket.onopen = () => {
     chrome.action.setIcon({ path: 'icons/socket-active.png' });
   };
 
@@ -27,7 +27,7 @@ function connect() {
     console.log(event.data);
   };
 
-  webSocket.onclose = (event) => {
+  webSocket.onclose = () => {
     chrome.action.setIcon({ path: 'icons/socket-inactive.png' });
     console.log('websocket connection closed');
     webSocket = null;
