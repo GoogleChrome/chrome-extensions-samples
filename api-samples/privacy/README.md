@@ -4,7 +4,7 @@ This sample demonstrates using `chrome.privacy.services` to get and set privacy 
 
 ## Overview
 
-The service worker sets the default value for autofill using `chrome.privacy.services.autofillCreditCardEnabled.set()` when the extension is installed. Whenever the action button is clicked, the extension will toggle the current autofill setting of `autofillCreditCardEnabled` and update the extension badge.
+The service worker sets the default value for autofill using `chrome.privacy.services.autofillCreditCardEnabled.set()` when the extension is installed. Whenever the action button is clicked, the extension toggles the current autofill setting of `autofillCreditCardEnabled` and updates the extension badge.
 
 ## Running this extension
 
