@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Extension Manager",
+  "version": "1.0",
+  "permissions": ["management"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "sample.png",
+      "48": "sample.png",
+      "128": "sample.png"
+    }
+  }
+}
