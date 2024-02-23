@@ -7,7 +7,7 @@ chrome.management.getAll((extensions) => {
 
     // Create and set icon for the extension
     const icon = document.createElement('img');
-    icon.src = extension.icons ? extension.icons[0].url : 'history32.png'; // Use default icon if not available
+    icon.src = extension.icons ? extension.icons[0].url : 'images/sample.png'; // Use default icon if not available
     icon.width = 24;
     icon.height = 24;
     li.appendChild(icon);
