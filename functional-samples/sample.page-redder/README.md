@@ -1,6 +1,6 @@
 # Page Redder
 
-This sample demonstrates how to use [action API](https://developer.chrome.com/docs/extensions/reference/api/action) to execute code when the extension icon is clicked.
+This sample demonstrates how to use the [Action API](https://developer.chrome.com/docs/extensions/reference/api/action) to execute code when the extension icon is clicked.
 
 ## Overview
 
