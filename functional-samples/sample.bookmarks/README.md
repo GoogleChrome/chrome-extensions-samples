@@ -11,5 +11,5 @@ The manager consists in a popup where you can manage your bookmarks.
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-3. Click on the icon extension.
+3. Click on the extension icon.
 4. Manage your bookmarks.
