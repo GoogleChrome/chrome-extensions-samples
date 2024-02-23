@@ -4,7 +4,7 @@ This sample demonstrates how to use the [Bookmarks API](https://developer.chrome
 
 ## Overview
 
-The extension provides a bookmarks manager that is accessible by clicking on the icon extension.
+The extension provides a bookmarks manager that is accessible by clicking the extension icon.
 The manager consists in a popup where you can manage your bookmarks.
 
 ## Running this extension
