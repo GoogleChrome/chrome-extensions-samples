@@ -4,6 +4,8 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 
 ## Features
 
+![Screenshot](images/screenshot.png)
+
 - List all installed extensions.
 - Display extension icons, names, and versions.
 - Provide an "Uninstall" button for each extension.
@@ -33,11 +35,6 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 - Listens for messages from the popup.
 - Handles uninstallation requests by calling `chrome.management.uninstall` with the extension id.
 - Sends a response back to the popup after uninstalling the extension.
-
-## Known Issues
-
-- The extension does not handle errors that may occur during uninstallation.
-- There is no confirmation dialog before uninstalling an extension.
 
 ## License
 
