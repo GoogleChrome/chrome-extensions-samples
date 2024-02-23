@@ -4,7 +4,7 @@ This sample demonstrates how to use [action API](https://developer.chrome.com/do
 
 ## Overview
 
-The extension change the background color of the active tab page (if its URL doesn't start with `chrome://`) to red when the icon extension is clicked.
+This extension changes the background color of the active tab page (if its URL doesn't start with `chrome://`) to red when the extension icon is clicked.
 
 ## Running this extension
 
