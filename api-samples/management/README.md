@@ -26,7 +26,7 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 
 - Uses `chrome.management.getAll()` to get a list of all installed extensions.
 - Creates a list item for each extension, including its icon, name, version, and an **Uninstall** button.
-- Sends a message to background script (`background.js`) to uninstall an extension when the "Uninstall" button is clicked.
+- Sends a message to the extension service worker (`background.js`) to uninstall an extension when the **Uninstall** button is clicked.
 
 ### `background.js`
 
