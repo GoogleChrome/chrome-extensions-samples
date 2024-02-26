@@ -5,7 +5,7 @@ This sample demonstrates how to use the [`chrome.search` API](https://developer.
 ## Overview
 
 This extension provides a different way to search via the default provider.
-A popup appears when the extension icon is clicked: from there you can specify your query and the location where search results should be displayed.
+A popup appears when the extension icon is clicked. From there you can specify your query and the location where search results should be displayed.
 
 ## Running this extension
 
