@@ -25,7 +25,7 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 ### `popup.js`
 
 - Uses `chrome.management.getAll()` to get a list of all installed extensions.
-- Creates a list item for each extension, including its icon, name, version, and an "Uninstall" button.
+- Creates a list item for each extension, including its icon, name, version, and an **Uninstall** button.
 - Sends a message to background script (`background.js`) to uninstall an extension when the "Uninstall" button is clicked.
 
 ### `background.js`
