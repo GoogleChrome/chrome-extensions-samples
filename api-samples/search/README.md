@@ -13,4 +13,4 @@ A popup appears when the extension icon is clicked: from there you can specify y
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Click the extension icon to open the popup.
 4. Type the query and select a location.
-5. Click the "Search" button.
+5. Click the **Search** button.
