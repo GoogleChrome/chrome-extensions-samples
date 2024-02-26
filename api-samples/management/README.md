@@ -18,7 +18,7 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 ## Usage
 
 1. Click the extension icon to open the extension manager. The manager will list all installed extensions. Each extension entry includes its icon, name, and version.
-4. Click the "Uninstall" button next to an extension to remove it.
+2. Click the **Uninstall** button next to an extension to remove it.
 
 ## Code Overview
 
