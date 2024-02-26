@@ -4,11 +4,11 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 
 ## Features
 
-![Screenshot](images/screenshot.png)
-
 - Lists all installed extensions.
 - Displays extension icons, names, and versions.
 - Provides an **Uninstall** button for each extension.
+  
+  ![Screenshot](images/screenshot.png)
 
 ## Installation
 
