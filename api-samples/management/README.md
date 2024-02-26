@@ -6,9 +6,9 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 
 ![Screenshot](images/screenshot.png)
 
-- List all installed extensions.
-- Display extension icons, names, and versions.
-- Provide an "Uninstall" button for each extension.
+- Lists all installed extensions.
+- Displays extension icons, names, and versions.
+- Provides an **Uninstall** button for each extension.
 
 ## Installation
 
