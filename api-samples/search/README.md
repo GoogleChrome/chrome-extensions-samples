@@ -1,6 +1,6 @@
 # chrome.search
 
-This sample demonstrates how to use the [chrome.search API](https://developer.chrome.com/docs/extensions/reference/api/search).
+This sample demonstrates how to use the [`chrome.search` API](https://developer.chrome.com/docs/extensions/reference/api/search).
 
 ## Overview
 
