@@ -31,7 +31,7 @@ The [`chrome.management`](https://developer.chrome.com/docs/extensions/reference
 ### `background.js`
 
 - Listens for messages from the popup.
-- Handles uninstallation requests by calling `chrome.management.uninstall` with the extension id.
+- Handles uninstallation requests by calling `chrome.management.uninstall()` with the extension ID.
 - Sends a response back to the popup after uninstalling the extension.
 
 ## License
