@@ -1,6 +1,6 @@
 # Bookmarks Manager
 
-This sample demonstrates how to use the [Bookmarks API](https://developer.chrome.com/docs/extensions/reference/api/bookmarks) to search, add, edit, and delete bookmarks.
+This sample demonstrates how to use the [chrome.bookmarks](https://developer.chrome.com/docs/extensions/reference/api/bookmarks) API to search, add, edit, and delete bookmarks.
 
 ## Overview
 
