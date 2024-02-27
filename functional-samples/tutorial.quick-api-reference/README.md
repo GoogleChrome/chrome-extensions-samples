@@ -10,7 +10,6 @@ The events from the following APIs have been handled: `chrome.runtime`, `chrome.
 
 The complete tutorial is available [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/service-worker-events).
 
-
 ## Running this extension
 
 1. Clone this repository.
