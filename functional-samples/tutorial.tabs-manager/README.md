@@ -48,5 +48,5 @@ The following instructions will assist you in building a tabs manager for organi
    
 <!-- The types of actions users will see -->
 <div align="center">
-      <img src="https://iili.io/JMx9hUF.png" alt="Grouped Tabs" width="500px"/>
+      <img src="https://iili.io/JMx9hUF.png" alt="Actions Tabs" width="500px"/>
    </div> 
