@@ -1,0 +1,16 @@
+{
+  "name": "Managed Bookmarks",
+  "description": "Adds bookmarks configured by your system administrator to Chrome.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "minimum_chrome_version": "88",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": [
+    "bookmarks"
+  ],
+  "storage": {
+    "managed_schema": "schema.json"
+  }
+}
