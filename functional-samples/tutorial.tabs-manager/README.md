@@ -29,3 +29,24 @@ The following instructions will assist you in building a tabs manager for organi
    ```
     
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked)
+3. Pin the `extension` from the extension menu
+4. Clicking the extension's action icon will prompt a popup that looks like this:
+   
+   <!-- How does the prompt look: -->
+   <div align="center">
+      <img src="https://developer.chrome.com/static/docs/extensions/get-started/tutorial/popup-tabs-manager/image/tabs-manager-extension-po-f958d72e1a9ae_2880.png" alt="Popup" width="500px"/>
+   </div>
+   
+6. Click the `Group Tabs` button. It should appear as follows:
+
+  <!-- How do the grouped tabs look -->
+   <div align="center">
+      <img src="https://developer.chrome.com/static/docs/extensions/get-started/tutorial/popup-tabs-manager/image/tabs-manager-grouped-tabs-65bdf282bdf98_2880.png" alt="Grouped Tabs" width="500px"/>
+   </div>
+
+7. Right-click the `DOCS` for more actions:
+   
+<!-- The types of actions users will see -->
+<div align="center">
+      <img src="https://iili.io/JMx9hUF.png" alt="Grouped Tabs" width="500px"/>
+   </div> 
