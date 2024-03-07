@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Keep Awake</title>
+    <script type="module" src="./popup.js"></script>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+
+  <body>
+    <div id="popup">
+      <h3 id="title">Keep Awake</h3>
+      <div id="buttons">
+        <button id="disabled" title="Disable keep awake">
+          <img src="images/night-38.png" alt="Moon" />
+          <br />
+          <span class="buttonLabel">Disabled</span>
+        </button>
+        <button id="display" title="Keep systam and display on">
+          <img src="images/day-38.png" alt="Sun" />
+          <br />
+          <span class="buttonLabel">Display On</span>
+        </button>
+        <button id="system" title="Keep system on, allow display sleep">
+          <img src="images/sunset-38.png" alt="Sunset" />
+          <br />
+          <span class="buttonLabel">System On</span>
+        </button>
+      </div>
+      <div id="autodisable-text">Automatically disable after:</div>
+      <div>
+        <input
+          type="range"
+          id="durationSlider"
+          name="durationSlider"
+          min="1"
+          max="13"
+          value="13"
+          step="1"
+        />
+        <label for="durationSlider" id="durationLabel">## h</label>
+      </div>
+    </div>
+  </body>
+</html>

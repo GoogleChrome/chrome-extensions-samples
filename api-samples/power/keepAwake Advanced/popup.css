@@ -1,0 +1,83 @@
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+:root {
+  --background-color: #e8eef7;
+  --border-color: #00b4fe;
+  --main-color: #000000;
+  --button-background-color: #d5deec;
+  --button-active-background-color: #c0ccde;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+      --background-color: #333333;
+      --main-color: #dddddd;
+      --button-background-color: #444444;
+      --button-active-background-color: #555555;
+      --border-color: #005b80;
+  }
+}
+
+body {
+  font: 13px arial, sans-serif;
+  margin: 0px;
+  background-color: var(--background-color);
+  color: var(--main-color);
+}
+
+#popup {
+  padding: 12px;
+  border: 3px solid var(--border-color);
+  margin: auto;
+  width: fit-content;
+  text-align: left;
+  text-wrap: nowrap;
+}
+
+h3 {
+  margin: 0px;
+}
+
+div {
+  margin-top:5px;
+}
+
+div#buttons {
+  display:flex;
+  gap: 6px;
+}
+
+div#buttons button {
+  flex: 1 0 0;
+  min-width: 0;
+  background-color: var(--button-background-color);
+  color: var(--main-color);
+  border: 0;
+  border-radius: 0.5em;
+  box-shadow: 3px 3px 2px rgba(0,0,0,0.5);
+  padding: 5px;
+}
+div#buttons button:active, div#buttons button.active {
+  top:2px;
+  left:1px;
+  box-shadow: inset 3px 3px 2px rgba(0,0,0,0.5);
+  background-color: var(--button-active-background-color);
+}
+
+.buttonLabel {
+  font-size: 11px;
+}
