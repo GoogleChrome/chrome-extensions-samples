@@ -10,7 +10,9 @@ The extension adds an icon that allows the user to choose different power manage
 - Screen stays awake
 - System stays awake, but screen can sleep
 
-There is also a context menu popup where the user can also optionally specify an automatic timeout for the chosen state.
+There is also a popup where the user can also optionally specify an automatic
+timeout for the chosen state. This popup can be triggered by clicking the icon
+or by selecting it from the icon's context menu.
 
 ## Running this extension
 
