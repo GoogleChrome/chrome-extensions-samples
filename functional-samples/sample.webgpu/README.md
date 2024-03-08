@@ -1,6 +1,6 @@
 # WebGPU extension sample
 
-This sample demonstrates how to use the [WebGPU API](https://webgpu.dev/) to generate a red triangle using a service worker.
+This sample demonstrates how to use the [WebGPU API](https://webgpu.dev/) to generate a red triangle using an extension service worker.
 
 > [!WARNING]  
 > Service worker support in WebGPU is available in Chrome 123 with the "Experimental Web Platform Features" flag.
