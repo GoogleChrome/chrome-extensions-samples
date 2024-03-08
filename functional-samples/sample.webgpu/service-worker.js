@@ -3,7 +3,7 @@ chrome.action.onClicked.addListener(async () => {
   const device = await adapter.requestDevice();
 
   const canvas = new OffscreenCanvas(256, 256);
-  const context = canvas.getContext("webgpu");
+  const context = canvas.getContext('webgpu');
   const format = navigator.gpu.getPreferredCanvasFormat();
   context.configure({ device, format });
 
@@ -18,17 +18,17 @@ chrome.action.onClicked.addListener(async () => {
       }`;
   const module = device.createShaderModule({ code });
   const pipeline = await device.createRenderPipelineAsync({
-    layout: "auto",
+    layout: 'auto',
     vertex: { module },
-    fragment: { module, targets: [{ format }] },
+    fragment: { module, targets: [{ format }] }
   });
   const commandEncoder = device.createCommandEncoder();
   const colorAttachments = [
     {
       view: context.getCurrentTexture().createView(),
-      loadOp: "clear",
-      storeOp: "store",
-    },
+      loadOp: 'clear',
+      storeOp: 'store'
+    }
   ];
   const passEncoder = commandEncoder.beginRenderPass({ colorAttachments });
   passEncoder.setPipeline(pipeline);
