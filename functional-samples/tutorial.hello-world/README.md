@@ -1,7 +1,5 @@
 # Hello World extension
 
-_Describe what the sample demonstrates. If this is an API sample, link to the API._
-
 This sample demonstrates a basic structure and implementation for an extension. See [Hello World extension docs](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world).
 
 ## Running this extension
