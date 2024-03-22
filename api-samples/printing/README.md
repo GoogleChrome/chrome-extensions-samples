@@ -1,4 +1,4 @@
-# chrome.printing
+# Chrome.printing Sample
 
 This sample demonstrates all four methods of the `chrome.printing` namespace.
 
@@ -13,3 +13,10 @@ If the **Roll Printers** checkbox is selected, only printers capable of roll pri
 ## Implementation Notes
 
 Before Chrome 120, `submitJob()` function throws an error when returning a promise.
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Select and open the extension from the extensions menu.
+4. To test the extension, click on 'Sample minute' to set an alarm of 1 minute, post which a notification appears in the system tray.
