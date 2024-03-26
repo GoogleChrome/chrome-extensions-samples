@@ -1,8 +1,10 @@
 # Dictionary Side panel example
 
-This example allows users to right-click on a word and see the definition on the side panel using the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/).
+This sample demonstrates how to use the [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/) to display word definitions in a side panel when users right-click on a word.
 
-NOTE: This example only defines the word extensions and popup.
+## Overview
+
+When users right-click on a word, the extension sends the selected word to the side panel, allowing them to view its definition. The extension utilizes` chrome.storage.session` to store the selected word, ensuring that it is accessible even if the side panel is not open at the moment of selection.
 
 ## Implementation Notes
 
@@ -21,7 +23,3 @@ may not be open yet. To handle this we store the word in
 3. Go to https://developer.chrome.com/docs/extensions/
 4. Right-click on the "Extensions" word.
 5. Choose the "Define" context menu
-
-You should see the definition on the side panel
-
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/aC3zkJDPliNLXdvfugeU.png" alt="Dictionary extension context menu">
