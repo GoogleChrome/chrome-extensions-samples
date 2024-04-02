@@ -4,7 +4,6 @@ This sample demonstrates how to _run scripts on every page_ using an extension c
 
 ## Overview
 
-_Describe how the sample demonstrates the API or use case and briefly describe how to use it._
 This sample demonstrates how developers can use content scripts which employ Document Object Models to read and change the content of a page. In this instance, the extension checks to find an article element, counts all the words inside of it, and then creates a paragraph that estimates the total reading time for that article.
 
 ## Running this extension
