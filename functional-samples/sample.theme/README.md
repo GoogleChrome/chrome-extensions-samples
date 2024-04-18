@@ -6,4 +6,4 @@ This is a Chrome [theme](https://developer.chrome.com/docs/extensions/develop/ui
 
 1. Clone this repository.
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-1. Reset your theme on the Chrome [Appearance settings panel](chrome://settings/appearance)
+1. Reset your theme on the Chrome Appearance settings panel - chrome://settings/appearance
