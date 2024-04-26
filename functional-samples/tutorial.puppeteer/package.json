@@ -2,13 +2,13 @@
   "name": "puppeteer-demo",
   "version": "1.0",
   "dependencies": {
-    "jest": "^29.7.0",
-    "puppeteer": "^21.3.6"
+    "jest": "29.7.0",
+    "puppeteer": "21.3.6"
   },
   "scripts": {
     "start": "jest ."
   },
   "devDependencies": {
-    "@jest/globals": "^29.7.0"
+    "@jest/globals": "29.7.0"
   }
 }
