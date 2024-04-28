@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Simple Theme",
+  "version": "1.0",
+  "theme": {
+    "colors": {
+      "background_tab": [255, 0, 0],
+      "background_tab_inactive": [0, 255, 0],
+      "background_tab_incognito": [0, 0, 255],
+      "background_tab_incognito_inactive": [255, 255, 0],
+      "bookmark_text": [255, 0, 255],
+      "button_background": [0, 255, 255],
+      "frame": [128, 128, 128],
+      "frame_inactive": [255, 128, 0],
+      "frame_incognito": [128, 255, 0],
+      "frame_incognito_inactive": [0, 128, 255],
+      "ntp_background": [255, 0, 128],
+      "ntp_header": [0, 255, 128],
+      "ntp_link": [128, 0, 255],
+      "ntp_text": [255, 255, 255],
+      "omnibox_background": [0, 128, 128],
+      "omnibox_text": [128, 128, 0],
+      "tab_background_text": [0, 0, 128],
+      "tab_background_text_inactive": [0, 128, 0],
+      "tab_background_text_incognito": [128, 0, 0],
+      "tab_background_text_incognito_inactive": [128, 128, 128],
+      "tab_text": [255, 255, 0],
+      "toolbar": [255, 0, 64],
+      "toolbar_button_icon": [0, 255, 64],
+      "toolbar_text": [64, 0, 255]
+    }
+  }
+}
