@@ -8,6 +8,12 @@
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
   "side_panel": {
     "default_path": "sidepanel.html"
   },

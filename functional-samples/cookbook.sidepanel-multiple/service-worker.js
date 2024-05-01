@@ -17,6 +17,7 @@ const mainPage = 'sidepanels/main-sp.html';
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.sidePanel.setOptions({ path: welcomePage });
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 });
 
 chrome.tabs.onActivated.addListener(async ({ tabId }) => {
