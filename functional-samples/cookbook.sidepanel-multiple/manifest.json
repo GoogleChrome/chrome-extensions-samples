@@ -6,6 +6,9 @@
   "background": {
     "service_worker": "service-worker.js"
   },
+  "action": {
+    "default_title": "Click to open panel"
+  },
   "icons": {
     "16": "images/icon-16.png",
     "48": "images/icon-48.png",
