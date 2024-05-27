@@ -381,6 +381,7 @@
       "autoVerify",
       "automaticDownloads",
       "camera",
+      "clipboard",
       "cookies",
       "fullscreen",
       "images",
@@ -399,6 +400,7 @@
       "ResourceIdentifier",
       "AutoVerifyContentSetting",
       "CameraContentSetting",
+      "ClipboardContentSetting",
       "CookiesContentSetting",
       "FullscreenContentSetting",
       "ImagesContentSetting",
@@ -427,6 +429,7 @@
     "types": [
       "Cookie",
       "CookieDetails",
+      "CookiePartitionKey",
       "CookieStore",
       "OnChangedCause",
       "SameSiteStatus"
@@ -464,14 +467,18 @@
       "GETMATCHEDRULES_QUOTA_INTERVAL",
       "GUARANTEED_MINIMUM_STATIC_RULES",
       "MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL",
-      "MAX_NUMBER_OF_DYNAMIC_AND_SESSION_RULES",
+      "MAX_NUMBER_OF_DYNAMIC_RULES",
       "MAX_NUMBER_OF_ENABLED_STATIC_RULESETS",
       "MAX_NUMBER_OF_REGEX_RULES",
+      "MAX_NUMBER_OF_SESSION_RULES",
       "MAX_NUMBER_OF_STATIC_RULESETS",
+      "MAX_NUMBER_OF_UNSAFE_DYNAMIC_RULES",
+      "MAX_NUMBER_OF_UNSAFE_SESSION_RULES",
       "SESSION_RULESET_ID"
     ],
     "methods": [
       "getAvailableStaticRuleCount",
+      "getDisabledRuleIds",
       "getDynamicRules",
       "getEnabledRulesets",
       "getMatchedRules",
@@ -481,7 +488,8 @@
       "testMatchOutcome",
       "updateDynamicRules",
       "updateEnabledRulesets",
-      "updateSessionRules"
+      "updateSessionRules",
+      "updateStaticRules"
     ],
     "types": [
       "ExtensionActionOptions",
@@ -791,6 +799,7 @@
       "AddWatcherRequestedOptions",
       "Change",
       "CloseFileRequestedOptions",
+      "CloudIdentifier",
       "ConfigureRequestedOptions",
       "CopyEntryRequestedOptions",
       "CreateDirectoryRequestedOptions",
@@ -1341,6 +1350,18 @@
     ],
     "events": ["onProxyError"]
   },
+  "readingList": {
+    "properties": [],
+    "methods": ["addEntry", "query", "removeEntry", "updateEntry"],
+    "types": [
+      "AddEntryOptions",
+      "QueryInfo",
+      "ReadingListEntry",
+      "RemoveOptions",
+      "UpdateEntryOptions"
+    ],
+    "events": ["onEntryAdded", "onEntryRemoved", "onEntryUpdated"]
+  },
   "runtime": {
     "properties": ["id", "lastError"],
     "methods": [
@@ -1854,6 +1875,24 @@
       "UsageType"
     ],
     "events": ["onDeviceAdded", "onDeviceRemoved"]
+  },
+  "userScripts": {
+    "properties": [],
+    "methods": [
+      "configureWorld",
+      "getScripts",
+      "register",
+      "unregister",
+      "update"
+    ],
+    "types": [
+      "RegisteredUserScript",
+      "ScriptSource",
+      "UserScriptFilter",
+      "WorldProperties",
+      "ExecutionWorld"
+    ],
+    "events": []
   },
   "virtualKeyboard": {
     "properties": [],

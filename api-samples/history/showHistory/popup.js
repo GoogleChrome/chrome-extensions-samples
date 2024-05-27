@@ -47,9 +47,9 @@ function buildPopupDom(divName, data) {
 // and show those links in a popup.
 function buildTypedUrlList(divName) {
   // To look for history items visited in the last week,
-  // subtract a week of microseconds from the current time.
-  let microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-  let oneWeekAgo = new Date().getTime() - microsecondsPerWeek;
+  // subtract a week of milliseconds from the current time.
+  let millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+  let oneWeekAgo = new Date().getTime() - millisecondsPerWeek;
 
   // Track the number of callbacks from chrome.history.getVisits()
   // that we expect to get.  When it reaches zero, we have all results.

@@ -1,0 +1,14 @@
+{
+  "name": "puppeteer-demo",
+  "version": "1.0",
+  "dependencies": {
+    "jest": "29.7.0",
+    "selenium-webdriver": "4.17.0"
+  },
+  "scripts": {
+    "start": "jest ."
+  },
+  "devDependencies": {
+    "@jest/globals": "29.7.0"
+  }
+}
