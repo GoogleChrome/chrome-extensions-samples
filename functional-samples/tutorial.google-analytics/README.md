@@ -15,4 +15,4 @@ This example demonstrates how to track extension events in Google Analytics 4 us
    <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/380472/240995103-87cb61a3-d3f9-44d6-9dfa-0e3bf0c11a1e.png" alt="Extension popup" width="200"/>
 5. Check out the [real-time report](https://support.google.com/analytics/answer/1638635) to see how the events surface in Google Analytics.
 
-![Google Analytics real-time report](https://wd.imgix.net/image/6hHqS5auVgWhN0cQNQztaJx5w4M2/AQqSJb9VqalWfrQ6xSXM.png?auto=format&w=400)
+<img src="../../.repo/images/google-analytics-events.png" alt="Google Analytics real-time report" width=400>
