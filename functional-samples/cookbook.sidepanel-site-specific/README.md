@@ -12,4 +12,4 @@ This example demonstrates how to display the side panel only on google.com using
 
 💡 You can also open the side panel by pressing `Ctrl+B` (Windows) or `Cmd+B` (macOS).
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/3vhkSp1cBQOydpYZoRbD.png?auto=format&w=700" alt="Google.com side panel">
+<img src="../../.repo/images/site-specific-side-panel.png" alt="Google.com side panel" width=700>

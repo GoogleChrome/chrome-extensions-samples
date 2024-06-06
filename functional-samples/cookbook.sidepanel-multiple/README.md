@@ -9,8 +9,8 @@ You can use [`sidepanel.getOptions()`](https://developer.chrome.com/docs/extensi
 3. Open the side panel UI
 4. Choose "Multiple side panels" to see the welcome page.
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/dhSqpr4hqDX0EFy8NlzE.png?auto=format&w=600" alt="Welcome side panel">
+<img src="../../.repo/images/multiple-side-panel-welcome.png" alt="Welcome side panel" width=600>
 
 5. Navigate to https://developer.chrome.com to see the main side panel.
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/vtTL1BW8HLukz7jlrqZb.png?auto=format&w=600" alt="Main side panel">
+<img src="../../.repo/images/multiple-side-panel-main.png" alt="Main side panel" width=600>

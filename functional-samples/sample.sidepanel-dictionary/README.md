@@ -24,4 +24,4 @@ may not be open yet. To handle this we store the word in
 
 You should see the definition on the side panel
 
-<img src="https://wd.imgix.net/image/BhuKGJaIeLNPW9ehns59NfwqKxF2/aC3zkJDPliNLXdvfugeU.png" alt="Dictionary extension context menu">
+<img src="../../.repo/images/side-panel-dictionary-context-menu.png" alt="Dictionary extension context menu">
