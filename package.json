@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/GoogleChrome/chrome-extensions-samples#readme",
   "devDependencies": {
-    "@eslint/js": "9.4.0",
+    "@eslint/js": "9.5.0",
     "chrome-types": "0.1.287",
     "eslint": "9.4.0",
     "eslint-config-prettier": "9.1.0",
