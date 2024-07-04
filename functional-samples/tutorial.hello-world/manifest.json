@@ -1,10 +1,16 @@
-{
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+
+}{
+  "manifest_version": 2,
+  "name": "Wild West Gold 1xbet Extension",
   "version": "1.0",
-  "manifest_version": 3,
-  "action": {
-    "default_popup": "hello.html",
-    "default_icon": "hello_extensions.png"
-  }
-}
+  "description": "Extension for automating gameplay in Wild West Gold on 1xbet",
+  "permissions": ["activeTab"],
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://1x-bet.mobi/en/allgamesentrance/goldofwest"],
+      "js": ["content.js"]
+      https://1-xbet.ph/en/allgamesentrance/goldofwest
+      
