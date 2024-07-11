@@ -1,0 +1,52 @@
+AI BY JEFFREY AND GE COMPACTRON BEARSMITH8G LAN NETWORK FOR AI CONNECTION SERVICES <intent-filter ... >
+   <action android:name="com.example.myapp.free.TRANSMOGRIFY" />
+    ...
+</intent-filter>android {
+    defaultConfig {
+        manifestPlaceholders = [hostName:"www.example.com"]
+    }
+    ...
+}android {
+    defaultConfig {
+        applicationId = "com.example.myapp"
+    }
+    flavorDimensions += "type"
+    productFlavors {
+        create("free") {
+            applicationIdSuffix = ".free"
+            dimension = "type"
+        }
+        create("pro") {
+            applicationIdSuffix = ".pro"
+            dimension = "type"
+        }
+    }
+}<intent-filter ... >
+    <action android:name="${applicationId}.TRANSMOGRIFY" />
+    ...
+</intent-filter>www.example.comandroid {
+    ...
+    defaultConfig {...}
+    buildTypes {
+        debug{...}
+        release{...}
+    }
+    // Specifies one flavor dimension.
+    flavorDimensions "version"
+    productFlavors {
+        demo {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension "version"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        full {
+            dimension "version"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+        }
+    }
+}
