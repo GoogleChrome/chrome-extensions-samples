@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
+    <h1>Chrome built-in AI</h1>
+    <textarea
+      id="input-prompt"
+      placeholder='Type something, e.g. "Write a haiku about Chrome Extensions"'
+      cols="30"
+      rows="5"
+    ></textarea>
+    <div>
+      <input
+        type="range"
+        id="temperature"
+        name="temperature"
+        min="0"
+        max="2"
+        step="0.01"
+      />
+      <label for="temperature"
+        >Temperature: <span id="label-temperature"></span
+      ></label>
+    </div>
+    <div>
+      <input type="range" id="top-k" name="top-k" min="1" max="50" step="1" />
+      <label for="top-k">Top-k: <span id="label-top-k"></span></label>
+    </div>
+    <button id="button-prompt" class="primary" disabled>Run</button>
+    <button id="button-reset" class="secondary" disabled>Reset</button>
+    <div id="response" class="text" hidden></div>
+    <div id="loading" class="text" hidden><span class="blink">...</span></div>
+    <div id="error" class="text" hidden></div>
+    <script src="index.js" type="module"></script>
+  </body>
+</html>
