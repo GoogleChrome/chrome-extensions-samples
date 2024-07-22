@@ -4,7 +4,7 @@ This sample demonstrates how to use the built-in Chrome Prompt API.
 
 ## Overview
 
-The extension provides a chat interface for the built-in Chrome prompt API. To learn more about the API and how to sign-up for the preview, head over to [Built-in AI on developers.chrome.com](https://developer.chrome.com/docs/ai/built-in).
+The extension provides a chat interface for the built-in Chrome prompt API. To learn more about the API and how to sign-up for the preview, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/ai/built-in).
 
 ## Running this extension
 
