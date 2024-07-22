@@ -1,0 +1,8 @@
+{
+  "name": "Chrome Extensions Gemini Demo",
+  "version": "1.0",
+  "dependencies": {
+    "@google/generative-ai": "^0.15.0"
+  },
+  "private": true
+}
