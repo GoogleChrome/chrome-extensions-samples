@@ -111,7 +111,15 @@ function showLoading() {
 function showResponse(response) {
   hide(elementLoading);
   show(elementResponse);
-  elementResponse.innerHTML = response.replaceAll(/\r?\n/g, '<br>');
+  // Make sure to preserve line breaks in the response
+  elementResponse.textContent = '';
+  const paragraphs = response.split(/\r?\n/);
+  for (const paragraph of paragraphs) {
+    if (paragraph) {
+      elementResponse.appendChild(document.createTextNode(paragraph));
+    }
+    elementResponse.appendChild(document.createElement('BR'));
+  }
 }
 
 function showError(error) {
