@@ -68,14 +68,14 @@ buttonReset.addEventListener('click', () => {
   buttonReset.setAttribute('disabled', '');
 });
 
-sliderTemperature.addEventListener('click', reset.bind(this));
 sliderTemperature.addEventListener('input', (event) => {
   labelTemperature.textContent = event.target.value;
+  reset();
 });
 
-sliderTopK.addEventListener('click', reset.bind.this);
 sliderTopK.addEventListener('input', (event) => {
   labelTopK.textContent = event.target.value;
+  reset();
 });
 
 inputPrompt.addEventListener('input', () => {
