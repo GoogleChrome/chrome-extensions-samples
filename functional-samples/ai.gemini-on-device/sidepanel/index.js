@@ -36,7 +36,7 @@ async function runPrompt(prompt, params) {
     console.error(e);
     console.log('Prompt:', prompt);
     // Reset session
-    session = null;
+    reset();
     throw e;
   }
 }
@@ -111,7 +111,7 @@ function showLoading() {
 function showResponse(response) {
   hide(elementLoading);
   show(elementResponse);
-  elementResponse.textContent = response;
+  elementResponse.innerHTML = response.replaceAll(/\r?\n/g, '<br>');
 }
 
 function showError(error) {
