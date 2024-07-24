@@ -14,11 +14,13 @@ import {
 //
 // It is only OK to put your API key into this file if you're the only
 // user of your extension or for testing.
-const apiKey = ''; // ...;
+const apiKey = '...';
 
 let genAI = null;
 let model = null;
-let generationConfig = null;
+let generationConfig = {
+  temperature: 1
+};
 
 const inputPrompt = document.body.querySelector('#input-prompt');
 const buttonPrompt = document.body.querySelector('#button-prompt');
@@ -28,7 +30,7 @@ const elementError = document.body.querySelector('#error');
 const sliderTemperature = document.body.querySelector('#temperature');
 const labelTemperature = document.body.querySelector('#label-temperature');
 
-function initModel(generationConfig = {}) {
+function initModel(generationConfig) {
   const safetySettings = [
     {
       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -39,19 +41,15 @@ function initModel(generationConfig = {}) {
   model = genAI.getGenerativeModel({
     model: 'gemini-1.5-flash',
     safetySettings,
-    generationConfig: {
-      // maxOutputTokens: 1000,
-      temperature: generationConfig.temperature
-    }
+    generationConfig
   });
-  return model.generationConfig;
+  return model;
 }
 
 async function runPrompt(prompt) {
   try {
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    console.log(response);
     return response.text();
   } catch (e) {
     console.log('Prompt failed');
@@ -60,16 +58,6 @@ async function runPrompt(prompt) {
     throw e;
   }
 }
-
-async function initDefaults() {
-  generationConfig = initModel();
-  console.log('Model default:', generationConfig);
-  sliderTemperature.value = generationConfig.temperature;
-  labelTemperature.textContent = generationConfig.temperature;
-  labelTemperature.value = generationConfig.temperature;
-}
-
-initDefaults();
 
 sliderTemperature.addEventListener('input', (event) => {
   labelTemperature.textContent = event.target.value;
@@ -111,11 +99,15 @@ function showResponse(response) {
   // Make sure to preserve line breaks in the response
   elementResponse.textContent = '';
   const paragraphs = response.split(/\r?\n/);
-  for (const paragraph of paragraphs) {
+  for (let i = 0; i < paragraphs.length; i++) {
+    const paragraph = paragraphs[i];
     if (paragraph) {
       elementResponse.appendChild(document.createTextNode(paragraph));
     }
-    elementResponse.appendChild(document.createElement('BR'));
+    // Don't add a new line after the final paragraph
+    if (i < paragraphs.length - 1) {
+      elementResponse.appendChild(document.createElement('BR'));
+    }
   }
 }
 
