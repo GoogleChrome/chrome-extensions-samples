@@ -14,16 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-body[data-focus-mode='on']
-  > .scaffold
-  > :is(top-nav, navigation-rail, side-nav, footer),
-body[data-focus-mode='on'] main > :not(:last-child),
-body[data-focus-mode='on'] main > :last-child > navigation-tree,
-body[data-focus-mode='on'] main .toc-container {
-  display: none;
+* {
+  display: none !important;
 }
 
-body[data-focus-mode='on'] main > :last-child {
-  margin-top: min(10vmax, 10rem);
-  margin-bottom: min(10vmax, 10rem);
+html,
+body,
+*:has(article),
+article,
+article * {
+  display: revert !important;
+}
+
+[role='navigation'] {
+  display: none !important;
+}
+
+article {
+  margin: auto;
+  max-width: 700px;
 }
