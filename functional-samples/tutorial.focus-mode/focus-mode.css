@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 * {
-  display: none!important
+  display: none !important;
 }
 
 html,
@@ -23,11 +23,11 @@ body,
 *:has(article),
 article,
 article * {
-  display: revert!important;
+  display: revert !important;
 }
 
-[role=navigation] {
-  display: none!important
+[role='navigation'] {
+  display: none !important;
 }
 
 article {
