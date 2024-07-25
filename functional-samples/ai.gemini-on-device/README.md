@@ -1,10 +1,10 @@
 # On-device AI with Gemini Nano
 
-This sample demonstrates how to use the built-in Chrome Prompt API.
+This sample demonstrates how to use the experimental Gemini Nano API in Chrome. To learn more about the API and how to sign-up for the preview, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/ai/built-in).
 
 ## Overview
 
-The extension provides a chat interface for the built-in Chrome prompt API. To learn more about the API and how to sign-up for the preview, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/ai/built-in).
+The extension provides a chat interface using the prompt API with Chrome's built-in Gemini Nano model.
 
 ## Running this extension
 
