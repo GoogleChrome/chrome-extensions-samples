@@ -1,0 +1,11 @@
+html {
+  cursor:
+    url('chrome-extension://__MSG_@@extension_id__/dino.png') 16 16,
+    auto;
+}
+
+a {
+  cursor:
+    url('chrome-extension://__MSG_@@extension_id__/dino-pointer.png') 16 16,
+    auto;
+}
