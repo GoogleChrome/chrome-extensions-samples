@@ -1,0 +1,25 @@
+{
+  "name": "Anchor Element Clicker",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "A sample of clicking on an anchor element with javascript: scheme",
+  "content_scripts": [
+    {
+      "matches": [
+        "file:///*/sample.inline-script-anchor-clicker/inline-script-demo.html"
+      ],
+      "js": [
+        "proxy-click.js"
+      ],
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "file:///*/sample.inline-script-anchor-clicker/inline-script-demo.html"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
