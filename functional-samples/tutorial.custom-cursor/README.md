@@ -1,6 +1,6 @@
 # Custom Cursor extension
 
-Adds a custom cursor to pages on https://developer.chrome.com. This sample is part of a tutorial on YouTube.
+Adds a custom cursor to pages on https://developer.chrome.com. This sample is part of a [tutorial on YouTube](https://www.youtube.com/watch?v=QYgKhYbJFUU).
 
 ## Running this extension
 
