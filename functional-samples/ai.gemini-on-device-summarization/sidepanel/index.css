@@ -1,0 +1,44 @@
+:root {
+  --bg-secondary: #e6e2d9;
+  --bg-primary: #d4e7dd;
+  --bg-error: #f89696;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #1f1f1f;
+  background-color: #fffbff;
+  font-size: 16px;
+  padding: 8px;
+}
+
+.warning {
+  background: #ffc6c6;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+/* CSS via https://projects.verou.me/bubbly/ */
+.speech-bubble {
+  position: relative;
+  background: #00aabb;
+  border-radius: 0.4em;
+  color: white;
+  padding: 1em;
+}
+
+.speech-bubble:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 47px solid transparent;
+  border-top-color: #00aabb;
+  border-bottom: 0;
+  border-left: 0;
+  margin-left: -23.5px;
+  margin-bottom: -47px;
+}
