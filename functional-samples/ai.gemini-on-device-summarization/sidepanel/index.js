@@ -5,6 +5,9 @@ const MAX_MODEL_CHARS = 4000;
 
 let pageContent = '';
 
+const summaryElement = document.body.querySelector('#summary');
+const warningElement = document.body.querySelector('#warning');
+
 chrome.storage.session.get('pageContent', ({ pageContent }) => {
   onContentChange(pageContent);
 });
@@ -14,23 +17,20 @@ chrome.storage.session.onChanged.addListener((changes) => {
   onContentChange(pageContent.newValue);
 });
 
-const summaryElement = document.body.querySelector('#summary');
-const warningElement = document.body.querySelector('#warning');
-
 async function onContentChange(newContent) {
   if (pageContent == newContent) {
-    console.log('no new content');
+    // no new content, do nothing
     return;
   }
   pageContent = newContent;
   let summary;
   if (newContent) {
     if (newContent.length > MAX_MODEL_CHARS) {
-      showWarning(
+      updateWarning(
         `Text is too long for summarization with ${newContent.length} characters (maximum supported content length is ~4000 characters).`
       );
     } else {
-      showWarning('');
+      updateWarning('');
     }
     showSummary('Loading...');
     summary = await generateSummary(newContent);
@@ -43,14 +43,15 @@ async function onContentChange(newContent) {
 
 async function generateSummary(text) {
   try {
-    let session = await createSummarizationSession();
+    let session = await createSummarizationSession((message, progress) => {
+      console.log(`${message} (${progress.loaded}/${progress.total})`);
+    });
     let summary = await session.summarize(text);
     session.destroy();
     return summary;
   } catch (e) {
     console.log('Summary generation failed');
     console.error(e);
-    console.log('Prompt:\n\n' + text);
     return 'Error: ' + e.message;
   }
 }
@@ -90,9 +91,9 @@ async function showSummary(text) {
   }
 }
 
-async function showWarning(text) {
-  warningElement.textContent = text;
-  if (text) {
+async function updateWarning(warning) {
+  warningElement.textContent = warning;
+  if (warning) {
     warningElement.removeAttribute('hidden');
   } else {
     warningElement.setAttribute('hidden', '');
