@@ -4,8 +4,8 @@
   --bg-error: #f89696;
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   color: #1f1f1f;
   background-color: #fffbff;
   font-size: 16px;
@@ -29,7 +29,7 @@ body {
 }
 
 .speech-bubble:after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0;
   left: 50%;

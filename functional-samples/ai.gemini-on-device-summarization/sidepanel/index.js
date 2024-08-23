@@ -34,7 +34,6 @@ async function onContentChange(newContent) {
     }
     showSummary('Loading...');
     summary = await generateSummary(newContent);
-    summary = escapeHTML(summary);
   } else {
     summary = "There's nothing to summarize";
   }
@@ -98,18 +97,4 @@ async function updateWarning(warning) {
   } else {
     warningElement.setAttribute('hidden', '');
   }
-}
-
-function escapeHTML(str) {
-  return str.replace(
-    /[&<>'"]/g,
-    (tag) =>
-      ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
-      })[tag] || tag
-  );
 }
