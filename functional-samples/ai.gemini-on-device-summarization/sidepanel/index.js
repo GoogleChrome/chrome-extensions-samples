@@ -56,8 +56,8 @@ async function generateSummary(text) {
 }
 
 async function createSummarizationSession(downloadProgressCallback) {
-  if (!window.ai.summarizer) {
-    throw new Error('AI Summarization is not supported');
+  if (!window.ai || !window.ai.summarizer) {
+    throw new Error('AI Summarization is not supported in this browser');
   }
   const canSummarize = await window.ai.summarizer.capabilities();
   if (canSummarize.available === 'no') {
