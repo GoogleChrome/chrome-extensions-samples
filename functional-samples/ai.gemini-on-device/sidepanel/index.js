@@ -14,21 +14,7 @@ let session;
 async function runPrompt(prompt, params) {
   try {
     if (!session) {
-      // Start by checking if it's possible to create a session based on the availability of the model, and the characteristics of the device.
-      const canCreate = await self.ai.canCreateTextSession();
-      // canCreate will be one of the following:
-      // * "readily": the model is available on-device and so creating will happen quickly
-      // * "after-download": the model is not available on-device, but the device is capable,
-      //   so creating the session will start the download process (which can take a while).
-      // * "no": the model is not available for this device.
-      if (canCreate === 'no') {
-        console.warn('Built-in prompt API not available.');
-        throw new Error(
-          'Built-in prompt API not available. Join the preview program to learn how to enable it.'
-        );
-      }
-      console.log('Creating new text session');
-      session = await self.ai.createTextSession(params);
+      session = await window.ai.assistant.create(params);
     }
     return session.prompt(prompt);
   } catch (e) {
@@ -49,7 +35,11 @@ async function reset() {
 }
 
 async function initDefaults() {
-  const defaults = await window.ai.defaultTextSessionOptions();
+  if (!window.ai) {
+    showResponse('Error: window.ai not supported in this browser');
+    return;
+  }
+  const defaults = await window.ai.assistant.capabilities();
   console.log('Model default:', defaults);
   sliderTemperature.value = defaults.temperature;
   sliderTopK.value = defaults.topK;
