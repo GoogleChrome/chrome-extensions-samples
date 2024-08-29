@@ -19,26 +19,10 @@ body {
   margin: 16px 0;
 }
 
-/* CSS via https://projects.verou.me/bubbly/ */
-.speech-bubble {
+.result {
   position: relative;
   background: #00aabb;
   border-radius: 0.4em;
   color: white;
   padding: 1em;
-}
-
-.speech-bubble:after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border: 47px solid transparent;
-  border-top-color: #00aabb;
-  border-bottom: 0;
-  border-left: 0;
-  margin-left: -23.5px;
-  margin-bottom: -47px;
 }

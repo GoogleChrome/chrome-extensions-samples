@@ -11,6 +11,6 @@ The extension summarizes the content of the currently open tab. It uses Mozilla'
 1. Clone this repository
 2. Run `npm install` in this folder to install all dependencies.
 3. Run `npm run build` to bundle the content script .
-4. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+4. Load the 'dist' directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 5. Click the extension icon to open the summary side panel.
 6. Open any web page, the page's content summary will automatically be displayed in the side panel.
