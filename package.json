@@ -25,7 +25,7 @@
     "chrome-types": "0.1.301",
     "eslint": "9.9.1",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-jest": "28.8.0",
+    "eslint-plugin-jest": "28.8.2",
     "eslint-plugin-prettier": "5.2.1",
     "globals": "15.9.0",
     "husky": "9.1.5",
