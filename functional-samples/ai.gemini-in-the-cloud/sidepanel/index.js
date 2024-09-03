@@ -14,21 +14,93 @@ import {
 //
 // It is only OK to put your API key into this file if you're the only
 // user of your extension or for testing.
-const apiKey = '...';
+const apiKey = 'AIzaSyA0tBKTK1ieL1Dyb2AsYk7q_tGsb6jN4o8';
 
 let genAI = null;
 let model = null;
 let generationConfig = {
   temperature: 1
 };
+let promptFiles = [];
 
 const inputPrompt = document.body.querySelector('#input-prompt');
 const buttonPrompt = document.body.querySelector('#button-prompt');
+const buttonReset = document.body.querySelector('#button-reset');
 const elementResponse = document.body.querySelector('#response');
 const elementLoading = document.body.querySelector('#loading');
 const elementError = document.body.querySelector('#error');
 const sliderTemperature = document.body.querySelector('#temperature');
 const labelTemperature = document.body.querySelector('#label-temperature');
+const elementAudioFile = document.getElementById('audio-file');
+const buttonAudioFile = document.getElementById('button-record-audio');
+const elementImageFile = document.getElementById('image-file');
+const buttonImageFile = document.getElementById('button-add-image');
+const listFiles = document.getElementById('files-list');
+
+buttonImageFile.addEventListener(
+  'click',
+  () => {
+    elementImageFile.click();
+  },
+  false
+);
+elementImageFile.addEventListener('change', async () => {
+  uploadFiles(elementImageFile.files, 'image');
+});
+
+buttonAudioFile.addEventListener(
+  'click',
+  () => {
+    elementAudioFile.click();
+  },
+  false
+);
+elementAudioFile.addEventListener('change', async () => {
+  uploadFiles(elementAudioFile.files, 'audio');
+});
+
+async function uploadFiles(files, type) {
+  for (const file of files) {
+    // getting base64 from file to render in DOM
+    const base64 = await getBase64(file);
+    // generating content model for Gemini Google AI
+    const imagePart = await fileToGenerativePart(file);
+    renderUploadedFile(file.name, type, base64);
+    promptFiles.push({
+      name: file.name,
+      preview: base64,
+      imagePart
+    });
+  }
+}
+
+function renderUploadedFile(name, type) {
+  const fileElement = document.createElement('LI');
+  fileElement.textContent = name;
+  fileElement.classList.add(type);
+  listFiles.appendChild(fileElement);
+}
+
+function getBase64(file) {
+  return new Promise(function (resolve, reject) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject('Error: ', error);
+  });
+}
+
+async function fileToGenerativePart(file) {
+  const base64EncodedDataPromise = new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.readAsDataURL(file);
+  });
+
+  return {
+    inlineData: { data: await base64EncodedDataPromise, mimeType: file.type }
+  };
+}
 
 function initModel(generationConfig) {
   const safetySettings = [
@@ -48,7 +120,10 @@ function initModel(generationConfig) {
 
 async function runPrompt(prompt) {
   try {
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent([
+      prompt,
+      ...promptFiles.map((f) => f.imagePart)
+    ]);
     const response = await result.response;
     return response.text();
   } catch (e) {
@@ -85,6 +160,14 @@ buttonPrompt.addEventListener('click', async () => {
   } catch (e) {
     showError(e);
   }
+});
+
+buttonReset.addEventListener('click', async () => {
+  promptFiles = [];
+  listFiles.textContent = '';
+  model = null;
+  elementAudioFile.value = null;
+  elementImageFile.value = null;
 });
 
 function showLoading() {

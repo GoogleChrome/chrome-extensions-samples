@@ -11,6 +11,7 @@
       cols="30"
       rows="5"
     ></textarea>
+    <ul id="files-list"></ul>
     <div>
       <input
         type="range"
@@ -25,7 +26,42 @@
         >Temperature: <span id="label-temperature">1</span></label
       >
     </div>
-    <button id="button-prompt" class="primary" disabled>Run</button>
+    <div>
+      <input
+        type="file"
+        id="image-file"
+        accept="image/*"
+        style="display: none"
+      />
+      <button id="button-add-image" class="primary img">
+        <img
+          src="/images/screenshot-monitor-24.svg"
+          width="24"
+          height="24"
+          alt="take screenshot"
+        />
+      </button>
+      <input
+        type="file"
+        id="audio-file"
+        accept="audio/wav, audio/mp3"
+        style="display: none"
+      />
+      <button id="button-record-audio" class="primary img">
+        <img
+          src="/images/record-audio-24.svg"
+          width="24"
+          height="24"
+          alt="take screenshot"
+        />
+      </button>
+    </div>
+    <div>
+      <button id="button-prompt" class="primary" disabled type="submit">
+        Run
+      </button>
+      <button id="button-reset" class="primary" type="reset">Reset</button>
+    </div>
     <div id="response" class="text" hidden></div>
     <div id="loading" class="text" hidden><span class="blink">...</span></div>
     <div id="error" class="text" hidden></div>
