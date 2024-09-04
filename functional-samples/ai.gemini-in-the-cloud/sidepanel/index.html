@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
-    <h1>Google Gemini</h1>
     <textarea
       id="input-prompt"
       placeholder='Type something, e.g. "Write a haiku about Chrome Extensions"'
@@ -33,13 +32,23 @@
         accept="image/*"
         style="display: none"
       />
-      <button id="button-add-image" class="primary img">
+      <button id="button-add-image" class="primary">
         <img
           src="/images/screenshot-monitor-24.svg"
           width="24"
           height="24"
           alt="take screenshot"
         />
+        Add image
+      </button>
+      <button id="button-capture-image" class="primary">
+        <img
+          src="/images/screenshot-monitor-24.svg"
+          width="24"
+          height="24"
+          alt="capture screenshot"
+        />
+        Take Screenshot
       </button>
       <input
         type="file"
@@ -47,13 +56,26 @@
         accept="audio/wav, audio/mp3"
         style="display: none"
       />
-      <button id="button-record-audio" class="primary img">
+      <button id="button-record-audio" class="primary" disabled>
         <img
           src="/images/record-audio-24.svg"
           width="24"
           height="24"
-          alt="take screenshot"
+          alt="Upload an audio file"
         />
+        Record audio
+      </button>
+      <button id="button-capture-audio" class="primary">
+        <img
+          src="/images/record-audio-24.svg"
+          width="24"
+          height="24"
+          alt="Capture tab audio"
+        />
+        Add audio file
+      </button>
+      <button id="button-capture-audio-stop" class="primary" hidden>
+        Stop recording
       </button>
     </div>
     <div>

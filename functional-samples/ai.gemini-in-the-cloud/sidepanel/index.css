@@ -31,13 +31,8 @@ button.primary {
   color: white;
 }
 
-button.img {
-  background: #333;
-  color: white;
-  padding: 0 4px;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
+button > img {
+ vertical-align: middle;
 }
 
 button.secondary {

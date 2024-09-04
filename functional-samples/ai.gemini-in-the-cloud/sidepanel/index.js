@@ -4,6 +4,9 @@ import {
   HarmCategory
 } from '../node_modules/@google/generative-ai/dist/index.mjs';
 
+import TabAudioRecorder from './tab-audio-recorder';
+import getScreenshot from './screenshot';
+
 // Important! Do not expose your API in your extension code. You have to
 // options:
 //
@@ -14,7 +17,7 @@ import {
 //
 // It is only OK to put your API key into this file if you're the only
 // user of your extension or for testing.
-const apiKey = 'AIzaSyA0tBKTK1ieL1Dyb2AsYk7q_tGsb6jN4o8';
+const apiKey = 'AIzaSyAiTmPF3fbapEgNtpkVyAOxNb0GZbvLfyE';
 
 let genAI = null;
 let model = null;
@@ -22,6 +25,10 @@ let generationConfig = {
   temperature: 1
 };
 let promptFiles = [];
+let screenshotCount = 0;
+let audioRecordingCount = 0;
+
+const tabAudioRecorder = new TabAudioRecorder();
 
 const inputPrompt = document.body.querySelector('#input-prompt');
 const buttonPrompt = document.body.querySelector('#button-prompt');
@@ -36,6 +43,11 @@ const buttonAudioFile = document.getElementById('button-record-audio');
 const elementImageFile = document.getElementById('image-file');
 const buttonImageFile = document.getElementById('button-add-image');
 const listFiles = document.getElementById('files-list');
+const buttonCaptureAudio = document.getElementById('button-capture-audio');
+const buttonCaptureAudioStop = document.getElementById(
+  'button-capture-audio-stop'
+);
+const buttonCaptureImage = document.getElementById('button-capture-image');
 
 buttonImageFile.addEventListener(
   'click',
@@ -55,8 +67,49 @@ buttonAudioFile.addEventListener(
   },
   false
 );
+
 elementAudioFile.addEventListener('change', async () => {
   uploadFiles(elementAudioFile.files, 'audio');
+});
+
+buttonCaptureImage.addEventListener('click', async () => {
+  try {
+    const screenshot = await getScreenshot();
+    console.log('screenshot', screenshot);
+    const fileName =
+      screenshotCount > 0 ? `Screenshot_${screenshotCount + 1}` : 'Screenshot';
+    renderUploadedFile(fileName, 'image', screenshot.data);
+    const imagePart = {
+      inlineData: { data: screenshot.base64, mimeType: 'image/png' }
+    };
+    promptFiles.push({
+      name: fileName,
+      preview: screenshot,
+      mimeType: 'image/png',
+      imagePart
+    });
+    screenshotCount++;
+  } catch (e) {
+    console.log(e);
+    alert(e.message);
+  }
+});
+
+buttonCaptureAudio.addEventListener('click', async () => {
+  try {
+    await tabAudioRecorder.start();
+    hide(buttonCaptureAudio);
+    show(buttonCaptureAudioStop);
+  } catch (e) {
+    console.error(e);
+    alert(e.message);
+  }
+});
+
+buttonCaptureAudioStop.addEventListener('click', async () => {
+  tabAudioRecorder.stop();
+  show(buttonCaptureAudio);
+  hide(buttonCaptureAudioStop);
 });
 
 async function uploadFiles(files, type) {
@@ -168,6 +221,8 @@ buttonReset.addEventListener('click', async () => {
   model = null;
   elementAudioFile.value = null;
   elementImageFile.value = null;
+  screenshotCount = 0;
+  audioRecordingCount = 0;
 });
 
 function showLoading() {
