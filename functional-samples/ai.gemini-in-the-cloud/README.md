@@ -1,4 +1,4 @@
-# On-device AI with Gemini Nano
+# Using the Gemini API in a Chrome Extension.
 
 This sample demonstrates how to use the Gemini Cloud API in a Chrome Extension.
 
