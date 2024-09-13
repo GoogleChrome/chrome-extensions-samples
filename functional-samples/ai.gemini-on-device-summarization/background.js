@@ -16,7 +16,7 @@ async function showSummary(tabId) {
   }
   const injection = await chrome.scripting.executeScript({
     target: { tabId },
-    files: ['dist/scripts/extract-content.js']
+    files: ['scripts/extract-content.js']
   });
   chrome.storage.session.set({ pageContent: injection[0].result });
 }
