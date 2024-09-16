@@ -28,7 +28,7 @@
     "eslint-plugin-jest": "28.8.3",
     "eslint-plugin-prettier": "5.2.1",
     "globals": "15.9.0",
-    "husky": "9.1.5",
+    "husky": "9.1.6",
     "lint-staged": "15.2.10",
     "prettier": "3.3.3"
   },
