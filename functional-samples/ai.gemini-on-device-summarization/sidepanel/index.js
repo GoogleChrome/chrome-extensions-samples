@@ -1,3 +1,6 @@
+import DOMPurify from '../node_modules/dompurify/dist/purify.es.mjs';
+import { marked } from '../node_modules/marked/marked.min';
+
 // The underlying model has a context of 1,024 tokens, out of which 26 are used by the internal prompt,
 // leaving about 998 tokens for the input text. Each token corresponds, roughly, to about 4 characters, so 4,000
 // is used as a limit to warn the user the content might be too long to summarize.
@@ -42,7 +45,7 @@ async function onContentChange(newContent) {
 
 async function generateSummary(text) {
   try {
-    let session = await createSummarizationSession((message, progress) => {
+    let session = await createSummarizer((message, progress) => {
       console.log(`${message} (${progress.loaded}/${progress.total})`);
     });
     let summary = await session.summarize(text);
@@ -55,39 +58,32 @@ async function generateSummary(text) {
   }
 }
 
-async function createSummarizationSession(downloadProgressCallback) {
+async function createSummarizer() {
   if (!window.ai || !window.ai.summarizer) {
     throw new Error('AI Summarization is not supported in this browser');
   }
   const canSummarize = await window.ai.summarizer.capabilities();
-  if (canSummarize.available === 'no') {
-    throw new Error('AI Summarization is not availabe');
-  }
-
-  const summarizationSession = await window.ai.summarizer.create();
-  if (canSummarize.available === 'after-download') {
-    if (downloadProgressCallback) {
-      summarizationSession.addEventListener(
-        'downloadprogress',
-        downloadProgressCallback
-      );
+  let summarizer;
+  if (canSummarize && canSummarize.available !== 'no') {
+    if (canSummarize.available === 'readily') {
+      // The summarizer can immediately be used.
+      summarizer = await window.ai.summarizer.create();
+    } else {
+      // The summarizer can be used after the model download.
+      summarizer = await window.ai.summarizer.create();
+      summarizer.addEventListener('downloadprogress', (e) => {
+        console.log('Downloading model', e.loaded, e.total);
+      });
+      await summarizer.ready;
     }
-    await summarizationSession.ready;
+  } else {
+    throw new Error(`AI Summarizer not available (${canSummarize.available})`);
   }
-
-  return summarizationSession;
+  return summarizer;
 }
 
 async function showSummary(text) {
-  // Make sure to preserve line breaks in the response
-  summaryElement.textContent = '';
-  const paragraphs = text.split(/\r?\n/);
-  for (const paragraph of paragraphs) {
-    if (paragraph) {
-      summaryElement.appendChild(document.createTextNode(paragraph));
-    }
-    summaryElement.appendChild(document.createElement('BR'));
-  }
+  summaryElement.innerHTML = DOMPurify.sanitize(marked.parse(text));
 }
 
 async function updateWarning(warning) {
