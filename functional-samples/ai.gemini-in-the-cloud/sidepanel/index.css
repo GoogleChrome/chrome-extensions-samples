@@ -31,6 +31,10 @@ button.primary {
   color: white;
 }
 
+button > img {
+ vertical-align: middle;
+}
+
 button.secondary {
   background: #ccc;
   color: black;
