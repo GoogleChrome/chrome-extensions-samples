@@ -16,7 +16,8 @@
   "web_accessible_resources": [
     {
       "resources": ["dino.png", "dino-pointer.png"],
-      "matches": ["https://developer.chrome.com/*"]
+      "matches": ["https://developer.chrome.com/*"],
+      "use_dynamic_urls": true
     }
   ],
   "permissions": ["storage"],
