@@ -17,3 +17,5 @@ This API allows you to request access to an origin listed in `optional_host_perm
 7. At chrome://extensions, click on "Details" for the extension and unselect "Automatically allow access on the following sites".
 8. Visit https://example.com/checkout.
 9. Click "Allow 1?"
+
+You will see a banner injected on the page to show that the extension has run.
