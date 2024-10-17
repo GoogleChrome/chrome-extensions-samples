@@ -1,0 +1,17 @@
+{
+  "name": "Permissions (Add Site Access Request)",
+  "description": "Uses the `permissions.addSiteAccessRequest()` API to request access to a site.",
+  "version": "0.3",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["https://example.com/*"],
+  "permissions": ["tabs", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://example.com/*"],
+      "js": ["banner.js"]
+    }
+  ],
+  "manifest_version": 3
+}
