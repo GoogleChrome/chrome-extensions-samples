@@ -13,31 +13,31 @@ let session;
 
 async function runPrompt(prompt, params) {
   try {
-      if (!session) {
-          session = await window.ai.languageModel.create(params);
-      }
-      return session.prompt(prompt);
+    if (!session) {
+      session = await window.ai.languageModel.create(params);
+    }
+    return session.prompt(prompt);
   } catch (e) {
-      console.log('Prompt failed');
-      console.error(e);
-      console.log('Prompt:', prompt);
-      // Reset session
-      reset();
-      throw e;
+    console.log('Prompt failed');
+    console.error(e);
+    console.log('Prompt:', prompt);
+    // Reset session
+    reset();
+    throw e;
   }
 }
 
 async function reset() {
   if (session) {
-      session.destroy();
+    session.destroy();
   }
   session = null;
 }
 
 async function initDefaults() {
   if (!window.ai) {
-      showResponse('Error: window.ai not supported in this browser');
-      return;
+    showResponse('Error: window.ai not supported in this browser');
+    return;
   }
   const defaults = await window.ai.languageModel.capabilities();
   console.log('Model default:', defaults);
@@ -87,7 +87,7 @@ buttonPrompt.addEventListener('click', async () => {
     const response = await runPrompt(prompt, params);
     showResponse(response);
   } catch (e) {
-        showError(e);
+    showError(e);
   }
 });
 
