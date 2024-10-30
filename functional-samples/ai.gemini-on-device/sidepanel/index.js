@@ -36,7 +36,7 @@ async function reset() {
 
 async function initDefaults() {
   if (!window.ai) {
-    showResponse('Error: window.ai not supported in this browser');
+    showResponse('Error: chrome.aiOriginTrial not supported in this browser');
     return;
   }
   const defaults = await chrome.aiOriginTrial.languageModel.capabilities();
