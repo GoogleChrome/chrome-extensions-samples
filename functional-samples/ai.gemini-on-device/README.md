@@ -9,7 +9,8 @@ The extension provides a chat interface using the Prompt API with Chrome's built
 ## Running this extension
 
 1. Clone this repository.
-1. Launch Chrome with the following flag, which makes sure the origin trial token in `manifest.json` is accepted by the browser:
+1. Launch Chrome with the following flag, which makes sure the origin trial token in `manifest.json` is accepted by the browser. This won't be necessary once the origin trial is live.
+
    `--origin-trial-public-key=dRCs+TocuKkocNKa0AtZ4awrt9XKH2SQCI6o4FY6BNA=`
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 1. Click the extension icon.
