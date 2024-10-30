@@ -35,7 +35,7 @@ async function reset() {
 }
 
 async function initDefaults() {
-  if (!window.ai) {
+  if (!('aiOriginTrial' in chrome)) {
     showResponse('Error: chrome.aiOriginTrial not supported in this browser');
     return;
   }
