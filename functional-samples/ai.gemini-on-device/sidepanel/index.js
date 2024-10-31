@@ -14,7 +14,7 @@ let session;
 async function runPrompt(prompt, params) {
   try {
     if (!session) {
-      session = await window.ai.languageModel.create(params);
+      session = await chrome.aiOriginTrial.languageModel.create(params);
     }
     return session.prompt(prompt);
   } catch (e) {
@@ -35,11 +35,11 @@ async function reset() {
 }
 
 async function initDefaults() {
-  if (!window.ai) {
-    showResponse('Error: window.ai not supported in this browser');
+  if (!('aiOriginTrial' in chrome)) {
+    showResponse('Error: chrome.aiOriginTrial not supported in this browser');
     return;
   }
-  const defaults = await window.ai.languageModel.capabilities();
+  const defaults = await chrome.aiOriginTrial.languageModel.capabilities();
   console.log('Model default:', defaults);
   sliderTemperature.value = defaults.temperature;
   sliderTopK.value = defaults.topK;
