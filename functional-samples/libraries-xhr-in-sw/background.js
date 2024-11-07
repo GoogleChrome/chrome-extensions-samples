@@ -1,5 +1,5 @@
-import xhrShim from './lib/xhr-shim.js';
-import fetchTitle from './lib/fetchTitle.js';
+import xhrShim from './third_party/xhr-shim/xhr-shim.js';
+import fetchTitle from './third_party/fetchTitle.js';
 
 globalThis.XMLHttpRequest = xhrShim;
 
