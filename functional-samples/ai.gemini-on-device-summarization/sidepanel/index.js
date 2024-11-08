@@ -86,7 +86,7 @@ async function createSummarizer(config, downloadProgressCallback) {
   if (canSummarize.available === 'no') {
     throw new Error('AI Summarization is not supported');
   }
-  const summarizationSession = await window.ai.summarizer.create(
+  const summarizationSession = await self.ai.summarizer.create(
     config,
     downloadProgressCallback
   );
