@@ -1,0 +1,20 @@
+{
+  "name": "Chrome Prompt API Example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  },
+  "keywords": [],
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "dompurify": "3.1.6",
+    "marked": "14.1.2",
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "rollup": "4.22.4",
+    "rollup-plugin-copy": "3.5.0"
+  }
+}
