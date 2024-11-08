@@ -10,6 +10,19 @@ let pageContent = '';
 
 const summaryElement = document.body.querySelector('#summary');
 const warningElement = document.body.querySelector('#warning');
+const summaryTypeSelect = document.querySelector('#type');
+const summaryFormatSelect = document.querySelector('#format');
+const summaryLengthSelect = document.querySelector('#length');
+
+function onConfigChange() {
+  const oldContent = pageContent;
+  pageContent = '';
+  onContentChange(oldContent);
+}
+
+[summaryTypeSelect, summaryFormatSelect, summaryLengthSelect].forEach((e) =>
+  e.addEventListener('change', onConfigChange)
+);
 
 chrome.storage.session.get('pageContent', ({ pageContent }) => {
   onContentChange(pageContent);
@@ -45,10 +58,17 @@ async function onContentChange(newContent) {
 
 async function generateSummary(text) {
   try {
-    let session = await createSummarizer((message, progress) => {
-      console.log(`${message} (${progress.loaded}/${progress.total})`);
-    });
-    let summary = await session.summarize(text);
+    const session = await createSummarizer(
+      {
+        type: summaryTypeSelect.value,
+        format: summaryFormatSelect.value,
+        length: length.value
+      },
+      (message, progress) => {
+        console.log(`${message} (${progress.loaded}/${progress.total})`);
+      }
+    );
+    const summary = await session.summarize(text);
     session.destroy();
     return summary;
   } catch (e) {
@@ -58,28 +78,26 @@ async function generateSummary(text) {
   }
 }
 
-async function createSummarizer() {
+async function createSummarizer(config, downloadProgressCallback) {
   if (!window.ai || !window.ai.summarizer) {
     throw new Error('AI Summarization is not supported in this browser');
   }
   const canSummarize = await window.ai.summarizer.capabilities();
-  let summarizer;
-  if (canSummarize && canSummarize.available !== 'no') {
-    if (canSummarize.available === 'readily') {
-      // The summarizer can immediately be used.
-      summarizer = await window.ai.summarizer.create();
-    } else {
-      // The summarizer can be used after the model download.
-      summarizer = await window.ai.summarizer.create();
-      summarizer.addEventListener('downloadprogress', (e) => {
-        console.log('Downloading model', e.loaded, e.total);
-      });
-      await summarizer.ready;
-    }
-  } else {
-    throw new Error(`AI Summarizer not available (${canSummarize.available})`);
+  if (canSummarize.available === 'no') {
+    throw new Error('AI Summarization is not supported');
   }
-  return summarizer;
+  const summarizationSession = await window.ai.summarizer.create(
+    config,
+    downloadProgressCallback
+  );
+  if (canSummarize.available === 'after-download') {
+    summarizationSession.addEventListener(
+      'downloadprogress',
+      downloadProgressCallback
+    );
+    await summarizationSession.ready;
+  }
+  return summarizationSession;
 }
 
 async function showSummary(text) {
