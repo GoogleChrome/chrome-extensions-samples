@@ -51,6 +51,8 @@ async function initDefaults() {
     return;
   }
   sliderTemperature.value = defaults.defaultTemperature;
+  // sliderTemperature.max = defaults.maxTemperature;
+  // Pending https://issues.chromium.org/issues/367771112.
   sliderTopK.value = defaults.defaultTopK;
   sliderTopK.max = defaults.maxTopK;
   labelTopK.textContent = defaults.defaultTopK;
