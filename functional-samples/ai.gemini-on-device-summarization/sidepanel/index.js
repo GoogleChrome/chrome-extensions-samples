@@ -1,5 +1,5 @@
-import DOMPurify from '../node_modules/dompurify/dist/purify.es.mjs';
-import { marked } from '../node_modules/marked/marked.min';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
 
 // The underlying model has a context of 1,024 tokens, out of which 26 are used by the internal prompt,
 // leaving about 998 tokens for the input text. Each token corresponds, roughly, to about 4 characters, so 4,000
