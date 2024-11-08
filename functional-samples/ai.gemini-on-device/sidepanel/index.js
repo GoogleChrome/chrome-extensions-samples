@@ -1,3 +1,6 @@
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
+
 const inputPrompt = document.body.querySelector('#input-prompt');
 const buttonPrompt = document.body.querySelector('#button-prompt');
 const buttonReset = document.body.querySelector('#button-reset');
@@ -41,11 +44,19 @@ async function initDefaults() {
   }
   const defaults = await chrome.aiOriginTrial.languageModel.capabilities();
   console.log('Model default:', defaults);
-  sliderTemperature.value = defaults.temperature;
-  sliderTopK.value = defaults.topK;
-  labelTopK.textContent = defaults.topK;
-  labelTemperature.textContent = defaults.temperature;
-  labelTemperature.value = defaults.temperature;
+  if (defaults.available !== 'readily') {
+    showResponse(
+      `Model not yet available (current state: "${defaults.available}")`
+    );
+    return;
+  }
+  sliderTemperature.value = defaults.defaultTemperature;
+  // sliderTemperature.max = defaults.maxTemperature;
+  // Pending https://issues.chromium.org/issues/367771112.
+  sliderTopK.value = defaults.defaultTopK;
+  sliderTopK.max = defaults.maxTopK;
+  labelTopK.textContent = defaults.defaultTopK;
+  labelTemperature.textContent = defaults.defaultTemperature;
 }
 
 initDefaults();
@@ -101,15 +112,7 @@ function showLoading() {
 function showResponse(response) {
   hide(elementLoading);
   show(elementResponse);
-  // Make sure to preserve line breaks in the response
-  elementResponse.textContent = '';
-  const paragraphs = response.split(/\r?\n/);
-  for (const paragraph of paragraphs) {
-    if (paragraph) {
-      elementResponse.appendChild(document.createTextNode(paragraph));
-    }
-    elementResponse.appendChild(document.createElement('BR'));
-  }
+  elementResponse.innerHTML = DOMPurify.sanitize(marked.parse(response));
 }
 
 function showError(error) {

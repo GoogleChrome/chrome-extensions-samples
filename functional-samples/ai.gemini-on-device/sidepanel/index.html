@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
-    <h1>Chrome built-in AI</h1>
     <textarea
       id="input-prompt"
       placeholder='Type something, e.g. "Write a haiku about Chrome Extensions"'
@@ -25,7 +24,7 @@
       ></label>
     </div>
     <div>
-      <input type="range" id="top-k" name="top-k" min="1" max="50" step="1" />
+      <input type="range" id="top-k" name="top-k" min="1" max="8" step="1" />
       <label for="top-k">Top-k: <span id="label-top-k"></span></label>
     </div>
     <button id="button-prompt" class="primary" disabled>Run</button>
