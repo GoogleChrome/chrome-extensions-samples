@@ -44,7 +44,7 @@ async function initDefaults() {
   }
   const defaults = await chrome.aiOriginTrial.languageModel.capabilities();
   console.log('Model default:', defaults);
-  if (defaults.available != 'readily') {
+  if (defaults.available !== 'readily') {
     showResponse(
       `Model not yet available (current state: "${defaults.available}")`
     );
