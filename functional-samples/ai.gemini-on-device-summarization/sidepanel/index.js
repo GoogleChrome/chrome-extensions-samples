@@ -1,3 +1,6 @@
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
+
 // The underlying model has a context of 1,024 tokens, out of which 26 are used by the internal prompt,
 // leaving about 998 tokens for the input text. Each token corresponds, roughly, to about 4 characters, so 4,000
 // is used as a limit to warn the user the content might be too long to summarize.
@@ -7,6 +10,19 @@ let pageContent = '';
 
 const summaryElement = document.body.querySelector('#summary');
 const warningElement = document.body.querySelector('#warning');
+const summaryTypeSelect = document.querySelector('#type');
+const summaryFormatSelect = document.querySelector('#format');
+const summaryLengthSelect = document.querySelector('#length');
+
+function onConfigChange() {
+  const oldContent = pageContent;
+  pageContent = '';
+  onContentChange(oldContent);
+}
+
+[summaryTypeSelect, summaryFormatSelect, summaryLengthSelect].forEach((e) =>
+  e.addEventListener('change', onConfigChange)
+);
 
 chrome.storage.session.get('pageContent', ({ pageContent }) => {
   onContentChange(pageContent);
@@ -42,10 +58,17 @@ async function onContentChange(newContent) {
 
 async function generateSummary(text) {
   try {
-    let session = await createSummarizationSession((message, progress) => {
-      console.log(`${message} (${progress.loaded}/${progress.total})`);
-    });
-    let summary = await session.summarize(text);
+    const session = await createSummarizer(
+      {
+        type: summaryTypeSelect.value,
+        format: summaryFormatSelect.value,
+        length: length.value
+      },
+      (message, progress) => {
+        console.log(`${message} (${progress.loaded}/${progress.total})`);
+      }
+    );
+    const summary = await session.summarize(text);
     session.destroy();
     return summary;
   } catch (e) {
@@ -55,39 +78,30 @@ async function generateSummary(text) {
   }
 }
 
-async function createSummarizationSession(downloadProgressCallback) {
+async function createSummarizer(config, downloadProgressCallback) {
   if (!window.ai || !window.ai.summarizer) {
     throw new Error('AI Summarization is not supported in this browser');
   }
   const canSummarize = await window.ai.summarizer.capabilities();
   if (canSummarize.available === 'no') {
-    throw new Error('AI Summarization is not availabe');
+    throw new Error('AI Summarization is not supported');
   }
-
-  const summarizationSession = await window.ai.summarizer.create();
+  const summarizationSession = await self.ai.summarizer.create(
+    config,
+    downloadProgressCallback
+  );
   if (canSummarize.available === 'after-download') {
-    if (downloadProgressCallback) {
-      summarizationSession.addEventListener(
-        'downloadprogress',
-        downloadProgressCallback
-      );
-    }
+    summarizationSession.addEventListener(
+      'downloadprogress',
+      downloadProgressCallback
+    );
     await summarizationSession.ready;
   }
-
   return summarizationSession;
 }
 
 async function showSummary(text) {
-  // Make sure to preserve line breaks in the response
-  summaryElement.textContent = '';
-  const paragraphs = text.split(/\r?\n/);
-  for (const paragraph of paragraphs) {
-    if (paragraph) {
-      summaryElement.appendChild(document.createTextNode(paragraph));
-    }
-    summaryElement.appendChild(document.createElement('BR'));
-  }
+  summaryElement.innerHTML = DOMPurify.sanitize(marked.parse(text));
 }
 
 async function updateWarning(warning) {
