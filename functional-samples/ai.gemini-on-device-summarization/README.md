@@ -1,6 +1,6 @@
 # On-device Summarization with Gemini Nano
 
-This sample demonstrates how to use the experimental Summarization API in Chrome. To learn more about the API and how to sign-up for the preview, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/ai/built-in).
+This sample demonstrates how to use the experimental Summarization API in Chrome. To learn more about the API and how to sign-up for the preview, head over to the [summarizer guide on developer.chrome.com](https://developer.chrome.com/docs/ai/summarizer-api).
 
 ## Overview
 
@@ -9,8 +9,12 @@ The extension summarizes the content of the currently open tab. It uses Mozilla'
 ## Running this extension
 
 1. Clone this repository
-2. Run `npm install` in this folder to install all dependencies.
-3. Run `npm run build` to bundle the content script .
-4. Load the 'dist' directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
-5. Click the extension icon to open the summary side panel.
-6. Open any web page, the page's content summary will automatically be displayed in the side panel.
+1. Run `npm install` in this folder to install all dependencies.
+1. Run `npm run build` to build the extension.
+1. Load the newly created `dist` directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
+1. Click the extension icon to open the summary side panel.
+1. Open any web page, the page's content summary will automatically be displayed in the side panel.
+
+## Creating your own extension
+
+If you use this sample as the foundation for your own extension, be sure to update the `"trial_tokens"` field [with your own origin trial token](https://developer.chrome.com/docs/web-platform/origin-trials#extensions) and to remove the `"key"` field in `manifest.json`.

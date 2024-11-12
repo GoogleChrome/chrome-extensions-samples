@@ -51,11 +51,17 @@ async function initDefaults() {
     return;
   }
   sliderTemperature.value = defaults.defaultTemperature;
-  // sliderTemperature.max = defaults.maxTemperature;
   // Pending https://issues.chromium.org/issues/367771112.
-  sliderTopK.value = defaults.defaultTopK;
+  // sliderTemperature.max = defaults.maxTemperature;
+  if (defaults.defaultTopK > 3) {
+    // limit default topK to 3
+    sliderTopK.value = 3;
+    labelTopK.textContent = 3;
+  } else {
+    sliderTopK.value = defaults.defaultTopK;
+    labelTopK.textContent = defaults.defaultTopK;
+  }
   sliderTopK.max = defaults.maxTopK;
-  labelTopK.textContent = defaults.defaultTopK;
   labelTemperature.textContent = defaults.defaultTemperature;
 }
 
@@ -92,6 +98,7 @@ buttonPrompt.addEventListener('click', async () => {
   showLoading();
   try {
     const params = {
+      systemPrompt: 'You are a helpful and friendly assistant.',
       temperature: sliderTemperature.value,
       topK: sliderTopK.value
     };
