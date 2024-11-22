@@ -15,6 +15,5 @@
   "side_panel": {
     "default_path": "sidepanel.html"
   },
-  "host_permissions": ["https://developer.chrome.com/*"],
-  "permissions": ["tabGroups", "sidePanel"]
+  "permissions": ["tabGroups", "sidePanel", "tabs"]
 }

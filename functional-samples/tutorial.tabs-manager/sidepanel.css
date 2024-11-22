@@ -45,4 +45,8 @@ ul li:nth-child(even) {
 h3,
 p {
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
 }
