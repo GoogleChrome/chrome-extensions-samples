@@ -12,19 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const tabs = await chrome.tabs.query({
-  currentWindow: true
-});
+const LIST_ELEMENT = document.querySelector('ul');
 
-for (const tab of tabs) {
-  const element = document.createElement('li');
-  element.innerText = tab.title;
-
-  element.addEventListener('click', async () => {
-    // need to focus window as well as the active tab
-    await chrome.tabs.update(tab.id, { active: true });
-    await chrome.windows.update(tab.windowId, { focused: true });
+async function updateUI() {
+  const tabs = await chrome.tabs.query({
+    currentWindow: true
   });
 
-  document.querySelector('ul').append(element);
+  // Reset element.
+  LIST_ELEMENT.innerHTML = '';
+
+  for (const tab of tabs) {
+    const element = document.createElement('li');
+    element.innerText = tab.title;
+
+    element.addEventListener('click', async () => {
+      // need to focus window as well as the active tab
+      await chrome.tabs.update(tab.id, { active: true });
+      await chrome.windows.update(tab.windowId, { focused: true });
+    });
+
+    LIST_ELEMENT.append(element);
+  }
 }
+
+// We need to update the UI as soon as the page loads.
+window.addEventListener('load', () => {
+  updateUI();
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    if ('url' in changeInfo || 'title' in changeInfo) {
+      updateUI();
+    }
+  });
+  chrome.tabs.onCreated.addListener(updateUI);
+  chrome.tabs.onRemoved.addListener(updateUI);
+  chrome.tabs.onMoved.addListener(updateUI);
+});
