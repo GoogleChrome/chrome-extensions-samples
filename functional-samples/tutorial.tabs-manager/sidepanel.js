@@ -17,7 +17,7 @@ const tabs = await chrome.tabs.query({
 });
 
 const template = document.getElementById('li_template');
-const elements = new Set();
+
 for (const tab of tabs) {
   const element = template.content.firstElementChild.cloneNode(true);
 
@@ -28,9 +28,8 @@ for (const tab of tabs) {
     await chrome.windows.update(tab.windowId, { focused: true });
   });
 
-  elements.add(element);
+  document.querySelector('ul').append(element);
 }
-document.querySelector('ul').append(...elements);
 
 const button = document.querySelector('button');
 button.addEventListener('click', async () => {
