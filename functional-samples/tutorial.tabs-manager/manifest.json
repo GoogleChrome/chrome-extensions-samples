@@ -8,9 +8,13 @@
     "48": "images/icon-48.png",
     "128": "images/icon-128.png"
   },
-  "action": {
-    "default_popup": "popup.html"
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {},
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "host_permissions": ["https://developer.chrome.com/*"],
-  "permissions": ["tabGroups"]
+  "permissions": ["tabGroups", "sidePanel"]
 }
