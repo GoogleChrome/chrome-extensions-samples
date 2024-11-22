@@ -15,23 +15,22 @@ limitations under the License.
 */
 
 body {
-  width: 20rem;
-  margin: 1rem;
-}
-
-button {
-  width: 100%;
-  padding: 1rem;
+  margin: 0;
 }
 
 ul {
   list-style-type: none;
   padding-inline-start: 0;
-  margin: 1rem -1rem;
+  margin: 0;
 }
 
 ul li {
   padding: 0.5rem 0.75rem;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
 }
 
 ul li:nth-child(odd) {
@@ -40,13 +39,4 @@ ul li:nth-child(odd) {
 
 ul li:nth-child(even) {
   background: #ffffff;
-}
-
-h3,
-p {
-  margin: 0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: default;
 }

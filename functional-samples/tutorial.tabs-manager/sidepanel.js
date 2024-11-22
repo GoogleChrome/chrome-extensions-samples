@@ -16,13 +16,11 @@ const tabs = await chrome.tabs.query({
   currentWindow: true
 });
 
-const template = document.getElementById('li_template');
-
 for (const tab of tabs) {
-  const element = template.content.firstElementChild.cloneNode(true);
+  const element = document.createElement('li');
+  element.innerText = tab.title;
 
-  element.querySelector('.title').textContent = tab.title;
-  element.querySelector('a').addEventListener('click', async () => {
+  element.addEventListener('click', async () => {
     // need to focus window as well as the active tab
     await chrome.tabs.update(tab.id, { active: true });
     await chrome.windows.update(tab.windowId, { focused: true });
@@ -30,12 +28,3 @@ for (const tab of tabs) {
 
   document.querySelector('ul').append(element);
 }
-
-const button = document.querySelector('button');
-button.addEventListener('click', async () => {
-  const tabIds = tabs.map(({ id }) => id);
-  if (tabIds.length) {
-    const group = await chrome.tabs.group({ tabIds });
-    await chrome.tabGroups.update(group, { title: 'DOCS' });
-  }
-});
