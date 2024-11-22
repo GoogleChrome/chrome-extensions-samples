@@ -16,21 +16,29 @@ limitations under the License.
 
 body {
   width: 20rem;
+  margin: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 1rem;
 }
 
 ul {
   list-style-type: none;
   padding-inline-start: 0;
-  margin: 1rem 0;
+  margin: 1rem -1rem;
 }
 
-li {
-  padding: 0.25rem;
+ul li {
+  padding: 0.5rem 0.75rem;
 }
-li:nth-child(odd) {
+
+ul li:nth-child(odd) {
   background: #80808030;
 }
-li:nth-child(even) {
+
+ul li:nth-child(even) {
   background: #ffffff;
 }
 
