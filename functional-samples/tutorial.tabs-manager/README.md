@@ -93,15 +93,17 @@ Add the following to `sidepanel.js`:
 ```js
 const LIST_ELEMENT = document.querySelector('ul');
 
-const tabs = await chrome.tabs.query({
-  currentWindow: true
-});
-
-for (const tab of tabs) {
-  const element = document.createElement('li');
-  element.innerText = tab.title;
-  LIST_ELEMENT.append(element);
-}
+chrome.tabs
+  .query({
+    currentWindow: true
+  })
+  .then((tabs) => {
+    for (const tab of tabs) {
+      const element = document.createElement('li');
+      element.innerText = tab.title;
+      LIST_ELEMENT.append(element);
+    }
+  });
 ```
 
 You now have a basic UI showing tabs!
