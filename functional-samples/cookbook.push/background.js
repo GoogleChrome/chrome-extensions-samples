@@ -57,6 +57,10 @@ self.addEventListener('push', function (event) {
 
   // Before `userVisibleOnly` could be passed as false we would have to show a
   // notification at this point, but now we no longer have to.
+
+  // If the extension chooses to show a notification message then the
+  // notification permission must be granted (in manifest or at runtime)
+  // or the attempt will be denied.
 });
 
 // Helper method for converting the server key to an array that is passed
