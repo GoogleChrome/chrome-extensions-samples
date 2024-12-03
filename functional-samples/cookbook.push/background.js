@@ -56,7 +56,8 @@ self.addEventListener('push', function (event) {
   );
 
   // Before `userVisibleOnly` could be passed as false we would have to show a
-  // notification at this point, but now we no longer have to.
+  // notification at this point (or if we didn't the browser would show a
+  // generic notification), but now we no longer have to.
 });
 
 // Helper method for converting the server key to an array that is passed
