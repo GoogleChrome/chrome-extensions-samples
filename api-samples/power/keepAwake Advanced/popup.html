@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>#extensionName</title>
+    <script type="module" src="./popup.js"></script>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+
+  <body>
+    <div id="popup">
+      <h3 id="title">#extensionName</h3>
+      <div id="buttons">
+        <button id="disabled" title="#disabledTitle">
+          <img src="images/night-38.png" alt="Moon" />
+          <br />
+          <span class="buttonLabel">#disabledLabel</span>
+        </button>
+        <button id="display" title="#displayTitle">
+          <img src="images/day-38.png" alt="Sun" />
+          <br />
+          <span class="buttonLabel">#displayLabel</span>
+        </button>
+        <button id="system" title="#systemTitle">
+          <img src="images/sunset-38.png" alt="Sunset" />
+          <br />
+          <span class="buttonLabel">#systemLabel</span>
+        </button>
+      </div>
+      <div id="autodisable-text">#autoDisableAfterText</div>
+      <div>
+        <input
+          type="range"
+          id="durationSlider"
+          name="durationSlider"
+          min="1"
+          max="13"
+          value="13"
+          step="1"
+        />
+        <label for="durationSlider" id="durationLabel">## h</label>
+      </div>
+    </div>
+  </body>
+</html>
