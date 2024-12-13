@@ -1,4 +1,4 @@
-# Tab Manager for Chrome Dev Docs
+# Tab Manager For Chrome Dev Docs
 
 This Chrome extension helps you manage and group your tabs related to Google Chrome Developer documentation. It organizes tabs into a group titled "DOCS" for easier navigation and enhanced productivity.
 
