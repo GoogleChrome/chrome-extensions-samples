@@ -7,6 +7,6 @@ Purpose of this extension is to demonstrate [chrome.tabsGroup](https://developer
  ## Running This Extension
 
 1. Clone this repository.
-2. Load this directory in Chrome as an [unpacked extension][2].
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 3. Open thse two URLs in seperate tabs:- 'https://developer.chrome.com/docs/extensions' and 'https://developer.chrome.com/docs/extensions/reference/api'
 4. Click the extension icon in the Chrome toolbar, then select the "Tab Manager for Chrome Dev Docs" extension. A popup will appear having title "Google Dev Docs" and button named "Group Tabs". Click on button to group above two tabs.
