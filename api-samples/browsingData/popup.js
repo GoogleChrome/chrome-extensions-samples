@@ -28,7 +28,8 @@ function parseMilliseconds(timeframe) {
   return null;
 }
 
-function buttonClicked() {
+function buttonClicked(event) {
+  event.preventDefault();
   const option = document.getElementById('timeframe');
   let selectedTimeframe = option.value;
   let removal_start = parseMilliseconds(selectedTimeframe);
