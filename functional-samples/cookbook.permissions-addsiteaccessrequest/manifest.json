@@ -1,6 +1,6 @@
 {
-  "name": "Permissions (Add Host Access Request)",
-  "description": "Uses the `permissions.addHostAccessRequest()` API to request access to a site.",
+  "name": "Permissions (Add Site Access Request)",
+  "description": "Uses the `permissions.addSiteAccessRequest()` API to request access to a site.",
   "version": "0.3",
   "background": {
     "service_worker": "background.js"

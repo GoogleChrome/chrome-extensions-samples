@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /**
- * Adds a host access request if the user visits https://example.com/checkout.
+ * Adds a site access request if the user visits https://example.com/checkout.
  * This could be useful for an extension that wishes to offer users coupons or
  * order tracking but needs access to the site to do so.
  */
@@ -33,9 +33,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changes) => {
       return;
     }
 
-    // Add a host access request if the API is available.
-    if (chrome.permissions.addHostAccessRequest) {
-      chrome.permissions.addHostAccessRequest({ tabId });
+    // Add a site access request if the API is available.
+    if (chrome.permissions.addSiteAccessRequest) {
+      chrome.permissions.addSiteAccessRequest({ tabId });
     }
   }
 });
