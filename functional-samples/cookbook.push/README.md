@@ -8,6 +8,8 @@ By calling a method in the sample and using an external push server website we c
 
 ## Running this extension
 
+Note: This sample requires Chrome 132+. Before Chrome 132, the same code works with the additional requirement of the `notification` extension permission.
+
 1. Clone this repository.
 1. Go to the [web push test server](https://web-push-codelab.glitch.me/) and copy the “Public Key” to the `APPLICATION_SERVER_PUBLIC_KEY` variable in background.js.
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
