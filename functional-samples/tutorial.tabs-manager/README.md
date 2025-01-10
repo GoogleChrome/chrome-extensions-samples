@@ -2,7 +2,7 @@
 
 This Chrome extension helps you manage and group your tabs related to Google Chrome Developer documentation. It organizes tabs into a group titled "DOCS" for easier navigation and enhanced productivity.
 
-Purpose of this extension is to demonstrate [chrome.tabsGroup](https://developer.chrome.com/docs/extensions/reference/api/tabGroups) API to interact with the browser's tab grouping system.
+Purpose of this extension is to demonstrate [chrome.tabGroups](https://developer.chrome.com/docs/extensions/reference/api/tabGroups) API to interact with the browser's tab grouping system.
 
  ## Running This Extension
 
