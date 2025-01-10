@@ -10,7 +10,7 @@ The purpose of this extension is to demonstrate how to create a simple Chrome Ex
 3. Go to https://developer.chrome.com/docs/extensions/get-started/tutorial/debug or any web page.
 4. Click the extension icon in the Chrome toolbar, then click the three dots next to the "Getting Started Example" extension and select "Options".
 5. On the Options page, choose a color.
-6. Afterward, click the extension icon again, and the page's background color will change when you click the button in extension popup.
+6. Afterward, click the extension icon again, and the page's background color will change when you click the button in the extension popup.
  
 [1]: https://developer.chrome.com/docs/extensions/get-started/tutorial/debug
 [2]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
