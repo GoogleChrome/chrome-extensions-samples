@@ -1,7 +1,7 @@
 # Getting Started With Google Chrome extensions
 
 This is a extension used in the [Debugging extensions][1] tutorial. It changes the html body background color of active tab.
-The purpose of this extension is to demonstrate how to create a simple chrome extension that uses default_popup, options_page, service_worker, storage and tabs API.
+The purpose of this extension is to demonstrate how to create a simple Chrome extension that uses the `default_popup`, `options_page` and `service_worker` manifest keys and `storage` and `tabs` APIs.
 
  ## Running This Extension
 
