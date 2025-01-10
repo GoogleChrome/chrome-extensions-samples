@@ -11,4 +11,4 @@ Purpose of this extension is to demonstrate [chrome.tabsGroup](https://developer
 3. Open these two URLs in separate tabs:  
    - [https://developer.chrome.com/docs/extensions](https://developer.chrome.com/docs/extensions)  
    - [https://developer.chrome.com/docs/extensions/reference/api](https://developer.chrome.com/docs/extensions/reference/api)
-4. Click the extension icon in the Chrome toolbar, then select the "Tab Manager for Chrome Dev Docs" extension. A popup will appear having title "Google Dev Docs" and button named "Group Tabs". Click on button to group above two tabs.
+4. Click the extension icon in the Chrome toolbar, then select the "Tab Manager for Chrome Dev Docs" extension. A popup will appear having title "Google Dev Docs" and button named "Group Tabs". Click on the button to group the two tabs.
