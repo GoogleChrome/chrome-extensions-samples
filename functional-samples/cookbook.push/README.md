@@ -4,12 +4,13 @@ This sample demonstrates using the [Push API](https://developer.mozilla.org/en-U
 
 ## Overview
 
-By calling a method in the sample and using an external push server website we can simulate an extension receiving a push message where it is required to emit a notification and where it can bypass that requirement (`userVisibleOnly = false`).
+By calling a method in the sample and using an external push server website we can simulate an extension receiving a push message where it is not required to emit a notification by setting (`userVisibleOnly = false`) on registration.
 
 ## Running this extension
 
+Note: This sample requires Chrome 132+. Before Chrome 132, the same code works with the additional requirement of the `notification` extension permission.
+
 1. Clone this repository.
-1. Ensure your operating system allows your browser to show desktop notification. For [MacOS](https://support.apple.com/guide/mac-help/change-notifications-settings-mh40583/mac) this, for Google Chrome, requires "Google Chrome" and "Google Chrome Helper (Alerts)" to be allowed.
 1. Go to the [web push test server](https://web-push-codelab.glitch.me/) and copy the “Public Key” to the `APPLICATION_SERVER_PUBLIC_KEY` variable in background.js.
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 1. Click “service worker (Inactive)” on the extension to load DevTools for background.js

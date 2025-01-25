@@ -4,12 +4,19 @@ import fs from 'fs/promises';
 import { ExtensionApiMap } from './types';
 import { ReflectionKind } from 'typedoc';
 
+// Bucket used to store processed types data
+const STORAGE_BUCKET = process.env.STORAGE_BUCKET;
+
 // Fetch the latest version of the chrome types from storage
 const fetchChromeTypes = async (): Promise<Record<string, any>> => {
+  if (!STORAGE_BUCKET) {
+    throw new Error('The STORAGE_BUCKET environment variable must be set.');
+  }
+
   console.log('Fetching chrome types...');
 
   const response = await fetch(
-    'https://storage.googleapis.com/download/storage/v1/b/external-dcc-data/o/chrome-types.json?alt=media'
+    `https://storage.googleapis.com/download/storage/v1/b/${STORAGE_BUCKET}/o/chrome-types.json?alt=media`
   );
   const chromeTypes = await response.json();
   return chromeTypes;

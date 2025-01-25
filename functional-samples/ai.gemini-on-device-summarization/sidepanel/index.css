@@ -1,22 +1,52 @@
+@import 'https://unpkg.com/open-props';
+
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://unpkg.com/open-props/buttons.min.css';
+
 :root {
-  --bg-secondary: #e6e2d9;
-  --bg-primary: #d4e7dd;
-  --bg-error: #f89696;
+  --font-size-00: 0.6rem;
 }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  color: #1f1f1f;
-  background-color: #fffbff;
-  font-size: 16px;
-  padding: 8px;
+  margin: auto;
+  padding: var(--size-2);
+  font-size: var(--font-size-2);
+}
+
+:where(ol, ul) {
+  padding: 0 var(--size-3);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+fieldset > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--size-2);
+}
+
+.card {
+  flex-basis: var(--size-content-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+  background: var(--surface-3);
+  border: 1px solid var(--surface-1);
+  padding: var(--size-4);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-2);
+  margin-bottom: var(--size-2);
+}
+
+.card > h5 {
+  line-height: var(--font-lineheight-1);
 }
 
 .warning {
-  background: #ffc6c6;
-  padding: 16px;
-  border-radius: 8px;
-  margin: 16px 0;
+  background-color: var(--red-6);
 }
 
 .result {

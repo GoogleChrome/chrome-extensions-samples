@@ -1,0 +1,15 @@
+{
+  "name": "XHR polyfill sample",
+  "private": true,
+  "version": "1.0.0",
+  "main": "background.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  },
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.22.4"
+  }
+}

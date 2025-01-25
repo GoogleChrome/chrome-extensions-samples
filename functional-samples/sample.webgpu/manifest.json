@@ -5,7 +5,7 @@
   "version": "1.0",
   "action": {
     "default_title": "Click to see a red triangle"
-  },    
+  },
   "background": {
     "service_worker": "service-worker.js"
   }

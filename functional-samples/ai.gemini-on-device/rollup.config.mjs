@@ -10,8 +10,12 @@ export default [
       format: 'iife',
     },
     plugins: [
+      nodeResolve({
+        jsnext: true,
+        main: true,
+        browser: true
+      }),
       commonjs(),
-      nodeResolve(),
       copy({
         targets: [
           {
@@ -20,17 +24,6 @@ export default [
           }
         ]
       })
-    ]
-  },
-  {
-    input: 'scripts/extract-content.js',
-    output: {
-      dir: 'dist/scripts',
-      format: 'es'
-    },
-    plugins: [
-      commonjs(),
-      nodeResolve(),
     ]
   }
 ];

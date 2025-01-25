@@ -11,7 +11,8 @@
     {
       "matches": [
         "https://web-accessible-resources-1.glitch.me/*",
-        "https://web-accessible-resources-2.glitch.me/*"
+        "https://web-accessible-resources-2.glitch.me/*",
+        "https://web-accessible-resources-3.glitch.me/*"
       ],
       "all_frames": true,
       "js": ["content-script.js"]
@@ -24,7 +25,11 @@
     },
     {
       "resources": ["test3.png", "test4.png"],
-      "matches": ["https://web-accessible-resources-2.glitch.me/*"],
+      "matches": ["https://web-accessible-resources-2.glitch.me/*"]
+    },
+    {
+      "resources": ["test3.png", "test4.png"],
+      "matches": ["https://web-accessible-resources-3.glitch.me/*"],
       "use_dynamic_url": true
     }
   ],
