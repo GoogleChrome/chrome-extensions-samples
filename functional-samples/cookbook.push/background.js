@@ -14,65 +14,84 @@
 
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "subscribeUserVisibleOnlyFalse" }]*/
 
-const APPLICATION_SERVER_PUBLIC_KEY = '<key>';
 
-async function subscribeUserVisibleOnlyFalse() {
-  const applicationServerKey = urlB64ToUint8Array(
-    APPLICATION_SERVER_PUBLIC_KEY
-  );
-  try {
-    let subscriptionData = await self.registration.pushManager.subscribe({
-      // With our new change[1], this can be set to false. Before it must
-      // always be set to true otherwise an error will be thrown about
-      // permissions denied.
-      userVisibleOnly: false,
-      applicationServerKey: applicationServerKey
-    });
-    console.log('[Service Worker] Extension is subscribed to push server.');
-    logSubscriptionDataToConsole(subscriptionData);
-  } catch (error) {
-    console.error('[Service Worker] Failed to subscribe, error: ', error);
-  }
-}
+console.log("✅ Background service worker is running!");
 
-function logSubscriptionDataToConsole(subscription) {
-  // The `subscription` data would normally only be know by the push server,
-  // but for this sample we'll print it out to the console so it can be pasted
-  // into a testing push notification server (at
-  // https://web-push-codelab.glitch.me/) to send push messages to this
-  // endpoint (extension).
-  console.log(
-    '[Service Worker] Subscription data to be pasted in the test push' +
-      'notification server: '
-  );
-  console.log(JSON.stringify(subscription));
-}
-
-// Push message event listener.
-self.addEventListener('push', function (event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(
-    `[Service Worker] Push had this data/text: "${event.data.text()}"`
-  );
-
-  // Before `userVisibleOnly` could be passed as false we would have to show a
-  // notification at this point (or if we didn't the browser would show a
-  // generic notification), but now we no longer have to.
+// Install event
+self.addEventListener("install", () => {
+  console.log("✅ Service Worker Installed.");
+  self.skipWaiting();
 });
 
-// Helper method for converting the server key to an array that is passed
-// when subscribing to a push server.
-function urlB64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+// Activate event
+self.addEventListener("activate", (event) => {
+  console.log("✅ Service Worker Activated.");
+  event.waitUntil(subscribeUserVisibleOnlyFalse());
+});
 
-  const rawData = atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
+// Function to subscribe to push notifications
+async function subscribeUserVisibleOnlyFalse() {
+  console.log("🔄 Checking existing subscription...");
+  const existingSubscription = await self.registration.pushManager.getSubscription();
 
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
+  if (existingSubscription) {
+    console.log("✅ Already subscribed:", existingSubscription);
+    return existingSubscription;
   }
-  return outputArray;
+
+  console.log("📩 Subscribing to push notifications...");
+  const applicationServerKey = urlB64ToUint8Array("BCLyuEzuxaJ9bCt5yWcniKUHaiOWASyZlB-w8uFpGHYCKzfxGRodfrmMUHBaLAqFk6UtfhGqPmPkNWWbwAsC1ko");
+
+  try {
+    const subscription = await self.registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: applicationServerKey
+    });
+    console.log("✅ Subscription successful:", subscription);
+    return subscription;
+  } catch (error) {
+    console.error("❌ Subscription failed:", error);
+  }
 }
+
+// Push event listener - Handles incoming push notifications
+self.addEventListener("push", (event) => {
+  console.log("✅ Push Event Received!");
+
+  if (!event.data) {
+    console.log("❌ No push data received.");
+    return;
+  }
+
+  const pushData = event.data.json();
+  console.log("📨 Push Data:", pushData);
+
+  event.waitUntil(
+    self.registration.showNotification(pushData.title, {
+      body: pushData.message,
+      icon: "icon.png",
+      data: { url: pushData.url || "" },  // Ensure proper click handling
+      requireInteraction: true
+    })
+  );
+});
+
+// Handle notification clicks
+self.addEventListener("notificationclick", (event) => {
+  console.log("🔗 Notification Clicked:", event.notification.data.url);
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
+});
+
+// Helper function to convert base64 key to Uint8Array
+function urlB64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = atob(base64);
+  return new Uint8Array([...rawData].map((char) => char.charCodeAt(0)));
+}
+
 
 // [1]: https://chromiumdash.appspot.com/commit/f6a8800208dc4bc20a0250a7964983ce5aa746f0
