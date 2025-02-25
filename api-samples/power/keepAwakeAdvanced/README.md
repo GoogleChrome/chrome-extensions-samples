@@ -4,9 +4,23 @@ This extension demonstrates the `chrome.power` API by allowing users to override
 
 ## Overview
 
-The extension adds a popup that cycles different states when clicked. It will go though a mode that prevents the display from dimming or going to sleep, a mode that keeps the system awake but allows the screen to dim/go to sleep, and a mode that uses the system's default.
+The extension adds an icon that allows the user to choose different power management states when clicked:
+
+- System Default
+- Screen stays awake
+- System stays awake, but screen can sleep
+
+There is also a popup where the user can also optionally specify an automatic
+timeout for the chosen state. This popup can be triggered by clicking the icon
+or by selecting it from the icon's context menu.
 
 ## Running this extension
+
+Either install it from the Chrome Web Store:
+
+- [Keep Awake Extension](https://chrome.google.com/webstore/detail/keep-awake/bijihlabcfdnabacffofojgmehjdielb)
+
+Or load it as an upacked extension:
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
