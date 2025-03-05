@@ -16,16 +16,10 @@
 
 console.log("Background service worker is running!");
 
-// Install event
-self.addEventListener("install", () => {
-  console.log("Service Worker Installed.");
-  self.skipWaiting();
-});
-
-// Activate event
-self.addEventListener("activate", async (event) => {
-  console.log("Service Worker Activated.");
-  event.waitUntil(subscribeUserToPush());
+// Run push subscription logic when the extension is installed or updated
+chrome.runtime.onInstalled.addListener(() => {
+  console.log("Extension Installed/Updated.");
+  subscribeUserToPush();
 });
 
 // Function to subscribe to push notifications
@@ -39,11 +33,11 @@ async function subscribeUserToPush() {
       return;
     }
 
-    console.log("Subscribing to push notifications...");
+    console.log("📩 Subscribing to push notifications...");
     const applicationServerKey = urlB64ToUint8Array("BCLyuEzuxaJ9bCt5yWcniKUHaiOWASyZlB-w8uFpGHYCKzfxGRodfrmMUHBaLAqFk6UtfhGqPmPkNWWbwAsC1ko");
 
     const subscription = await self.registration.pushManager.subscribe({
-      userVisibleOnly: true, // Ensuring notifications must be shown
+      userVisibleOnly: true, // Ensures notifications must be shown
       applicationServerKey
     });
 
@@ -77,7 +71,7 @@ self.addEventListener("push", (event) => {
 
 // Handle notification clicks
 self.addEventListener("notificationclick", (event) => {
-  console.log("🔗 Notification Clicked:", event.notification.data.url);
+  console.log("Notification Clicked:", event.notification.data.url);
   event.notification.close();
 
   event.waitUntil(
@@ -92,6 +86,7 @@ function urlB64ToUint8Array(base64String) {
   const rawData = atob(base64);
   return new Uint8Array([...rawData].map((char) => char.charCodeAt(0)));
 }
+
 
 
 // [1]: https://chromiumdash.appspot.com/commit/f6a8800208dc4bc20a0250a7964983ce5aa746f0
