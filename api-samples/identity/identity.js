@@ -27,7 +27,7 @@ var googleProfileUserLoader = (function() {
         disableButton(revoke_button);
         break;
       case STATE_ACQUIRING_AUTHTOKEN:
-        sampleSupport.log('Acquiring token...');
+        displayOutput('Acquiring token...');
         disableButton(signin_button);
         disableButton(xhr_button);
         disableButton(revoke_button);
@@ -38,6 +38,17 @@ var googleProfileUserLoader = (function() {
         enableButton(revoke_button);
         break;
     }
+  }
+
+  function displayOutput(message) {
+    var messageStr = message;
+      if (typeof(message) != 'string') {
+        messageStr = JSON.stringify(message);
+      }
+
+      // TODO(rsult): workaround: Use direct output instead of logger.
+      // sampleSupport.log = messageStr;
+      document.getElementById("__sample_support_logarea").value = messageStr;
   }
 
   // @corecode_begin getProtectedData
@@ -93,7 +104,7 @@ var googleProfileUserLoader = (function() {
   function onUserInfoFetched(error, status, response) {
     if (!error && status == 200) {
       changeState(STATE_AUTHTOKEN_ACQUIRED);
-      sampleSupport.log(response);
+      displayOutput(response);
       var user_info = JSON.parse(response);
       populateUserInfo(user_info);
     } else {
@@ -143,7 +154,7 @@ var googleProfileUserLoader = (function() {
   **/
   function interactiveSignIn() {
     changeState(STATE_ACQUIRING_AUTHTOKEN);
-
+    console.log('interactiveSignIn');
     // @corecode_begin getAuthToken
     // @description This is the normal flow for authentication/authorization
     // on Google properties. You need to add the oauth2 client_id and scopes
@@ -153,10 +164,10 @@ var googleProfileUserLoader = (function() {
     // @see http://developer.chrome.com/apps/identity.html#method-getAuthToken
     chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
       if (chrome.runtime.lastError) {
-        sampleSupport.log(chrome.runtime.lastError);
+        displayOutput(chrome.runtime.lastError);
         changeState(STATE_START);
       } else {
-        sampleSupport.log('Token acquired:'+token+
+        displayOutput('Token acquired:'+token+
           '. See chrome://identity-internals for details.');
         changeState(STATE_AUTHTOKEN_ACQUIRED);
       }
@@ -186,7 +197,7 @@ var googleProfileUserLoader = (function() {
 
           // Update the user interface accordingly
           changeState(STATE_START);
-          sampleSupport.log('Token revoked and removed from cache. '+
+          displayOutput('Token revoked and removed from cache. '+
             'Check chrome://identity-internals to confirm.');
         }
     });

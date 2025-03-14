@@ -4,10 +4,9 @@
   "manifest_version": 2,
   "minimum_chrome_version": "29",
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDJB6ZGcGxtlr/34s+TKgi84QiP7DMekqOjSUS2ubmbhchlM6CN9gYdGQ1aBI3TBXG3YaAu+XyutFA8M8NLLWc4OOGByWaGV11DP6p67g8a+Ids/gX6cNSRnRHiDZXAd44ATxoN4OZjZJk9iQ26RIUjwX07bzntlI+frwwKCk4WQIDAQAB",
-  "app": {
-    "background": {
-      "scripts": ["main.js"]
-    }
+  "browser_action": {},
+  "background": {
+    "service_worker": "main.js"
   },
   "permissions": ["identity", "https://accounts.google.com/*", "https://www.googleapis.com/*"],
   "oauth2": {
