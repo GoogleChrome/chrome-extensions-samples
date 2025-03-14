@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Identity API Sample App</title>
+    <link rel="stylesheet" type="text/css" href="sample_support/standard.css">
+    <script src="identity.js"></script>
+    <script src="sample_support/sample_support.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Identity API</h1>
+      <div class="links">
+        Learn more:
+          <a target="_blank" href="http://developer.chrome.com/apps/app_identity.html">API docs</a>
+          <a id="_open_snippets" href="#">Source</a>
+      </div>
+      <hr>
+    </div>
+    <div class="flows">
+      <h2>OAuth on Google properties</h2>
+      <div class="flow">
+        <button id="signin">Sign in</button>
+        <button id="getxhr" disabled>Get personal data</button>
+        <button id="revoke" disabled>Revoke token</button>
+        <div id="user_info"></div>
+      </div>
+    </div>
+   <div class="log">
+      <textarea id="__sample_support_logarea" disabled></textarea>
+   </div>
+  </body>
+</html>
