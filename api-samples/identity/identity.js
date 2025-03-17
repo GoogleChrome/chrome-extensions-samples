@@ -165,8 +165,7 @@ var googleProfileUserLoader = (function() {
         displayOutput(chrome.runtime.lastError);
         changeState(STATE_START);
       } else {
-        displayOutput('Token acquired:'+token+
-          '. See chrome://identity-internals for details.');
+        displayOutput('Token acquired:\n'+token);
         changeState(STATE_AUTHTOKEN_ACQUIRED);
       }
     });
@@ -191,8 +190,7 @@ var googleProfileUserLoader = (function() {
             current_token, { method: 'GET' }).then(response => {
               // Update the user interface accordingly
               changeState(STATE_START);
-              displayOutput('Token revoked and removed from cache. ' +
-                'Check chrome://identity-internals to confirm.');
+              displayOutput('Token revoked and removed from cache.');
             });
           // @corecode_end removeAndRevokeAuthToken
         }
