@@ -3,25 +3,20 @@
 
 # Identity
 
-Note: this code has be taken from 
-https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/_archive/apps/samples/identity
-and modified the app to be an extension that is displayed in a new tab.
-
-A sample application that uses the
+A sample extension that uses the
 [Identity API](https://developer.chrome.com/apps/identity.html) to
 request information of the logged in user and present this info on the screen.
-If the user has a profile picture, an XMLHttpRequest request is also sent to
-grab the image and show it in the app.
+If the user has a profile picture, their profile image is also fetched and
+shown it in the app.
 
-This app uses the getAuthToken flow of the Identity API, so it only works with
-Google accounts. If you want to identify the user in a non-Google OAuth2 flow,
-you should use the launchWebAuthFlow method instead.
+This extension uses the getAuthToken flow of the Identity API, so it only
+works with Google accounts. If you want to identify the user in a non-Google
+OAuth2 flow, you should use the launchWebAuthFlow method instead.
 
 ## APIs
 
-* [Identity](http://developer.chrome.com/apps/app.identity.html)
-* [Runtime](http://developer.chrome.com/apps/app.runtime.html)
-* [Window](http://developer.chrome.com/apps/app.window.html)
+* [Identity](http://developer.chrome.com/apps/app_identity.html)
+* [Runtime](https://developer.chrome.com/docs/extensions/reference/api/runtime)
 
 
 ## Screenshot
