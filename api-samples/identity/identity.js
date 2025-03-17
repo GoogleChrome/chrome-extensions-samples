@@ -72,21 +72,20 @@ var googleProfileUserLoader = (function() {
     }
 
     function requestStart() {
-      var xhr = new XMLHttpRequest();
-      xhr.open(method, url);
-      xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-      xhr.onload = requestComplete;
-      xhr.send();
-    }
-
-    function requestComplete() {
-      if (this.status == 401 && retry) {
-        retry = false;
-        chrome.identity.removeCachedAuthToken({ token: access_token },
-                                              getToken);
-      } else {
-        callback(null, this.status, this.response);
-      }
+      fetch(url, {
+        method: method,
+        headers: {
+          'Authorization': 'Bearer ' + access_token,
+        },
+      }).then(response => {
+        if (response.status == 401 && retry) {
+          retry = false;
+          chrome.identity.removeCachedAuthToken({ token: access_token },
+            getToken);
+        } else {
+          callback(null, response.status, response);
+        }  
+      });
     }
   }
 
@@ -104,9 +103,10 @@ var googleProfileUserLoader = (function() {
   function onUserInfoFetched(error, status, response) {
     if (!error && status == 200) {
       changeState(STATE_AUTHTOKEN_ACQUIRED);
-      displayOutput(response);
-      var user_info = JSON.parse(response);
-      populateUserInfo(user_info);
+      response.json().then(user_info => {
+        displayOutput(user_info);
+        populateUserInfo(user_info);
+      });
     } else {
       changeState(STATE_START);
     }
@@ -119,23 +119,21 @@ var googleProfileUserLoader = (function() {
 
   function fetchImageBytes(user_info) {
     if (!user_info || !user_info.picture) return;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', user_info.picture, true);
-    xhr.responseType = 'blob';
-    xhr.onload = onImageFetched;
-    xhr.send();
-  }
 
-  function onImageFetched(e) {
-    if (this.status != 200) return;
-    var imgElem = document.createElement('img');
-    var objUrl = window.URL.createObjectURL(this.response);
-    imgElem.src = objUrl;
-    imgElem.style.width = '24px';
-    imgElem.onload = function() {
-      window.URL.revokeObjectURL(objUrl);
-    }
-    user_info_div.insertAdjacentElement("afterbegin", imgElem);
+    fetch(user_info.picture, { method: 'GET' }).then(response => {
+      if (!response.ok) return;
+      return response.blob();
+    })
+      .then(blob => {
+        var imgElem = document.createElement('img');
+        var objUrl = window.URL.createObjectURL(blob);
+        imgElem.src = objUrl;
+        imgElem.style.width = '24px';
+        imgElem.onload = function () {
+          window.URL.revokeObjectURL(objUrl);
+        }
+        user_info_div.insertAdjacentElement("afterbegin", imgElem);  
+      });
   }
 
   // OnClick event handlers for the buttons.
@@ -189,16 +187,14 @@ var googleProfileUserLoader = (function() {
           // @corecode_end removeCachedAuthToken
 
           // Make a request to revoke token in the server
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', 'https://accounts.google.com/o/oauth2/revoke?token=' +
-                   current_token);
-          xhr.send();
+          fetch('https://accounts.google.com/o/oauth2/revoke?token=' +
+            current_token, { method: 'GET' }).then(response => {
+              // Update the user interface accordingly
+              changeState(STATE_START);
+              displayOutput('Token revoked and removed from cache. ' +
+                'Check chrome://identity-internals to confirm.');
+            });
           // @corecode_end removeAndRevokeAuthToken
-
-          // Update the user interface accordingly
-          changeState(STATE_START);
-          displayOutput('Token revoked and removed from cache. '+
-            'Check chrome://identity-internals to confirm.');
         }
     });
   }
