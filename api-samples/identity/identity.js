@@ -60,15 +60,16 @@ var googleProfileUserLoader = (function() {
     getToken();
 
     function getToken() {
-      chrome.identity.getAuthToken({ interactive: interactive }, function(token) {
-        if (chrome.runtime.lastError) {
-          callback(chrome.runtime.lastError);
-          return;
-        }
+      chrome.identity.getAuthToken({ interactive: interactive })
+        .then((token) => {
+          if (chrome.runtime.lastError) {
+            callback(chrome.runtime.lastError);
+            return;
+          }
 
-        access_token = token;
-        requestStart();
-      });
+          access_token = token.token;
+          requestStart();
+        });
     }
 
     function requestStart() {
@@ -80,8 +81,8 @@ var googleProfileUserLoader = (function() {
       }).then(response => {
         if (response.status == 401 && retry) {
           retry = false;
-          chrome.identity.removeCachedAuthToken({ token: access_token },
-            getToken);
+          chrome.identity.removeCachedAuthToken({ token: access_token })
+            .then(getToken);
         } else {
           callback(null, response.status, response);
         }  
@@ -160,41 +161,41 @@ var googleProfileUserLoader = (function() {
     // will be opened when the user is not yet authenticated or not.
     // @see http://developer.chrome.com/apps/app_identity.html
     // @see http://developer.chrome.com/apps/identity.html#method-getAuthToken
-    chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-      if (chrome.runtime.lastError) {
-        displayOutput(chrome.runtime.lastError);
-        changeState(STATE_START);
-      } else {
-        displayOutput('Token acquired:\n'+token);
-        changeState(STATE_AUTHTOKEN_ACQUIRED);
-      }
-    });
+    chrome.identity.getAuthToken({ 'interactive': true })
+      .then((token) => {
+        if (chrome.runtime.lastError) {
+          displayOutput(chrome.runtime.lastError);
+          changeState(STATE_START);
+        } else {
+          displayOutput('Token acquired:\n' + token.token);
+          changeState(STATE_AUTHTOKEN_ACQUIRED);
+        }
+      });
     // @corecode_end getAuthToken
   }
 
   function revokeToken() {
     user_info_div.innerHTML="";
-    chrome.identity.getAuthToken({ 'interactive': false },
-      function(current_token) {
+    chrome.identity.getAuthToken({ 'interactive': false })
+      .then((current_token) => {
         if (!chrome.runtime.lastError) {
 
           // @corecode_begin removeAndRevokeAuthToken
           // @corecode_begin removeCachedAuthToken
           // Remove the local cached token
-          chrome.identity.removeCachedAuthToken({ token: current_token },
-            function() {});
+          chrome.identity.removeCachedAuthToken({ token: current_token.token });
           // @corecode_end removeCachedAuthToken
 
           // Make a request to revoke token in the server
           fetch('https://accounts.google.com/o/oauth2/revoke?token=' +
-            current_token, { method: 'GET' }).then(response => {
+            current_token.token, { method: 'GET' }).then(response => {
               // Update the user interface accordingly
               changeState(STATE_START);
               displayOutput('Token revoked and removed from cache.');
             });
           // @corecode_end removeAndRevokeAuthToken
         }
-    });
+      });
   }
 
   return {
