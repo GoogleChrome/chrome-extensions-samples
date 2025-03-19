@@ -8,7 +8,7 @@ var googleProfileUserLoader = (function() {
 
   var state = STATE_START;
 
-  var signin_button, xhr_button, revoke_button, user_info_div;
+  var signin_button, userinfo_button, revoke_button, user_info_div;
 
  function disableButton(button) {
     button.setAttribute('disabled', 'disabled');
@@ -23,18 +23,18 @@ var googleProfileUserLoader = (function() {
     switch (state) {
       case STATE_START:
         enableButton(signin_button);
-        disableButton(xhr_button);
+        disableButton(userinfo_button);
         disableButton(revoke_button);
         break;
       case STATE_ACQUIRING_AUTHTOKEN:
         displayOutput('Acquiring token...');
         disableButton(signin_button);
-        disableButton(xhr_button);
+        disableButton(userinfo_button);
         disableButton(revoke_button);
         break;
       case STATE_AUTHTOKEN_ACQUIRED:
         disableButton(signin_button);
-        enableButton(xhr_button);
+        enableButton(userinfo_button);
         enableButton(revoke_button);
         break;
     }
@@ -42,17 +42,15 @@ var googleProfileUserLoader = (function() {
 
   function displayOutput(message) {
     var messageStr = message;
-      if (typeof(message) != 'string') {
-        messageStr = JSON.stringify(message);
-      }
+    if (typeof (message) != 'string') {
+      messageStr = JSON.stringify(message);
+    }
 
-      // TODO(rsult): workaround: Use direct output instead of logger.
-      // sampleSupport.log = messageStr;
-      document.getElementById("__sample_support_logarea").value = messageStr;
+    document.getElementById("__logarea").value = messageStr;
   }
 
   // @corecode_begin getProtectedData
-  function xhrWithAuth(method, url, interactive, callback) {
+  function fetchWithAuth(method, url, interactive, callback) {
     var access_token;
 
     var retry = true;
@@ -91,10 +89,11 @@ var googleProfileUserLoader = (function() {
   }
 
   function getUserInfo(interactive) {
-    xhrWithAuth('GET',
-                'https://www.googleapis.com/oauth2/v1/userinfo',
-                interactive,
-                onUserInfoFetched);
+    // See https://developers.google.com/identity/openid-connect/openid-connect#obtaininguserprofileinformation
+    fetchWithAuth('GET',
+      'https://openidconnect.googleapis.com/v1/userinfo',
+      interactive,
+      onUserInfoFetched);
   }
   // @corecode_end getProtectedData
 
@@ -114,27 +113,14 @@ var googleProfileUserLoader = (function() {
   }
 
   function populateUserInfo(user_info) {
-    user_info_div.innerHTML = "Hello " + user_info.name;
-    fetchImageBytes(user_info);
-  }
-
-  function fetchImageBytes(user_info) {
     if (!user_info || !user_info.picture) return;
 
-    fetch(user_info.picture, { method: 'GET' }).then(response => {
-      if (!response.ok) return;
-      return response.blob();
-    })
-      .then(blob => {
-        var imgElem = document.createElement('img');
-        var objUrl = window.URL.createObjectURL(blob);
-        imgElem.src = objUrl;
-        imgElem.style.width = '24px';
-        imgElem.onload = function () {
-          window.URL.revokeObjectURL(objUrl);
-        }
-        user_info_div.insertAdjacentElement("afterbegin", imgElem);  
-      });
+    user_info_div.innerText = "Hello " + user_info.name;
+
+    var imgElem = document.createElement('img');
+    imgElem.src = user_info.picture
+    imgElem.style.width = '24px';
+    user_info_div.insertAdjacentElement("afterbegin", imgElem);  
   }
 
   // OnClick event handlers for the buttons.
@@ -186,9 +172,10 @@ var googleProfileUserLoader = (function() {
           chrome.identity.removeCachedAuthToken({ token: current_token.token });
           // @corecode_end removeCachedAuthToken
 
-          // Make a request to revoke token in the server
-          fetch('https://accounts.google.com/o/oauth2/revoke?token=' +
-            current_token.token, { method: 'GET' }).then(response => {
+          // Make a request to revoke token in the server.
+          // See https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#tokenrevoke
+          fetch('https://oauth2.googleapis.com/revoke?token=' +
+            current_token.token, { method: 'POST' }).then(response => {
               // Update the user interface accordingly
               changeState(STATE_START);
               displayOutput('Token revoked and removed from cache.');
@@ -203,8 +190,8 @@ var googleProfileUserLoader = (function() {
       signin_button = document.querySelector('#signin');
       signin_button.addEventListener('click', interactiveSignIn);
 
-      xhr_button = document.querySelector('#getxhr');
-      xhr_button.addEventListener('click', getUserInfo.bind(xhr_button, true));
+      userinfo_button = document.querySelector('#userinfo');
+      userinfo_button.addEventListener('click', getUserInfo.bind(userinfo_button, true));
 
       revoke_button = document.querySelector('#revoke');
       revoke_button.addEventListener('click', revokeToken);
