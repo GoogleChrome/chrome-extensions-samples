@@ -42,7 +42,6 @@ function displayBookmarks(nodes, parentNode) {
 function addBookmark() {
   chrome.bookmarks.create(
     {
-      parentId: '1',
       title: 'Google',
       url: 'https://www.google.com'
     },
