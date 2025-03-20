@@ -1,9 +1,9 @@
 'use strict';
 
 function onLoad() {
-  const STATE_START=1;
-  const STATE_ACQUIRING_AUTHTOKEN=2;
-  const STATE_AUTHTOKEN_ACQUIRED=3;
+  const STATE_START = 1;
+  const STATE_ACQUIRING_AUTHTOKEN = 2;
+  const STATE_AUTHTOKEN_ACQUIRED = 3;
 
   let state = STATE_START;
 
@@ -11,7 +11,10 @@ function onLoad() {
   signin_button.addEventListener('click', interactiveSignIn);
 
   const userinfo_button = document.querySelector('#userinfo');
-  userinfo_button.addEventListener('click', getUserInfo.bind(userinfo_button, true));
+  userinfo_button.addEventListener(
+    'click',
+    getUserInfo.bind(userinfo_button, true)
+  );
 
   const revoke_button = document.querySelector('#revoke');
   revoke_button.addEventListener('click', revokeToken);
@@ -54,11 +57,11 @@ function onLoad() {
 
   function displayOutput(message) {
     let messageStr = message;
-    if (typeof (message) != 'string') {
+    if (typeof message != 'string') {
       messageStr = JSON.stringify(message);
     }
 
-    document.getElementById("__logarea").value = messageStr;
+    document.getElementById('__logarea').value = messageStr;
   }
 
   function fetchWithAuth(method, url, interactive, callback) {
@@ -68,7 +71,8 @@ function onLoad() {
     getToken();
 
     function getToken() {
-      chrome.identity.getAuthToken({ interactive: interactive })
+      chrome.identity
+        .getAuthToken({ interactive: interactive })
         .then((token) => {
           if (chrome.runtime.lastError) {
             callback(chrome.runtime.lastError);
@@ -84,35 +88,37 @@ function onLoad() {
       fetch(url, {
         method: method,
         headers: {
-          'Authorization': 'Bearer ' + access_token,
-        },
-      }).then(response => {
+          Authorization: 'Bearer ' + access_token
+        }
+      }).then((response) => {
         if (response.status == 401 && retry) {
           retry = false;
-          chrome.identity.removeCachedAuthToken({ token: access_token })
+          chrome.identity
+            .removeCachedAuthToken({ token: access_token })
             .then(getToken);
         } else {
           callback(null, response.status, response);
-        }  
+        }
       });
     }
   }
 
   function getUserInfo(interactive) {
     // See https://developers.google.com/identity/openid-connect/openid-connect#obtaininguserprofileinformation
-    fetchWithAuth('GET',
+    fetchWithAuth(
+      'GET',
       'https://openidconnect.googleapis.com/v1/userinfo',
       interactive,
-      onUserInfoFetched);
+      onUserInfoFetched
+    );
   }
-
 
   // Code updating the user interface, when the user information has been
   // fetched or displaying the error.
   function onUserInfoFetched(error, status, response) {
     if (!error && status == 200) {
       changeState(STATE_AUTHTOKEN_ACQUIRED);
-      response.json().then(user_info => {
+      response.json().then((user_info) => {
         displayOutput(user_info);
         populateUserInfo(user_info);
       });
@@ -124,12 +130,12 @@ function onLoad() {
   function populateUserInfo(user_info) {
     if (!user_info || !user_info.picture) return;
 
-    user_info_div.innerText = "Hello " + user_info.name;
+    user_info_div.innerText = 'Hello ' + user_info.name;
 
     const imgElem = document.createElement('img');
-    imgElem.src = user_info.picture
+    imgElem.src = user_info.picture;
     imgElem.style.width = '24px';
-    user_info_div.insertAdjacentElement("afterbegin", imgElem);  
+    user_info_div.insertAdjacentElement('afterbegin', imgElem);
   }
 
   // OnClick event handlers for the buttons.
@@ -149,45 +155,46 @@ function onLoad() {
   function interactiveSignIn() {
     changeState(STATE_ACQUIRING_AUTHTOKEN);
     console.log('interactiveSignIn');
-    
+
     // This is the normal flow for authentication/authorization on Google
     // properties. You need to add the oauth2 client_id and scopes to the app
     // manifest. The interactive param indicates if a new window will be opened
     // when the user is not yet authenticated or not.
     //
     // See https://developer.chrome.com/docs/extensions/reference/api/identity#method-getAuthToken
-    chrome.identity.getAuthToken({ 'interactive': true })
-      .then((token) => {
-        if (chrome.runtime.lastError) {
-          displayOutput(chrome.runtime.lastError);
-          changeState(STATE_START);
-        } else {
-          displayOutput('Token acquired:\n' + token.token);
-          changeState(STATE_AUTHTOKEN_ACQUIRED);
-        }
-      });
+    chrome.identity.getAuthToken({ interactive: true }).then((token) => {
+      if (chrome.runtime.lastError) {
+        displayOutput(chrome.runtime.lastError);
+        changeState(STATE_START);
+      } else {
+        displayOutput('Token acquired:\n' + token.token);
+        changeState(STATE_AUTHTOKEN_ACQUIRED);
+      }
+    });
   }
 
   function revokeToken() {
-    user_info_div.innerHTML="";
-    chrome.identity.getAuthToken({ 'interactive': false })
+    user_info_div.innerHTML = '';
+    chrome.identity
+      .getAuthToken({ interactive: false })
       .then((current_token) => {
         if (!chrome.runtime.lastError) {
-
           // Remove the local cached token
           chrome.identity.removeCachedAuthToken({ token: current_token.token });
 
           // Make a request to revoke token in the server.
           // See https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#tokenrevoke
-          fetch('https://oauth2.googleapis.com/revoke?token=' +
-            current_token.token, { method: 'POST' }).then(response => {
-              // Update the user interface accordingly
-              changeState(STATE_START);
-              displayOutput('Token revoked and removed from cache.');
-            });
+          fetch(
+            'https://oauth2.googleapis.com/revoke?token=' + current_token.token,
+            { method: 'POST' }
+          ).then((response) => {
+            // Update the user interface accordingly
+            changeState(STATE_START);
+            displayOutput('Token revoked and removed from cache.');
+          });
         }
       });
   }
 }
 
-window.addEventListener("load", onLoad);
+window.addEventListener('load', onLoad);
