@@ -74,13 +74,11 @@ function onLoad() {
       chrome.identity
         .getAuthToken({ interactive: interactive })
         .then((token) => {
-          if (chrome.runtime.lastError) {
-            callback(chrome.runtime.lastError);
-            return;
-          }
-
           access_token = token.token;
           requestStart();
+        })
+        .catch((error) => {
+          callback(error.message);
         });
     }
 
@@ -162,15 +160,16 @@ function onLoad() {
     // when the user is not yet authenticated or not.
     //
     // See https://developer.chrome.com/docs/extensions/reference/api/identity#method-getAuthToken
-    chrome.identity.getAuthToken({ interactive: true }).then((token) => {
-      if (chrome.runtime.lastError) {
-        displayOutput(chrome.runtime.lastError);
-        changeState(STATE_START);
-      } else {
+    chrome.identity
+      .getAuthToken({ interactive: true })
+      .then((token) => {
         displayOutput('Token acquired:\n' + token.token);
         changeState(STATE_AUTHTOKEN_ACQUIRED);
-      }
-    });
+      })
+      .catch((error) => {
+        displayOutput(error.message);
+        changeState(STATE_START);
+      });
   }
 
   function revokeToken() {
@@ -178,21 +177,19 @@ function onLoad() {
     chrome.identity
       .getAuthToken({ interactive: false })
       .then((current_token) => {
-        if (!chrome.runtime.lastError) {
-          // Remove the local cached token
-          chrome.identity.removeCachedAuthToken({ token: current_token.token });
+        // Remove the local cached token
+        chrome.identity.removeCachedAuthToken({ token: current_token.token });
 
-          // Make a request to revoke token in the server.
-          // See https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#tokenrevoke
-          fetch(
-            'https://oauth2.googleapis.com/revoke?token=' + current_token.token,
-            { method: 'POST' }
-          ).then((response) => {
-            // Update the user interface accordingly
-            changeState(STATE_START);
-            displayOutput('Token revoked and removed from cache.');
-          });
-        }
+        // Make a request to revoke token in the server.
+        // See https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#tokenrevoke
+        fetch(
+          'https://oauth2.googleapis.com/revoke?token=' + current_token.token,
+          { method: 'POST' }
+        ).then(() => {
+          // Update the user interface accordingly
+          changeState(STATE_START);
+          displayOutput('Token revoked and removed from cache.');
+        });
       });
   }
 }
