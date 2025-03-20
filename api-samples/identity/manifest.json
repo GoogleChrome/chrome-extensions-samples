@@ -1,0 +1,17 @@
+{
+  "name": "Identity API Sample",
+  "version": "4.0",
+  "manifest_version": 3,
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDJB6ZGcGxtlr/34s+TKgi84QiP7DMekqOjSUS2ubmbhchlM6CN9gYdGQ1aBI3TBXG3YaAu+XyutFA8M8NLLWc4OOGByWaGV11DP6p67g8a+Ids/gX6cNSRnRHiDZXAd44ATxoN4OZjZJk9iQ26RIUjwX07bzntlI+frwwKCk4WQIDAQAB",
+  "action": {},
+  "background": {
+    "service_worker": "main.js"
+  },
+  "permissions": ["identity"],
+  "oauth2": {
+    // client_id below is specific to the application key. Follow the
+    // documentation to obtain one for your app.
+    "client_id": "497291774654.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.profile"]
+  }
+}
