@@ -12,7 +12,7 @@ This extension uses the getAuthToken flow of the Identity API, so it only
 works with Google accounts. If you want to identify the user in a non-Google
 OAuth2 flow, you should use the launchWebAuthFlow method instead.
 
-![screenshot](/apps/samples/identity/assets/screenshot_1280_800.png)
+![screenshot](assets/screenshot.png)
 
 ## Running this extension
 
