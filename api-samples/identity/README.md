@@ -1,10 +1,10 @@
 # chrome.identity
 
 A sample extension that uses the
-[Identity API](https://developer.chrome.com/apps/identity.html) to
-request information of the logged in user and present this info on the screen.
-If the user has a profile picture, their profile image is also fetched and
-shown it in the app.
+[Identity API](https://developer.chrome.com/docs/extensions/reference/api/identity)
+to request information of the logged in user and present this info on the
+screen. If the user has a profile picture, their profile image is also fetched
+and shown in the app.
 
 ## Overview
 
@@ -18,3 +18,4 @@ OAuth2 flow, you should use the launchWebAuthFlow method instead.
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Click the extension icon to open the UI.

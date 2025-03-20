@@ -1,16 +1,28 @@
 'use strict';
 
-var googleProfileUserLoader = (function() {
+function onLoad() {
+  const STATE_START=1;
+  const STATE_ACQUIRING_AUTHTOKEN=2;
+  const STATE_AUTHTOKEN_ACQUIRED=3;
 
-  var STATE_START=1;
-  var STATE_ACQUIRING_AUTHTOKEN=2;
-  var STATE_AUTHTOKEN_ACQUIRED=3;
+  let state = STATE_START;
 
-  var state = STATE_START;
+  const signin_button = document.querySelector('#signin');
+  signin_button.addEventListener('click', interactiveSignIn);
 
-  var signin_button, userinfo_button, revoke_button, user_info_div;
+  const userinfo_button = document.querySelector('#userinfo');
+  userinfo_button.addEventListener('click', getUserInfo.bind(userinfo_button, true));
 
- function disableButton(button) {
+  const revoke_button = document.querySelector('#revoke');
+  revoke_button.addEventListener('click', revokeToken);
+
+  const user_info_div = document.querySelector('#user_info');
+
+  // Trying to get user's info without signing in, it will work if the
+  // application was previously authorized by the user.
+  getUserInfo(false);
+
+  function disableButton(button) {
     button.setAttribute('disabled', 'disabled');
   }
 
@@ -41,7 +53,7 @@ var googleProfileUserLoader = (function() {
   }
 
   function displayOutput(message) {
-    var messageStr = message;
+    let messageStr = message;
     if (typeof (message) != 'string') {
       messageStr = JSON.stringify(message);
     }
@@ -49,11 +61,9 @@ var googleProfileUserLoader = (function() {
     document.getElementById("__logarea").value = messageStr;
   }
 
-  // @corecode_begin getProtectedData
   function fetchWithAuth(method, url, interactive, callback) {
-    var access_token;
-
-    var retry = true;
+    let access_token;
+    let retry = true;
 
     getToken();
 
@@ -95,7 +105,6 @@ var googleProfileUserLoader = (function() {
       interactive,
       onUserInfoFetched);
   }
-  // @corecode_end getProtectedData
 
 
   // Code updating the user interface, when the user information has been
@@ -117,7 +126,7 @@ var googleProfileUserLoader = (function() {
 
     user_info_div.innerText = "Hello " + user_info.name;
 
-    var imgElem = document.createElement('img');
+    const imgElem = document.createElement('img');
     imgElem.src = user_info.picture
     imgElem.style.width = '24px';
     user_info_div.insertAdjacentElement("afterbegin", imgElem);  
@@ -140,13 +149,13 @@ var googleProfileUserLoader = (function() {
   function interactiveSignIn() {
     changeState(STATE_ACQUIRING_AUTHTOKEN);
     console.log('interactiveSignIn');
-    // @corecode_begin getAuthToken
-    // @description This is the normal flow for authentication/authorization
-    // on Google properties. You need to add the oauth2 client_id and scopes
-    // to the app manifest. The interactive param indicates if a new window
-    // will be opened when the user is not yet authenticated or not.
-    // @see http://developer.chrome.com/apps/app_identity.html
-    // @see http://developer.chrome.com/apps/identity.html#method-getAuthToken
+    
+    // This is the normal flow for authentication/authorization on Google
+    // properties. You need to add the oauth2 client_id and scopes to the app
+    // manifest. The interactive param indicates if a new window will be opened
+    // when the user is not yet authenticated or not.
+    //
+    // See https://developer.chrome.com/docs/extensions/reference/api/identity#method-getAuthToken
     chrome.identity.getAuthToken({ 'interactive': true })
       .then((token) => {
         if (chrome.runtime.lastError) {
@@ -157,7 +166,6 @@ var googleProfileUserLoader = (function() {
           changeState(STATE_AUTHTOKEN_ACQUIRED);
         }
       });
-    // @corecode_end getAuthToken
   }
 
   function revokeToken() {
@@ -166,11 +174,8 @@ var googleProfileUserLoader = (function() {
       .then((current_token) => {
         if (!chrome.runtime.lastError) {
 
-          // @corecode_begin removeAndRevokeAuthToken
-          // @corecode_begin removeCachedAuthToken
           // Remove the local cached token
           chrome.identity.removeCachedAuthToken({ token: current_token.token });
-          // @corecode_end removeCachedAuthToken
 
           // Make a request to revoke token in the server.
           // See https://developers.google.com/identity/protocols/oauth2/javascript-implicit-flow#tokenrevoke
@@ -180,31 +185,9 @@ var googleProfileUserLoader = (function() {
               changeState(STATE_START);
               displayOutput('Token revoked and removed from cache.');
             });
-          // @corecode_end removeAndRevokeAuthToken
         }
       });
   }
+}
 
-  return {
-    onload: function () {
-      signin_button = document.querySelector('#signin');
-      signin_button.addEventListener('click', interactiveSignIn);
-
-      userinfo_button = document.querySelector('#userinfo');
-      userinfo_button.addEventListener('click', getUserInfo.bind(userinfo_button, true));
-
-      revoke_button = document.querySelector('#revoke');
-      revoke_button.addEventListener('click', revokeToken);
-
-      user_info_div = document.querySelector('#user_info');
-
-      // Trying to get user's info without signing in, it will work if the
-      // application was previously authorized by the user.
-      getUserInfo(false);
-    }
-  };
-
-})();
-
-window.onload = googleProfileUserLoader.onload;
-
+window.addEventListener("load", onLoad);
