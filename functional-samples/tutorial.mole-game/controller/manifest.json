@@ -1,0 +1,10 @@
+{
+  "name": "mole controller",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["management", "alarms"],
+  "action": {}
+}
