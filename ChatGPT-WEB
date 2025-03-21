@@ -1,0 +1,96 @@
+chatgpt-screenshot-extension/
+  ├── manifest.json       (Main configuration file)
+  ├── popup.html          (Popup UI)
+  ├── popup.js            (JavaScript for popup functionality)
+  ├── content.js          (Injectable script to capture user interaction)
+  ├── background.js       (Background script for managing events)
+  ├── style.css           (CSS for popup styling)
+  ├── icon.png            (Extension icon)
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Screenshot Assistant",
+  "version": "1.0",
+  "description": "Take a screenshot of text, extract it, and get an answer from ChatGPT.",
+  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT Screenshot Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>ChatGPT Screenshot Assistant</h2>
+  <button id="capture-text">Take Screenshot</button>
+  <p id="response"></p>
+  <script src="popup.js"></script>
+</body>
+</html>
+document.getElementById("capture-text").addEventListener("click", async () => {
+  // Trigger content script to take a screenshot of selected text
+  chrome.runtime.sendMessage({ type: "takeScreenshot" });
+});
+document.addEventListener("mouseup", () => {
+  const selectedText = window.getSelection().toString();
+  if (selectedText) {
+    chrome.runtime.sendMessage({ type: "selectedText", text: selectedText });
+  }
+});
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "selectedText") {
+    const selectedText = message.text;
+
+    // Send the selected text to ChatGPT API (using fetch)
+    fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer YOUR_OPENAI_API_KEY`
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: selectedText }],
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("ChatGPT Response:", data.choices[0].message.content);
+    })
+    .catch(err => console.error(err));
+  }
+});
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 14px;
+}
