@@ -1,4 +1,4 @@
-# Chrome Extensions samples
+# Chrome Extensions elparadisogonzalo.com
 
 Official samples for Chrome Extensions and the Chrome Apps platform. (Chrome Apps are deprecated. Learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html)).
 
