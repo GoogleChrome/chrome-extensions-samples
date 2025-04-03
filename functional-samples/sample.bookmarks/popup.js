@@ -48,9 +48,9 @@ function dumpNode(bookmarkNode, query) {
     // folderType is set for top-level folders in the tree, and not for child
     // folders. In Chrome versions prior to milestone 134, folderType is never
     // set.
-    let title_text = bookmarkNode.title
+    let title_text = bookmarkNode.title;
     if (bookmarkNode.folderType) {
-      title_text += bookmarkNode.syncing ? " (Account)" : " (Local)";
+      title_text += bookmarkNode.syncing ? ' (Account)' : ' (Local)';
     }
     anchor.text(title_text);
 
