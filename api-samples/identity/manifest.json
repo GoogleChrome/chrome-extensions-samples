@@ -7,7 +7,7 @@
   "background": {
     "service_worker": "main.js"
   },
-  "permissions": ["identity"],
+  "permissions": ["identity", "identity.email"],
   "oauth2": {
     // client_id below is specific to the application key. Follow the
     // documentation to obtain one for your app.
