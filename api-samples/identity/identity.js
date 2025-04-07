@@ -39,10 +39,15 @@ function onLoad() {
   // This uses the chrome.identity.getProfileUserInfo API, and does not require
   // an auth token.
   function getEmail() {
-    chrome.identity.getProfileUserInfo({accountStatus: chrome.identity.AccountStatus.ANY })
+    chrome.identity
+      .getProfileUserInfo({ accountStatus: chrome.identity.AccountStatus.ANY })
       .then((profile_user_info) => {
-        displayOutput('chrome.identity.getProfileUserInfo() returned: ' + JSON.stringify(profile_user_info));
-        document.getElementById('email-info').innerText = profile_user_info.email;
+        displayOutput(
+          'chrome.identity.getProfileUserInfo() returned: ' +
+            JSON.stringify(profile_user_info)
+        );
+        document.getElementById('email-info').innerText =
+          profile_user_info.email;
       });
   }
 
