@@ -9,12 +9,17 @@
       <h1>Identity API</h1>
       <div class="links">
         Learn more:
-          <a target="_blank" href="https://developer.chrome.com/docs/extensions/reference/api/identity">API docs</a>
-          <a id="_open_snippets" href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/api-samples/identity">Source</a>
+        <a target="_blank" href="https://developer.chrome.com/docs/extensions/reference/api/identity">API docs</a>
+        <a id="_open_snippets" href="https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/api-samples/identity">Source</a>
       </div>
       <hr>
     </div>
     <div class="flows">
+      <h2>Query local Chrome account information</h2>
+      <div class="flow">
+        <button id="get-email">Get primary account email address</button>
+        <div id="email-info"></div>
+      </div>
       <h2>OAuth on Google properties</h2>
       <div class="flow">
         <button id="signin">Sign in</button>
@@ -23,8 +28,8 @@
         <div id="user_info"></div>
       </div>
     </div>
-   <div class="log">
+    <div class="log">
       <textarea id="__logarea" disabled></textarea>
-   </div>
+    </div>
   </body>
 </html>

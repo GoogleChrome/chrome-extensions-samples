@@ -7,6 +7,8 @@ function onLoad() {
 
   let state = STATE_START;
 
+  document.querySelector('#get-email').addEventListener('click', getEmail);
+
   const signin_button = document.querySelector('#signin');
   signin_button.addEventListener('click', interactiveSignIn);
 
@@ -31,6 +33,22 @@ function onLoad() {
 
   function enableButton(button) {
     button.removeAttribute('disabled');
+  }
+
+  // Gets the email address for the primary account.
+  // This uses the chrome.identity.getProfileUserInfo API, and does not require
+  // an auth token.
+  function getEmail() {
+    chrome.identity
+      .getProfileUserInfo({ accountStatus: chrome.identity.AccountStatus.ANY })
+      .then((profile_user_info) => {
+        displayOutput(
+          'chrome.identity.getProfileUserInfo() returned: ' +
+            JSON.stringify(profile_user_info)
+        );
+        document.getElementById('email-info').innerText =
+          profile_user_info.email;
+      });
   }
 
   function changeState(newState) {
@@ -101,6 +119,8 @@ function onLoad() {
     }
   }
 
+  // This fetches user information over the network, providing an access token
+  // scoped to this extension.
   function getUserInfo(interactive) {
     // See https://developers.google.com/identity/openid-connect/openid-connect#obtaininguserprofileinformation
     fetchWithAuth(
