@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Rounded Iframe Extension Template",
+  "version": "1.0.0",
+  "description": "A clean template for Chrome extensions with rounded corners",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {},
+  "icons": {
+    "32": "icon.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "web_accessible_resources": [{
+    "resources": ["iframe.html"],
+    "matches": ["<all_urls>"]
+  }]
+}
