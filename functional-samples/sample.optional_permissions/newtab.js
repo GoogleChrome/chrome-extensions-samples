@@ -36,7 +36,7 @@ const createTop = () => {
       const hostname = new URL(site.url).hostname;
       const image = document.createElement('img');
       image.title = site.title;
-      image.src = 'https://logo.clearbit.com/' + hostname;
+      image.src = 'https://www.google.com/s2/favicons?sz=128&domain_url=' + hostname;
       url.appendChild(image);
       div.appendChild(url);
       div.appendChild(tooltip);
