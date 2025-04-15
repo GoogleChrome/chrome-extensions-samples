@@ -20,16 +20,19 @@ function createTop(){chrome.topSites.get(function(topSites) {
   topSites.forEach(function(site) {
     let div = document.createElement('div');
     div.className = 'colorFun';
-    let tooltip = document.createElement('span');
+    let tooltip = document.createElement('a');
+    tooltip.href = site.url;
     tooltip.innerText = site.title;
     tooltip.className = 'tooltip';
     let url = document.createElement('a');
     url.href = site.url;
-    let hostname = (new URL(site.url)).hostname;
+    let imageContainer = document.createElement('div');
+    imageContainer.className = 'imageContainer';
     let image = document.createElement('img');
     image.title = site.title;
-    image.src = 'https://www.google.com/s2/favicons?sz=128&domain_url=' + hostname;
-    url.appendChild(image);
+    image.src = 'chrome://favicon/' + site.url;
+    imageContainer.appendChild(image);
+    url.appendChild(imageContainer);
     div.appendChild(url);
     div.appendChild(tooltip);
     sites_div.appendChild(div);
