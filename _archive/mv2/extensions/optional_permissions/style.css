@@ -8,6 +8,7 @@ h1 {
 
 #display_top {
   margin: auto;
+  margin-bottom: 40px;
   width: 600px;
 }
 
@@ -18,6 +19,11 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  animation-name: color-extravaganza;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 .center {
@@ -36,45 +42,69 @@ h1 {
 
 .colorFun {
   position: relative;
-  height: 100px;
+  height: 70px;
   width: 100px;
   padding: 10px;
   display: inline-block;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .colorFun .tooltip {
-  visibility: hidden;
-  width: 120px;
-  color: #fff;
+  width: 100px;
   text-align: center;
   padding: 5px 0;
-  border-radius: 6px;
   position: absolute;
   z-index: 1;
   bottom: 0%;
   left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
+  transform: translateX(-50%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-
-#todo_div, .colorFun:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-  animation-name: color-extravaganza;
-  animation-duration: 6s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+.imageContainer {
+  background-color: #cdcdcd;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  justify-self: center;
 }
 
-img {
-  width: 100px;
+.imageContainer img {
+  width: 14px;
+  height: 14px;
 }
 
 footer {
   position: absolute;
   bottom: 20px;
   left: 20px;
+}
+
+input#todo_value {
+  width: 300px;
+  height: 40px;
+  font-size: 18px;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-right: 4px;
+}
+
+input#todo_value ~ input[type="submit"] {
+  background-color: #4285F4;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input#todo_value ~ input[type="submit"]:hover {
+  background-color: #45a049;
 }
