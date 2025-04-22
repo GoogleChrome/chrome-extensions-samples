@@ -42,11 +42,12 @@ async function initDefaults() {
     showResponse('Error: chrome.aiOriginTrial not supported in this browser');
     return;
   }
-  const defaults = await chrome.aiOriginTrial.languageModel.capabilities();
+  const defaults = await chrome.aiOriginTrial.languageModel.params();
   console.log('Model default:', defaults);
-  if (defaults.available !== 'readily') {
+  const available = await chrome.aiOriginTrial.languageModel.availability();
+  if (available !== 'available') {
     showResponse(
-      `Model not yet available (current state: "${defaults.available}")`
+      `Model not yet available (current state: "${available}")`
     );
     return;
   }
