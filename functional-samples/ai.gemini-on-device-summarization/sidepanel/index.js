@@ -79,23 +79,22 @@ async function generateSummary(text) {
 }
 
 async function createSummarizer(config, downloadProgressCallback) {
-  if (!window.ai || !window.ai.summarizer) {
+  if (!window.Summarizer) {
     throw new Error('AI Summarization is not supported in this browser');
   }
-  const canSummarize = await window.ai.summarizer.capabilities();
-  if (canSummarize.available === 'no') {
+  const available = await window.Summarizer.availability();
+  if (available === 'unavailable') {
     throw new Error('AI Summarization is not supported');
   }
-  const summarizationSession = await self.ai.summarizer.create(
+  const summarizationSession = await window.Summarizer.create(
     config,
     downloadProgressCallback
   );
-  if (canSummarize.available === 'after-download') {
+  if (available === 'downloadable') {
     summarizationSession.addEventListener(
       'downloadprogress',
       downloadProgressCallback
     );
-    await summarizationSession.ready;
   }
   return summarizationSession;
 }
