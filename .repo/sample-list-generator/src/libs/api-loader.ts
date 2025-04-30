@@ -15,5 +15,16 @@ export const loadExtensionApis = (): ExtensionApiMap => {
   }
 
   let data = fs.readFileSync(filePath, 'utf8');
-  return JSON.parse(data);
+  const apiMap = JSON.parse(data);
+
+  // Due to the specific implementation of this API, we need to manually add it
+  // to the list of APIs recognised by the sample list generator.
+  apiMap['aiOriginTrial.languageModel'] = {
+    properties: [],
+    methods: ['create', 'capabilities', 'params', 'availability'],
+    types: [],
+    events: []
+  };
+
+  return apiMap;
 };
