@@ -46,9 +46,7 @@ async function initDefaults() {
   console.log('Model default:', defaults);
   const available = await chrome.aiOriginTrial.languageModel.availability();
   if (available !== 'available') {
-    showResponse(
-      `Model not yet available (current state: "${available}")`
-    );
+    showResponse(`Model not yet available (current state: "${available}")`);
     return;
   }
   sliderTemperature.value = defaults.defaultTemperature;
