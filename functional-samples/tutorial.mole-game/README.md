@@ -23,4 +23,5 @@ By default, the tab closing behavior is disabled. You can enable this by comment
 1. Clone this repository.
 1. Make several copies of the `mole` directory.
 1. Load the `controller` directory and all mole directories in Chrome as [unpacked extensions](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+1. Click the puzzle icon in the browser toolbar, and pin each extension. This makes them visible even if the extensions menu is closed.
 1. Wait for a mole to appear!

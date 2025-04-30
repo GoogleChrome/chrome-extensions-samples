@@ -28,11 +28,10 @@ chrome.runtime.onMessageExternal.addListener((msg) => {
   failTimeout = setTimeout(async () => {
     hideMole();
     const tabs = await chrome.tabs.query({});
-    const eligibleTabs = tabs.filter((t) => t.title.includes('Example'));
 
-    if (eligibleTabs.length > 0) {
-      // const tabToClose = Math.floor(Math.random() * eligibleTabs.length);
-      // chrome.tabs.remove(eligibleTabs[tabToClose].id);
+    if (tabs.length > 0) {
+      // const tabToClose = Math.floor(Math.random() * tabs.length);
+      // chrome.tabs.remove(tabs[tabToClose].id);
     }
   }, 2000);
 });

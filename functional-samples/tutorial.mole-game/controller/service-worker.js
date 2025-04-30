@@ -1,4 +1,6 @@
 chrome.runtime.onInstalled.addListener(() => {
+  // Register an alarm used to periodically wake up the extension to spawn a
+  // new mole.
   chrome.alarms.create({ periodInMinutes: (1 / 60) * 3 });
 });
 
