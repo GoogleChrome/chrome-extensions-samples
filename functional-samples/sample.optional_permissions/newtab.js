@@ -36,9 +36,9 @@ const createTop = () => {
       url.href = site.url;
       const imageContainer = document.createElement('div');
       imageContainer.className = 'imageContainer';
-      const imgUrl = new URL(chrome.runtime.getURL("/_favicon/"));
-      imgUrl.searchParams.set("pageUrl", site.url);
-      imgUrl.searchParams.set("size", "28");
+      const imgUrl = new URL(chrome.runtime.getURL('/_favicon/'));
+      imgUrl.searchParams.set('pageUrl', site.url);
+      imgUrl.searchParams.set('size', '28');
       const image = document.createElement('img');
       image.title = site.title;
       image.src = imgUrl.toString();
