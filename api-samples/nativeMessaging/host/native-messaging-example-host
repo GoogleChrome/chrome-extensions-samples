@@ -26,10 +26,11 @@ if sys.platform == "win32":
 
 # Helper function that sends a message to the webapp.
 def send_message(message):
+  message=message.encode('utf-8')
    # Write message size.
   sys.stdout.buffer.write(struct.pack('I', len(message)))
   # Write the message itself.
-  sys.stdout.write(message)
+  sys.stdout.buffer.write(message)
   sys.stdout.flush()
 
 # Thread that reads messages from the webapp.
