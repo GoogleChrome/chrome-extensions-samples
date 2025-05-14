@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+    </head>
+  <body>
+    <div class="container">
+        <h1>Search</h1>
+        <div class="row">
+            <label for="query">Query:</label>
+            <input type="text" id="query" />
+        </div>
+        <div class="row">
+            <label for="location">Location:</label>
+            <select id="location">
+              <option value="CURRENT_TAB">Current Tab</option>
+              <option value="NEW_TAB">New Tab</option>
+              <option value="NEW_WINDOW">New Window</option>
+            </select>
+        </div>
+        <button type="button" id="search" disabled>Search</button>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
