@@ -1,4 +1,4 @@
-# On-device multimodal AI with Gemini Nano - image understanding
+# Alt-texter: On-device multimodal AI with Gemini Nano - image understanding
 
 This sample demonstrates how to use the image understanding capabilities of the multi-modal Gemini Nano API preview together with [Chrome's translation API](https://developer.chrome.com/docs/ai/translator-api). To learn more about the API and how to sign-up for the origin trial, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
 
