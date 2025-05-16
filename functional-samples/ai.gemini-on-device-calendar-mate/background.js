@@ -33,7 +33,7 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
       event.dates = format(startDate) + '/' + format(endDate);
 
       const googleCalendarUrl = createGoogleCalendarUrl(event);
-      chrome.tabs.create({ url: googleCalendarUrl });
+      chrome.tabs.create({ url: googleCalendarUrl.toString() });
     } catch (e) {
       console.log(e);
     }
@@ -52,12 +52,9 @@ function parse(dateString) {
 }
 
 function format(date) {
-  let month = '' + (date.getMonth() + 1);
-  let day = '' + date.getDate();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate() + 1).padStart(2, '0');
   const year = date.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
@@ -66,23 +63,21 @@ function format(date) {
 }
 
 function createGoogleCalendarUrl(eventDetails) {
-  let googleCalendarUrl =
-    'https://calendar.google.com/calendar/render?action=TEMPLATE';
-
+  const googleCalendarUrl = new URL(
+    'https://calendar.google.com/calendar/render?action=TEMPLATE'
+  );
+  const params = googleCalendarUrl.searchParams;
   if (eventDetails.title) {
-    googleCalendarUrl += '&text=' + encodeURIComponent(eventDetails.title);
+    params.append('text', eventDetails.title);
   }
   if (eventDetails.dates) {
-    googleCalendarUrl += '&dates=' + encodeURIComponent(eventDetails.dates);
+    params.append('dates', eventDetails.dates);
   }
   if (eventDetails.description) {
-    googleCalendarUrl +=
-      '&details=' + encodeURIComponent(eventDetails.description);
+    params.append('details', eventDetails.description);
   }
-
   if (eventDetails.location) {
-    googleCalendarUrl +=
-      '&location=' + encodeURIComponent(eventDetails.location);
+    params.append('location', eventDetails.location);
   }
   return googleCalendarUrl;
 }

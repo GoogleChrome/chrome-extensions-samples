@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "Generates alt text for images using the Prompt API.",
   "permissions": ["contextMenus", "clipboardWrite"],
+  "host_permissions": ["<all_urls>"],
   "minimum_chrome_version": "138",
   "background": {
     "service_worker": "background.js"
