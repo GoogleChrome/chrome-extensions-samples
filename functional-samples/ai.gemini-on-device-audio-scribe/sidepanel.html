@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      @import 'https://unpkg.com/open-props';
+      @import 'https://unpkg.com/open-props/normalize.min.css';
+      @import 'https://unpkg.com/open-props/buttons.min.css';
+      @import 'https://unpkg.com/open-props/theme.light.switch.min.css';
+      @import 'https://unpkg.com/open-props/theme.dark.switch.min.css';
+
+      :root {
+        --font-size-00: 0.6rem;
+      }
+      body {
+        margin: auto;
+        padding: var(--size-2);
+      }
+      ul {
+        padding: var(--size-2);
+      }
+      li {
+        background: var(--surface-3);
+        border: 1px solid var(--surface-1);
+        padding: var(--size-4);
+        margin-bottom: var(--size-3);
+        border-radius: var(--radius-3);
+        box-shadow: var(--shadow-2);
+        list-style: none;
+        border-radius: var(--radius-2);
+        padding: var(--size-fluid-3);
+        box-shadow: var(--shadow-2);
+
+        &:hover {
+          box-shadow: var(--shadow-3);
+        }
+
+        @media (--motionOK) {
+          animation: var(--animation-fade-in);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>
