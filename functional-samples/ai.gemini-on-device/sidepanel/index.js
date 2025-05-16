@@ -1,3 +1,5 @@
+/* global LanguageModel */
+
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
@@ -17,7 +19,7 @@ let session;
 async function runPrompt(prompt, params) {
   try {
     if (!session) {
-      session = await chrome.aiOriginTrial.languageModel.create(params);
+      session = await LanguageModel.create(params);
     }
     return session.prompt(prompt);
   } catch (e) {
@@ -38,15 +40,10 @@ async function reset() {
 }
 
 async function initDefaults() {
-  if (!('aiOriginTrial' in chrome)) {
-    showResponse('Error: chrome.aiOriginTrial not supported in this browser');
-    return;
-  }
-  const defaults = await chrome.aiOriginTrial.languageModel.params();
+  const defaults = await LanguageModel.params();
   console.log('Model default:', defaults);
-  const available = await chrome.aiOriginTrial.languageModel.availability();
-  if (available !== 'available') {
-    showResponse(`Model not yet available (current state: "${available}")`);
+  if (!('LanguageModel' in self)) {
+    showResponse('Model not available');
     return;
   }
   sliderTemperature.value = defaults.defaultTemperature;
@@ -97,7 +94,9 @@ buttonPrompt.addEventListener('click', async () => {
   showLoading();
   try {
     const params = {
-      systemPrompt: 'You are a helpful and friendly assistant.',
+      initialPrompts: [
+        { role: 'system', content: 'You are a helpful and friendly assistant.' }
+      ],
       temperature: sliderTemperature.value,
       topK: sliderTopK.value
     };
