@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Calendar Mate",
   "version": "1.0",
-  "description": "Create Google Calendar events from selected text.",
+  "description": "Create Google Calendar events from selected text using Gemini Nano.",
   "permissions": ["contextMenus"],
   "minimum_chrome_version": "138",
   "background": {

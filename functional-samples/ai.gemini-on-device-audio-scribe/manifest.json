@@ -1,6 +1,6 @@
 {
   "name": "Audio scribe",
-  "description": "Listens and transcribe it",
+  "description": "Use Gemini Nano to transcribe audio messages in chat conversations.",
   "version": "0.2",
   "icons": {
     "128": "assets/icon128.png"
