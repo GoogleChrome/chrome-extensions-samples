@@ -19,6 +19,6 @@ const originalCreateObjectURL = URL.createObjectURL;
 // and not for all (as we do in this demo)
 URL.createObjectURL = (object) => {
   const objectUrl = originalCreateObjectURL.call(URL, object);
-  window.postMessage({ objectUrl });
+  window.postMessage({ type: 'audio-scribe', objectUrl });
   return objectUrl;
 };

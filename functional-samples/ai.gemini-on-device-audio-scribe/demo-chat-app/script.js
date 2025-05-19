@@ -32,14 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const audioElement = document.createElement('audio');
           audioElement.preload = 'metadata'; // Important for getting duration
           const sourceElement = document.createElement('source');
-          sourceElement.src = msg.audioSrc;
           sourceElement.type = 'audio/mpeg'; // Assuming MP3
           audioElement.appendChild(sourceElement);
 
           const response = await fetch(msg.audioSrc);
           const data = await response.arrayBuffer();
           const blob = new Blob([data], { type: 'audio/wav' });
-          URL.createObjectURL(blob);
+          sourceElement.src = URL.createObjectURL(blob);
           // Keep the audio element in the DOM but hidden for playback logic
           audioElement.style.display = 'none';
           messageElement.appendChild(audioElement);

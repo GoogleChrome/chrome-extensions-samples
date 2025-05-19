@@ -17,6 +17,9 @@
 chrome.runtime.onMessage.addListener(async ({ data }) => {
   let content;
   try {
+    if (data.type != 'audio-scribe' || !data || !isValidUrl(data.objectUrl)) {
+      return;
+    }
     // Check if it's an audio file
     const audio = await fetch(data.objectUrl);
     content = await audio.blob();
@@ -28,7 +31,7 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
   }
 
   // Setup message UI
-  const messages = document.gelElementById('messages');
+  const messages = document.getElementById('messages');
   const li = document.createElement('li');
   li.append('...');
   messages.append(li);
@@ -62,3 +65,14 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     li.textContent = error.message;
   }
 });
+
+function isValidUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}

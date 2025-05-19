@@ -274,3 +274,7 @@ body {
     text-align: right;
     flex-shrink: 0; /* Prevent duration from shrinking */
 }
+
+#chat {
+    background-color: red;
+}

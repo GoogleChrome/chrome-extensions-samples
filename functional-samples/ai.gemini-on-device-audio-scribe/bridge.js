@@ -15,5 +15,8 @@
 // Forward messages from the content script in the MAIN world to the
 // side panel
 window.addEventListener('message', ({ data }) => {
+  if (data.type !== 'audio-scribe') {
+    return;
+  }
   chrome.runtime.sendMessage({ data });
 });
