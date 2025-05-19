@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
           audioElement.addEventListener('timeupdate', () => {
             progressBar.value = audioElement.currentTime;
             // Update duration display to show current time while playing (optional)
-            // durationDisplay.textContent = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
+            durationDisplay.textContent = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
           });
 
           // Seek audio when progress bar is changed
@@ -215,11 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentChatName.textContent = chatName;
       currentChatAvatar.textContent = avatarEmoji; // Set emoji in header avatar span
-
-      // TODO: In a real app, load messages for the selected chat here
-      // For now, we just update the header
-      // You could clear the messageList and load new sampleMessages based on chatName
-      // renderMessages(); // Re-render if messages change
     });
   });
 });
