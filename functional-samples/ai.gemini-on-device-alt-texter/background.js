@@ -33,9 +33,10 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       generateAltText(info.srcUrl),
       chrome.action.openPopup()
     ]);
+    console.log(result);
     chrome.runtime.sendMessage({
       action: 'alt-text',
-      text: result.value === 'fulfilled' ? result.value : result.reason.message
+      text: result.status === 'fulfilled' ? result.value : result.reason.message
     });
   }
 });
