@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App Demo</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="sidebar">
+        <!-- Chat list will go here -->
+        <h2>Chats</h2>
+        <ul id="chat-list">
+          <!-- Example chat items -->
+          <li class="chat-item active" data-chat="Alice">
+            <span class="avatar">😊</span>
+            <span>Alice</span>
+          </li>
+          <li class="chat-item" data-chat="Bob">
+            <span class="avatar">😎</span>
+            <span>Bob</span>
+          </li>
+          <li class="chat-item" data-chat="Charlie">
+            <span class="avatar">🥳</span>
+            <span>Charlie</span>
+          </li>
+        </ul>
+      </div>
+      <div class="chat-panel">
+        <div class="chat-header">
+          <!-- Header for the current chat -->
+          <span class="avatar" id="current-chat-avatar">😊</span>
+          <h3 id="current-chat-name">Alice</h3>
+        </div>
+        <div class="message-list" id="message-list">
+          <!-- Messages will be loaded here by JavaScript -->
+        </div>
+        <div class="message-input">
+          <input
+            type="text"
+            id="message-input-field"
+            placeholder="Type a message..."
+          />
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

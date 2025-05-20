@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Alt Texter",
   "version": "1.0",
-  "description": "Generates alt text for images using the Prompt API.",
+  "description": "Generates alt text for images using the Gemini Nano Prompt API.",
   "permissions": ["contextMenus", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
   "minimum_chrome_version": "138",

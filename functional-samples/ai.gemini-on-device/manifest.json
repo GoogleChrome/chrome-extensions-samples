@@ -2,7 +2,7 @@
   "name": "Chrome Prompt AI Demo",
   "version": "0.2",
   "manifest_version": 3,
-  "description": "Try Chrome's built-in prompt API.",
+  "description": "Try Chrome's built-in prompt API built with Gemini Nano.",
   "background": {
     "service_worker": "background.js"
   },

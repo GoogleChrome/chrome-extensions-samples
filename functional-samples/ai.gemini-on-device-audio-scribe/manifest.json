@@ -1,0 +1,40 @@
+{
+  "name": "Audio scribe",
+  "description": "Use Gemini Nano to transcribe audio messages in chat conversations.",
+  "version": "0.2",
+  "icons": {
+    "128": "assets/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["override-createobject-url.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {},
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": ["sidePanel"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "windows": "Alt+A",
+        "mac": "Alt+A",
+        "chromeos": "Alt+A",
+        "linux": "Alt+A"
+      }
+    }
+  },
+  "manifest_version": 3
+}

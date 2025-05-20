@@ -5,4 +5,4 @@ node_modules
 _debug
 _metadata
 dist
-*.swp # vim temp files
+**/*.swp 
