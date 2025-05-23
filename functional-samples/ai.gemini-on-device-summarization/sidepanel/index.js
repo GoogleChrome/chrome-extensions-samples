@@ -1,3 +1,4 @@
+/* global Summarizer */
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
@@ -58,45 +59,37 @@ async function onContentChange(newContent) {
 
 async function generateSummary(text) {
   try {
-    const session = await createSummarizer(
-      {
-        type: summaryTypeSelect.value,
-        format: summaryFormatSelect.value,
-        length: length.value
-      },
-      (message, progress) => {
-        console.log(`${message} (${progress.loaded}/${progress.total})`);
-      }
-    );
-    const summary = await session.summarize(text);
-    session.destroy();
+    const options = {
+      sharedContext: 'this is a website',
+      type: summaryTypeSelect.value,
+      format: summaryFormatSelect.value,
+      length: length.value
+    };
+
+    const availability = await Summarizer.availability();
+    let summarizer;
+    if (availability === 'unavailable') {
+      return 'Summarizer API is not available';
+    }
+    if (availability === 'available') {
+      // The Summarizer API can be used immediately .
+      summarizer = await Summarizer.create(options);
+    } else {
+      // The Summarizer API can be used after the model is downloaded.
+      summarizer = await Summarizer.create(options);
+      summarizer.addEventListener('downloadprogress', (e) => {
+        console.log(`Downloaded ${e.loaded * 100}%`);
+      });
+      await summarizer.ready;
+    }
+    const summary = await summarizer.summarize(text);
+    summarizer.destroy();
     return summary;
   } catch (e) {
     console.log('Summary generation failed');
     console.error(e);
     return 'Error: ' + e.message;
   }
-}
-
-async function createSummarizer(config, downloadProgressCallback) {
-  if (!window.Summarizer) {
-    throw new Error('AI Summarization is not supported in this browser');
-  }
-  const available = await window.Summarizer.availability();
-  if (available === 'unavailable') {
-    throw new Error('AI Summarization is not supported');
-  }
-  const summarizationSession = await window.Summarizer.create(
-    config,
-    downloadProgressCallback
-  );
-  if (available === 'downloadable') {
-    summarizationSession.addEventListener(
-      'downloadprogress',
-      downloadProgressCallback
-    );
-  }
-  return summarizationSession;
 }
 
 async function showSummary(text) {

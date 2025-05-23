@@ -84,7 +84,7 @@ function createGoogleCalendarUrl(eventDetails) {
 
 async function parseEventDetails(text) {
   const session = await LanguageModel.create({
-    temperature: 1.0,
+    temperature: 0,
     topK: 1.0
   });
 
