@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
 async function generateAltText(imgSrc) {
   // Create the model (we're not checking availability here, but will simply fail with an exception
   const session = await self.LanguageModel.create({
-    temperature: 0.8,
+    temperature: 0.0,
     topK: 1.0,
     expectedInputs: [{ type: 'image' }]
   });
