@@ -67,11 +67,10 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
 });
 
 function isValidUrl(string) {
-  let url;
-
   try {
-    url = new URL(string);
+    new URL(string);
     return true;
+    // eslint-disable-next-line no-unused-vars
   } catch (_) {
     return false;
   }
