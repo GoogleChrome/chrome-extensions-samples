@@ -26,7 +26,7 @@ async function generateAltText(imgSrc) {
   return await session.prompt(prompt);
 }
 
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+chrome.contextMenus.onClicked.addListener(async (info, _tab) => {
   if (info.menuItemId === 'generateAltText' && info.srcUrl) {
     // Start opening the popup
     const [result] = await Promise.allSettled([

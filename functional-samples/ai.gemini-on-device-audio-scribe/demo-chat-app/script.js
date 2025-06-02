@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function renderMessages() {
     messageList.innerHTML = ''; // Clear existing messages
-    let delay = 0; // Initial delay
     const delayIncrement = 3000; // 5 seconds in milliseconds
 
     await timeout(3000);
