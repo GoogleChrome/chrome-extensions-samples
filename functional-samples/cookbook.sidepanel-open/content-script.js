@@ -1,8 +1,7 @@
-const button = new DOMParser().parseFromString(
-  '<button>Click to open side panel</button>',
-  'text/html'
-).body.firstElementChild;
-button.addEventListener('click', function () {
+const button = document.createElement('button');
+button.textContent = 'Click to open side panel';
+button.addEventListener('click', () => {
   chrome.runtime.sendMessage({ type: 'open_side_panel' });
 });
-document.body.append(button);
+
+document.body.appendChild(button);
