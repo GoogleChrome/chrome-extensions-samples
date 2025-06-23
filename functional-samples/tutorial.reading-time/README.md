@@ -6,6 +6,8 @@ This sample demonstrates how to run scripts on any Chrome extension and Chrome W
 
 This sample demonstrates how developers can use content scripts which employ Document Object Models to read and change the content of a page. In this instance, the extension checks to find an article element, counts all the words inside of it, and then creates a paragraph that estimates the total reading time for that article.
 
+As https://developer.chrome.com/ is a SPA (Single Page Application) it also includes an example of how to use `MutationObserver` to watch for changes to article content. Using `MutationObserver` can have a performance cost, so use them sparingly and only observe the most relevant changes.
+
 ## Running this extension
 
 1. Clone this repository.
