@@ -1,0 +1,25 @@
+{
+  "name": "Offscreen API - User media",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Shows how to record audio in a chrome extension via offscreen document.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": ["offscreen", "activeTab", "tabs"],
+  "web_accessible_resources": [
+    {
+      "resources": ["requestPermissions.html", "requestPermissions.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
