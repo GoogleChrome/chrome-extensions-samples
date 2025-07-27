@@ -13,6 +13,8 @@
 // limitations under the License.
 
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
+const OFFSCREEN_DOCUMENT_REASONS = [chrome.offscreen.Reason.DOM_PARSER];
+const OFFSCREEN_DOCUMENT_JUSTIFY = 'Parse DOM';
 
 chrome.action.onClicked.addListener(async () => {
   sendMessageToOffscreenDocument(
@@ -40,9 +42,9 @@ async function setupOffscreenDocument(path) {
     await creating;
   } else {
     creating = chrome.offscreen.createDocument({
-      url: OFFSCREEN_DOCUMENT_PATH,
-      reasons: [chrome.offscreen.Reason.DOM_PARSER],
-      justification: 'Parse DOM'
+      url: offscreenUrl,
+      reasons: OFFSCREEN_DOCUMENT_REASONS,
+      justification: OFFSCREEN_DOCUMENT_JUSTIFY
     });
     await creating;
     creating = null;
@@ -50,7 +52,7 @@ async function setupOffscreenDocument(path) {
 }
 
 async function sendMessageToOffscreenDocument(type, data) {
-  await setupOffscreenDocument('off_screen.html');
+  await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
 
   // Send message to offscreen document
   chrome.runtime.sendMessage({
