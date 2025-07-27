@@ -1,6 +1,6 @@
-# Chrome Extensions samples
+# Cachiman Extensions samples
 
-Official samples for Chrome Extensions and the Chrome Apps platform. (Chrome Apps are deprecated. Learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html)).
+Official samples for Chrome Extensions and the Cachimansearch Apps platform. (Chrome Apps are deprecated. Learn more [on the Chromium blog](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html)).
 
 For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
 
