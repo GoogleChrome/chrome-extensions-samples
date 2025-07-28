@@ -46,13 +46,15 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     const session = await LanguageModel.create({
       expectedInputs: [{ type: 'audio' }]
     });
-    const stream = session.promptStreaming([{
-      role: 'user',
-      content: [
-        { type: 'text', value: 'transcribe this audio' },
-        { type: 'audio', value: content }
-      ]
-    }]);
+    const stream = session.promptStreaming([
+      {
+        role: 'user',
+        content: [
+          { type: 'text', value: 'transcribe this audio' },
+          { type: 'audio', value: content }
+        ]
+      }
+    ]);
 
     // Render streamed response
     let first = true;
