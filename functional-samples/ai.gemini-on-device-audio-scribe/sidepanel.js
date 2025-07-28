@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     // Check if it's an audio file
     const audio = await fetch(data.objectUrl);
     content = await audio.blob();
-    if (!content.type || !content.type.startsWidth('audio/')) {
+    if (!content.type || !content.type.startsWith('audio/')) {
       return;
     }
   } catch (e) {
@@ -46,10 +46,13 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     const session = await LanguageModel.create({
       expectedInputs: [{ type: 'audio' }]
     });
-    const stream = session.promptStreaming([
-      { type: 'audio', content },
-      'transcribe this audio'
-    ]);
+    const stream = session.promptStreaming([{
+      role: 'user',
+      content: [
+        { type: 'text', value: 'transcribe this audio' },
+        { type: 'audio', value: content }
+      ]
+    }]);
 
     // Render streamed response
     let first = true;
