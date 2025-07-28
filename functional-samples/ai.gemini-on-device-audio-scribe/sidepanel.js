@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     // Check if it's an audio file
     const audio = await fetch(data.objectUrl);
     content = await audio.blob();
-    if (!content.type || !content.type.startsWidth('audio/')) {
+    if (!content.type || !content.type.startsWith('audio/')) {
       return;
     }
   } catch (e) {
