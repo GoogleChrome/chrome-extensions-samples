@@ -46,6 +46,7 @@ chrome.runtime.onMessage.addListener(async ({ data }) => {
     const session = await LanguageModel.create({
       expectedInputs: [{ type: 'audio' }]
     });
+
     const stream = session.promptStreaming([
       {
         role: 'user',
