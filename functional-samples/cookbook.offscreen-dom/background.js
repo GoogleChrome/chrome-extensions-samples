@@ -13,6 +13,8 @@
 // limitations under the License.
 
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
+const OFFSCREEN_DOCUMENT_REASONS = [chrome.offscreen.Reason.DOM_PARSER];
+const OFFSCREEN_DOCUMENT_JUSTIFY = 'Parse DOM';
 
 chrome.action.onClicked.addListener(async () => {
   sendMessageToOffscreenDocument(
@@ -21,17 +23,38 @@ chrome.action.onClicked.addListener(async () => {
   );
 });
 
-async function sendMessageToOffscreenDocument(type, data) {
-  // Create an offscreen document if one doesn't exist yet
-  if (!(await hasDocument())) {
-    await chrome.offscreen.createDocument({
-      url: OFFSCREEN_DOCUMENT_PATH,
-      reasons: [chrome.offscreen.Reason.DOM_PARSER],
-      justification: 'Parse DOM'
-    });
+let creating; // A global promise to avoid concurrency issues
+async function setupOffscreenDocument(path) {
+  // Check all windows controlled by the service worker to see if one
+  // of them is the offscreen document with the given path
+  const offscreenUrl = chrome.runtime.getURL(path);
+  const existingContexts = await chrome.runtime.getContexts({
+    contextTypes: ['OFFSCREEN_DOCUMENT'],
+    documentUrls: [offscreenUrl]
+  });
+
+  if (existingContexts.length > 0) {
+    return;
   }
-  // Now that we have an offscreen document, we can dispatch the
-  // message.
+
+  // create offscreen document
+  if (creating) {
+    await creating;
+  } else {
+    creating = chrome.offscreen.createDocument({
+      url: offscreenUrl,
+      reasons: OFFSCREEN_DOCUMENT_REASONS,
+      justification: OFFSCREEN_DOCUMENT_JUSTIFY
+    });
+    await creating;
+    creating = null;
+  }
+}
+
+async function sendMessageToOffscreenDocument(type, data) {
+  await setupOffscreenDocument(OFFSCREEN_DOCUMENT_PATH);
+
+  // Send message to offscreen document
   chrome.runtime.sendMessage({
     type,
     target: 'offscreen',
@@ -53,7 +76,10 @@ async function handleMessages(message) {
   switch (message.type) {
     case 'add-exclamationmarks-result':
       handleAddExclamationMarkResult(message.data);
-      closeOffscreenDocument();
+      chrome.offscreen.closeDocument().catch(error => {
+        console.warn(
+          'Received an error while attempting to close an offscreen document, after receiving a message assumed to come from an offscreen document: %o', error)
+      });
       break;
     default:
       console.warn(`Unexpected message type received: '${message.type}'.`);
@@ -62,22 +88,4 @@ async function handleMessages(message) {
 
 async function handleAddExclamationMarkResult(dom) {
   console.log('Received dom', dom);
-}
-
-async function closeOffscreenDocument() {
-  if (!(await hasDocument())) {
-    return;
-  }
-  await chrome.offscreen.closeDocument();
-}
-
-async function hasDocument() {
-  // Check all windows controlled by the service worker if one of them is the offscreen document
-  const matchedClients = await clients.matchAll();
-  for (const client of matchedClients) {
-    if (client.url.endsWith(OFFSCREEN_DOCUMENT_PATH)) {
-      return true;
-    }
-  }
-  return false;
 }
