@@ -617,13 +617,14 @@ advancedFonts.importSettings = function () {
       if (selectedFile.type === 'application/json') {
         const reader = new FileReader();
 
-        reader.onload = function (e) {
+        reader.onload = async function (e) {
           const jsonContent = e.target.result;
 
           try {
             const parsedConfig = JSON.parse(jsonContent);
 
-            advancedFonts.applyImportedSettings(parsedConfig);
+            await advancedFonts.applyImportedSettings(parsedConfig);
+            window.location.reload();
           } catch (error) {
             console.error('Error parsing JSON:', error);
           }
@@ -682,30 +683,34 @@ advancedFonts.applyImportedSettings = async function (config) {
   }
   if (isNumeric('defaultFontSize', config)) {
     await chrome.fontSettings.setDefaultFontSize({
-      pixelSize: config.minimumFontSize
+      pixelSize: config.defaultFontSize
     });
   }
 
   if (Array.isArray(config.configuredFonts)) {
-    config.configuredFonts.forEach(({ script, scriptData }) => {
-      if (Array.isArray(scriptData)) {
-        scriptData.forEach(async ({ fontId, genericFamily }) => {
-          if (isString(fontId, genericFamily, script)) {
-            try {
-              await chrome.fontSettings.setFont({
-                fontId,
-                genericFamily,
-                script
-              });
-            } catch (e) {
-              console.warn(
-                `Unable to set ${script},${fonId},${genericFamily}: ${e}`
-              );
-            }
-          }
-        });
-      }
-    });
+    await Promise.all(
+      config.configuredFonts.map(async ({ script, scriptData }) => {
+        if (Array.isArray(scriptData)) {
+          await Promise.all(
+            scriptData.map(async ({ fontId, genericFamily }) => {
+              if (isString(fontId, genericFamily, script)) {
+                try {
+                  await chrome.fontSettings.setFont({
+                    fontId,
+                    genericFamily,
+                    script
+                  });
+                } catch (e) {
+                  console.warn(
+                    `Unable to set ${script},${fonId},${genericFamily}: ${e}`
+                  );
+                }
+              }
+            })
+          );
+        }
+      })
+    );
   } else if (typeof config.configuredFonts !== 'undefined') {
     console.error(
       `Invalid value for configuredFonts. It needs to be an array, recieved ${typeof config[
