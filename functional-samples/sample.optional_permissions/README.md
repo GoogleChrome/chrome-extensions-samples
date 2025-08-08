@@ -1,6 +1,6 @@
 ## Optional permissions in a new tab
 
-Demonstrates how extensions can provide users the option to enable additional features. This extension prompts the user on the **New Tab** page asking permission to display their top sites.
+This extension prompts the user on the **New Tab** page asking permission to display their top sites. Demonstrates how extensions can provide users the option to enable additional features.
 
 See [optional permissions](https://developer.chrome.com/docs/extensions/reference/permissions/) to learn more.
 
