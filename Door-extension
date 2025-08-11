@@ -1,0 +1,12 @@
+doors-extension/
+│
+├── manifest.json
+├── popup.html
+├── style.css
+├── icons/
+│   ├── icon16.png
+│   ├── icon48.png
+│   ├── icon128.png
+└── images/
+    ├── door1.jpg
+    ├── door2.jpg
