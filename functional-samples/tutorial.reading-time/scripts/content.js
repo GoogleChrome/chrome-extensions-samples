@@ -66,6 +66,6 @@ const observer = new MutationObserver((mutations) => {
 // update the address bar and render new content without reloading. Our content
 // script won't be reinjected when this happens, so we need to watch for
 // changes to the content.
-observer.observe(document.querySelector('devsite-content'), {
+observer.observe(document.querySelector('devsite-article'), {
   childList: true
 });
