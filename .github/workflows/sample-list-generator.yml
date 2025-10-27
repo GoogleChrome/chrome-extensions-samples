@@ -26,7 +26,7 @@ jobs:
         run: npm run start
 
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: extension-samples.json
           path: ./.repo/sample-list-generator/extension-samples.json
