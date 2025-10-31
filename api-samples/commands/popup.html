@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commands API Demo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>⌨️ Commands API Demo</h1>
+    
+    <section class="info-section">
+      <p>This extension demonstrates keyboard shortcuts using the <code>chrome.commands</code> API.</p>
+      <p>Try the shortcuts below or click the buttons to trigger actions.</p>
+    </section>
+
+    <section class="commands-section">
+      <h2>Available Commands</h2>
+      <div id="commands-list"></div>
+    </section>
+
+    <section class="actions-section">
+      <h2>Trigger Actions</h2>
+      <button id="toggle-btn" class="btn btn-primary">
+        <span class="icon">🔄</span>
+        Toggle Feature
+      </button>
+      <button id="screenshot-btn" class="btn btn-secondary">
+        <span class="icon">📸</span>
+        Take Screenshot
+      </button>
+      <button id="notification-btn" class="btn btn-secondary">
+        <span class="icon">🔔</span>
+        Show Notification
+      </button>
+    </section>
+
+    <section class="status-section">
+      <h2>Feature Status</h2>
+      <div class="status-indicator">
+        <div id="status-light" class="light"></div>
+        <span id="status-text">Loading...</span>
+      </div>
+    </section>
+
+    <section class="help-section">
+      <h2>How to Customize Shortcuts</h2>
+      <ol>
+        <li>Open <code>chrome://extensions/shortcuts</code></li>
+        <li>Find "Commands API Demo"</li>
+        <li>Click the edit icon next to any command</li>
+        <li>Press your desired key combination</li>
+      </ol>
+      <button id="open-shortcuts-btn" class="btn btn-link">
+        Open Shortcuts Settings
+      </button>
+    </section>
+
+    <div id="toast" class="toast"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

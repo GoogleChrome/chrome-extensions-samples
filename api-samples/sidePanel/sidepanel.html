@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Side Panel Demo</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📌 Side Panel Demo</h1>
+      <p class="subtitle">Chrome Side Panel API</p>
+    </header>
+
+    <section class="info-section">
+      <h2>About Side Panels</h2>
+      <p>Side panels provide a persistent UI alongside web content. They're perfect for:</p>
+      <ul>
+        <li>Reading lists and bookmarks</li>
+        <li>Notes and annotations</li>
+        <li>Translation tools</li>
+        <li>Developer tools</li>
+        <li>AI assistants</li>
+      </ul>
+    </section>
+
+    <section class="current-tab-section">
+      <h2>Current Tab Info</h2>
+      <button id="refresh-tab-btn" class="btn btn-primary">Refresh Tab Info</button>
+      <div id="tab-info" class="tab-info-container">
+        <p class="loading">Click refresh to load tab information...</p>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <h2>Side Panel Features</h2>
+      
+      <div class="feature-card">
+        <h3>🔄 Persistent UI</h3>
+        <p>Side panels remain open as you navigate between tabs</p>
+        <button class="btn btn-secondary" id="demo-persistent">Test Navigation</button>
+      </div>
+
+      <div class="feature-card">
+        <h3>📱 Responsive Design</h3>
+        <p>Panels adapt to different widths (280px - 800px)</p>
+        <div class="width-info">
+          Current width: <strong id="panel-width">--</strong>px
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <h3>💾 State Management</h3>
+        <p>Save and restore panel state across sessions</p>
+        <div class="state-controls">
+          <input type="text" id="state-input" placeholder="Enter some text...">
+          <button class="btn btn-small" id="save-state">Save</button>
+          <button class="btn btn-small" id="load-state">Load</button>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <h3>🎨 Custom Styling</h3>
+        <p>Full control over panel appearance</p>
+        <div class="theme-controls">
+          <button class="btn btn-theme" data-theme="light">Light</button>
+          <button class="btn btn-theme" data-theme="dark">Dark</button>
+          <button class="btn btn-theme" data-theme="blue">Blue</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <h2>Quick Actions</h2>
+      <button class="btn btn-action" id="open-new-tab">
+        <span class="icon">🔗</span>
+        Open New Tab
+      </button>
+      <button class="btn btn-action" id="reload-tab">
+        <span class="icon">🔄</span>
+        Reload Current Tab
+      </button>
+      <button class="btn btn-action" id="bookmark-tab">
+        <span class="icon">⭐</span>
+        Bookmark Current Tab
+      </button>
+    </section>
+
+    <section class="notes-section">
+      <h2>Quick Notes</h2>
+      <textarea id="notes-area" placeholder="Take notes here... (auto-saved)"></textarea>
+      <div class="notes-info">
+        <span id="save-status">Ready</span>
+        <button class="btn btn-small" id="clear-notes">Clear</button>
+      </div>
+    </section>
+
+    <section class="api-info-section">
+      <h2>API Information</h2>
+      <div class="api-details">
+        <div class="api-item">
+          <strong>Panel Behavior:</strong>
+          <select id="behavior-select" class="select">
+            <option value="default">Default (Global)</option>
+            <option value="tab-specific">Tab-Specific</option>
+          </select>
+        </div>
+        <div class="api-item">
+          <strong>Panel State:</strong>
+          <span id="panel-state" class="badge">Open</span>
+        </div>
+        <div class="api-item">
+          <strong>Window ID:</strong>
+          <span id="window-id" class="badge">--</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built with chrome.sidePanel API</p>
+      <a href="https://developer.chrome.com/docs/extensions/reference/sidePanel/" target="_blank">
+        View Documentation →
+      </a>
+    </footer>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

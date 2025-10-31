@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloads API Demo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Downloads API Demo</h1>
+    
+    <section class="download-section">
+      <h2>Download a File</h2>
+      <div class="form-group">
+        <label for="url">File URL:</label>
+        <input type="text" id="url" placeholder="https://example.com/file.pdf" 
+               value="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+      </div>
+      <div class="form-group">
+        <label for="filename">Save as (optional):</label>
+        <input type="text" id="filename" placeholder="myfile.pdf">
+      </div>
+      <button id="download-btn" class="btn btn-primary">Download File</button>
+    </section>
+
+    <section class="quick-downloads">
+      <h2>Quick Downloads</h2>
+      <button class="btn btn-secondary" data-url="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" data-name="sample.pdf">
+        Download Sample PDF
+      </button>
+      <button class="btn btn-secondary" data-url="https://file-examples.com/storage/fe5e5a1b9c737d2e0bc3f73/2017/10/file_example_JPG_100kB.jpg" data-name="sample.jpg">
+        Download Sample Image
+      </button>
+      <button class="btn btn-secondary" data-url="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-zip-file.zip" data-name="sample.zip">
+        Download Sample ZIP
+      </button>
+    </section>
+
+    <section class="downloads-list">
+      <h2>Recent Downloads</h2>
+      <button id="refresh-btn" class="btn btn-small">Refresh</button>
+      <button id="clear-history-btn" class="btn btn-small">Clear History</button>
+      <div id="downloads-container"></div>
+    </section>
+
+    <section class="search-section">
+      <h2>Search Downloads</h2>
+      <input type="text" id="search-query" placeholder="Search by filename...">
+      <button id="search-btn" class="btn btn-secondary">Search</button>
+      <div id="search-results"></div>
+    </section>
+
+    <div id="status" class="status"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

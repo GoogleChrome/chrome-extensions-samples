@@ -1,0 +1,60 @@
+{
+  "name": "Commands API Demo",
+  "version": "1.0",
+  "description": "Demonstrates the chrome.commands API for keyboard shortcuts in extensions.",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Open the extension popup"
+    },
+    "toggle-feature": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "Toggle a feature on/off"
+    },
+    "take-screenshot": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Take a screenshot of current tab"
+    },
+    "show-notification": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+N",
+        "mac": "Command+Shift+N"
+      },
+      "description": "Show a notification"
+    },
+    "command-without-shortcut": {
+      "description": "A command without a default keyboard shortcut"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "notifications",
+    "storage"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
