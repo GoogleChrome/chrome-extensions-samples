@@ -36,5 +36,6 @@
       }
     }
   },
-  "manifest_version": 3
+  "manifest_version": 3,
+  "trial_tokens": ["ApS9YJB1yHOr0QHjjA103srMl48aZTuz+Sy/kxNM//J1P8y0GsMFY187jFOSMHXFnDXCaN17YDZZdxAbBGh5ZQwAAAB7eyJvcmlnaW4iOiJjaHJvbWUtZXh0ZW5zaW9uOi8va3BscGxiaWpmbmVmanBmY2pnZWRrcGxwamplZWZoYWgiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElNdWx0aW1vZGFsSW5wdXQiLCJleHBpcnkiOjE3ODE1NjgwMDB9"]
 }
