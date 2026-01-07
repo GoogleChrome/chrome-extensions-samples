@@ -15,11 +15,11 @@ class Analytics {
   }
 
   getRandomId() {
-    const digits = "123456789".split("");
-    let result = "";
+    const digits = '123456789'.split('');
+    let result = '';
 
     for (let i = 0; i < 10; i++) {
-      result += digits[Math.floor(Math.random() * 9)]
+      result += digits[Math.floor(Math.random() * 9)];
     }
 
     return result;
