@@ -12,8 +12,8 @@
   "devDependencies": {
     "dompurify": "3.2.4",
     "marked": "14.1.2",
-    "@rollup/plugin-commonjs": "29.0.0",
-    "@rollup/plugin-node-resolve": "16.0.3",
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
     "rollup": "4.22.4",
     "rollup-plugin-copy": "3.5.0"
   }
