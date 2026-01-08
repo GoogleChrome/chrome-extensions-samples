@@ -11,8 +11,8 @@
   "license": "Apache 2.0",
   "devDependencies": {
     "@mozilla/readability": "0.5.0",
-    "@rollup/plugin-commonjs": "28.0.1",
-    "@rollup/plugin-node-resolve": "15.3.0",
+    "@rollup/plugin-commonjs": "29.0.0",
+    "@rollup/plugin-node-resolve": "16.0.3",
     "dompurify": "3.1.7",
     "marked": "14.1.4",
     "rollup": "4.24.4",
