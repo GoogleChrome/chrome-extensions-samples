@@ -31,7 +31,7 @@ async function loadWindowList() {
   }
 
   const output = document.getElementById('windowList');
-  output.innerHTML = '';
+  output.replaceChildren();
 
   for (let window of windowList) {
     const windowItem = document.importNode(windowTemplate, true).children[0];
