@@ -1,20 +1,27 @@
-# Audio-Scribe: On-device multimodal AI with Gemini Nano - audio transcription
+# Audio-Scribe: Transcribe audio messages with Chrome's multimodal Prompt API
 
-This sample demonstrates how to use the audio transcription capabilities of the multi-modal Gemini Nano API preview. To learn more about the API and how to sign-up for the origin trial, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
+This sample demonstrates how to use Chrome's built-in AI APIs to transcribe audio messages directly in the browser. It uses:
+
+- **[Prompt API](https://developer.chrome.com/docs/extensions/ai/prompt-api)** with multimodal audio input (Gemini Nano) for on-device speech-to-text transcription
 
 ## Overview
 
-This extension adds a sidepanel that will, when opened, display a transcription of all audio files on a web page (currently it looks only for audio files created using `URL.createObjectUrl`).
+Audio-Scribe adds a side panel that automatically transcribes audio messages from chat applications. When activated, it:
+
+1. Monitors the page for audio blobs created via `URL.createObjectURL`.
+2. Detects audio content and sends it to Gemini Nano for transcription.
+3. Streams the transcribed text in real-time to the side panel.
+4. Works with messaging apps like WhatsApp Web that use blob URLs for audio messages.
 
 ## Running this extension
 
 1. Clone this repository.
-1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
-1. Open the audio-scribe sidepanel by clicking the audio-scribe action or by pressing the `ALT + A` keyboard shortcut.
-1. Open a chat app in the browser, for example https://web.whatsapp.com/. You can also run the demo chat app via:
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
+3. Open a chat app in the browser, for example https://web.whatsapp.com/. You can also run the included demo chat app:
    ```
    npx serve demo-chat-app
    ```
-1. All audio messages in the current chat will be transcribed in the side panel.
+4. Open the Audio-Scribe side panel by clicking the extension icon or pressing `Alt+A`.
+5. Play or load audio messages in the chat - they will be automatically transcribed in the side panel.
 
 ![Screenshot displaying a demo chat app with a few audio messages. On the right, there is the audio-scribe extension's sidepanel which displayes the transcribed text messages](assets/screenshot.png)

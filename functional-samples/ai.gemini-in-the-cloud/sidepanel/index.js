@@ -1,8 +1,4 @@
-import {
-  GoogleGenerativeAI,
-  HarmBlockThreshold,
-  HarmCategory
-} from '../node_modules/@google/generative-ai/dist/index.mjs';
+import { GoogleGenAI } from '../node_modules/@google/genai/dist/index.mjs';
 
 // Important! Do not expose your API in your extension code. You have to
 // options:
@@ -17,7 +13,6 @@ import {
 const apiKey = '...';
 
 let genAI = null;
-let model = null;
 let generationConfig = {
   temperature: 1
 };
@@ -30,27 +25,22 @@ const elementError = document.body.querySelector('#error');
 const sliderTemperature = document.body.querySelector('#temperature');
 const labelTemperature = document.body.querySelector('#label-temperature');
 
-function initModel(generationConfig) {
-  const safetySettings = [
-    {
-      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-      threshold: HarmBlockThreshold.BLOCK_NONE
-    }
-  ];
-  genAI = new GoogleGenerativeAI(apiKey);
-  model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
-    safetySettings,
-    generationConfig
-  });
-  return model;
-}
-
-async function runPrompt(prompt) {
+async function runPrompt(prompt, config) {
   try {
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+    const response = await genAI.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: {
+        safetySettings: [
+          {
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            threshold: 'BLOCK_NONE'
+          }
+        ],
+        temperature: config.temperature
+      }
+    });
+    return response.text;
   } catch (e) {
     console.log('Prompt failed');
     console.error(e);
@@ -76,11 +66,11 @@ buttonPrompt.addEventListener('click', async () => {
   const prompt = inputPrompt.value.trim();
   showLoading();
   try {
-    const generationConfig = {
-      temperature: sliderTemperature.value
+    const config = {
+      temperature: parseFloat(sliderTemperature.value)
     };
-    initModel(generationConfig);
-    const response = await runPrompt(prompt, generationConfig);
+    genAI = new GoogleGenAI({ apiKey });
+    const response = await runPrompt(prompt, config);
     showResponse(response);
   } catch (e) {
     showError(e);

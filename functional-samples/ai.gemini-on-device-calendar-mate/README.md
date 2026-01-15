@@ -1,20 +1,31 @@
 # Calendar Mate: On-device AI with Gemini Nano
 
-This sample demonstrates how to use the Gemini Nano prompt API for Chrome Extensions. To learn more about the API, head over to [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
+This sample demonstrates how to use Chrome's built-in Prompt API in an extension to extract calendar event details from natural language text. To learn more about the API, see [Prompt API on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
 
 ## Overview
 
-The extension provides a chat interface using the Prompt API with Chrome's built-in Gemini Nano model.
+Calendar Mate allows users to quickly create Google Calendar events from any selected text on a webpage. Simply highlight text describing an event (e.g., "Team meeting on Friday at 3pm in Conference Room A"), right-click, and select "Create Calendar Event". The extension uses Gemini Nano to intelligently extract:
+
+- Event title
+- Start and end date/time
+- Location
+- Description
+- Timezone
+
+The extracted details are used to pre-populate a new Google Calendar event.
 
 ## Running this extension
 
 1. Clone this repository.
-1. Run `npm install` in the project directory.
-1. Run `npm run build` in the project directory to build the extension.
-1. Load the newly created `dist` directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
-1. Click the extension icon.
-1. Interact with the Prompt API in the sidebar.
+2. Run `npm install` in the project directory.
+3. Run `npm run build` to build the extension.
+4. Load the `dist` directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
+5. Select any text on a webpage that describes an event.
+6. Right-click and choose "Create Calendar Event" from the context menu.
 
-## Creating your own extension
+## How it works
 
-If you use this sample as the foundation for your own extension, be sure to update the `"trial_tokens"` field [with your own origin trial token](https://developer.chrome.com/docs/web-platform/origin-trials#extensions) and to remove the `"key"` field in `manifest.json`.
+1. **Context Menu**: The extension adds a "Create Calendar Event" option to Chrome's right-click context menu when text is selected.
+2. **AI Extraction**: When triggered, the selected text is sent to Gemini Nano with a prompt to extract event details as structured JSON.
+3. **Date Parsing**: The extracted date/time strings are parsed using the [any-date-parser](https://www.npmjs.com/package/any-date-parser) library.
+4. **Calendar Integration**: A Google Calendar URL is generated with the extracted details and opened in a new tab.
