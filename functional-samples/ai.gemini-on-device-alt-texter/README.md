@@ -1,4 +1,4 @@
-# Alt Texter: Generate accessible image descriptions with Chrome's multimodal Prompt AI
+# Alt Texter: Generate accessible image descriptions with Chrome's built-in Prompt API
 
 This sample demonstrates how to use Chrome's built-in AI APIs to generate alt text for images, making web content more accessible. It combines two on-device AI capabilities:
 
@@ -9,10 +9,10 @@ This sample demonstrates how to use Chrome's built-in AI APIs to generate alt te
 
 Alt Texter adds a context menu entry for images on the web. When activated, it:
 
-1. Analyzes the image using Gemini Nano's multimodal capabilities
-2. Generates a concise, functional description following accessibility best practices (object-action-context framework)
-3. Displays the description in a popup where you can optionally translate it
-4. Lets you copy the alt text to your clipboard for use elsewhere
+1. Analyzes the image using Gemini Nano's multimodal capabilities.
+2. Generates a concise, functional description following accessibility best practices (object-action-context framework).
+3. Displays the description in a popup where you can optionally translate it.
+4. Lets you copy the alt text to your clipboard for use elsewhere.
 
 ## Running this extension
 

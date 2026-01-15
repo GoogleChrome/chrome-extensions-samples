@@ -1,6 +1,6 @@
 # Calendar Mate: On-device AI with Gemini Nano
 
-This sample demonstrates how to use Chrome's built-in Gemini Nano Language Model API in an extension to extract calendar event details from natural language text. To learn more about the API, see [Built-in AI on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
+This sample demonstrates how to use Chrome's built-in Prompt API in an extension to extract calendar event details from natural language text. To learn more about the API, see [Prompt API on developer.chrome.com](https://developer.chrome.com/docs/extensions/ai/prompt-api).
 
 ## Overview
 

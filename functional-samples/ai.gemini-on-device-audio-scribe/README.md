@@ -8,10 +8,10 @@ This sample demonstrates how to use Chrome's built-in AI APIs to transcribe audi
 
 Audio-Scribe adds a side panel that automatically transcribes audio messages from chat applications. When activated, it:
 
-1. Monitors the page for audio blobs created via `URL.createObjectURL`
-2. Detects audio content and sends it to Gemini Nano for transcription
-3. Streams the transcribed text in real-time to the side panel
-4. Works with messaging apps like WhatsApp Web that use blob URLs for audio messages
+1. Monitors the page for audio blobs created via `URL.createObjectURL`.
+2. Detects audio content and sends it to Gemini Nano for transcription.
+3. Streams the transcribed text in real-time to the side panel.
+4. Works with messaging apps like WhatsApp Web that use blob URLs for audio messages.
 
 ## Running this extension
 
