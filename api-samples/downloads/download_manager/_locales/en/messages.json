@@ -1,0 +1,154 @@
+{
+  "tabTitle": {
+    "message": "Downloads",
+    "description": "tab title"
+  },
+  "searchPlaceholder": {
+    "message": "Search Downloads",
+    "description": ""
+  },
+  "clearAllTitle": {
+    "message": "Erase All Visible Downloads",
+    "description": ""
+  },
+  "openDownloadsFolderTitle": {
+    "message": "Open Downloads Folder",
+    "description": ""
+  },
+  "zeroItems": {
+    "message": "There are zero download items.",
+    "description": ""
+  },
+  "searching": {
+    "message": "Teleporting lots of goats...",
+    "description": ""
+  },
+  "zeroSearchResults": {
+    "message": "Zero matches",
+    "description": ""
+  },
+  "managementPermissionInfo": {
+    "message": "Some files were downloaded by an extension.",
+    "description": ""
+  },
+  "grantManagementPermission": {
+    "message": "Show links to extensions that download files.",
+    "description": ""
+  },
+  "showOlderDownloads": {
+    "message": "Show Older Downloads",
+    "description": ""
+  },
+  "loadingOlderDownloads": {
+    "message": "Loading Older Downloads...",
+    "description": ""
+  },
+  "openTitle": {
+    "message": "Open",
+    "description": ""
+  },
+  "pauseTitle": {
+    "message": "Pause",
+    "description": ""
+  },
+  "resumeTitle": {
+    "message": "Resume",
+    "description": ""
+  },
+  "cancelTitle": {
+    "message": "Cancel",
+    "description": ""
+  },
+  "removeFileTitle": {
+    "message": "Remove file",
+    "description": ""
+  },
+  "eraseTitle": {
+    "message": "Erase",
+    "description": ""
+  },
+  "retryTitle": {
+    "message": "Retry",
+    "description": ""
+  },
+  "referrerTitle": {
+    "message": "Referrer",
+    "description": ""
+  },
+  "month0abbr": { "message": "Jan", "description": "" },
+  "month1abbr": { "message": "Feb", "description": "" },
+  "month2abbr": { "message": "Mar", "description": "" },
+  "month3abbr": { "message": "Apr", "description": "" },
+  "month4abbr": { "message": "May", "description": "" },
+  "month5abbr": { "message": "Jun", "description": "" },
+  "month6abbr": { "message": "Jul", "description": "" },
+  "month7abbr": { "message": "Aug", "description": "" },
+  "month8abbr": { "message": "Sep", "description": "" },
+  "month9abbr": { "message": "Oct", "description": "" },
+  "month10abbr": { "message": "Nov", "description": "" },
+  "month11abbr": { "message": "Dec", "description": "" },
+  "timeLeftFinishing": {
+    "message": "finishing...",
+    "description": ""
+  },
+  "timeLeftDays": {
+    "message": "$days$d $hours$h left",
+    "description": "",
+    "placeholders": {
+      "days": {
+        "content": "$1",
+        "example": "2"
+      },
+      "hours": {
+        "content": "$2",
+        "example": "23"
+      }
+    }
+  },
+  "timeLeftHours": {
+    "message": "$hours$h $mins$m left",
+    "description": "",
+    "placeholders": {
+      "hours": {
+        "content": "$1",
+        "example": "23"
+      },
+      "mins": {
+        "content": "$2",
+        "example": "59"
+      }
+    }
+  },
+  "timeLeftMinutes": {
+    "message": "$mins$m $sec$s left",
+    "description": "",
+    "placeholders": {
+      "mins": {
+        "content": "$1",
+        "example": "59"
+      },
+      "sec": {
+        "content": "$2",
+        "example": "59"
+      }
+    }
+  },
+  "timeLeftSeconds": {
+    "message": "$sec$s left",
+    "description": "",
+    "placeholders": {
+      "sec": {
+        "content": "$1",
+        "example": "59"
+      }
+    }
+  },
+  "errorRemoved": {
+    "message": "Removed",
+    "description": ""
+  },
+  "showInFolderTitle": {
+    "message": "Show in Folder",
+    "description": "Alt text for show in folder icon"
+  }
+}
