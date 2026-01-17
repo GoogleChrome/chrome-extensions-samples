@@ -15,8 +15,8 @@
     `<div id='tip-popover' popover style="margin: auto;">${tip}</div>`
   );
 
-  document.body.append(popover);
-  nav.append(tipWidget);
+  document.body?.append(popover);
+  nav?.append(tipWidget);
 })();
 
 function createDomElement(html) {
