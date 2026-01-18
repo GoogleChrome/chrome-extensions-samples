@@ -1,0 +1,29 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin: 0;
+}
+
+#popup-container {
+  text-align: center;
+}
+
+#start-button,
+#stop-button {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#start-button {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+#stop-button {
+  background-color: #f44336; /* Red */
+  color: white;
+}
