@@ -1,0 +1,19 @@
+{
+  "name": "Optional Permissions New Tab",
+  "version": "1.0.0",
+  "description": "Demonstrates optional permissions in extensions",
+  "permissions": ["storage"],
+  "optional_permissions": [
+    "topSites"
+  ],
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "manifest_version": 3
+}
