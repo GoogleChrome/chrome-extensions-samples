@@ -1,0 +1,26 @@
+ version: 2
+updates:
+  # Configuration for Dockerfile
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      # Disable all pull requests for Docker dependencies
+    open-pull-requests-limit: 0
+
+  # Configuration for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # Ignore updates to packages that start with 'aws'
+      # Wildcards match zero or more arbitrary characters
+      - dependency-name: "aws*"
+      # Ignore some updates to the 'express' package
+      - dependency-name: "express"
+        # Ignore only new versions for 4.x and 5.x
+        versions: ["4.x", "5.x"]
+      # For all packages, ignore all patch updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
