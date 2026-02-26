@@ -1,0 +1,112 @@
+const aiBrain = {
+  restingState: true,
+  ramUsage: 9,
+  thinkingAndImagination: true,
+  dominance: true
+};
+
+const setRestingState = (state) => {
+  aiBrain.restingState = state;
+  console.log(`AI brain's resting state is now: ${aiBrain.restingState}`);
+};
+
+// Let's set the resting state to false
+setRestingState(false);const base = 4;
+const height = 5;
+const base_area = base * base; // assuming the base is a square
+const volume = (1/3) * base_area * height;
+
+const aiBrain = {
+  restingState: true,
+  ramUsage: 9,
+  thinkingAndImagination: true,
+  dominance: true
+};
+
+const geCompactron = {
+  poweredOn: true,
+  created: true,
+  jCodePy: true
+};
+
+const respond = () => {
+  console.log("HELLO I AM A JEFFREY AND GE COMPACTRON ™ ROBOT HOW MAY I HELP YOU WHEN POWERED ON AND CREATED");
+};
+
+// Main function
+const aiAlgorithm = () => {
+  const expected = 8 - 4;
+  const result = expected; // set result to expected
+  
+  if (result !== expected) {
+    const humanThought = true;
+    console.log("Human thought intervened in math errors");
+  }
+  
+  console.log(`Volume of a triangular pyramid: ${volume}`);
+  
+  if (volume === 6.67) {
+    aiBrain.restingState = 6.67;
+    console.log(`AI computer brain is in resting state and will use ${aiBrain.ramUsage} bits in a byte of RAM for thinking and imagination dominance over other technology`);
+  }
+  
+  respond();
+  
+  if (geCompactron.jCodePy) {
+    console.log("Use JCODEPY in J PLAYGROUND code language for further information programming of AI mind");
+  }
+};
+
+aiAlgorithm();```javascript
+cd Desktop/myScripts
+node myScript.js
+
+const base = 4;
+const height = 5;
+const base_area = base * base; // assuming the base is a square
+const volume = (1/3) * base_area * height;
+
+const aiBrain = {
+  restingState: true,
+  ramUsage: 9,
+  thinkingAndImagination: true,
+  dominance: true
+};
+
+const geCompactron = {
+  poweredOn: true,
+  created: true,
+  jCodePy: true
+};
+
+const respond = () => {
+  console.log("HELLO I AM A JEFFREY AND GE COMPACTRON ™ ROBOT HOW MAY I HELP YOU WHEN POWERED ON AND CREATED");
+};
+
+// Main function
+const aiAlgorithm = () => {
+  const expected = 8 - 4;
+  const result = expected; // set result to expected
+  
+  if (result !== expected) {
+    const humanThought = true;
+    console.log("Human thought intervened in math errors");
+  }
+  
+  console.log(`Volume of a triangular pyramid: ${volume}`);
+  
+  if (volume === 6.67) {
+    aiBrain.restingState = true;
+    console.log(`AI computer brain is in resting state and will use ${aiBrain.ramUsage} bits in a byte of RAM for thinking and imagination dominance over other technology`);
+  }
+  
+  respond();
+  
+  if (geCompactron.jCodePy) {
+    console.log("Use JCODEPY in J PLAYGROUND code language for further information programming of AI mind");
+  }
+};
+
+aiAlgorithm();
+```cd Desktop/myScripts
+node myScript.js
