@@ -1,0 +1,71 @@
+:root {
+  --card-min-width: 20em;
+  --card-max-width: 25em;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+}
+
+#display {
+  background-color: rgba(0, 0, 0, 15%);
+  min-height: 5em;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 15%);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+  column-gap: 10px;
+  row-gap: 15px;
+  padding: 10px 15px;
+}
+
+.alarm-info {
+  background-color: rgb(255, 255, 255);
+  min-height: 5em;
+  border-radius: 3px;
+  border: 1px solid rgb(193 193 193);
+  padding: 1em 2em;
+}
+
+.alarm-info__table {
+  border-collapse: collapse;
+}
+
+.alarm-info--finished {
+  background: repeating-linear-gradient(135deg, #eee, #eee 10px, #ddd 10px, #ddd 20px);
+}
+
+.alarm-info td,
+.alarm-info th {
+  padding: 0.2em 0.5em;
+}
+
+.alarm-info-label {
+  text-align: right;
+}
+
+/* **** */
+
+.create-alarm {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(150px, 2fr);
+  column-gap: 20px;
+  row-gap: 10px;
+
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.create-alarm__label {
+  text-align: right;
+  font-weight: bold;
+}
+
+.create-alarm__submit {
+  grid-column: 1 / -1;
+}
