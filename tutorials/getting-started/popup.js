@@ -11,7 +11,7 @@ changeColor.addEventListener("click", async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    function: setPageBackgroundColor,
+    func: setPageBackgroundColor,
   });
 });
 
