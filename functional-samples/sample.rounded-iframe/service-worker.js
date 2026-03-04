@@ -5,44 +5,43 @@ const FRAME_ID = 'extension-frame';
 chrome.action.onClicked.addListener((tab) => {
   console.log('Extension icon clicked');
 
-  // Skip chrome:// pages for security
-  if (!tab.url.startsWith('chrome://')) {
-    chrome.scripting
-      .executeScript({
-        target: { tabId: tab.id },
-        // Use function parameter to avoid duplicate FRAME_ID definition
-        func: (frameID) => {
-          // Function to remove the extension frame and its event listeners
-          function removeFrame() {
-            const frame = document.getElementById(frameID);
-            if (frame) {
-              frame.remove();
-              document.removeEventListener(
-                'click',
-                window._extensionClickHandler
-              );
-              document.removeEventListener(
-                'keydown',
-                window._extensionKeyHandler
-              );
+  // Only inject into http(s) pages; avoid chrome://, file://, about:, etc.
+  if (!tab.url || !tab.url.startsWith('http')) {
+    console.warn('Cannot inject into this page');
+    return;
+  }
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id },
+      // Use function parameter to avoid duplicate FRAME_ID definition
+      func: (frameID) => {
+        // Removes the extension frame and aborts its listeners via AbortController
+        function removeFrame() {
+          const frame = document.getElementById(frameID);
+          if (frame) {
+            if (frame._extensionController) {
+              frame._extensionController.abort();
             }
+            frame.remove();
           }
+        }
 
-          // Check if frame already exists, if so, remove it
-          const existingFrame = document.getElementById(frameID);
-          if (existingFrame) {
-            removeFrame();
-            return;
-          }
+        // Check if frame already exists, if so, remove it
+        const existingFrame = document.getElementById(frameID);
+        if (existingFrame) {
+          removeFrame();
+          return;
+        }
 
-          // Create iframe for extension UI
-          const iframe = document.createElement('iframe');
-          iframe.id = frameID;
+        // Create iframe for extension UI
+        const iframe = document.createElement('iframe');
+        iframe.id = frameID;
 
-          // Apply the following CSS properties.
-          // Some properties are critical for the extension's display, while others are optional for aesthetics.
-          // They currently do not use !important, but you can add !important if needed to override page styles.
-          iframe.style.cssText = `
+        // Apply the following CSS properties.
+        // Some properties are critical for the extension's display, while others are optional for aesthetics.
+        // They currently do not use !important, but you can add !important if needed to override page styles.
+        iframe.style.cssText = `
           /* ====== Positioning ====== */
           /* Necessary: Use fixed positioning so the iframe stays in the viewport even when scrolling */
           position: fixed;
@@ -90,41 +89,39 @@ chrome.action.onClicked.addListener((tab) => {
           /* Necessary: Force the iframe to always use the light color scheme, even in dark mode */
           color-scheme: light;
         `;
-          iframe.src = chrome.runtime.getURL('iframe.html');
+        iframe.src = chrome.runtime.getURL('iframe.html');
 
-          // Add iframe to the page
-          document.body.appendChild(iframe);
+        // Add iframe to the page
+        document.body.appendChild(iframe);
 
-          // Setup click event listener to remove frame when clicking outside the iframe
-          window._extensionClickHandler = (e) => {
-            const frame = document.getElementById(frameID);
-            if (frame && !frame.contains(e.target)) {
-              removeFrame();
-            }
-          };
+        const controller = new AbortController();
+        iframe._extensionController = controller;
+        const { signal } = controller;
 
-          // Setup keydown event listener to remove frame when Escape is pressed
-          window._extensionKeyHandler = (e) => {
-            if (e.key === 'Escape') {
-              removeFrame();
-            }
-          };
+        const onOutsideClick = (e) => {
+          const frame = document.getElementById(frameID);
+          if (frame && !frame.contains(e.target)) {
+            removeFrame();
+          }
+        };
+        const onEscapeKey = (e) => {
+          if (e.key === 'Escape') {
+            removeFrame();
+          }
+        };
 
-          // Add event listeners with a slight delay to avoid immediate removal
-          setTimeout(() => {
-            document.addEventListener('click', window._extensionClickHandler);
-            document.addEventListener('keydown', window._extensionKeyHandler);
-          }, 100);
-        },
-        args: [FRAME_ID]
-      })
-      .then(() => {
-        console.log('Script injected successfully');
-      })
-      .catch((err) => {
-        console.error('Failed to inject script:', err);
-      });
-  } else {
-    console.warn('Cannot inject into chrome:// pages');
-  }
+        // Add event listeners with a slight delay to avoid immediate removal
+        setTimeout(() => {
+          document.addEventListener('click', onOutsideClick, { signal });
+          document.addEventListener('keydown', onEscapeKey, { signal });
+        }, 100);
+      },
+      args: [FRAME_ID]
+    })
+    .then(() => {
+      console.log('Script injected successfully');
+    })
+    .catch((err) => {
+      console.error('Failed to inject script:', err);
+    });
 });
