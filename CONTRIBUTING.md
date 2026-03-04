@@ -25,6 +25,13 @@ Guidelines](https://opensource.google/conduct/).
 
 ## Contribution process
 
+### Create an issue first
+
+Before adding a new sample, [create an issue first](https://github.com/GoogleChrome/chrome-extensions-samples/issues/new).
+Describe why this sample is needed and how you plan to implement it. Only once
+you've got the approval from one of the maintainers start working on a PR. Non
+trivial PRs without an approved issue will be rejected.
+
 ### Code Reviews
 
 All submissions, including submissions by project members, require review. We
@@ -35,7 +42,8 @@ information on using pull requests.
 ### Setting up your Environment
 
 If you want to contribute to this repository, you need to first [create your own fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-After forking chrome-extensions-samples to your own Github account, run the following steps to get started:
+After forking chrome-extensions-samples to your own Github account, run the
+following steps to get started:
 
 ```sh
 # clone your fork to your local machine
@@ -49,4 +57,6 @@ npm install
 
 ### Writing a README
 
-All new code samples or samples updated from Manifest V2 should include a README file. Please copy the [provided template](./README-template.md) into your sample's folder and follow the instructions therein.
+All new code samples or samples updated from Manifest V2 should include a
+README file. Please copy the [provided template](./README-template.md) into
+your sample's folder and follow the instructions therein.
