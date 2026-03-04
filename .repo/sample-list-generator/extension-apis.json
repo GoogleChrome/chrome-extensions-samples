@@ -43,8 +43,13 @@
       "setPopup",
       "setTitle"
     ],
-    "types": ["OpenPopupOptions", "TabDetails", "UserSettings"],
-    "events": ["onClicked"]
+    "types": [
+      "OpenPopupOptions",
+      "TabDetails",
+      "UserSettings",
+      "UserSettingsChange"
+    ],
+    "events": ["onClicked", "onUserSettingsChanged"]
   },
   "alarms": {
     "properties": [],
@@ -55,14 +60,7 @@
   "app.runtime": {
     "properties": [],
     "methods": [],
-    "types": [
-      "ActionData",
-      "EmbedRequest",
-      "LaunchData",
-      "LaunchItem",
-      "ActionType",
-      "LaunchSource"
-    ],
+    "types": ["EmbedRequest", "LaunchData", "LaunchItem", "LaunchSource"],
     "events": ["onEmbedRequested", "onLaunched", "onRestarted"]
   },
   "app.window": {
@@ -261,7 +259,8 @@
     "types": [
       "BookmarkTreeNode",
       "CreateDetails",
-      "BookmarkTreeNodeUnmodifiable"
+      "BookmarkTreeNodeUnmodifiable",
+      "FolderType"
     ],
     "events": [
       "onChanged",
@@ -373,7 +372,7 @@
   "contentScripts": {
     "properties": [],
     "methods": [],
-    "types": ["ContentScript", "RunAt"],
+    "types": ["ContentScript"],
     "events": []
   },
   "contentSettings": {
@@ -420,17 +419,25 @@
   "contextMenus": {
     "properties": ["ACTION_MENU_TOP_LEVEL_LIMIT"],
     "methods": ["create", "remove", "removeAll", "update"],
-    "types": ["OnClickData", "ContextType", "ItemType"],
+    "types": ["CreateProperties", "OnClickData", "ContextType", "ItemType"],
     "events": ["onClicked"]
   },
   "cookies": {
     "properties": [],
-    "methods": ["get", "getAll", "getAllCookieStores", "remove", "set"],
+    "methods": [
+      "get",
+      "getAll",
+      "getAllCookieStores",
+      "getPartitionKey",
+      "remove",
+      "set"
+    ],
     "types": [
       "Cookie",
       "CookieDetails",
       "CookiePartitionKey",
       "CookieStore",
+      "FrameDetails",
       "OnChangedCause",
       "SameSiteStatus"
     ],
@@ -445,7 +452,13 @@
   "debugger": {
     "properties": [],
     "methods": ["attach", "detach", "getTargets", "sendCommand"],
-    "types": ["Debuggee", "TargetInfo", "DetachReason", "TargetInfoType"],
+    "types": [
+      "Debuggee",
+      "DebuggerSession",
+      "TargetInfo",
+      "DetachReason",
+      "TargetInfoType"
+    ],
     "events": ["onDetach", "onEvent"]
   },
   "declarativeContent": {
@@ -495,6 +508,7 @@
       "ExtensionActionOptions",
       "GetDisabledRuleIdsOptions",
       "GetRulesFilter",
+      "HeaderInfo",
       "IsRegexSupportedResult",
       "MatchedRule",
       "MatchedRuleInfo",
@@ -591,6 +605,12 @@
     ],
     "events": []
   },
+  "devtools.performance": {
+    "properties": [],
+    "methods": [],
+    "types": [],
+    "events": ["onProfilingStarted", "onProfilingStopped"]
+  },
   "devtools.recorder": {
     "properties": [],
     "methods": ["createView", "registerRecorderExtensionPlugin"],
@@ -611,8 +631,43 @@
   },
   "documentScan": {
     "properties": [],
-    "methods": ["scan"],
-    "types": ["ScanOptions", "ScanResults"],
+    "methods": [
+      "cancelScan",
+      "closeScanner",
+      "getOptionGroups",
+      "getScannerList",
+      "openScanner",
+      "readScanData",
+      "scan",
+      "setOptions",
+      "startScan"
+    ],
+    "types": [
+      "CancelScanResponse",
+      "CloseScannerResponse",
+      "DeviceFilter",
+      "GetOptionGroupsResponse",
+      "GetScannerListResponse",
+      "OpenScannerResponse",
+      "OptionConstraint",
+      "OptionGroup",
+      "OptionSetting",
+      "ReadScanDataResponse",
+      "ScanOptions",
+      "ScanResults",
+      "ScannerInfo",
+      "ScannerOption",
+      "SetOptionResult",
+      "SetOptionsResponse",
+      "StartScanOptions",
+      "StartScanResponse",
+      "Configurability",
+      "ConnectionType",
+      "ConstraintType",
+      "OperationResult",
+      "OptionType",
+      "OptionUnit"
+    ],
     "events": []
   },
   "dom": {
@@ -677,6 +732,12 @@
     "types": ["HardwarePlatformInfo"],
     "events": []
   },
+  "enterprise.kioskInput": {
+    "properties": [],
+    "methods": ["setCurrentInputMethod"],
+    "types": ["SetCurrentInputMethodOptions"],
+    "events": []
+  },
   "enterprise.networkingAttributes": {
     "properties": [],
     "methods": ["getNetworkDetails"],
@@ -733,6 +794,7 @@
       "InjectDetails",
       "CSSOrigin",
       "DocumentLifecycle",
+      "ExecutionWorld",
       "FrameType",
       "ImageFormat",
       "RunAt"
@@ -799,6 +861,7 @@
       "AddWatcherRequestedOptions",
       "Change",
       "CloseFileRequestedOptions",
+      "CloudFileInfo",
       "CloudIdentifier",
       "ConfigureRequestedOptions",
       "CopyEntryRequestedOptions",
@@ -1245,7 +1308,14 @@
   },
   "permissions": {
     "properties": [],
-    "methods": ["contains", "getAll", "remove", "request"],
+    "methods": [
+      "addHostAccessRequest",
+      "contains",
+      "getAll",
+      "remove",
+      "removeHostAccessRequest",
+      "request"
+    ],
     "types": ["Permissions"],
     "events": ["onAdded", "onRemoved"]
   },
@@ -1290,7 +1360,13 @@
       "MAX_GET_PRINTER_INFO_CALLS_PER_MINUTE",
       "MAX_SUBMIT_JOB_CALLS_PER_MINUTE"
     ],
-    "methods": ["cancelJob", "getPrinterInfo", "getPrinters", "submitJob"],
+    "methods": [
+      "cancelJob",
+      "getJobStatus",
+      "getPrinterInfo",
+      "getPrinters",
+      "submitJob"
+    ],
     "types": [
       "GetPrinterInfoResponse",
       "Printer",
@@ -1408,7 +1484,9 @@
       "onStartup",
       "onSuspend",
       "onSuspendCanceled",
-      "onUpdateAvailable"
+      "onUpdateAvailable",
+      "onUserScriptConnect",
+      "onUserScriptMessage"
     ]
   },
   "scripting": {
@@ -1719,6 +1797,12 @@
     ],
     "events": ["onAttached", "onDetached"]
   },
+  "systemLog": {
+    "properties": [],
+    "methods": ["add"],
+    "types": ["MessageOptions"],
+    "events": []
+  },
   "tabCapture": {
     "properties": [],
     "methods": ["capture", "getCapturedTabs", "getMediaStreamId"],
@@ -1738,7 +1822,11 @@
     "events": ["onCreated", "onMoved", "onRemoved", "onUpdated"]
   },
   "tabs": {
-    "properties": ["MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND", "TAB_ID_NONE"],
+    "properties": [
+      "MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND",
+      "TAB_ID_NONE",
+      "TAB_INDEX_NONE"
+    ],
     "methods": [
       "captureVisibleTab",
       "connect",
@@ -1806,23 +1894,31 @@
     "properties": [],
     "methods": ["getVoices", "isSpeaking", "pause", "resume", "speak", "stop"],
     "types": ["TtsEvent", "TtsOptions", "TtsVoice", "EventType", "VoiceGender"],
-    "events": []
+    "events": ["onVoicesChanged"]
   },
   "ttsEngine": {
     "properties": [],
-    "methods": ["updateVoices"],
+    "methods": ["updateLanguage", "updateVoices"],
     "types": [
       "AudioBuffer",
       "AudioStreamOptions",
+      "LanguageStatus",
+      "LanguageUninstallOptions",
       "SpeakOptions",
+      "TtsClient",
+      "LanguageInstallStatus",
+      "TtsClientSource",
       "VoiceGender"
     ],
     "events": [
+      "onInstallLanguageRequest",
+      "onLanguageStatusRequest",
       "onPause",
       "onResume",
       "onSpeak",
       "onSpeakWithAudioStream",
-      "onStop"
+      "onStop",
+      "onUninstallLanguageRequest"
     ]
   },
   "types": {
@@ -1880,15 +1976,21 @@
     "properties": [],
     "methods": [
       "configureWorld",
+      "execute",
       "getScripts",
+      "getWorldConfigurations",
       "register",
+      "resetWorldConfiguration",
       "unregister",
       "update"
     ],
     "types": [
+      "InjectionResult",
+      "InjectionTarget",
       "RegisteredUserScript",
       "ScriptSource",
       "UserScriptFilter",
+      "UserScriptInjection",
       "WorldProperties",
       "ExecutionWorld"
     ],
@@ -2056,6 +2158,7 @@
       "FindOptions",
       "FullscreenPermissionRequest",
       "GeolocationPermissionRequest",
+      "HidPermissionRequest",
       "InjectDetails",
       "InjectionItems",
       "LoadPluginPermissionRequest",

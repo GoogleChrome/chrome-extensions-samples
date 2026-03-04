@@ -1,0 +1,19 @@
+{
+  "name": "calendar-mate",
+  "version": "1.0.0",
+  "main": "background.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "any-date-parser": "2.1.0",
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "rollup": "4.22.4",
+    "rollup-plugin-copy": "3.5.0"
+  }
+}

@@ -1,6 +1,6 @@
 # devtools.inspectedWindow
 
-This sample demonstrates using the `inspectedWindow` API to collect and use data on the resouces used in a webpage.
+This sample demonstrates using the `inspectedWindow` API to collect and use data on the resources used in a webpage.
 
 ## Overview
 

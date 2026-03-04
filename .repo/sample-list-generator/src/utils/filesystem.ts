@@ -12,6 +12,7 @@ export const getAllFiles = async (dir: string): Promise<string[]> => {
     if (stats.isFile()) {
       result.push(filePath);
     } else if (stats.isDirectory()) {
+      if (file === "node_modules") continue;
       result.push(...(await getAllFiles(filePath)));
     }
   }

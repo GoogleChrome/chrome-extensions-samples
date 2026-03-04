@@ -1,5 +1,6 @@
 /**
- * Convert a state and time into a nice styled chunk of HTML.
+ * Convert a state and time into a nice styled chunk of DOM elements.
+ * @returns {DocumentFragment}
  */
 function renderState(state, time) {
   const now = Date.now();
@@ -9,7 +10,15 @@ function renderState(state, time) {
       ? 'now'
       : Math.abs(diff) + ' seconds ' + (diff > 0 ? 'from now' : 'ago');
   const col = state == 'active' ? '#009900' : '#990000';
-  return "<b style='color: " + col + "'>" + state + '</b> ' + str;
+
+  const fragment = document.createDocumentFragment();
+  const bold = document.createElement('b');
+  bold.style.color = col;
+  bold.textContent = state;
+  fragment.appendChild(bold);
+  fragment.appendChild(document.createTextNode(' ' + str));
+
+  return fragment;
 }
 
 /**
@@ -17,7 +26,7 @@ function renderState(state, time) {
  */
 function renderItem(state, time, parent) {
   const dom_item = document.createElement('li');
-  dom_item.innerHTML = renderState(state, time);
+  dom_item.appendChild(renderState(state, time));
   parent.appendChild(dom_item);
 }
 
@@ -45,9 +54,9 @@ async function checkState() {
 
     // Keep rendering results so we get a nice "seconds elapsed" view.
     const dom_result = document.querySelector('#idle-state');
-    dom_result.innerHTML = renderState(state, time);
+    dom_result.replaceChildren(renderState(state, time));
     const dom_laststate = document.querySelector('#idle-laststate');
-    dom_laststate.innerHTML = renderState(laststate, laststatetime);
+    dom_laststate.replaceChildren(renderState(laststate, laststatetime));
   });
 }
 
@@ -57,7 +66,7 @@ async function checkState() {
  */
 async function renderHistory() {
   const dom_history = document.querySelector('#idle-history');
-  dom_history.innerHTML = '';
+  dom_history.replaceChildren();
   const { history_log } = await chrome.storage.session.get(['history_log']);
   if (!history_log) {
     return;

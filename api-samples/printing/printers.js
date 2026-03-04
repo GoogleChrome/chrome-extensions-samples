@@ -87,7 +87,7 @@ function onCancelButtonClicked(jobId) {
 
 function createButton(label, onClicked) {
   const button = document.createElement('button');
-  button.innerHTML = label;
+  button.textContent = label;
   button.onclick = onClicked;
   return button;
 }

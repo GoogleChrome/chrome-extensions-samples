@@ -28,16 +28,22 @@ const createTop = () => {
     topSites.forEach((site) => {
       const div = document.createElement('div');
       div.className = 'colorFun';
-      const tooltip = document.createElement('span');
+      const tooltip = document.createElement('a');
+      tooltip.href = site.url;
       tooltip.innerText = site.title;
       tooltip.className = 'tooltip';
       const url = document.createElement('a');
       url.href = site.url;
-      const hostname = new URL(site.url).hostname;
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'imageContainer';
+      const imgUrl = new URL(chrome.runtime.getURL('/_favicon/'));
+      imgUrl.searchParams.set('pageUrl', site.url);
+      imgUrl.searchParams.set('size', '28');
       const image = document.createElement('img');
       image.title = site.title;
-      image.src = 'https://logo.clearbit.com/' + hostname;
-      url.appendChild(image);
+      image.src = imgUrl.toString();
+      imageContainer.appendChild(image);
+      url.appendChild(imageContainer);
       div.appendChild(url);
       div.appendChild(tooltip);
       sites_div.appendChild(div);
