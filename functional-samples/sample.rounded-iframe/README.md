@@ -1,55 +1,56 @@
-# Rounded Iframe Chrome Extension – A UI Enhancement Template
+# Rounded iframe UI template
 
-This repository provides a Chrome extension template that demonstrates how to use an `iframe` to create a rounded-corner interface. The key design is achieved through the structural use of `iframe` along with CSS settings that ensure consistent appearance across both light and dark modes.
+This sample demonstrates how to render an extension UI inside a rounded `iframe` that stays visually consistent across light and dark themes. It uses the [chrome.action](https://developer.chrome.com/docs/extensions/reference/api/action) API to toggle the UI and the [chrome.scripting](https://developer.chrome.com/docs/extensions/reference/scripting/) API to inject the iframe into web pages.
 
-## 1. Overview
-This extension displays a simple interface within an `iframe` with rounded corners. By leveraging the `color-scheme: light` CSS property, the extension maintains a clean and consistent look even when the website uses dark mode.
+## Overview
 
-> The inspiration for this template stems from discussions across various platforms, including [Stack Overflow](https://stackoverflow.com/questions/27899635/how-to-make-border-radius-in-popup-chrome-extension) and the [Chrome Extensions Samples repository](https://github.com/GoogleChrome/chrome-extensions-samples/issues/657), where developers have explored methods to implement rounded corners in extensions. Notably, the Google Keep Chrome Extension has been recognized for its effective use of rounded corners. Inspired by its advanced techniques, this template simplifies and adapts those methods to assist developers in creating more visually appealing extension interfaces.
+When the user clicks the extension icon, the extension injects a fixed-position `iframe` in the top-right corner of the current page. The UI inside the iframe has rounded corners and a card-like shadow, and uses the `color-scheme: light` CSS property to avoid automatic dark-mode transformations on dark sites.
 
-## 1.1 Screenshots
+Inspired by discussions on rounded corners in extension UIs (for example, [issue #657](https://github.com/GoogleChrome/chrome-extensions-samples/issues/657)), this sample provides a minimal, reusable template for building similar UIs.
 
-Below are the screenshots demonstrating the rounded-corner effect in both light and dark modes:
+## Screenshots
 
-### Light Mode
+Light and dark mode examples:
+
 ![Rounded Corner Extension - Light Mode](./images/rounded_extension_light.png)
 
-### Dark Mode
 ![Rounded Corner Extension - Dark Mode](./images/rounded_extension_dark.png)
 
-The interface is displayed within an `iframe` with rounded corners, ensuring consistency across light and dark modes.
+## Running this extension
 
-## 2. Architecture
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Navigate to any `http` or `https` page and click the extension icon to toggle the iframe.
+
+## Key implementation details
+
 The extension consists of the following files:
 
-- **manifest.json**: Defines the extension's metadata and permissions.
-- **service-worker.js**: Manages the creation, injection, and behavior of the `iframe`.
-- **iframe.html**: The core HTML structure rendered inside the `iframe`.
-- **iframe-styles.css**: Styles the interface with rounded corners and shadows.
-- **README.md**: Documentation for developers.
+- **manifest.json**: Declares permissions (`activeTab`, `scripting`), the action icon, and the background service worker.
+- **service-worker.js**: Handles `chrome.action.onClicked`, injects the iframe, and manages its lifecycle.
+- **iframe.html**: Markup rendered inside the iframe.
+- **styles/iframe-styles.css**: Styles the inner UI with rounded corners and a card-like appearance.
 
-### Core Design Concept
-The rounded corners are achieved by:
-1. Creating an `iframe` and injecting it into the target page.
-2. Applying `border-radius` to the content within the `iframe`.
-3. Using `color-scheme: light` to prevent automatic dark mode transformations.
+### Layout and rounded corners
+
+Rounded corners and the card effect are applied inside the iframe:
 
 ```css
 .content-wrapper {
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3),
-              0 2px 6px rgba(60, 64, 67, 0.15);
+  margin: 4px 8px 8px 4px;
   background: #fff;
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  padding: 20px;
+  box-sizing: border-box;
+  height: calc(100% - 12px);
 }
 ```
 
-## 3. How It Works
-- Clicking the extension icon toggles the `iframe`.
-- The `iframe` is positioned in the top-right corner of the webpage.
-- Clicking outside the `iframe` or pressing `Escape` closes it.
-- Dark mode is handled using `color-scheme: light`.
+The iframe itself is positioned in the viewport and forced into a light color scheme:
 
-### Key Snippet from `service-worker.js`
 ```js
 iframe.style.cssText = `
   /* Positioning */
@@ -71,22 +72,19 @@ iframe.style.cssText = `
 `;
 ```
 
-## 4. Installation
-1. Open Chrome and navigate to `chrome://extensions`.
-2. Enable Developer Mode.
-3. Click **Load Unpacked** and select the project folder.
+## Behavior and interaction
 
-## 5. Customization
-- Adjust the `height` and `width` of the `iframe` in `service-worker.js`.
-- Modify `iframe-styles.css` for visual customization.
+- Clicking the extension icon toggles the iframe on the current tab.
+- Clicking outside the iframe or pressing `Escape` closes it.
+- The iframe is only injected into pages whose URL starts with `http` or `https` to avoid restricted schemes like `chrome://` and `file://`.
 
-## 6. Security Considerations
-- Ensure the `iframe` only loads trusted content.
-- Use a strict `Content-Security-Policy` to prevent potential vulnerabilities.
+## Customization
 
-## 7. Known Limitations
-- The extension currently displays a static interface. Additional UI elements or interactions can be implemented.
-- May behave inconsistently if the host website employs aggressive CSS resets.
+- Adjust the iframe size by changing the `height` and `width` values in `service-worker.js`.
+- Tweak the look and feel (radius, shadow, padding, typography) by editing `styles/iframe-styles.css`.
+- Replace the contents of `iframe.html` with your own UI while reusing the same injection pattern.
 
-This template serves as a foundation for creating extensions with rounded interfaces using `iframe` elements and CSS strategies that maintain visual consistency across themes.
+## Known limitations
 
+- The sample currently shows a static UI; additional interactions or data flows can be added as needed.
+- On pages with very aggressive CSS resets, visual differences may appear, although the iframe isolation minimizes this in practice.
