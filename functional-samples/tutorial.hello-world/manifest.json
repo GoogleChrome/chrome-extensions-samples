@@ -1,10 +1,18 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
-  "version": "1.0",
   "manifest_version": 3,
-  "action": {
-    "default_popup": "hello.html",
-    "default_icon": "hello_extensions.png"
+  "name": "YouTube Shorts Remover Pro",
+  "version": "1.0",
+  "description": "Scalable solution to remove Shorts shelves and entries.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "128": "icon.png"
   }
 }

@@ -1,0 +1,13 @@
+/* Hide the Shorts shelf on the home feed and search */
+ytd-rich-shelf-renderer:has(ytm-shorts-lockup-view-model-v2),
+ytd-rich-shelf-renderer:has(ytd-rich-item-renderer[is-slim-media]),
+ytd-reel-shelf-renderer {
+    display: none !important;
+}
+
+/* Hide the Shorts tab in the sidebar */
+ytd-guide-entry-renderer:has(a[title="Shorts"]),
+ytd-mini-guide-entry-renderer:has(a[title="Shorts"]),
+path[d*="M10 14.65v-5.3L15 12l-5 2.65zm7.77-5.33-1.32-.58.46-1.2c.44-1.1.09-2.35-.83-3.05"] {
+    display: none !important;
+}
