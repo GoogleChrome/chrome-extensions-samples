@@ -1,0 +1,46 @@
+/* ── Neutralise the blank/underline styling on the target-word element ──────── */
+[data-word].rtp-revealed {
+  /* Remove underlines, dashes, or blank-box visuals Lingvist applies */
+  background: none !important;
+  border: none !important;
+  border-bottom: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  pointer-events: none;
+}
+
+/* ── Full-phrase input overlay ───────────────────────────────────────────────── */
+.rtp-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.rtp-hint {
+  margin: 0;
+  font-size: 0.75em;
+  opacity: 0.6;
+  letter-spacing: 0.03em;
+}
+
+.rtp-input {
+  width: min(90vw, 520px);
+  padding: 10px 14px;
+  font-size: 1.1em;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.rtp-input:focus {
+  border-color: #1a5fb4;
+}

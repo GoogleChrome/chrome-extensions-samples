@@ -1,0 +1,14 @@
+{
+  "name": "Lingvist – Retype Full Phrase",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Replaces the single-word input on Lingvist with a full-phrase input so you practice typing the entire sentence.",
+  "content_scripts": [
+    {
+      "matches": ["https://learn.lingvist.com/*"],
+      "js": ["content.js"],
+      "css": ["style.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
