@@ -83,10 +83,7 @@ function createGoogleCalendarUrl(eventDetails) {
 }
 
 async function parseEventDetails(text) {
-  const session = await LanguageModel.create({
-    temperature: 0,
-    topK: 1.0
-  });
+  const session = await LanguageModel.create();
 
   let prompt = `
     The following text describes an event. Extract "title", "start_time", "start_date", "start_year", "end_time", "end_date", "end_year", "description", "timezone" and "location" of the event. Return only JSON as result.
@@ -99,43 +96,42 @@ async function parseEventDetails(text) {
 
      ${text}`;
 
-  const result = await session.prompt(prompt);
-  return JSON.parse(fixCommonJSONMistakes(result), null, '  ');
-}
+  const schema = {
+    type: 'object',
+    properties: {
+      title: { type: 'string' },
+      start_time: { type: 'string' },
+      start_date: { type: 'string' },
+      start_year: { type: 'string' },
+      end_time: { type: 'string' },
+      end_date: { type: 'string' },
+      end_year: { type: 'string' },
+      description: { type: 'string' },
+      timezone: { type: 'string' },
+      location: { type: 'string' }
+    },
+    required: [
+      'title',
+      'start_time',
+      'start_date',
+      'start_year',
+      'end_time',
+      'end_date',
+      'end_year',
+      'description',
+      'timezone',
+      'location'
+    ]
+  };
 
-function addCommaBetweenQuotes(str) {
-  return str.replace(/"([^"]*)"\s+"([^"]*)"/g, '"$1", "$2"');
-}
+  const result = await session.prompt(
+    [
+      { role: 'user', content: prompt },
+      { role: 'assistant', content: '{', prefix: true }
+    ],
+    { responseConstraint: schema }
+  );
 
-function extractTextBetweenCurlyBraces(str) {
-  if (str[0] === '[') return str;
-  const firstBraceIndex = str.indexOf('{');
-  const lastBraceIndex = str.lastIndexOf('}');
-
-  if (firstBraceIndex === -1 || lastBraceIndex === -1) {
-    return null; // No curly braces found
-  }
-
-  return str.substring(firstBraceIndex, lastBraceIndex + 1);
-}
-
-function curlyToBrackets(str) {
-  // Check if the input is a string
-  if (typeof str !== 'string') {
-    return 'Input must be a string.';
-  }
-
-  // Use a regular expression to match curly braces with quoted strings inside
-  return str.replace(/\{("([^"]*)"(?:,\s*)?)*\}/g, function (match) {
-    // Remove curly braces and replace with brackets
-    return '[' + match.slice(1, -1) + ']';
-  });
-}
-
-function fixCommonJSONMistakes(str) {
-  str = str.trim();
-  str = curlyToBrackets(str);
-  str = extractTextBetweenCurlyBraces(str);
-  str = addCommaBetweenQuotes(str);
-  return str;
+  session.destroy();
+  return JSON.parse('{' + result);
 }
