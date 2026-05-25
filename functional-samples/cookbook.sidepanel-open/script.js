@@ -7,10 +7,10 @@ const [tab] = await chrome.tabs.query({
 const tabId = tab.id;
 const button = document.getElementById('openSidePanel');
 button.addEventListener('click', async () => {
-  await chrome.sidePanel.open({ tabId });
   await chrome.sidePanel.setOptions({
     tabId,
     path: 'sidepanel-tab.html',
     enabled: true
   });
+  await chrome.sidePanel.open({ tabId });
 });
