@@ -4,14 +4,14 @@
 
 // When you specify "type": "module" in the manifest background,
 // you can include the service worker as an ES Module,
-import { tldLocales } from './locales.js';
+import { countryLocales } from './locales.js';
 
 // Add a listener to create the initial context menu items,
 // context menu items only need to be created at runtime.onInstalled
 chrome.runtime.onInstalled.addListener(async () => {
-  for (const [tld, locale] of Object.entries(tldLocales)) {
+  for (const [countryCode, locale] of Object.entries(countryLocales)) {
     chrome.contextMenus.create({
-      id: tld,
+      id: countryCode,
       title: locale,
       type: 'normal',
       contexts: ['selection']
@@ -21,36 +21,37 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 // Open a new search tab when the user clicks a context menu
 chrome.contextMenus.onClicked.addListener((item, tab) => {
-  const tld = item.menuItemId;
-  const url = new URL(`https://google.${tld}/search`);
+  const countryCode = item.menuItemId;
+  const url = new URL('https://www.google.com/search');
   url.searchParams.set('q', item.selectionText);
+  url.searchParams.set('cr', `country${countryCode}`);
   chrome.tabs.create({ url: url.href, index: tab.index + 1 });
 });
 
-// Add or removes the locale from context menu
+// Add or removes the locale from the context menu
 // when the user checks or unchecks the locale in the popup
-chrome.storage.onChanged.addListener(({ enabledTlds }) => {
-  if (typeof enabledTlds === 'undefined') return;
+chrome.storage.onChanged.addListener(({ enabledCountries }) => {
+  if (typeof enabledCountries === 'undefined') return;
 
-  const allTlds = Object.keys(tldLocales);
-  const currentTlds = new Set(enabledTlds.newValue);
-  const oldTlds = new Set(enabledTlds.oldValue ?? allTlds);
-  const changes = allTlds.map((tld) => ({
-    tld,
-    added: currentTlds.has(tld) && !oldTlds.has(tld),
-    removed: !currentTlds.has(tld) && oldTlds.has(tld)
+  const allCountries = Object.keys(countryLocales);
+  const currentCountries = new Set(enabledCountries.newValue);
+  const oldCountries = new Set(enabledCountries.oldValue ?? allCountries);
+  const changes = allCountries.map((countryCode) => ({
+    countryCode,
+    added: currentCountries.has(countryCode) && !oldCountries.has(countryCode),
+    removed: !currentCountries.has(countryCode) && oldCountries.has(countryCode)
   }));
 
-  for (const { tld, added, removed } of changes) {
+  for (const { countryCode, added, removed } of changes) {
     if (added) {
       chrome.contextMenus.create({
-        id: tld,
-        title: tldLocales[tld],
+        id: countryCode,
+        title: countryLocales[countryCode],
         type: 'normal',
         contexts: ['selection']
       });
     } else if (removed) {
-      chrome.contextMenus.remove(tld);
+      chrome.contextMenus.remove(countryCode);
     }
   }
 });

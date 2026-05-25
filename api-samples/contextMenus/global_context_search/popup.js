@@ -2,22 +2,21 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TLD: top level domain; the "com" in "google.com"
-import { tldLocales } from './locales.js';
+import { countryLocales } from './locales.js';
 
 createForm().catch(console.error);
 
 async function createForm() {
-  const { enabledTlds = Object.keys(tldLocales) } =
-    await chrome.storage.sync.get('enabledTlds');
-  const checked = new Set(enabledTlds);
+  const { enabledCountries = Object.keys(countryLocales) } =
+    await chrome.storage.sync.get('enabledCountries');
+  const checked = new Set(enabledCountries);
 
   const form = document.getElementById('form');
-  for (const [tld, locale] of Object.entries(tldLocales)) {
+  for (const [countryCode, locale] of Object.entries(countryLocales)) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = checked.has(tld);
-    checkbox.name = tld;
+    checkbox.checked = checked.has(countryCode);
+    checkbox.name = countryCode;
     checkbox.addEventListener('click', (event) => {
       handleCheckboxClick(event).catch(console.error);
     });
@@ -35,15 +34,15 @@ async function createForm() {
 
 async function handleCheckboxClick(event) {
   const checkbox = event.target;
-  const tld = checkbox.name;
+  const countryCode = checkbox.name;
   const enabled = checkbox.checked;
 
-  const { enabledTlds = Object.keys(tldLocales) } =
-    await chrome.storage.sync.get('enabledTlds');
-  const tldSet = new Set(enabledTlds);
+  const { enabledCountries = Object.keys(countryLocales) } =
+    await chrome.storage.sync.get('enabledCountries');
+  const countrySet = new Set(enabledCountries);
 
-  if (enabled) tldSet.add(tld);
-  else tldSet.delete(tld);
+  if (enabled) countrySet.add(countryCode);
+  else countrySet.delete(countryCode);
 
-  await chrome.storage.sync.set({ enabledTlds: [...tldSet] });
+  await chrome.storage.sync.set({ enabledCountries: [...countrySet] });
 }

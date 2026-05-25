@@ -1,6 +1,6 @@
 {
-  "name": "Global Google Search",
-  "description": "Uses the context menu to search a different country's Google",
+  "name": "Regional Google Search",
+  "description": "Uses the context menu to restrict Google Search results by country",
   "version": "1.1",
   "manifest_version": 3,
   "permissions": ["contextMenus", "storage"],
