@@ -15,3 +15,5 @@ Once this extension is installed, any requests made in the main frame to the fol
 ## Implementation Notes
 
 This sample uses the `chrome.declarativeNetRequest.onRuleMatchedDebug` event which is only available in unpacked extensions.
+
+The rules match the `xmlhttprequest` resource type in addition to `main_frame`. For returning visitors, developer.chrome.com serves navigations through its service worker, so no `main_frame` network request is made; the request issued by the site's service worker is matched instead.
