@@ -1,4 +1,8 @@
 {
+  "extName": {
+    "message": "Download Manager Button",
+    "description": "Extension name and action button tooltip."
+  },
   "tabTitle": {
     "message": "Downloads",
     "description": "tab title"
