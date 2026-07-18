@@ -1,0 +1,14 @@
+{
+  "name": "Offscreen API - Record User Media",
+  "version": "1.0",
+  "manifest_version": 3,
+  "minimum_chrome_version": "116",
+  "description": "Records microphone audio in an offscreen document.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["offscreen"]
+}
