@@ -19,7 +19,7 @@
 
   // Remove duplicates and invalid URLs.
   const kBadPrefix = 'javascript';
-  for (let i = 0; i < links.length; ) {
+  for (let i = 0; i < links.length;) {
     if (
       (i > 0 && links[i] == links[i - 1]) ||
       links[i] == '' ||
