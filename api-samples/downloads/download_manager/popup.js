@@ -394,9 +394,8 @@ class DownloadItem {
           await chrome.storage.local.get(['managementPermissionDenied'])
         ).managementPermissionDenied;
         if (!managementPermissionDenied) {
-          document.getElementById(
-            'request-management-permission'
-          ).hidden = false;
+          document.getElementById('request-management-permission').hidden =
+            false;
           document.getElementById('grant-management-permission').onclick =
             async function () {
               const granted = await chrome.permissions.request({
@@ -525,11 +524,11 @@ class DownloadItem {
     let id = this.id;
     await chrome.downloads.acceptDanger(id);
     DownloadItem.prototype.maybeAccept.accepting_danger = false;
-    arrayFrom(document.getElementById('items').childNodes).forEach(function (
-      item_div
-    ) {
-      item_div.item.maybeAccept();
-    });
+    arrayFrom(document.getElementById('items').childNodes).forEach(
+      function (item_div) {
+        item_div.item.maybeAccept();
+      }
+    );
   }
 }
 
@@ -552,12 +551,11 @@ DownloadManager.getOrCreate = function (data) {
 DownloadManager.forEachItem = function (cb) {
   // Calls cb(item, index) in the order that they are displayed, i.e. in order
   // of decreasing startTime.
-  arrayFrom(document.getElementById('items').childNodes).forEach(function (
-    item_div,
-    index
-  ) {
-    cb(item_div.item, index);
-  });
+  arrayFrom(document.getElementById('items').childNodes).forEach(
+    function (item_div, index) {
+      cb(item_div.item, index);
+    }
+  );
 };
 
 DownloadManager.startPollingProgress = function () {

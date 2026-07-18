@@ -67,24 +67,24 @@ async function loadRules() {
     rules.forEach(function (rule) {
       new Rule(rule);
     });
-  } catch (e) {
+  } catch {
     await chrome.storage.local.set({ rules: [] });
   }
 }
 
 async function storeRules() {
   await chrome.storage.local.set({
-    rules: [...document.getElementById('rules').childNodes].map(function (
-      node
-    ) {
-      node.rule.render();
-      return {
-        matcher: node.rule.getElement('matcher').value,
-        match_param: node.rule.getElement('match-param').value,
-        action: node.rule.getElement('action').value,
-        enabled: node.rule.getElement('enabled').checked
-      };
-    })
+    rules: [...document.getElementById('rules').childNodes].map(
+      function (node) {
+        node.rule.render();
+        return {
+          matcher: node.rule.getElement('matcher').value,
+          match_param: node.rule.getElement('match-param').value,
+          action: node.rule.getElement('action').value,
+          enabled: node.rule.getElement('enabled').checked
+        };
+      }
+    )
   });
 }
 
