@@ -42,7 +42,7 @@ this.cr = (function () {
     let parts = name.split('.');
     let cur = opt_objectToExportTo || global;
 
-    for (let part; parts.length && (part = parts.shift()); ) {
+    for (let part; parts.length && (part = parts.shift());) {
       if (!parts.length && opt_object !== undefined) {
         // last part and we have an object; use it
         cur[part] = opt_object;
