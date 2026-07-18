@@ -1,0 +1,12 @@
+{
+  "name": "Chrome Extensions Gemini Demo",
+  "version": "1.0",
+  "scripts": {
+    "build": "rollup sidepanel/index.js --file dist/sidepanel.bundle.js --format iife"
+  },
+  "private": true,
+  "devDependencies": {
+    "@google/genai": "^1.36.0",
+    "rollup": "4.22.4"
+  }
+}

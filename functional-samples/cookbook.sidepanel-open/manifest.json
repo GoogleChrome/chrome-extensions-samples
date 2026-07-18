@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Open side panel",
+  "version": "1.0",
+  "description": "Shows how to call sidePanel.open() to open a global side panel.",
+  "minimum_chrome_version": "116",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel-global.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["content-script.js"],
+      "matches": ["https://www.google.com/*"]
+    }
+  ],
+  "permissions": ["sidePanel", "contextMenus"],
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}

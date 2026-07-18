@@ -1,0 +1,10 @@
+{
+  "name": "Blank new tab page",
+  "description": "Uses the \"chrome_url_overrides\" manifest key by replacing the user's default new tab page with a new html file.",
+  "version": "0.3",
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "blank.html"
+  },
+  "manifest_version": 3
+}

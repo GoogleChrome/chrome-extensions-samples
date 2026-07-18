@@ -1,0 +1,13 @@
+{
+  "name": "Stylizr",
+  "description": "Demonstrates how to use the chrome.storage API.",
+  "version": "1.0",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "options_page": "options.html",
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Stylize!",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}

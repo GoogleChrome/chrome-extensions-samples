@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>no-cookies Rule Manager</title>
+    <link rel="stylesheet" href="./manager.css" />
+  </head>
+
+  <body>
+    <div class="toolbar">
+      <button id="addRuleButton">Add Rule</button>
+      <button id="viewRuleButton">View Current Rule List</button>
+      <small>
+        Requests matching the following conditions will be prohibited from
+        carrying cookies.
+      </small>
+    </div>
+    <div id="rulesList">
+      <!-- Rule Items will be added here -->
+    </div>
+
+    <template id="ruleItemTemplate">
+      <div class="rule-item">
+        <div>
+          <label>
+            Rule ID:
+            <input
+              class="rule-id"
+              type="text"
+              placeholder="Rule ID"
+              disabled
+              value="NEW"
+            />
+          </label>
+        </div>
+        <div class="condition">
+          <div>
+            <label>
+              Condition Type:
+              <select class="condition-type">
+                <option value="urlFilter">URL Filter</option>
+                <option value="regexFilter">Regex Filter</option>
+              </select>
+            </label>
+            <small>
+              <a
+                href="https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#property-RuleCondition-urlFilter"
+                target="_blank"
+                >URL Filter?</a
+              >
+              <span> | </span>
+              <a
+                href="https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#property-RuleCondition-regexFilter"
+                target="_blank"
+                >Regex Filter?</a
+              >
+            </small>
+          </div>
+          <div>
+            <label>
+              Case Sensitive: <input type="checkbox" class="case-sensitive" />
+            </label>
+            <small>
+              <a
+                href="https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/#property-RuleCondition-isUrlFilterCaseSensitive"
+                target="_blank"
+                >?</a
+              >
+            </small>
+          </div>
+          <div>
+            <label>
+              Condition Value:
+              <input
+                class="condition-value"
+                type="text"
+                placeholder="Condition Value"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="save-rule">Save Rule</button>
+          <button class="remove-rule">Remove Rule</button>
+        </div>
+      </div>
+    </template>
+    <script src="./manager.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "Devtools - inspectedWindow API sample",
+  "description": "Uses devtools.inspectedWindow to collect and use data on the resouces used in a web page.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "devtools_page": "devtools.html"
+}

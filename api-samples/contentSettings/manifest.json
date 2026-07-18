@@ -1,0 +1,11 @@
+{
+  "name": "Content settings",
+  "version": "0.3",
+  "description": "Uses chrome.contentSettings to display the settings of a given page in the extension's popup.",
+  "permissions": ["contentSettings", "activeTab"],
+  "action": {
+    "default_icon": "contentSettings.png",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}

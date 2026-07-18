@@ -2,7 +2,7 @@
   "name": "WASM Load Example - Helloworld",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Inspect background service worker console for output",
+  "description": "Shows how to use WebAssembly (WASM) as a module in Manifest V3.",
   "background": {
     "service_worker": "background.js",
     "type": "module"

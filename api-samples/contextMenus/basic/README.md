@@ -9,3 +9,9 @@ In this sample the chrome.contextMenus API is used to create menu items, listen 
 ## Implementation Notes
 
 Different console readouts are made when context menu items are clicked. This can be quickly adapted to use new functions or API calls for more advaced functionality.
+
+## Running this extension
+
+1. Clone this repository.
+2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+3. Right-click within the browser to view the context menu.

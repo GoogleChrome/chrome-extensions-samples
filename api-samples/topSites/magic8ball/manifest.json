@@ -1,0 +1,10 @@
+{
+  "name": "topSites API sample",
+  "version": "2",
+  "description": "Uses the chrome.topSites API to suggest which sites a user should visit.",
+  "chrome_url_overrides": {
+    "newtab": "newTab.html"
+  },
+  "permissions": ["topSites", "favicon"],
+  "manifest_version": 3
+}

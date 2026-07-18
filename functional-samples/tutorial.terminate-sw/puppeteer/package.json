@@ -1,0 +1,14 @@
+{
+  "name": "puppeteer-demo",
+  "version": "1.0",
+  "dependencies": {
+    "jest": "29.7.0",
+    "puppeteer": "24.8.1"
+  },
+  "scripts": {
+    "start": "jest ."
+  },
+  "devDependencies": {
+    "@jest/globals": "29.7.0"
+  }
+}

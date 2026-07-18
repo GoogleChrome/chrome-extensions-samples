@@ -1,0 +1,31 @@
+html,
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 10px;
+    height: 100vh;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#logs {
+    max-height: calc(100vh - 100px);
+    font-size: 1.2rem;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    overflow: auto;
+}

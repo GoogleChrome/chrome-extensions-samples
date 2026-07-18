@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Tabs Inspector</title>
+    <link rel="stylesheet" href="./window_and_tabs_manager.css" />
+  </head>
+
+  <body>
+    <div id="windowList">
+      <!-- WindowItems Here -->
+    </div>
+    <template id="windowItem">
+      <div class="window-item">
+        <div class="window-id-wrapper">
+          Window: <span class="window_id"></span>
+        </div>
+        <div class="window-status-wrapper">
+          left:
+          <input class="window_left" type="text" /> top:
+          <input class="window_top" type="text" /> width:
+          <input class="window_width" type="text" /> height:
+          <input class="window_height" type="text" />
+          <input class="window_focused" type="checkbox" disabled /> Focused
+          <input class="window_current" type="checkbox" disabled /> Current
+          <button class="window_refresh">Refresh</button>
+        </div>
+        <div id="tabList">
+          <!-- TabItems Here -->
+        </div>
+        <button class="update_window_button">Update Window</button>
+        <button class="remove_window_button">Close Window</button>
+        <button class="refresh_active_tab_button">Refresh Active Tab</button>
+      </div>
+    </template>
+    <template id="tabItem">
+      <div class="tab-item">
+        <div class="wrapper">
+          <div class="tab_id"></div>
+          <div class="tab-actions-wrapper">
+            index:
+            <input type="text" class="tab_index" />
+            windowId:
+            <input type="text" class="tab_window_id" />
+            <button class="move_tab_button">Move</button>
+            <button class="refresh_tab_button">Refresh</button>
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class="input-group">
+            <div class="label">title:</div>
+            <input type="text" class="tab_title" />
+          </div>
+          <div class="input-group">
+            <div class="label">url:</div>
+            <input type="text" class="tab_url" />
+          </div>
+          <div><input type="checkbox" class="tab_active" /> Active</div>
+        </div>
+        <button class="update_tab_button">Update Tab</button>
+        <button class="remove_tab_button">Close Tab</button>
+      </div>
+    </template>
+    <div class="new-window-wrapper">
+      <h3>Create Window</h3>
+      <div class="wrapper">
+        <div class="new-window-status-wrapper">
+          left:
+          <input type="text" id="new_window_left" /> top:
+          <input type="text" id="new_window_top" /> width:
+          <input type="text" id="new_window_width" /> height:
+          <input type="text" id="new_window_height" />
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="input-group">
+          <div class="label">url:</div>
+          <input type="text" id="new_window_url" />
+        </div>
+      </div>
+      <button id="create_window_button">Create</button>
+    </div>
+    <div class="new-tab-wrapper">
+      <h3>Create Tab</h3>
+      <div class="wrapper">
+        <div class="input-group">
+          <div class="label">windowId:</div>
+          <input type="text" id="window_id_new" />
+        </div>
+        <div class="input-group">
+          <div class="label">url:</div>
+          <input type="text" id="url_new" />
+        </div>
+        <div><input type="checkbox" id="active_new" /> active</div>
+      </div>
+      <button id="create_tab_button">Create</button>
+    </div>
+    <div class="actions-wrapper">
+      <button id="load_window_list_button">Refresh</button>
+      <button id="update_all_button">Update All</button>
+      <button id="move_all_button">Move All</button>
+      <button id="clear_log_button">Clear Log</button>
+      <button id="new_window_button">New Window</button>
+    </div>
+    <div id="log"></div>
+    <script src="window_and_tabs_manager.js"></script>
+  </body>
+</html>

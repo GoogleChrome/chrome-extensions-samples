@@ -1,0 +1,21 @@
+{
+  "name": "Summarization Example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs"
+  },
+  "keywords": [],
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "@mozilla/readability": "0.5.0",
+    "@rollup/plugin-commonjs": "28.0.1",
+    "@rollup/plugin-node-resolve": "15.3.0",
+    "dompurify": "3.4.11",
+    "marked": "14.1.4",
+    "rollup": "4.24.4",
+    "rollup-plugin-copy": "^3.5.0"
+  }
+}

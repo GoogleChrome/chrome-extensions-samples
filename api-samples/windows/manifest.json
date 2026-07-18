@@ -1,0 +1,17 @@
+{
+  "name": "Merge Windows",
+  "version": "1.0.3",
+  "description": "Uses the chrome.windows and chrome.tabs APIs to manage tabs across different windows.",
+  "icons": {
+    "48": "merge_windows_48.png",
+    "128": "merge_windows_128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": "arrow_in.png",
+    "default_title": "Merge Windows"
+  },
+  "manifest_version": 3
+}

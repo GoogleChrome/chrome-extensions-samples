@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const article = document.querySelector('article');
+function renderReadingTime(article) {
+  // If we weren't provided an article, we don't need to render anything.
+  if (!article) {
+    return;
+  }
 
-// `document.querySelector` may return null if the selector doesn't match anything.
-if (article) {
   const text = article.textContent;
   /**
    * Regular expression to find all "words" in a string.
@@ -45,3 +47,25 @@ if (article) {
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
   (date ?? heading).insertAdjacentElement('afterend', badge);
 }
+
+renderReadingTime(document.querySelector('article'));
+
+const observer = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    // If a new article was added.
+    for (const node of mutation.addedNodes) {
+      if (node instanceof Element && node.tagName === 'ARTICLE') {
+        // Render the reading time for this particular article.
+        renderReadingTime(node);
+      }
+    }
+  }
+});
+
+// https://developer.chrome.com/ is a SPA (Single Page Application) so can
+// update the address bar and render new content without reloading. Our content
+// script won't be reinjected when this happens, so we need to watch for
+// changes to the content.
+observer.observe(document.querySelector('devsite-content'), {
+  childList: true
+});

@@ -1,0 +1,12 @@
+{
+  "name": "mole",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_icon": "icon-empty.png"
+  },
+  "permissions": ["management", "tabs"]
+}

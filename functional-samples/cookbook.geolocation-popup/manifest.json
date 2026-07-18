@@ -1,0 +1,10 @@
+{
+  "name": "Geolocation - popup",
+  "version": "1.0",
+  "description": "Shows how to get geolocation access within a popup.",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["geolocation"]
+}

@@ -14,14 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-body > .scaffold > :is(top-nav, navigation-rail, side-nav, footer),
-main > :not(:last-child),
-main > :last-child > navigation-tree,
-main .toc-container {
-  display: none;
+* {
+  display: none !important;
 }
 
-main > :last-child {
-  margin-top: min(10vmax, 10rem);
-  margin-bottom: min(10vmax, 10rem);
+html,
+body,
+*:has(article),
+article,
+article * {
+  display: revert !important;
+}
+
+[role='navigation'] {
+  display: none !important;
+}
+
+article {
+  margin: auto;
+  max-width: 700px;
 }

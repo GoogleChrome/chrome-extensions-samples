@@ -14,6 +14,31 @@
 
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen.html';
 
+chrome.action.onClicked.addListener(async () => {
+  sendMessageToOffscreenDocument(
+    'add-exclamationmarks-to-headings',
+    '<html><head></head><body><h1>Hello World</h1></body></html>'
+  );
+});
+
+async function sendMessageToOffscreenDocument(type, data) {
+  // Create an offscreen document if one doesn't exist yet
+  if (!(await hasDocument())) {
+    await chrome.offscreen.createDocument({
+      url: OFFSCREEN_DOCUMENT_PATH,
+      reasons: [chrome.offscreen.Reason.DOM_PARSER],
+      justification: 'Parse DOM'
+    });
+  }
+  // Now that we have an offscreen document, we can dispatch the
+  // message.
+  chrome.runtime.sendMessage({
+    type,
+    target: 'offscreen',
+    data
+  });
+}
+
 chrome.runtime.onMessage.addListener(handleMessages);
 
 // This function performs basic filtering and error checking on messages before
@@ -35,33 +60,8 @@ async function handleMessages(message) {
   }
 }
 
-chrome.action.onClicked.addListener(async () => {
-  sendMessageToOffscreenDocument(
-    'add-exclamationmarks-to-headings',
-    '<html><head></head><body><h1>Hello World</h1></body></html>'
-  );
-});
-
 async function handleAddExclamationMarkResult(dom) {
   console.log('Received dom', dom);
-}
-
-async function sendMessageToOffscreenDocument(type, data) {
-  // Create an offscreen document if one doesn't exist yet
-  if (!(await hasDocument())) {
-    await chrome.offscreen.createDocument({
-      url: OFFSCREEN_DOCUMENT_PATH,
-      reasons: [chrome.offscreen.Reason.DOM_PARSER],
-      justification: 'Parse DOM'
-    });
-  }
-  // Now that we have an offscreen document, we can dispatch the
-  // message.
-  chrome.runtime.sendMessage({
-    type,
-    target: 'offscreen',
-    data
-  });
 }
 
 async function closeOffscreenDocument() {

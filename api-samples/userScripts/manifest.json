@@ -1,0 +1,17 @@
+{
+  "name": "User Scripts API Demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "minimum_chrome_version": "120",
+  "description": "Uses the chrome.userScripts API to inject JavaScript into web pages.",
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "permissions": ["storage", "userScripts"],
+  "host_permissions": ["https://example.com/*"],
+  "action": {},
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}

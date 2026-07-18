@@ -1,0 +1,11 @@
+{
+  "name": "Privacy API sample",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Uses the chrome.privacy.services property to get and set privacy settings.",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["privacy"],
+  "action": {}
+}

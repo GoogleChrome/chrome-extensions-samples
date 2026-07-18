@@ -13,9 +13,9 @@ chrome.commands.onCommand.addListener(async (command) => {
   const lastTab = tabs.length - 1;
   let newIndex = -1;
   if (command === 'flip-tabs-forward') {
-    newIndex = activeIndex === 0 ? lastTab : activeIndex - 1;
+    newIndex = activeIndex === lastTab ? 0 : activeIndex + 1;
   }
   // 'flip-tabs-backwards'
-  else newIndex = activeIndex === lastTab ? 0 : activeIndex + 1;
+  else newIndex = activeIndex === 0 ? lastTab : activeIndex - 1;
   chrome.tabs.update(tabs[newIndex].id, { active: true, highlighted: true });
 });

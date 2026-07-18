@@ -1,0 +1,11 @@
+{
+  "name": "Top Sites",
+  "version": "1.2",
+  "description": "Uses the chrome.topSites API to get the user's most visited sites.",
+  "permissions": ["topSites"],
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}

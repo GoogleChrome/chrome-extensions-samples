@@ -3,7 +3,7 @@
  * source code is governed by a BSD-style license that can be found in the
  * LICENSE file.
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Printers</title>
@@ -13,7 +13,10 @@
 
   <body>
     <h2>Print Job:</h2>
-    <p>On some systems, the print job may leave the queue too quickly to be visible in this list.</p>
+    <p>
+      On some systems, the print job may leave the queue too quickly to be
+      visible in this list.
+    </p>
     <div id="printJob">
       <table id="printJobTable">
         <thread>
@@ -28,11 +31,9 @@
     </div>
 
     <h2>Printers:</h2>
-    <div id="statusDiv">
-      <p id="jobStatus">JobId: <div id="jobIdDiv"></div></p>
-      <button id="cancelBtn">Cancel Printing</button>
-    </div>
     <div id="printers">
+      <input type="checkbox" id="rollPrinters" name="rollPrinters" />
+      <label for="rollPrinters">Roll Printers</label>
       <table id="printersTable">
         <thead>
           <tr>
@@ -45,9 +46,11 @@
             <th>Default</th>
             <th>Recently used</th>
             <th>Capabilities</th>
+            <th>Supports trim</th>
             <th>Status</th>
           </tr>
         </thead>
+        <tbody id="tbody" />
       </table>
     </div>
   </body>

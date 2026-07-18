@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmark Viewer",
+  "version": "1.0",
+  "description": "Uses the chrome.bookmarks API to search through, add, and delete bookmarks from the user's bookmark tree.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "permissions": ["bookmarks"]
+}

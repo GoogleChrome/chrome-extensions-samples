@@ -1,0 +1,58 @@
+@import 'https://unpkg.com/open-props';
+
+@import 'https://unpkg.com/open-props/normalize.min.css';
+@import 'https://unpkg.com/open-props/buttons.min.css';
+
+:root {
+  --font-size-00: 0.6rem;
+}
+
+body {
+  margin: auto;
+  padding: var(--size-2);
+  font-size: var(--font-size-2);
+}
+
+:where(ol, ul) {
+  padding: 0 var(--size-3);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+fieldset > * {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--size-2);
+}
+
+.card {
+  flex-basis: var(--size-content-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+  background: var(--surface-3);
+  border: 1px solid var(--surface-1);
+  padding: var(--size-4);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-2);
+  margin-bottom: var(--size-2);
+}
+
+.card > h5 {
+  line-height: var(--font-lineheight-1);
+}
+
+.warning {
+  background-color: var(--red-6);
+}
+
+.result {
+  position: relative;
+  background: #00aabb;
+  border-radius: 0.4em;
+  color: white;
+  padding: 1em;
+}

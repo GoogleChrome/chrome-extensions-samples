@@ -8,6 +8,8 @@ The `chrome.printing` namespace only works on ChromeOS. The sample demonstrates 
 
 Calling `submitJob()` triggers a dialog box asking the user to confirm printing. Use the [`PrintingAPIExtensionsAllowlist`](https://chromeenterprise.google/policies/#PrintingAPIExtensionsAllowlist") policy to bypass confirmation.
 
+If the **Roll Printers** checkbox is selected, only printers capable of roll printing will appear in the table. In this case, a separate test file is printed and the height of the media can be variable. See [`Roll printing`](https://developer.chrome.com/docs/extensions/reference/printing/#roll-printing) for more information.
+
 ## Implementation Notes
 
-Note that the `submitJob()` function throws an error when returning a promise ([crbug: 1422837](https://bugs.chromium.org/p/chromium/issues/detail?id=1422837)).
+Before Chrome 120, `submitJob()` function throws an error when returning a promise.

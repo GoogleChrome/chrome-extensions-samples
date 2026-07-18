@@ -12,9 +12,7 @@ $('#search').change(function () {
 
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
-  const bookmarkTreeNodes = chrome.bookmarks.getTree(function (
-    bookmarkTreeNodes
-  ) {
+  chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
     $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
   });
 }
@@ -42,7 +40,19 @@ function dumpNode(bookmarkNode, query) {
 
     const anchor = $('<a>');
     anchor.attr('href', bookmarkNode.url);
-    anchor.text(bookmarkNode.title);
+
+    // Chrome may have multiple top-level folder nodes with the same title. To
+    // disambiguate them, include a suffix depending on the value of the
+    // syncing property.
+    //
+    // folderType is set for top-level folders in the tree, and not for child
+    // folders. In Chrome versions prior to milestone 134, folderType is never
+    // set.
+    let title_text = bookmarkNode.title;
+    if (bookmarkNode.folderType) {
+      title_text += bookmarkNode.syncing ? ' (Account)' : ' (Local)';
+    }
+    anchor.text(title_text);
 
     /*
      * When clicking on a bookmark in the extension, a new tab is fired with

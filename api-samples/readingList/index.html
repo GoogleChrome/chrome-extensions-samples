@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reading List Demo</title>
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
+  </head>
+  <body>
+    <template id="table-item">
+      <tr>
+        <td><a>Title</a></td>
+        <td>
+          <select name="read" value="no">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </td>
+        <td>1/1/1970, 00:00:00</td>
+        <td>
+          <button class="update-button">Update</button>
+          <button class="delete-button">Delete</button>
+        </td>
+      </tr>
+    </template>
+    <form>
+      <h1>Reading List Demo</h1>
+      <section>
+        <h2>Add new item</h2>
+        <label>
+          <span>Title</span>
+          <input type="text" name="title" value="Example URL" />
+        </label>
+        <label>
+          <span>URL</span>
+          <input type="text" name="url" value="https://example.com/*" />
+        </label>
+        <label>
+          <span>Has been read</span>
+          <select name="read" value="no">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </label>
+        <button type="button" id="add-item">Add item</button>
+        <p id="error"></p>
+      </section>
+      <section>
+        <h2>Items</h2>
+        <table id="items">
+          <tr>
+            <th>Title</th>
+            <th>Read</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </table>
+      </section>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Sandboxed Frame Sample",
+  "version": "1.0.3",
+  "description": "Demonstrates creation of a tab with a sandboxed iframe to which the main page passes a counter variable.",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  },
+  "action": {}
+}

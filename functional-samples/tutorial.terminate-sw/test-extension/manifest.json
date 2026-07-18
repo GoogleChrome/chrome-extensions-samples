@@ -1,0 +1,10 @@
+{
+  "name": "Hello World",
+  "version": "0.1",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr1Cssen3kE1Kzw8x2vhc0neVV3Im5HhQ28cl2zptYPZVLMkT4RuVAbSu8/CnlqyfYMoHSSUKgo/kaEOW+g9aoGjPyKYfmy5FJmIZnWfbKP+qLRcnX8XrgX6NM8XxAalzrq/a8DeaFTCtLyVEX+Xw5uzjJapXfaiFdwPhAV6TR0GPgB6pSvkcRiPTTcctqQ64/FSbNQutcVRA0bH8d8tnIDQZ9nm/9/4A0njq1Xujf/NnhldWjlKilQPLZh/2bXrThlWDLal3LJbMsvWolFbQWpGIPw4ti13bhBFp9A7jFUt89wBnwEPhViMEjatOJzx72karMqkAFEOfPiXsytrNYQIDAQAB",
+  "manifest_version": 3,
+  "description": "Basic Hello World Extension",
+  "background": {
+    "service_worker": "service-worker-broken.js"
+  }
+}

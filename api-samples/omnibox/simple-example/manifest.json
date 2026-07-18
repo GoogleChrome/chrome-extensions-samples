@@ -1,0 +1,13 @@
+{
+  "name": "Omnibox Simple Example",
+  "description": "Demonstrates the \"omnibox\" manifest key and most members of the omnibox API.",
+  "version": "1.1",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {},
+  "omnibox": {
+    "keyword": "omnix"
+  },
+  "manifest_version": 3
+}

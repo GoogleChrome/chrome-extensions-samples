@@ -1,0 +1,61 @@
+/* 
+Copyright 2023 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+html {
+  padding: 0 10px;
+}
+
+#warning {
+  display: none;
+  margin-bottom: 30px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+}
+
+label input {
+  margin-right: 10px;
+}
+
+textarea {
+  resize: none;
+  width: calc(100% - 35px);
+  border: 2px solid black;
+  background: rgb(34, 34, 34);
+  padding: 15px;
+  color: white;
+}
+
+textarea:focus {
+  border: 2px solid grey;
+  outline: none;
+}
+
+button {
+  margin: 20px 0;
+}
+
+/* Hide custom script textarea by default */
+#custom-script-wrapper {
+  display: none;
+}
+
+/* Only show custom script textarea when custom type is selected */
+form:has(input[name='type'][value='custom']:checked) #custom-script-wrapper {
+  display: block;
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Notifications API sample",
+  "description": "Demonstrates the creation of, and interaction with, each of the notification template types.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["notifications"]
+}

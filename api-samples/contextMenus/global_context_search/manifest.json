@@ -1,6 +1,6 @@
 {
   "name": "Global Google Search",
-  "description": "Use the context menu to search a different country's Google",
+  "description": "Uses the context menu to search a different country's Google",
   "version": "1.1",
   "manifest_version": 3,
   "permissions": ["contextMenus", "storage"],

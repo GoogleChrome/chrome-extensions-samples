@@ -49,7 +49,7 @@ document
     const matches = document.querySelector("[name='matches']").value;
     const runAt = document.querySelector("[name='run-at']").value;
     const allFrames =
-      document.querySelector("[name='persist']").value === 'yes';
+      document.querySelector("[name='all-frames']").value === 'yes';
     const world = document.querySelector("[name='world']").value;
 
     await chrome.scripting.registerContentScripts([

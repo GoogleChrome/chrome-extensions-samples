@@ -1,0 +1,16 @@
+{
+  "name": "File Handling Demo",
+  "version": "1.0",
+  "minimum_chrome_version": "120",
+  "description": "Shows how to use the file_handlers manifest key with the web platform's Launch Handler API.",
+  "manifest_version": 3,
+  "file_handlers": [
+    {
+      "name": "TXT file",
+      "action": "/view-file.html",
+      "accept": {
+        "text/plain": [".txt"]
+      }
+    }
+  ]
+}

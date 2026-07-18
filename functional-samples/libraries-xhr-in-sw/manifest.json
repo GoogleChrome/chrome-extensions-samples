@@ -1,0 +1,17 @@
+{
+  "name": "Fetching Titles",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "This extension fetches the titles of all the tabs in the current window and displays them in a side panel.",
+  "background": {
+    "service_worker": "dist/background.js"
+  },
+  "permissions": ["activeTab", "sidePanel"],
+  "host_permissions": ["<all_urls>"],
+  "side_panel": {
+    "default_path": "sidepanel/index.html"
+  },
+  "action": {
+    "default_title": "Fetch the title of the current tab"
+  }
+}

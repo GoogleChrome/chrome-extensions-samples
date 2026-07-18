@@ -1,0 +1,280 @@
+/* General Reset and Body Styles */
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f4f8; /* Lighter, cooler background */
+    height: 100vh;
+    display: flex;
+    overflow: hidden; /* Prevent body scroll */
+}
+
+/* Main App Container */
+.app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+    margin: auto;
+    background-color: #ffffff; /* Keep main container white */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.08); /* Slightly softer shadow */
+}
+
+/* Sidebar (Chat List) */
+.sidebar {
+    width: 30%;
+    min-width: 250px;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-right: 1px solid #e8e8e8; /* Lighter separator */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333; /* Standard dark grey */
+    border-bottom: 1px solid #e8e8e8; /* Lighter separator */
+    background-color: #f8f9fa; /* Very light grey header */
+}
+
+#chat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* Allow scrolling for chat list */
+    flex-grow: 1;
+}
+
+/* Style for avatar emojis */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Make avatars circular */
+    margin-right: 10px; /* Space between avatar and name */
+    display: flex; /* Use flexbox for centering */
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Adjust emoji size */
+    background-color: #eee; /* Optional: Add a background */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.chat-item {
+    padding: 10px 15px; /* Slightly less padding */
+    border-bottom: 1px solid #f0f0f0; /* Lighter separator */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    /* gap: 15px; */ /* Replaced by avatar margin */
+}
+
+.chat-item:hover {
+    background-color: #f0f4f8; /* Light blue hover */
+}
+
+.chat-item.active {
+    background-color: #e2eaf1; /* Slightly darker blue for active */
+}
+
+/* Chat Panel (Conversation View) */
+.chat-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #e8f0f4; /* Lighter blue chat background */
+}
+
+.chat-header {
+    padding: 10px 16px;
+    background-color: #f8f9fa; /* Match sidebar header */
+    border-bottom: 1px solid #e8e8e8; /* Lighter separator */
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+}
+
+/* No specific override needed for header avatar anymore if base style is good */
+/* .chat-header .avatar { ... } */ /* Removed redundant/conflicting styles */
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333; /* Standard dark grey */
+}
+
+/* Message List */
+.message-list {
+    flex-grow: 1;
+    padding: 20px 5%; /* Padding relative to width */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Smaller gap between messages */
+}
+
+/* Individual Messages */
+.message {
+    padding: 6px 12px;
+    border-radius: 7.5px; /* WhatsApp's bubble radius */
+    max-width: 65%;
+    word-wrap: break-word;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    font-size: 14.5px;
+    line-height: 1.4;
+}
+
+.message.sent {
+    background-color: #cce5ff; /* Light blue for sent messages */
+    color: #004085; /* Darker blue text for contrast */
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.message.received {
+    background-color: #ffffff; /* White for received */
+    color: #333; /* Standard dark text */
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+/* Style for messages containing only emojis */
+.message.message-emoji-only {
+    font-size: 29px; /* Double the base message font size */
+    line-height: 1.2; /* Adjust line height for larger font */
+    padding: 2px 6px; /* Adjust padding slightly */
+    /* Optional: Remove background for pure emoji look */
+    /* background-color: transparent; */
+    /* box-shadow: none; */
+}
+
+/* Message Input Area */
+.message-input {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa; /* Match header background */
+    border-top: 1px solid #e8e8e8; /* Lighter separator */
+}
+
+#message-input-field { /* Use the ID from HTML */
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none; /* Remove default border */
+    border-radius: 20px; /* Rounded input */
+    margin-right: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+#send-button {
+    padding: 10px 15px;
+    background-color: #007bff; /* Standard blue send button */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Rounded corners like input */
+    cursor: pointer;
+    font-size: 15px; /* Match input field font size */
+    /* Remove fixed width and height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Consider adding an SVG icon here */
+}
+
+#send-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Custom Audio Player Styles */
+.message.audio {
+    /* Adjust padding if needed for controls */
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between button, progress, duration */
+    width: 100%; /* Ensure controls take available width */
+    margin-top: 5px; /* Space above controls if there was text */
+}
+
+.audio-play-pause {
+    background-color: #007bff; /* Match send button color */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    width: 30px;
+    height: 30px;
+    font-size: 14px; /* Adjust icon size */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Remove default padding */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.audio-play-pause:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.audio-progress {
+    flex-grow: 1; /* Take up remaining space */
+    height: 6px; /* Slimmer progress bar */
+    cursor: pointer;
+    appearance: none; /* Override default look */
+    background: #ddd; /* Track background */
+    border-radius: 3px;
+    outline: none;
+}
+
+/* Styling the progress bar thumb (the draggable part) */
+.audio-progress::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #007bff; /* Thumb color */
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -3px; /* Adjust vertical alignment ( (track_height - thumb_height) / 2 ) */
+}
+
+.audio-progress::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none; /* Remove default border in Firefox */
+}
+
+/* Styling the progress bar track */
+.audio-progress::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #ccc; /* Slightly darker track */
+    border-radius: 3px;
+}
+
+.audio-progress::-moz-range-track {
+    height: 6px;
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.audio-duration {
+    font-size: 12px;
+    color: #555; /* Muted color for duration */
+    min-width: 35px; /* Ensure space for MM:SS */
+    text-align: right;
+    flex-shrink: 0; /* Prevent duration from shrinking */
+}
+
+#chat {
+    background-color: red;
+}

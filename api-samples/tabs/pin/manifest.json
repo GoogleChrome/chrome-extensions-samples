@@ -1,0 +1,17 @@
+{
+  "name": "Keyboard Pin",
+  "version": "0.3",
+  "description": "Uses the chrome.tabs API to toggle the pinned state of the current tab.",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "commands": {
+    "toggle-pin": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "Toggle tab pin"
+    }
+  },
+  "manifest_version": 3
+}

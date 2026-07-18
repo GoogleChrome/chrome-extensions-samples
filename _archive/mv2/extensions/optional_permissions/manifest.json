@@ -2,7 +2,7 @@
   "name": "Optional Permissions New Tab",
   "version": "1.2.5.0",
   "description": "Demonstrates optional permissions in extensions",
-  "permissions": ["storage"],
+  "permissions": ["storage", "chrome://favicon/*"],
   "optional_permissions": [
     "topSites"
   ],

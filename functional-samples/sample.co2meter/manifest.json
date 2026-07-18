@@ -1,0 +1,21 @@
+{
+  "name": "CO2 meter extension",
+  "description": "Demonstrates using WebHID to connect to a CO2 meter.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_icon": {
+      "32": "images/icon32.png"
+    },
+    "default_title": "Show CO2 meter status",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "32": "images/icon32.png",
+    "128": "images/icon128.png"
+  }
+}

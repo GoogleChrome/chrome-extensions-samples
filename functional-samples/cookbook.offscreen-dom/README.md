@@ -1,4 +1,4 @@
-This recipe shows how to use DOMParser in an Extension Service Worker using the [Offscreen API][1].
+This recipe shows how to use DOMParser in an Extension Service Worker using the [Offscreen document][1].
 
 ## Context
 

@@ -1,0 +1,52 @@
+body {
+  width: 300px;
+  padding: 12px 16px;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  color: #202124;
+}
+
+h1 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.command-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.command-row:last-child {
+  border-bottom: none;
+}
+
+.command-name {
+  color: #3c4043;
+}
+
+kbd {
+  background: #f1f3f4;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+#hint {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #80868b;
+}
+
+#hint code {
+  background: #f1f3f4;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+}

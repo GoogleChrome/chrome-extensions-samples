@@ -1,4 +1,4 @@
-# chrome.declarativeNetRequest - URL Blocker
+# chrome.declarativeNetRequest - URL Redirect
 
 This sample demonstrates using the [`chrome.declarativeNetRequest`](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/) API to redirect requests.
 

@@ -1,0 +1,16 @@
+{
+  "name": "Geolocation - offscreen",
+  "version": "1.0",
+  "description": "Shows how to get geolocation access within a service worker.",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "action": {
+    "default_title": "Click to find location...",
+    "default_icon": {
+      "48": "images/grey.png"
+    }
+  },
+  "permissions": ["offscreen", "geolocation"]
+}

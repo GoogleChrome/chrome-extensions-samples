@@ -1,0 +1,13 @@
+{
+  "name": "Tab Capture Example",
+  "description": "Demonstrates how to use the chrome.tabCapture API.",
+  "version": "1",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "permissions": ["tabs", "tabCapture"]
+}
