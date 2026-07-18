@@ -50,6 +50,14 @@ button {
   margin: 20px 0;
 }
 
+#execute-result {
+  min-height: 1.2em;
+}
+
+#execute-result[data-error] {
+  color: #b00020;
+}
+
 /* Hide custom script textarea by default */
 #custom-script-wrapper {
   display: none;
