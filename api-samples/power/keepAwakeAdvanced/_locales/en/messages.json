@@ -1,0 +1,58 @@
+{
+  "extensionName": {
+    "message": "Keep Awake",
+    "description": "Extension name."
+  },
+  "extensionDescription": {
+    "message": "Override system power-saving settings.",
+    "description": "Extension description."
+  },
+  "disabledTitle": {
+    "message": "Default power-saving settings",
+    "description": "Browser action title when disabled."
+  },
+  "displayTitle": {
+    "message": "Screen will be kept on",
+    "description": "Browser action title when preventing screen-off."
+  },
+  "systemTitle": {
+    "message": "System will stay awake",
+    "description": "Browser action title when preventing system sleep."
+  },
+  "untilText": {
+    "message": " until: ",
+    "description": "Suffix to append to above Titles to append an end time"
+  },
+  "autoDisableAfterText": {
+    "message": "Automatically disable after:",
+    "description": "Text labelling a slider allowing setting a timeout for disabling the power saving state."
+  },
+  "autoDisableAtText": {
+    "message": "Automatically disable at: ",
+    "description": "Prefix Text indicating the time when the state will automatically switch to disabled."
+  },
+  "autoDisableHoursSuffix": {
+    "message": "h",
+    "description": "Text to append after a number indicating a quantity of hours"
+  },
+  "disabledLabel": {
+    "message": "Disabled",
+    "description": "Button label to indicated keep awake is disabled."
+  },
+  "displayLabel": {
+    "message": "Screen on",
+    "description": "Button label to indicated keep awake is preventing screen-off."
+  },
+  "systemLabel": {
+    "message": "System on",
+    "description": "Button label to indicated keep awake is preventing system sleep."
+  },
+  "usePopupMenuTitle": {
+    "message": "Always show State Popup",
+    "description": "Checkbox item indicating that the popup menu should always be shown."
+  },
+  "openStateWindowMenuTitle": {
+    "message": "Change State...",
+    "description": "Menu item opening a popup window to change the state."
+  }
+}
