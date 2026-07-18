@@ -9,7 +9,7 @@ const colors = {
   background: 'white'
 };
 
-Math.TAU = 2 * Math.PI; // http://tauday.com/tau-manifesto
+const TAU = 2 * Math.PI;
 
 function drawProgressArc(ctx, startAngle, endAngle) {
   const center = ctx.canvas.width / 2;
@@ -23,7 +23,7 @@ function drawProgressArc(ctx, startAngle, endAngle) {
 
 function drawUnknownProgressSpinner(ctx) {
   const segments = 16;
-  const segArc = Math.TAU / segments;
+  const segArc = TAU / segments;
   for (let seg = 0; seg < segments; ++seg) {
     ctx.fillStyle = ctx.strokeStyle =
       seg % 2 == 0 ? colors.progressColor : colors.background;
@@ -33,8 +33,8 @@ function drawUnknownProgressSpinner(ctx) {
 
 function drawProgressSpinner(ctx, stage) {
   ctx.fillStyle = ctx.strokeStyle = colors.progressColor;
-  const clocktop = -Math.TAU / 4;
-  drawProgressArc(ctx, clocktop, clocktop + stage * Math.TAU);
+  const clocktop = -TAU / 4;
+  drawProgressArc(ctx, clocktop, clocktop + stage * TAU);
 }
 
 function drawArrow(ctx) {
@@ -92,7 +92,7 @@ function drawPausedBadge(ctx) {
 function drawCompleteBadge(ctx) {
   const s = ctx.canvas.width / 100;
   ctx.beginPath();
-  ctx.arc(s * 75, s * 75, s * 15, 0, Math.TAU, false);
+  ctx.arc(s * 75, s * 75, s * 15, 0, TAU, false);
   ctx.fillStyle = colors.complete;
   ctx.fill();
   ctx.strokeStyle = colors.background;
@@ -189,7 +189,9 @@ async function pollProgress() {
   }
 }
 pollProgress.tid = -1;
-pollProgress.MS = 200;
+// bytesReceived changes never fire downloads.onChanged, so live progress
+// needs polling. Only runs while a download is in_progress.
+pollProgress.MS = 1000;
 
 pollProgress.start = function () {
   if (pollProgress.tid < 0) {
@@ -201,6 +203,11 @@ chrome.downloads.onCreated.addListener(function () {
   pollProgress();
 });
 
+// state changes wake the worker even after it has unloaded
+chrome.downloads.onChanged.addListener(function () {
+  pollProgress();
+});
+
 pollProgress();
 
 chrome.runtime.onMessage.addListener(function (request) {
@@ -208,10 +215,17 @@ chrome.runtime.onMessage.addListener(function (request) {
     pollProgress.start();
   }
   if (request == 'icons') {
-    [16, 19, 38, 128].forEach(function (s) {
-      const canvas = drawIcon(s);
+    // OffscreenCanvas has no toDataURL in a worker
+    [16, 19, 38, 128].forEach(async function (s) {
+      const canvas = drawIcon(s, { anyInProgress: false });
+      const blob = await canvas.convertToBlob({ type: 'image/png' });
+      const url = await new Promise(function (resolve) {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
       chrome.downloads.download({
-        url: canvas.toDataURL('image/png', 1.0),
+        url,
         filename: 'icon' + s + '.png'
       });
     });
