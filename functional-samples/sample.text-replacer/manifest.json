@@ -9,7 +9,7 @@
     "64": "icons/icon64.png"
   },
   "action": {
-    "default_title": "Show an alert",
+    "default_title": "Manage text replacements",
     "default_icon": {
       "16": "icons/icon16.png",
       "24": "icons/icon24.png",
@@ -28,8 +28,12 @@
     "service_worker": "background.js"
   },
   "commands": {
-    "replace-text": {
-      "description": "Replace text on the current page."
+    "replace-text-command": {
+      "description": "Replace text on the current page.",
+      "suggested_key": {
+        "default": "Alt+R",
+        "mac": "MacCtrl+R"
+      }
     }
   }
 }

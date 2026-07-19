@@ -4,11 +4,13 @@
 // license that can be found in the LICENSE file or at
 // https://developers.google.com/open-source/licenses/bsd
 
+const GET_REPLACEMENTS_MESSAGE_ID = 'get-replacements';
+const SET_REPLACEMENTS_MESSAGE_ID = 'set-replacements';
 const form = document.querySelector('form');
 
-load(['patterns'])
-  .then(data => data.patterns)
-  .then(loadFormData);
+// Ask the background for replacement patterns and initialize the page
+chrome.runtime.sendMessage({id: GET_REPLACEMENTS_MESSAGE_ID})
+  .then(data => loadFormData(data.patterns));
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -21,9 +23,12 @@ form.addEventListener('submit', async (event) => {
   });
 });
 
-document.getElementById('clear').addEventListener('click', (event) => {
-  form.querySelectorAll('input[type=text]').forEach(el => el.value = '');
-  saveFormData();
+document.getElementById('reset').addEventListener('click', (event) => {
+  // <input type="reset"> automatically reset the form's contents, but those
+  // changes won't settle until the the next turn of the event loop. Since
+  // saveFormData works directly gainst DOM, we have to call it after a minimal
+  // delay.
+  setTimeout(saveFormData, 0);
 });
 
 form.addEventListener('input', debounce(saveFormData, 250));
@@ -47,7 +52,7 @@ function saveFormData() {
   const inputs = form.querySelectorAll('input[type=text]');
 
   const patterns = [...inputs].reduce((acc, input, index) => {
-    const outerIndex = index >> 1;
+    const outerIndex = Math.floor(index / 2);
     const innerIndex = index % 2;
 
     if (innerIndex === 0) {
@@ -61,7 +66,11 @@ function saveFormData() {
     return acc;
   }, []);
 
-  return save({patterns});
+  // Ask the background to persist this data
+  chrome.runtime.sendMessage({
+    id: SET_REPLACEMENTS_MESSAGE_ID,
+    data: patterns,
+  });
 }
 
 /**
@@ -92,39 +101,4 @@ async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
-}
-
-
-/**
- * Minimal promise wrapper for chrome.storage.sync.set().
- *
- * @param {object} data Object containing key-value pairs of data to persist.
- */
-async function save(data) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set(data, (result) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-}
-
-/**
- * Minimal promise wrapper for chrome.storage.sync.get().
- *
- * @param {string[]} keys  Array of keys to retrieve from storage.
- */
-function load(keys) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.get(keys, (data) => {
-      if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
-      } else {
-        resolve(data);
-      }
-    });
-  });
 }
