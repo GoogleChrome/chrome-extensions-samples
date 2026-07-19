@@ -1,0 +1,35 @@
+{
+  "name": "Text Replacer",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "Replace any a line of text on a page with another line of text.",
+  "icons": {
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "64": "icons/icon64.png"
+  },
+  "action": {
+    "default_title": "Show an alert",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "24": "icons/icon24.png",
+      "32": "icons/icon32.png"
+     },
+     "default_popup": "popup.html"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "commands",
+    "contextMenus"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "replace-text": {
+      "description": "Replace text on the current page."
+    }
+  }
+}
