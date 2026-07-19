@@ -35,7 +35,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((message, ) => {
   switch (message.id) {
     case GET_REPLACEMENTS_MESSAGE_ID:
-      return chrome.storage.sync.get(['patterns']);
+      // Fall back to an empty array 'patterns' is not set
+      return chrome.storage.sync.get({patterns: []});
 
     case SET_REPLACEMENTS_MESSAGE_ID:
       return chrome.storage.sync.set({'patterns': message.data});
