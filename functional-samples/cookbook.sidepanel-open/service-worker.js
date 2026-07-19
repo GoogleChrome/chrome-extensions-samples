@@ -28,17 +28,27 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-chrome.runtime.onMessage.addListener((message, sender) => {
-  // The callback for runtime.onMessage must return falsy if we're not sending a response
-  (async () => {
-    if (message.type === 'open_side_panel') {
-      // This will open a tab-specific side panel only on the current tab.
-      await chrome.sidePanel.open({ tabId: sender.tab.id });
-      await chrome.sidePanel.setOptions({
-        tabId: sender.tab.id,
-        path: 'sidepanel-tab.html',
-        enabled: true
-      });
-    }
-  })();
+async function setSidePanelOptions(tabId) {
+  await chrome.sidePanel.setOptions({
+    tabId,
+    path: 'sidepanel-tab.html',
+    enabled: true
+  });
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  const tabId = sender.tab?.id;
+
+  if (message.type === 'configure_side_panel' && typeof tabId === 'number') {
+    setSidePanelOptions(tabId)
+      .then(() => sendResponse())
+      .catch((error) => sendResponse({ error: error.message }));
+    return true;
+  }
+
+  // The callback for runtime.onMessage must return falsy if we're not sending a response.
+  if (message.type === 'open_side_panel' && typeof tabId === 'number') {
+    // This will open a tab-specific side panel only on the current tab.
+    chrome.sidePanel.open({ tabId });
+  }
 });
