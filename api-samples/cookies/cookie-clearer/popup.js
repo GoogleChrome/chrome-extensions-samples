@@ -53,7 +53,7 @@ function stringToUrl(input) {
 }
 
 async function deleteDomainCookies(domain) {
-  let cookiesDeleted = 0;
+  let cookiesDeleted;
   try {
     const cookies = await chrome.cookies.getAll({ domain });
 

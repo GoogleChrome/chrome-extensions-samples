@@ -38,8 +38,8 @@ function loadSavedState(callback) {
  * @param {string} newState New {StateEnum} to use.
  */
 function setState(newState) {
-  let imagePrefix = 'night';
-  let title = '';
+  let imagePrefix;
+  let title;
 
   switch (newState) {
     case StateEnum.DISABLED:
