@@ -18,8 +18,9 @@ const SET_REPLACEMENTS_MESSAGE_ID = 'set-replacements';
 const form = document.querySelector('form');
 
 // Ask the background for replacement patterns and initialize the page
-chrome.runtime.sendMessage({id: GET_REPLACEMENTS_MESSAGE_ID})
-  .then(data => loadFormData(data.patterns));
+chrome.runtime
+  .sendMessage({ id: GET_REPLACEMENTS_MESSAGE_ID })
+  .then((data) => loadFormData(data.patterns));
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -27,12 +28,12 @@ form.addEventListener('submit', async (event) => {
 
   let currentTab = await getCurrentTab();
   chrome.scripting.executeScript({
-    target: {tabId: currentTab.id},
+    target: { tabId: currentTab.id },
     files: ['content.js']
   });
 });
 
-document.getElementById('reset').addEventListener('click', (event) => {
+document.getElementById('reset').addEventListener('click', (_event) => {
   // <input type="reset"> automatically reset the form's contents, but those
   // changes won't settle until the the next turn of the event loop. Since
   // saveFormData works directly gainst DOM, we have to call it after a minimal
@@ -78,7 +79,7 @@ function saveFormData() {
   // Ask the background to persist this data
   chrome.runtime.sendMessage({
     id: SET_REPLACEMENTS_MESSAGE_ID,
-    data: patterns,
+    data: patterns
   });
 }
 
@@ -98,7 +99,7 @@ function debounce(fn, wait = 100) {
       timeout = null;
       fn.apply(this, args);
     }, wait);
-  }
+  };
 }
 
 /**

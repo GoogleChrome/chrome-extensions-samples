@@ -30,18 +30,22 @@
 
   // For example purposes only. This may not cover all special characters used
   // in regular repressions.
-  var REGEXP_SPECIAL_CHARACTERS = /[.(){}^$*+?[\]\\]/g;
+  const REGEXP_SPECIAL_CHARACTERS = /[.(){}^$*+?[\]\\]/g;
+
   /** Sanitize user input to prevent unexpected behavior during RegExp execution */
   function escapeRegExp(pattern) {
-    return pattern.replace(REGEXP_SPECIAL_CHARACTERS, "\\$&")
+    return pattern.replace(REGEXP_SPECIAL_CHARACTERS, '\\$&');
   }
 
   /** Iterate through all text nodes and replace  */
   function replaceText(replacements) {
-    const nodeIterator = document.createNodeIterator(document.body, NodeFilter.SHOW_TEXT);
+    const nodeIterator = document.createNodeIterator(
+      document.body,
+      NodeFilter.SHOW_TEXT
+    );
 
     let node;
-    while (node = nodeIterator.nextNode()) {
+    while ((node = nodeIterator.nextNode())) {
       for (let [find, replace] of replacements) {
         // Guard against nullish replacement values
         replace ??= '';
@@ -52,10 +56,10 @@
 
   // Get the patterns to replace from storage, then build a regex from them and
   // replace all text on the page.
-  chrome.runtime.sendMessage({ id: GET_REPLACEMENTS_MESSAGE_ID })
-    .then(function(data) {
+  chrome.runtime
+    .sendMessage({ id: GET_REPLACEMENTS_MESSAGE_ID })
+    .then((data) => {
       const replacementPatterns = buildReplacementRegex(data.patterns);
       replaceText(replacementPatterns);
     });
-
-})()
+})();
