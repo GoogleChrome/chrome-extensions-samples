@@ -22,7 +22,7 @@
   "homepage": "https://github.com/GoogleChrome/chrome-extensions-samples#readme",
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "chrome-types": "0.1.335",
+    "chrome-types": "0.1.435",
     "eslint": "^10.7.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jest": "^29.15.4",
