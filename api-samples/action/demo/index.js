@@ -234,8 +234,7 @@ document
     chrome.action.setBadgeText({ text: '' });
 
     // Randomly pick a new icon
-    let index = lastIconIndex;
-    index = Math.floor(Math.random() * EMOJI.length);
+    let index = Math.floor(Math.random() * EMOJI.length);
     if (index === lastIconIndex) {
       // Dupe detected! Increment the index & modulo to make sure we don't go out of bounds
       index = (index + 1) % EMOJI.length;

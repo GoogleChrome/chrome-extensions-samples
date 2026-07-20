@@ -23,7 +23,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "chrome-types": "0.1.335",
-    "eslint": "9.19.0",
+    "eslint": "^10.7.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jest": "28.11.0",
     "eslint-plugin-prettier": "5.4.1",
