@@ -14,6 +14,7 @@
 
 const GET_REPLACEMENTS_MESSAGE_ID = 'get-replacements';
 const SET_REPLACEMENTS_MESSAGE_ID = 'set-replacements';
+
 const form = document.querySelector('form');
 
 // Ask the background for replacement patterns and initialize the page

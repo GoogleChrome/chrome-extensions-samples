@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Replace any line of text on a page with another line of text.",
+  "minimum_chrome_version": "148",
   "icons": {
     "16": "icons/icon16.png",
     "24": "icons/icon24.png",

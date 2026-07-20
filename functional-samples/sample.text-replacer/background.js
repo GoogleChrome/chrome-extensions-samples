@@ -45,15 +45,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 // Route all storage reads/writes through the background so we have a single
-// source of truth.
-chrome.runtime.onMessage.addListener((message, ) => {
+// source of truth
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   switch (message.id) {
     case GET_REPLACEMENTS_MESSAGE_ID:
       // Fall back to an empty array 'patterns' is not set
       return chrome.storage.sync.get({patterns: []});
 
     case SET_REPLACEMENTS_MESSAGE_ID:
-      return chrome.storage.sync.set({'patterns': message.data});
+      return chrome.storage.sync.set({patterns: message.data});
 
     default:
       throw new Error(`Unknown message received with ID "${message.id}"`);

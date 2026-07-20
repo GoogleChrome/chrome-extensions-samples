@@ -18,6 +18,8 @@
   const GET_REPLACEMENTS_MESSAGE_ID = 'get-replacements';
 
   function buildReplacementRegex(source) {
+    // Guard against nullish inputs
+    source ??= [];
     const output = [];
     for (let i = 0; i < source.length; i++) {
       if (!source[i]) { continue; }
@@ -29,8 +31,8 @@
     return output;
   }
 
-  // This may not cover all special characters used in regular repressions. For
-  // example purposes only.
+  // For example purposes only. This may not cover all special characters used
+  // in regular repressions.
   var REGEXP_SPECIAL_CHARACTERS = /[.(){}^$*+?[\]\\]/g;
   /** Sanitize user input to prevent unexpected behavior during RegExp execution */
   function escapeRegExp(pattern) {
@@ -44,6 +46,8 @@
     let node;
     while (node = nodeIterator.nextNode()) {
       for (let [find, replace] of replacements) {
+        // Guard against nullish replacement values
+        replace ??= '';
         node.nodeValue = node.nodeValue.replace(find, replace);
       }
     }
