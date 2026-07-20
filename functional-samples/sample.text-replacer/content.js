@@ -17,17 +17,14 @@
 (function () {
   const GET_REPLACEMENTS_MESSAGE_ID = 'get-replacements';
 
-  function buildReplacementRegex(source) {
-    // Guard against nullish inputs
-    source ??= [];
-    const output = [];
-    for (let i = 0; i < source.length; i++) {
-      if (!source[i]) { continue; }
-      const [find, replace] = source[i];
-      const sanitizedMatch = escapeRegExp(find);
-      const findExp = new RegExp(`\\b${sanitizedMatch}\\b`, 'gi');
-      output[i] = [findExp, replace];
-    }
+  function buildReplacementRegex(source = []) {
+    const output = source
+      .filter(([find] = []) => find)
+      .map(([find, replace]) => {
+        const sanitizedMatch = escapeRegExp(find);
+        const findExp = new RegExp(`\\b${sanitizedMatch}\\b`, 'gi');
+        return [findExp, replace];
+      });
     return output;
   }
 
