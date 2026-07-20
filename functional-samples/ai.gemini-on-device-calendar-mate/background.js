@@ -1,5 +1,3 @@
-/* global LanguageModel */
-
 import anyDateParser from './node_modules/any-date-parser/dist/index.mjs';
 
 chrome.runtime.onInstalled.addListener(() => {
