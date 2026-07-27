@@ -29,7 +29,7 @@
     "eslint-plugin-prettier": "5.4.1",
     "globals": "17.7.0",
     "husky": "9.1.7",
-    "lint-staged": "17.1.0",
+    "lint-staged": "17.2.0",
     "prettier": "3.9.6"
   },
   "lint-staged": {
