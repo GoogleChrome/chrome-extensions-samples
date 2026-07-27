@@ -14,7 +14,7 @@
     "marked": "14.1.2",
     "@rollup/plugin-commonjs": "26.0.1",
     "@rollup/plugin-node-resolve": "15.2.3",
-    "rollup": "4.22.4",
+    "rollup": "4.62.3",
     "rollup-plugin-copy": "3.5.0"
   }
 }
