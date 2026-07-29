@@ -1,0 +1,31 @@
+/* Body styles */
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* Extension container styles */
+.extension-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Content wrapper styles with rounded corners and shadow */
+.content-wrapper {
+  margin: 4px 8px 8px 4px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+              0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  padding: 20px;
+  box-sizing: border-box;
+  height: calc(100% - 12px);
+  opacity: 1;
+  visibility: visible;
+}
