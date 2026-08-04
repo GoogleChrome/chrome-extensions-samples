@@ -5,6 +5,23 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/"
+      - "/.repo/sample-list-generator"
+      - "/functional-samples/ai.gemini-in-the-cloud"
+      - "/functional-samples/ai.gemini-on-device"
+      - "/functional-samples/ai.gemini-on-device-calendar-mate"
+      - "/functional-samples/ai.gemini-on-device-summarization"
+      - "/functional-samples/libraries-xhr-in-sw"
+      - "/functional-samples/tutorial.puppeteer"
+      - "/functional-samples/tutorial.terminate-sw/puppeteer"
+      - "/functional-samples/tutorial.terminate-sw/selenium"
     schedule:
       interval: "weekly"
+    groups:
+      npm-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
