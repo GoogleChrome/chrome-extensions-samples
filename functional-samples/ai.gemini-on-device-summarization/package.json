@@ -10,7 +10,7 @@
   "keywords": [],
   "license": "Apache 2.0",
   "devDependencies": {
-    "@mozilla/readability": "0.5.0",
+    "@mozilla/readability": "0.6.0",
     "@rollup/plugin-commonjs": "28.0.1",
     "@rollup/plugin-node-resolve": "15.3.0",
     "dompurify": "3.4.12",
