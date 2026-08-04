@@ -4,6 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Let a release sit for a few days before picking it up, so a compromised
+    # or immediately yanked version does not land here. Security updates are
+    # not subject to this.
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
   - package-ecosystem: "npm"
     directories:
       - "/"
@@ -18,6 +24,9 @@ updates:
       - "/functional-samples/tutorial.terminate-sw/selenium"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
     groups:
       npm-minor-and-patch:
         patterns:
