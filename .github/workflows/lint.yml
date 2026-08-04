@@ -1,11 +1,64 @@
 name: CI
 on: [push, pull_request]
+
+# Every job here only reads the checkout.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Install modules
       run: npm ci
     - name: Run ESLint
-      run: npm run lint 
+      run: npm run lint
+
+  # The samples keep their own lockfiles, which the root install never touches.
+  # Installing each one here is what makes a dependency bump to a sample
+  # directory verifiable.
+  samples:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - .repo/sample-list-generator
+          - functional-samples/ai.gemini-in-the-cloud
+          - functional-samples/ai.gemini-on-device
+          - functional-samples/ai.gemini-on-device-calendar-mate
+          - functional-samples/ai.gemini-on-device-summarization
+          - functional-samples/libraries-xhr-in-sw
+          - functional-samples/tutorial.puppeteer
+          - functional-samples/tutorial.terminate-sw/puppeteer
+          - functional-samples/tutorial.terminate-sw/selenium
+    defaults:
+      run:
+        working-directory: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install modules
+        run: npm ci
+      - name: Build
+        run: npm run build --if-present
+
+  # A matrix reports one check per leg, so branch protection has no single name
+  # to require. This job gives it one.
+  samples-complete:
+    if: always()
+    needs: samples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the matrix result
+        env:
+          RESULT: ${{ needs.samples.result }}
+        run: |
+          if [ "$RESULT" != "success" ]; then
+            echo "At least one sample directory failed to install or build."
+            exit 1
+          fi
