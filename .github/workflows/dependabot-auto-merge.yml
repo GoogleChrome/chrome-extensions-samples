@@ -15,12 +15,13 @@ permissions:
 
 jobs:
   auto-merge:
-    if: github.actor == 'dependabot[bot]'
+    # Matched on the account ID rather than the login, which is spoofable.
+    if: github.event.pull_request.user.id == 49699333 # dependabot[bot]
     runs-on: ubuntu-latest
     steps:
       - name: Fetch update metadata
         id: meta
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
 
       - name: Approve and enable auto-merge
         if: >-
