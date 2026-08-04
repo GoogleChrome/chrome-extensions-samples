@@ -1,0 +1,34 @@
+name: Dependabot auto-merge
+
+# Approves and enables auto-merge on Dependabot pull requests once the repo's
+# own CI has passed. Auto-merge means GitHub does the merge itself when every
+# required check is green, so this workflow never merges anything unchecked.
+#
+# Scope: version-update PRs that are patch or minor, plus any security update.
+# Major bumps are left for a human.
+
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch update metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+
+      - name: Approve and enable auto-merge
+        if: >-
+          steps.meta.outputs.update-type != 'version-update:semver-major'
+          || steps.meta.outputs.ghsa-id != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr review "$PR" --approve
+          gh pr merge "$PR" --auto --squash
