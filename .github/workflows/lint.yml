@@ -46,6 +46,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build --if-present
+      - name: Test
+        run: npm run test --if-present
 
   # A matrix reports one check per leg, so branch protection has no single name
   # to require. This job gives it one.

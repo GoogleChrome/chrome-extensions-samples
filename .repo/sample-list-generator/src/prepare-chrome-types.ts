@@ -1,31 +1,30 @@
-import fetch from 'node-fetch';
 import path from 'path';
 import fs from 'fs/promises';
 import { ExtensionApiMap } from './types';
 import { ReflectionKind } from 'typedoc';
 
-// Bucket used to store processed types data
-const STORAGE_BUCKET = process.env.STORAGE_BUCKET;
-
 // Fetch the latest version of the chrome types from storage
-const fetchChromeTypes = async (): Promise<Record<string, any>> => {
-  if (!STORAGE_BUCKET) {
+export const fetchChromeTypes = async (): Promise<Record<string, any>> => {
+  // Bucket used to store processed types data
+  const storageBucket = process.env.STORAGE_BUCKET;
+
+  if (!storageBucket) {
     throw new Error('The STORAGE_BUCKET environment variable must be set.');
   }
 
   console.log('Fetching chrome types...');
 
   const response = await fetch(
-    `https://storage.googleapis.com/download/storage/v1/b/${STORAGE_BUCKET}/o/chrome-types.json?alt=media`
+    `https://storage.googleapis.com/download/storage/v1/b/${storageBucket}/o/chrome-types.json?alt=media`
   );
-  const chromeTypes = await response.json();
-  return chromeTypes;
+  return (await response.json()) as Record<string, any>;
 };
 
-const run = async () => {
+// Sort every property of every API into properties, methods, events or types
+export const toExtensionApiMap = (
+  chromeTypes: Record<string, any>
+): ExtensionApiMap => {
   const result: ExtensionApiMap = {};
-
-  const chromeTypes = await fetchChromeTypes();
 
   for (const [chromeApiKey, chromeApiDetails] of Object.entries(chromeTypes)) {
     const apiDetails: ExtensionApiMap[string] = {
@@ -61,6 +60,13 @@ const run = async () => {
     result[chromeApiKey] = apiDetails;
   }
 
+  return result;
+};
+
+const run = async () => {
+  const chromeTypes = await fetchChromeTypes();
+  const result = toExtensionApiMap(chromeTypes);
+
   console.log('Writing to file...');
   await fs.writeFile(
     path.join(__dirname, '../extension-apis.json'),
@@ -77,4 +83,7 @@ const run = async () => {
   console.log('Done!');
 };
 
-run();
+// Only run when invoked as a script, so the exports above stay importable.
+if (require.main === module) {
+  run();
+}
