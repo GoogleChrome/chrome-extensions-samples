@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "Base44 Support Documentation": {
+      "url": "https://docs.base44.com/mcp",
+      "type": "http"
+    }
+  },
+  "inputs": []
+}

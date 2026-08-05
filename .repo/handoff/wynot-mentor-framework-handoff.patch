@@ -1,0 +1,1588 @@
+From 4160b0f74463135d5584ad9188394d215f184d64 Mon Sep 17 00:00:00 2001
+From: Abel WYNOT <info@wynotfit.com>
+Date: Wed, 5 Aug 2026 01:01:31 +0000
+Subject: [PATCH] Establish WYNOT mentor framework and quality governance
+
+---
+ .editorconfig                                 |  12 ++
+ .github/CODEOWNERS                            |   6 +
+ .github/pull_request_template.md              |  30 +++
+ .github/workflows/lint.yml                    |  27 ++-
+ .nvmrc                                        |   1 +
+ .repo/scripts/validate-manifests.js           | 190 ++++++++++++++++++
+ AGENTS.md                                     |  47 +++++
+ CONTRIBUTING.md                               |  49 +++++
+ README.md                                     |  50 +++++
+ docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md    |  44 ++++
+ docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md   |  46 +++++
+ docs/wynot/GOVERNANCE-PATHWAY.md              |  29 +++
+ docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md      |  65 ++++++
+ docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md    |  27 +++
+ docs/wynot/MCP-RESOURCES.md                   |  90 +++++++++
+ docs/wynot/README.md                          |  40 ++++
+ docs/wynot/ZERO-TRUST-ARCHITECTURE.md         |  43 ++++
+ .../AEO-ABOUT-PAGE-BLUEPRINT-2026.md          |  48 +++++
+ .../BRAND-CONSISTENCY-CHECKLIST-2026.md       |  38 ++++
+ .../COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md |  96 +++++++++
+ ...FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md |  39 ++++
+ .../handbooks/WEB-DEPARTMENT-SOP-v1-2026.md   |  43 ++++
+ .../WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md    |  38 ++++
+ .../WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md  |  83 ++++++++
+ ...WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md |  45 +++++
+ .../handbooks/WYNOT-ORCHESTRATOR-2026.md      |  38 ++++
+ .../tutorial.getting-started/README.md        |   6 +-
+ .../tutorial.hello-world/README.md            |   2 +-
+ .../tutorial.tabs-manager/README.md           |   6 +-
+ package.json                                  |  10 +
+ 30 files changed, 1274 insertions(+), 14 deletions(-)
+ create mode 100644 .editorconfig
+ create mode 100644 .github/CODEOWNERS
+ create mode 100644 .github/pull_request_template.md
+ create mode 100644 .nvmrc
+ create mode 100644 .repo/scripts/validate-manifests.js
+ create mode 100644 AGENTS.md
+ create mode 100644 docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md
+ create mode 100644 docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md
+ create mode 100644 docs/wynot/GOVERNANCE-PATHWAY.md
+ create mode 100644 docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md
+ create mode 100644 docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md
+ create mode 100644 docs/wynot/MCP-RESOURCES.md
+ create mode 100644 docs/wynot/README.md
+ create mode 100644 docs/wynot/ZERO-TRUST-ARCHITECTURE.md
+ create mode 100644 docs/wynot/handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md
+ create mode 100644 docs/wynot/handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md
+ create mode 100644 docs/wynot/handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md
+ create mode 100644 docs/wynot/handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md
+ create mode 100644 docs/wynot/handbooks/WEB-DEPARTMENT-SOP-v1-2026.md
+ create mode 100644 docs/wynot/handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md
+ create mode 100644 docs/wynot/handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md
+ create mode 100644 docs/wynot/handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md
+ create mode 100644 docs/wynot/handbooks/WYNOT-ORCHESTRATOR-2026.md
+
+diff --git a/.editorconfig b/.editorconfig
+new file mode 100644
+index 00000000..1014ba78
+--- /dev/null
++++ b/.editorconfig
+@@ -0,0 +1,12 @@
++root = true
++
++[*]
++charset = utf-8
++end_of_line = lf
++insert_final_newline = true
++indent_style = space
++indent_size = 2
++trim_trailing_whitespace = true
++
++[*.md]
++trim_trailing_whitespace = false
+diff --git a/.github/CODEOWNERS b/.github/CODEOWNERS
+new file mode 100644
+index 00000000..b85315cb
+--- /dev/null
++++ b/.github/CODEOWNERS
+@@ -0,0 +1,6 @@
++# Default reviewers for all changes in this fork.
++* @WYNOTworldwide
++
++# Additional sample-area ownership can be added below as the repo scales.
++# api-samples/ @team-or-user
++# functional-samples/ @team-or-user
+\ No newline at end of file
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+new file mode 100644
+index 00000000..4d873ef1
+--- /dev/null
++++ b/.github/pull_request_template.md
+@@ -0,0 +1,30 @@
++## Summary
++
++Describe what this change does and why.
++
++## Samples Affected
++
++- List updated sample paths.
++
++## Validation
++
++- [ ] `npm run ci:verify`
++- [ ] Manual load/unpacked test done for affected samples
++
++## Breaking Changes
++
++- [ ] None
++- [ ] Yes (describe below)
++
++## Checklist
++
++- [ ] README updated for any new or migrated sample
++- [ ] Relevant issue linked
++- [ ] Screenshots included when UI behavior changed
++
++## WYNOT mentor compliance
++
++- [ ] Brand voice and visual style reviewed
++- [ ] Governance pathway impact reviewed (BrandBrain Tree Network)
++- [ ] Zero-trust architecture impact reviewed
++- [ ] MCP workflow changes documented (if automation changed)
+diff --git a/.github/workflows/lint.yml b/.github/workflows/lint.yml
+index 56872f90..bb44def3 100644
+--- a/.github/workflows/lint.yml
++++ b/.github/workflows/lint.yml
+@@ -1,11 +1,24 @@
+-name: CI
++name: CI Quality
+ on: [push, pull_request]
++
++permissions:
++  contents: read
++
++concurrency:
++  group: ${{ github.workflow }}-${{ github.ref }}
++  cancel-in-progress: true
++
+ jobs:
+-  build:
++  quality:
+     runs-on: ubuntu-latest
+     steps:
+-    - uses: actions/checkout@v7
+-    - name: Install modules
+-      run: npm ci
+-    - name: Run ESLint
+-      run: npm run lint 
++      - uses: actions/checkout@v7
++      - name: Setup Node.js
++        uses: actions/setup-node@v4
++        with:
++          node-version: 20
++          cache: npm
++      - name: Install modules
++        run: npm ci
++      - name: Run quality checks
++        run: npm run ci:verify
+diff --git a/.nvmrc b/.nvmrc
+new file mode 100644
+index 00000000..209e3ef4
+--- /dev/null
++++ b/.nvmrc
+@@ -0,0 +1 @@
++20
+diff --git a/.repo/scripts/validate-manifests.js b/.repo/scripts/validate-manifests.js
+new file mode 100644
+index 00000000..d277eff5
+--- /dev/null
++++ b/.repo/scripts/validate-manifests.js
+@@ -0,0 +1,190 @@
++// Copyright 2026
++// SPDX-License-Identifier: Apache-2.0
++
++const fs = require('node:fs');
++const path = require('node:path');
++
++const ROOT_DIR = process.cwd();
++const SAMPLE_ROOTS = ['api-samples', 'functional-samples'];
++const SKIP_DIRS = new Set(['node_modules', 'dist', 'third-party', '.git']);
++const BUILD_OUTPUT_PREFIXES = ['dist/'];
++const REFERENCE_FILE_FIELDS = [
++  'default_popup',
++  'default_path',
++  'default_icon',
++  'service_worker',
++  'worker',
++  'options_page',
++  'devtools_page',
++  'newtab',
++  'page',
++  'js',
++  'script',
++  'css'
++];
++
++function isNonEmptyString(value) {
++  return typeof value === 'string' && value.trim().length > 0;
++}
++
++function walkForManifests(dir, found = []) {
++  const entries = fs.readdirSync(dir, { withFileTypes: true });
++
++  for (const entry of entries) {
++    if (entry.name.startsWith('.') && entry.name !== '.repo') continue;
++    if (SKIP_DIRS.has(entry.name)) continue;
++
++    const fullPath = path.join(dir, entry.name);
++
++    if (entry.isDirectory()) {
++      walkForManifests(fullPath, found);
++      continue;
++    }
++
++    if (entry.isFile() && entry.name === 'manifest.json') {
++      found.push(fullPath);
++    }
++  }
++
++  return found;
++}
++
++function validateManifest(manifestPath) {
++  const errors = [];
++  const relativePath = path.relative(ROOT_DIR, manifestPath);
++  const manifestDir = path.dirname(manifestPath);
++  const raw = fs.readFileSync(manifestPath, 'utf8');
++
++  let parsed;
++  try {
++    parsed = JSON.parse(raw);
++  } catch (error) {
++    errors.push(`${relativePath}: invalid JSON (${error.message})`);
++    return errors;
++  }
++
++  if (!Number.isInteger(parsed.manifest_version)) {
++    errors.push(`${relativePath}: missing or invalid "manifest_version"`);
++  }
++  if (!isNonEmptyString(parsed.name)) {
++    errors.push(`${relativePath}: missing or invalid "name"`);
++  }
++  if (!isNonEmptyString(parsed.version)) {
++    errors.push(`${relativePath}: missing or invalid "version"`);
++  }
++
++  const localeErrors = validateDefaultLocale(manifestDir, parsed.default_locale);
++  for (const localeError of localeErrors) {
++    errors.push(`${relativePath}: ${localeError}`);
++  }
++
++  const references = [];
++  collectFileReferences(parsed, references);
++  const missingFiles = getMissingFiles(manifestDir, references);
++  for (const filePath of missingFiles) {
++    errors.push(`${relativePath}: references missing file "${filePath}"`);
++  }
++
++  return errors;
++}
++
++function validateDefaultLocale(manifestDir, defaultLocale) {
++  if (!isNonEmptyString(defaultLocale)) {
++    return [];
++  }
++
++  const messagesPath = path.join(manifestDir, '_locales', defaultLocale, 'messages.json');
++  if (fs.existsSync(messagesPath)) {
++    return [];
++  }
++
++  return [
++    `default_locale "${defaultLocale}" is set but _locales/${defaultLocale}/messages.json is missing`
++  ];
++}
++
++function collectFileReferences(value, references) {
++  if (Array.isArray(value)) {
++    for (const item of value) {
++      collectFileReferences(item, references);
++    }
++    return;
++  }
++
++  if (!value || typeof value !== 'object') {
++    return;
++  }
++
++  for (const [key, nestedValue] of Object.entries(value)) {
++    if (REFERENCE_FILE_FIELDS.includes(key)) {
++      if (typeof nestedValue === 'string') {
++        references.push(nestedValue);
++      } else if (Array.isArray(nestedValue)) {
++        for (const item of nestedValue) {
++          if (typeof item === 'string') {
++            references.push(item);
++          }
++        }
++      }
++    }
++
++    collectFileReferences(nestedValue, references);
++  }
++}
++
++function getMissingFiles(manifestDir, references) {
++  const missing = [];
++
++  for (const entry of references) {
++    if (!isNonEmptyString(entry)) continue;
++    if (/^https?:\/\//i.test(entry)) continue;
++    if (/^\w+:/i.test(entry)) continue;
++    if (entry.includes('*')) continue;
++
++    const normalized = entry.replace(/^\/+/, '').split('?')[0].split('#')[0];
++    if (!normalized || normalized.endsWith('/')) continue;
++    if (BUILD_OUTPUT_PREFIXES.some((prefix) => normalized.startsWith(prefix))) {
++      continue;
++    }
++
++    const resolvedPath = path.resolve(manifestDir, normalized);
++    if (!resolvedPath.startsWith(manifestDir)) continue;
++
++    if (!fs.existsSync(resolvedPath)) {
++      missing.push(entry);
++    }
++  }
++
++  return [...new Set(missing)];
++}
++
++function run() {
++  const rootsToScan = SAMPLE_ROOTS.map((root) => path.join(ROOT_DIR, root)).filter((root) =>
++    fs.existsSync(root)
++  );
++
++  if (rootsToScan.length === 0) {
++    console.error('No sample roots found to validate.');
++    process.exit(1);
++  }
++
++  const manifestPaths = rootsToScan.flatMap((root) => walkForManifests(root));
++  if (manifestPaths.length === 0) {
++    console.error('No manifests found under sample roots.');
++    process.exit(1);
++  }
++
++  const errors = manifestPaths.flatMap(validateManifest);
++
++  if (errors.length > 0) {
++    console.error(`Manifest validation failed with ${errors.length} issue(s):`);
++    for (const error of errors) {
++      console.error(`- ${error}`);
++    }
++    process.exit(1);
++  }
++
++  console.log(`Validated ${manifestPaths.length} manifest.json files successfully.`);
++}
++
++run();
+\ No newline at end of file
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 00000000..ef509ebc
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,47 @@
++# Agent Operating Standard
++
++This repository is a mentor-grade learning system. Agents and developers should
++optimize for clarity, safety, and transferability.
++
++## Core behavior
++
++- Prefer small, reviewable changes over broad rewrites.
++- Validate with `npm run quality:quick` during iteration.
++- Validate with `npm run ci:verify` before handoff.
++- Preserve sample readability for early-career developers.
++
++## WYNOT framework compliance
++
++For standards that shape implementation and review decisions, consult:
++
++- [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md)
++- [docs/wynot/GOVERNANCE-PATHWAY.md](docs/wynot/GOVERNANCE-PATHWAY.md)
++- [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](docs/wynot/ZERO-TRUST-ARCHITECTURE.md)
++- [docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md](docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md)
++- [docs/wynot/MCP-RESOURCES.md](docs/wynot/MCP-RESOURCES.md)
++- [docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md)
++
++## Ecosystem dependency defaults
++
++- Use the July 2026 baseline stack as the default decision source.
++- Flag any version that diverges from baseline in PR rationale.
++- Require migration impact notes for major-version updates.
++
++## Quality and security expectations
++
++- Keep permissions minimal and justified.
++- Avoid introducing unverified file paths in manifests.
++- Keep tests and validation commands green.
++- Document rationale when adding architectural complexity.
++- Treat agent-skill permission checks as mandatory security boundaries.
++
++## MCP usage pattern
++
++- Use MCP tools to gather facts before changing governance or architecture.
++- Prefer read-only discovery first, write actions second.
++- Record policy-impacting decisions in PR descriptions.
++- Verify ecosystem dependency guidance against baseline docs before proposing
++  framework changes.
++- Cross-check handbook requirements using
++  [docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md](docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md)
++  before finalizing implementation plans.
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 9f393208..3d8bba17 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -39,6 +39,48 @@ use GitHub pull requests for this purpose. Consult
+ [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
+ information on using pull requests.
+ 
++### Quality gate before opening a PR
++
++Before requesting review, run:
++
++```sh
++npm run quality:quick
++npm run format:check
++npm run ci:verify
++```
++
++PRs are expected to keep these checks green.
++
++### What makes a sample mentor-grade
++
++- The intent is clear: README explains what the sample teaches.
++- The boundary is clear: permissions and APIs are minimal and justified.
++- The behavior is verifiable: sample can be loaded and basic scenario tested.
++- The implementation is reusable: naming and structure are consistent.
++- The quality gates pass: no lint, formatting, or manifest validation failures.
++
++### WYNOT standards references
++
++When changes touch UX, policy, architecture, or automation pathways, align with:
++
++- [AGENTS.md](AGENTS.md)
++- [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md)
++- [docs/wynot/GOVERNANCE-PATHWAY.md](docs/wynot/GOVERNANCE-PATHWAY.md)
++- [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](docs/wynot/ZERO-TRUST-ARCHITECTURE.md)
++- [docs/wynot/MCP-RESOURCES.md](docs/wynot/MCP-RESOURCES.md)
++- [docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md)
++
++### Ecosystem stack baseline policy
++
++Changes that add or update major framework dependencies should align with
++[docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md).
++
++If a change intentionally diverges from baseline, include:
++
++- Compatibility rationale
++- Migration impact
++- Rollback plan
++
+ ### Setting up your Environment
+ 
+ If you want to contribute to this repository, you need to first [create your own fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+@@ -60,3 +102,10 @@ npm install
+ All new code samples or samples updated from Manifest V2 should include a
+ README file. Please copy the [provided template](./README-template.md) into
+ your sample's folder and follow the instructions therein.
++
++For high-quality onboarding, include:
++
++- What problem the sample solves.
++- Which APIs are demonstrated and why.
++- Required permissions and tradeoffs.
++- Manual verification steps.
+diff --git a/README.md b/README.md
+index b037e969..bf3c8523 100644
+--- a/README.md
++++ b/README.md
+@@ -4,6 +4,41 @@ Official samples for Chrome Extensions and the Chrome Apps platform. (Chrome App
+ 
+ For more information on extensions, see [Chrome Developers](https://developer.chrome.com).
+ 
++## Mentor Repo Standards
++
++This repository is maintained as a mentor-grade sample library. Every accepted
++change should improve one or more of the following:
++
++- Clarity: examples are easy to read, reason about, and explain.
++- Correctness: sample behavior and metadata are valid and testable.
++- Reusability: patterns can be lifted into production projects safely.
++- Maintainability: contributors can verify changes quickly and consistently.
++
++### WYNOT framework alignment
++
++This repository includes a WYNOT framework layer for developers and coding
++agents. See:
++
++- [AGENTS.md](AGENTS.md) for agent operating rules.
++- [docs/wynot/README.md](docs/wynot/README.md) for the standards index.
++- [docs/wynot/MCP-RESOURCES.md](docs/wynot/MCP-RESOURCES.md) for MCP workflows.
++
++## Quality Gate
++
++Run these commands before opening a PR:
++
++```sh
++npm run quality:quick
++npm run format:check
++npm run ci:verify
++```
++
++What each command checks:
++
++- `quality:quick`: linting and manifest smoke validation.
++- `format:check`: enforced markdown/html/json formatting for the curated scope.
++- `ci:verify`: full local equivalent of CI Quality checks.
++
+ ## Explore samples
+ 
+ The directory structure is as follows:
+@@ -20,6 +55,21 @@ You can also use the [Samples](https://developer.chrome.com/docs/extensions/samp
+ To experiment with these samples, please clone this repo and use 'Load Unpacked Extension'.
+ Read more on [Development Basics](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+ 
++## Contributor Workflow
++
++```sh
++# install dependencies
++npm install
++
++# run fast validation while iterating
++npm run quality:quick
++
++# run complete validation before creating a PR
++npm run ci:verify
++```
++
++For contribution policy and review expectations, see [CONTRIBUTING.md](CONTRIBUTING.md).
++
+ ## Contributing
+ 
+ Please see [the CONTRIBUTING file](/CONTRIBUTING.md) for information on contributing to the `chrome-extensions-samples` project.
+diff --git a/docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md b/docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md
+new file mode 100644
+index 00000000..7217798e
+--- /dev/null
++++ b/docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md
+@@ -0,0 +1,44 @@
++# Brand Voice and Visual Style
++
++This file is the implementation-facing contract for WYNOT brand and interface
++standards used in ecosystem repositories.
++
++## Voice contract
++
++- Teach first: explain intent before implementation details.
++- Be direct: avoid vague language and hidden assumptions.
++- Be accountable: list what was validated and what remains unverified.
++
++## AEO language guardrails
++
++- Start authority pages with BLUF-style entity definition before narrative.
++- Use question-based section headings for retrieval alignment.
++- Minimize pronouns when factual entity naming improves clarity.
++- Avoid marketing buzzwords when factual language is available.
++- Write each section as a standalone extractable unit.
++
++## UI and code style expectations
++
++- Keep naming explicit and domain-relevant.
++- Prefer accessibility and readability over novelty.
++- Avoid visual ambiguity in sample UI labels and interactions.
++
++## Integration notes
++
++When you add the official WYNOT handbooks, map their sections here:
++
++- Tone and language rules
++- Visual hierarchy rules
++- Design token and CSS system rules
++- Accessibility and responsiveness rules
++
++Map ecosystem design-system constraints to this module when available:
++
++- `tailwind.config.js` policy or Tailwind 4 CSS-first equivalents
++- `wynot-global.css` standards and token usage policy
++- Component-level accessibility style contracts
++
++## PR checklist additions
++
++- Voice and UX language are consistent with handbook rules.
++- Any style token changes are documented and justified.
+diff --git a/docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md b/docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md
+new file mode 100644
+index 00000000..340334c5
+--- /dev/null
++++ b/docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md
+@@ -0,0 +1,46 @@
++# WYNOT Ecosystem Stack Baseline (July 2026)
++
++This baseline is the default stack contract for WYNOT ecosystem web and app
++repositories. Use it for architecture decisions, agent implementation defaults,
++and dependency governance reviews.
++
++## Verified current versions
++
++| Package                   | Current      | Notes                                 |
++| ------------------------- | ------------ | ------------------------------------- |
++| Next.js                   | 16.2.x       | Major breaking release                |
++| React                     | 19.2.x       | Compiler stable, Actions              |
++| Motion (ex-Framer Motion) | 12.x         | Rebranded to `motion`                 |
++| Tailwind CSS              | 4.x          | CSS-first config, no config file      |
++| shadcn CLI                | 4.x          | Agent-friendly, Base UI default       |
++| GSAP                      | 3.15.x       | 100% free, all plugins                |
++| React Three Fiber         | 9.x          | React 19 compatible                   |
++| Supabase JS               | 2.110.x      | -                                     |
++| Stripe SDK                | 22.x         | -                                     |
++| Zod                       | 4.x          | Performance rewrite                   |
++| Drizzle / Prisma          | 0.45.x / 7.x | Drizzle is the default recommendation |
++
++## Implementation defaults
++
++- Default rendering stack: Next.js 16 + React 19.
++- Default schema validation: Zod 4.
++- Default data layer: Drizzle unless a project constraint requires Prisma.
++- Default animation engine: Motion 12; use GSAP when timeline complexity or
++  plugin-based animation is required.
++- Default utility styling: Tailwind 4 CSS-first approach.
++
++## Compatibility guardrails
++
++- Do not introduce React 18-era compatibility dependencies in new code.
++- Do not add Tailwind legacy config patterns in new repos.
++- For R3F usage, require 9.x+ in React 19 projects.
++- Require explicit migration notes when upgrading any baseline major version.
++
++## Governance requirements for stack changes
++
++When proposing changes to this baseline:
++
++1. Document migration impact on current WYNOT repos.
++2. Document zero-trust and supply-chain implications.
++3. Link upstream release notes and compatibility evidence.
++4. Add an adoption plan and rollback strategy.
+diff --git a/docs/wynot/GOVERNANCE-PATHWAY.md b/docs/wynot/GOVERNANCE-PATHWAY.md
+new file mode 100644
+index 00000000..73a5ce2a
+--- /dev/null
++++ b/docs/wynot/GOVERNANCE-PATHWAY.md
+@@ -0,0 +1,29 @@
++# Governance Pathway
++
++This document maps contributor decisions to the WYNOT BrandBrain Tree Network
++governance pathway.
++
++## Decision classes
++
++- Content decision: docs, examples, and teaching sequence.
++- Interface decision: labels, flows, and visual structure.
++- Architecture decision: dependency, security, and runtime boundaries.
++- Automation decision: CI, checks, and release-impacting workflows.
++- Stack decision: framework and package baseline changes.
++- Guardrail decision: agent-skill permissions and risk-tier enforcement.
++
++## Governance checkpoints
++
++1. Identify impacted decision class.
++2. Record expected learner or developer impact.
++3. Validate stack compatibility against
++   [ECOSYSTEM-STACK-BASELINE-2026.md](ECOSYSTEM-STACK-BASELINE-2026.md).
++4. Validate guardrail model impacts against
++   [GUARDRAIL-LAYERS-REFERENCE.md](GUARDRAIL-LAYERS-REFERENCE.md).
++5. Validate through the quality gate.
++6. Capture residual risks in the PR.
++
++## Review protocol
++
++- Require at least one reviewer to confirm governance alignment.
++- Require updated rationale when a change affects shared standards.
+diff --git a/docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md b/docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md
+new file mode 100644
+index 00000000..f6fcf7a3
+--- /dev/null
++++ b/docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md
+@@ -0,0 +1,65 @@
++# Guardrail Layers Reference
++
++This document captures the zero-trust guardrail model used in WYNOT ecosystem
++repos where agent skills are governed through explicit permission checks.
++
++## Core model
++
++- A skills registry is the source of truth for callable skills.
++- Each skill record defines ownership, risk classification, and lifecycle state.
++- Every invocation path must verify permission before skill execution.
++
++## Canonical skill fields
++
++The registry contract should include at least:
++
++- `id`: stable skill identifier, for example `SKL-PII-001`
++- `name`: human-readable skill label
++- `owningAgent`: agent permitted to execute the skill by default
++- `guardrailLevel`: policy severity tier used for enforcement
++- `status`: lifecycle state such as active, deprecated, or blocked
++
++## Permission contract
++
++The permission verifier should answer one question deterministically:
++
++Is the requesting agent authorized to execute the target skill in this context?
++
++Recommended shape:
++
++- Function name: `verifyAgentPermission()`
++- Inputs: `agentId`, `skillId`, optional context metadata
++- Output: explicit allow or deny result, plus reason for auditability
++
++## Guardrail layers
++
++1. Registry layer
++   All skills are registered and typed before use.
++2. Ownership layer
++   Runtime checks enforce skill-to-agent ownership.
++3. Risk layer
++   `guardrailLevel` gates high-risk skills with stronger controls.
++4. Status layer
++   `status` blocks deprecated or disabled skills.
++5. Audit layer
++   Denials and policy overrides are logged for review.
++6. Authority layer
++   Human leadership, compliance, and legal decisions cannot be overridden by
++   AI agents.
++
++## Integration notes
++
++If test suites or portals depend on registry fields, keep the shared type schema
++in sync first, then update call sites. This avoids iterative compile failures
++where consumers expect fields that the registry schema does not expose yet.
++
++## WYNOT adoption checklist
++
++- Skills registry defines the canonical fields above.
++- Permission checks run before every skill invocation.
++- High-risk skills are assigned non-default guardrail levels.
++- Denied invocations include an actionable reason.
++- Schema updates are validated against tests and portal contracts.
++- Active compliance holds block execution even when a growth agent proposes
++  changes.
++- Connector access is explicit, role-scoped, and least privilege by default.
+diff --git a/docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md b/docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md
+new file mode 100644
+index 00000000..b76e5458
+--- /dev/null
++++ b/docs/wynot/HANDBOOK-TRACEABILITY-MATRIX.md
+@@ -0,0 +1,27 @@
++# Handbook Traceability Matrix
++
++This matrix maps imported WYNOT handbooks to enforcement points in this
++repository.
++
++## Enforcement map
++
++| Handbook domain                                         | Source handbook                                                                                     | Repo control point                                                                                                                                         | Owner                                                   | Validation command                               |
++| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------ |
++| Brand voice and communication                           | [Operating system and culture manual](handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md)         | [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](BRAND-VOICE-AND-VISUAL-STYLE.md)                                                                              | Web Producer + Tribe Liaison                            | `npm run format:check`                           |
++| Visual identity, social templates, hashtags             | [Brand consistency checklist](handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md)                        | [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](BRAND-VOICE-AND-VISUAL-STYLE.md)                                                                              | Visual Designer + Social Lead                           | `npm run format:check`                           |
++| Facility emergency procedures and induction             | [Facility safety SOP](handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md)                         | [docs/wynot/GOVERNANCE-PATHWAY.md](GOVERNANCE-PATHWAY.md)                                                                                                  | Operations Lead + Tribe Liaison                         | Documentation review in PR + `npm run ci:verify` |
++| Youth safety, professionalism, confidentiality          | [Operating system and culture manual](handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md)         | [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](ZERO-TRUST-ARCHITECTURE.md)                                                                                        | Operations + Security                                   | `npm run ci:verify`                              |
++| Nutrition method deployment controls                    | [Nutrition playbook](handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md)                              | [docs/wynot/GOVERNANCE-PATHWAY.md](GOVERNANCE-PATHWAY.md)                                                                                                  | Fitness Tribe Lead                                      | Content review + `npm run format:check`          |
++| Web lifecycle, WCAG, CWV, OWASP, AEO                    | [Web department SOP](handbooks/WEB-DEPARTMENT-SOP-v1-2026.md)                                       | [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](ZERO-TRUST-ARCHITECTURE.md), [docs/wynot/MCP-RESOURCES.md](MCP-RESOURCES.md)                                       | Web Producer + QA Lead + Security                       | `npm run ci:verify`                              |
++| Payments and intelligence architecture                  | [WYNOT Orchestrator 2026](handbooks/WYNOT-ORCHESTRATOR-2026.md)                                     | [docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md](GUARDRAIL-LAYERS-REFERENCE.md), [docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](ECOSYSTEM-STACK-BASELINE-2026.md) | Platform Lead + Security                                | Architecture PR review + `npm run ci:verify`     |
++| SuperAgent role-based platform architecture             | [WYNOT Global SuperAgent platform spec](handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md)         | [docs/wynot/GOVERNANCE-PATHWAY.md](GOVERNANCE-PATHWAY.md), [docs/wynot/GUARDRAIL-LAYERS-REFERENCE.md](GUARDRAIL-LAYERS-REFERENCE.md)                       | Growth Architect + Compliance Commander + Platform Lead | Architecture PR review + `npm run ci:verify`     |
++| Connector permissions and controlled intelligence model | [WYNOT Global SuperAgent platform spec](handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md)         | [docs/wynot/MCP-RESOURCES.md](MCP-RESOURCES.md), [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](ZERO-TRUST-ARCHITECTURE.md)                                       | Compliance Commander + Security Lead                    | Security review + `npm run ci:verify`            |
++| AEO source-of-truth page architecture                   | [AEO About page blueprint](handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md)                              | [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](BRAND-VOICE-AND-VISUAL-STYLE.md), [docs/wynot/MCP-RESOURCES.md](MCP-RESOURCES.md)                             | Content Lead + SEO Lead + Authority Concierge           | Content review + `npm run format:check`          |
++| Competitive intelligence stack governance               | [Competitive intelligence and AI stack report](handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md) | [docs/wynot/GOVERNANCE-PATHWAY.md](GOVERNANCE-PATHWAY.md), [docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](ECOSYSTEM-STACK-BASELINE-2026.md)                 | Growth Architect + Data Lead + Platform Lead            | Strategy review + `npm run ci:verify`            |
++
++## Required PR evidence for policy-impacting changes
++
++1. Link the applicable handbook section.
++2. Link the mapped repo control point.
++3. Provide validation output from `npm run ci:verify`.
++4. Note residual risk and rollback path.
+diff --git a/docs/wynot/MCP-RESOURCES.md b/docs/wynot/MCP-RESOURCES.md
+new file mode 100644
+index 00000000..d6346532
+--- /dev/null
++++ b/docs/wynot/MCP-RESOURCES.md
+@@ -0,0 +1,90 @@
++# MCP Resources and Workflow
++
++This file defines how to use Model Context Protocol resources for a mentor-grade
++repository workflow.
++
++## MCP resource classes
++
++- Repository discovery: structure, file, and symbol lookup.
++- Governance and PR management: review context and status checks.
++- Documentation retrieval: external standards and API references.
++- Ecosystem baselines: dependency and architecture constraints.
++
++## Recommended operating flow
++
++1. Discover context with read-only MCP tools.
++2. Validate assumptions against source files and workflow config.
++3. Apply minimal code or docs changes.
++4. Re-run quality checks.
++5. Report findings with explicit file references.
++
++## Minimum evidence for policy or architecture changes
++
++- Affected files and rationale captured in PR.
++- Validation output from `npm run ci:verify`.
++- Governance and zero-trust impact note.
++- Baseline stack compatibility note.
++- Guardrail-model impact note for agent-skill changes.
++- Connector access-impact note for integrations.
++
++## WYNOT handbook integration
++
++When official handbooks are available, add links and references here:
++
++- Brand voice handbook
++- Visual style handbook
++- Developer and agent behavior handbook
++- BrandBrain governance handbook
++- Zero-trust build handbook
++
++## Stack verification workflow
++
++When implementation involves frameworks or platform dependencies:
++
++1. Check [ECOSYSTEM-STACK-BASELINE-2026.md](ECOSYSTEM-STACK-BASELINE-2026.md).
++2. Verify upstream package status and migration notes.
++3. Record compatibility decisions in PR summary.
++4. If divergence is needed, link governance rationale and rollback plan.
++
++## Guardrail verification workflow
++
++When implementation touches agent skills, portals, or runtime policy checks:
++
++1. Validate field compatibility against
++   [GUARDRAIL-LAYERS-REFERENCE.md](GUARDRAIL-LAYERS-REFERENCE.md).
++2. Confirm permission checks run before skill execution.
++3. Confirm deny paths are testable and auditable.
++
++## Integration permission baseline
++
++For WYNOT Global SuperAgent-style systems, apply controlled integration access:
++
++- Default read-only for Google Drive, Google Docs, GA4, and Search Console.
++- Do not enable Gmail, Contacts API, or Admin SDK until a formal risk review is
++  approved.
++- Add Calendar access only when scheduling automation is explicitly scoped,
++  reviewed, and approved.
++- Record which role can trigger each connector action before deployment.
++
++## AEO publishing workflow
++
++When creating high-authority About pages and entity definitions:
++
++1. Use BLUF structure in the opening section with legal entity, audience,
++   product, and location facts.
++2. Use question-based H2/H3 headings aligned to search intent.
++3. Ground claims with verifiable evidence (founders, dates, credentials,
++   compliance, or measured outputs).
++4. Keep paragraph blocks standalone so AI systems can quote each section
++   independently.
++
++## Competitive intelligence workflow
++
++When strategy or market-positioning docs are updated:
++
++1. Log benchmark source and why it matters for WYNOT positioning.
++2. Map the finding to an action queue owner and due date.
++3. Distinguish enterprise benchmark behavior from startup-friendly WYNOT
++   adoption path.
++4. Add monthly review cadence and dashboard signals before proposing new tool
++   spend.
+diff --git a/docs/wynot/README.md b/docs/wynot/README.md
+new file mode 100644
+index 00000000..006c5653
+--- /dev/null
++++ b/docs/wynot/README.md
+@@ -0,0 +1,40 @@
++# WYNOT Standards Index
++
++This folder defines the standards layer that makes the repository act like an
++elite mentor project for both humans and coding agents.
++
++## Standards modules
++
++- [Brand voice and visual style](BRAND-VOICE-AND-VISUAL-STYLE.md)
++- [Governance pathway](GOVERNANCE-PATHWAY.md)
++- [Zero-trust architecture](ZERO-TRUST-ARCHITECTURE.md)
++- [Guardrail layers reference](GUARDRAIL-LAYERS-REFERENCE.md)
++- [MCP resources and workflow](MCP-RESOURCES.md)
++- [Ecosystem stack baseline (July 2026)](ECOSYSTEM-STACK-BASELINE-2026.md)
++
++## How to use this folder
++
++1. Read the module that matches your change type.
++2. Apply the corresponding checklist in your implementation.
++3. Confirm compliance in your pull request summary.
++
++## Handbook integration model
++
++When official WYNOT handbooks are imported, place source material under
++`docs/wynot/handbooks/` and map requirements into the standards modules above.
++
++## Imported handbook library
++
++- [Operating system and culture manual](handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md)
++- [Facility safety and resilience SOP](handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md)
++- [Brand consistency checklist and social templates](handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md)
++- [WYNOT Fitness nutrition playbook](handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md)
++- [Web design and development SOP](handbooks/WEB-DEPARTMENT-SOP-v1-2026.md)
++- [WYNOT Orchestrator 2026 architecture notes](handbooks/WYNOT-ORCHESTRATOR-2026.md)
++- [WYNOT Global SuperAgent platform spec](handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md)
++- [AEO About page blueprint (2026)](handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md)
++- [Competitive intelligence and AI stack report (2026)](handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md)
++
++## Traceability
++
++- [Handbook traceability matrix](HANDBOOK-TRACEABILITY-MATRIX.md)
+diff --git a/docs/wynot/ZERO-TRUST-ARCHITECTURE.md b/docs/wynot/ZERO-TRUST-ARCHITECTURE.md
+new file mode 100644
+index 00000000..7b6622ea
+--- /dev/null
++++ b/docs/wynot/ZERO-TRUST-ARCHITECTURE.md
+@@ -0,0 +1,43 @@
++# Zero-Trust Architecture Build
++
++This repository applies zero-trust principles to sample quality and automation.
++
++## Build principles
++
++- Least privilege: request only required capabilities and permissions.
++- Explicit validation: verify every manifest and quality gate signal.
++- Assume drift: enforce formatting and policy checks continuously.
++- Contain blast radius: use incremental rollout for broad policy changes.
++- Harden supply chain: use verified dependency baselines and tracked upgrades.
++
++## Implementation controls in this repo
++
++- CI checks must pass through `npm run ci:verify`.
++- Manifest validation checks required keys and referenced files.
++- Workflow permissions are minimized and stale runs are canceled.
++- Ecosystem dependencies are governed by an explicit baseline contract.
++
++See:
++
++- [ECOSYSTEM-STACK-BASELINE-2026.md](ECOSYSTEM-STACK-BASELINE-2026.md)
++- [GUARDRAIL-LAYERS-REFERENCE.md](GUARDRAIL-LAYERS-REFERENCE.md)
++
++## Guardrail model requirements
++
++For agentic repos in the WYNOT ecosystem, use a skills registry and explicit
++permission verifier as first-class controls.
++
++Expected controls:
++
++- Registry schema includes ownership, guardrail tier, and lifecycle status.
++- Permission checks run before every skill invocation.
++- Enforcement and denial reasons are auditable.
++
++## Extension points
++
++Future controls to add when needed:
++
++- Signed artifact verification for generated build outputs.
++- Policy-as-code checks for permissions and host access patterns.
++- Change-impact scoring for high-risk samples.
++- Automated dependency drift alerts against the WYNOT stack baseline.
+diff --git a/docs/wynot/handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md b/docs/wynot/handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md
+new file mode 100644
+index 00000000..df33b119
+--- /dev/null
++++ b/docs/wynot/handbooks/AEO-ABOUT-PAGE-BLUEPRINT-2026.md
+@@ -0,0 +1,48 @@
++# AEO About Page Blueprint (2026)
++
++This file captures the WYNOT AEO system prompt module for building
++high-information-density About pages that can act as source-of-truth assets for
++AI retrieval systems.
++
++## Objective
++
++- Structure company information for AI-native retrieval and summary extraction.
++- Prioritize factual clarity, search-intent alignment, and standalone context in
++  every section.
++
++## Structural requirements
++
++- BLUF first section in roughly the first 150 to 200 words.
++- Include legal entity name, industry, audience, core offer, founder/founding
++  facts, and HQ location.
++- Use question-form H2/H3 headings aligned with natural language queries.
++- Follow each heading with a concise high-density paragraph suitable for direct
++  AI snippet extraction.
++
++## E-E-A-T requirements
++
++- Use verifiable data points when available: dates, named leadership, role
++  credentials, compliance standards, measured outcomes, and formal milestones.
++- Keep leadership bios factual and credential-focused.
++
++## Mandatory page sections
++
++- Entity definition section (`About [Company Name]`).
++- Operational scope Q and A (services and audience served).
++- Leadership and authority section.
++- Corporate FAQ section with direct one- to two-sentence answers.
++
++## Language constraints
++
++- Avoid buzzword-heavy promotional phrasing.
++- Favor descriptive nouns and verifiable verbs.
++- Limit pronoun overuse when explicit entity naming improves clarity.
++- Ensure each section can stand alone outside full-page context.
++
++## Implementation notes
++
++- Apply this blueprint for WYNOT About pages, tribe entity pages, and public
++  authority pages where AI retrieval accuracy is critical.
++- Map this handbook into
++  [../BRAND-VOICE-AND-VISUAL-STYLE.md](../BRAND-VOICE-AND-VISUAL-STYLE.md)
++  and [../MCP-RESOURCES.md](../MCP-RESOURCES.md).
+diff --git a/docs/wynot/handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md b/docs/wynot/handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md
+new file mode 100644
+index 00000000..c1fe708b
+--- /dev/null
++++ b/docs/wynot/handbooks/BRAND-CONSISTENCY-CHECKLIST-2026.md
+@@ -0,0 +1,38 @@
++# Brand Consistency Checklist and Social Templates (2026)
++
++This file captures enforceable branding rules for WYNOT Fitness and Gen Alpha
++Academy social content.
++
++## Visual identity controls
++
++- Use approved logos by context and preserve ratio, clear space, and contrast.
++- Use tribe-specific color palettes without cross-mixing in a single asset.
++- Approved fonts only: Bebas Neue (or Anton for GA), Montserrat,
++  Orbitron accents.
++- Maintain dark-background-first visual direction for primary social assets.
++
++## Voice and tone controls
++
++- WYNOT Fitness voice: commanding, scientific, tribal, unapologetic.
++- Gen Alpha Academy voice: cinematic, precise, empowering, visionary.
++- Prefer identity language over activity language.
++- Use short declarative sentence structure and clear CTA ending.
++
++## Platform execution controls
++
++- Use platform-specific dimensions and cadence plans.
++- Apply accessibility fundamentals including alt text on images.
++- Keep profile links, cover assets, and tribe cross-tagging current.
++
++## Publish quality gates
++
++- Verify resolution, contrast, logo integrity, font compliance, and tribe
++  identity.
++- Enforce hashtag strategy by platform.
++- Require explicit CTA and final grammar proofing.
++
++## Implementation notes for this repo
++
++- Map social and visual rules into
++  [../BRAND-VOICE-AND-VISUAL-STYLE.md](../BRAND-VOICE-AND-VISUAL-STYLE.md).
++- Use checklist language in PR templates for communication-facing changes.
+diff --git a/docs/wynot/handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md b/docs/wynot/handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md
+new file mode 100644
+index 00000000..8c8c42b7
+--- /dev/null
++++ b/docs/wynot/handbooks/COMPETITIVE-INTELLIGENCE-AI-STACK-2026.md
+@@ -0,0 +1,96 @@
++# Competitive Intelligence and AI Stack Report (2026)
++
++This file captures strategic conclusions and operational recommendations from
++the WYNOT 2026 competitive intelligence report.
++
++## Strategic benchmark model
++
++WYNOT benchmark set for strategic adjacency:
++
++- Nike for performance identity, wellness community, and digital engagement.
++- Disney for storytelling ecosystems, recurring rituals, and cross-channel
++  audience journeys.
++- Apple for premium UX consistency, trusted ecosystem behavior, and service
++  integration quality.
++
++## Core strategic conclusion
++
++WYNOT should compete on speed, cultural authenticity, trust, and measurable
++transformation loops rather than budget scale.
++
++Primary advantage model:
++
++- Four-tribe intelligence loop (Transformers, Creators, Voices, Queens).
++- Every campaign and event treated as a measurable learning signal.
++
++## Recommended tool-stack phases
++
++### Phase 1 (0 to 30 days)
++
++- Semrush or Ahrefs
++- Visualping
++- BuiltWith
++- Looker Studio
++- Google Analytics
++- HubSpot CRM
++- Make or Zapier
++
++### Phase 2 (31 to 60 days)
++
++- Rival IQ
++- Sprout Social or Buffer
++- Hotjar or Contentsquare Growth
++
++### Phase 3 (61 to 90 days)
++
++- Workflow automation refinement in Make or Zapier
++- HubSpot workflow discipline
++- Battlecard templates, optional Crayon pilot
++
++### Phase 4 (90 to 180 days)
++
++- Similarweb
++- Talkwalker or Brandwatch
++- Meltwater
++- Traackr
++- Crayon or Klue
++
++### Later enterprise layer
++
++- AlphaSense and governed data expansion when scale justifies spend.
++
++## Dashboard and operating rhythm
++
++Weekly operating dashboard should include:
++
++- Competitor website changes.
++- SEO movement.
++- Social engagement benchmark.
++- Sentiment and reputation signals.
++- Funnel conversion indicators.
++- Creator intelligence.
++- Action queue (owner, due date, expected impact).
++
++## Battlecard operating standard
++
++- Use a structured competitor snapshot template.
++- Include threat level, response priority, and tribe impact.
++- Compare message, audience, funnel, UX, SEO, and social patterns.
++- Convert findings into action-oriented response plans.
++
++## WYNOT positioning guardrails
++
++- Avoid attacking competitors; position WYNOT through evidence and outcomes.
++- Emphasize identity transformation, youth/family trust, and culturally specific
++  local authority.
++- Use discovery questions to surface ecosystem and follow-up gaps in
++  stakeholder conversations.
++
++## Implementation notes
++
++- Treat this handbook as strategy governance input, not mandatory procurement
++  instruction.
++- Require staged adoption review and ROI checks before each tooling expansion.
++- Map this report into
++  [../GOVERNANCE-PATHWAY.md](../GOVERNANCE-PATHWAY.md) and
++  [../ECOSYSTEM-STACK-BASELINE-2026.md](../ECOSYSTEM-STACK-BASELINE-2026.md).
+diff --git a/docs/wynot/handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md b/docs/wynot/handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md
+new file mode 100644
+index 00000000..5f478559
+--- /dev/null
++++ b/docs/wynot/handbooks/FACILITY-SAFETY-AND-RESILIENCE-SOP-2026.md
+@@ -0,0 +1,39 @@
++# Facility Safety and Resilience SOP (2026)
++
++This file captures operational controls from the WYNOT facility safety SOP for
++the Eagle Pass performing arts studio.
++
++## Operational model
++
++- Location-specific safety plan with formal induction requirement.
++- Evacuation leads hold command authority and manifest accountability.
++- Space consolidation rule applies when a divider splits rehearsal rooms.
++
++## Emergency role model
++
++- Command lead responsibilities include manifest capture, 911 contact,
++  full-space sweep, and roll call at assembly.
++- Crowd-control lead responsibilities include unifying divided rooms,
++  assertive command delivery, and flow guidance.
++
++## Incident protocol controls
++
++- Severe weather protocol: move to interior shelter zones, avoid front glass,
++  and avoid flood-route driving under warning conditions.
++- Security protocol: lockdown for external threat, run-hide-fight escalation if
++  threat breaches the site.
++- Assembly protocol: primary gathering at designated cul-de-sac and secondary
++  alley bypass if route is compromised.
++
++## Training and compliance controls
++
++- Staff and regular participants must be inducted to the localized plan.
++- Signed induction logs are required.
++- Management sign-off controls plan activation.
++
++## Implementation notes for ecosystem repos
++
++- Treat facility SOPs as first-class governance inputs for event, schedule, and
++  youth-program workflows.
++- Link physical safety controls with digital communication flows for emergency
++  notices and attendance rosters.
+diff --git a/docs/wynot/handbooks/WEB-DEPARTMENT-SOP-v1-2026.md b/docs/wynot/handbooks/WEB-DEPARTMENT-SOP-v1-2026.md
+new file mode 100644
+index 00000000..06916fce
+--- /dev/null
++++ b/docs/wynot/handbooks/WEB-DEPARTMENT-SOP-v1-2026.md
+@@ -0,0 +1,43 @@
++# WYNOT Web Department SOP v1.0 (2026)
++
++This file captures enforceable web engineering and launch controls from the
++WYNOT web lifecycle manual.
++
++## Lifecycle governance
++
++- Eight gated phases: discovery, IA, wireframes, visual design, backend,
++  frontend, QA/launch, post-launch monitoring.
++- No phase advances without explicit gate sign-off.
++- Tribe liaison participation is mandatory across major review points.
++
++## Accessibility and UX controls
++
++- WCAG 2.2 AA target with explicit checks for focus, target size, redundant
++  entry, and accessible authentication.
++- Mobile thumb-zone-first interaction model.
++- Keyboard and screen-reader walkthroughs required before launch.
++
++## Performance controls
++
++- Core Web Vitals 2026 targets for LCP, INP, CLS, and TTFB.
++- Asset optimization, lazy loading, and script deferral required.
++- Pre-launch performance evidence must include Lighthouse and WebPageTest.
++
++## Security controls
++
++- OWASP Top 10 (2025) aligned controls for access, cryptography, injection,
++  misconfiguration, dependency risk, and monitoring.
++- Server-side validation with typed schemas required for all form endpoints.
++- Youth-data controls include consent capture and retention safeguards.
++
++## AI/SEO/AEO controls
++
++- Structured data and entity-consistent naming required.
++- Organization and page-type schema coverage required.
++- Site metadata and sitemap hygiene required for discoverability.
++
++## Implementation notes for this repo
++
++- Map these controls into
++  [../ZERO-TRUST-ARCHITECTURE.md](../ZERO-TRUST-ARCHITECTURE.md) and
++  [../MCP-RESOURCES.md](../MCP-RESOURCES.md).
+diff --git a/docs/wynot/handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md b/docs/wynot/handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md
+new file mode 100644
+index 00000000..0196d3ee
+--- /dev/null
++++ b/docs/wynot/handbooks/WYNOT-FITNESS-NUTRITION-PLAYBOOK-v1.md
+@@ -0,0 +1,38 @@
++# WYNOT Fitness Nutrition Playbook v1.0
++
++This file captures implementation-relevant directives from the WYNOT
++Macro-Mediterranean method playbook.
++
++## Method architecture
++
++- Layer 1: macro foundation with protein-priority targets.
++- Layer 2: Mediterranean plate composition for everyday execution.
++- Layer 3: MIND-aligned brain-health boosters and frequency targets.
++- Optional DASH overlay for blood-pressure-sensitive members.
++
++## Coaching deployment model
++
++- Tier 1 beginner: awareness-first, no macro tracking at start.
++- Tier 2 returner: plate templates + protein target + weekly check-ins.
++- Tier 3 veteran: full macro tracking, 80/20 quality model, and diet break
++  scheduling.
++
++## Core non-negotiables
++
++- Process adherence is the leading indicator (protein, plate consistency,
++  hydration, sleep).
++- No forbidden-food framing; behavior sustainability and evidence-based guidance
++  are required.
++- Refer-out protocol applies for medical-risk contexts.
++
++## Safety and compliance notes
++
++- Educational resource only, not medical advice.
++- Escalate members with clinical conditions to licensed professionals.
++- Preserve privacy for member nutrition and body composition records.
++
++## Implementation notes for ecosystem repos
++
++- Use this as a coaching-logic and content-governance reference for fitness
++  tools, dashboards, and communications.
++- Keep language aligned with identity-first and discipline-first voice rules.
+diff --git a/docs/wynot/handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md b/docs/wynot/handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md
+new file mode 100644
+index 00000000..5dd4ae9f
+--- /dev/null
++++ b/docs/wynot/handbooks/WYNOT-GLOBAL-SUPERAGENT-PLATFORM-2026.md
+@@ -0,0 +1,83 @@
++# WYNOT Global SuperAgent Platform Spec (2026)
++
++This file captures requirements from the WYNOT World Wide executive deck for
++the Ecosystem, Tribe Intelligence, and Authority Vault platform.
++
++## Platform mission
++
++- Build a secure, role-based digital command center for WYNOT World Wide.
++- Combine website, CRM, lead pipelines, vault architecture, analytics, and
++  AI-guided operations.
++- Maintain WYNOT brand tone: bold, empowering, elite, community-centered,
++  leadership-driven, and transformational.
++
++## Primary scope
++
++- Public information system for all core WYNOT entities and tribe programs.
++- Role-based login system with personalized dashboards.
++- Student, parent, fitness member, staff, coach, admin, leadership,
++  sponsor/donor pathways.
++- CRM architecture with lifecycle, tribe alignment, engagement, and follow-up
++  tracking.
++- Lead pipelines for memberships, programs, sponsorships, donations, and
++  partnerships.
++
++## Vault architecture requirements
++
++- Master brand system.
++- Tribe intelligence sub-vaults: Transformers, Creators, Voices, Queens.
++- GEO/SEO authority system.
++- Offers, services, and program vault.
++- Content command center.
++- CRM and audience segments vault.
++- Local authority vault (Eagle Pass and South Texas).
++- Proof/press receipts vault.
++- AI agent instruction vault.
++
++## Naming system requirements
++
++- Enforce deterministic naming standards for master brand, tribes, GEO/SEO,
++  offers, content, CRM, local authority, proof, and AI agent assets.
++
++## AI SuperAgent behavior requirements
++
++- Must answer from approved vault sources.
++- Must support role-specific help (students, parents, members, admins,
++  leadership).
++- Must generate branded operational content (emails, captions, scripts,
++  summaries, FAQs) under approved voice constraints.
++- Must include lead-routing and response rules.
++
++## Permission and privacy requirements
++
++- Students: assigned resources only.
++- Parents: child-linked data, schedules, and payments.
++- Members: membership and wellness pathways.
++- Coaches/staff: assigned groups and limited operational actions.
++- Admin: operational management permissions.
++- Leadership: full command-center permissions.
++- Sponsor/donor: sponsorship and impact materials only.
++
++## Controlled integration baseline
++
++- Approved read-only connectors: Google Drive, Google Docs, GA4,
++  Search Console.
++- Restricted connectors pending risk review: Gmail, Contacts API, Admin SDK.
++- Calendar connector only when scheduling automation is explicitly approved.
++
++## Agent hierarchy and authority controls
++
++- Human leadership and authorized counsel retain final authority.
++- Growth and momentum agents cannot bypass compliance or legal holds.
++- Compliance commander enforces controls and readiness evidence.
++- Codex implements approved requirements and may not weaken controls without
++  documented authorization.
++
++## Implementation notes
++
++- Map this handbook into
++  [../GOVERNANCE-PATHWAY.md](../GOVERNANCE-PATHWAY.md),
++  [../GUARDRAIL-LAYERS-REFERENCE.md](../GUARDRAIL-LAYERS-REFERENCE.md), and
++  [../MCP-RESOURCES.md](../MCP-RESOURCES.md).
++- Treat this as policy input for future ecosystem platform repos where actual
++  runtime code is managed.
+diff --git a/docs/wynot/handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md b/docs/wynot/handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md
+new file mode 100644
+index 00000000..c9a08566
+--- /dev/null
++++ b/docs/wynot/handbooks/WYNOT-OPERATING-SYSTEM-AND-CULTURE-2024.md
+@@ -0,0 +1,45 @@
++# WYNOT Operating System and Culture Manual (2024)
++
++This file captures implementation-relevant requirements from the WYNOT standard
++of excellence and culture manual.
++
++## Foundation directives
++
++- Mission focus: transform human potential through movement, media, mentorship,
++  leadership, creativity, and tribe-based development.
++- Core values include excellence without excuses, transformation through
++  discipline, service-based leadership, and innovation without fear.
++- Communication identity: elite mentor and transformational architect.
++
++## Communication standard
++
++- Required voice traits: clarity, encouragement, professionalism,
++  accountability, confidence, respect, leadership energy.
++- Prohibited patterns: shaming, gossip, negative speech about clients/students,
++  passive communication, confusing directions.
++- The unifying principle is identity elevation: speak to potential, not
++  limitation.
++
++## Operational governance directives
++
++- Hybrid-first governance: asynchronous for routine updates, synchronous for
++  mission-critical decisions.
++- Respect role permissions and digital privacy across Apex Vault, CRM, and AI
++  systems.
++- SOPs are mandatory operating controls, not optional playbooks.
++
++## Safety and professionalism directives
++
++- Maintain professional boundaries and emotional safety for youth.
++- Protect student and client confidentiality.
++- Ensure branding and digital presence remain mentor-ready.
++- Align social/media communication to official WYNOT brand standards.
++
++## Implementation notes for this repo
++
++- Map communication requirements to
++  [../BRAND-VOICE-AND-VISUAL-STYLE.md](../BRAND-VOICE-AND-VISUAL-STYLE.md).
++- Map governance and role-permission requirements to
++  [../GOVERNANCE-PATHWAY.md](../GOVERNANCE-PATHWAY.md).
++- Map privacy and trust requirements to
++  [../ZERO-TRUST-ARCHITECTURE.md](../ZERO-TRUST-ARCHITECTURE.md).
+diff --git a/docs/wynot/handbooks/WYNOT-ORCHESTRATOR-2026.md b/docs/wynot/handbooks/WYNOT-ORCHESTRATOR-2026.md
+new file mode 100644
+index 00000000..c524ed89
+--- /dev/null
++++ b/docs/wynot/handbooks/WYNOT-ORCHESTRATOR-2026.md
+@@ -0,0 +1,38 @@
++# WYNOT Orchestrator 2026 Architecture Notes
++
++This file summarizes the image-only WYNOT Orchestrator deck provided for
++payments and intelligence architecture.
++
++## Mission profile
++
++- Hybrid AI solution for South Texas ecosystem orchestration.
++- Role framing: payments implementation specialist plus intelligence operator.
++- Operational orchestration spans Stripe, Base44, HubSpot, and Slack.
++
++## Functional domains
++
++- Global dashboard for revenue, payment success, and active tribe flows.
++- Market intelligence for local GEO optimization and competitor price signals.
++- Fulfillment orchestration linking vault access, Stripe payment links, and CRM
++  sync.
++- Retail and energy product growth workflows.
++
++## Technical pattern signals
++
++- Context-engineering model with strict production-logic constraints.
++- Emphasis on PCI-safe payment handling and tax integrity.
++- Google Cloud + Firebase + Stripe architecture pattern highlighted.
++
++## Governance and security cues
++
++- Compliance and QA guardrails are presented as production baselines.
++- Real-time link integrity and monitoring loops are required.
++- Architecture prioritizes frictionless commerce with control-plane auditing.
++
++## Implementation notes
++
++- Treat this deck as directional architecture guidance until source code and
++  API contracts are published.
++- Map resulting controls into
++  [../GUARDRAIL-LAYERS-REFERENCE.md](../GUARDRAIL-LAYERS-REFERENCE.md) and
++  [../ZERO-TRUST-ARCHITECTURE.md](../ZERO-TRUST-ARCHITECTURE.md).
+diff --git a/functional-samples/tutorial.getting-started/README.md b/functional-samples/tutorial.getting-started/README.md
+index 1a59aee7..6cbd4ea2 100644
+--- a/functional-samples/tutorial.getting-started/README.md
++++ b/functional-samples/tutorial.getting-started/README.md
+@@ -3,7 +3,7 @@
+ This is an extension used in the [Debug extensions][1] tutorial. It changes the HTML body background color of the active tab.
+ The purpose of this extension is to demonstrate how to create a simple Chrome Extension that uses the `default_popup`, `options_page` and `service_worker` manifest keys and `storage` and `tabs` APIs.
+ 
+- ## Running This Extension
++## Running This Extension
+ 
+ 1. Clone this repository.
+ 2. Load this directory in Chrome as an [unpacked extension][2].
+@@ -11,6 +11,6 @@ The purpose of this extension is to demonstrate how to create a simple Chrome Ex
+ 4. Click the extension icon in the Chrome toolbar, then click the three dots next to the "Getting Started Example" extension and select "Options".
+ 5. On the Options page, choose a color.
+ 6. Afterward, click the extension icon again, and the page's background color will change when you click the button in the extension popup.
+- 
++
+ [1]: https://developer.chrome.com/docs/extensions/get-started/tutorial/debug
+-[2]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
+\ No newline at end of file
++[2]: https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
+diff --git a/functional-samples/tutorial.hello-world/README.md b/functional-samples/tutorial.hello-world/README.md
+index 39fa7157..0d3508bf 100644
+--- a/functional-samples/tutorial.hello-world/README.md
++++ b/functional-samples/tutorial.hello-world/README.md
+@@ -7,4 +7,4 @@ For more details, visit the [official tutorial](https://developer.chrome.com/doc
+ 
+ 1. Clone this repository.
+ 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+-3. Click the extension icon in the Chrome toolbar, then select the "Hello Extensions" extension. A popup will appear displaying the text "Hello Extensions".
+\ No newline at end of file
++3. Click the extension icon in the Chrome toolbar, then select the "Hello Extensions" extension. A popup will appear displaying the text "Hello Extensions".
+diff --git a/functional-samples/tutorial.tabs-manager/README.md b/functional-samples/tutorial.tabs-manager/README.md
+index e4d44ea1..7ddc434b 100644
+--- a/functional-samples/tutorial.tabs-manager/README.md
++++ b/functional-samples/tutorial.tabs-manager/README.md
+@@ -4,11 +4,11 @@ This Chrome extension helps you manage and group your tabs related to Google Chr
+ 
+ Purpose of this extension is to demonstrate [chrome.tabGroups](https://developer.chrome.com/docs/extensions/reference/api/tabGroups) API to interact with the browser's tab grouping system.
+ 
+- ## Running This Extension
++## Running This Extension
+ 
+ 1. Clone this repository.
+ 2. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
+-3. Open these two URLs in separate tabs:  
+-   - [https://developer.chrome.com/docs/extensions](https://developer.chrome.com/docs/extensions)  
++3. Open these two URLs in separate tabs:
++   - [https://developer.chrome.com/docs/extensions](https://developer.chrome.com/docs/extensions)
+    - [https://developer.chrome.com/docs/extensions/reference/api](https://developer.chrome.com/docs/extensions/reference/api)
+ 4. Click the extension icon in the Chrome toolbar, then select the "Tab Manager for Chrome Dev Docs" extension. A popup will appear having title "Google Dev Docs" and button named "Group Tabs". Click on the button to group the two tabs.
+diff --git a/package.json b/package.json
+index 438cff5f..4651d90d 100644
+--- a/package.json
++++ b/package.json
+@@ -3,10 +3,20 @@
+   "version": "1.0.0",
+   "private": true,
+   "description": "Official samples for Chrome Extensions and the Chrome Apps platform.",
++  "engines": {
++    "node": ">=20"
++  },
+   "scripts": {
+     "prettier": "npx prettier **/*.{md,html,json} -w",
++    "format:check": "npx prettier --check README.md README-template.md CONTRIBUTING.md AGENTS.md docs/wynot/**/*.md .github/**/*.md .github/**/*.yml functional-samples/tutorial.puppeteer/**/*.{md,html,json} functional-samples/tutorial.terminate-sw/**/*.{md,html,json} functional-samples/tutorial.getting-started/**/*.{md,html,json} functional-samples/tutorial.hello-world/**/*.{md,html,json} functional-samples/tutorial.tabs-manager/**/*.{md,html,json} functional-samples/tutorial.quick-api-reference/**/*.{md,html,json} functional-samples/tutorial.reading-time/**/*.{md,html,json} functional-samples/tutorial.focus-mode/**/*.{md,html,json} functional-samples/tutorial.custom-cursor/**/*.{md,html,json} functional-samples/tutorial.mole-game/**/*.{md,html,json} functional-samples/tutorial.open-api-reference/**/*.{md,html,json}",
+     "lint": "eslint **/*.js",
+     "lint:fix": "npm run lint -- --fix",
++    "test:smoke": "node .repo/scripts/validate-manifests.js",
++    "validate:manifests": "npm run test:smoke",
++    "quality:quick": "npm run lint && npm run test:smoke",
++    "mentor:check": "npm run ci:verify",
++    "mentor:audit": "node .repo/scripts/validate-manifests.js && npm run format:check",
++    "ci:verify": "npm run lint && npm run format:check && npm run test:smoke",
+     "prepare": "husky install"
+   },
+   "repository": {
+-- 
+2.53.0
+
