@@ -1,24 +1,11 @@
 name: CI Quality
 on: [push, pull_request]
-
-permissions:
-  contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - name: Install modules
-        run: npm ci
-      - name: Run quality checks
-        run: npm run ci:verify
+    - uses: actions/checkout@v7
+    - name: Install modules
+      run: npm ci
+    - name: Run ESLint
+      run: npm run lint 

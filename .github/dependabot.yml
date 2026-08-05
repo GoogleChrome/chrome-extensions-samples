@@ -4,7 +4,33 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Let a release sit for a few days before picking it up, so a compromised
+    # or immediately yanked version does not land here. Security updates are
+    # not subject to this. The github-actions ecosystem takes default-days
+    # only; the per-semver settings are rejected for it.
+    cooldown:
+      default-days: 7
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/"
+      - "/.repo/sample-list-generator"
+      - "/functional-samples/ai.gemini-in-the-cloud"
+      - "/functional-samples/ai.gemini-on-device"
+      - "/functional-samples/ai.gemini-on-device-calendar-mate"
+      - "/functional-samples/ai.gemini-on-device-summarization"
+      - "/functional-samples/libraries-xhr-in-sw"
+      - "/functional-samples/tutorial.puppeteer"
+      - "/functional-samples/tutorial.terminate-sw/puppeteer"
+      - "/functional-samples/tutorial.terminate-sw/selenium"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+    groups:
+      npm-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
