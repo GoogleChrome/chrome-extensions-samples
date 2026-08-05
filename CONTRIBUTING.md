@@ -39,6 +39,48 @@ use GitHub pull requests for this purpose. Consult
 [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
 
+### Quality gate before opening a PR
+
+Before requesting review, run:
+
+```sh
+npm run quality:quick
+npm run format:check
+npm run ci:verify
+```
+
+PRs are expected to keep these checks green.
+
+### What makes a sample mentor-grade
+
+- The intent is clear: README explains what the sample teaches.
+- The boundary is clear: permissions and APIs are minimal and justified.
+- The behavior is verifiable: sample can be loaded and basic scenario tested.
+- The implementation is reusable: naming and structure are consistent.
+- The quality gates pass: no lint, formatting, or manifest validation failures.
+
+### WYNOT standards references
+
+When changes touch UX, policy, architecture, or automation pathways, align with:
+
+- [AGENTS.md](AGENTS.md)
+- [docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md](docs/wynot/BRAND-VOICE-AND-VISUAL-STYLE.md)
+- [docs/wynot/GOVERNANCE-PATHWAY.md](docs/wynot/GOVERNANCE-PATHWAY.md)
+- [docs/wynot/ZERO-TRUST-ARCHITECTURE.md](docs/wynot/ZERO-TRUST-ARCHITECTURE.md)
+- [docs/wynot/MCP-RESOURCES.md](docs/wynot/MCP-RESOURCES.md)
+- [docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md)
+
+### Ecosystem stack baseline policy
+
+Changes that add or update major framework dependencies should align with
+[docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md](docs/wynot/ECOSYSTEM-STACK-BASELINE-2026.md).
+
+If a change intentionally diverges from baseline, include:
+
+- Compatibility rationale
+- Migration impact
+- Rollback plan
+
 ### Setting up your Environment
 
 If you want to contribute to this repository, you need to first [create your own fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
@@ -60,3 +102,10 @@ npm install
 All new code samples or samples updated from Manifest V2 should include a
 README file. Please copy the [provided template](./README-template.md) into
 your sample's folder and follow the instructions therein.
+
+For high-quality onboarding, include:
+
+- What problem the sample solves.
+- Which APIs are demonstrated and why.
+- Required permissions and tradeoffs.
+- Manual verification steps.

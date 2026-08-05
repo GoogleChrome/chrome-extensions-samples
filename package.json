@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "description": "Official samples for Chrome Extensions and the Chrome Apps platform.",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "prettier": "npx prettier **/*.{md,html,json} -w",
+    "format:check": "npx prettier --check README.md README-template.md CONTRIBUTING.md AGENTS.md docs/wynot/**/*.md .github/**/*.md .github/**/*.yml functional-samples/tutorial.puppeteer/**/*.{md,html,json} functional-samples/tutorial.terminate-sw/**/*.{md,html,json} functional-samples/tutorial.getting-started/**/*.{md,html,json} functional-samples/tutorial.hello-world/**/*.{md,html,json} functional-samples/tutorial.tabs-manager/**/*.{md,html,json} functional-samples/tutorial.quick-api-reference/**/*.{md,html,json} functional-samples/tutorial.reading-time/**/*.{md,html,json} functional-samples/tutorial.focus-mode/**/*.{md,html,json} functional-samples/tutorial.custom-cursor/**/*.{md,html,json} functional-samples/tutorial.mole-game/**/*.{md,html,json} functional-samples/tutorial.open-api-reference/**/*.{md,html,json}",
     "lint": "eslint **/*.js",
     "lint:fix": "npm run lint -- --fix",
+    "test:smoke": "node .repo/scripts/validate-manifests.js",
+    "validate:manifests": "npm run test:smoke",
+    "quality:quick": "npm run lint && npm run test:smoke",
+    "mentor:check": "npm run ci:verify",
+    "mentor:audit": "node .repo/scripts/validate-manifests.js && npm run format:check",
+    "ci:verify": "npm run lint && npm run format:check && npm run test:smoke",
     "prepare": "husky install"
   },
   "repository": {
