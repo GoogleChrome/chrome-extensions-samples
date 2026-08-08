@@ -1,13 +1,21 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, before, afterEach } from 'mocha';
 import assert from 'assert';
 import sinon from 'sinon';
-import { ReflectionKind } from 'typedoc';
 import {
   fetchChromeTypes,
   toExtensionApiMap
 } from '../../src/prepare-chrome-types';
 
+// typedoc 0.28+ ships as ESM only; see toExtensionApiMap. TypeScript 5.1
+// cannot reference its types from CommonJS either, so type the enum loosely.
+let ReflectionKind: Record<string, number>;
+
 describe('Prepare Chrome Types', function () {
+  before(async function () {
+    ReflectionKind = (await import('typedoc'))
+      .ReflectionKind as unknown as Record<string, number>;
+  });
+
   describe('fetchChromeTypes()', function () {
     const originalBucket = process.env.STORAGE_BUCKET;
 
@@ -55,8 +63,8 @@ describe('Prepare Chrome Types', function () {
   });
 
   describe('toExtensionApiMap()', function () {
-    it('should sort properties, methods, events and types', function () {
-      const result = toExtensionApiMap({
+    it('should sort properties, methods, events and types', async function () {
+      const result = await toExtensionApiMap({
         action: {
           _type: {
             properties: [
@@ -83,8 +91,8 @@ describe('Prepare Chrome Types', function () {
       });
     });
 
-    it('should treat every known event reference name as an event', function () {
-      const result = toExtensionApiMap({
+    it('should treat every known event reference name as an event', async function () {
+      const result = await toExtensionApiMap({
         events: {
           _type: {
             properties: [
@@ -121,8 +129,8 @@ describe('Prepare Chrome Types', function () {
       });
     });
 
-    it('should classify a property that also has signatures as a method', function () {
-      const result = toExtensionApiMap({
+    it('should classify a property that also has signatures as a method', async function () {
+      const result = await toExtensionApiMap({
         action: {
           _type: {
             properties: [
@@ -145,10 +153,10 @@ describe('Prepare Chrome Types', function () {
       });
     });
 
-    it('should handle multiple namespaces and an empty input', function () {
-      assert.deepEqual(toExtensionApiMap({}), {});
+    it('should handle multiple namespaces and an empty input', async function () {
+      assert.deepEqual(await toExtensionApiMap({}), {});
 
-      const result = toExtensionApiMap({
+      const result = await toExtensionApiMap({
         action: {
           _type: {
             properties: [{ name: 'a', kind: ReflectionKind.Property }]

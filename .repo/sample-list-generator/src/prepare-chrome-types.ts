@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { ExtensionApiMap } from './types';
-import { ReflectionKind } from 'typedoc';
 
 // Fetch the latest version of the chrome types from storage
 export const fetchChromeTypes = async (): Promise<Record<string, any>> => {
@@ -21,9 +20,12 @@ export const fetchChromeTypes = async (): Promise<Record<string, any>> => {
 };
 
 // Sort every property of every API into properties, methods, events or types
-export const toExtensionApiMap = (
+export const toExtensionApiMap = async (
   chromeTypes: Record<string, any>
-): ExtensionApiMap => {
+): Promise<ExtensionApiMap> => {
+  // typedoc 0.28+ ships as ESM only, so it cannot be require()d from this
+  // CommonJS module; load it dynamically instead.
+  const { ReflectionKind } = await import('typedoc');
   const result: ExtensionApiMap = {};
 
   for (const [chromeApiKey, chromeApiDetails] of Object.entries(chromeTypes)) {
@@ -65,7 +67,7 @@ export const toExtensionApiMap = (
 
 const run = async () => {
   const chromeTypes = await fetchChromeTypes();
-  const result = toExtensionApiMap(chromeTypes);
+  const result = await toExtensionApiMap(chromeTypes);
 
   console.log('Writing to file...');
   await fs.writeFile(
