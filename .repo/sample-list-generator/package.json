@@ -10,9 +10,9 @@
     "@types/babel__core": "7.20.1",
     "@types/mocha": "10.0.1",
     "@types/node": "24.13.3",
-    "@types/sinon": "10.0.15",
+    "@types/sinon": "22.0.0",
     "mocha": "10.2.0",
-    "sinon": "15.2.0",
+    "sinon": "22.0.0",
     "ts-node": "10.9.2",
     "typescript": "5.1.3"
   },
