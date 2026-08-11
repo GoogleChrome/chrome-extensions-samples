@@ -10,11 +10,11 @@
   "keywords": [],
   "license": "Apache 2.0",
   "devDependencies": {
-    "dompurify": "3.4.12",
+    "dompurify": "3.4.13",
     "marked": "14.1.2",
     "@rollup/plugin-commonjs": "26.0.1",
     "@rollup/plugin-node-resolve": "15.2.3",
-    "rollup": "4.62.3",
+    "rollup": "4.62.4",
     "rollup-plugin-copy": "3.5.0"
   }
 }
