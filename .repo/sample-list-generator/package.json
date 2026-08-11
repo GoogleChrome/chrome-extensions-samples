@@ -7,17 +7,16 @@
     "test": "mocha --require ts-node/register test/**/*.test.ts"
   },
   "devDependencies": {
-    "@types/babel__core": "7.20.1",
     "@types/mocha": "10.0.1",
     "@types/node": "24.13.3",
     "@types/sinon": "22.0.0",
     "mocha": "11.7.6",
     "sinon": "22.0.0",
     "ts-node": "10.9.2",
-    "typescript": "5.1.3"
+    "typescript": "5.9.3"
   },
   "dependencies": {
-    "@babel/core": "7.22.5",
+    "@babel/core": "8.0.1",
     "typedoc": "0.28.20"
   }
 }
