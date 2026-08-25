@@ -9,6 +9,6 @@
     "start": "jest ."
   },
   "devDependencies": {
-    "@jest/globals": "29.7.0"
+    "@jest/globals": "30.4.1"
   }
 }
