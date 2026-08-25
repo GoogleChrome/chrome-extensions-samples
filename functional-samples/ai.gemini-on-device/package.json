@@ -11,7 +11,7 @@
   "license": "Apache 2.0",
   "devDependencies": {
     "dompurify": "3.4.13",
-    "marked": "14.1.2",
+    "marked": "18.0.7",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
     "rollup": "4.62.4",
