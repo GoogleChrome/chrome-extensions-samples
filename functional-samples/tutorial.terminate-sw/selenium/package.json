@@ -2,7 +2,7 @@
   "name": "puppeteer-demo",
   "version": "1.0",
   "dependencies": {
-    "jest": "29.7.0",
+    "jest": "30.4.2",
     "selenium-webdriver": "4.47.0"
   },
   "scripts": {
