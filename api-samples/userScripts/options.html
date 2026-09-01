@@ -25,8 +25,8 @@ limitations under the License.
   <body>
     <div id="warning">
       <p>
-        ⚠️ To use the User Scripts API, you need to first enable developer mode
-        at <b>chrome://extensions</b>.
+        To use the User Scripts API, enable developer mode or the Allow User
+        Scripts toggle at <b>chrome://extensions</b>.
       </p>
       <a href="">Reload</a>
     </div>
@@ -51,6 +51,20 @@ limitations under the License.
         ></textarea>
       </div>
       <button type="button" id="save-button">Save & Enable</button>
+      <hr />
+      <h2>Run once</h2>
+      <p>
+        Open https://example.com/ in a tab, then execute code without
+        registering it.
+      </p>
+      <textarea
+        name="execute-script"
+        draggable="false"
+        rows="8"
+        placeholder="document.body.style.outline = '4px solid #1a73e8';"
+      ></textarea>
+      <button type="button" id="execute-button">Execute</button>
+      <p id="execute-result" role="status"></p>
     </form>
   </body>
 </html>
