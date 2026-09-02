@@ -13,7 +13,7 @@
     "mocha": "11.8.0",
     "sinon": "22.1.0",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3"
+    "typescript": "7.0.2"
   },
   "dependencies": {
     "@babel/core": "8.0.1",
