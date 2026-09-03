@@ -10,6 +10,6 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
-    "rollup": "^4.62.4"
+    "rollup": "^4.63.0"
   }
 }
