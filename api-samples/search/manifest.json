@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Search",
+    "version": "1.0",
+    "description": "Uses the chrome.search API to do a search query via the default provider",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": ["search"]
+}
