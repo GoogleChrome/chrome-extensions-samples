@@ -1,4 +1,3 @@
-/* global Summarizer */
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 

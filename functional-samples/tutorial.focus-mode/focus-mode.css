@@ -14,16 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-* {
+body:has(article) :not(:has(article), article, article *) {
   display: none !important;
-}
-
-html,
-body,
-*:has(article),
-article,
-article * {
-  display: revert !important;
 }
 
 [role='navigation'] {

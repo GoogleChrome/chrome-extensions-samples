@@ -4,13 +4,7 @@ This sample demonstrates using the [`chrome.declarativeNetRequest`](https://deve
 
 ## Overview
 
-Once this extension is installed, any requests made in the main frame to the following URLs will be redirected:
-
-- https://developer.chrome.com/docs/extensions/mv2/
-- https://developer.chrome.com/docs/extensions/reference/browserAction/
-- https://developer.chrome.com/docs/extensions/reference/declarativeWebRequest/
-- https://developer.chrome.com/docs/extensions/reference/pageAction/
-- https://developer.chrome.com/docs/extensions/reference/webRequest/
+Once this extension is installed, any requests made in the main frame to https://example.com/original will be redirected to https://example.com/redirected.
 
 ## Implementation Notes
 

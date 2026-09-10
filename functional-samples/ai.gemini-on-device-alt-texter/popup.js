@@ -1,4 +1,3 @@
-/* global Translator */
 const altTextInput = document.getElementById('altText');
 const loading = document.getElementById('loading');
 const lang = document.getElementById('lang');

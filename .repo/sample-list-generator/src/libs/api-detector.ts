@@ -4,11 +4,18 @@ import {
   ApiTypeResult,
   ExtensionApiMap
 } from '../types';
-import * as babel from '@babel/core';
-import { isIdentifier } from '@babel/types';
 import fs from 'fs/promises';
 import { getAllJsFiles } from '../utils/filesystem';
 import { loadExtensionApis } from './api-loader';
+
+// @babel/core 8 ships as ESM only, so it cannot be require()d from this
+// CommonJS module; it is loaded dynamically where it is used. This import is
+// erased at compile time, but a CommonJS file still has to name the
+// resolution mode when it refers to an ESM module.
+import type {
+  NodePath,
+  types as t
+} from '@babel/core' with { 'resolution-mode': 'import' };
 
 let EXTENSION_API_MAP: ExtensionApiMap = loadExtensionApis();
 
@@ -77,12 +84,12 @@ export const getApiListForSample = async (
  * // returns ['chrome', 'tabs', 'query']
  */
 export function getFullMemberExpression(
-  path: babel.NodePath<babel.types.MemberExpression>
+  path: NodePath<t.MemberExpression>
 ): string[] {
   const result: string[] = [];
 
   // Include the chrome. or browser. identifier
-  if (isIdentifier(path.node.object)) {
+  if (path.node.object.type === 'Identifier') {
     result.push(path.node.object.name);
   } else {
     // We don't support expressions
@@ -90,7 +97,7 @@ export function getFullMemberExpression(
   }
 
   while (path) {
-    if (isIdentifier(path.node.property)) {
+    if (path.node.property.type === 'Identifier') {
       result.push(path.node.property.name);
     } else {
       // We don't support expressions
@@ -157,7 +164,11 @@ function uniqueItems(array: ApiItemWithType[]) {
  * extractApiCalls('chrome.tabs.query({})')
  * // returns [{ type: 'method', namespace: 'tabs', propertyName: 'query' }]
  */
-export const extractApiCalls = (script: string): Promise<ApiItemWithType[]> => {
+export const extractApiCalls = async (
+  script: string
+): Promise<ApiItemWithType[]> => {
+  const babel = await import('@babel/core');
+
   return new Promise((resolve, reject) => {
     const calls: ApiItemWithType[] = [];
 

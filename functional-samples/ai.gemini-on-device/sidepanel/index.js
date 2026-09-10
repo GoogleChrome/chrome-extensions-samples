@@ -1,5 +1,3 @@
-/* global LanguageModel */
-
 import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
