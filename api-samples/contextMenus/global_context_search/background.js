@@ -3,54 +3,71 @@
 // found in the LICENSE file.
 
 // When you specify "type": "module" in the manifest background,
-// you can include the service worker as an ES Module,
-import { tldLocales } from './locales.js';
+// you can include the service worker as an ES Module.
+import { regions } from './locales.js';
 
-// Add a listener to create the initial context menu items,
-// context menu items only need to be created at runtime.onInstalled
+/**
+ * Creates context menu items when the extension is installed.
+ * Each region gets its own context menu option for searching.
+ */
 chrome.runtime.onInstalled.addListener(async () => {
-  for (const [tld, locale] of Object.entries(tldLocales)) {
+  for (const [regionId, regionConfig] of Object.entries(regions)) {
     chrome.contextMenus.create({
-      id: tld,
-      title: locale,
+      id: regionId,
+      title: regionConfig.display,
       type: 'normal',
       contexts: ['selection']
     });
   }
 });
 
-// Open a new search tab when the user clicks a context menu
+/**
+ * Performs a Google Search with region-specific parameters when menu item is clicked.
+ *
+ * Uses the base URL https://www.google.com/search with query parameters:
+ * - q: the search query (user selection)
+ * - cr: country restriction parameter
+ * - lr: language restriction parameter
+ */
 chrome.contextMenus.onClicked.addListener((item, tab) => {
-  const tld = item.menuItemId;
-  const url = new URL(`https://google.${tld}/search`);
+  const regionId = item.menuItemId;
+  const regionConfig = regions[regionId];
+
+  // Build the search URL with region parameters
+  const url = new URL('https://www.google.com/search');
   url.searchParams.set('q', item.selectionText);
+  url.searchParams.set('cr', regionConfig.country);
+  url.searchParams.set('lr', regionConfig.language);
+
   chrome.tabs.create({ url: url.href, index: tab.index + 1 });
 });
 
-// Add or removes the locale from context menu
-// when the user checks or unchecks the locale in the popup
-chrome.storage.onChanged.addListener(({ enabledTlds }) => {
-  if (typeof enabledTlds === 'undefined') return;
+/**
+ * Updates the context menu when the user toggles regions in the popup.
+ * Adds or removes menu items based on user preferences.
+ */
+chrome.storage.onChanged.addListener(({ enabledRegions }) => {
+  if (typeof enabledRegions === 'undefined') return;
 
-  const allTlds = Object.keys(tldLocales);
-  const currentTlds = new Set(enabledTlds.newValue);
-  const oldTlds = new Set(enabledTlds.oldValue ?? allTlds);
-  const changes = allTlds.map((tld) => ({
-    tld,
-    added: currentTlds.has(tld) && !oldTlds.has(tld),
-    removed: !currentTlds.has(tld) && oldTlds.has(tld)
-  }));
+  const allRegionIds = Object.keys(regions);
+  const currentRegions = new Set(enabledRegions.newValue);
+  const oldRegions = new Set(enabledRegions.oldValue ?? allRegionIds);
 
-  for (const { tld, added, removed } of changes) {
-    if (added) {
+  for (const regionId of allRegionIds) {
+    const wasEnabled = oldRegions.has(regionId);
+    const isEnabled = currentRegions.has(regionId);
+
+    if (isEnabled && !wasEnabled) {
+      // Region was enabled, add menu item
       chrome.contextMenus.create({
-        id: tld,
-        title: tldLocales[tld],
+        id: regionId,
+        title: regions[regionId].display,
         type: 'normal',
         contexts: ['selection']
       });
-    } else if (removed) {
-      chrome.contextMenus.remove(tld);
+    } else if (!isEnabled && wasEnabled) {
+      // Region was disabled, remove menu item
+      chrome.contextMenus.remove(regionId);
     }
   }
 });
