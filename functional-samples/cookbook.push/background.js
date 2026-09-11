@@ -16,27 +16,48 @@
 
 const APPLICATION_SERVER_PUBLIC_KEY = '<key>';
 
+self.addEventListener('activate', (event) => {
+  event.waitUntil(subscribeUserVisibleOnlyFalse());
+});
+
 async function subscribeUserVisibleOnlyFalse() {
-  const applicationServerKey = urlB64ToUint8Array(
-    APPLICATION_SERVER_PUBLIC_KEY
-  );
+  if (APPLICATION_SERVER_PUBLIC_KEY === '<key>') {
+    console.warn(
+      '[Service Worker] Replace APPLICATION_SERVER_PUBLIC_KEY before ' +
+        'subscribing to push.'
+    );
+    return;
+  }
+
   try {
-    let subscriptionData = await self.registration.pushManager.subscribe({
+    const existingSubscription =
+      await self.registration.pushManager.getSubscription();
+    if (existingSubscription) {
+      console.log('[Service Worker] Extension is already subscribed.');
+      logSubscriptionDataToConsole(existingSubscription);
+      return existingSubscription;
+    }
+
+    const applicationServerKey = urlB64ToUint8Array(
+      APPLICATION_SERVER_PUBLIC_KEY
+    );
+    const subscriptionData = await self.registration.pushManager.subscribe({
       // With our new change[1], this can be set to false. Before it must
       // always be set to true otherwise an error will be thrown about
       // permissions denied.
       userVisibleOnly: false,
-      applicationServerKey: applicationServerKey
+      applicationServerKey
     });
     console.log('[Service Worker] Extension is subscribed to push server.');
     logSubscriptionDataToConsole(subscriptionData);
+    return subscriptionData;
   } catch (error) {
     console.error('[Service Worker] Failed to subscribe, error: ', error);
   }
 }
 
 function logSubscriptionDataToConsole(subscription) {
-  // The `subscription` data would normally only be know by the push server,
+  // The `subscription` data would normally only be known by the push server,
   // but for this sample we'll print it out to the console so it can be pasted
   // into a testing push notification server (at
   // https://web-push-codelab.glitch.me/) to send push messages to this
