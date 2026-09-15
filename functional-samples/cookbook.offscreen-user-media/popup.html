@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 220px;
+        font-family: system-ui;
+      }
+      audio {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="start">Start recording</button>
+    <button id="stop" disabled>Stop recording</button>
+    <p id="status">Loading...</p>
+    <div id="result" hidden>
+      <audio id="playback" controls></audio>
+      <a id="download" download="recording.webm">Download recording</a>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "Download Filename Controller",
+  "description": "Demonstrates using the chrome.downloads API to control the names of files being downloaded.",
+  "version": "0.1",
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "action": {},
+  "options_page": "options.html",
+  "permissions": ["downloads", "storage"],
+  "manifest_version": 3
+}
