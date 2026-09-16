@@ -7,6 +7,8 @@ export interface Source {
 export interface ExtractedQuery {
     text: string;
     sources?: Source[];
+    /** Search backend that served this query (ChatGPT turn-stream `search_engine`, e.g. "serpapi"). */
+    searchEngine?: string;
 }
 
 export interface IPlatformExtractor {

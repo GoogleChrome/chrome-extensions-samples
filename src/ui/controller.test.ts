@@ -57,4 +57,30 @@ describe("UiController", () => {
         expect(sourcesContainer).not.toBeNull();
         expect(sourcesContainer?.textContent).toContain("example.com");
     });
+
+    it("should render the search engine tag when provided", () => {
+        const controller = createUiController({ doc: mockDoc, win: mockWin });
+
+        controller.handleInterceptedMessage({
+            type: "AI_SEARCH_REVEALER_FOUND",
+            results: [{ text: "engine query", searchEngine: "serpapi" }],
+            platform: "ChatGPT"
+        });
+
+        const engineTag = mockContainer.querySelector(".csr-engine-tag");
+        expect(engineTag).not.toBeNull();
+        expect(engineTag?.textContent).toContain("serpapi");
+    });
+
+    it("should omit the search engine tag when absent", () => {
+        const controller = createUiController({ doc: mockDoc, win: mockWin });
+
+        controller.handleInterceptedMessage({
+            type: "AI_SEARCH_REVEALER_FOUND",
+            results: [{ text: "plain query" }],
+            platform: "ChatGPT"
+        });
+
+        expect(mockContainer.querySelector(".csr-engine-tag")).toBeNull();
+    });
 });

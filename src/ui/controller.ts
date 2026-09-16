@@ -5,6 +5,7 @@ export type CapturedQuery = {
     platform?: string;
     timestamp: number;
     sources?: import("../platforms/types").Source[];
+    searchEngine?: string;
 };
 
 export interface UiControllerDeps {
@@ -141,6 +142,18 @@ export function createUiController(deps: UiControllerDeps): UiController {
                 tag.className = `csr-platform-tag ${platformClass}`;
                 tag.textContent = item.platform || "QUERY";
 
+                const meta = deps.doc.createElement("div");
+                meta.className = "csr-item-meta";
+                meta.appendChild(tag);
+
+                if (item.searchEngine) {
+                    const engine = deps.doc.createElement("span");
+                    engine.className = "csr-engine-tag";
+                    engine.textContent = `via ${item.searchEngine}`;
+                    engine.title = `Search backend: ${item.searchEngine}`;
+                    meta.appendChild(engine);
+                }
+
                 const tools = deps.doc.createElement("div");
                 tools.className = "csr-tools";
 
@@ -160,7 +173,7 @@ export function createUiController(deps: UiControllerDeps): UiController {
                 tools.appendChild(mkTool(`https://trends.google.com/trends/explore?q=${encodedQ}`, "Trends", "📈"));
                 tools.appendChild(mkTool(`https://answerthepublic.com/?q=${encodedQ}`, "Deep Insights", "🧠"));
 
-                header.appendChild(tag);
+                header.appendChild(meta);
                 header.appendChild(tools);
 
                 const textEl = deps.doc.createElement("div");
@@ -251,7 +264,8 @@ export function createUiController(deps: UiControllerDeps): UiController {
                     text: item.text,
                     platform: message.platform,
                     timestamp: Date.now(),
-                    sources: item.sources
+                    sources: item.sources,
+                    searchEngine: item.searchEngine
                 });
             }
         });

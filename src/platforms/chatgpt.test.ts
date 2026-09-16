@@ -141,3 +141,61 @@ describe("ChatGPTContext.extract", () => {
         expect(ChatGPTContext.extract(text)).toBeNull();
     });
 });
+
+describe("ChatGPTContext.extract search_engine", () => {
+    it("attaches the search backend from the same chunk (serpapi)", () => {
+        const text = [
+            'data: {"message":{"metadata":{"search_model_queries":{"queries":["latest gpt release"]},"search_engine":"serpapi"}}}',
+            "data: [DONE]",
+        ].join("\n");
+
+        const nodes = ChatGPTContext.extract(text);
+        expect(nodes).toHaveLength(1);
+        expect(nodes?.[0].text).toBe("latest gpt release");
+        expect(nodes?.[0].searchEngine).toBe("serpapi");
+    });
+
+    it("attaches labrador engine variants", () => {
+        const text = [
+            'data: {"message":{"metadata":{"search_model_queries":["arxiv attention paper"],"search_engine":"labrador-arxiv"}}}',
+            "data: [DONE]",
+        ].join("\n");
+
+        const nodes = ChatGPTContext.extract(text);
+        expect(nodes?.[0].searchEngine).toBe("labrador-arxiv");
+    });
+
+    it("does not smear engines across chunks", () => {
+        const text = [
+            'data: {"message":{"metadata":{"search_model_queries":["first query"],"search_engine":"serpapi"}}}',
+            'data: {"message":{"metadata":{"search_model_queries":["second query"]}}}',
+            "data: [DONE]",
+        ].join("\n");
+
+        const nodes = ChatGPTContext.extract(text);
+        expect(nodes).toHaveLength(2);
+        const byText = Object.fromEntries(nodes!.map(n => [n.text, n]));
+        expect(byText["first query"].searchEngine).toBe("serpapi");
+        expect(byText["second query"].searchEngine).toBeUndefined();
+    });
+
+    it("attributes a lone engine for unparseable chunks", () => {
+        const text =
+            'data: {"message":{"metadata":{"search_model_queries":{"queries":["partial query"]},"search_engine":"serpapi"}}}}...truncated{';
+
+        const nodes = ChatGPTContext.extract(text);
+        expect(nodes).toHaveLength(1);
+        expect(nodes?.[0].text).toBe("partial query");
+        expect(nodes?.[0].searchEngine).toBe("serpapi");
+    });
+
+    it("leaves searchEngine undefined when the stream names no backend", () => {
+        const text = [
+            'data: {"message":{"metadata":{"search_model_queries":["plain query"]}}}',
+            "data: [DONE]",
+        ].join("\n");
+
+        const nodes = ChatGPTContext.extract(text);
+        expect(nodes?.[0].searchEngine).toBeUndefined();
+    });
+});

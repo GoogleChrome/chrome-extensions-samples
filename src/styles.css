@@ -245,6 +245,28 @@
 .platform-claude { background: rgba(217, 119, 87, 0.2); color: var(--clr-claude); }
 .platform-perplexity { background: rgba(32, 184, 205, 0.2); color: var(--clr-perplexity); }
 
+/* Query meta (platform + search-engine tags) */
+.csr-item-meta {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.csr-engine-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 242, 254, 0.12);
+    color: var(--csr-accent);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+
 /* Sources */
 .csr-sources-container {
     display: flex;

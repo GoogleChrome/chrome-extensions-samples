@@ -18,7 +18,7 @@ Developed by [MIMR Growth Lab](https://mimrgrowthlab.com).
 
 | Platform   | Page(s)                              | What is captured                                  |
 |------------|--------------------------------------|---------------------------------------------------|
-| ChatGPT    | `chatgpt.com`, `chat.openai.com`     | `search_model_queries`, search tool calls, sources from `search_result_groups` / `content_references` |
+| ChatGPT    | `chatgpt.com`, `chat.openai.com`     | `search_model_queries`, search tool calls, per-query search engine (`search_engine`), sources from `search_result_groups` / `content_references` |
 | Claude     | `claude.ai`                          | `web_search` tool-use queries                     |
 | Perplexity | `perplexity.ai`                      | Search queries, citations, and web results        |
 | Gemini     | `gemini.google.com`                  | Search queries from `batchexecute` responses, grounding sources |
