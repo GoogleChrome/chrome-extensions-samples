@@ -22,17 +22,30 @@ export const ChatGPTContext: IPlatformExtractor = {
         const isChatGptHost = u.includes("chatgpt.com") || u.includes("chat.openai.com");
         return isChatGptHost && (u.includes("/conversation") || u.includes("/lat/r"));
     },
-    extract(text: string): { text: string; sources?: Source[]; searchEngine?: string }[] | null {
+    extract(text: string): { text: string; sources?: Source[]; searchEngine?: string; turnUseCase?: string; modelSlug?: string; workingTurnId?: string }[] | null {
         const queries = new Set<string>();
         const sources = new Map<string, Source>();
         const engineByQuery = new Map<string, Set<string>>();
+        const turnUseCaseByQuery = new Map<string, string>();
+        const modelSlugByQuery = new Map<string, string>();
+        const workingTurnByQuery = new Map<string, string>();
 
         // Per-chunk collection context: a `search_engine` value only describes
         // the search steps in the same streamed object, so engines are tracked
         // per parsed chunk and never smeared across unrelated queries.
         interface CollectCtx {
             engines: Set<string>;
+            turnUseCase?: string;
+            modelSlug?: string;
+            workingTurnId?: string;
         }
+
+        const textOf = (v: unknown, max = 300): string | undefined => {
+            if (typeof v !== "string") return undefined;
+            const t = v.trim();
+            if (!t) return undefined;
+            return t.length > max ? t.slice(0, max) : t;
+        };
 
         const addQuery = (q: unknown, ctx?: CollectCtx): void => {
             if (typeof q !== "string") return;
@@ -47,6 +60,9 @@ export const ChatGPTContext: IPlatformExtractor = {
                 }
                 ctx.engines.forEach((e) => set!.add(e));
             }
+            if (ctx?.turnUseCase && !turnUseCaseByQuery.get(trimmed)) turnUseCaseByQuery.set(trimmed, ctx.turnUseCase);
+            if (ctx?.modelSlug && !modelSlugByQuery.get(trimmed)) modelSlugByQuery.set(trimmed, ctx.modelSlug);
+            if (ctx?.workingTurnId && !workingTurnByQuery.get(trimmed)) workingTurnByQuery.set(trimmed, ctx.workingTurnId);
         };
 
         const addEngine = (value: unknown, ctx: CollectCtx): void => {
@@ -55,9 +71,18 @@ export const ChatGPTContext: IPlatformExtractor = {
             if (trimmed.length >= 2 && trimmed.length <= 80) ctx.engines.add(trimmed);
         };
 
-        const addSource = (url: unknown, title?: unknown): void => {
+        const addSource = (url: unknown, title?: unknown, extra?: Partial<Source>, cited?: boolean): void => {
             if (typeof url !== "string" || !url) return;
-            if (sources.has(url)) return;
+            const existing = sources.get(url);
+            if (existing) {
+                // Merge richer fields + promote to cited if seen in references.
+                if (extra?.snippet && !existing.snippet) existing.snippet = extra.snippet;
+                if (extra?.attribution && !existing.attribution) existing.attribution = extra.attribution;
+                if (extra?.pubDate && !existing.pubDate) existing.pubDate = extra.pubDate;
+                if (extra?.resultSource && !existing.resultSource) existing.resultSource = extra.resultSource;
+                if (cited) existing.cited = true;
+                return;
+            }
             let fallbackTitle = url;
             try {
                 fallbackTitle = new URL(url).hostname;
@@ -67,6 +92,12 @@ export const ChatGPTContext: IPlatformExtractor = {
             sources.set(url, {
                 url,
                 title: typeof title === "string" && title ? title : fallbackTitle,
+                snippet: extra?.snippet,
+                attribution: extra?.attribution,
+                pubDate: extra?.pubDate,
+                resultSource: extra?.resultSource,
+                position: extra?.position ?? sources.size,
+                cited: cited ?? false,
             });
         };
 
@@ -119,16 +150,21 @@ export const ChatGPTContext: IPlatformExtractor = {
         };
 
         const collectSources = (node: Record<string, unknown>): void => {
-            // Legacy: metadata.citations
+            // Legacy: metadata.citations (these ARE cited by definition)
             if (Array.isArray(node.citations)) {
                 node.citations.forEach((c: unknown) => {
                     if (c && typeof c === "object") {
                         const citation = c as Record<string, unknown>;
-                        addSource(citation.url, citation.title);
+                        addSource(citation.url, citation.title, {
+                            snippet: textOf(citation.snippet ?? citation.text, 300),
+                            attribution: textOf(citation.attribution, 120),
+                            pubDate: textOf(citation.pub_date ?? citation.pubDate, 40),
+                            resultSource: textOf(citation.result_source ?? citation.resultSource, 60),
+                        }, true);
                     }
                 });
             }
-            // Current: search_result_groups[].entries[] ({ url, title, snippet })
+            // Current: search_result_groups[].entries[] ({ url, title, snippet }) — retrieved pool
             if (Array.isArray(node.search_result_groups)) {
                 node.search_result_groups.forEach((group: unknown) => {
                     if (!group || typeof group !== "object") return;
@@ -137,23 +173,33 @@ export const ChatGPTContext: IPlatformExtractor = {
                         entries.forEach((entry: unknown) => {
                             if (entry && typeof entry === "object") {
                                 const record = entry as Record<string, unknown>;
-                                addSource(record.url, record.title);
+                                addSource(record.url, record.title, {
+                                    snippet: textOf(record.snippet, 300),
+                                    attribution: textOf(record.attribution, 120),
+                                    pubDate: textOf(record.pub_date ?? record.pubDate, 40),
+                                    resultSource: textOf(record.result_source ?? record.resultSource, 60),
+                                }, false);
                             }
                         });
                     }
                 });
             }
-            // Current: content_references[] (grouped webpages + product carousels)
+            // Current: content_references[] (grouped webpages + product carousels) — cited pool
             if (Array.isArray(node.content_references)) {
                 node.content_references.forEach((ref: unknown) => {
                     if (!ref || typeof ref !== "object") return;
                     const record = ref as Record<string, unknown>;
-                    if (typeof record.url === "string") addSource(record.url, record.title);
+                    if (typeof record.url === "string") addSource(record.url, record.title, {
+                        snippet: textOf(record.snippet, 300),
+                        attribution: textOf(record.attribution, 120),
+                    }, true);
                     if (Array.isArray(record.items)) {
                         record.items.forEach((item: unknown) => {
                             if (item && typeof item === "object") {
                                 const itemRecord = item as Record<string, unknown>;
-                                addSource(itemRecord.url, itemRecord.title);
+                                addSource(itemRecord.url, itemRecord.title, {
+                                    snippet: textOf(itemRecord.snippet, 300),
+                                }, true);
                             }
                         });
                     }
@@ -161,15 +207,37 @@ export const ChatGPTContext: IPlatformExtractor = {
                         record.products.forEach((p: unknown) => {
                             if (p && typeof p === "object") {
                                 const product = p as Record<string, unknown>;
-                                addSource(product.url, product.title);
+                                addSource(product.url, product.title, undefined, true);
                             }
                         });
                     }
                     if (record.product && typeof record.product === "object") {
                         const product = record.product as Record<string, unknown>;
-                        addSource(product.url, product.title);
+                        addSource(product.url, product.title, undefined, true);
                     }
                 });
+            }
+        };
+
+        const collectTurnMeta = (node: unknown, ctx: CollectCtx): void => {
+            if (!node || typeof node !== "object") return;
+            if (Array.isArray(node)) {
+                node.forEach((item) => collectTurnMeta(item, ctx));
+                return;
+            }
+            const record = node as Record<string, unknown>;
+            for (const key of Object.keys(record)) {
+                const value = record[key];
+                const lowerKey = key.toLowerCase();
+                if ((lowerKey === "turn_use_case" || lowerKey === "turnusecase") && typeof value === "string" && value.trim()) {
+                    if (!ctx.turnUseCase) ctx.turnUseCase = value.trim().slice(0, 60);
+                } else if ((lowerKey === "model_slug" || lowerKey === "modelslug" || lowerKey === "model") && typeof value === "string" && value.trim()) {
+                    if (!ctx.modelSlug && value.trim().length <= 60) ctx.modelSlug = value.trim();
+                } else if ((lowerKey === "working_turn_id" || lowerKey === "workingturnid") && typeof value === "string" && value.trim()) {
+                    if (!ctx.workingTurnId) ctx.workingTurnId = value.trim().slice(0, 80);
+                } else if (value && typeof value === "object") {
+                    collectTurnMeta(value, ctx);
+                }
             }
         };
 
@@ -250,6 +318,7 @@ export const ChatGPTContext: IPlatformExtractor = {
                     const parsed: unknown = JSON.parse(content);
                     const ctx: CollectCtx = { engines: new Set<string>() };
                     collectEngines(parsed, ctx);
+                    collectTurnMeta(parsed, ctx);
                     searchNode(parsed, ctx);
                 } catch {
                     // Ignore parse errors for partial chunks.
@@ -260,6 +329,7 @@ export const ChatGPTContext: IPlatformExtractor = {
                     const parsed: unknown = JSON.parse(trimmedLine);
                     const ctx: CollectCtx = { engines: new Set<string>() };
                     collectEngines(parsed, ctx);
+                    collectTurnMeta(parsed, ctx);
                     searchNode(parsed, ctx);
                 } catch {
                     // Ignore parse errors for partial chunks.
@@ -337,7 +407,29 @@ export const ChatGPTContext: IPlatformExtractor = {
             }
         }
 
+        // Turn-meta fallback for regex-recovered queries: attribute only when the
+        // whole response names exactly one use-case/model, mirroring the engine rule.
+        const metaFallback = (regex: RegExp, map: Map<string, string>): void => {
+            if (map.size > 0) return;
+            const found = new Set<string>();
+            let m: RegExpExecArray | null;
+            regex.lastIndex = 0;
+            while ((m = regex.exec(text)) !== null) {
+                const name = (m[1] || "").trim();
+                if (name && name.length <= 60) found.add(name);
+            }
+            if (found.size === 1) {
+                const [only] = Array.from(found);
+                queries.forEach((q) => { if (!map.get(q)) map.set(q, only); });
+            }
+        };
+        metaFallback(/"turn_use_case"\s*:\s*"([^"\\]+)"/gi, turnUseCaseByQuery);
+        metaFallback(/"model_slug"\s*:\s*"([^"\\]+)"/gi, modelSlugByQuery);
+        metaFallback(/"working_turn_id"\s*:\s*"([^"\\]+)"/gi, workingTurnByQuery);
+
         const uniqueSources = Array.from(sources.values());
+        // Sort: cited first, then by position — gives Retrieved vs Cited split for free.
+        uniqueSources.sort((a, b) => Number(b.cited ?? false) - Number(a.cited ?? false) || (a.position ?? 0) - (b.position ?? 0));
         return queries.size > 0
             ? Array.from(queries).map((q) => {
                   const engines = engineByQuery.get(q);
@@ -347,6 +439,9 @@ export const ChatGPTContext: IPlatformExtractor = {
                       sources: uniqueSources.length > 0 ? uniqueSources : undefined,
                       searchEngine:
                           engineList.length > 0 ? engineList.join(", ") : undefined,
+                      turnUseCase: turnUseCaseByQuery.get(q),
+                      modelSlug: modelSlugByQuery.get(q),
+                      workingTurnId: workingTurnByQuery.get(q),
                   };
               })
             : null;

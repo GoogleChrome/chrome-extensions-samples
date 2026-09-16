@@ -30,6 +30,15 @@ import { IPlatformExtractor } from "./platforms/types";
     }
     (window as unknown as Record<string, unknown>)[LOADED_FLAG] = true;
 
+    const getConversationId = (): string | undefined => {
+        try {
+            const m = window.location.pathname.match(/\/c\/([a-f0-9-]+)/i);
+            return m?.[1];
+        } catch {
+            return undefined;
+        }
+    };
+
     const notifyUI = (results: any[], platform?: string) => { // Use specific type if available, but for now any[] is safe transient
         if (results.length === 0) return;
         log(`Found results for ${platform || 'Unknown'}:`, results);
@@ -37,7 +46,8 @@ import { IPlatformExtractor } from "./platforms/types";
             type: "AI_SEARCH_REVEALER_FOUND",
             results,
             queries: results.map(r => r.text), // Backwards compat shim if needed, or just use results
-            platform
+            platform,
+            conversationId: getConversationId()
         };
         // Restrict to same-origin: the ISOLATED-world content script validates
         // event.origin === window.location.origin. Never use "*".

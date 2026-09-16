@@ -1,7 +1,7 @@
 # Privacy Policy: AI Search Revealer
 
 **Effective Date:** September 16, 2026
-**Version:** 1.2.0
+**Version:** 1.3.0
 **Developer:** MIMR Growth Lab (https://mimrgrowthlab.com)
 
 At **MIMR Growth Lab**, we take your privacy seriously. The **AI Search Revealer** Chrome extension is designed with a "Local-First" philosophy. This policy explains what is processed locally, what is transmitted (and when), and what we **do not** do.
@@ -46,15 +46,16 @@ We do not transmit prompts, responses, account identifiers, browsing history, or
 
 ## 4. Data stored locally
 
-- `chrome.storage.local`: a single `enabled` boolean (toolbar on/off toggle). No queries, sources, or personal data are persisted.
-- No sync, no cookies, no IndexedDB, no remote storage.
+- `chrome.storage.local.enabled`: toolbar on/off toggle.
+- `chrome.storage.local["csr:capturesByConversation"]`: captured queries + their sources, keyed per conversation (max 20 conversations × 100 queries, oldest pruned). This is what lets captures survive a page refresh and powers CSV/Markdown export. Stored only on your device, never synced or transmitted to us.
+- No cookies, no IndexedDB beyond the above, no remote storage.
 
 Uninstalling the extension removes the local setting.
 
 ## 5. Permissions disclosure
 
 - `contextMenus`: provides "Verify with Google Search" and "Explain with ChatGPT" on selected text. Fires only on your right-click choice.
-- `storage`: stores the toolbar enable/disable toggle (`enabled` flag) so your preference survives reloads.
+- `storage`: stores the toolbar toggle plus per-conversation captures (queries/sources) so refreshes and exports work offline.
 - Content scripts on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai` (`www.` included), `gemini.google.com`: required to run the local read-only interceptor and overlay UI. Page access is declared via `content_scripts.matches`; the extension requests **no broad `host_permissions`** and **no `clipboardWrite`** (copy uses `navigator.clipboard` on your click gesture, which needs no permission).
 - No access to `tabs`, history, bookmarks, cookies, or identity APIs.
 

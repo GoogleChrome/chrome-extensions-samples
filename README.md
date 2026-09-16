@@ -10,6 +10,10 @@ Developed by [MIMR Growth Lab](https://mimrgrowthlab.com). Independent utility �
 - Supports ChatGPT, Claude, Perplexity, and Gemini.
 - Overlay panel with minimize-to-bubble mode and a live capture counter badge.
 - Toolbar button toggles the overlay on/off (preference persists via `chrome.storage`).
+- Captures persist per conversation — refresh-safe via local storage + backfill from ChatGPT's conversation object.
+- Sources split into ★ Cited vs Retrieved, with snippets where provided.
+- Per-query backend (`via serpapi` etc.), intent (`turn_use_case`), and model tags, with platform/intent/text filters.
+- Export CSV / Markdown, plus one-click "Ask AI" prompt that asks the model to list its own queries.
 - One-click actions per query: verify on Google, check Google Trends, copy to clipboard.
 - Shows cited/retrieved sources alongside queries where available (icons via Google favicon service — see Privacy).
 - Context-menu items: "Verify with Google Search" and "Explain with ChatGPT" for selected text.
@@ -87,7 +91,7 @@ rm -f ai-search-revealer.zip && (cd chatgpt-scan-extension && zip -qr ../ai-sear
 ## Permissions
 
 - `contextMenus` — selection menu items (verify with Google / explain with ChatGPT, user-initiated only).
-- `storage` — persists the toolbar enable/disable toggle (`enabled` flag only).
+- `storage` — persists the toolbar toggle plus per-conversation captures (queries/sources, local only, capped at 20 conversations × 100 queries).
 - Content scripts run on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai`, `gemini.google.com` for local read-only response parsing. No broad `host_permissions`; copy uses `navigator.clipboard` (no `clipboardWrite` needed).
 
 ## Privacy
