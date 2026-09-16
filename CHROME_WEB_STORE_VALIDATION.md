@@ -1,180 +1,79 @@
 # Chrome Web Store Policy Validation Report
-**Extension:** AI Search Revealer v1.3.0  
-**Date:** December 20, 2025  
-**Status:** ✅ **COMPLIANT** (with minor recommendations)
+**Extension:** AI Search Revealer v1.2.0
+**Date:** September 16, 2026
+**Status:** ✅ **READY FOR SUBMISSION** (pending store-ops items below)
+
+> v1.1.0 validation was inaccurate and has been superseded. This report reflects the v1.2.0 code fixes.
+
+---
+
+## What changed in v1.2.0 (blockers fixed)
+
+1. **Removed response tampering.** `src/interceptor.ts` no longer returns fake `200` responses for tracking domains. The fetch/XHR/EventSource hook is now strictly passive: `response.clone().text()` parsing only, all other traffic untouched.
+2. **Hardened the page bridge.** `window.postMessage` now targets `window.location.origin` (fallback `"*"` only if origin throws), and `src/content.ts` validates `event.origin === location.origin` + `type === "AI_SEARCH_REVEALER_FOUND"`.
+3. **Fixed dead toolbar button.** `manifest.json` adds `action.default_title`; `src/background.ts` implements `chrome.action.onClicked` to toggle the overlay, persists via `chrome.storage.local`, and clears the badge when disabled.
+4. **Added user off-switch.** Overlay supports `setEnabled/isEnabled/destroy` (`src/ui/controller.ts`); disabled state removes UI and ignores captures. Preference survives reloads.
+5. **Minimized permissions.** Removed `clipboardWrite` (copy uses `navigator.clipboard` on click, no permission needed) and removed all `host_permissions` (page access via `content_scripts.matches` only). Added `storage` (toggle flag) — justification in `CHROMEWEBSTORE.md`.
+6. **Fixed privacy disclosure.** Favicon icons (`google.com/s2/favicons`, hostname only, `no-referrer`, lazy) are now disclosed in `PRIVACY_POLICY.md`, `CHROMEWEBSTORE.md` Data Safety, and code comments. Safe hostname parsing added (no uncaught `new URL` throws).
+7. **Trademark + version hygiene.** Added "not affiliated" disclaimer; bumped to single version `1.2.0` across `package.json` + `manifest.json`.
 
 ---
 
 ## ✅ PASSING CHECKS
 
-### 1. Privacy Policy ✅
-- **Status:** COMPLIANT
-- **Location:** `PRIVACY_POLICY.md` exists and is comprehensive
-- **Compliance:** 
-  - Clearly states no data collection, storage, or transmission
-  - Explains local processing and network interception
-  - Discloses all permissions and their purposes
-  - Includes contact information (MIMR Growth Lab)
-- **Action Required:** Ensure the privacy policy URL is added to the Chrome Web Store Developer Dashboard when submitting
+### 1. Privacy policy ✅
+`PRIVACY_POLICY.md` v1.2.0 discloses local parsing, automatic favicon hostname transmission, user-initiated navigations, `storage` usage, and trademark notice.
+**Action required:** host it at a public HTTPS URL and paste into Dashboard → Privacy Policy field.
 
-### 2. Manifest V3 Compliance ✅
-- **Status:** COMPLIANT
-- **Manifest Version:** 3
-- **Service Worker:** Properly implemented (`background.js` with `type: "module"`)
-- **Content Scripts:** Correctly configured with `world: "MAIN"` for interceptor
-- **Permissions:** All permissions are justified and minimal
+### 2. Manifest V3 ✅
+MV3, module service worker, `content_scripts` with `world: "MAIN"` for interceptor + isolated world for UI. No V2 APIs.
 
-### 3. Code Readability ✅
-- **Status:** COMPLIANT
-- **Minification:** Code is minified (allowed) but NOT obfuscated
-- **Source Code:** Original TypeScript source is readable and well-structured
-- **No Obfuscation:** No use of `eval()`, `Function()`, or dynamic code execution from remote sources
-- **Self-Contained:** All logic is contained within the extension package
+### 3. Code readability ✅
+Vite-minified but not obfuscated; TypeScript source ships in repo. No `eval()`/`Function()`/remote scripts.
 
-### 4. Single Purpose ✅
-- **Status:** COMPLIANT
-- **Purpose:** Clearly defined - reveals hidden search queries from AI platforms
-- **Functionality:** All features directly support the single purpose:
-  - Network interception for query extraction
-  - UI display of queries
-  - Research tool links (user-initiated)
-  - Context menu actions (user-initiated)
-- **No Bundling:** No unrelated functionality bundled
+### 4. Single purpose ✅
+"Reveal hidden AI search queries locally + user-initiated verification." All features (capture, sources, research links, context menus, toggle) directly serve it. Full text in `CHROMEWEBSTORE.md §2`.
 
-### 5. User Data Privacy ✅
-- **Status:** COMPLIANT
-- **Data Collection:** NONE - Extension explicitly states no data collection
-- **Local Processing:** All processing occurs in browser memory
-- **No Transmission:** No data sent to remote servers
-- **No Tracking:** No analytics, cookies, or tracking pixels
-- **Limited Use:** Not applicable (no user data collected)
+### 5. User data privacy ✅ (with disclosure)
+No first-party collection. Third-party transmissions declared: favicon hostnames (auto) + research URLs (click-only). Must mirror in Dashboard Data Safety form.
 
-### 6. Permissions Usage ✅
-- **Status:** COMPLIANT
-- **`storage`:** REMOVED - storage permission is no longer used by the extension
-- **`clipboardWrite`:** Used for user-initiated copy actions. **Justification:** "The extension allows users to copy captured search queries to their clipboard via a 'Copy' button in the UI. This permission is required to write the selected text to the clipboard when the user explicitly triggers this action."
-- **`contextMenus`:** Used for right-click search/explain features (justified)
-- **`host_permissions`:** Limited to specific AI platform domains only (justified)
-- **Minimal Scope:** All permissions are the narrowest necessary
+### 6. Permissions ✅ (minimal)
+`contextMenus` + `storage` only, each justified in `CHROMEWEBSTORE.md §3`. No `tabs` (not needed for `tabs.create`), no `clipboardWrite`, no `host_permissions`.
 
-### 7. Remote Code Execution ✅
-- **Status:** COMPLIANT
-- **No `eval()`:** No use of `eval()` or `Function()` constructor
-- **No Remote Scripts:** No `<script>` tags pointing to external resources
-- **No Dynamic Execution:** No execution of strings fetched from remote sources
-- **External URLs:** Only used for user-initiated actions (opening tabs to Google Search, Trends, etc.)
+### 7. Remote code ✅
+No remote JS. Only remote content: favicon images (declared) + user-initiated navigations.
 
-### 8. Disclosure Requirements ✅
-- **Status:** COMPLIANT
-- **Privacy Policy:** Comprehensive disclosure of data handling (none)
-- **Permissions:** All permissions explained in privacy policy
-- **Functionality:** Extension description clearly states what it does
-- **User Consent:** Implicit consent through installation (no sensitive data collected)
+### 8. Toolbar functionality ✅
+Action button now toggles overlay with title + badge feedback. No dead UI.
 
-### 9. Listing Requirements ✅
-- **Status:** COMPLIANT
-- **Name:** "AI Search Revealer" - clear and descriptive
-- **Description:** Comprehensive and accurate
-- **Icons:** All required icon sizes present (16, 48, 128)
-- **Version:** 1.3.0 - properly versioned
-- **Metadata:** Complete and accurate
-
-### 10. Quality Guidelines ✅
-- **Status:** COMPLIANT
-- **Functionality:** Extension provides clear utility
-- **No Broken Features:** All features appear functional
-- **User Experience:** Non-intrusive UI with bubble mode
-- **No Spam:** No keyword stuffing in description
-
-### 11. Technical Requirements ✅
-- **Status:** COMPLIANT
-- **API Usage:** Uses Chrome APIs correctly (storage, clipboard, contextMenus, tabs)
-- **No Overrides:** Does not override Chrome functionality inappropriately
-- **Network Interception:** Uses standard Fetch/XHR/EventSource interception (documented approach)
-
-### 12. Content Policies ✅
-- **Status:** COMPLIANT
-- **No Malicious Content:** No viruses, malware, or spyware
-- **No Deceptive Behavior:** Extension does exactly what it claims
-- **No Impersonation:** Clear attribution to MIMR Growth Lab
-- **No Prohibited Content:** No gambling, adult content, or illegal activities
-
----
-
-## ⚠️ RECOMMENDATIONS (Not Required, But Best Practice)
-
-### 1. Privacy Policy Link in Store Listing
-- **Recommendation:** Ensure the privacy policy URL is added to the Chrome Web Store Developer Dashboard
-- **Location:** Developer Dashboard → Privacy Policy field
-- **URL Format:** Should be publicly accessible (e.g., GitHub Pages, your website)
-
-### 2. Limited Use Statement (If Using Google APIs)
-- **Current Status:** Extension does NOT use Google APIs that require Limited Use disclosure
-- **Recommendation:** If you add any Google API features in the future, add the required Limited Use statement
-
-### 3. Screenshots for Store Listing
-- **Recommendation:** Prepare high-quality screenshots showing:
-  - The extension UI overlay
-  - Platform-specific tags
-  - Research tool links
-  - Bubble mode
-  - Context menu options
-
-### 4. Single Purpose Field
-- **Recommendation:** When submitting, provide detailed information in the "Single Purpose" field:
-  - "Reveals hidden search queries used by AI platforms (ChatGPT, Claude, Perplexity, Gemini) by intercepting network requests and displaying them in a local UI overlay. Provides one-click research tools for verification and analysis."
+### 9. Listing readiness ⚠️ (ops items remain)
+Name/description/icons/version are correct. Still needed: screenshots, promo tile, live policy URL, category selection.
 
 ---
 
 ## 📋 PRE-SUBMISSION CHECKLIST
 
-Before submitting to Chrome Web Store:
-
-- [x] Privacy Policy exists and is comprehensive
-- [x] Manifest V3 compliant
-- [x] Code is readable (minified but not obfuscated)
-- [x] Single purpose clearly defined
-- [x] All permissions justified
-- [x] No remote code execution
-- [x] No user data collection
-- [ ] **Add privacy policy URL to Developer Dashboard**
-- [ ] **Prepare store listing screenshots**
-- [ ] **Fill out Single Purpose field in dashboard**
-- [ ] **Test extension on all supported platforms**
-- [ ] **Verify 2-Step Verification is enabled on Google account**
+- [x] Privacy policy rewritten with favicon disclosure
+- [x] MV3 compliant, minimal permissions
+- [x] No response tampering; passive read-only hook
+- [x] Toolbar toggle + persistent disable
+- [x] `postMessage` origin validation
+- [x] Version unified at 1.2.0
+- [x] `CHROMEWEBSTORE.md` created as submission source of truth
+- [x] ZIP verified clean (9 files, no `.git`/`node_modules`)
+- [ ] **Host privacy policy at public HTTPS URL, paste into Dashboard**
+- [ ] **Prepare screenshots (1280×800 or 640×400) + 440×280 promo tile**
+- [ ] **Fill Single Purpose + permission justifications from CHROMEWEBSTORE.md**
+- [ ] **Fill Data Safety form (favicon hostname auto-send; research links click-only)**
+- [ ] **Test on chatgpt.com, claude.ai, perplexity.ai, gemini.google.com**
+- [ ] **Verify 2-Step Verification on publisher account**
 
 ---
 
 ## 🎯 OVERALL ASSESSMENT
 
-**Status:** ✅ **READY FOR SUBMISSION**
+**Status:** ✅ **READY FOR SUBMISSION** once the unchecked ops items above are done. No known code-level policy violations remain. Highest residual risk is reviewer scrutiny of the MAIN-world network hook — mitigated by read-only design, narrow matches, and the Single Purpose text in `CHROMEWEBSTORE.md`. If favicons draw pushback, fallback is letter avatars (zero transmission).
 
-Your extension is well-designed and compliant with Chrome Web Store policies. The main actions needed are:
-1. Add privacy policy URL to the Developer Dashboard
-2. Prepare screenshots for the store listing
-3. Complete the Single Purpose field during submission
-
-The extension demonstrates:
-- Strong privacy-first approach (no data collection)
-- Clear single purpose
-- Proper use of Chrome APIs
-- Clean, readable code structure
-- Transparent user experience
-
-**No policy violations detected.**
-
----
-
-## 📝 NOTES
-
-- The extension intercepts network requests, which is a documented and acceptable approach for this use case
-- The blocking of tracking domains is a user experience enhancement (prevents console spam) and does not violate policies
-- External links (Google Search, Trends, AnswerThePublic) are user-initiated and clearly attributed
-- Context menu actions are user-initiated and provide clear value
-
----
-
-**Generated:** December 20, 2025  
-**Extension Version:** 1.3.0  
+**Generated:** September 16, 2026
+**Extension Version:** 1.2.0
 **Manifest Version:** 3
-

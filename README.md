@@ -2,17 +2,18 @@
 
 A Chrome extension (Manifest V3) that reveals the hidden web-search queries AI assistants run behind the scenes before answering. When ChatGPT, Claude, Perplexity, or Gemini searches the web to answer your prompt, this extension captures those queries and shows them in a small overlay panel with one-click research links.
 
-Developed by [MIMR Growth Lab](https://mimrgrowthlab.com).
+Developed by [MIMR Growth Lab](https://mimrgrowthlab.com). Independent utility — not affiliated with OpenAI, Anthropic, Perplexity AI, or Google.
 
 ## Features
 
 - Captures the model's real search queries in real time, as they are issued.
 - Supports ChatGPT, Claude, Perplexity, and Gemini.
 - Overlay panel with minimize-to-bubble mode and a live capture counter badge.
+- Toolbar button toggles the overlay on/off (preference persists via `chrome.storage`).
 - One-click actions per query: verify on Google, check Google Trends, copy to clipboard.
-- Shows cited/retrieved sources alongside queries where available.
+- Shows cited/retrieved sources alongside queries where available (icons via Google favicon service — see Privacy).
 - Context-menu items: "Verify with Google Search" and "Explain with ChatGPT" for selected text.
-- Local-first: all interception and parsing happens in your browser. No data leaves your machine. See [PRIVACY_POLICY.md](./PRIVACY_POLICY.md).
+- Local-first: interception and parsing happen in your browser. See [PRIVACY_POLICY.md](./PRIVACY_POLICY.md).
 
 ## Supported platforms
 
@@ -49,6 +50,7 @@ Then load the generated `dist/` folder via **Load unpacked** as above.
 2. The overlay panel appears with each captured query and its sources.
 3. Click a query's action links to verify it on Google or Google Trends, or click the query text to copy it.
 4. Click the minimize button to collapse the panel into a bubble; click the bubble to expand it again.
+5. Click the toolbar icon to disable/enable the overlay entirely.
 
 ## Development
 
@@ -66,9 +68,10 @@ Project layout:
 ```
 public/manifest.json        Extension manifest (MV3)
 src/content.ts              Isolated-world content script (UI bridge)
-src/interceptor.ts          MAIN-world network interceptor (fetch/XHR/EventSource)
+src/interceptor.ts          MAIN-world network interceptor (fetch/XHR/EventSource, read-only)
 src/platforms/              Per-platform endpoint matchers and response parsers
 src/ui/controller.ts        Overlay panel controller
+CHROMEWEBSTORE.md           Store listing, justifications, packaging checklist
 chatgpt-scan-extension/     Prebuilt loadable copy of the extension
 ai-search-revealer.zip      Zipped release of the prebuilt copy
 ```
@@ -83,13 +86,13 @@ rm -f ai-search-revealer.zip && (cd chatgpt-scan-extension && zip -qr ../ai-sear
 
 ## Permissions
 
-- `clipboardWrite` — copy a revealed query when you click it.
-- `contextMenus` — selection menu items (verify with Google / explain with ChatGPT).
-- `host_permissions` — limited to `chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai`, and `gemini.google.com` for local response interception.
+- `contextMenus` — selection menu items (verify with Google / explain with ChatGPT, user-initiated only).
+- `storage` — persists the toolbar enable/disable toggle (`enabled` flag only).
+- Content scripts run on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai`, `gemini.google.com` for local read-only response parsing. No broad `host_permissions`; copy uses `navigator.clipboard` (no `clipboardWrite` needed).
 
 ## Privacy
 
-100% local processing, no analytics, no tracking. Full policy: [PRIVACY_POLICY.md](./PRIVACY_POLICY.md).
+Local-first parsing, no analytics, no first-party backend. Two disclosures: (1) source hostnames are sent to Google's favicon service for icons; (2) research links navigate to Google/Trends/AnswerThePublic/ChatGPT only when you click. Full policy: [PRIVACY_POLICY.md](./PRIVACY_POLICY.md). Store submission guide: [CHROMEWEBSTORE.md](./CHROMEWEBSTORE.md).
 
 ## Credits
 

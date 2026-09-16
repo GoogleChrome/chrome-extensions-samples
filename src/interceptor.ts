@@ -39,19 +39,24 @@ import { IPlatformExtractor } from "./platforms/types";
             queries: results.map(r => r.text), // Backwards compat shim if needed, or just use results
             platform
         };
-        window.postMessage(message, "*");
+        // Restrict to same-origin: the ISOLATED-world content script validates
+        // event.origin === window.location.origin. Never use "*".
+        try {
+            window.postMessage(message, window.location.origin);
+        } catch {
+            // Fallback for edge cases (e.g. about:blank at document_start):
+            // post without origin but content script still validates type + source.
+            window.postMessage(message, "*");
+        }
     };
 
-    // --- window.fetch Override ---
+    // --- window.fetch Override (passive read-only) ---
+    // Policy note: this hook NEVER modifies, blocks, or fabricates responses.
+    // It clones matching responses and parses the clone locally. All other
+    // traffic passes through untouched.
     const originalFetch = window.fetch;
     window.fetch = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
         const url = typeof input === "string" ? input : (input instanceof URL ? input.toString() : input.url);
-
-        // Noise suppression for tracking domains (prevents ERR_BLOCKED_BY_CLIENT console spam)
-        const BLOCKED_DOMAINS = ["ab.chatgpt.com", "statsig", "googletagmanager.com", "google-analytics.com", "play.google.com/log", "google.com/ccm/collect"];
-        if (url && BLOCKED_DOMAINS.some(domain => url.includes(domain))) {
-            return Promise.resolve(new Response(null, { status: 200 }));
-        }
 
         const platform = PLATFORMS.find((p) => {
             try {

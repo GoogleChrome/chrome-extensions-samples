@@ -22,10 +22,22 @@ export interface UiController {
     render: () => void;
     handleInterceptedMessage: (message: Partial<InterceptedMessage>) => void;
     getState: () => { isCollapsed: boolean; capturedQueries: CapturedQuery[] };
+    setEnabled: (enabled: boolean) => void;
+    isEnabled: () => boolean;
+    destroy: () => void;
+}
+
+function safeHostname(url: string): string {
+    try {
+        return new URL(url).hostname.replace('www.', '');
+    } catch {
+        return url.slice(0, 40);
+    }
 }
 
 export function createUiController(deps: UiControllerDeps): UiController {
     let isCollapsed = true;
+    let enabled = true;
     const capturedQueries: CapturedQuery[] = [];
 
     const ensureRoot = (): HTMLDivElement => {
@@ -74,6 +86,11 @@ export function createUiController(deps: UiControllerDeps): UiController {
     };
 
     const renderUI = (): void => {
+        // When disabled, remove any visible UI and stop.
+        if (!enabled) {
+            deps.doc.getElementById("csr-root")?.remove();
+            return;
+        }
         const container = ensureRoot();
 
         if (isCollapsed) {
@@ -192,15 +209,19 @@ export function createUiController(deps: UiControllerDeps): UiController {
                         chip.rel = "noreferrer";
                         chip.title = source.title || source.url;
 
-                        // Icon (Simple favicon service or first letter fallback)
-                        const icon = deps.doc.createElement("img");
+                        // Icon via Google favicon service. Privacy note: this sends
+                        // the source hostname to google.com/s2/favicons. Disclosed
+                        // in PRIVACY_POLICY.md + store Data Safety form.
+                        const icon = deps.doc.createElement("img") as HTMLImageElement;
                         icon.className = "csr-source-icon";
-                        icon.src = `https://www.google.com/s2/favicons?domain=${new URL(source.url).hostname}&sz=16`;
+                        icon.src = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(safeHostname(source.url))}&sz=16`;
                         icon.alt = "";
+                        icon.setAttribute("loading", "lazy");
+                        icon.setAttribute("referrerpolicy", "no-referrer");
                         icon.onerror = () => { icon.style.display = 'none'; }; // Hide broken icons
 
                         const domain = deps.doc.createElement("span");
-                        domain.textContent = new URL(source.url).hostname.replace('www.', '');
+                        domain.textContent = safeHostname(source.url);
 
                         chip.appendChild(icon);
                         chip.appendChild(domain);
@@ -249,6 +270,9 @@ export function createUiController(deps: UiControllerDeps): UiController {
     };
 
     const handleInterceptedMessage = (message: Partial<InterceptedMessage>) => {
+        if (!enabled) return;
+        // Strict type check: ignore anything that isn't our bridge message.
+        if (message.type !== undefined && message.type !== "AI_SEARCH_REVEALER_FOUND") return;
         const newItems: import("../platforms/types").ExtractedQuery[] = [];
 
         if (Array.isArray(message.results)) {
@@ -281,6 +305,18 @@ export function createUiController(deps: UiControllerDeps): UiController {
         render: renderUI,
         handleInterceptedMessage,
         getState: () => ({ isCollapsed, capturedQueries: [...capturedQueries] }),
+        setEnabled: (next: boolean) => {
+            enabled = next;
+            if (!enabled) {
+                deps.doc.getElementById("csr-root")?.remove();
+            } else {
+                renderUI();
+            }
+        },
+        isEnabled: () => enabled,
+        destroy: () => {
+            deps.doc.getElementById("csr-root")?.remove();
+        },
     };
 }
 
