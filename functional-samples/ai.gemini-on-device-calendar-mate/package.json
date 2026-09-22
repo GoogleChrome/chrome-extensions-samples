@@ -13,7 +13,7 @@
     "any-date-parser": "2.2.4",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
-    "rollup": "4.63.1",
+    "rollup": "4.63.3",
     "rollup-plugin-copy": "3.5.0"
   }
 }
