@@ -3,7 +3,7 @@
   "version": "1.0",
   "dependencies": {
     "jest": "30.5.1",
-    "selenium-webdriver": "4.48.0"
+    "selenium-webdriver": "4.49.0"
   },
   "scripts": {
     "start": "jest ."

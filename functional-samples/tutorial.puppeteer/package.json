@@ -3,7 +3,7 @@
   "version": "1.0",
   "dependencies": {
     "jest": "30.5.1",
-    "puppeteer": "25.10.0"
+    "puppeteer": "25.11.0"
   },
   "scripts": {
     "start": "jest ."
