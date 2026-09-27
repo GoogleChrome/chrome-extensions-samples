@@ -13,13 +13,23 @@
 // limitations under the License.
 
 const USER_SCRIPT_ID = 'default';
+const EXAMPLE_MATCH_PATTERN = 'https://example.com/*';
+const EXAMPLE_ORIGIN = 'https://example.com/';
 const SAVE_BUTTON_ID = 'save-button';
+const EXECUTE_BUTTON_ID = 'execute-button';
+const EXECUTE_RESULT_ID = 'execute-result';
 
 const FORM_ID = 'settings-form';
 const FORM = document.getElementById(FORM_ID);
 
 const TYPE_INPUT_NAME = 'type';
 const SCRIPT_TEXTAREA_NAME = 'custom-script';
+const EXECUTE_TEXTAREA_NAME = 'execute-script';
+const DEFAULT_EXECUTE_SCRIPT = [
+  "document.body.style.outline = '4px solid #1a73e8';",
+  "document.body.dataset.userScriptsExecute = 'true';",
+  "'done';"
+].join('\n');
 
 /**
  * Checks if the user has developer mode enabled, which is required to use the
@@ -29,8 +39,12 @@ const SCRIPT_TEXTAREA_NAME = 'custom-script';
  */
 function isUserScriptsAvailable() {
   try {
-    // Property access which throws if developer mode is not enabled.
-    chrome.userScripts;
+    // Property access throws in older Chrome versions when developer mode is
+    // disabled, and newer versions expose the API as undefined until the user
+    // enables the Allow User Scripts toggle.
+    if (!chrome.userScripts) throw new Error();
+    document.getElementById('warning').style.display = 'none';
+    FORM.style.display = 'block';
     return true;
   } catch {
     // Not available, so hide UI and show error.
@@ -40,18 +54,44 @@ function isUserScriptsAvailable() {
   }
 }
 
+function getScriptSource(type, script) {
+  return type === 'file' ? [{ file: 'user-script.js' }] : [{ code: script }];
+}
+
+function setExecuteResult(message, isError = false) {
+  const result = document.getElementById(EXECUTE_RESULT_ID);
+  result.textContent = message;
+  result.toggleAttribute('data-error', isError);
+}
+
+async function getTargetTab() {
+  const [activeTab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true
+  });
+
+  if (activeTab?.id && activeTab.url?.startsWith(EXAMPLE_ORIGIN)) {
+    return activeTab;
+  }
+
+  const [exampleTab] = await chrome.tabs.query({ url: EXAMPLE_MATCH_PATTERN });
+  return exampleTab;
+}
+
 async function updateUi() {
   if (!isUserScriptsAvailable()) return;
 
   // Access settings from storage with default values.
-  const { type, script } = await chrome.storage.local.get({
+  const { type, script, executeScript } = await chrome.storage.local.get({
     type: 'file',
-    script: "alert('hi');"
+    script: "alert('hi');",
+    executeScript: DEFAULT_EXECUTE_SCRIPT
   });
 
   // Update UI with current values.
   FORM.elements[TYPE_INPUT_NAME].value = type;
   FORM.elements[SCRIPT_TEXTAREA_NAME].value = script;
+  FORM.elements[EXECUTE_TEXTAREA_NAME].value = executeScript;
 }
 
 async function onSave() {
@@ -62,7 +102,7 @@ async function onSave() {
   const script = FORM.elements[SCRIPT_TEXTAREA_NAME].value;
 
   // Save to storage.
-  chrome.storage.local.set({
+  await chrome.storage.local.set({
     type,
     script
   });
@@ -77,7 +117,7 @@ async function onSave() {
       {
         id: USER_SCRIPT_ID,
         matches: ['https://example.com/*'],
-        js: type === 'file' ? [{ file: 'user-script.js' }] : [{ code: script }]
+        js: getScriptSource(type, script)
       }
     ]);
   } else {
@@ -86,9 +126,50 @@ async function onSave() {
       {
         id: USER_SCRIPT_ID,
         matches: ['https://example.com/*'],
-        js: type === 'file' ? [{ file: 'user-script.js' }] : [{ code: script }]
+        js: getScriptSource(type, script)
       }
     ]);
+  }
+}
+
+async function onExecute() {
+  if (!isUserScriptsAvailable()) return;
+
+  const executeScript = FORM.elements[EXECUTE_TEXTAREA_NAME].value.trim();
+  if (!executeScript) {
+    setExecuteResult('Enter script text to execute.', true);
+    return;
+  }
+
+  await chrome.storage.local.set({ executeScript });
+
+  const tab = await getTargetTab();
+  if (!tab?.id) {
+    setExecuteResult('Open https://example.com/ in a tab first.', true);
+    return;
+  }
+
+  try {
+    const results = await chrome.userScripts.execute({
+      target: { tabId: tab.id },
+      js: [{ code: executeScript }]
+    });
+    const errors = results
+      .filter((result) => result.error)
+      .map((result) => result.error);
+
+    if (errors.length > 0) {
+      setExecuteResult(errors.join('\n'), true);
+      return;
+    }
+
+    const result = results.find(({ result }) => result !== undefined);
+    const resultText = result
+      ? ` Result: ${JSON.stringify(result.result)}`
+      : '';
+    setExecuteResult(`Executed in ${results.length} frame(s).${resultText}`);
+  } catch (error) {
+    setExecuteResult(error.message, true);
   }
 }
 
@@ -98,3 +179,4 @@ chrome.storage.local.onChanged.addListener(updateUi);
 
 // Register listener for save button click.
 document.getElementById(SAVE_BUTTON_ID).addEventListener('click', onSave);
+document.getElementById(EXECUTE_BUTTON_ID).addEventListener('click', onExecute);
