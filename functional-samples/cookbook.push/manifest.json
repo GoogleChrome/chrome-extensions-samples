@@ -1,8 +1,11 @@
 {
-  "name": "Service worker with silent push message",
+  "name": "Web Push Extension",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "permissions": ["notifications"],
+  "host_permissions": ["https://*/*"],
+  "gcm_sender_id": "103953800507"
 }
