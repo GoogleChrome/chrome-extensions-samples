@@ -14,8 +14,8 @@
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
     "dompurify": "3.4.15",
-    "marked": "18.0.13",
-    "rollup": "4.63.3",
+    "marked": "18.0.14",
+    "rollup": "4.63.4",
     "rollup-plugin-copy": "^3.5.0"
   }
 }
