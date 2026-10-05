@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Tab Manager for Chrome Dev Docs",
   "version": "1.0",
-  "description": "Uses the chrome.tabs and chrome.tabGroups APIs to list open Chrome developer docs tabs in a popup and group them under a DOCS title.",
+  "description": "Lists open Chrome developer docs tabs in a popup and groups them into a tab group named DOCS.",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",

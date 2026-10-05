@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Simple Theme",
   "version": "1.0",
-  "description": "Uses the theme manifest key to set custom colors for Chrome's tabs, toolbar, address bar, and new tab page.",
+  "description": "A sample theme that sets custom colors for Chrome's tabs, toolbar, address bar, and new tab page.",
   "theme": {
     "colors": {
       "background_tab": [255, 0, 0],

@@ -1,7 +1,7 @@
 {
   "name": "mole",
   "version": "1.0",
-  "description": "Uses the chrome.action API to show a mole in the toolbar when the controller sends a message and report a hit when clicked.",
+  "description": "A mole for the mole game that pops up in the toolbar when the controller calls it and scores a hit when clicked.",
   "manifest_version": 3,
   "background": {
     "service_worker": "service-worker.js"
