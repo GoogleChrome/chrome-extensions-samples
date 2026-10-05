@@ -1,6 +1,6 @@
 {
   "name": "Getting Started Example",
-  "description": "Build an Extension!",
+  "description": "Uses the chrome.scripting and chrome.storage APIs to change the active tab's background color to one chosen on the options page.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

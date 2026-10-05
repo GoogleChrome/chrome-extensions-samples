@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Oliver Focus Mode",
-  "description": "Example extension from DevTools Tips video.",
+  "description": "Example extension from the DevTools Tips video that toggles focus mode on Chrome extension docs, used to practise debugging.",
   "version": "1.0",
   "icons": {
     "16": "images/icon-16.png",

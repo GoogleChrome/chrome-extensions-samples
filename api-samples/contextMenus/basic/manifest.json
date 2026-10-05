@@ -1,6 +1,6 @@
 {
   "name": "Context Menus Sample",
-  "description": "Uses the chrome.contextMenus API to customize the context menu.",
+  "description": "Uses the chrome.contextMenus API to add menu items for different contexts, including radio, checkbox, and nested items.",
   "version": "0.7",
   "permissions": ["contextMenus"],
   "background": {

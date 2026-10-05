@@ -1,6 +1,6 @@
 {
   "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "description": "Uses the action manifest key to open a popup that says Hello Extensions when you click the toolbar icon.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

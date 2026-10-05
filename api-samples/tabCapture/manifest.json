@@ -1,6 +1,6 @@
 {
   "name": "Tab Capture Example",
-  "description": "Demonstrates how to use the chrome.tabCapture API.",
+  "description": "Demonstrates how to use the chrome.tabCapture API to capture the current tab and play it back live in a new window.",
   "version": "1",
   "manifest_version": 3,
   "action": {

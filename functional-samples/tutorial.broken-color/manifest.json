@@ -1,7 +1,7 @@
 {
   "name": "Broken Background Color",
   "version": "1.0",
-  "description": "Fix an Extension!",
+  "description": "Sample for the debugging tutorial that uses chrome.scripting and chrome.storage to change the active tab's background color.",
   "permissions": ["activeTab", "scripting", "storage"],
   "options_page": "options.html",
   "background": {

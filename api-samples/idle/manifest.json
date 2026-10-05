@@ -1,7 +1,7 @@
 {
   "name": "Idle - Simple Example",
   "version": "1.0.1",
-  "description": "Demonstrates the Idle API",
+  "description": "Uses the chrome.idle API to detect when the user goes idle or active and show a history of state changes.",
   "background": {
     "service_worker": "service-worker.js"
   },
