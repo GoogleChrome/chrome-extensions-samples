@@ -1,8 +1,8 @@
 {
   "name": "MV3 Migration - content script example",
   "version": "0.1",
+  "description": "Uses the chrome.scripting API to inject a content script file or a function into the active tab from a popup.",
   "manifest_version": 3,
-  "description": "Uses chrome.scripting.executeScript() to inject a content script file or a function into the active tab from a popup.",
   "permissions": ["scripting", "activeTab"],
   "action": {
     "default_popup": "popup.html"

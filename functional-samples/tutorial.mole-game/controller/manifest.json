@@ -1,6 +1,7 @@
 {
   "name": "mole controller",
   "version": "1.0",
+  "description": "Uses the chrome.alarms and chrome.management APIs to make moles appear in the toolbar and show your score in the badge.",
   "manifest_version": 3,
   "background": {
     "service_worker": "service-worker.js"

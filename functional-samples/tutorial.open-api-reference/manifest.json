@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Open extension API reference",
   "version": "1.0.0",
+  "description": "Uses the chrome.omnibox API to search Chrome extension APIs from the address bar and open their reference pages.",
   "icons": {
     "16": "icon-16.png",
     "128": "icon-128.png"
