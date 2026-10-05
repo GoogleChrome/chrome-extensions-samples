@@ -2,7 +2,7 @@
   "name": "Service worker with silent push message",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Uses the Push API in an extension service worker to receive push messages silently, with userVisibleOnly set to false.",
+  "description": "Uses the Push API in an extension service worker to subscribe to push messages and receive them without showing a notification.",
   "background": {
     "service_worker": "background.js"
   }
