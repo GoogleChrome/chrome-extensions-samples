@@ -1,5 +1,5 @@
 {
-  "name": "Downloads Overwrite Existing Files",
+  "name": "Overwrite existing downloads",
   "description": "Uses the chrome.downloads.onDeterminingFilename handler to overwrite existing files instead of adding (1), (2), etc.",
   "version": "0.1",
   "background": {

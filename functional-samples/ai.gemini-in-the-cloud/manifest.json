@@ -1,5 +1,5 @@
 {
-  "name": "Google Gemini Demo",
+  "name": "Gemini cloud chat",
   "version": "0.1",
   "manifest_version": 3,
   "description": "Uses the chrome.sidePanel API to open a chat that sends prompts to the Gemini API, with a slider to adjust the temperature.",

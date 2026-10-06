@@ -1,5 +1,5 @@
 {
-  "name": "Optional Permissions New Tab",
+  "name": "Optional permissions new tab",
   "version": "1.0.0",
   "description": "Uses the chrome.permissions API to request the optional topSites permission and show most visited sites on the new tab page.",
   "permissions": ["storage", "favicon"],

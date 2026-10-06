@@ -1,5 +1,5 @@
 {
-  "name": "Devtools - inspectedWindow API sample",
+  "name": "DevTools resource counter",
   "description": "Uses devtools.inspectedWindow to collect the resources used in a web page and show a count of each type in a DevTools panel.",
   "version": "1.0",
   "manifest_version": 3,

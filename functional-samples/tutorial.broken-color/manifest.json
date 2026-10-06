@@ -1,5 +1,5 @@
 {
-  "name": "Broken Background Color",
+  "name": "Broken background color",
   "version": "1.0",
   "description": "Sample for the debugging tutorial that uses chrome.scripting and chrome.storage to change the active tab's background color.",
   "permissions": ["activeTab", "scripting", "storage"],

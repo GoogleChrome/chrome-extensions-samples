@@ -1,5 +1,5 @@
 {
-  "name": "webNavigation API Sample",
+  "name": "Page load notifier",
   "version": "2",
   "description": "Uses the webNavigation API to send a notification with the page URL each time a page finishes loading.",
   "background": {
