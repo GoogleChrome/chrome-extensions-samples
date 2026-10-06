@@ -1,5 +1,5 @@
 {
-  "name": "Identity API Sample",
+  "name": "Identity API sign-in",
   "version": "4.0",
   "description": "Uses the chrome.identity API to sign in with Google, display the user's profile and email, and revoke access tokens.",
   "manifest_version": 3,

@@ -1,5 +1,5 @@
 {
-  "name": "Service worker with silent push message",
+  "name": "Silent push messages",
   "version": "1.0",
   "description": "Shows how an extension service worker can subscribe with the Push API and receive messages without showing a notification.",
   "manifest_version": 3,

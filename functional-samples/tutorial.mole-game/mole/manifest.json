@@ -1,5 +1,5 @@
 {
-  "name": "mole",
+  "name": "Mole Game",
   "version": "1.0",
   "description": "A mole for the mole game that pops up in the toolbar when the controller calls it and scores a hit when clicked.",
   "manifest_version": 3,
