@@ -1,8 +1,8 @@
 {
-  "name": "URL Blocker",
+  "name": "URL blocker",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Uses the chrome.declarativeNetRequest API to block requests.",
+  "description": "Blocks navigation to example.com and its subdomains with a declarativeNetRequest rule.",
   "background": {
     "service_worker": "service_worker.js"
   },

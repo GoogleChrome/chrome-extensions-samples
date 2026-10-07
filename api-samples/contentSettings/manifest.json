@@ -1,7 +1,7 @@
 {
-  "name": "Content settings",
+  "name": "Per-site content settings",
   "version": "0.3",
-  "description": "Uses chrome.contentSettings to display the settings of a given page in the extension's popup.",
+  "description": "A popup that shows and changes the current site's settings for cookies, JavaScript, camera, and more, using chrome.contentSettings.",
   "permissions": ["contentSettings", "activeTab"],
   "action": {
     "default_icon": "contentSettings.png",

@@ -1,8 +1,8 @@
 {
-  "name": "Scripting API Demo",
+  "name": "Script injection methods",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Uses the chrome.scripting API to inject JavaScript into web pages.",
+  "description": "Opens a page to register content scripts or run a script on example.com, using the chrome.scripting API.",
   "background": {
     "service_worker": "sw.js"
   },

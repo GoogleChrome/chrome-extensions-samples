@@ -1,6 +1,6 @@
 {
-  "name": "chrome.commands",
-  "description": "Uses the chrome.commands API by creating a new keyboard macro for switching tabs in the browser window.",
+  "name": "Tab switching shortcuts",
+  "description": "Switches to the next or previous tab with Ctrl+Shift+Right and Ctrl+Shift+Left, using the chrome.commands API.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

@@ -1,9 +1,9 @@
 {
-  "name": "User Scripts API Demo",
+  "name": "User script injector",
   "version": "1.0",
   "manifest_version": 3,
   "minimum_chrome_version": "120",
-  "description": "Uses the chrome.userScripts API to inject JavaScript into web pages.",
+  "description": "Registers a user script for example.com from an options page, using a built-in file or your own code, with chrome.userScripts.",
   "background": {
     "service_worker": "sw.js"
   },

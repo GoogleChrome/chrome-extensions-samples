@@ -1,8 +1,8 @@
 {
-  "name": "Font Settings API Sample",
+  "name": "Basic font settings",
   "version": "1",
   "manifest_version": 3,
-  "description": "Demonstrates the chrome.fontSettings API by allowing users to modify the size of fonts on webpages.",
+  "description": "A popup with buttons to make the default font size bigger or smaller and a field to set the minimum size, using chrome.fontSettings.",
   "action": {
     "default_popup": "popup.html"
   },

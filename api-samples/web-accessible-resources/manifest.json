@@ -1,11 +1,11 @@
 {
-  "name": "Web Accessible Resources Demo",
+  "name": "Web accessible resources",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "service-worker.js"
   },
-  "description": "Uses the web_accessible_resources key in the manifest.json file to control access to assets within an extension.",
+  "description": "Shows how web_accessible_resources in the manifest controls which demo sites can load each of the extension's images.",
   "action": {},
   "content_scripts": [
     {

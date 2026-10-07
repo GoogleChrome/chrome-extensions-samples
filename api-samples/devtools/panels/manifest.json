@@ -1,7 +1,7 @@
 {
-  "name": "Devtools - Chrome Query",
+  "name": "Chrome Query for DevTools",
   "version": "1.2",
-  "description": "Uses the devtools API to add a sidebar that displays the jQuery data associated with the selected DOM element.",
+  "description": "Adds a sidebar to the DevTools Elements panel that shows the jQuery data for the selected element.",
   "devtools_page": "devtools.html",
   "manifest_version": 3
 }

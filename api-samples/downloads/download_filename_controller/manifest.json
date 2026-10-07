@@ -1,6 +1,6 @@
 {
-  "name": "Download Filename Controller",
-  "description": "Demonstrates using the chrome.downloads API to control the names of files being downloaded.",
+  "name": "Download filename controller",
+  "description": "Sets rules by site or file name that decide whether a download overwrites an existing file or asks first, using chrome.downloads.",
   "version": "0.1",
   "background": {
     "service_worker": "service-worker.js"
