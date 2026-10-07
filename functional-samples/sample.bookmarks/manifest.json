@@ -1,6 +1,6 @@
 {
-  "name": "My Bookmarks",
-  "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+  "name": "Bookmark manager",
+  "description": "A popup that shows all your bookmarks with search, and lets you add, rename, and delete them with the chrome.bookmarks API.",
   "version": "1.1",
   "manifest_version": 3,
   "permissions": ["bookmarks"],

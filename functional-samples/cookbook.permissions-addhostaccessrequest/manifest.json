@@ -1,5 +1,5 @@
 {
-  "name": "Permissions (Add Host Access Request)",
+  "name": "Request host access",
   "description": "Uses the `permissions.addHostAccessRequest()` API to request access to a site.",
   "version": "0.3",
   "background": {

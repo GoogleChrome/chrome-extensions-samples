@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Multiple side panels",
   "version": "1.0",
-  "description": "This recipe shows how to use sidePanel.getOptions() to retrieve the current side panel and switch between side panels.",
+  "description": "Shows a welcome side panel after install and switches to the main panel when you change tabs, with sidePanel.getOptions().",
   "background": {
     "service_worker": "service-worker.js"
   },

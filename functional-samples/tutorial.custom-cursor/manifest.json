@@ -1,5 +1,5 @@
 {
-  "name": "Custom Cursor Extension",
+  "name": "Custom cursor on Chrome docs",
   "version": "1.0",
   "manifest_version": 3,
   "description": "Adds a custom cursor on developer.chrome.com.",

@@ -1,5 +1,5 @@
 {
-  "name": "Geolocation - offscreen",
+  "name": "Geolocation in an offscreen document",
   "version": "1.0",
   "description": "Shows how to get geolocation access within a service worker.",
   "manifest_version": 3,

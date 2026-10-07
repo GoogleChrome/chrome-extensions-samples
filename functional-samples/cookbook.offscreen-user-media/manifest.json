@@ -1,5 +1,5 @@
 {
-  "name": "Offscreen API - Record User Media",
+  "name": "Offscreen media recording",
   "version": "1.0",
   "manifest_version": 3,
   "minimum_chrome_version": "116",

@@ -1,7 +1,7 @@
 {
-  "name": "Catifier",
+  "name": "Catifier image replacer",
   "version": "1.0",
-  "description": "Replace every image by a cat's image in a website you visit",
+  "description": "Replaces .jpg and .jpeg images on the pages you visit with a picture of a cat, using declarativeNetRequest redirect rules.",
   "permissions": ["declarativeNetRequest"],
   "host_permissions": ["<all_urls>"],
   "declarative_net_request": {
