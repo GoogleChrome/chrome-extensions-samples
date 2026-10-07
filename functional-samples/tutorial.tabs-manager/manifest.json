@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Tab Manager for Chrome Dev Docs",
+  "name": "Tab manager for Chrome docs",
   "version": "1.0",
   "description": "Lists open Chrome developer docs tabs in a popup and groups them into a tab group named DOCS, using the chrome.tabGroups API.",
   "icons": {
