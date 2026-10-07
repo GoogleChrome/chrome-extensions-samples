@@ -1,8 +1,8 @@
 {
-  "name": "Chrome Prompt AI Demo",
+  "name": "Gemini Nano chat",
   "version": "0.2",
   "manifest_version": 3,
-  "description": "Try Chrome's built-in prompt API built with Gemini Nano.",
+  "description": "Opens a side panel chat that sends prompts to Gemini Nano with Chrome's built-in Prompt API, with temperature and top-k sliders.",
   "background": {
     "service_worker": "background.js"
   },

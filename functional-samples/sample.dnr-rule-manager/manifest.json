@@ -1,8 +1,8 @@
 {
-  "name": "no-cookies Rule Manager",
+  "name": "Declarative Net Request rule manager",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Demonstrates the chrome.declarativeNetRequest API by providing a UI to manipulate declarativeNetRequest rules dynamically.",
+  "description": "Manages declarativeNetRequest rules that remove the cookie header from requests, and shows which rules matched the current tab.",
   "background": {
     "service_worker": "service_worker.js"
   },

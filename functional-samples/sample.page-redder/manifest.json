@@ -3,7 +3,7 @@
   "action": {},
   "manifest_version": 3,
   "version": "0.1",
-  "description": "Turns the page red when you click the icon",
+  "description": "Turns the current page's background red when you click the toolbar icon, using the chrome.scripting API.",
   "permissions": ["activeTab", "scripting"],
   "background": {
     "service_worker": "service-worker.js"

@@ -1,6 +1,7 @@
 {
-  "name": "Identity API Sample",
+  "name": "Identity API sign-in",
   "version": "4.0",
+  "description": "Uses the chrome.identity API to sign in with Google, display the user's profile and email, and revoke access tokens.",
   "manifest_version": 3,
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDJB6ZGcGxtlr/34s+TKgi84QiP7DMekqOjSUS2ubmbhchlM6CN9gYdGQ1aBI3TBXG3YaAu+XyutFA8M8NLLWc4OOGByWaGV11DP6p67g8a+Ids/gX6cNSRnRHiDZXAd44ATxoN4OZjZJk9iQ26RIUjwX07bzntlI+frwwKCk4WQIDAQAB",
   "action": {},

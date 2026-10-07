@@ -1,5 +1,5 @@
 {
-  "name": "File Handling Demo",
+  "name": "Text file opener",
   "version": "1.0",
   "minimum_chrome_version": "120",
   "description": "Shows how to use the file_handlers manifest key with the web platform's Launch Handler API.",

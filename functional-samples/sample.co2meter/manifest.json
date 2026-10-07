@@ -1,6 +1,6 @@
 {
-  "name": "CO2 meter extension",
-  "description": "Demonstrates using WebHID to connect to a CO2 meter.",
+  "name": "CO2 meter with WebHID",
+  "description": "Connects to a CO2 meter with WebHID and shows its CO2 and temperature readings in a popup.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

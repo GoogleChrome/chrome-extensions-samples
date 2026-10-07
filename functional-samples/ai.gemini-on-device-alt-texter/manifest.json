@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Alt Texter",
+  "name": "Alt Texter alt text generator",
   "version": "1.0",
   "description": "Generates alt text for images using the Gemini Nano Prompt API.",
   "permissions": ["contextMenus", "clipboardWrite", "activeTab"],

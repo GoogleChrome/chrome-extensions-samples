@@ -2,7 +2,7 @@
   "name": "Dictionary side panel",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Provides definitions in the side panel.",
+  "description": "Shows a sample definition in the side panel when you select a word and choose Define from the context menu.",
   "background": {
     "service_worker": "service-worker.js"
   },

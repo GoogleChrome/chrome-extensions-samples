@@ -1,6 +1,7 @@
 {
-  "name": "MV3 Migration - content script example",
+  "name": "MV3 script injection",
   "version": "0.1",
+  "description": "Uses the chrome.scripting API to inject a file or a function into the active tab, instead of the code strings MV3 no longer allows.",
   "manifest_version": 3,
   "permissions": ["scripting", "activeTab"],
   "action": {
