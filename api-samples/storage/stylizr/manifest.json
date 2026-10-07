@@ -1,6 +1,6 @@
 {
-  "name": "Stylizr",
-  "description": "Demonstrates how to use the chrome.storage API.",
+  "name": "Stylizr custom CSS injector",
+  "description": "Saves custom CSS on an options page with the chrome.storage API and injects it into the active tab.",
   "version": "1.0",
   "permissions": ["activeTab", "storage", "scripting"],
   "options_page": "options.html",

@@ -1,9 +1,9 @@
 {
-  "name": "Reading List API Demo",
+  "name": "Reading list manager",
   "version": "1.0",
   "minimum_chrome_version": "120",
   "manifest_version": 3,
-  "description": "Uses the chrome.readingList API to display, update and remove reading list entries.",
+  "description": "A page to add, view, update, and remove reading list entries, built on the chrome.readingList API.",
   "background": {
     "service_worker": "sw.js"
   },

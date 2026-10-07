@@ -1,8 +1,8 @@
 {
-  "name": "Google Gemini Demo",
+  "name": "Gemini cloud chat",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Try the Gemini Models.",
+  "description": "Opens a chat in the side panel that sends prompts to the Gemini API, with a slider to adjust the temperature.",
   "background": {
     "service_worker": "background.js"
   },

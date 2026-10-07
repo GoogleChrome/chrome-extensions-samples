@@ -1,8 +1,8 @@
 {
-  "name": "Cookie Clearer",
+  "name": "Cookie clearer",
   "manifest_version": 3,
   "version": "1.0",
-  "description": "Uses the chrome.cookies API by letting a user delete their cookies via a popup.",
+  "description": "Deletes all cookies for a domain from a popup, filling in the current tab's domain, with the chrome.cookies API.",
   "permissions": ["cookies"],
   "host_permissions": ["<all_urls>"],
   "action": {

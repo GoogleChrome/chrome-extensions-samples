@@ -1,6 +1,6 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Hello World extension",
+  "description": "A minimal extension that opens a popup saying Hello Extensions when you click its toolbar icon.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

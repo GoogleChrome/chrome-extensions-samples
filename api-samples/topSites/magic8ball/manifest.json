@@ -1,7 +1,7 @@
 {
-  "name": "topSites API sample",
+  "name": "Top Sites Magic 8 Ball",
   "version": "2",
-  "description": "Uses the chrome.topSites API to suggest which sites a user should visit.",
+  "description": "Replaces the new tab page with a Magic 8 Ball that uses the chrome.topSites API to pick one of your most visited sites at random.",
   "chrome_url_overrides": {
     "newtab": "newTab.html"
   },

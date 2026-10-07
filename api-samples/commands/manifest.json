@@ -1,7 +1,7 @@
 {
-  "name": "Commands API Demo",
+  "name": "Keyboard shortcut handler",
   "version": "1.0",
-  "description": "Uses the chrome.commands API to define keyboard shortcuts and handle command events.",
+  "description": "Uses the chrome.commands API to list the extension's keyboard shortcuts in a popup and respond to them with a notification or badge.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

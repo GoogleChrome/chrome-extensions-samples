@@ -1,8 +1,8 @@
 {
-  "name": "URL Redirect",
+  "name": "URL redirect",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Uses the chrome.declarativeNetRequest API to redirect requests.",
+  "description": "Redirects example.com/original to example.com/redirected with a declarativeNetRequest rule.",
   "background": {
     "service_worker": "service_worker.js"
   },
