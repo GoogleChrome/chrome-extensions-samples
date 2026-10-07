@@ -1,6 +1,6 @@
 {
   "name": "DevTools resource counter",
-  "description": "Uses devtools.inspectedWindow to collect the resources used in a web page and show a count of each type in a DevTools panel.",
+  "description": "Adds a DevTools panel that counts the resources on the inspected page by type, using devtools.inspectedWindow.",
   "version": "1.0",
   "manifest_version": 3,
   "devtools_page": "devtools.html"

@@ -1,6 +1,6 @@
 {
   "name": "Custom context menu items",
-  "description": "Uses the chrome.contextMenus API to add menu items for different contexts, including radio, checkbox, and nested items.",
+  "description": "Adds context menu items for pages, links, images, and more, including radio, checkbox, and nested items, with chrome.contextMenus.",
   "version": "0.7",
   "permissions": ["contextMenus"],
   "background": {

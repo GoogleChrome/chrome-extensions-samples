@@ -1,7 +1,7 @@
 {
   "name": "Idle state tracker",
   "version": "1.0.1",
-  "description": "Uses the chrome.idle API to detect when the user goes idle or active and show a history of state changes.",
+  "description": "Tracks when the user is active, idle, or locked with the chrome.idle API and shows a history of state changes.",
   "background": {
     "service_worker": "service-worker.js"
   },
