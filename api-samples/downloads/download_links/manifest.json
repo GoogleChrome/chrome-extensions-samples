@@ -1,6 +1,6 @@
 {
   "name": "Download selected links",
-  "description": "Lists every link on the current page in a popup, with a filter, and downloads the ones you select with chrome.downloads.",
+  "description": "Lists every link on the current page in a popup, with a filter, and downloads the ones you select with the chrome.downloads API.",
   "version": "0.1",
   "permissions": ["downloads", "scripting"],
   "host_permissions": ["<all_urls>"],

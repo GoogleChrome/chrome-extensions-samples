@@ -1,6 +1,6 @@
 {
   "name": "Tab switching shortcuts",
-  "description": "Switches to the next or previous tab with Ctrl+Shift+Right and Ctrl+Shift+Left, using the chrome.commands API.",
+  "description": "Defines Ctrl+Shift+Right and Ctrl+Shift+Left with the chrome.commands API to switch to the next or previous tab.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

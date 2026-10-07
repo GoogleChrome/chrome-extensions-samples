@@ -3,7 +3,7 @@
   "version": "1.0",
   "minimum_chrome_version": "120",
   "manifest_version": 3,
-  "description": "Opens a page to add, view, update, and remove reading list entries with the chrome.readingList API.",
+  "description": "A page to add, view, update, and remove reading list entries, built on the chrome.readingList API.",
   "background": {
     "service_worker": "sw.js"
   },

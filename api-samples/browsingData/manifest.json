@@ -1,7 +1,7 @@
 {
   "name": "Browsing data cleaner",
   "version": "1.2",
-  "description": "Clears all browsing data, including history, cookies, and passwords, for a time range you pick, using chrome.browsingData.",
+  "description": "With the chrome.browsingData API, clears all browsing data, including history, cookies, and passwords, for a time range you pick.",
   "permissions": ["browsingData"],
   "action": {
     "default_icon": "icon.png",

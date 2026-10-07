@@ -3,7 +3,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "minimum_chrome_version": "120",
-  "description": "Registers a user script for example.com from an options page, using a built-in file or your own code, with chrome.userScripts.",
+  "description": "An options page that uses the chrome.userScripts API to register a script for example.com from a bundled file or your own code.",
   "background": {
     "service_worker": "sw.js"
   },

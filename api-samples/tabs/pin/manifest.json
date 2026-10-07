@@ -1,7 +1,7 @@
 {
   "name": "Pin tab shortcut",
   "version": "0.3",
-  "description": "Pins or unpins the current tab when you press Alt+Shift+P, using the chrome.tabs and chrome.commands APIs.",
+  "description": "Pins or unpins the current tab when you press Alt+Shift+P, a shortcut set up with the chrome.commands API.",
   "background": {
     "service_worker": "service-worker.js"
   },

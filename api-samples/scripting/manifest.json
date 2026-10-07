@@ -2,7 +2,7 @@
   "name": "Script injection methods",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Opens a page to register content scripts or run a script on example.com, using the chrome.scripting API.",
+  "description": "Registers content scripts or runs a script on example.com from a demo page, using the chrome.scripting API.",
   "background": {
     "service_worker": "sw.js"
   },

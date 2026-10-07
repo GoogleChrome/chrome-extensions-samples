@@ -2,7 +2,7 @@
   "name": "URL blocker",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "Blocks navigation to example.com and its subdomains with a declarativeNetRequest rule.",
+  "description": "A declarativeNetRequest rule that blocks navigation to example.com and its subdomains.",
   "background": {
     "service_worker": "service_worker.js"
   },

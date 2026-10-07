@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tab zoom",
-  "description": "A popup that zooms the current tab in, out, or back to default, and sets its zoom mode and scope, using chrome.tabs.",
+  "description": "A popup that uses the chrome.tabs API to zoom the current tab in, out, or back to default, and to set its zoom mode and scope.",
   "version": "0.1",
   "icons": {
     "16": "zoom16.png",

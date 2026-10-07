@@ -1,7 +1,7 @@
 {
   "name": "Toolbar action controls",
   "version": "1.0",
-  "description": "Opens a demo page for changing the toolbar button's popup, badge text and colors, icon, and hover text with the chrome.action API.",
+  "description": "A demo page that uses the chrome.action API to change the toolbar button's popup, badge text and colors, icon, and hover text.",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"

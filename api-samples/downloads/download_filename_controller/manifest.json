@@ -1,6 +1,6 @@
 {
   "name": "Download filename controller",
-  "description": "Sets rules by site or file name that decide whether a download overwrites an existing file or asks first, using chrome.downloads.",
+  "description": "Uses the chrome.downloads API to decide, from rules you set, whether a download replaces a file with the same name or asks first.",
   "version": "0.1",
   "background": {
     "service_worker": "service-worker.js"

@@ -2,7 +2,7 @@
   "name": "Basic font settings",
   "version": "1",
   "manifest_version": 3,
-  "description": "A popup with buttons to make the default font size bigger or smaller and a field to set the minimum size, using chrome.fontSettings.",
+  "description": "A popup with buttons to make the default font size bigger or smaller and set the minimum size, using the chrome.fontSettings API.",
   "action": {
     "default_popup": "popup.html"
   },

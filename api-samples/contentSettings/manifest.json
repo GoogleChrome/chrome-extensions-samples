@@ -1,7 +1,7 @@
 {
   "name": "Per-site content settings",
   "version": "0.3",
-  "description": "A popup that shows and changes the current site's settings for cookies, JavaScript, camera, and more, using chrome.contentSettings.",
+  "description": "A popup that uses the chrome.contentSettings API to view and change the current site's cookie, JavaScript, and other settings.",
   "permissions": ["contentSettings", "activeTab"],
   "action": {
     "default_icon": "contentSettings.png",
