@@ -289,10 +289,6 @@
     color: var(--clr-claude);
     background: var(--clr-claude-bg);
 }
-.csr-platform-tag.platform-perplexity {
-    color: var(--clr-perplexity);
-    background: var(--clr-perplexity-bg);
-}
 .csr-platform-tag.platform-gemini {
     color: var(--clr-gemini);
     background: var(--clr-gemini-bg);

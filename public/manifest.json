@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AI Search Revealer",
   "version": "2.0.0",
-  "description": "Reveals hidden search queries used by ChatGPT, Claude, Perplexity, and Gemini.",
+  "description": "Reveals hidden search queries used by ChatGPT, Claude, and Gemini.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -22,8 +22,6 @@
         "https://chatgpt.com/*",
         "https://chat.openai.com/*",
         "https://claude.ai/*",
-        "https://www.perplexity.ai/*",
-        "https://perplexity.ai/*",
         "https://gemini.google.com/*"
       ],
       "js": [
@@ -37,8 +35,6 @@
         "https://chatgpt.com/*",
         "https://chat.openai.com/*",
         "https://claude.ai/*",
-        "https://www.perplexity.ai/*",
-        "https://perplexity.ai/*",
         "https://gemini.google.com/*"
       ],
       "js": [

@@ -1,6 +1,5 @@
 import { ChatGPTContext } from "./platforms/chatgpt";
 import { ClaudeContext } from "./platforms/claude";
-import { PerplexityContext } from "./platforms/perplexity";
 import { GeminiContext } from "./platforms/gemini";
 import { IPlatformExtractor } from "./platforms/types";
 
@@ -8,7 +7,6 @@ import { IPlatformExtractor } from "./platforms/types";
     const PLATFORMS: IPlatformExtractor[] = [
         ChatGPTContext,
         ClaudeContext,
-        PerplexityContext,
         GeminiContext,
     ];
 

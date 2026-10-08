@@ -24,9 +24,8 @@
     --csr-text-tertiary: #6b7280;
 
     /* Accent: one desaturated violet-blue hue, used only for interactive /
-       structural signal. Chosen to sit far from all four platform brand
-       hues AND from the gold "cited" semantic below, avoiding the original's
-       cyan accent nearly colliding with Perplexity's own brand teal. */
+       structural signal. Chosen to sit far from the platform brand hues
+       AND from the gold "cited" semantic below. */
     --csr-accent: #8b93f0;
     --csr-accent-hover: #a3aaf4;
     --csr-accent-soft-bg: rgba(139, 147, 240, 0.12);
@@ -40,14 +39,12 @@
     --csr-danger-bg: rgba(226, 104, 92, 0.12);
 
     /* Platform brand colors, desaturated to one consistent loudness band
-       (~40-48% saturation, ~55-62% lightness) so the four tags read as one
+       (~40-48% saturation, ~55-62% lightness) so the tags read as one
        coherent tag system instead of each brand's raw marketing color. */
     --clr-chatgpt: #4f9d85;
     --clr-chatgpt-bg: rgba(79, 157, 133, 0.14);
     --clr-claude: #c08268;
     --clr-claude-bg: rgba(192, 130, 104, 0.14);
-    --clr-perplexity: #4fa8b3;
-    --clr-perplexity-bg: rgba(79, 168, 179, 0.14);
     --clr-gemini: #6c8fd1;
     --clr-gemini-bg: rgba(108, 143, 209, 0.14);
 

@@ -15,7 +15,7 @@ export interface ChunkMeta {
  * by passing a fresh `ChunkMeta` per frame, no extra bookkeeping needed).
  *
  * Sources are handled separately via `setSources()`: every platform that
- * extracts sources today (ChatGPT, Perplexity, Gemini) attaches the exact
+ * extracts sources today (ChatGPT, Claude, Gemini) attaches the exact
  * same whole-response source list to every query in that response — not a
  * per-query or per-chunk list. That's today's real, shipped behavior (not an
  * approximation), so it's preserved here as an explicit, named choice rather
