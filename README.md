@@ -44,7 +44,16 @@ Developed by [MIMR Growth Lab](https://mimrgrowthlab.com). Independent utility â
 
 ## Installation
 
-Build from source -- this is the only install path today. (A v1.3-era "prebuilt copy" convention, a committed `chatgpt-scan-extension/` folder + `ai-search-revealer.zip` at the repo root, existed before the v2.0 rebuild but was archived into `archive/legacy-v1.3/` and never recreated; don't load that archived copy, it's the old pre-rebuild code.)
+### Option A: Download the prebuilt zip
+
+1. Download `ai-search-revealer.zip` from the [latest release](https://github.com/lightyoruichi/chatgpt-scan-extension/releases/latest) and unzip it.
+2. Open Chrome and go to `chrome://extensions/`.
+3. Enable **Developer Mode** (top-right toggle).
+4. Click **Load unpacked** and select the unzipped folder.
+
+Each release's zip is built fresh from that release's tagged commit, so it never goes stale the way a zip committed directly to the repo root did before v2.0 (that v1.3-era convention is archived in `archive/legacy-v1.3/` -- don't load that copy, it's the old pre-rebuild code).
+
+### Option B: Build from source
 
 Requires [Node.js](https://nodejs.org/) 22 (see `.github/workflows/ci.yml` for the exact version CI runs).
 
