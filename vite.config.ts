@@ -8,12 +8,18 @@ export default defineConfig({
             typescript: true,
         }),
     ],
+    // Plain esbuild JSX transform (no @preact/preset-vite): that preset pulls
+    // in Babel plus Prefresh HMR, neither of which helps a content script
+    // that's never live-reloaded inside the host page.
+    esbuild: {
+        jsx: 'automatic',
+        jsxImportSource: 'preact',
+    },
     build: {
         outDir: 'dist',
         rollupOptions: {
             input: {
-                // content.ts (the isolated-world UI mount) is added back once
-                // the Preact overlay + store land — see the rebuild plan.
+                content: resolve(__dirname, 'src/content.ts'),
                 interceptor: resolve(__dirname, 'src/interceptor.ts'),
                 background: resolve(__dirname, 'src/background.ts'),
             },

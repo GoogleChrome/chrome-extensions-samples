@@ -4,6 +4,8 @@
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
@@ -28,7 +30,7 @@
     },
     "include": [
         "src/**/*.ts",
-        "manifest.json"
+        "src/**/*.tsx"
     ],
     "exclude": [
         "node_modules",
