@@ -1,4 +1,12 @@
-:root {
+/* :host, not :root: this stylesheet is always injected inside a Shadow Root
+   (see src/ui/mount.ts). :root only ever matches the document's root element
+   -- it never matches a shadow root, so tokens defined there would silently
+   never apply to anything in this tree (every var(--csr-*) would resolve to
+   nothing, falling back to each property's initial value -- e.g. a
+   "background: var(--csr-surface-1)" silently becoming fully transparent).
+   Custom properties set on :host inherit normally to every element in the
+   shadow tree, exactly like :root does for a normal document. */
+:host {
     /* Surfaces -- solid, not glass. No backdrop-filter anywhere: it's
        unreliable behind a Shadow DOM sitting on an unpredictable host
        background, and glassmorphism is part of the generic "AI gradient"

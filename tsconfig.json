@@ -25,7 +25,8 @@
         "outDir": "./dist",
         "rootDir": "./",
         "types": [
-            "chrome"
+            "chrome",
+            "node"
         ]
     },
     "include": [
