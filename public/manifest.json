@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AI Search Revealer",
-  "version": "1.3.0",
+  "version": "1.3.6",
   "description": "Reveals hidden search queries used by ChatGPT, Claude, Perplexity, and Gemini.",
   "icons": {
     "16": "icons/icon16.png",
@@ -47,7 +47,7 @@
       "css": [
         "content.css"
       ],
-      "run_at": "document_start"
+      "run_at": "document_idle"
     }
   ],
   "background": {
