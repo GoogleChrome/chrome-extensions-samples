@@ -102,8 +102,19 @@ const QUERY_KEYS = new Set([
     "search_queries",
     "searchQueryText",
     "queryText",
-    "text",
+    // Deliberately excludes the generic "text" key: confirmed live (2026-10-08)
+    // to false-positive on ordinary response prose -- any chunk shaped like
+    // `{text: "...a fragment of the assistant's own answer..."}` (extremely
+    // common in any chat response) was being captured as a "search query".
 ]);
+
+/** Keys whose value is an array of query strings (Gemini's public grounding
+ * API exposes search queries this way -- groundingMetadata.webSearchQueries
+ * -- the consumer product's internal batchexecute schema plausibly mirrors
+ * this concept even if not the exact field name; kept as a short, named list
+ * rather than a blind guess so it's easy to extend once confirmed against
+ * real traffic). */
+const QUERY_ARRAY_KEYS = new Set(["webSearchQueries", "searchQueries", "search_queries", "queries"]);
 
 /** Recursive structural walk over one parsed batchexecute part. */
 function collectFromNode(root: unknown, queries: Set<string>, sources: SourceMap): void {
@@ -136,6 +147,16 @@ function collectFromNode(root: unknown, queries: Set<string>, sources: SourceMap
         // Generic named query fields, wherever they appear.
         if (typeof key === "string" && typeof node === "string" && QUERY_KEYS.has(key) && node.length > 5 && node.length < 500) {
             queries.add(node);
+        }
+
+        // Same, but for the array-of-strings shape (e.g. webSearchQueries).
+        if (typeof key === "string" && Array.isArray(node) && QUERY_ARRAY_KEYS.has(key)) {
+            node.forEach((item) => {
+                if (typeof item === "string") {
+                    const trimmed = item.trim();
+                    if (trimmed.length > 3 && trimmed.length < 500) queries.add(trimmed);
+                }
+            });
         }
 
         if (node && typeof node === "object" && !Array.isArray(node)) {

@@ -330,19 +330,11 @@ onmessage = async (e) => {
     // routed back into us -- delegating again would overflow the stack.
     let fetchDepth = 0;
     const MAX_FETCH_DEPTH = 2;
-    const ourFetchWrapper = function (this: unknown, input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-        if (fetchDepth > 0) {
-            // Hook cycle detected: terminate via pristine worker fetch.
-            // Inner calls skip counting/teeing; the outer frame still parses.
-            log("fetch re-entry detected: routing around hook cycle");
-            if (fetchDepth >= MAX_FETCH_DEPTH) {
-                return Promise.reject(new Error("[AI Search Revealer] fetch hook cycle depth exceeded"));
-            }
-            return workerForward(input, init);
-        }
-
-        const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
-
+    // Finds a matching platform for `url` and, if one matches, attaches
+    // extraction to `promise`'s eventual response. Shared by both the direct
+    // path and the worker-escape path below -- extraction must not depend on
+    // *which* path a given fetch call took to get its response.
+    const attachExtraction = (promise: Promise<Response>, url: string): void => {
         const platform = PLATFORMS.find((p) => {
             try {
                 return p.shouldIntercept(url);
@@ -352,10 +344,54 @@ onmessage = async (e) => {
         });
 
         seenCount++;
-        if (platform) {
-            matchedCount++;
-        }
+        if (platform) matchedCount++;
         postStats();
+
+        if (!platform) return;
+
+        promise
+            .then(async (response) => {
+                if (!response.ok) {
+                    log(`Response code ${response.status} for ${platform.name}`);
+                    return;
+                }
+                try {
+                    const clone = response.clone();
+                    const text = await clone.text();
+                    log(`Processing ${text.length} bytes for ${platform.name}`);
+                    const results = platform.extract(text);
+                    if (results && results.length > 0) notifyUI(results, platform.name);
+                } catch (e) {
+                    log("Error processing:", e);
+                }
+            })
+            .catch((e) => {
+                log("Fetch promise rejected:", e);
+            });
+    };
+
+    const ourFetchWrapper = function (this: unknown, input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+        const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+
+        if (fetchDepth > 0) {
+            // Hook cycle detected: terminate via pristine worker fetch. This
+            // used to skip extraction entirely for every re-entrant call --
+            // on pages where the host's own code also wraps fetch (observed
+            // live: gemini.google.com does this for essentially every
+            // request), that meant NO fetch ever reached the direct path
+            // below, so the platform list was never consulted and nothing
+            // was ever extracted, silently. Extraction must happen on this
+            // path too, not just the direct one.
+            log("fetch re-entry detected: routing around hook cycle");
+            if (fetchDepth >= MAX_FETCH_DEPTH) {
+                const rejected = Promise.reject(new Error("[AI Search Revealer] fetch hook cycle depth exceeded"));
+                rejected.catch(() => {});
+                return rejected;
+            }
+            const forwarded = workerForward(input, init);
+            attachExtraction(forwarded, url);
+            return forwarded;
+        }
 
         // Standard fetch call, preserving caller `this` through hook chains.
         fetchDepth++;
@@ -366,27 +402,7 @@ onmessage = async (e) => {
             fetchDepth--;
         }
 
-        if (platform) {
-            promise
-                .then(async (response) => {
-                    if (!response.ok) {
-                        log(`Response code ${response.status} for ${platform.name}`);
-                        return;
-                    }
-                    try {
-                        const clone = response.clone();
-                        const text = await clone.text();
-                        log(`Processing ${text.length} bytes for ${platform.name}`);
-                        const results = platform.extract(text);
-                        if (results && results.length > 0) notifyUI(results, platform.name);
-                    } catch (e) {
-                        log("Error processing:", e);
-                    }
-                })
-                .catch((e) => {
-                    log("Fetch promise rejected:", e);
-                });
-        }
+        attachExtraction(promise, url);
 
         return promise;
     };

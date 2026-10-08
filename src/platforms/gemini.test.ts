@@ -91,4 +91,42 @@ describe("GeminiContext", () => {
         const text = `)]}'\n10\n${JSON.stringify({ answer: "hello" })}\n`;
         expect(GeminiContext.extract(text)).toBeNull();
     });
+
+    describe("false-positive regression (found live 2026-10-08 against the real product)", () => {
+        it("does not treat an ordinary {text: ...} response fragment as a search query", () => {
+            // The exact shape of the live false positive: a plain response-text
+            // chunk, structurally identical to countless others in a real
+            // conversational turn, with nothing marking it as a query.
+            const json = JSON.stringify({ text: "I've been curious about how glaciers form over time" });
+            const text = `)]}'\n50\n${json}\n`;
+            expect(GeminiContext.extract(text)).toBeNull();
+        });
+
+        it("still finds a real query via a more specific key even when a text field is also present", () => {
+            const json = JSON.stringify({
+                text: "Here is what I found about your question",
+                query: "glacier formation process",
+            });
+            const result = GeminiContext.extract(`)]}'\n50\n${json}\n`);
+            expect(result?.map((r) => r.text)).toEqual(["glacier formation process"]);
+        });
+    });
+
+    describe("webSearchQueries array shape (Gemini's public grounding API exposes queries this way)", () => {
+        it("extracts every string from a webSearchQueries array", () => {
+            const json = JSON.stringify({
+                groundingMetadata: { webSearchQueries: ["current weather in Vienna Austria", "Vienna Austria forecast today"] },
+            });
+            const result = GeminiContext.extract(`)]}'\n50\n${json}\n`);
+            expect(result?.map((r) => r.text).sort()).toEqual(
+                ["Vienna Austria forecast today", "current weather in Vienna Austria"].sort()
+            );
+        });
+
+        it("ignores non-string entries in the array without throwing", () => {
+            const json = JSON.stringify({ searchQueries: ["a real query here", null, 42] });
+            const result = GeminiContext.extract(`)]}'\n50\n${json}\n`);
+            expect(result?.map((r) => r.text)).toEqual(["a real query here"]);
+        });
+    });
 });
