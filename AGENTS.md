@@ -4,7 +4,7 @@ Instructions for AI coding agents (Claude Code, Codex, Cursor, etc.) working in 
 
 ## What this project is
 
-A Chrome MV3 extension that passively intercepts network traffic on ChatGPT/Claude/Perplexity/Gemini to reveal the web-search queries those assistants run. See [README.md](README.md) for the user-facing description and [ARCHITECTURE.md](ARCHITECTURE.md) for how the code is organized.
+A Chrome MV3 extension that passively intercepts network traffic on ChatGPT/Claude/Gemini to reveal the web-search queries those assistants run. (Perplexity was supported through v2.0 but was removed once its endpoints went permanently dead -- see `ROADMAP.md` and `archive/perplexity-unsupported/README.md`.) See [README.md](README.md) for the user-facing description and [ARCHITECTURE.md](ARCHITECTURE.md) for how the code is organized.
 
 ## Before you start
 

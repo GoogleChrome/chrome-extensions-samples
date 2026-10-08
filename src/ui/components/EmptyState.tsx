@@ -24,7 +24,9 @@ export function EmptyState({ hasActiveFilters }: { hasActiveFilters: boolean }) 
                     Clear filters
                 </button>
             ) : (
-                <div class="csr-empty-subtitle">Ask a question that triggers web search to see queries here.</div>
+                <div class="csr-empty-subtitle">
+                    Ask a question that triggers web search to see queries here. Nothing leaves your browser.
+                </div>
             )}
         </div>
     );

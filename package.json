@@ -1,7 +1,7 @@
 {
   "name": "chatgpt-search-revealer",
   "version": "2.0.0",
-  "description": "Reveals hidden search queries used by ChatGPT, Claude, Perplexity, and Gemini.",
+  "description": "Reveals hidden search queries used by ChatGPT, Claude, and Gemini.",
   "type": "module",
   "scripts": {
     "dev": "vite",

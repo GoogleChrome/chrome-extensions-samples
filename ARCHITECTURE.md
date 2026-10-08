@@ -19,7 +19,7 @@ src/
       index.ts             Barrel export; the only import surface platforms/*.ts use
   platforms/
     types.ts               IPlatformExtractor / Source / ExtractedQuery contract
-    chatgpt.ts  claude.ts  perplexity.ts  gemini.ts
+    chatgpt.ts  claude.ts  gemini.ts
   store/
     captures.ts            @preact/signals store: the UI's only data dependency
     persistence.ts (+.test) chrome.storage adapter: schemaVersion + byte-budget guard
@@ -51,21 +51,23 @@ content.tsx ──────> ui/components/* ─> store/* (signals read direc
 
 Each platform parser looked similar at a glance but actually diverged a lot:
 
-- **ChatGPT** and **Perplexity** both do "recursive walk + regex fallback," but ChatGPT walks the whole parsed chunk while Perplexity walks per-SSE-line.
+- **ChatGPT** does "recursive walk + regex fallback" over the whole parsed chunk.
 - **Claude** does no recursion at all -- direct, hardcoded property access (`chat_messages[].content[].type === "tool_use"`), because its payload shape is simple and fixed.
 - **Gemini** has a transport layer the others don't: Google's `batchexecute` wire format (`)]}'` XSSI prefix, `\n<digits>\n`-delimited parts), a path-indexed array structure, and a heuristic word-scoring function to guess whether an arbitrary string is a search query.
+
+(Perplexity used to be a fourth example here -- "recursive walk + regex fallback" per-SSE-line -- until its endpoints went dead; see ROADMAP.md and `archive/perplexity-unsupported/README.md`.)
 
 Because of this, the toolkit is a set of **composable primitives**, not one forced shape every platform must fit:
 
 | Primitive | What it replaces |
 |---|---|
 | `walkJson(root, visitor)` | Each platform's own hand-rolled recursive walk. Visitors get a real `PathSegment[]` (array indices/keys), not a formatted string -- `pathContains`/`pathEndsWith` do exact, contiguous subsequence matching. This directly replaced Gemini's `path.match(/\[2\]\[(\d+)\]\[1\]/)` string-regex approach, which was fragile (a literal object key named `"2"` could have confused it). |
-| `frameSse` / `frameBatchExecute` | ChatGPT/Perplexity's identical SSE line-splitting, and Gemini's XSSI-prefix-stripping + part-splitting. |
-| `regexFallback(text, rules[])` | The layered regex fallbacks every platform has for truncated streaming chunks, with a `reject(text, matchIndex)` guard (used by Perplexity to exclude `related_queries`/`suggested_queries` blocks). |
+| `frameSse` / `frameBatchExecute` | ChatGPT's SSE line-splitting, and Gemini's XSSI-prefix-stripping + part-splitting. |
+| `regexFallback(text, rules[])` | The layered regex fallbacks every platform has for truncated streaming chunks, with a `reject(text, matchIndex)` guard for excluding specific blocks from a match. |
 | `SourceMap` | Dedup-by-URL, fill-missing-fields-only, cited-first sort -- the same logic every platform needs for its source list. |
 | `QueryRegistry` | First-seen order, first-seen-wins metadata (engine/intent/model/turn-id), and the one whole-response source list every platform (that has sources at all) attaches to every query it finds. |
 
-**A real, verified behavior**, not an assumption: all three platforms with sources (ChatGPT, Perplexity, Gemini) build **one source list across the entire response** and attach that same list to every query in it -- there's no per-chunk or per-query source scoping in any of them. This was discovered by re-reading the archived originals directly (an earlier design draft had assumed ChatGPT did per-query attribution; it doesn't), and is now an explicit, named method (`QueryRegistry.setSources`) rather than an implicit side effect.
+**A real, verified behavior**, not an assumption: all three platforms with sources (ChatGPT, Claude, Gemini) build **one source list across the entire response** and attach that same list to every query in it -- there's no per-chunk or per-query source scoping in any of them. This was discovered by re-reading the archived originals directly (an earlier design draft had assumed ChatGPT did per-query attribution; it doesn't), and is now an explicit, named method (`QueryRegistry.setSources`) rather than an implicit side effect.
 
 ## The interceptor/content boundary
 
@@ -98,7 +100,7 @@ OverlayRoot                 (owns the single .csr-container div; Bubble/Panel re
          └─ QueryRow x N    -> PlatformTag, MetaTag x0-3, ToolLinks, copy button, SourceChipGroup x0-2
 ```
 
-Design direction: solid neutral surfaces, one desaturated violet-blue accent (`--csr-accent`, chosen to sit far from all four platform brand hues and from the gold "cited" semantic color -- v1.3's cyan accent nearly collided with Perplexity's own brand teal), no `backdrop-filter`/glassmorphism, standard/emphasized-decelerate motion instead of bouncy spring easing. Full token list in `src/ui/tokens.css`.
+Design direction: solid neutral surfaces, one desaturated violet-blue accent (`--csr-accent`, chosen to sit far from the platform brand hues and from the gold "cited" semantic color -- v1.3's cyan accent nearly collided with Perplexity's own brand teal, back when Perplexity was still supported), no `backdrop-filter`/glassmorphism, standard/emphasized-decelerate motion instead of bouncy spring easing. Full token list in `src/ui/tokens.css`.
 
 Preserved from v1.3 (these were already correct): the Shadow DOM mounting strategy (never mount into `<html>`/`documentElement` -- this previously broke ChatGPT's React hydration), the critical-CSS-then-full-CSS inlining so the panel can never render unstyled, the light-DOM fallback for environments without Shadow DOM, and the `csr-*` class-prefix convention.
 

@@ -11,11 +11,11 @@ Recipes for extending this codebase. Pairs with [AGENTS.md](AGENTS.md) (conventi
    - If the response shape is simple and fixed (like Claude's `chat_messages[].content[]`): direct property access is fine. Don't force a `walkJson` visitor onto a shape that doesn't need recursion.
    - Build a `SourceMap` for any cited/retrieved sources; call `.values()` once at the end and attach it via `registry.setSources(...)` (the convention every current platform with sources follows: one list, shared by every query in the response -- see ARCHITECTURE.md if you think your platform needs different scoping, and flag it explicitly rather than silently deviating).
    - Use `QueryRegistry` to accumulate queries + per-query metadata (engine/intent/model/turn-id) if your platform has any; otherwise a plain `Set<string>` is fine (see `claude.ts`).
-   - Add a `regexFallback` layer for truncated/partial streaming chunks, using `RegexRule[]` with a `reject()` guard for any "don't match inside this block" exclusion (see `perplexity.ts`'s `related_queries` exclusion via `rejectNearKeywords`).
+   - Add a `regexFallback` layer for truncated/partial streaming chunks, using `RegexRule[]` with a `reject()` guard for any "don't match inside this block" exclusion (see `rejectNearKeywords` and its usage example in `src/core/extract/regex.test.ts`).
 3. **Write `src/platforms/<name>.test.ts`.** Cover: `shouldIntercept` URL matching (positive and negative cases), the main structural extraction path, the regex fallback path, and source extraction if applicable. Construct realistic payloads by hand if you don't have real captured traffic -- but say so in a comment, the way `gemini.test.ts` does.
 4. **Wire it into `src/interceptor.ts`'s `PLATFORMS` array.**
 5. **Add the platform's origin(s) to `public/manifest.json`'s `content_scripts.matches`** (both the MAIN-world interceptor entry and the ISOLATED-world content entry), and to `README.md`'s platform table.
-6. **Add a brand color** to `src/ui/tokens.css` (`--clr-<platform>` / `--clr-<platform>-bg`) in the same desaturated loudness band as the existing four, and a corresponding `.platform-<name>` rule in `src/ui/components.css`.
+6. **Add a brand color** to `src/ui/tokens.css` (`--clr-<platform>` / `--clr-<platform>-bg`) in the same desaturated loudness band as the existing three, and a corresponding `.platform-<name>` rule in `src/ui/components.css`.
 7. Run `npm run check && npm test && npm run build`.
 
 ## Add a UI component

@@ -60,7 +60,7 @@ Uninstalling the extension removes all of the above.
 
 - `contextMenus`: provides "Verify with Google Search" and "Explain with ChatGPT" on selected text. Fires only on your right-click choice.
 - `storage`: stores the toolbar toggle plus per-conversation captures (queries/sources) so refreshes and exports work offline.
-- Content scripts on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai` (`www.` included), `gemini.google.com`: required to run the local read-only interceptor and overlay UI. Page access is declared via `content_scripts.matches`; the extension requests **no broad `host_permissions`** and **no `clipboardWrite`** (copy uses `navigator.clipboard` on your click gesture, which needs no permission).
+- Content scripts on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `gemini.google.com`: required to run the local read-only interceptor and overlay UI. Page access is declared via `content_scripts.matches`; the extension requests **no broad `host_permissions`** and **no `clipboardWrite`** (copy uses `navigator.clipboard` on your click gesture, which needs no permission).
 - No access to `tabs`, history, bookmarks, cookies, or identity APIs.
 
 ## 6. Security
@@ -69,7 +69,7 @@ Because there is no first-party backend, your AI content stays in your tab's mem
 
 ## 7. Trademark notice
 
-ChatGPT, Claude, Perplexity, and Gemini are trademarks of their respective owners. AI Search Revealer is an independent utility by MIMR Growth Lab and is not affiliated with, endorsed by, or sponsored by OpenAI, Anthropic, Perplexity AI, or Google.
+ChatGPT, Claude, and Gemini are trademarks of their respective owners. AI Search Revealer is an independent utility by MIMR Growth Lab and is not affiliated with, endorsed by, or sponsored by OpenAI, Anthropic, or Google.
 
 ## 8. Your rights
 

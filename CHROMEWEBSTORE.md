@@ -8,28 +8,28 @@
 AI Search Revealer
 
 **Short Description**
-Reveals the hidden web-search queries ChatGPT, Claude, Perplexity, and Gemini run before answering you.
+ChatGPT says it searched the web. It never says what for. This shows you.
 
 **Detailed Description**
 
-AI Search Revealer shows you the exact search queries ChatGPT, Claude, Perplexity, and Gemini run behind the scenes before answering your question — and the sources they found along the way.
+ChatGPT, Claude, and Gemini all search the web on your behalf, then just say "Searched the web" — no detail. The only ways to find out what they actually searched for today are both bad: dig through Chrome DevTools' raw, unlabeled network traffic, or ask the model to recall its own query from memory (it can paraphrase or misremember). AI Search Revealer reads the actual response the assistant already got back, and shows you the real query and the real sources — organized, not raw.
 
 Key features:
-Captures each assistant's real search queries in real time, as they happen.
-Works across ChatGPT, Claude, Perplexity, and Gemini.
+Captures each assistant's real search queries in real time, as they happen — the actual network response, not the model's self-report.
+Works across ChatGPT, Claude, and Gemini.
 A small overlay panel shows every captured query, with one-click links to verify it on Google, check Google Trends, or get deeper insights.
-Sources are split into Cited (used in the answer) and Retrieved (found but not used), with snippets where available.
+Sources are split into ★ Cited (used in the answer) and Retrieved (found but not used), with snippets where available.
 Filter captured queries by platform, intent, or text; export everything as CSV or Markdown.
 A "Minimize to bubble" mode keeps the panel out of your way, with a live capture count.
 The toolbar icon turns the overlay on or off at any time; your preference is remembered.
 
 How to use it:
-Visit ChatGPT, Claude, Perplexity, or Gemini and ask a question that triggers a web search.
+Visit ChatGPT, Claude, or Gemini and ask a question that triggers a web search.
 The overlay panel appears automatically showing each captured query.
 Click a query to copy it, or use the research links to dig further.
 Click the toolbar icon any time to turn the overlay off or back on.
 
-Privacy: everything happens locally in your browser. No analytics, no tracking, no account or sign-in required, and no first-party server — this extension doesn't have one. The only outside request it makes automatically is to Google's public favicon service, to show a small icon next to each source (only the source's domain name is sent, never your prompts or the assistant's answers). Full privacy policy: see the link below.
+Privacy, in one paragraph: everything happens locally in your browser — no account, no first-party server, no analytics, nothing synced anywhere. The extension only ever extracts search queries and source URLs from the assistant's own network responses, never your prompts or its answers as prose. The one outbound request it makes automatically is a source's hostname to Google's public favicon service, to show a small icon next to each source — never your data. Full privacy policy: see the link below.
 
 Questions or issues: open an issue on the project's GitHub repository, or contact MIMR Growth Lab.
 
@@ -67,7 +67,7 @@ These need to be captured from the running extension (`npm run build`, load unpa
 | `contextMenus` | permissions | Adds "Verify with Google Search" and "Explain with ChatGPT" to the right-click menu for selected text. Fires only on the user's explicit selection and click. |
 | `storage` | permissions | Stores the toolbar on/off preference and the user's captured queries/sources locally on their device (capped at 20 conversations × 100 queries), so captures survive a page refresh and can be exported. Never synced to a remote server. |
 
-No `host_permissions` are requested. Content scripts are declared narrowly via `content_scripts.matches` for the five supported origins only (`chatgpt.com`, `chat.openai.com`, `claude.ai`, `perplexity.ai`, `gemini.google.com`).
+No `host_permissions` are requested. Content scripts are declared narrowly via `content_scripts.matches` for the four supported origins only (`chatgpt.com`, `chat.openai.com`, `claude.ai`, `gemini.google.com`).
 
 ## Privacy & Data Use
 
@@ -131,9 +131,9 @@ https://mimrgrowthlab.com
 
 ### Known Issues / Limitations
 
-- Claude's source extraction is best-effort: claude.ai's internal web-search result shape isn't externally documented, so the extractor defensively checks several plausible shapes. If a reviewer or user reports missing Claude sources, this is the first place to look.
-- Gemini's extraction relies partly on a heuristic ("does this string look like a search query") since Google's internal `batchexecute` wire format is undocumented. Occasional false negatives/positives are possible.
-- No live-traffic validation has been performed yet against the rebuilt extractors (see ROADMAP.md) — recommended before first submission of 2.0.0.
+- Claude's source extraction is best-effort: claude.ai's internal web-search result shape isn't externally documented, so the extractor defensively checks several plausible shapes. Live-verified 2026-10-08 against a real `web_search` tool call — captured queries showed real cited sources correctly. If a reviewer or user reports missing Claude sources, this is the first place to look.
+- Gemini's extraction relies partly on a heuristic ("does this string look like a search query") since Google's internal `batchexecute` wire format is undocumented. Occasional false negatives/positives are possible — one real false positive was found and fixed via live testing on 2026-10-08 (see ROADMAP.md); treat this as an ongoing risk area, not a closed one.
+- Live-traffic validation **has** been performed (2026-10-08, via browser automation against real ChatGPT/Claude/Gemini sessions) — see ROADMAP.md for the full pass, the 5 real bugs it found and fixed, and the 2 follow-up extraction bugs found and fixed afterward. Perplexity was removed rather than fixed; its endpoints are permanently dead (see ROADMAP.md and `archive/perplexity-unsupported/README.md`).
 
 ### Rejection History
 
