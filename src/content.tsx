@@ -124,7 +124,6 @@ async function init(): Promise<void> {
         const restored = await loadPersisted(conversationKey);
         if (restored.length > 0) {
             importQueries(restored);
-            isCollapsed.value = false;
         }
     } catch (e) {
         dbg("warn", "init", "restore failed, starting empty", String(e));
@@ -176,7 +175,6 @@ window.addEventListener("message", (event: MessageEvent) => {
                 timestamp: Date.now(),
             }));
             if (importQueries(withContext)) {
-                isCollapsed.value = false;
                 announce(`${data.results.length} ${data.results.length === 1 ? "query" : "queries"} restored`);
             }
         }
@@ -192,7 +190,6 @@ window.addEventListener("message", (event: MessageEvent) => {
         timestamp: Date.now(),
     }));
     if (importQueries(withContext)) {
-        isCollapsed.value = false;
         announce(`${data.results.length} new ${data.results.length === 1 ? "query" : "queries"} captured`);
     }
 });
