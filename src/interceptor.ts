@@ -211,6 +211,21 @@ onmessage = async (e) => {
         }
     };
 
+    // AbortSignal cannot cross a postMessage boundary (it's not structured-
+    // cloneable) -- posting one throws DataCloneError synchronously, which
+    // silently breaks every fetch call that happens to carry a signal (e.g.
+    // any React app using AbortController to cancel in-flight requests,
+    // observed live: it broke ChatGPT's own message-send and telemetry
+    // calls). The worker can't honor an abort anyway, so the signal is
+    // dropped rather than forwarded -- an aborted request routed through
+    // this rare hook-cycle-escape path simply won't be cancelled, which is
+    // far better than hard-failing the request outright.
+    const stripSignal = (init: RequestInit): RequestInit => {
+        if (!("signal" in init)) return init;
+        const { signal: _signal, ...rest } = init;
+        return rest;
+    };
+
     // Normalize (input, init) into worker-postable args. Returns null when the
     // body cannot cross realms (e.g. a disturbed stream) -- caller then rejects.
     const toWorkerArgs = (
@@ -218,10 +233,10 @@ onmessage = async (e) => {
         init?: RequestInit
     ): { url: string; init: RequestInit; transfer?: Transferable[] } | null => {
         try {
-            if (typeof input === "string") return { url: input, init: init ?? {} };
-            if (input instanceof URL) return { url: input.toString(), init: init ?? {} };
+            if (typeof input === "string") return { url: input, init: stripSignal(init ?? {}) };
+            if (input instanceof URL) return { url: input.toString(), init: stripSignal(init ?? {}) };
             const req = input as Request;
-            const merged: RequestInit = { ...(init ?? {}) };
+            const merged: RequestInit = stripSignal({ ...(init ?? {}) });
             if (merged.method === undefined) {
                 try {
                     merged.method = req.method;
