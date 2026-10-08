@@ -1,5 +1,4 @@
 import type { ExtractedQuery, Source } from "../../platforms/types";
-import { SourceMap } from "./sources";
 
 /** Metadata scoped to a single parsed chunk/frame — never smeared onto queries from a different chunk. */
 export interface ChunkMeta {
@@ -9,37 +8,34 @@ export interface ChunkMeta {
     workingTurnId?: string;
 }
 
-interface QueryEntry extends ChunkMeta {
-    sources?: SourceMap;
-}
-
 /**
  * Accumulates queries and their metadata across the chunks of one response,
- * preserving first-seen order and first-seen-wins metadata (so a later
- * chunk's tags never overwrite an earlier chunk's). Call `beginChunk()`
- * before processing each new chunk so `attachToAllQueriesInChunk` only
- * reaches queries actually seen in that chunk.
+ * preserving first-seen order and first-seen-wins metadata (a later chunk's
+ * tags never overwrite an earlier chunk's — callers get this for free simply
+ * by passing a fresh `ChunkMeta` per frame, no extra bookkeeping needed).
+ *
+ * Sources are handled separately via `setSources()`: every platform that
+ * extracts sources today (ChatGPT, Perplexity, Gemini) attaches the exact
+ * same whole-response source list to every query in that response — not a
+ * per-query or per-chunk list. That's today's real, shipped behavior (not an
+ * approximation), so it's preserved here as an explicit, named choice rather
+ * than reproduced as an implicit side effect in each platform file.
  */
 export class QueryRegistry {
     private order: string[] = [];
-    private entries = new Map<string, QueryEntry>();
-    private chunkQueries = new Set<string>();
-
-    beginChunk(): void {
-        this.chunkQueries = new Set<string>();
-    }
+    private meta = new Map<string, ChunkMeta>();
+    private sharedSources: Source[] = [];
 
     add(text: string, chunkMeta?: ChunkMeta): void {
         const trimmed = text.trim();
         if (!trimmed) return;
 
-        if (!this.entries.has(trimmed)) {
+        if (!this.meta.has(trimmed)) {
             this.order.push(trimmed);
-            this.entries.set(trimmed, {});
+            this.meta.set(trimmed, {});
         }
-        this.chunkQueries.add(trimmed);
 
-        const entry = this.entries.get(trimmed)!;
+        const entry = this.meta.get(trimmed)!;
         if (chunkMeta?.engines?.size) {
             entry.engines = new Set([...(entry.engines ?? []), ...chunkMeta.engines]);
         }
@@ -48,35 +44,17 @@ export class QueryRegistry {
         if (chunkMeta?.workingTurnId && !entry.workingTurnId) entry.workingTurnId = chunkMeta.workingTurnId;
     }
 
-    /** Precise, per-query source attachment (chatgpt.ts's path). */
-    sourcesFor(text: string): SourceMap {
-        const trimmed = text.trim();
-        let entry = this.entries.get(trimmed);
-        if (!entry) {
-            // Defensive: callers should add() the query first, but never drop sources if they didn't.
-            this.order.push(trimmed);
-            entry = {};
-            this.entries.set(trimmed, entry);
-        }
-        if (!entry.sources) entry.sources = new SourceMap();
-        return entry.sources;
-    }
-
-    /** perplexity/gemini's "attach every source seen in this chunk to every query seen in this chunk" policy. */
-    attachToAllQueriesInChunk(sources: Source[]): void {
-        if (sources.length === 0) return;
-        for (const text of this.chunkQueries) {
-            const map = this.sourcesFor(text);
-            sources.forEach((s) => map.add(s.url, s, s.cited));
-        }
+    /** Sets the one source list attached to every query in this response. */
+    setSources(sources: Source[]): void {
+        this.sharedSources = sources;
     }
 
     toExtractedQueries(): ExtractedQuery[] {
         return this.order.map((text) => {
-            const entry = this.entries.get(text)!;
+            const entry = this.meta.get(text)!;
             return {
                 text,
-                sources: entry.sources && entry.sources.size > 0 ? entry.sources.values() : undefined,
+                sources: this.sharedSources.length > 0 ? this.sharedSources : undefined,
                 searchEngine: entry.engines?.size ? Array.from(entry.engines).join(", ") : undefined,
                 turnUseCase: entry.turnUseCase,
                 modelSlug: entry.modelSlug,
