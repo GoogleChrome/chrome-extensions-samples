@@ -12,7 +12,8 @@ export default defineConfig({
         outDir: 'dist',
         rollupOptions: {
             input: {
-                content: resolve(__dirname, 'src/content.ts'),
+                // content.ts (the isolated-world UI mount) is added back once
+                // the Preact overlay + store land — see the rebuild plan.
                 interceptor: resolve(__dirname, 'src/interceptor.ts'),
                 background: resolve(__dirname, 'src/background.ts'),
             },

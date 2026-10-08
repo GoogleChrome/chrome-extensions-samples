@@ -49,6 +49,10 @@ export class QueryRegistry {
         this.sharedSources = sources;
     }
 
+    get queryCount(): number {
+        return this.order.length;
+    }
+
     toExtractedQueries(): ExtractedQuery[] {
         return this.order.map((text) => {
             const entry = this.meta.get(text)!;
