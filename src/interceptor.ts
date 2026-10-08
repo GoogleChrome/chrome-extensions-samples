@@ -220,9 +220,22 @@ onmessage = async (e) => {
     // dropped rather than forwarded -- an aborted request routed through
     // this rare hook-cycle-escape path simply won't be cancelled, which is
     // far better than hard-failing the request outright.
-    const stripSignal = (init: RequestInit): RequestInit => {
-        if (!("signal" in init)) return init;
+    // Beyond AbortSignal, a `Headers` instance is ALSO not structured-
+    // cloneable (observed live on claude.ai: "Headers object could not be
+    // cloned", from `fetch(url, { headers: new Headers(...) })` -- a very
+    // common pattern, since Headers is the standard way to build a header
+    // set). Rather than special-case every individual RequestInit field that
+    // might hold a non-cloneable object, this strips the ones known to be
+    // actually used this way (signal, and a Headers instance specifically --
+    // a plain object or array of header pairs is already fine) as the single
+    // normalization step every return path in toWorkerArgs goes through.
+    const sanitizeInit = (init: RequestInit): RequestInit => {
         const { signal: _signal, ...rest } = init;
+        if (rest.headers instanceof Headers) {
+            const pairs: [string, string][] = [];
+            rest.headers.forEach((v, k) => pairs.push([k, v]));
+            return { ...rest, headers: pairs };
+        }
         return rest;
     };
 
@@ -249,10 +262,10 @@ onmessage = async (e) => {
         init?: RequestInit
     ): { url: string; init: RequestInit; transfer?: Transferable[] } | null => {
         try {
-            if (typeof input === "string") return { url: toAbsoluteUrl(input), init: stripSignal(init ?? {}) };
-            if (input instanceof URL) return { url: input.toString(), init: stripSignal(init ?? {}) };
+            if (typeof input === "string") return { url: toAbsoluteUrl(input), init: sanitizeInit(init ?? {}) };
+            if (input instanceof URL) return { url: input.toString(), init: sanitizeInit(init ?? {}) };
             const req = input as Request;
-            const merged: RequestInit = stripSignal({ ...(init ?? {}) });
+            let merged: RequestInit = { ...(init ?? {}) };
             if (merged.method === undefined) {
                 try {
                     merged.method = req.method;
@@ -269,6 +282,7 @@ onmessage = async (e) => {
                 }
                 if (headers.length > 0) merged.headers = headers;
             }
+            merged = sanitizeInit(merged);
             if (merged.body === undefined) {
                 const method = (merged.method || "GET").toUpperCase();
                 if (method !== "GET" && method !== "HEAD") {
