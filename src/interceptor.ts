@@ -226,6 +226,22 @@ onmessage = async (e) => {
         return rest;
     };
 
+    // A dedicated Worker spawned from a blob: URL has its own base URL (the
+    // blob URL itself), not the page's origin -- a relative path like
+    // "/api/organizations/.../completion" (the common case for same-origin
+    // SPA fetch calls) fails to parse there even though it's perfectly valid
+    // from the page. Resolving against the page's own location first is what
+    // makes the worker able to fetch it at all (observed live: this broke
+    // every claude.ai request that took the hook-cycle-escape path, with
+    // "Failed to parse URL from /api/organizations/...").
+    const toAbsoluteUrl = (url: string): string => {
+        try {
+            return new URL(url, window.location.href).toString();
+        } catch {
+            return url;
+        }
+    };
+
     // Normalize (input, init) into worker-postable args. Returns null when the
     // body cannot cross realms (e.g. a disturbed stream) -- caller then rejects.
     const toWorkerArgs = (
@@ -233,7 +249,7 @@ onmessage = async (e) => {
         init?: RequestInit
     ): { url: string; init: RequestInit; transfer?: Transferable[] } | null => {
         try {
-            if (typeof input === "string") return { url: input, init: stripSignal(init ?? {}) };
+            if (typeof input === "string") return { url: toAbsoluteUrl(input), init: stripSignal(init ?? {}) };
             if (input instanceof URL) return { url: input.toString(), init: stripSignal(init ?? {}) };
             const req = input as Request;
             const merged: RequestInit = stripSignal({ ...(init ?? {}) });
