@@ -1,10 +1,12 @@
 import { ChatGPTContext } from "./platforms/chatgpt";
+import { ClaudeContext } from "./platforms/claude";
 import { IPlatformExtractor } from "./platforms/types";
 
 (() => {
     const PLATFORMS: IPlatformExtractor[] = [
         ChatGPTContext,
-        // Claude, Perplexity, and Gemini are added here as their parsers land.
+        ClaudeContext,
+        // Perplexity and Gemini are added here as their parsers land.
     ];
 
     const log = (...args: unknown[]) => {
