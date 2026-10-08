@@ -1,7 +1,7 @@
 # Privacy Policy: AI Search Revealer
 
 **Effective Date:** September 16, 2026
-**Version:** 1.3.0
+**Version:** 1.3.6
 **Developer:** MIMR Growth Lab (https://mimrgrowthlab.com)
 
 At **MIMR Growth Lab**, we take your privacy seriously. The **AI Search Revealer** Chrome extension is designed with a "Local-First" philosophy. This policy explains what is processed locally, what is transmitted (and when), and what we **do not** do.

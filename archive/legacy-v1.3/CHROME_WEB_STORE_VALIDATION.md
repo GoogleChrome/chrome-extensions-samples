@@ -1,7 +1,9 @@
 # Chrome Web Store Policy Validation Report
-**Extension:** AI Search Revealer v1.3.0
+**Extension:** AI Search Revealer v1.3.6
 **Date:** September 16, 2026
 **Status:** ✅ **READY FOR SUBMISSION** (pending store-ops items below)
+
+> v1.3.6: re-entrancy guard + worker-native terminal fetch (no stack overflow under hostile hook cycles; page survives, capture continues). No permission or data-handling changes since v1.3.0.
 
 > v1.3.0 adds: per-conversation persistence + GET conversation backfill, Cited vs Retrieved split, turn_use_case/model_slug + filters, CSV/Markdown export + Ask-AI prompt. Storage disclosure updated accordingly (`enabled` + capped `csr:capturesByConversation`, local only).
 

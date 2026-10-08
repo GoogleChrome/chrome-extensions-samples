@@ -1,4 +1,8 @@
 import type { InterceptedMessage } from "../platforms/types";
+// Full stylesheet inlined at build time (?inline): the shadow always has the
+// complete theme with zero runtime fetches, so the panel can never render
+// unstyled (no chrome-extension:// fetch to fail in stale tabs).
+import FULL_CSS from "../styles.css?inline";
 
 export const REVEAL_PROMPT =
     "List the exact search queries you just issued via web search for your last answer, one per line, with no extra commentary.";
@@ -37,6 +41,8 @@ export interface UiController {
     setEnabled: (enabled: boolean) => void;
     isEnabled: () => boolean;
     destroy: () => void;
+    /** Live fetch-monitor counters from the MAIN-world interceptor. */
+    setNetworkStats: (s: { seen: number; matched: number }) => void;
 }
 
 function safeHostname(url: string): string {
@@ -101,6 +107,7 @@ export function createUiController(deps: UiControllerDeps): UiController {
     let platformFilter = "all";
     let useCaseFilter = "all";
     let textFilter = "";
+    let networkStats: { seen: number; matched: number } | null = null;
     const capturedQueries: CapturedQuery[] = [...(deps.initialQueries ?? [])];
     if (capturedQueries.length > 0) isCollapsed = false;
 
@@ -112,59 +119,130 @@ export function createUiController(deps: UiControllerDeps): UiController {
         }
     };
 
-    const ensureRoot = (): HTMLDivElement => {
-        let container = deps.doc.getElementById("csr-root") as HTMLDivElement | null;
-        if (container) return container;
+    // Shadow-DOM isolation. The light-DOM footprint is a single empty host
+    // <div> in <body> (invisible to React hydration); every UI node renders
+    // inside its shadow root, so page scripts and styles can neither see nor
+    // clash with our overlay. We never mount into <html>/documentElement:
+    // inserting a <div> as a child of <html> is invalid HTML and breaks
+    // ChatGPT's React hydration (minified error #418).
+    // Returns null when body isn't ready yet; renderUI() reschedules itself.
+    type ShadowMount = { host: HTMLDivElement; mount: HTMLDivElement };
+    let mountCache: ShadowMount | null = null;
 
-        container = deps.doc.createElement("div");
-        container.id = "csr-root";
-        container.className = "csr-container csr-fade-in";
-        container.setAttribute("data-csr-root", "true");
+    /**
+     * Minimal inline styling, always applied. Guarantees the panel is visible
+     * and positioned even when content.css cannot be fetched (e.g. stale tab
+     * after an extension reload). The full stylesheet layers on top of this.
+     */
+    const CRITICAL_CSS = [
+        ".csr-container{position:fixed;top:24px;right:24px;width:340px;z-index:99999;",
+        "font-family:ui-sans-serif,system-ui,sans-serif;color:#f8fafc;",
+        "background:rgba(13,15,20,.92);border:1.5px solid rgba(255,255,255,.15);",
+        "border-radius:16px;overflow:hidden}",
+        ".csr-container.collapsed{width:60px;height:60px;border-radius:30px;cursor:pointer;",
+        "display:flex;align-items:center;justify-content:center;",
+        "background:linear-gradient(135deg,#00f2fe,#4facfe)}",
+        ".csr-live-dot{width:8px;height:8px;background:#00f2fe;border-radius:50%}",
+        ".csr-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px}",
+        ".csr-title{font-size:14px;font-weight:700;color:#fff}",
+        ".csr-attribution{font-size:10px;color:#94a3b8}",
+        ".csr-content{max-height:440px;overflow-y:auto;padding:8px 0}",
+        ".csr-query-text{font-size:13px;color:#cbd5e1;padding:4px 16px}",
+        ".csr-copy-hint{font-size:10px;color:#00f2fe;padding:0 16px 8px}",
+        ".csr-bubble-count{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;",
+        "border-radius:10px;background:#0d0f14;color:#fff;font-size:11px;font-weight:800;",
+        "display:flex;align-items:center;justify-content:center}",
+    ].join("\n");
 
-        // Mount ASAP, even before <body> exists (document_start).
-        const mountTarget = deps.doc.body ?? deps.doc.documentElement;
-        mountTarget.appendChild(container);
+    const attachShadowSafe = (host: HTMLDivElement): ShadowRoot | null => {
+        try {
+            const h = host as unknown as { attachShadow?: (init: { mode: string }) => ShadowRoot };
+            if (typeof h.attachShadow !== "function") return null;
+            if (host.shadowRoot) return host.shadowRoot;
+            return h.attachShadow({ mode: "open" });
+        } catch {
+            return null;
+        }
+    };
 
-        // If we mounted to <html>, move to <body> once it exists.
-        if (!deps.doc.body && typeof MutationObserver !== "undefined") {
-            const mo = new MutationObserver(() => {
-                if (deps.doc.body && container && container.parentElement !== deps.doc.body) {
-                    deps.doc.body.appendChild(container);
-                    mo.disconnect();
-                }
-            });
-            mo.observe(deps.doc.documentElement, { childList: true, subtree: true });
+    const ensureMount = (): HTMLDivElement | null => {
+        if (!deps.doc.body) return null;
+        if (mountCache && mountCache.host.isConnected) return mountCache.mount;
+
+        let host = deps.doc.getElementById("csr-root") as HTMLDivElement | null;
+        if (!host) {
+            host = deps.doc.createElement("div");
+            host.id = "csr-root";
+            host.setAttribute("data-csr-root", "true");
+            deps.doc.body.appendChild(host);
         }
 
-        // Allow clicking the collapsed bubble to expand
-        container.addEventListener("click", () => {
-            if (isCollapsed) {
-                isCollapsed = false;
-                renderUI();
+        const shadow = attachShadowSafe(host);
+        let mount: HTMLDivElement;
+        if (shadow) {
+            // Host takes no space in page layout; the visible UI lives in shadow.
+            host.style.display = "contents";
+            if (!shadow.querySelector("[data-csr-styles]")) {
+                const style = deps.doc.createElement("style");
+                style.setAttribute("data-csr-styles", "true");
+                // Critical base first (guaranteed visible layout), then the
+                // full inlined theme. No runtime fetch involved.
+                style.textContent = `${CRITICAL_CSS}\n${FULL_CSS}`;
+                shadow.appendChild(style);
             }
-        });
-
-        // Keyboard support when collapsed
-        container.addEventListener("keydown", (e) => {
-            if (!isCollapsed) return;
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                isCollapsed = false;
-                renderUI();
+            mount = shadow.querySelector("[data-csr-mount]") as HTMLDivElement | null ?? deps.doc.createElement("div") as HTMLDivElement;
+            if (!mount.isConnected) {
+                mount.className = "csr-container csr-fade-in";
+                mount.setAttribute("data-csr-mount", "true");
+                shadow.appendChild(mount);
             }
-        });
+        } else {
+            // Fallback for environments without Shadow DOM: light-DOM mount.
+            mount = host;
+            if (!mount.classList.contains("csr-container")) {
+                mount.className = "csr-container csr-fade-in";
+            }
+        }
 
-        return container;
+        // Expand-on-click listeners, attached exactly once per mount.
+        if (!mount.dataset.csrBound) {
+            mount.dataset.csrBound = "true";
+            // Allow clicking the collapsed bubble to expand
+            mount.addEventListener("click", () => {
+                if (isCollapsed) {
+                    isCollapsed = false;
+                    renderUI();
+                }
+            });
+
+            // Keyboard support when collapsed
+            mount.addEventListener("keydown", (e) => {
+                if (!isCollapsed) return;
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    isCollapsed = false;
+                    renderUI();
+                }
+            });
+        }
+
+        mountCache = { host, mount };
+        return mount;
+    };
+
+    const dropMountCache = (): void => {
+        mountCache = null;
     };
 
     const download = (filename: string, mime: string, text: string): boolean => {
         try {
+            if (!deps.doc.body) return false;
             const blob = new Blob([text], { type: mime });
             const url = URL.createObjectURL(blob);
             const a = deps.doc.createElement("a") as HTMLAnchorElement;
             a.href = url;
             a.download = filename;
-            (deps.doc.body ?? deps.doc.documentElement).appendChild(a);
+            deps.doc.body.appendChild(a);
             a.click();
             a.remove();
             deps.win.setTimeout(() => URL.revokeObjectURL(url), 5000);
@@ -172,6 +250,15 @@ export function createUiController(deps: UiControllerDeps): UiController {
         } catch {
             return false;
         }
+    };
+
+    const baseStats = (): string => {
+        const cited = capturedQueries.reduce((n, q) => n + (q.sources ?? []).filter((s) => s.cited).length, 0);
+        const retrieved = capturedQueries.reduce((n, q) => n + (q.sources ?? []).filter((s) => !s.cited).length, 0);
+        const net = networkStats && networkStats.seen > 0
+            ? ` · net ${networkStats.seen} seen/${networkStats.matched} hit`
+            : "";
+        return `${capturedQueries.length} queries · ★ ${cited} cited · ${retrieved} retrieved${net}`;
     };
 
     const filteredQueries = (): CapturedQuery[] => {
@@ -184,13 +271,33 @@ export function createUiController(deps: UiControllerDeps): UiController {
         });
     };
 
+    // Stats line lives inside the shadow — document.getElementById cannot see
+    // it, so all updates go through the cached mount. In-place updates only:
+    // never full re-render on a tick (would steal filter-input focus).
+    const refreshStatsLine = (): void => {
+        const mount = mountCache && mountCache.host.isConnected ? mountCache.mount : null;
+        const el = mount?.querySelector("#csr-stats") as HTMLDivElement | null;
+        if (el) el.textContent = baseStats();
+    };
+
     const renderUI = (): void => {
         // When disabled, remove any visible UI and stop.
         if (!enabled) {
             deps.doc.getElementById("csr-root")?.remove();
             return;
         }
-        const container = ensureRoot();
+        // Body not ready yet: reschedule instead of touching <html>.
+        const container = ensureMount();
+        if (!container) {
+            if (deps.doc.readyState === "loading") {
+                deps.doc.addEventListener("DOMContentLoaded", () => renderUI(), { once: true });
+            } else if (typeof deps.win.requestAnimationFrame === "function") {
+                deps.win.requestAnimationFrame(() => renderUI());
+            } else {
+                deps.win.setTimeout(() => renderUI(), 50);
+            }
+            return;
+        }
 
         if (isCollapsed) {
             container.classList.add("collapsed");
@@ -220,8 +327,6 @@ export function createUiController(deps: UiControllerDeps): UiController {
 
         const platforms = Array.from(new Set(capturedQueries.map((q) => q.platform ?? "unknown")));
         const useCases = Array.from(new Set(capturedQueries.map((q) => q.turnUseCase ?? "unknown").filter((u) => u !== "unknown")));
-        const totalCited = capturedQueries.reduce((n, q) => n + (q.sources ?? []).filter((s) => s.cited).length, 0);
-        const totalRetrieved = capturedQueries.reduce((n, q) => n + (q.sources ?? []).filter((s) => !s.cited).length, 0);
 
         // Static shell (safe: no untrusted interpolation)
         container.innerHTML = `
@@ -283,7 +388,7 @@ export function createUiController(deps: UiControllerDeps): UiController {
             useCaseSelect.appendChild(o);
         }
         textInput.value = textFilter;
-        stats.textContent = `${capturedQueries.length} queries · ★ ${totalCited} cited · ${totalRetrieved} retrieved`;
+        stats.textContent = baseStats();
 
         platformSelect.onchange = () => { platformFilter = platformSelect.value; renderUI(); };
         useCaseSelect.onchange = () => { useCaseFilter = useCaseSelect.value; renderUI(); };
@@ -294,10 +399,12 @@ export function createUiController(deps: UiControllerDeps): UiController {
         useCaseSelect.onclick = (e) => e.stopPropagation();
 
         const flashStats = (msg: string): void => {
-            stats.textContent = msg;
+            refreshStatsLine();
+            const mount = mountCache && mountCache.host.isConnected ? mountCache.mount : null;
+            const statsEl = mount?.querySelector("#csr-stats") as HTMLDivElement | null;
+            if (statsEl) statsEl.textContent = msg;
             deps.win.setTimeout(() => {
-                const el = deps.doc.getElementById("csr-stats");
-                if (el) el.textContent = `${capturedQueries.length} queries · ★ ${totalCited} cited · ${totalRetrieved} retrieved`;
+                refreshStatsLine();
             }, 2500);
         };
 
@@ -496,7 +603,8 @@ export function createUiController(deps: UiControllerDeps): UiController {
 
         container.querySelector<HTMLButtonElement>("#csr-close-btn")!.onclick = (e) => {
             e.stopPropagation();
-            container?.remove();
+            deps.doc.getElementById("csr-root")?.remove();
+            dropMountCache();
         };
     };
 
@@ -580,13 +688,25 @@ export function createUiController(deps: UiControllerDeps): UiController {
             enabled = next;
             if (!enabled) {
                 deps.doc.getElementById("csr-root")?.remove();
+                dropMountCache();
             } else {
                 renderUI();
             }
         },
         isEnabled: () => enabled,
+        setNetworkStats: (s: { seen: number; matched: number }) => {
+            networkStats = s;
+            // Update the stats line in place: never full re-render here, which
+            // would steal focus from the filter input on every tick.
+            // NOTE: document.getElementById cannot pierce shadow DOM — query
+            // the cached mount instead.
+            const mount = mountCache && mountCache.host.isConnected ? mountCache.mount : null;
+            const el = mount?.querySelector("#csr-stats") as HTMLDivElement | null;
+            if (el) el.textContent = baseStats();
+        },
         destroy: () => {
             deps.doc.getElementById("csr-root")?.remove();
+            dropMountCache();
         },
     };
 }

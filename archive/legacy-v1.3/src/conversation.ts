@@ -2,6 +2,7 @@
 // Vite builds each content-script entry independently; a shared import would
 // split a `chatgpt.js` chunk that content scripts cannot reliably load.
 // The backfill parser below is intentionally standalone and minimal.
+import { dbg } from "./debug";
 
 export const CAPTURES_KEY = "csr:capturesByConversation";
 const MAX_CONVERSATIONS = 20;
@@ -210,25 +211,41 @@ export function extractBackfillFromPayload(root: unknown): BackfillResult[] {
  * Backfill after refresh: GET the persistent conversation object and extract
  * fanout queries from its mapping nodes. Same-origin fetch inherits the page
  * session — no extra permissions needed. Returns null when unavailable.
+ *
+ * NOTE (Sept 2026): ChatGPT's backend may reject this naked GET with 404
+ * `conversation_inaccessible` (Sentinel-gated) even for visible conversations.
+ * The live fetch hook remains the primary path; the page's own conversation
+ * GETs (same URL, app headers) are also parsed by the hook when observed.
  */
 export async function backfillChatGPT(win: Window): Promise<{ results: BackfillResult[]; conversationId: string } | null> {
     const conversationId = getChatGPTConversationId(win);
     if (!conversationId) return null;
     try {
         const res = await win.fetch(`/backend-api/conversation/${conversationId}`, { credentials: "include" });
-        if (!res.ok) return null;
+        if (!res.ok) {
+            dbg("warn", "backfill", `conversation GET http=${res.status} (backend may gate this endpoint; live hook is primary)`);
+            return null;
+        }
         const text = await res.text();
-        if (!text || text.length < 100) return null;
+        if (!text || text.length < 100) {
+            dbg("info", "backfill", `conversation GET ok but body too short (${text.length}b) — stream likely still running`);
+            return null;
+        }
         let parsed: unknown;
         try {
             parsed = JSON.parse(text);
         } catch {
+            dbg("warn", "backfill", "conversation GET body is not JSON");
             return null;
         }
         const results = extractBackfillFromPayload(parsed);
-        if (results.length === 0) return null;
+        if (results.length === 0) {
+            dbg("info", "backfill", `parsed ${text.length}b, no fanout fields yet (stream may still be running)`);
+            return null;
+        }
         return { results, conversationId };
-    } catch {
+    } catch (e) {
+        dbg("warn", "backfill", "conversation GET threw", String(e));
         return null;
     }
 }

@@ -43,3 +43,10 @@ export interface InterceptedMessage {
     /** Conversation id parsed from the page URL where available (e.g. chatgpt.com/c/{id}). */
     conversationId?: string;
 }
+
+/** Throttled fetch-monitor counters from the MAIN-world interceptor. */
+export interface InterceptorStatsMessage {
+    type: "AI_SEARCH_REVEALER_STATS";
+    seen: number;
+    matched: number;
+}

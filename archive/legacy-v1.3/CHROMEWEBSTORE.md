@@ -1,7 +1,7 @@
 # CHROMEWEBSTORE.md — AI Search Revealer (single source of truth for store submission)
 
 **Last Updated:** 2026-09-16
-**Extension version:** 1.3.0
+**Extension version:** 1.3.6
 **Manifest version:** 3
 
 > Copy-paste from this file into the Chrome Developer Dashboard. Keep this file in sync whenever `manifest.json`, permissions, or data handling change.
@@ -92,6 +92,10 @@ ZIP must contain only: `manifest.json`, `background.js`, `content.js`, `content.
 
 | Version | Date | Notes |
 |---|---|---|
+| 1.3.6 | 2026-09-16 | Crash fix: re-entrancy guard + worker-native terminal fetch (survives hostile hook cycles without stack overflow). No permission changes. |
+| 1.3.5 | 2026-09-16 | Hook survival: fetch installed via chaining accessor (coexists with other MAIN-world wrappers instead of being orphaned); backfill retries + HTTP-status diagnostics. No permission changes. |
+| 1.3.4 | 2026-09-16 | Diagnostics: full CSS inlined at build (no runtime fetch), fetch-monitor stats in panel, passive WebSocket sniff, staged debug logs + console handle. No permission changes. |
+| 1.3.2 | 2026-09-16 | Hydration fix: overlay renders inside Shadow DOM (single empty host in light DOM), UI script at document_idle, styles adopted into shadow. No new permissions. |
 | 1.3.0 | 2026-09-16 | Fanout upgrade: per-conversation persistence + GET conversation backfill (refresh-safe); Cited vs Retrieved split with snippets; turn_use_case/model_slug capture + filters; CSV/Markdown export + Ask-AI reveal prompt. |
 | 1.2.0 | 2026-09-16 | Store-readiness fix: removed fake-200 response tampering; same-origin postMessage; toolbar toggle + persistent disable; removed `clipboardWrite`/`host_permissions`, added `storage`+`default_title`; disclosed favicon transmission; trademark disclaimer. |
 | 1.1.0 | 2025-12-20 | Prebuilt copy + validation doc (validation was inaccurate — see v1.2.0 fixes). |
