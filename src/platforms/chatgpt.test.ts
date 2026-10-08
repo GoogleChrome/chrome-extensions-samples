@@ -53,7 +53,7 @@ describe("ChatGPTContext.extract", () => {
 
         const nodes = ChatGPTContext.extract(text);
         expect(nodes).toHaveLength(2);
-        expect(nodes?.map(n => n.text)).toEqual(expect.arrayContaining(["alpha", "beta"]));
+        expect(nodes?.map((n) => n.text)).toEqual(expect.arrayContaining(["alpha", "beta"]));
     });
 
     it("extracts queries from object-shaped search_model_queries ({ queries: [...] })", () => {
@@ -64,7 +64,7 @@ describe("ChatGPTContext.extract", () => {
 
         const nodes = ChatGPTContext.extract(text);
         expect(nodes).toHaveLength(2);
-        expect(nodes?.map(n => n.text)).toEqual(
+        expect(nodes?.map((n) => n.text)).toEqual(
             expect.arrayContaining(["current shape one", "current shape two"])
         );
     });
@@ -92,23 +92,14 @@ describe("ChatGPTContext.extract", () => {
     });
 
     it("falls back to regex parsing for legacy search_model_queries payloads", () => {
-        const text =
-            '{"search_model_queries":{"queries":["one","two"]},"other":"x"}';
+        const text = '{"search_model_queries":{"queries":["one","two"]},"other":"x"}';
 
         const nodes = ChatGPTContext.extract(text);
         expect(nodes).toHaveLength(2);
-        expect(nodes?.map(n => n.text)).toEqual(expect.arrayContaining(["one", "two"]));
+        expect(nodes?.map((n) => n.text)).toEqual(expect.arrayContaining(["one", "two"]));
     });
+
     it("extracts sources from metadata.citations", () => {
-
-
-
-        // Note: citations might be attached to a specific query or global. 
-        // For now, if we find citations but no explicit query in the same chunk, 
-        // we might verify they are returned if we can simulate a query availability or attach to a placeholder.
-        // But typically citations come WITH the query or shortly after.
-        // Let's assume a query is present for the test to pass the "found query" check
-
         const textWithQuery = [
             'data: {"message":{"metadata":{"search_model_queries":["query1"],"citations":[{"url":"https://test.com","title":"Test Title"}]}}}',
         ].join("\n");
@@ -127,7 +118,7 @@ describe("ChatGPTContext.extract", () => {
         const nodes = ChatGPTContext.extract(text);
         expect(nodes).toHaveLength(1);
         expect(nodes?.[0].text).toBe("grouped query");
-        expect(nodes?.[0].sources?.map(s => s.url)).toEqual(
+        expect(nodes?.[0].sources?.map((s) => s.url)).toEqual(
             expect.arrayContaining(["https://example.com/a", "https://cited.com/b"])
         );
     });
@@ -174,7 +165,7 @@ describe("ChatGPTContext.extract search_engine", () => {
 
         const nodes = ChatGPTContext.extract(text);
         expect(nodes).toHaveLength(2);
-        const byText = Object.fromEntries(nodes!.map(n => [n.text, n]));
+        const byText = Object.fromEntries(nodes!.map((n) => [n.text, n]));
         expect(byText["first query"].searchEngine).toBe("serpapi");
         expect(byText["second query"].searchEngine).toBeUndefined();
     });

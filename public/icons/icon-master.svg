@@ -1,0 +1,20 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#12151c" />
+      <stop offset="100%" stop-color="#0c0e13" />
+    </linearGradient>
+  </defs>
+
+  <!-- Tile: the product's own surface tokens, not a generic app icon gradient. -->
+  <rect x="0" y="0" width="128" height="128" rx="28" fill="url(#tile)" />
+
+  <!-- Magnifying glass: flat fill, no glow or blur, matching the UI's own
+       no backdrop filter / no glow rule. One accent color only. -->
+  <circle cx="54" cy="54" r="26" fill="none" stroke="#8b93f0" stroke-width="9" />
+  <line x1="73" y1="73" x2="94" y2="94" stroke="#8b93f0" stroke-width="10" stroke-linecap="round" />
+
+  <!-- The "something found" accent: a small spark inside the lens, in the
+       UI's own hover accent tone, kept simple enough to survive 16px. -->
+  <circle cx="54" cy="54" r="5.5" fill="#a3aaf4" />
+</svg>

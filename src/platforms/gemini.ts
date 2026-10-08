@@ -1,203 +1,232 @@
-import { IPlatformExtractor } from "./types";
+import { frameBatchExecute, pathContains, pathEndsWith, SourceMap, walkJson, type PathSegment } from "../core/extract";
+import type { ExtractedQuery, IPlatformExtractor } from "./types";
 
 export const GeminiContext: IPlatformExtractor = {
     name: "Gemini",
+
     shouldIntercept(url: string): boolean {
-        const isGeminiDomain = url.includes("gemini.google.com") ||
+        const isGeminiDomain =
+            url.includes("gemini.google.com") ||
             url.includes("generativelanguage.googleapis.com") ||
             url.includes("googleapis.com") ||
             url.includes("gstatic.com") ||
-            // Support relative URLs when on the Gemini page
+            // Support relative URLs when on the Gemini page.
             (window.location.hostname.includes("gemini.google") && url.startsWith("/"));
 
-        return isGeminiDomain && (
-            url.includes("/api/") ||
-            url.includes("/v1/") ||
-            url.includes("/generate") ||
-            url.includes("/stream") ||
-            url.includes("/chat") ||
-            url.includes("/search") ||
-            url.includes("/models/") ||
-            url.includes("generateContent") ||
-            url.includes("streamGenerateContent") ||
-            url.includes("/_/BardChatUi/data/batchexecute")
+        return (
+            isGeminiDomain &&
+            (url.includes("/api/") ||
+                url.includes("/v1/") ||
+                url.includes("/generate") ||
+                url.includes("/stream") ||
+                url.includes("/chat") ||
+                url.includes("/search") ||
+                url.includes("/models/") ||
+                url.includes("generateContent") ||
+                url.includes("streamGenerateContent") ||
+                url.includes("/_/BardChatUi/data/batchexecute") ||
+                // The real message-generation RPC, found live 2026-10-08: the gemini.google.com
+                // web client's actual response stream is POSTed to a path shaped like
+                // ".../assistant.lamda.BardFrontendService/StreamGenerate", NOT to batchexecute
+                // -- this is where groundingMetadata/webSearchQueries actually live. Previously
+                // missed entirely: "/generate" and "/stream" above are lowercase substring
+                // checks and this URL segment is "StreamGenerate" (PascalCase, dot-joined to
+                // the preceding segment, not slash-joined), so it silently never matched. All
+                // capture up to this point only ever came from incidental batchexecute
+                // side-calls, never the real response.
+                url.includes("BardFrontendService"))
         );
     },
-    extract(text: string): { text: string; sources?: import("./types").Source[] }[] | null {
+
+    extract(text: string): ExtractedQuery[] | null {
         const queries = new Set<string>();
-        const sources = new Map<string, import("./types").Source>();
+        const sources = new SourceMap();
 
-        // Gemini's batchexecute response is prefixed with )]}' and uses a multi-part format
-        let cleanText = text.trim();
-        if (cleanText.startsWith(")]}'")) {
-            cleanText = cleanText.substring(5).trim();
+        for (const frame of frameBatchExecute(text)) {
+            if (frame.json !== undefined) collectFromNode(frame.json, queries, sources);
         }
 
-        // Split by pattern: \n<number>\n which demarcates JSON parts
-        const jsonParts = cleanText.split(/\n\d+\n/);
-        const allJsonData: unknown[] = [];
-
-        for (const part of jsonParts) {
-            if (!part.trim()) continue;
-            try {
-                allJsonData.push(JSON.parse(part));
-            } catch (e) {
-                // Fallback: Try to find JSON array/object in the response via regex
-                const jsonMatch = part.match(/[\[\{][\s\S]*[\]\}]/);
-                if (jsonMatch) {
-                    try {
-                        allJsonData.push(JSON.parse(jsonMatch[0]));
-                    } catch (e2) { }
-                }
-            }
-        }
-
-        const findQueries = (obj: unknown, path = ""): void => {
-            if (!obj || typeof obj !== "object") return;
-
-            // Skip common noise paths (titles are often at [2][X][1])
-            if (path.match(/\[2\]\[(\d+)\]\[1\]/)) return;
-
-            if (Array.isArray(obj)) {
-                // Check for the specific structure where search queries are stored: [0][0][3][1][X][0]
-                const isSearchQueryParentPath = path.match(/\[0\]\[0\]\[3\]\[1\]\[(\d+)\]$/);
-
-                obj.forEach((item: unknown, index: number) => {
-                    const currentPath = `${path}[${index}]`;
-
-                    // Special handling for Gemini batchexecute nested JSON strings (at index 2)
-                    if (index === 2 && typeof item === 'string' && item.length > 10) {
-                        const trimmed = item.trim();
-                        if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
-                            try {
-                                const parsed = JSON.parse(item);
-                                findQueries(parsed, `${currentPath}(parsed)`);
-                            } catch (e) { }
-                        }
-                    }
-
-                    if (typeof item === "string") {
-                        const trimmed = item.trim();
-                        const isSearchQueryString = !!isSearchQueryParentPath && index === 0;
-
-                        if (isSearchQueryString) {
-                            const words = trimmed.split(/\s+/).filter(w => w.length > 0);
-
-                            // HEURISTICS (From Legacy/interceptor.js)
-                            const isSearchQuery =
-                                trimmed.length >= 10 && trimmed.length <= 150 &&
-                                words.length >= 3 && words.length <= 15 &&
-                                !trimmed.includes('http') && !trimmed.includes('@') &&
-                                !trimmed.match(/^rc?_[a-f0-9]/i) &&
-                                !trimmed.match(/^c_[a-f0-9]+/i) && !trimmed.match(/^r_[a-f0-9]+/i) &&
-                                !trimmed.includes('**') && !trimmed.includes('*') && !trimmed.startsWith('#') &&
-                                !trimmed.endsWith('.') && !trimmed.endsWith(':') && !trimmed.endsWith('!') && !trimmed.endsWith('?') &&
-                                !trimmed.match(/^(What|Why|How|Is|Are|Who|Where|When|Does|Which|Can|Will|Should|Would|Could|May)\s/i) &&
-                                !trimmed.match(/^(The|Here|Following|After|Current|Today|This|That|These|Those|A|An|I|You|We|They)\s/i) &&
-                                !(words.length <= 3 && trimmed === trimmed.replace(/\b\w/g, l => l.toUpperCase())) &&
-                                !(trimmed === trimmed.toUpperCase() && trimmed.length < 30) &&
-                                !trimmed.match(/^\d+\.\s/) && !trimmed.startsWith('* ') && !trimmed.startsWith('- ') &&
-                                !/^[a-f0-9]{32}$/i.test(trimmed) &&
-                                !trimmed.startsWith('SWML_') && !trimmed.includes('\\u003d') &&
-                                trimmed.match(/\b(latest|news|update|search|find|information|about|regarding|related to|status|report|case|issue|policy|ban|law|legal|government|mall|pet|Malaysia|December|2025|investigation|challenge|update|today)\b/i);
-
-                            if (isSearchQuery) {
-                                console.log("[AI Search Revealer] Gemini Match:", trimmed);
-                                queries.add(trimmed);
-                            }
-                        }
-                    }
-                    findQueries(item, currentPath);
-                });
-            } else {
-                const record = obj as Record<string, unknown>;
-                for (const key in record) {
-                    const value = record[key];
-                    const currentPath = path ? `${path}.${key}` : key;
-
-                    if ((key === 'query' || key === 'search_query' || key === 'searchQuery' || key === 'search_queries' ||
-                        key === 'searchQueryText' || key === 'queryText' || key === 'text') &&
-                        typeof value === 'string' && value.length > 5 && value.length < 500) {
-                        queries.add(value);
-                    }
-
-                    if (key === 'functionCall' && value && typeof value === 'object') {
-                        const funcCall = value as { name?: string; args?: { query?: string } };
-                        if ((funcCall.name === 'search' || funcCall.name === 'web_search') && funcCall.args?.query) {
-                            queries.add(funcCall.args.query);
-                        }
-                    }
-
-                    if (typeof value === "object" && value !== null) {
-                        findQueries(value, currentPath);
-                    }
-                }
-
-                // Check for groundingMetadata or citations in this object
-                const rec = obj as any;
-                if (rec.citations && Array.isArray(rec.citations)) {
-                    rec.citations.forEach((c: any) => {
-                        if (c.url) sources.set(c.url, { url: c.url, title: c.title || new URL(c.url).hostname });
-                    });
-                }
-                if (rec.groundingMetadata?.citations && Array.isArray(rec.groundingMetadata.citations)) {
-                    rec.groundingMetadata.citations.forEach((c: any) => {
-                        if (c.url) sources.set(c.url, { url: c.url, title: c.title || new URL(c.url).hostname });
-                    });
-                }
-            }
-        };
-
-        allJsonData.forEach(data => findQueries(data));
-
-        // Regex Fallback (From Legacy)
         if (queries.size === 0) {
-            const queryPatterns = [
-                /"query"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
-                /"search_query"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
-                /"searchQuery"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
-            ];
-            for (const pattern of queryPatterns) {
-                let match;
-                while ((match = pattern.exec(text)) !== null) {
-                    const q = match[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-                    if (q.length > 10 && q.length < 150 && !q.includes('http')) queries.add(q);
-                }
-            }
-
-            // Pattern 2: Look for quoted search terms in the response text (From Legacy)
-            const quotedTermPattern = /(?:^|[^\\])["']([a-zA-Z][a-zA-Z0-9\s]{2,40}?)(?:["']|\\["'])/g;
-            let m;
-            while ((m = quotedTermPattern.exec(text)) !== null) {
-                const term = m[1].trim();
-                const words = term.split(/\s+/).filter(w => w.length > 0);
-
-                // Very strict filtering - same as nested array detection
-                const isSearchQuery =
-                    term.length >= 10 && term.length <= 80 &&
-                    words.length >= 3 && words.length <= 8 &&
-                    !term.toLowerCase().includes('http') && !term.includes('@') &&
-                    !term.match(/^c_[a-f0-9]+/i) && !term.match(/^r_[a-f0-9]+/i) &&
-                    !term.match(/^rc_[a-f0-9]+/i) && !term.includes('\\u') &&
-                    !term.includes('**') && !term.includes('*') &&
-                    !term.endsWith('.') && !term.endsWith(':') &&
-                    !term.endsWith('!') && !term.endsWith('?') &&
-                    !term.match(/^(What|Why|How|Is|Are|Does|Which|Who|When|Where|Can|Will|Should|Would|Could|May)\s/i) &&
-                    !term.match(/^(The|Here|Following|After|Current|Today|This|That|These|Those|A|An|I|You|We|They)\s/i) &&
-                    term.match(/\b(latest|news|update|search|find|information|about|regarding|related to|status|report|case|issue|policy|ban|law|legal|government|mall|pet|Malaysia|December|2025)\b/i);
-
-                if (isSearchQuery) {
-                    queries.add(term);
-                }
-            }
+            runRegexFallback(text, queries);
         }
 
-        if (queries.size > 0) console.log("[AI Search Revealer] Gemini Found total:", queries.size);
-
-        const uniqueSources = Array.from(sources.values());
-        return queries.size > 0 ? Array.from(queries).map(q => ({
+        if (queries.size === 0) return null;
+        const sharedSources = sources.values();
+        return Array.from(queries).map((q) => ({
             text: q,
-            sources: uniqueSources.length > 0 ? uniqueSources : undefined
-        })) : null;
+            sources: sharedSources.length > 0 ? sharedSources : undefined,
+        }));
     },
 };
+
+/**
+ * Single canonical heuristic deciding whether an arbitrary string "looks
+ * like" a search query -- used both for Gemini's batchexecute array-of-
+ * strings structure and its regex fallback. The original had two near-
+ * identical copies of this scoring logic (one per call site) that had
+ * drifted apart; this uses the richer of the two (more exclusion checks,
+ * wider length/word bounds) for both, per the rebuild's "one function, not
+ * two near-copies" direction. Gemini's extraction is inherently the least
+ * reliable of the four platforms (undocumented wire format, heuristic-based)
+ * -- validate/tune this against real captured traffic.
+ */
+function looksLikeSearchQuery(trimmed: string): boolean {
+    const words = trimmed.split(/\s+/).filter((w) => w.length > 0);
+    return (
+        trimmed.length >= 10 &&
+        trimmed.length <= 150 &&
+        words.length >= 3 &&
+        words.length <= 15 &&
+        !trimmed.includes("http") &&
+        !trimmed.includes("@") &&
+        !/^rc?_[a-f0-9]/i.test(trimmed) &&
+        !/^c_[a-f0-9]+/i.test(trimmed) &&
+        !/^r_[a-f0-9]+/i.test(trimmed) &&
+        !trimmed.includes("**") &&
+        !trimmed.includes("*") &&
+        !trimmed.startsWith("#") &&
+        !trimmed.endsWith(".") &&
+        !trimmed.endsWith(":") &&
+        !trimmed.endsWith("!") &&
+        !trimmed.endsWith("?") &&
+        !/^(What|Why|How|Is|Are|Who|Where|When|Does|Which|Can|Will|Should|Would|Could|May)\s/i.test(trimmed) &&
+        !/^(The|Here|Following|After|Current|Today|This|That|These|Those|A|An|I|You|We|They)\s/i.test(trimmed) &&
+        !(words.length <= 3 && trimmed === trimmed.replace(/\b\w/g, (l) => l.toUpperCase())) &&
+        !(trimmed === trimmed.toUpperCase() && trimmed.length < 30) &&
+        !/^\d+\.\s/.test(trimmed) &&
+        !trimmed.startsWith("* ") &&
+        !trimmed.startsWith("- ") &&
+        !/^[a-f0-9]{32}$/i.test(trimmed) &&
+        !trimmed.startsWith("SWML_") &&
+        !trimmed.includes("\\u003d") &&
+        /\b(latest|news|update|search|find|information|about|regarding|related to|status|report|case|issue|policy|ban|law|legal|government|mall|pet|Malaysia|December|2025|investigation|challenge|today)\b/i.test(
+            trimmed
+        )
+    );
+}
+
+const QUERY_KEYS = new Set([
+    "query",
+    "search_query",
+    "searchQuery",
+    "search_queries",
+    "searchQueryText",
+    "queryText",
+    // Deliberately excludes the generic "text" key: confirmed live (2026-10-08)
+    // to false-positive on ordinary response prose -- any chunk shaped like
+    // `{text: "...a fragment of the assistant's own answer..."}` (extremely
+    // common in any chat response) was being captured as a "search query".
+]);
+
+/** Keys whose value is an array of query strings (Gemini's public grounding
+ * API exposes search queries this way -- groundingMetadata.webSearchQueries
+ * -- the consumer product's internal batchexecute schema plausibly mirrors
+ * this concept even if not the exact field name; kept as a short, named list
+ * rather than a blind guess so it's easy to extend once confirmed against
+ * real traffic). */
+const QUERY_ARRAY_KEYS = new Set(["webSearchQueries", "searchQueries", "search_queries", "queries"]);
+
+/** Recursive structural walk over one parsed batchexecute part. */
+function collectFromNode(root: unknown, queries: Set<string>, sources: SourceMap): void {
+    const visit = (node: unknown, path: readonly PathSegment[]): void | "skip" => {
+        // Skip known noise: titles live at [...][2][X][1] -- never search queries,
+        // and nothing under them is either.
+        if (pathContains(path, [2, null, 1])) return "skip";
+
+        const key = path[path.length - 1];
+
+        // Gemini batchexecute nests a JSON-encoded string at index 2 of many arrays.
+        if (key === 2 && typeof node === "string" && node.length > 10) {
+            const trimmed = node.trim();
+            if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+                try {
+                    const parsed = JSON.parse(node);
+                    walkJson(parsed, visit, [...path, "(parsed)"]);
+                } catch {
+                    // Not actually nested JSON -- ignore.
+                }
+            }
+        }
+
+        // Search queries live as index-0 strings under a parent path ending [0][0][3][1][X].
+        if (typeof node === "string" && pathEndsWith(path, [0, 0, 3, 1, null, 0])) {
+            const trimmed = node.trim();
+            if (looksLikeSearchQuery(trimmed)) queries.add(trimmed);
+        }
+
+        // Generic named query fields, wherever they appear.
+        if (typeof key === "string" && typeof node === "string" && QUERY_KEYS.has(key) && node.length > 5 && node.length < 500) {
+            queries.add(node);
+        }
+
+        // Same, but for the array-of-strings shape (e.g. webSearchQueries).
+        if (typeof key === "string" && Array.isArray(node) && QUERY_ARRAY_KEYS.has(key)) {
+            node.forEach((item) => {
+                if (typeof item === "string") {
+                    const trimmed = item.trim();
+                    if (trimmed.length > 3 && trimmed.length < 500) queries.add(trimmed);
+                }
+            });
+        }
+
+        if (node && typeof node === "object" && !Array.isArray(node)) {
+            const record = node as Record<string, unknown>;
+
+            if (key === "functionCall") {
+                const fn = record as { name?: string; args?: { query?: string } };
+                if ((fn.name === "search" || fn.name === "web_search") && fn.args?.query) {
+                    queries.add(fn.args.query);
+                }
+            }
+
+            if (Array.isArray(record.citations)) {
+                record.citations.forEach((c) => addCitation(c, sources));
+            }
+            const grounding = record.groundingMetadata as { citations?: unknown } | undefined;
+            if (Array.isArray(grounding?.citations)) {
+                grounding.citations.forEach((c) => addCitation(c, sources));
+            }
+        }
+
+        return undefined;
+    };
+
+    walkJson(root, visit);
+}
+
+function addCitation(c: unknown, sources: SourceMap): void {
+    if (!c || typeof c !== "object") return;
+    const cite = c as Record<string, unknown>;
+    if (typeof cite.url === "string") {
+        sources.add(cite.url, { title: typeof cite.title === "string" ? cite.title : undefined });
+    }
+}
+
+function runRegexFallback(text: string, queries: Set<string>): void {
+    const keyPatterns = [
+        /"query"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
+        /"search_query"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
+        /"searchQuery"\s*:\s*"((?:[^"\\]|\\.)*)"/g,
+    ];
+    for (const pattern of keyPatterns) {
+        let m: RegExpExecArray | null;
+        while ((m = pattern.exec(text)) !== null) {
+            const q = m[1].replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+            if (q.length > 10 && q.length < 150 && !q.includes("http")) queries.add(q);
+        }
+    }
+
+    // Last resort: any quoted term in the raw response that passes the same
+    // query-shape heuristic used for the structural array path. Only `"` is
+    // treated as a delimiter -- this text is JSON-based, where `'` never
+    // opens/closes a string. Including `'` here was a real bug (found live
+    // 2026-10-08): an apostrophe inside an ordinary contraction like "I've"
+    // was misread as an opening quote, capturing "ve been curious about..."
+    // (from the assistant's own answer) as a fake search query.
+    const quotedTermPattern = /(?:^|[^\\])"([a-zA-Z][a-zA-Z0-9\s]{2,40}?)(?:"|\\")/g;
+    let m: RegExpExecArray | null;
+    while ((m = quotedTermPattern.exec(text)) !== null) {
+        const term = m[1].trim();
+        if (looksLikeSearchQuery(term)) queries.add(term);
+    }
+}

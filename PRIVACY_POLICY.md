@@ -1,46 +1,83 @@
 # Privacy Policy: AI Search Revealer
 
-**Effective Date:** December 20, 2025  
-**Developer:** MIMR Growth Lab
+**Effective Date:** October 8, 2026
+**Version:** 2.0.0
+**Developer:** MIMR Growth Lab (https://mimrgrowthlab.com)
 
-At **MIMR Growth Lab**, we take your privacy seriously. The **AI Search Revealer** Chrome extension is designed with a "Local-First" philosophy. This privacy policy explains what data we handle and, more importantly, what we **do not** do with your information.
-
----
-
-## 1. Data Collection and Usage
-**AI Search Revealer DOES NOT collect, store, or transmit any user data.** 
-
-The extension works by locally intercepting certain network requests on supported AI platforms (ChatGPT, Claude, Perplexity, and Gemini) to reveal hidden search queries used by the model. 
-
-- **No Remote Storage**: All processing happens entirely within your browser's local memory.
-- **No Third-Party Tracking**: We do not use any analytics, tracking pixels, or third-party cookies.
-- **No Personal Identifiable Information (PII)**: The extension never accesses your name, email, account details, or chat history with the AI providers.
-
-## 2. Local Processing (Network Interception)
-To provide its core functionality, the extension intercepts specific API responses from supported AI sites to extract search queries. 
-- These queries are displayed to you in a local UI overlay.
-- This data is **ephemeral** and is destroyed as soon as the tab is closed or the page is refreshed (unless manually copied by you).
-
-## 3. Third-Party Services
-While the extension runs on third-party AI platforms (ChatGPT, Claude, Perplexity, Gemini), it does not share any data with them. Your interactions with those platforms are governed by their respective privacy policies.
-
-## 4. Permissions Disclosure
-To function correctly, AI Search Revealer requires the following permissions:
-- `clipboardWrite`: To allow you to click and copy search queries to your clipboard.
-- `contextMenus`: To provide quick-access search and explanation tools when you highlight text.
-- `host_permissions`: Limited strictly to `chatgpt.com`, `claude.ai`, `perplexity.ai`, and `gemini.google.com` to allow for network interception.
-
-## 5. Security
-Because we do not transmit data over the network, your information remains as secure as your own local computer and browser. We use modern web standards and "Single Purpose" architecture to ensure there are no hidden background processes.
-
-## 6. Your Rights
-Since no data is collected or stored by us, there is no data to delete or request access to. You can completely remove the extension and its local settings at any time by uninstalling it from Chrome.
-
-## 7. Contact Us
-If you have any questions about this Privacy Policy or the operation of the extension, please contact us at:
-**MIMR Growth Lab**  
-[Website: mimrgrowthlab.com](https://mimrgrowthlab.com)
+At **MIMR Growth Lab**, we take your privacy seriously. The **AI Search Revealer** Chrome extension is designed with a "Local-First" philosophy. This policy explains what is processed locally, what is transmitted (and when), and what we **do not** do.
 
 ---
-> [!IMPORTANT]
-> This policy is designed to comply with the Chrome Web Store "Single Purpose" and "User Data Privacy" requirements.
+
+## 1. Summary
+
+- **AI page content is read locally only.** The extension passively reads streamed API responses on supported AI pages to extract search queries. It never modifies, blocks, or fabricates responses.
+- **One automatic third-party transmission:** source favicon hostnames are sent to Google's favicon service (`https://www.google.com/s2/favicons`) to render source chips. No chat text, prompts, or account data is sent.
+- **User-initiated navigation only otherwise:** clicking research links or context-menu items opens Google Search, Google Trends, AnswerThePublic, or ChatGPT with the query you chose. Nothing is sent until you click.
+- **No analytics, no tracking, no account access.** We do not use analytics, tracking pixels, cookies, or remote servers. We never access your name, email, or chat history.
+
+## 2. Local processing (network interception)
+
+To provide its core functionality, the extension runs a MAIN-world content script on supported AI sites that clones matching `fetch`/`XHR`/`EventSource`/`WebSocket` responses and parses the clone in browser memory to extract:
+
+- Search queries the model issued (e.g. `search_model_queries`, `web_search` tool-use queries)
+- Cited/retrieved source URLs where the platform includes them
+- Search-backend labels where the platform includes them (e.g. `search_engine`)
+
+This data is **ephemeral**: it lives in the tab's memory and is destroyed when the tab closes or refreshes, unless you manually copy it or it has been saved to local storage per §4. The hook is strictly read-only — it does not block, redirect, or alter site traffic.
+
+## 3. Data transmitted
+
+### 3a. Automatic: favicon icons
+
+When sources are displayed, the overlay loads:
+`https://www.google.com/s2/favicons?domain=<source-hostname>&sz=16`
+
+This sends the **source hostname only** (e.g. `example.com`) to Google to fetch its icon. It does not send your prompts, queries, or AI responses. Images use `referrerpolicy="no-referrer"` and lazy loading. If you prefer zero transmission, disable the extension via the toolbar button (see §5).
+
+### 3b. User-initiated only: research links & context menus
+
+These fire **only when you click**:
+- Overlay tools: `google.com/search`, `trends.google.com/trends/explore`, `answerthepublic.com/` with the query you selected.
+- Context menus (selected text): "Verify with Google Search" → `google.com/search?q=...`; "Explain with ChatGPT" → `chatgpt.com/?q=...`.
+- Attribution link: `mimrgrowthlab.com` (extension author site).
+
+Your interactions with those third-party sites are governed by their respective privacy policies.
+
+### 3c. What is never transmitted
+
+We do not transmit prompts, responses, account identifiers, browsing history, or analytics events to MIMR Growth Lab or any other first-party server. We operate no backend for this extension.
+
+## 4. Data stored locally
+
+- `chrome.storage.local["enabled"]`: toolbar on/off toggle.
+- `chrome.storage.local["csr:captures:v1"]`: captured queries and their sources, keyed per conversation (max 20 conversations × 100 queries, oldest pruned to fit a size budget). This is what lets captures survive a page refresh and powers CSV/Markdown export. Stored only on your device, never synced or transmitted to us.
+- A prior, now-unused key (`csr:capturesByConversation`) may still be present on disk from an earlier version of the extension; it is read once to migrate your existing captures and is never written to again.
+- No cookies, no IndexedDB beyond the above, no remote storage.
+
+Uninstalling the extension removes all of the above.
+
+## 5. Permissions disclosure
+
+- `contextMenus`: provides "Verify with Google Search" and "Explain with ChatGPT" on selected text. Fires only on your right-click choice.
+- `storage`: stores the toolbar toggle plus per-conversation captures (queries/sources) so refreshes and exports work offline.
+- Content scripts on `chatgpt.com`, `chat.openai.com`, `claude.ai`, `gemini.google.com`: required to run the local read-only interceptor and overlay UI. Page access is declared via `content_scripts.matches`; the extension requests **no broad `host_permissions`** and **no `clipboardWrite`** (copy uses `navigator.clipboard` on your click gesture, which needs no permission).
+- No access to `tabs`, history, bookmarks, cookies, or identity APIs.
+
+## 6. Security
+
+Because there is no first-party backend, your AI content stays in your tab's memory (and, if you keep captures, in your browser's local storage). Favicon fetches go directly to Google over HTTPS. We use Manifest V3, no remote code, no `eval()`, and same-origin `postMessage` validation between the page hook and the UI.
+
+## 7. Trademark notice
+
+ChatGPT, Claude, and Gemini are trademarks of their respective owners. AI Search Revealer is an independent utility by MIMR Growth Lab and is not affiliated with, endorsed by, or sponsored by OpenAI, Anthropic, or Google.
+
+## 8. Your rights
+
+Since we collect no first-party data, there is nothing to access or delete on our servers. To stop all processing (including favicon loads), click the toolbar icon to disable the overlay or uninstall the extension. Disabling removes the visible UI and ignores further captures until re-enabled.
+
+## 9. Contact us
+
+**MIMR Growth Lab**
+Website: https://mimrgrowthlab.com
+
+> This policy is designed to satisfy Chrome Web Store "Single Purpose" and "User Data Privacy" disclosure requirements, including the Data Safety form (favicon hostname transmission must be declared).

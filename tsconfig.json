@@ -4,6 +4,8 @@
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
         "strict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
@@ -23,12 +25,13 @@
         "outDir": "./dist",
         "rootDir": "./",
         "types": [
-            "chrome"
+            "chrome",
+            "node"
         ]
     },
     "include": [
         "src/**/*.ts",
-        "manifest.json"
+        "src/**/*.tsx"
     ],
     "exclude": [
         "node_modules",

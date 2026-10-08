@@ -1,6 +1,5 @@
 import { ChatGPTContext } from "./platforms/chatgpt";
 import { ClaudeContext } from "./platforms/claude";
-import { PerplexityContext } from "./platforms/perplexity";
 import { GeminiContext } from "./platforms/gemini";
 import { IPlatformExtractor } from "./platforms/types";
 
@@ -8,7 +7,6 @@ import { IPlatformExtractor } from "./platforms/types";
     const PLATFORMS: IPlatformExtractor[] = [
         ChatGPTContext,
         ClaudeContext,
-        PerplexityContext,
         GeminiContext,
     ];
 
@@ -30,44 +28,327 @@ import { IPlatformExtractor } from "./platforms/types";
     }
     (window as unknown as Record<string, unknown>)[LOADED_FLAG] = true;
 
-    const notifyUI = (results: any[], platform?: string) => { // Use specific type if available, but for now any[] is safe transient
-        if (results.length === 0) return;
-        log(`Found results for ${platform || 'Unknown'}:`, results);
-        const message: any = { // Update strict type below
-            type: "AI_SEARCH_REVEALER_FOUND",
-            results,
-            queries: results.map(r => r.text), // Backwards compat shim if needed, or just use results
-            platform
-        };
-        window.postMessage(message, "*");
+    const getConversationId = (): string | undefined => {
+        try {
+            const m = window.location.pathname.match(/\/c\/([a-f0-9-]+)/i);
+            return m?.[1];
+        } catch {
+            return undefined;
+        }
     };
 
-    // --- window.fetch Override ---
-    const originalFetch = window.fetch;
-    window.fetch = function (input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
-        const url = typeof input === "string" ? input : (input instanceof URL ? input.toString() : input.url);
-
-        // Noise suppression for tracking domains (prevents ERR_BLOCKED_BY_CLIENT console spam)
-        const BLOCKED_DOMAINS = ["ab.chatgpt.com", "statsig", "googletagmanager.com", "google-analytics.com", "play.google.com/log", "google.com/ccm/collect"];
-        if (url && BLOCKED_DOMAINS.some(domain => url.includes(domain))) {
-            return Promise.resolve(new Response(null, { status: 200 }));
+    const notifyUI = (results: ReturnType<IPlatformExtractor["extract"]>, platform?: string): void => {
+        if (!results || results.length === 0) return;
+        log(`Found results for ${platform || "Unknown"}:`, results);
+        const message = {
+            type: "AI_SEARCH_REVEALER_FOUND" as const,
+            results,
+            platform,
+            conversationId: getConversationId(),
+        };
+        // Restrict to same-origin: the ISOLATED-world content script validates
+        // event.origin === window.location.origin. Never use "*".
+        try {
+            window.postMessage(message, window.location.origin);
+        } catch {
+            // Fallback for edge cases (e.g. about:blank at document_start):
+            // post without origin but content script still validates type + source.
+            window.postMessage(message, "*");
         }
+    };
 
+    // --- Backfill bridge ---
+    // content.ts (ISOLATED world) can't safely import platforms/* itself --
+    // Rollup would hoist a module imported by two entries into a shared
+    // chunk, which MV3 content scripts can't load (see src/platforms/types.ts
+    // and the rebuild notes). Instead it asks the already-loaded interceptor
+    // to do the fetch + parse, reusing the exact same extractor as live
+    // capture instead of a second, hand-duplicated copy.
+    const runBackfill = async (platform: string, conversationId: string): Promise<void> => {
+        if (platform !== "ChatGPT") return; // only ChatGPT exposes a re-fetchable conversation endpoint today
+        try {
+            const res = await window.fetch(`/backend-api/conversation/${conversationId}`, { credentials: "include" });
+            if (!res.ok) {
+                log(`backfill GET http=${res.status}`);
+                return;
+            }
+            const text = await res.text();
+            const results = ChatGPTContext.extract(text);
+            const message = {
+                type: "AI_SEARCH_REVEALER_BACKFILL_RESULT" as const,
+                platform,
+                conversationId,
+                results: results ?? [],
+            };
+            window.postMessage(message, window.location.origin);
+        } catch (e) {
+            log("backfill request failed (best-effort):", e);
+        }
+    };
+
+    window.addEventListener("message", (event: MessageEvent) => {
+        if (event.source !== window) return;
+        if (event.origin !== window.location.origin) return;
+        const data = event.data as { type?: string; platform?: string; conversationId?: string } | undefined;
+        if (data?.type !== "AI_SEARCH_REVEALER_REQUEST_BACKFILL") return;
+        if (typeof data.platform !== "string" || typeof data.conversationId !== "string") return;
+        void runBackfill(data.platform, data.conversationId);
+    });
+
+    // --- Fetch monitor diagnostics ---
+    // Counters prove the hook is alive and seeing traffic. Posted throttled
+    // to the UI so the panel can show "net N seen/M hit" -- the fastest way
+    // to distinguish "no matching traffic" from "hook not running".
+    let seenCount = 0;
+    let matchedCount = 0;
+    let lastStatsPost = 0;
+    const postStats = (): void => {
+        const now = Date.now();
+        if (now - lastStatsPost < 2000) return;
+        lastStatsPost = now;
+        const message = { type: "AI_SEARCH_REVEALER_STATS" as const, seen: seenCount, matched: matchedCount };
+        try {
+            window.postMessage(message, window.location.origin);
+        } catch {
+            try {
+                window.postMessage(message, "*");
+            } catch {
+                /* ignore */
+            }
+        }
+    };
+
+    // --- window.fetch Override (passive read-only) ---
+    // Policy note: this hook NEVER modifies, blocks, or fabricates responses.
+    // It clones matching responses and parses the clone locally. All other
+    // traffic passes through untouched.
+    //
+    // Resilient install: other MAIN-world tools may ALSO wrap fetch -- even via
+    // an accessor property that swallows plain assignments (we observed one
+    // whose setter routes straight to a pristine native fetch, orphaning any
+    // wrapper installed by assignment). So we ALWAYS install via our own
+    // accessor: later assignments are captured as downstream instead of
+    // replacing us, and if someone re-defines the property they capture our
+    // wrapper through the getter. Every order chains correctly as long as
+    // each side delegates -- which both sides do here.
+    // --- Loop-proof native fetch via dedicated Worker ---
+    // If our wrapper is ever re-entered synchronously, some downstream hook
+    // is routing back into us: delegating again would recurse until stack
+    // overflow (observed live with a co-installed capture tool). The terminal
+    // path forwards the request to a pristine fetch inside a Web Worker -- a
+    // separate JS realm no page hook can wrap, needing no DOM (safe
+    // pre-<body>) -- and rebuilds a real streaming Response in-page.
+    // Page CSP here is report-only, so blob workers are permitted; if a
+    // future enforced CSP blocks construction, the guarded call rejects with
+    // a descriptive error (bounded damage) instead of crashing the tab.
+    type WorkerFetchOk = {
+        ok: true;
+        status: number;
+        statusText: string;
+        headers: [string, string][];
+        body: ReadableStream<Uint8Array> | null;
+    };
+    type WorkerFetchResult = WorkerFetchOk | { ok: false; error: string };
+
+    const WORKER_SRC = `
+onmessage = async (e) => {
+  const { id, url, init } = e.data;
+  try {
+    const res = await fetch(url, init);
+    const headers = [];
+    res.headers.forEach((v, k) => headers.push([k, v]));
+    const body = res.body;
+    if (body) {
+      postMessage({ id, ok: true, status: res.status, statusText: res.statusText, headers, body }, [body]);
+    } else {
+      postMessage({ id, ok: true, status: res.status, statusText: res.statusText, headers, body: null });
+    }
+  } catch (err) {
+    postMessage({ id, ok: false, error: String((err && err.message) || err) });
+  }
+};
+`;
+
+    let workerInstance: Worker | null = null;
+    let workerUnusable = false;
+    let workerSeq = 0;
+    const workerPending = new Map<number, { resolve: (r: Response) => void; reject: (e: Error) => void }>();
+
+    const getWorker = (): Worker | null => {
+        if (workerInstance) return workerInstance;
+        if (workerUnusable) return null;
+        try {
+            if (typeof Worker === "undefined") throw new Error("Worker unavailable");
+            const w = new Worker(URL.createObjectURL(new Blob([WORKER_SRC], { type: "text/javascript" })));
+            w.onmessage = (e: MessageEvent) => {
+                const m = e.data as WorkerFetchResult & { id: number };
+                const p = workerPending.get(m.id);
+                if (!p) return;
+                workerPending.delete(m.id);
+                if (!m.ok) {
+                    p.reject(new Error(`[AI Search Revealer] worker fetch failed: ${(m as { error: string }).error}`));
+                    return;
+                }
+                try {
+                    const body = m.body && (m.status === 204 || m.status === 205) ? null : m.body;
+                    p.resolve(new Response(body, { status: m.status, statusText: m.statusText, headers: m.headers }));
+                } catch (err) {
+                    p.reject(err instanceof Error ? err : new Error(String(err)));
+                }
+            };
+            w.onerror = () => {
+                workerUnusable = true;
+                workerPending.forEach((p) => p.reject(new Error("[AI Search Revealer] worker fetch unavailable")));
+                workerPending.clear();
+            };
+            workerInstance = w;
+            return w;
+        } catch {
+            workerUnusable = true;
+            return null;
+        }
+    };
+
+    // AbortSignal cannot cross a postMessage boundary (it's not structured-
+    // cloneable) -- posting one throws DataCloneError synchronously, which
+    // silently breaks every fetch call that happens to carry a signal (e.g.
+    // any React app using AbortController to cancel in-flight requests,
+    // observed live: it broke ChatGPT's own message-send and telemetry
+    // calls). The worker can't honor an abort anyway, so the signal is
+    // dropped rather than forwarded -- an aborted request routed through
+    // this rare hook-cycle-escape path simply won't be cancelled, which is
+    // far better than hard-failing the request outright.
+    // Beyond AbortSignal, a `Headers` instance is ALSO not structured-
+    // cloneable (observed live on claude.ai: "Headers object could not be
+    // cloned", from `fetch(url, { headers: new Headers(...) })` -- a very
+    // common pattern, since Headers is the standard way to build a header
+    // set). Rather than special-case every individual RequestInit field that
+    // might hold a non-cloneable object, this strips the ones known to be
+    // actually used this way (signal, and a Headers instance specifically --
+    // a plain object or array of header pairs is already fine) as the single
+    // normalization step every return path in toWorkerArgs goes through.
+    const sanitizeInit = (init: RequestInit): RequestInit => {
+        const { signal: _signal, ...rest } = init;
+        if (rest.headers instanceof Headers) {
+            const pairs: [string, string][] = [];
+            rest.headers.forEach((v, k) => pairs.push([k, v]));
+            return { ...rest, headers: pairs };
+        }
+        return rest;
+    };
+
+    // A dedicated Worker spawned from a blob: URL has its own base URL (the
+    // blob URL itself), not the page's origin -- a relative path like
+    // "/api/organizations/.../completion" (the common case for same-origin
+    // SPA fetch calls) fails to parse there even though it's perfectly valid
+    // from the page. Resolving against the page's own location first is what
+    // makes the worker able to fetch it at all (observed live: this broke
+    // every claude.ai request that took the hook-cycle-escape path, with
+    // "Failed to parse URL from /api/organizations/...").
+    const toAbsoluteUrl = (url: string): string => {
+        try {
+            return new URL(url, window.location.href).toString();
+        } catch {
+            return url;
+        }
+    };
+
+    // Normalize (input, init) into worker-postable args. Returns null when the
+    // body cannot cross realms (e.g. a disturbed stream) -- caller then rejects.
+    const toWorkerArgs = (
+        input: RequestInfo | URL,
+        init?: RequestInit
+    ): { url: string; init: RequestInit; transfer?: Transferable[] } | null => {
+        try {
+            if (typeof input === "string") return { url: toAbsoluteUrl(input), init: sanitizeInit(init ?? {}) };
+            if (input instanceof URL) return { url: input.toString(), init: sanitizeInit(init ?? {}) };
+            const req = input as Request;
+            let merged: RequestInit = { ...(init ?? {}) };
+            if (merged.method === undefined) {
+                try {
+                    merged.method = req.method;
+                } catch {
+                    /* ignore */
+                }
+            }
+            if (merged.headers === undefined) {
+                const headers: [string, string][] = [];
+                try {
+                    req.headers.forEach((v, k) => headers.push([k, v]));
+                } catch {
+                    /* ignore */
+                }
+                if (headers.length > 0) merged.headers = headers;
+            }
+            merged = sanitizeInit(merged);
+            if (merged.body === undefined) {
+                const method = (merged.method || "GET").toUpperCase();
+                if (method !== "GET" && method !== "HEAD") {
+                    let stream: ReadableStream | null = null;
+                    try {
+                        stream = req.body;
+                    } catch {
+                        return null;
+                    }
+                    if (!stream) return null;
+                    (merged as Record<string, unknown>).body = stream;
+                    return { url: req.url, init: merged, transfer: [stream as unknown as Transferable] };
+                }
+            }
+            return { url: req.url, init: merged };
+        } catch {
+            return null;
+        }
+    };
+
+    const workerForward = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+        const w = getWorker();
+        if (!w) {
+            return Promise.reject(new Error("[AI Search Revealer] hook-cycle guard active but worker fetch is unavailable"));
+        }
+        const args = toWorkerArgs(input, init);
+        if (!args) {
+            return Promise.reject(new Error("[AI Search Revealer] hook-cycle guard: request body cannot cross realms"));
+        }
+        return new Promise<Response>((resolve, reject) => {
+            const id = ++workerSeq;
+            workerPending.set(id, { resolve, reject });
+            try {
+                w.postMessage({ id, url: args.url, init: args.init }, args.transfer ?? []);
+            } catch (err) {
+                workerPending.delete(id);
+                reject(err instanceof Error ? err : new Error(String(err)));
+            }
+        });
+    };
+
+    let downstreamFetch: typeof window.fetch = window.fetch;
+    // Synchronous re-entrancy depth. JS runs our prologue atomically (no
+    // awaits before delegation), so any depth > 0 means a downstream hook
+    // routed back into us -- delegating again would overflow the stack.
+    let fetchDepth = 0;
+    const MAX_FETCH_DEPTH = 2;
+    // Finds a matching platform for `url` and, if one matches, attaches
+    // extraction to `promise`'s eventual response. Shared by both the direct
+    // path and the worker-escape path below -- extraction must not depend on
+    // *which* path a given fetch call took to get its response.
+    const attachExtraction = (promise: Promise<Response>, url: string): void => {
         const platform = PLATFORMS.find((p) => {
             try {
                 return p.shouldIntercept(url);
-            } catch (e) { return false; }
+            } catch {
+                return false;
+            }
         });
 
-        if (platform) {
-            // log(`MATCHED ${platform.name} -> ${url}`);
-        }
+        seenCount++;
+        if (platform) matchedCount++;
+        postStats();
 
-        // Standard fetch call - avoiding 'this' binding issues globally
-        const promise = originalFetch.apply(window, [input, init]);
+        if (!platform) return;
 
-        if (platform) {
-            promise.then(async (response) => {
+        promise
+            .then(async (response) => {
                 if (!response.ok) {
                     log(`Response code ${response.status} for ${platform.name}`);
                     return;
@@ -81,13 +362,88 @@ import { IPlatformExtractor } from "./platforms/types";
                 } catch (e) {
                     log("Error processing:", e);
                 }
-            }).catch((e) => {
+            })
+            .catch((e) => {
                 log("Fetch promise rejected:", e);
             });
+    };
+
+    const ourFetchWrapper = function (this: unknown, input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+        const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+
+        if (fetchDepth > 0) {
+            // Hook cycle detected: terminate via pristine worker fetch. This
+            // used to skip extraction entirely for every re-entrant call --
+            // on pages where the host's own code also wraps fetch (observed
+            // live: gemini.google.com does this for essentially every
+            // request), that meant NO fetch ever reached the direct path
+            // below, so the platform list was never consulted and nothing
+            // was ever extracted, silently. Extraction must happen on this
+            // path too, not just the direct one.
+            log("fetch re-entry detected: routing around hook cycle");
+            if (fetchDepth >= MAX_FETCH_DEPTH) {
+                const rejected = Promise.reject(new Error("[AI Search Revealer] fetch hook cycle depth exceeded"));
+                rejected.catch(() => {});
+                return rejected;
+            }
+            const forwarded = workerForward(input, init);
+            attachExtraction(forwarded, url);
+            return forwarded;
         }
+
+        // Standard fetch call, preserving caller `this` through hook chains.
+        fetchDepth++;
+        let promise: Promise<Response>;
+        try {
+            promise = downstreamFetch.apply(this, [input, init]);
+        } finally {
+            fetchDepth--;
+        }
+
+        attachExtraction(promise, url);
 
         return promise;
     };
+
+    const installFetchHook = (): void => {
+        try {
+            const existing = Object.getOwnPropertyDescriptor(window, "fetch");
+            if (existing && (existing.get || existing.set)) {
+                // An accessor is already installed (another hook tool): chain
+                // through whatever it currently yields.
+                try {
+                    const cur = window.fetch;
+                    if (typeof cur === "function" && cur !== ourFetchWrapper) downstreamFetch = cur;
+                } catch {
+                    /* ignore */
+                }
+            }
+            Object.defineProperty(window, "fetch", {
+                configurable: true,
+                enumerable: existing?.enumerable ?? true,
+                get() {
+                    return ourFetchWrapper;
+                },
+                set(v: unknown) {
+                    // A later tool assigning window.fetch becomes downstream --
+                    // it still runs, and we still observe everything.
+                    if (typeof v === "function" && v !== (ourFetchWrapper as unknown)) {
+                        downstreamFetch = v as typeof window.fetch;
+                    }
+                },
+            });
+            log("fetch hook installed (accessor mode)");
+        } catch {
+            // Last resort: plain assignment (pre-accessor behavior).
+            try {
+                window.fetch = ourFetchWrapper;
+                log("fetch hook installed (assignment fallback)");
+            } catch (e) {
+                log("fetch hook install FAILED:", e);
+            }
+        }
+    };
+    installFetchHook();
 
     // --- window.EventSource Override ---
     const OriginalEventSource = window.EventSource;
@@ -111,7 +467,6 @@ import { IPlatformExtractor } from "./platforms/types";
             return es;
         };
 
-        // Maintain static properties and prototype
         Object.setPrototypeOf(window.EventSource, OriginalEventSource);
         window.EventSource.prototype = OriginalEventSource.prototype;
         // @ts-ignore
@@ -131,9 +486,9 @@ import { IPlatformExtractor } from "./platforms/types";
             let requestUrl: string | null = null;
 
             const originalOpen = xhr.open;
-            xhr.open = function (this: XMLHttpRequest, ...args: any[]) {
-                requestUrl = args[1];
-                return originalOpen.apply(this, args as any);
+            xhr.open = function (this: XMLHttpRequest, ...args: unknown[]) {
+                requestUrl = args[1] as string;
+                return (originalOpen as (...a: unknown[]) => void).apply(this, args);
             };
 
             const handleResponse = () => {
@@ -154,6 +509,49 @@ import { IPlatformExtractor } from "./platforms/types";
 
         Object.setPrototypeOf(window.XMLHttpRequest, OriginalXMLHttpRequest);
         window.XMLHttpRequest.prototype = OriginalXMLHttpRequest.prototype;
+    }
+
+    // --- window.WebSocket Sniff (passive read-only) ---
+    // Insurance against transport drift: if chat streaming ever moves off
+    // fetch/XHR/SSE onto sockets, string messages are parsed the same way.
+    // Binary frames are ignored; everything passes through untouched.
+    const OriginalWebSocket = window.WebSocket;
+    if (OriginalWebSocket) {
+        try {
+            // @ts-expect-error - Monkey-patching global WebSocket
+            window.WebSocket = function (this: WebSocket, url: string | URL, protocols?: string | string[]): WebSocket {
+                const ws = new OriginalWebSocket(url as string, protocols as string[]);
+                try {
+                    ws.addEventListener("message", (event) => {
+                        try {
+                            const data = (event as MessageEvent).data;
+                            if (typeof data !== "string") return;
+                            if (data.length < 50 || data.length > 500000) return;
+                            const lower = data.toLowerCase();
+                            if (!lower.includes("search") && !lower.includes("query")) return;
+                            for (const p of PLATFORMS) {
+                                if (!p.shouldIntercept(url.toString())) continue;
+                                try {
+                                    const results = p.extract(data);
+                                    if (results && results.length > 0) notifyUI(results, p.name);
+                                } catch {
+                                    /* per-platform parse is best-effort */
+                                }
+                            }
+                        } catch {
+                            /* never break page socket traffic */
+                        }
+                    });
+                } catch {
+                    /* ignore */
+                }
+                return ws;
+            };
+            Object.setPrototypeOf(window.WebSocket, OriginalWebSocket);
+            window.WebSocket.prototype = OriginalWebSocket.prototype;
+        } catch {
+            /* ignore */
+        }
     }
 
     log("===== INTERCEPTOR LOADED & READY =====");

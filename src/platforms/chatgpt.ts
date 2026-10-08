@@ -1,4 +1,5 @@
-import { IPlatformExtractor, Source } from "./types";
+import { frameSse, QueryRegistry, SourceMap, walkJson, type ChunkMeta } from "../core/extract";
+import type { ExtractedQuery, IPlatformExtractor } from "./types";
 
 /**
  * ChatGPT web traffic (chatgpt.com) streams assistant output over SSE via:
@@ -9,346 +10,321 @@ import { IPlatformExtractor, Source } from "./types";
  *   -      /backend-api/lat/r                     (legacy telemetry-ish stream)
  *
  * NOTE: matching the bare substring "/backend-api/conversation" does NOT match
- * "/backend-api/f/conversation", which is why interception silently broke.
+ * "/backend-api/f/conversation", which is why interception silently broke before.
  */
 export const ChatGPTContext: IPlatformExtractor = {
     name: "ChatGPT",
+
     shouldIntercept(url: string): boolean {
         if (!url) return false;
         const u = url.toLowerCase();
-        // Covers absolute URLs, Request objects, and relative fetch paths
-        // (e.g. fetch("/backend-api/f/conversation")).
         if (u.includes("/backend-api/") || u.includes("/backend-anon")) return true;
         const isChatGptHost = u.includes("chatgpt.com") || u.includes("chat.openai.com");
         return isChatGptHost && (u.includes("/conversation") || u.includes("/lat/r"));
     },
-    extract(text: string): { text: string; sources?: Source[]; searchEngine?: string }[] | null {
-        const queries = new Set<string>();
-        const sources = new Map<string, Source>();
-        const engineByQuery = new Map<string, Set<string>>();
 
-        // Per-chunk collection context: a `search_engine` value only describes
-        // the search steps in the same streamed object, so engines are tracked
-        // per parsed chunk and never smeared across unrelated queries.
-        interface CollectCtx {
-            engines: Set<string>;
+    extract(text: string): ExtractedQuery[] | null {
+        const registry = new QueryRegistry();
+        const sources = new SourceMap();
+
+        for (const frame of frameSse(text)) {
+            if (frame.json === undefined) continue;
+            const meta = collectChunkMeta(frame.json);
+            collectQueriesAndSources(frame.json, (q) => registry.add(q, meta), sources);
         }
 
-        const addQuery = (q: unknown, ctx?: CollectCtx): void => {
-            if (typeof q !== "string") return;
-            const trimmed = q.trim();
-            if (!trimmed) return;
-            queries.add(trimmed);
-            if (ctx && ctx.engines.size > 0) {
-                let set = engineByQuery.get(trimmed);
-                if (!set) {
-                    set = new Set<string>();
-                    engineByQuery.set(trimmed, set);
-                }
-                ctx.engines.forEach((e) => set!.add(e));
-            }
-        };
-
-        const addEngine = (value: unknown, ctx: CollectCtx): void => {
-            if (typeof value !== "string") return;
-            const trimmed = value.trim();
-            if (trimmed.length >= 2 && trimmed.length <= 80) ctx.engines.add(trimmed);
-        };
-
-        const addSource = (url: unknown, title?: unknown): void => {
-            if (typeof url !== "string" || !url) return;
-            if (sources.has(url)) return;
-            let fallbackTitle = url;
-            try {
-                fallbackTitle = new URL(url).hostname;
-            } catch {
-                // Keep raw URL as title if it isn't parseable.
-            }
-            sources.set(url, {
-                url,
-                title: typeof title === "string" && title ? title : fallbackTitle,
-            });
-        };
-
-        // Handles every observed shape of `search_model_queries`:
-        //   ["a", "b"]  |  [{ query: "a" }]  |  { queries: [...] }  |  { queries: [{ query }] }
-        const collectSearchModelQueries = (value: unknown, ctx: CollectCtx): void => {
-            if (Array.isArray(value)) {
-                value.forEach((item) => {
-                    if (typeof item === "string") addQuery(item, ctx);
-                    else if (item && typeof item === "object") {
-                        addQuery((item as Record<string, unknown>).query, ctx);
-                        addQuery((item as Record<string, unknown>).search_query, ctx);
-                        collectSearchModelQueries((item as Record<string, unknown>).queries, ctx);
-                    }
-                });
-                return;
-            }
-            if (value && typeof value === "object") {
-                const record = value as Record<string, unknown>;
-                collectSearchModelQueries(record.queries, ctx);
-                // Defensive: some payloads nest the array one level deeper.
-                collectSearchModelQueries(record.search_queries, ctx);
-            }
-        };
-
-        const collectToolCalls = (value: unknown, ctx: CollectCtx): void => {
-            if (!Array.isArray(value)) return;
-            value.forEach((tool: unknown) => {
-                if (!tool || typeof tool !== "object") return;
-                const record = tool as Record<string, unknown>;
-                const name = typeof record.name === "string" ? record.name.toLowerCase() : "";
-                // Current + legacy search tool namespaces: google_search, web_search,
-                // browser.search, sonic_web_search, search, ...
-                if (!name.includes("search")) return;
-                const args = record.arguments ?? record.input;
-                if (typeof args === "string") {
-                    try {
-                        const parsed = JSON.parse(args);
-                        addQuery(parsed?.query, ctx);
-                        addQuery(parsed?.search_query, ctx);
-                    } catch {
-                        // Arguments aren't JSON — nothing to extract.
-                    }
-                } else if (args && typeof args === "object") {
-                    const argsRecord = args as Record<string, unknown>;
-                    addQuery(argsRecord.query, ctx);
-                    addQuery(argsRecord.search_query, ctx);
-                }
-            });
-        };
-
-        const collectSources = (node: Record<string, unknown>): void => {
-            // Legacy: metadata.citations
-            if (Array.isArray(node.citations)) {
-                node.citations.forEach((c: unknown) => {
-                    if (c && typeof c === "object") {
-                        const citation = c as Record<string, unknown>;
-                        addSource(citation.url, citation.title);
-                    }
-                });
-            }
-            // Current: search_result_groups[].entries[] ({ url, title, snippet })
-            if (Array.isArray(node.search_result_groups)) {
-                node.search_result_groups.forEach((group: unknown) => {
-                    if (!group || typeof group !== "object") return;
-                    const entries = (group as Record<string, unknown>).entries;
-                    if (Array.isArray(entries)) {
-                        entries.forEach((entry: unknown) => {
-                            if (entry && typeof entry === "object") {
-                                const record = entry as Record<string, unknown>;
-                                addSource(record.url, record.title);
-                            }
-                        });
-                    }
-                });
-            }
-            // Current: content_references[] (grouped webpages + product carousels)
-            if (Array.isArray(node.content_references)) {
-                node.content_references.forEach((ref: unknown) => {
-                    if (!ref || typeof ref !== "object") return;
-                    const record = ref as Record<string, unknown>;
-                    if (typeof record.url === "string") addSource(record.url, record.title);
-                    if (Array.isArray(record.items)) {
-                        record.items.forEach((item: unknown) => {
-                            if (item && typeof item === "object") {
-                                const itemRecord = item as Record<string, unknown>;
-                                addSource(itemRecord.url, itemRecord.title);
-                            }
-                        });
-                    }
-                    if (Array.isArray(record.products)) {
-                        record.products.forEach((p: unknown) => {
-                            if (p && typeof p === "object") {
-                                const product = p as Record<string, unknown>;
-                                addSource(product.url, product.title);
-                            }
-                        });
-                    }
-                    if (record.product && typeof record.product === "object") {
-                        const product = record.product as Record<string, unknown>;
-                        addSource(product.url, product.title);
-                    }
-                });
-            }
-        };
-
-        // Recursive walk over a parsed payload. Catches queries/sources wherever
-        // OpenAI nests them (message.metadata, message.content.parts, top-level, ...).
-        // NOTE: engines are pre-collected per chunk (see call sites) because a
-        // `search_engine` tag can appear after the queries it describes.
-        const searchNode = (node: unknown, ctx: CollectCtx): void => {
-            if (!node || typeof node !== "object") return;
-            if (Array.isArray(node)) {
-                node.forEach((item) => searchNode(item, ctx));
-                return;
-            }
-            const record = node as Record<string, unknown>;
-
-            if (record.search_model_queries !== undefined) {
-                collectSearchModelQueries(record.search_model_queries, ctx);
-            }
-            if (record.tool_calls !== undefined) collectToolCalls(record.tool_calls, ctx);
-            if (record.tool_uses !== undefined) collectToolCalls(record.tool_uses, ctx);
-            collectSources(record);
-
-            for (const key of Object.keys(record)) {
-                const value = record[key];
-                const lowerKey = key.toLowerCase();
-                // Search-backend tag (e.g. "serpapi", "labrador-news-7d", "bing-image").
-                if (lowerKey === "search_engine" || lowerKey === "searchengine") {
-                    addEngine(value, ctx);
-                }
-                // Generic query-ish string fields (query, search_query, searchQuery, ...).
-                // NOTE: the real ChatGPT key is "search_model_queries" (plural "queries",
-                // which does NOT contain the substring "query"), so match both spellings.
-                else if (
-                    (lowerKey === "query" ||
-                        lowerKey === "search_query" ||
-                        lowerKey === "searchquery" ||
-                        lowerKey === "search_queries" ||
-                        lowerKey === "web_search_query") &&
-                    typeof value === "string" &&
-                    value.trim().length >= 3 &&
-                    value.trim().length < 500
-                ) {
-                    addQuery(value, ctx);
-                } else if (value && typeof value === "object") {
-                    searchNode(value, ctx);
-                }
-            }
-        };
-
-        // Engine pre-pass: sweep a parsed chunk for `search_engine` tags BEFORE
-        // extracting queries, so attribution doesn't depend on key order.
-        const collectEngines = (node: unknown, ctx: CollectCtx): void => {
-            if (!node || typeof node !== "object") return;
-            if (Array.isArray(node)) {
-                node.forEach((item) => collectEngines(item, ctx));
-                return;
-            }
-            const record = node as Record<string, unknown>;
-            for (const key of Object.keys(record)) {
-                const value = record[key];
-                const lowerKey = key.toLowerCase();
-                if (lowerKey === "search_engine" || lowerKey === "searchengine") {
-                    addEngine(value, ctx);
-                } else if (value && typeof value === "object") {
-                    collectEngines(value, ctx);
-                }
-            }
-        };
-
-        const lines = text.split("\n");
-
-        for (const line of lines) {
-            const trimmedLine = line.trim();
-            if (trimmedLine.startsWith("data: ")) {
-                const content = trimmedLine.slice(6).trim();
-                if (!content || content === "[DONE]") continue;
-                try {
-                    const parsed: unknown = JSON.parse(content);
-                    const ctx: CollectCtx = { engines: new Set<string>() };
-                    collectEngines(parsed, ctx);
-                    searchNode(parsed, ctx);
-                } catch {
-                    // Ignore parse errors for partial chunks.
-                }
-            } else if (trimmedLine.length > 20 && trimmedLine.startsWith("{")) {
-                // Non-SSE fallback (e.g. initialization JSON or buffered responses).
-                try {
-                    const parsed: unknown = JSON.parse(trimmedLine);
-                    const ctx: CollectCtx = { engines: new Set<string>() };
-                    collectEngines(parsed, ctx);
-                    searchNode(parsed, ctx);
-                } catch {
-                    // Ignore parse errors for partial chunks.
-                }
-            }
+        if (registry.queryCount === 0) {
+            runRegexFallbacks(text, registry);
         }
+        if (registry.queryCount === 0) return null;
 
-        // --- REGEX FALLBACKS (for truncated/partial chunks that don't parse) ---
-        if (queries.size === 0 && text.includes("search_model_queries")) {
-            // Object shape: "search_model_queries": { ... "queries": [...] }
-            const objectRegex = /"search_model_queries"\s*:\s*\{[^}]*?"queries"\s*:\s*(\[[^\]]+\])/;
-            const objectMatch = text.match(objectRegex);
-            if (objectMatch?.[1]) {
-                try {
-                    const parsed: unknown = JSON.parse(objectMatch[1]);
-                    collectSearchModelQueries(parsed, { engines: new Set<string>() });
-                } catch {
-                    // Ignore malformed fragments.
-                }
-            }
-            // Flat-array shape: "search_model_queries": [...]
-            if (queries.size === 0) {
-                const arrayRegex = /"search_model_queries"\s*:\s*(\[[^\]]+\])/;
-                const arrayMatch = text.match(arrayRegex);
-                if (arrayMatch?.[1]) {
-                    try {
-                        const parsed: unknown = JSON.parse(arrayMatch[1]);
-                        collectSearchModelQueries(parsed, { engines: new Set<string>() });
-                    } catch {
-                        // Ignore malformed fragments.
-                    }
-                }
-            }
-        }
+        applyLoneValueFallbacks(text, registry);
 
-        // Generic search-tool-call fallback regex (any *search* tool name).
-        if (queries.size === 0 && text.toLowerCase().includes("search")) {
-            const toolRegex = /"name"\s*:\s*"[^"]*search[^"]*"[^}]*?"(?:arguments|input)"\s*:\s*("(?:[^"\\]|\\.)*"|\{.*?\})/gi;
-            let m: RegExpExecArray | null;
-            const fallbackCtx: CollectCtx = { engines: new Set<string>() };
-            while ((m = toolRegex.exec(text)) !== null) {
-                const raw = m[1];
-                try {
-                    if (raw.startsWith('"')) {
-                        const args = JSON.parse(JSON.parse(raw) as string);
-                        addQuery(args?.query, fallbackCtx);
-                        addQuery(args?.search_query, fallbackCtx);
-                    } else {
-                        const args = JSON.parse(raw);
-                        addQuery(args?.query, fallbackCtx);
-                        addQuery(args?.search_query, fallbackCtx);
-                    }
-                } catch {
-                    // Ignore malformed fragments.
-                }
-            }
-        }
-
-        // Engine fallback for unparseable chunks: if queries were recovered via
-        // regex but their chunk didn't parse, attribute the engine only when the
-        // whole response names exactly one — and only when structured parsing
-        // found no engines at all, so engines never leak onto unrelated queries.
-        const engineLess = Array.from(queries).filter((q) => !engineByQuery.get(q)?.size);
-        if (engineLess.length > 0 && engineByQuery.size === 0) {
-            const found = new Set<string>();
-            const engineRegex = /"search_?engine"\s*:\s*"([^"\\]+)"/gi;
-            let m: RegExpExecArray | null;
-            while ((m = engineRegex.exec(text)) !== null) {
-                const name = m[1].trim();
-                if (name) found.add(name);
-            }
-            if (found.size === 1) {
-                const [only] = Array.from(found);
-                engineLess.forEach((q) => engineByQuery.set(q, new Set([only])));
-            }
-        }
-
-        const uniqueSources = Array.from(sources.values());
-        return queries.size > 0
-            ? Array.from(queries).map((q) => {
-                  const engines = engineByQuery.get(q);
-                  const engineList = engines ? Array.from(new Set(engines)) : [];
-                  return {
-                      text: q,
-                      sources: uniqueSources.length > 0 ? uniqueSources : undefined,
-                      searchEngine:
-                          engineList.length > 0 ? engineList.join(", ") : undefined,
-                  };
-              })
-            : null;
+        registry.setSources(sources.values());
+        return registry.toExtractedQueries();
     },
 };
+
+const textOf = (v: unknown, max = 300): string | undefined => {
+    if (typeof v !== "string") return undefined;
+    const t = v.trim();
+    if (!t) return undefined;
+    return t.length > max ? t.slice(0, max) : t;
+};
+
+// --- Query collection -------------------------------------------------
+
+/** Handles every observed shape: ["a","b"] | [{query:"a"}] | {queries:[...]} | {queries:[{query}]}. */
+function collectSearchModelQueries(value: unknown, onQuery: (q: string) => void): void {
+    if (Array.isArray(value)) {
+        value.forEach((item) => {
+            if (typeof item === "string") {
+                if (item.trim()) onQuery(item);
+            } else if (item && typeof item === "object") {
+                const rec = item as Record<string, unknown>;
+                if (typeof rec.query === "string" && rec.query.trim()) onQuery(rec.query);
+                if (typeof rec.search_query === "string" && rec.search_query.trim()) onQuery(rec.search_query);
+                collectSearchModelQueries(rec.queries, onQuery);
+            }
+        });
+        return;
+    }
+    if (value && typeof value === "object") {
+        const rec = value as Record<string, unknown>;
+        collectSearchModelQueries(rec.queries, onQuery);
+        collectSearchModelQueries(rec.search_queries, onQuery); // defensive: some payloads nest one level deeper
+    }
+}
+
+/** Current + legacy search tool namespaces: google_search, web_search, browser.search, sonic_web_search, search, ... */
+function collectToolCalls(value: unknown, onQuery: (q: string) => void): void {
+    if (!Array.isArray(value)) return;
+    value.forEach((tool) => {
+        if (!tool || typeof tool !== "object") return;
+        const rec = tool as Record<string, unknown>;
+        const name = typeof rec.name === "string" ? rec.name.toLowerCase() : "";
+        if (!name.includes("search")) return;
+
+        const args = rec.arguments ?? rec.input;
+        if (typeof args === "string") {
+            try {
+                const parsed = JSON.parse(args) as Record<string, unknown>;
+                if (typeof parsed?.query === "string" && parsed.query.trim()) onQuery(parsed.query);
+                if (typeof parsed?.search_query === "string" && parsed.search_query.trim()) onQuery(parsed.search_query);
+            } catch {
+                // Arguments aren't JSON -- nothing to extract.
+            }
+        } else if (args && typeof args === "object") {
+            const a = args as Record<string, unknown>;
+            if (typeof a.query === "string" && a.query.trim()) onQuery(a.query);
+            if (typeof a.search_query === "string" && a.search_query.trim()) onQuery(a.search_query);
+        }
+    });
+}
+
+// --- Source collection --------------------------------------------------
+
+function collectSources(node: Record<string, unknown>, sources: SourceMap): void {
+    // Legacy: metadata.citations (these ARE cited by definition).
+    if (Array.isArray(node.citations)) {
+        node.citations.forEach((c) => {
+            if (!c || typeof c !== "object") return;
+            const r = c as Record<string, unknown>;
+            sources.add(typeof r.url === "string" ? r.url : undefined, {
+                title: typeof r.title === "string" ? r.title : undefined,
+                snippet: textOf(r.snippet ?? r.text, 300),
+                attribution: textOf(r.attribution, 120),
+                pubDate: textOf(r.pub_date ?? r.pubDate, 40),
+                resultSource: textOf(r.result_source ?? r.resultSource, 60),
+            }, true);
+        });
+    }
+    // Current: search_result_groups[].entries[] -- retrieved pool.
+    if (Array.isArray(node.search_result_groups)) {
+        node.search_result_groups.forEach((group) => {
+            if (!group || typeof group !== "object") return;
+            const entries = (group as Record<string, unknown>).entries;
+            if (!Array.isArray(entries)) return;
+            entries.forEach((entry) => {
+                if (!entry || typeof entry !== "object") return;
+                const r = entry as Record<string, unknown>;
+                sources.add(typeof r.url === "string" ? r.url : undefined, {
+                    title: typeof r.title === "string" ? r.title : undefined,
+                    snippet: textOf(r.snippet, 300),
+                    attribution: textOf(r.attribution, 120),
+                    pubDate: textOf(r.pub_date ?? r.pubDate, 40),
+                    resultSource: textOf(r.result_source ?? r.resultSource, 60),
+                }, false);
+            });
+        });
+    }
+    // Current: content_references[] (grouped webpages + product carousels) -- cited pool.
+    if (Array.isArray(node.content_references)) {
+        node.content_references.forEach((ref) => {
+            if (!ref || typeof ref !== "object") return;
+            const r = ref as Record<string, unknown>;
+            if (typeof r.url === "string") {
+                sources.add(r.url, {
+                    title: typeof r.title === "string" ? r.title : undefined,
+                    snippet: textOf(r.snippet, 300),
+                    attribution: textOf(r.attribution, 120),
+                }, true);
+            }
+            if (Array.isArray(r.items)) {
+                r.items.forEach((item) => {
+                    if (!item || typeof item !== "object") return;
+                    const ir = item as Record<string, unknown>;
+                    sources.add(typeof ir.url === "string" ? ir.url : undefined, {
+                        title: typeof ir.title === "string" ? ir.title : undefined,
+                        snippet: textOf(ir.snippet, 300),
+                    }, true);
+                });
+            }
+            if (Array.isArray(r.products)) {
+                r.products.forEach((p) => {
+                    if (!p || typeof p !== "object") return;
+                    const pr = p as Record<string, unknown>;
+                    sources.add(typeof pr.url === "string" ? pr.url : undefined, {
+                        title: typeof pr.title === "string" ? pr.title : undefined,
+                    }, true);
+                });
+            }
+            if (r.product && typeof r.product === "object") {
+                const pr = r.product as Record<string, unknown>;
+                sources.add(typeof pr.url === "string" ? pr.url : undefined, {
+                    title: typeof pr.title === "string" ? pr.title : undefined,
+                }, true);
+            }
+        });
+    }
+}
+
+// --- Per-chunk metadata (search_engine / turn_use_case / model_slug / working_turn_id) ---
+
+function collectChunkMeta(json: unknown): ChunkMeta {
+    const meta: ChunkMeta = { engines: new Set<string>() };
+    walkJson(json, (node, path) => {
+        const key = path[path.length - 1];
+        if (typeof key !== "string" || typeof node !== "string") return;
+        const value = node.trim();
+        if (!value) return;
+
+        const lowerKey = key.toLowerCase();
+        if (lowerKey === "search_engine" || lowerKey === "searchengine") {
+            if (value.length >= 2 && value.length <= 80) meta.engines!.add(value);
+        } else if ((lowerKey === "turn_use_case" || lowerKey === "turnusecase") && !meta.turnUseCase) {
+            meta.turnUseCase = value.slice(0, 60);
+        } else if ((lowerKey === "model_slug" || lowerKey === "modelslug" || lowerKey === "model") && !meta.modelSlug && value.length <= 60) {
+            meta.modelSlug = value;
+        } else if ((lowerKey === "working_turn_id" || lowerKey === "workingturnid") && !meta.workingTurnId) {
+            meta.workingTurnId = value.slice(0, 80);
+        }
+    });
+    return meta;
+}
+
+// --- Structural walk: queries, tool calls, and sources for one parsed chunk ---
+
+function collectQueriesAndSources(json: unknown, onQuery: (q: string) => void, sources: SourceMap): void {
+    walkJson(json, (node, path) => {
+        if (node && typeof node === "object" && !Array.isArray(node)) {
+            const rec = node as Record<string, unknown>;
+            if (rec.search_model_queries !== undefined) collectSearchModelQueries(rec.search_model_queries, onQuery);
+            if (rec.tool_calls !== undefined) collectToolCalls(rec.tool_calls, onQuery);
+            if (rec.tool_uses !== undefined) collectToolCalls(rec.tool_uses, onQuery);
+            collectSources(rec, sources);
+        }
+
+        // Generic query-ish string fields. NOTE: the real ChatGPT key is
+        // "search_model_queries" (plural "queries", which does NOT contain the
+        // substring "query"), so this never double-matches it.
+        const key = path[path.length - 1];
+        if (
+            typeof key === "string" &&
+            typeof node === "string" &&
+            (key.toLowerCase() === "query" ||
+                key.toLowerCase() === "search_query" ||
+                key.toLowerCase() === "searchquery" ||
+                key.toLowerCase() === "search_queries" ||
+                key.toLowerCase() === "web_search_query") &&
+            node.trim().length >= 3 &&
+            node.trim().length < 500
+        ) {
+            onQuery(node);
+        }
+    });
+}
+
+// --- Regex fallbacks for chunks that failed to JSON.parse (truncated streaming fragments) ---
+
+function runRegexFallbacks(text: string, registry: QueryRegistry): void {
+    if (text.includes("search_model_queries")) {
+        const objectRegex = /"search_model_queries"\s*:\s*\{[^}]*?"queries"\s*:\s*(\[[^\]]+\])/;
+        const objectMatch = text.match(objectRegex);
+        if (objectMatch?.[1]) {
+            try {
+                collectSearchModelQueries(JSON.parse(objectMatch[1]), (q) => registry.add(q));
+            } catch {
+                // Malformed fragment -- nothing to recover.
+            }
+        }
+        if (registry.queryCount === 0) {
+            const arrayRegex = /"search_model_queries"\s*:\s*(\[[^\]]+\])/;
+            const arrayMatch = text.match(arrayRegex);
+            if (arrayMatch?.[1]) {
+                try {
+                    collectSearchModelQueries(JSON.parse(arrayMatch[1]), (q) => registry.add(q));
+                } catch {
+                    // Malformed fragment -- nothing to recover.
+                }
+            }
+        }
+    }
+
+    if (registry.queryCount === 0 && text.toLowerCase().includes("search")) {
+        const toolRegex = /"name"\s*:\s*"[^"]*search[^"]*"[^}]*?"(?:arguments|input)"\s*:\s*("(?:[^"\\]|\\.)*"|\{.*?\})/gi;
+        let m: RegExpExecArray | null;
+        while ((m = toolRegex.exec(text)) !== null) {
+            const raw = m[1];
+            try {
+                const args = raw.startsWith('"') ? JSON.parse(JSON.parse(raw) as string) : JSON.parse(raw);
+                if (typeof args?.query === "string" && args.query.trim()) registry.add(args.query);
+                if (typeof args?.search_query === "string" && args.search_query.trim()) registry.add(args.search_query);
+            } catch {
+                // Malformed fragment -- nothing to recover.
+            }
+        }
+    }
+}
+
+// --- Last-resort attribution for regex-recovered queries: apply a single,
+// globally-unambiguous value only when the whole response names exactly one
+// (never guess between multiple candidates, never overwrite a value a query
+// already has from structured parsing). ---
+
+function applyLoneValueFallbacks(text: string, registry: QueryRegistry): void {
+    const queries = registry.toExtractedQueries();
+
+    const engineless = queries.filter((q) => !q.searchEngine);
+    const anyStructuredEngine = queries.some((q) => q.searchEngine);
+    if (engineless.length > 0 && !anyStructuredEngine) {
+        const found = findLoneRegexValue(text, /"search_?engine"\s*:\s*"([^"\\]+)"/gi);
+        if (found) engineless.forEach((q) => registry.add(q.text, { engines: new Set([found]) }));
+    }
+
+    applyLoneFieldFallback(text, registry, queries, "turnUseCase", /"turn_use_case"\s*:\s*"([^"\\]+)"/gi,
+        (value) => ({ turnUseCase: value }));
+    applyLoneFieldFallback(text, registry, queries, "modelSlug", /"model_slug"\s*:\s*"([^"\\]+)"/gi,
+        (value) => ({ modelSlug: value }));
+    applyLoneFieldFallback(text, registry, queries, "workingTurnId", /"working_turn_id"\s*:\s*"([^"\\]+)"/gi,
+        (value) => ({ workingTurnId: value }));
+}
+
+function applyLoneFieldFallback(
+    text: string,
+    registry: QueryRegistry,
+    queries: ExtractedQuery[],
+    field: "turnUseCase" | "modelSlug" | "workingTurnId",
+    pattern: RegExp,
+    toMeta: (value: string) => ChunkMeta,
+): void {
+    if (queries.some((q) => q[field])) return; // already set via structured parsing -- never guess.
+    const found = findLoneRegexValue(text, pattern, 60);
+    if (!found) return;
+    const meta = toMeta(found);
+    queries.forEach((q) => {
+        if (!q[field]) registry.add(q.text, meta);
+    });
+}
+
+/** Returns the single value found via `pattern`, or undefined if zero or more than one distinct value exists. */
+function findLoneRegexValue(text: string, pattern: RegExp, maxLength = Infinity): string | undefined {
+    const found = new Set<string>();
+    pattern.lastIndex = 0;
+    let m: RegExpExecArray | null;
+    while ((m = pattern.exec(text)) !== null) {
+        const value = (m[1] || "").trim();
+        if (value && value.length <= maxLength) found.add(value);
+    }
+    return found.size === 1 ? [...found][0] : undefined;
+}
