@@ -1,0 +1,73 @@
+:root {
+    /* Surfaces -- solid, not glass. No backdrop-filter anywhere: it's
+       unreliable behind a Shadow DOM sitting on an unpredictable host
+       background, and glassmorphism is part of the generic "AI gradient"
+       look this redesign replaces. */
+    --csr-surface-0: #0c0e13;
+    --csr-surface-1: #12151c;
+    --csr-surface-2: #181c25;
+    --csr-surface-3: #1f232e;
+    --csr-border: rgba(255, 255, 255, 0.08);
+    --csr-border-strong: rgba(255, 255, 255, 0.14);
+    --csr-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+
+    --csr-text-primary: #e6e9ef;
+    --csr-text-secondary: #9aa3b2;
+    --csr-text-tertiary: #6b7280;
+
+    /* Accent: one desaturated violet-blue hue, used only for interactive /
+       structural signal. Chosen to sit far from all four platform brand
+       hues AND from the gold "cited" semantic below, avoiding the original's
+       cyan accent nearly colliding with Perplexity's own brand teal. */
+    --csr-accent: #8b93f0;
+    --csr-accent-hover: #a3aaf4;
+    --csr-accent-soft-bg: rgba(139, 147, 240, 0.12);
+    --csr-accent-border: rgba(139, 147, 240, 0.35);
+
+    /* Semantic colors -- deliberately separate hue families from the accent. */
+    --csr-gold: #d9a441;
+    --csr-gold-bg: rgba(217, 164, 65, 0.12);
+    --csr-success: #4caf7d;
+    --csr-danger: #e2685c;
+    --csr-danger-bg: rgba(226, 104, 92, 0.12);
+
+    /* Platform brand colors, desaturated to one consistent loudness band
+       (~40-48% saturation, ~55-62% lightness) so the four tags read as one
+       coherent tag system instead of each brand's raw marketing color. */
+    --clr-chatgpt: #4f9d85;
+    --clr-chatgpt-bg: rgba(79, 157, 133, 0.14);
+    --clr-claude: #c08268;
+    --clr-claude-bg: rgba(192, 130, 104, 0.14);
+    --clr-perplexity: #4fa8b3;
+    --clr-perplexity-bg: rgba(79, 168, 179, 0.14);
+    --clr-gemini: #6c8fd1;
+    --clr-gemini-bg: rgba(108, 143, 209, 0.14);
+
+    --csr-space-1: 2px;
+    --csr-space-2: 4px;
+    --csr-space-3: 8px;
+    --csr-space-4: 12px;
+    --csr-space-5: 16px;
+    --csr-space-6: 20px;
+    --csr-space-7: 24px;
+    --csr-space-8: 32px;
+
+    /* Tightened vs. the original (16/8/4) for a more "technical panel" feel;
+       pill shapes removed. */
+    --csr-radius-container: 10px;
+    --csr-radius-md: 6px;
+    --csr-radius-sm: 4px;
+
+    --csr-text-2xs: 9px;
+    --csr-text-xs: 10px;
+    --csr-text-sm: 11px;
+    --csr-text-base: 13px;
+    --csr-text-lg: 14px;
+
+    /* Standard/emphasized-decelerate easing -- no spring overshoot. */
+    --csr-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --csr-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+    --csr-duration-fast: 120ms;
+    --csr-duration-base: 180ms;
+    --csr-duration-expand: 220ms;
+}

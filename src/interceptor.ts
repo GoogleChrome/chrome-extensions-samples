@@ -59,6 +59,44 @@ import { IPlatformExtractor } from "./platforms/types";
         }
     };
 
+    // --- Backfill bridge ---
+    // content.ts (ISOLATED world) can't safely import platforms/* itself --
+    // Rollup would hoist a module imported by two entries into a shared
+    // chunk, which MV3 content scripts can't load (see src/platforms/types.ts
+    // and the rebuild notes). Instead it asks the already-loaded interceptor
+    // to do the fetch + parse, reusing the exact same extractor as live
+    // capture instead of a second, hand-duplicated copy.
+    const runBackfill = async (platform: string, conversationId: string): Promise<void> => {
+        if (platform !== "ChatGPT") return; // only ChatGPT exposes a re-fetchable conversation endpoint today
+        try {
+            const res = await window.fetch(`/backend-api/conversation/${conversationId}`, { credentials: "include" });
+            if (!res.ok) {
+                log(`backfill GET http=${res.status}`);
+                return;
+            }
+            const text = await res.text();
+            const results = ChatGPTContext.extract(text);
+            const message = {
+                type: "AI_SEARCH_REVEALER_BACKFILL_RESULT" as const,
+                platform,
+                conversationId,
+                results: results ?? [],
+            };
+            window.postMessage(message, window.location.origin);
+        } catch (e) {
+            log("backfill request failed (best-effort):", e);
+        }
+    };
+
+    window.addEventListener("message", (event: MessageEvent) => {
+        if (event.source !== window) return;
+        if (event.origin !== window.location.origin) return;
+        const data = event.data as { type?: string; platform?: string; conversationId?: string } | undefined;
+        if (data?.type !== "AI_SEARCH_REVEALER_REQUEST_BACKFILL") return;
+        if (typeof data.platform !== "string" || typeof data.conversationId !== "string") return;
+        void runBackfill(data.platform, data.conversationId);
+    });
+
     // --- Fetch monitor diagnostics ---
     // Counters prove the hook is alive and seeing traffic. Posted throttled
     // to the UI so the panel can show "net N seen/M hit" -- the fastest way

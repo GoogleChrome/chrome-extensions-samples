@@ -19,7 +19,7 @@ export default defineConfig({
         outDir: 'dist',
         rollupOptions: {
             input: {
-                content: resolve(__dirname, 'src/content.ts'),
+                content: resolve(__dirname, 'src/content.tsx'),
                 interceptor: resolve(__dirname, 'src/interceptor.ts'),
                 background: resolve(__dirname, 'src/background.ts'),
             },
