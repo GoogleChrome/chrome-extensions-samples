@@ -1,6 +1,33 @@
 import { describe, expect, it } from "vitest";
 import { GeminiContext } from "./gemini";
 
+describe("GeminiContext.shouldIntercept", () => {
+    // No coverage existed for shouldIntercept at all before this -- a real gap that let a
+    // real bug ship silently (found live 2026-10-08): the actual message-generation
+    // endpoint uses PascalCase ("StreamGenerate"), which the lowercase "/generate"/"/stream"
+    // substring checks never matched, so only incidental batchexecute side-calls were ever
+    // intercepted -- never the real response carrying groundingMetadata/webSearchQueries.
+    it("matches the real StreamGenerate RPC endpoint (PascalCase -- previously missed)", () => {
+        const url =
+            "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate?bl=boq_gemini-web-uiserver_20261007.01_p0&f.sid=abc&hl=en-GB&_reqid=123&rt=c";
+        expect(GeminiContext.shouldIntercept(url)).toBe(true);
+    });
+
+    it("still matches the batchexecute endpoint", () => {
+        const url =
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute?rpcids=aPya6c&source-path=%2Fapp&bl=x&f.sid=abc&hl=en-GB&_reqid=123&rt=c";
+        expect(GeminiContext.shouldIntercept(url)).toBe(true);
+    });
+
+    it("rejects a non-Gemini domain", () => {
+        expect(GeminiContext.shouldIntercept("https://claude.ai/api/organizations/x")).toBe(false);
+    });
+
+    it("rejects a Gemini static asset URL with no matching path segment", () => {
+        expect(GeminiContext.shouldIntercept("https://gemini.gstatic.com/_/mss/some.js")).toBe(false);
+    });
+});
+
 describe("GeminiContext", () => {
     it("extracts queries from batchexecute JSON via the generic key fallback", () => {
         const simpleJson = JSON.stringify({
@@ -109,6 +136,18 @@ describe("GeminiContext", () => {
             });
             const result = GeminiContext.extract(`)]}'\n50\n${json}\n`);
             expect(result?.map((r) => r.text)).toEqual(["glacier formation process"]);
+        });
+
+        it("does not treat an apostrophe inside a contraction as a quote delimiter in the regex fallback", () => {
+            // The exact live bug (found 2026-10-08, re-testing after the "text"-key
+            // fix above): the regex fallback's last-resort "quoted term" matcher
+            // used to accept `'` as a quote character, so the apostrophe in "I've"
+            // was misread as an opening quote -- everything after it, up to the
+            // next apostrophe/quote, got captured as a fake query ("ve been
+            // curious about today" in this shape, "ve been curious about" live).
+            const json = JSON.stringify({ text: "I've been curious about today's weather patterns" });
+            const text = `)]}'\n50\n${json}\n`;
+            expect(GeminiContext.extract(text)).toBeNull();
         });
     });
 

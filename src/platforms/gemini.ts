@@ -24,7 +24,17 @@ export const GeminiContext: IPlatformExtractor = {
                 url.includes("/models/") ||
                 url.includes("generateContent") ||
                 url.includes("streamGenerateContent") ||
-                url.includes("/_/BardChatUi/data/batchexecute"))
+                url.includes("/_/BardChatUi/data/batchexecute") ||
+                // The real message-generation RPC, found live 2026-10-08: the gemini.google.com
+                // web client's actual response stream is POSTed to a path shaped like
+                // ".../assistant.lamda.BardFrontendService/StreamGenerate", NOT to batchexecute
+                // -- this is where groundingMetadata/webSearchQueries actually live. Previously
+                // missed entirely: "/generate" and "/stream" above are lowercase substring
+                // checks and this URL segment is "StreamGenerate" (PascalCase, dot-joined to
+                // the preceding segment, not slash-joined), so it silently never matched. All
+                // capture up to this point only ever came from incidental batchexecute
+                // side-calls, never the real response.
+                url.includes("BardFrontendService"))
         );
     },
 
@@ -207,8 +217,13 @@ function runRegexFallback(text: string, queries: Set<string>): void {
     }
 
     // Last resort: any quoted term in the raw response that passes the same
-    // query-shape heuristic used for the structural array path.
-    const quotedTermPattern = /(?:^|[^\\])["']([a-zA-Z][a-zA-Z0-9\s]{2,40}?)(?:["']|\\["'])/g;
+    // query-shape heuristic used for the structural array path. Only `"` is
+    // treated as a delimiter -- this text is JSON-based, where `'` never
+    // opens/closes a string. Including `'` here was a real bug (found live
+    // 2026-10-08): an apostrophe inside an ordinary contraction like "I've"
+    // was misread as an opening quote, capturing "ve been curious about..."
+    // (from the assistant's own answer) as a fake search query.
+    const quotedTermPattern = /(?:^|[^\\])"([a-zA-Z][a-zA-Z0-9\s]{2,40}?)(?:"|\\")/g;
     let m: RegExpExecArray | null;
     while ((m = quotedTermPattern.exec(text)) !== null) {
         const term = m[1].trim();
