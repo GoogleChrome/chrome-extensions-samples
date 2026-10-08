@@ -18,7 +18,14 @@ import { loadPersisted, savePersisted } from "./store/persistence";
 import { OverlayRoot } from "./ui/components/OverlayRoot";
 import { createMounter } from "./ui/mount";
 
-const conversationKey = getConversationKey(window);
+// Mutable, not const: these are all SPAs (ChatGPT/Claude/Gemini) where switching
+// between conversations changes the URL via the History API without a full page
+// reload -- the content script never re-runs, so this must be updated in place
+// by pollForConversationChange() below, not frozen at script-load time. (Found
+// live 2026-10-08: without this, switching conversations silently kept
+// saving/loading against whichever conversation was active when the tab first
+// loaded, making the overlay appear "stuck" on stale data.)
+let conversationKey = getConversationKey(window);
 
 dbg("info", "boot", `content script loaded, ext=${getExtensionVersion()}`, `contextValid=${isContextValid()}`, `key=${conversationKey}`);
 
@@ -98,6 +105,95 @@ function requestBackfill(platform: string, conversationId: string): void {
     }
 }
 
+/**
+ * Loads a conversation's persisted captures into the store and kicks off
+ * ChatGPT backfill for it. Shared by init() (first load) and
+ * switchConversation() (SPA navigation to a different conversation) so both
+ * paths restore/backfill identically.
+ */
+async function restoreConversation(key: string): Promise<void> {
+    // Stale-while-revalidating: only show the loading skeleton if the
+    // storage restore takes long enough to notice (~400ms); the common case
+    // (fast restore, or nothing to restore) never flashes it.
+    let restoreDone = false;
+    window.setTimeout(() => {
+        if (!restoreDone) isRestoring.value = true;
+    }, 400);
+
+    try {
+        const restored = await loadPersisted(key);
+        if (restored.length > 0) {
+            importQueries(restored);
+        }
+    } catch (e) {
+        dbg("warn", "restoreConversation", "restore failed, starting empty", String(e));
+    } finally {
+        restoreDone = true;
+        isRestoring.value = false;
+    }
+
+    // Backfill covers turns that streamed before the extension was
+    // installed/reloaded (or before this conversation was switched into).
+    // Best-effort: retried a few times since the stream is often still in
+    // flight right after a switch.
+    const chatGptId = getChatGPTConversationId(window);
+    if (chatGptId) {
+        requestBackfill("ChatGPT", chatGptId);
+        let attempts = 0;
+        const retryTimer = window.setInterval(() => {
+            attempts += 1;
+            if (attempts > 6 || capturedQueries.value.length > 0) {
+                window.clearInterval(retryTimer);
+                return;
+            }
+            requestBackfill("ChatGPT", chatGptId);
+        }, 15000);
+    }
+}
+
+/**
+ * Called when polling (below) notices the URL now points at a different
+ * conversation. Flushes the outgoing conversation's captures immediately
+ * (doesn't wait for the debounced save-effect's timer, which may not have
+ * fired yet), clears the in-memory list, then restores the new conversation's
+ * own history. Without this, the overlay kept showing/saving against
+ * whichever conversation was active when the tab first loaded -- switching
+ * conversations in the sidebar did nothing, since the content script only
+ * runs once per real page load, not per SPA route change.
+ *
+ * `conversationKey` is reassigned synchronously, before the first `await`:
+ * otherwise a second poll tick firing while `savePersisted` is still in
+ * flight would see the stale key, decide a switch is still pending, and
+ * kick off a second overlapping switchConversation() call.
+ */
+async function switchConversation(nextKey: string): Promise<void> {
+    const outgoingKey = conversationKey;
+    const outgoingQueries = capturedQueries.value;
+    conversationKey = nextKey;
+    capturedQueries.value = [];
+    dbg("info", "switchConversation", `${outgoingKey} -> ${nextKey}`);
+
+    window.clearTimeout(saveTimer);
+    await savePersisted(outgoingKey, outgoingQueries);
+    await restoreConversation(nextKey);
+}
+
+/**
+ * ChatGPT/Claude/Gemini are all client-side-routed SPAs: clicking a different
+ * conversation in the sidebar changes the URL via the History API without a
+ * full page load, so this content script never re-runs and never otherwise
+ * notices. Polling location/pathname here is simpler and more robust than
+ * monkey-patching history.pushState/replaceState, which risks interop issues
+ * with each site's own router.
+ */
+function pollForConversationChange(): void {
+    window.setInterval(() => {
+        const nextKey = getConversationKey(window);
+        if (nextKey === conversationKey) return;
+        void switchConversation(nextKey);
+    }, 1000);
+}
+
 async function init(): Promise<void> {
     let enabled = true;
     try {
@@ -112,42 +208,8 @@ async function init(): Promise<void> {
         return;
     }
 
-    // Stale-while-revalidating: only show the loading skeleton if the
-    // storage restore takes long enough to notice (~400ms); the common case
-    // (fast restore, or nothing to restore) never flashes it.
-    let restoreDone = false;
-    window.setTimeout(() => {
-        if (!restoreDone) isRestoring.value = true;
-    }, 400);
-
-    try {
-        const restored = await loadPersisted(conversationKey);
-        if (restored.length > 0) {
-            importQueries(restored);
-        }
-    } catch (e) {
-        dbg("warn", "init", "restore failed, starting empty", String(e));
-    } finally {
-        restoreDone = true;
-        isRestoring.value = false;
-    }
-
-    // Backfill covers turns that streamed before the extension was
-    // installed/reloaded. Best-effort: retried a few times since the stream
-    // is often still in flight when the tab first loads.
-    const chatGptId = getChatGPTConversationId(window);
-    if (chatGptId) {
-        requestBackfill("ChatGPT", chatGptId);
-        let attempts = 0;
-        const retryTimer = window.setInterval(() => {
-            attempts += 1;
-            if (attempts > 6 || capturedQueries.value.length > 0) {
-                window.clearInterval(retryTimer);
-                return;
-            }
-            requestBackfill("ChatGPT", chatGptId);
-        }, 15000);
-    }
+    await restoreConversation(conversationKey);
+    pollForConversationChange();
 }
 
 // Listen for messages from the MAIN world (interceptor -> isolated world).

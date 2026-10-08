@@ -10,6 +10,7 @@ import {
     isEnabled,
     platformFilter,
     queryCount,
+    replaceAll,
     resetFilters,
     textFilter,
     useCaseFilter,
@@ -76,6 +77,12 @@ describe("captures store", () => {
         const first = announcement.value;
         announce("3 new queries captured");
         expect(announcement.value).not.toBe(first);
+    });
+
+    it("replaceAll overwrites capturedQueries wholesale, including clearing it -- the 'clear all' action's underlying primitive", () => {
+        capturedQueries.value = [q({ text: "a" }), q({ text: "b" })];
+        replaceAll([]);
+        expect(capturedQueries.value).toEqual([]);
     });
 
     it("isEnabled/isCollapsed are plain toggleable signals", () => {
