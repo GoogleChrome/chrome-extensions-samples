@@ -1,5 +1,5 @@
 {
-  "name": "WASM Load Example - Helloworld",
+  "name": "WebAssembly hello world",
   "version": "1.0",
   "manifest_version": 3,
   "description": "Shows how to use WebAssembly (WASM) as a module in Manifest V3.",

@@ -1,6 +1,6 @@
 {
-  "name": "Drink Water Event Popup",
-  "description": "Demonstrates usage and features of the event page by reminding user to drink water",
+  "name": "Drink water reminder",
+  "description": "Reminds you to drink water with a notification after the time you choose, using chrome.alarms and chrome.notifications.",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": ["alarms", "notifications", "storage"],

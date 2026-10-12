@@ -1,5 +1,5 @@
 {
-  "name": "Geolocation - content script",
+  "name": "Geolocation in a content script",
   "version": "1.0",
   "manifest_version": 3,
   "description": "Shows how to get geolocation access within a content script.",
