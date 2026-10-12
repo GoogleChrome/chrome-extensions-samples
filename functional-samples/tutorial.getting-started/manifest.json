@@ -1,6 +1,6 @@
 {
-  "name": "Getting Started Example",
-  "description": "Build an Extension!",
+  "name": "Getting started example",
+  "description": "A starter extension that uses a popup, an options page, and a service worker to change the active tab's background color.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

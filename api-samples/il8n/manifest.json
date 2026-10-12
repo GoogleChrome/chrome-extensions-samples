@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "il8n API Example",
-  "description": "Demonstrates the chrome.i18n API by localizing text in the extension popup.",
+  "name": "Localized popup text",
+  "description": "Shows a popup whose text is translated with the chrome.i18n API, using messages from the _locales folder.",
   "version": "3",
   "action": {
     "default_popup": "popup.html"
