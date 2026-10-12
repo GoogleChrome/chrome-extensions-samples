@@ -1,7 +1,7 @@
 {
-  "name": "Merge Windows",
+  "name": "Merge windows",
   "version": "1.0.3",
-  "description": "Uses the chrome.windows and chrome.tabs APIs to manage tabs across different windows.",
+  "description": "Moves the tabs from all your other windows into the current window when you click the toolbar icon.",
   "icons": {
     "48": "merge_windows_48.png",
     "128": "merge_windows_128.png"

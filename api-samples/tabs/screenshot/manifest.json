@@ -1,7 +1,7 @@
 {
-  "name": "Test Screenshot Extension",
+  "name": "Tab screenshot",
   "version": "1.3",
-  "description": "Uses the chrome.tabs API to take a screenshot of the active tab.",
+  "description": "Captures the visible part of the current tab when you click the toolbar icon and opens the image in a new tab.",
   "background": {
     "service_worker": "service-worker.js"
   },

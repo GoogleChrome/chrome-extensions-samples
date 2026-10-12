@@ -1,8 +1,8 @@
 {
-  "name": "Privacy API sample",
+  "name": "Credit card autofill toggle",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Uses the chrome.privacy.services property to get and set privacy settings.",
+  "description": "Turns credit card autofill on or off from the toolbar button with the chrome.privacy API, and shows the setting on the badge.",
   "background": {
     "service_worker": "service-worker.js"
   },

@@ -1,7 +1,7 @@
 {
-  "name": "BrowsingData API: Basics",
+  "name": "Browsing data cleaner",
   "version": "1.2",
-  "description": "Uses the chrome.browsingData API to clear the user's history without requiring the user to visit the history page.",
+  "description": "With the chrome.browsingData API, clears all browsing data, including history, cookies, and passwords, for a time range you pick.",
   "permissions": ["browsingData"],
   "action": {
     "default_icon": "icon.png",

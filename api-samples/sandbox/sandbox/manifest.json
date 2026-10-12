@@ -1,7 +1,7 @@
 {
-  "name": "Sandboxed Frame Sample",
+  "name": "Sandboxed iframe",
   "version": "1.0.3",
-  "description": "Demonstrates creation of a tab with a sandboxed iframe to which the main page passes a counter variable.",
+  "description": "Opens a page that sends a click counter to a hidden sandboxed iframe, which renders it with Handlebars templates and sends it back.",
   "manifest_version": 3,
   "background": {
     "service_worker": "service-worker.js"
