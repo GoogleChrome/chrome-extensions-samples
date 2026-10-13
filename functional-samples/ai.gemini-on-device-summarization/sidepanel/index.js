@@ -65,7 +65,7 @@ async function generateSummary(text) {
       length: length.value
     };
 
-    const availability = await Summarizer.availability();
+    const availability = await Summarizer.availability(options);
     let summarizer;
     if (availability === 'unavailable') {
       return 'Summarizer API is not available';
@@ -75,9 +75,13 @@ async function generateSummary(text) {
       summarizer = await Summarizer.create(options);
     } else {
       // The Summarizer API can be used after the model is downloaded.
-      summarizer = await Summarizer.create(options);
-      summarizer.addEventListener('downloadprogress', (e) => {
-        console.log(`Downloaded ${e.loaded * 100}%`);
+      summarizer = await Summarizer.create({
+        ...options,
+        monitor(m) {
+          m.addEventListener('downloadprogress', (e) => {
+            console.log(`Downloaded ${e.loaded * 100}%`);
+          });
+        }
       });
       await summarizer.ready;
     }
