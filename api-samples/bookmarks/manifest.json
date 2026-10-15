@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Bookmark Viewer",
+  "name": "Bookmark viewer",
   "version": "1.0",
-  "description": "Uses the chrome.bookmarks API to search through, add, and delete bookmarks from the user's bookmark tree.",
+  "description": "A popup that lists your bookmarks, adds a Google bookmark, and removes every bookmark to google.com, using the chrome.bookmarks API.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"

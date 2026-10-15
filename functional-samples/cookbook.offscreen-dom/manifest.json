@@ -1,5 +1,5 @@
 {
-  "name": "Offscreen API - DOM Parsing",
+  "name": "Offscreen DOM parsing",
   "version": "1.0",
   "description": "Shows how to use DOMParser in an extension service worker using the offscreen document.",
   "manifest_version": 3,

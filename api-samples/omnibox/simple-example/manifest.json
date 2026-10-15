@@ -1,6 +1,6 @@
 {
-  "name": "Omnibox Simple Example",
-  "description": "Demonstrates the \"omnibox\" manifest key and most members of the omnibox API.",
+  "name": "Omnibox event logger",
+  "description": "Logs each chrome.omnibox event to a page as you type after the extension's keyword in the address bar, with sample suggestions.",
   "version": "1.1",
   "background": {
     "service_worker": "service-worker.js"

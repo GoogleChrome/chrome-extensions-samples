@@ -1,7 +1,7 @@
 {
-  "name": "Idle - Simple Example",
+  "name": "Idle state tracker",
   "version": "1.0.1",
-  "description": "Demonstrates the Idle API",
+  "description": "Tracks when the user is active, idle, or locked with the chrome.idle API and shows a history of state changes.",
   "background": {
     "service_worker": "service-worker.js"
   },

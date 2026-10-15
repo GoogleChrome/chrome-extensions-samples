@@ -1,6 +1,6 @@
 {
-  "name": "WebSocket Demo",
-  "description": "How to use WebSockets in your Chrome Extension.",
+  "name": "WebSocket messaging",
+  "description": "Opens a WebSocket connection from the service worker when you click the toolbar icon, and keeps it alive with regular messages.",
   "version": "1.0",
   "manifest_version": 3,
   "minimum_chrome_version": "116",

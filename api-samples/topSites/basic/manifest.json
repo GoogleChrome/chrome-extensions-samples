@@ -1,7 +1,7 @@
 {
-  "name": "Top Sites",
+  "name": "Most visited sites",
   "version": "1.2",
-  "description": "Uses the chrome.topSites API to get the user's most visited sites.",
+  "description": "Lists your most visited sites as links in a popup, using the chrome.topSites API.",
   "permissions": ["topSites"],
   "action": {
     "default_icon": "icon.png",

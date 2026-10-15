@@ -1,6 +1,6 @@
 {
-  "name": "Notifications API sample",
-  "description": "Demonstrates the creation of, and interaction with, each of the notification template types.",
+  "name": "Notification templates",
+  "description": "A popup with buttons that create basic, progress, and list notifications with the chrome.notifications API.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

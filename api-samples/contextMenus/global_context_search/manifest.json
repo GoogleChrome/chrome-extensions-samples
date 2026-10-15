@@ -2,6 +2,8 @@
   "name": "Global Google Search",
   "description": "Search Google with region-specific parameters using the context menu",
   "version": "2.0",
+  "description": "Searches selected text on a different country's Google from the context menu, with a popup to choose which countries appear.",
+  "version": "1.1",
   "manifest_version": 3,
   "permissions": ["contextMenus", "storage"],
   "background": {

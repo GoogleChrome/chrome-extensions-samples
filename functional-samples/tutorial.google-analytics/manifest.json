@@ -1,6 +1,6 @@
 {
-  "name": "Google Analytics Demo",
-  "description": "How to use Google Analytics 4 in your extension.",
+  "name": "Google Analytics tracking",
+  "description": "Sends Google Analytics 4 events for page views, clicks, and errors from a popup and service worker with the Measurement Protocol.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

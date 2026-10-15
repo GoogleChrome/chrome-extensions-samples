@@ -1,8 +1,8 @@
 {
-  "name": "Download Manager Button",
+  "name": "Download manager button",
   "version": "0.3",
   "manifest_version": 3,
-  "description": "Uses multiple chrome.downloads APIs to implement a simple download manager.",
+  "description": "Replaces Chrome's download UI with a popup for searching, pausing, resuming, and opening downloads, with progress on the icon.",
   "icons": {
     "128": "icon128.png"
   },
