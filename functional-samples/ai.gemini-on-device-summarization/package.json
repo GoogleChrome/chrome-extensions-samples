@@ -13,9 +13,9 @@
     "@mozilla/readability": "0.6.0",
     "@rollup/plugin-commonjs": "29.0.3",
     "@rollup/plugin-node-resolve": "16.0.3",
-    "dompurify": "3.4.15",
-    "marked": "18.0.12",
-    "rollup": "4.63.1",
+    "dompurify": "3.4.16",
+    "marked": "18.1.0",
+    "rollup": "4.64.2",
     "rollup-plugin-copy": "^3.5.0"
   }
 }

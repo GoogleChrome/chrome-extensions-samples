@@ -1,7 +1,7 @@
 {
-  "name": "Print Extension",
+  "name": "Printer and print job manager",
   "version": "1.0",
-  "description": "Demonstrates all four methods of the chrome.printing namespace.",
+  "description": "On ChromeOS, lists printers and their details in a tab, prints a test PDF, and cancels print jobs with the chrome.printing API.",
   "permissions": ["printing"],
   "background": {
     "service_worker": "background.js"

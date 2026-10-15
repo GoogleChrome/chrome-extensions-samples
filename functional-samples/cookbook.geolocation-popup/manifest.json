@@ -1,5 +1,5 @@
 {
-  "name": "Geolocation - popup",
+  "name": "Geolocation in a popup",
   "version": "1.0",
   "description": "Shows how to get geolocation access within a popup.",
   "manifest_version": 3,

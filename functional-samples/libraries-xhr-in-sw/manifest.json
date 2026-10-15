@@ -1,8 +1,8 @@
 {
-  "name": "Fetching Titles",
+  "name": "XHR in a service worker",
   "version": "0.1",
   "manifest_version": 3,
-  "description": "This extension fetches the titles of all the tabs in the current window and displays them in a side panel.",
+  "description": "Runs an XMLHttpRequest library in the service worker, which only has fetch(), to show the current tab's title in the side panel.",
   "background": {
     "service_worker": "dist/background.js"
   },

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "WebGPU Extension",
-  "description": "Generate a red triangle with WebGPU in an extension service worker.",
+  "name": "WebGPU in a service worker",
+  "description": "Draws a red triangle with WebGPU in the service worker and opens the result as an image in a new tab.",
   "version": "1.0",
   "action": {
     "default_title": "Click to see a red triangle"

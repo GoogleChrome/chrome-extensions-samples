@@ -1,6 +1,7 @@
 {
-  "name": "mole controller",
+  "name": "Mole Game Controller",
   "version": "1.0",
+  "description": "Runs a whack-a-mole game in the toolbar, using chrome.alarms to pop up moles and the badge to keep score.",
   "manifest_version": 3,
   "background": {
     "service_worker": "service-worker.js"

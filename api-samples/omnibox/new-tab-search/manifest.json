@@ -1,6 +1,6 @@
 {
-  "name": "Omnibox - New Tab Search",
-  "description": "Demonstrates the \"omnibox\" manifest key and API by creating a keyword that opens a browser search in a new tab.",
+  "name": "Omnibox new tab search",
+  "description": "Adds a keyword to the address bar that runs a Google search in a new tab, using the chrome.omnibox API.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {

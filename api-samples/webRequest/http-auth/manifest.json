@@ -1,8 +1,8 @@
 {
-  "name": "webRequest.onAuthRequired Demo",
+  "name": "Automatic HTTP authentication",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Demonstrates the webRequest.onAuthRequired listener to detect an authentication request and log the user into the designated site.",
+  "description": "Uses webRequest.onAuthRequired to sign in automatically to httpbin.org/basic-auth/guest/guest with the guest credentials.",
   "background": {
     "service_worker": "service-worker.js"
   },

@@ -1,6 +1,6 @@
 {
-  "name": "Download Selected Links",
-  "description": "Uses the chrome.downloads.download() method to list all available links from the active page in a popup.",
+  "name": "Download selected links",
+  "description": "Lists every link on the current page in a popup, with a filter, and downloads the ones you select with the chrome.downloads API.",
   "version": "0.1",
   "permissions": ["downloads", "scripting"],
   "host_permissions": ["<all_urls>"],

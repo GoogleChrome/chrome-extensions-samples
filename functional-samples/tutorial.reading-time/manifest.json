@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Reading time",
+  "name": "Reading time estimate",
   "version": "1.0",
-  "description": "Add the reading time to Chrome Extension documentation articles",
+  "description": "Adds an estimated reading time to articles in the Chrome Extensions and Chrome Web Store docs.",
 
   "icons": {
     "16": "images/icon-16.png",

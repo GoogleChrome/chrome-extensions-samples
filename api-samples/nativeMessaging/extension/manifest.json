@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcBHwzDvyBQ6bDppkIs9MP4ksKqCMyXQ/A52JivHZKh4YO/9vJsT3oaYhSpDCE9RPocOEQvwsHsFReW2nUEc6OLLyoCFFxIb7KkLGsmfakkut/fFdNJYh0xOTbSN8YvLWcqph09XAY2Y/f0AL7vfO1cuCqtkMt8hFrBGWxDdf9CQIDAQAB",
-  "name": "Native Messaging Example",
+  "name": "Native app messaging",
   "version": "1.0",
-  "description": "Send a message to a native application.",
+  "description": "A popup that connects to a native app with native messaging, sends it messages, and shows its replies.",
   "action": {
     "default_title": "Native Messaging Example",
     "default_popup": "main.html"

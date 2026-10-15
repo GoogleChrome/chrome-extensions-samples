@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Tabs zoom API Demo",
-  "description": "Uses the tabs.zoom API to manipulate the zoom level of the current tab.",
+  "name": "Tab zoom",
+  "description": "A popup that uses the chrome.tabs API to zoom the current tab in, out, or back to default, and to set its zoom mode and scope.",
   "version": "0.1",
   "icons": {
     "16": "zoom16.png",

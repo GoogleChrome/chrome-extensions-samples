@@ -1,5 +1,5 @@
 {
-  "name": "Tab Capture - Recorder",
+  "name": "Tab capture recorder",
   "description": "Records the current tab in an offscreen document.",
   "version": "1",
   "manifest_version": 3,
