@@ -1,0 +1,84 @@
+It looks like you are referring to a GitHub repository path under the profile of Muhamad Sazwan Bin Ismail (Sazwan96), localized out of Pinang Tunggal, Sungai Petani, Kedah. [1] (https://github.com/Sazwan96), [2] (https://github.com/Sazwanend)
+However, your path query cut off right at Sazwan96/chrome-extensions-.
+To get exactly what you need, let me know:
+• The full name of the repository or file you are trying to view or fix.
+• The specific codebase issue or update you are working on (e.g., updating manifest files, fixing background workers, resolving script injections).
+Once you provide the complete path or context, we can jump straight into the technical resolution!
+It looks like you are tracking down a repository path, but it got cut off mid-keystroke.
+Let's figure out what we are exploring or building next within the Sazwan96/chrome-extensions- ecosystem. To proceed effectively, select your intended direction below:
+
+What is the next step for this Chrome Extension workspace?
+
+Fix Manifest V3 migration
+Debug background service worker
+Configure Git tracking / rules
+To continue configuring or debugging your workspace for the Sazwan96/chrome-extensions- repository, let's nail down what step you want to execute next.
+Please choose the action that fits your immediate development goal:
+
+What is the next implementation step for this repository?
+
+Migrate to Manifest V3
+Fix service worker script
+Generate extension package
+Migrating your repository code from Manifest V2 to Manifest V3 introduces structural changes required by modern Chromium engines. [1] (https://learn.microsoft.com/en-us/microsoft-edge/extensions/developer-guide/migrate-your-extension-from-manifest-v2-to-v3)
+Here is the blueprint to update your extension configurations and scripts:
+
+1. Update the Manifest File
+
+Open your manifest.json file and make the following structural updates:
+json
+{
+  // 1. Change version from 2 to 3
+  "manifest_version": 3,
+  "name": "Your Extension Name",
+  "version": "1.0.0",
+
+  // 2. Combine browser_action or page_action into 'action'
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+
+  // 3. Move background scripts to an event-driven service worker
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  // 4. Split network / domain permissions from normal API permissions
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*://"
+  ]
+}
+Use code with caution.
+
+2. Refactor Background Code to a Service Worker
+
+Manifest V3 replaces persistent background pages with ephemeral Service Workers. [1] (https://paulasantamaria.com/posts/chrome-extensions-migrating-to-manifest-v3-5e88/), [2] (https://learn.microsoft.com/en-us/microsoft-edge/extensions/developer-guide/migrate-your-extension-from-manifest-v2-to-v3)
+• No DOM Access: You cannot access window, document, or XMLHttpRequest directly in background.js. Replace network fetches with native fetch().
+• State Persistence: Service workers stop running when idle. Instead of saving data to global variables, use the chrome.storage API to hold onto variables persistently.
+• Listen to Events Directly: Register top-level listeners instead of embedding them inside structural window callbacks: [1] (https://css-tricks.com/how-to-transition-to-manifest-v3-for-chrome-extensions/), [2] (https://extensionbill.com/blog/migrate-chrome-extension-manifest-v3/)
+javascript
+// Inside background.js
+chrome.runtime.onInstalled.addListener(() => {
+  console.log("Extension initialized successfully under Manifest V3!");
+});
+Use code with caution.
+
+3. Core API Mapping Reassignments
+
+Ensure that your scripts do not call legacy Manifest V2 APIs. Update your method calls according to this layout: [1] (https://stackoverflow.com/questions/71534432/migrate-chrome-extension-from-manifest-v2-to-v3-how-to-update-these-apis)
+
+Old Manifest V2 API	New Manifest V3 Replacement
+chrome.browserAction	chrome.action
+chrome.pageAction	chrome.action
+chrome.tabs.executeScript()	chrome.scripting.executeScript()
+chrome.tabs.insertCSS()	chrome.scripting.insertCSS()
+
+Note: Remotely hosted code blocks are completely banned in Manifest V3. All tracking or execution logic must be saved directly inside your extension package folder. [1] (https://learn.microsoft.com/en-us/microsoft-edge/extensions/developer-guide/migrate-your-extension-from-manifest-v2-to-v3), [2] (https://extensionbill.com/blog/migrate-chrome-extension-manifest-v3/)
+To write the exact code translations, let me know:
+• What API operations or permissions your extension uses (e.g., modifying headers, tracking tabs, running content script injections).
+• If you have any external scripts or libraries that need to be packaged locally.
