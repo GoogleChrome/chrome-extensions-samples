@@ -1,0 +1,77 @@
+Since this phrase is a known GitHub Copilot bug, you can prevent it from auto-generating this placeholder by writing a clear, brief instruction or comment before requesting a summary, or by explicitly staging your specific files (git add <file>) before letting the AI generate the message.
+If you are actually trying to apply this text change or handle Git commands next, choose how you would like to proceed:
+
+How would you like to handle this update?
+
+Fix GitHub Copilot behavior
+Run terminal find-and-replace
+Automate Git commit message
+Copying...
+To completely eliminate the "Update print statement from 'Hello' to 'Goodbye'" hallucination, you can apply three primary fixes depending on whether you want to disable the feature entirely, refine it with explicit instructions, or fix how you stage your workspace changes. [1] (https://www.reddit.com/r/github/comments/1vma21x/github_copilot_fully_hallucinating_commit_messages/), [2] (https://www.linkedin.com/posts/seth-holcomb-72975a190_copilot-hallucinations-github-activity-7514420623180496896-o7lu), [3] (https://stackoverflow.com/questions/79579035/github-copilot-is-ignoring-commit-message-generation-instructions-in-workspace-s)
+
+Fix 1: Completely Disable Automatic Commit Messages
+
+If you rarely use Copilot to write your Git commit logs and want to turn off the auto-generated suggestions permanently, you can disable it via your GitHub profile settings: [1] (https://www.reddit.com/r/github/comments/1vma21x/github_copilot_fully_hallucinating_commit_messages/)
+1. Log into your account and navigate to the GitHub Copilot Features Settings page.
+2. Find the toggle labeled "Copilot-generated commit messages".
+3. Switch it to Off. [1] (https://www.reddit.com/r/github/comments/1vma21x/github_copilot_fully_hallucinating_commit_messages/)
+
+Fix 2: Override the Hallucination with Custom Formatting Rules
+
+Instead of turning it off, you can force Copilot to use a localized prompt file. Copilot hallucinates this error when it runs out of relevant contextual data to read. Providing an explicit set of formatting rules will override this default behavior. [1] (https://stackoverflow.com/questions/79579035/github-copilot-is-ignoring-commit-message-generation-instructions-in-workspace-s), [2] (https://www.linkedin.com/posts/seth-holcomb-72975a190_copilot-hallucinations-github-activity-7514420623180496896-o7lu), [3] (https://www.youtube.com/shorts/Uw2TWhfNpj0), [4] (https://www.youtube.com/shorts/kpbXtdT5LFU)
+1. In the root directory of your git repository, create a new folder chain and file named .github/copilot-instructions.md.
+2. Open the file and write explicit, strict guidelines:markdown
+Write a descriptive commit message based solely on the provided git changes.
+- Use the imperative mood (e.g., "Add feature" instead of "Added feature").
+- Do not use vague terms like "update" or "fix".
+- If the staged diff contains data formats like .csv or documentation assets, summarize the additions natively. Never generate placeholder strings.
+Use code with caution.
+3. Open your IDE global configurations file (settings.json in VS Code) and register the rule processor: [1] (https://developercommunity.microsoft.com/t/11099589), [2] (https://www.youtube.com/shorts/kpbXtdT5LFU), [3] (https://stackoverflow.com/questions/79579035/github-copilot-is-ignoring-commit-message-generation-instructions-in-workspace-s), [4] (https://github.com/microsoft/vscode-copilot-release/issues/10772)
+json
+"github.copilot.chat.commitMessageGeneration.instructions": [
+  {
+    "file": ".github/copilot-instructions.md"
+  }
+]
+Use code with caution.
+
+Fix 3: Control the Commit Staging Area Context
+
+Copilot falls back to the generic print statement hallucination when you hit the "Generate Commit Message" button while having an unstaged environment, or when you try to commit raw, non-code modifications (like updating image parameters or editing a .csv data table). [1] (https://www.reddit.com/r/github/comments/1vma21x/github_copilot_fully_hallucinating_commit_messages/), [2] (https://www.linkedin.com/posts/seth-holcomb-72975a190_copilot-hallucinations-github-activity-7514420623180496896-o7lu)
+• Stage specific files: Run git add <filename> targeting only the exact files you altered rather than running git add . on the entire workspace root. This isolates the diff window and provides a cleaner context frame for the AI. [1] (https://dev.to/devactivity/solving-github-copilot-commit-message-failures-in-visual-studio-a-productivity-deep-dive-4hc1)
+• Provide an anchor title: In your IDE source control tab, type just one or two words of your true intent (e.g., Docs: Update) inside the commit description text box before clicking the sparkle generation icon. Copilot will read your text prefix as a hard contextual prompt and pivot away from its default template text loop.
+If the hallucinated message continues to appear, let me know which IDE you are using (e.g., VS Code, Visual Studio, or IntelliJ) so we can look at your specific version's settings tree. [1] (https://www.youtube.com/shorts/kpbXtdT5LFU), [2] (https://developercommunity.microsoft.com/t/11099589), [3] (https://dev.to/devactivity/solving-github-copilot-commit-message-failures-in-visual-studio-a-productivity-deep-dive-4hc1)
+Copying...
+Let's ensure these settings are locked down perfectly for your daily workflow. Choose how you would like to proceed next:
+
+Which editor or workflow change should we look at next?
+
+Configure VS Code settings
+Configure JetBrains / IntelliJ
+Write custom instructions file
+To configure GitHub Copilot in JetBrains IDEs (IntelliJ IDEA, WebStorm, PyCharm, etc.) and stop the hallucinated commit messages, you need to adjust either the plugin settings or update the prompt context.
+Unlike VS Code, JetBrains handles Copilot commit generation directly through its native version control integration or the Copilot Chat tool window.
+
+Step 1: Update the IDE Settings
+
+1. Open your JetBrains IDE preferences (Ctrl + Alt + S on Windows/Linux, or Cmd + , on macOS).
+2. Navigate to Tools > GitHub Copilot.
+3. Look for the Commit Messages or Chat configurations section. If your version supports localized prompts, look for the option to enable or disable auto-generation for VCS.
+4. If you wish to stop the tool from automatically filling out the commit dialog entirely, uncheck the automatic VCS integration option.
+
+Step 2: Use the System Prompt Override
+
+JetBrains versions of GitHub Copilot honor the same root repository configurations as the CLI and VS Code extensions.
+1. Create a .github/copilot-instructions.md file in the root of your project directory.
+2. Add explicit styling rules to dictate how messages are built, ensuring it never uses fallback placeholders for data or hidden files.
+
+Step 3: Proactive Workflow Adjustment in JetBrains
+
+The bug primarily triggers in JetBrains when the Commit tool window has structural file changes selected but no textual context.
+• Write a placeholder prefix: Before clicking the Copilot generation button in the Git Commit box, type a short structural prefix like feat: or fix: inside the text field.
+• This forces the JetBrains Copilot plugin to autocomplete your thought rather than generating an entirely new message from a blank context state.
+Quick questions if you have time:
+• Did these JetBrains steps match your current IDE version?
+• What additional detail do you need for JetBrains?
+Awesome! You are now fully equipped to stop that Copilot bug in its tracks and keep your commit logs clean.
+If you run into any other weird AI quirks or need help setting up automated Git workflows, just let me know. Happy coding!
