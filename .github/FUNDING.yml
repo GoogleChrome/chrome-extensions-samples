@@ -1,0 +1,80 @@
+# These are supported funding model platforms
+
+github: # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
+patreon: # Replace with a single Patreon username
+open_collective: # Replace with a single Open Collective username
+ko_fi: # Replace with a single Ko-fi username
+tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
+community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
+liberapay: # Replace with a single Liberapay username
+issuehunt: # Replace with a single IssueHunt username
+lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
+polar: # Replace with a single Polar username
+buy_me_a_coffee: # Replace with a single Buy Me a Coffee username
+thanks_dev: # Replace with a single thanks.dev username
+custom: # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
+To enable a Sponsor button on your chrome-extensions- or any other repository under the user account Sazwan96, you need to define a specialized GitHub configuration file. [1] (https://github.blog/open-source/maintainers/getting-started-with-github-sponsors/), [2] (https://github.com/orgs/community/discussions/179888)
+Here is the exact code framework and placement procedure to activate it. [1] (https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository), [2] (https://github.com/orgs/community/discussions/179888)
+
+1. Code Template for .github/FUNDING.yml
+
+Create a file named precisely FUNDING.yml inside a hidden folder called .github at the root of your project directory. Populating the file with your relevant platform handles tells GitHub exactly where to route potential sponsors. [1] (https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository), [2] (https://github.com/orgs/community/discussions/179888), [3] (https://gist.github.com/Poussinou/c253ff56559ab42d08a46de1688a0fe8), [4] (https://dev.to/github/how-to-create-the-perfect-sponsors-profile-for-your-open-source-project-3747)
+yaml
+# .github/FUNDING.yml
+# Core configuration parameters for the Sazwan96 repository sponsor system
+
+github: [Sazwan96]               # Replace or add up to 4 GitHub Sponsors-enabled accounts
+patreon: sazwan96               # Replace with your specific Patreon creator username
+ko_fi: sazwan96                 # Replace with your registered Ko-fi handle
+custom: ["https://example.com"] # Optional: Up to 4 external processing URLs (e.g. PayPal, BuyMeACoffee)
+Use code with caution.
+
+2. Step-by-Step Repository Implementation
+
+You can inject this into your active development tree directly using your local terminal workflow: [1] (https://github.com/orgs/community/discussions/179888)
+1. Generate the path structure and create the asset inside your target repository root directory:bash
+mkdir -p .github
+touch .github/FUNDING.yml
+Use code with caution.
+2. Open the file in your local IDE, paste the YAML parameters configuration from above, and adjust the platform handles to match your actual verified payout accounts.
+3. Commit the setup to your default workspace tracking branch: [1] (https://github.com/orgs/community/discussions/201589), [2] (https://github.com/orgs/community/discussions/179888), [3] (https://github.com/orgs/community/discussions/178420)
+bash
+git add .github/FUNDING.yml
+git commit -m "docs: implement repository funding mapping configurations"
+git push origin main
+Use code with caution.
+
+3. Activating the Feature via GitHub Web View
+
+Once the codebase updates are pushed upstream, ensure the repository interface rendering toggle is flagged on: [1] (https://github.com/orgs/community/discussions/204256), [2] (https://github.com/orgs/community/discussions/206705)
+1. Head directly to your target project landing page on GitHub.
+2. Click on the Settings gear navigation tab running along the top utility bar.
+3. Scroll down into the Features panel block and look for the Sponsorships parameter checkbox.
+4. Enforce a check flag on Sponsorships to force GitHub to pull the structural links directly out of your default branch's .github/FUNDING.yml setup. [1] (https://docs.github.com/enterprise-cloud@latest/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository), [2] (https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository), [3] (https://github.com/orgs/community/discussions/204256), [4] (https://github.com/orgs/community/discussions/206705)
+Once activated, a new visual "Sponsor" button will appear on the right side of the project page. [1] (https://github.blog/open-source/maintainers/getting-started-with-github-sponsors/), [2] (https://github.com/orgs/community/discussions/179888)
+If you need help building out your GitHub Sponsors profile profile data or need the YAML syntax keys for other funding channels like Buy Me a Coffee or Tidelift, let me know!
+The string 1.2.3.4 can represent several technical entities depending on the context of your workspace:
+
+1. Public IPv4 Address
+
+In network routing, 1.2.3.4 is a valid public IPv4 address.
+• It is owned by APNIC (Asia Pacific Network Information Centre) and is frequently used in network testing, documentation templates, and router configurations as a generic placeholder IP.
+
+2. Semantic Versioning String (Non-Standard)
+
+If you are managing your Chrome extension development cycle (manifest.json) or setting up a release tag in Git, software versioning typically follows the Semantic Versioning (SemVer) standard: MAJOR.MINOR.PATCH.
+A string with four components (1.2.3.4) represents a non-standard extended version layout:
+• 1: Major release version.
+• 2: Minor feature release version.
+• 3: Patch or bug fix increment.
+• 4: Build number, packaging iteration, or hotfix target.
+Note: For official Chromium extensions deployed to the Chrome Web Store, using a four-digit string like "version": "1.2.3.4" is fully permitted by the manifest schema engine.
+
+3. Sequential Navigation Options
+
+If you are passing this sequence as an instructional navigation pattern for your repository workflows, it indicates a structured checklist:
+1. Initialize the workspace configurations.
+2. Apply structural code migrations.
+3. Validate runtime behaviors.
+4. Deploy or distribute the assets.
+Let me know if you are using this as a version number configuration for your manifest file, or if you need to run network connectivity testing targeting this specific test IP address!
