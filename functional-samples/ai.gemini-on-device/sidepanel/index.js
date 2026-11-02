@@ -7,10 +7,6 @@ const buttonReset = document.body.querySelector('#button-reset');
 const elementResponse = document.body.querySelector('#response');
 const elementLoading = document.body.querySelector('#loading');
 const elementError = document.body.querySelector('#error');
-const sliderTemperature = document.body.querySelector('#temperature');
-const sliderTopK = document.body.querySelector('#top-k');
-const labelTemperature = document.body.querySelector('#label-temperature');
-const labelTopK = document.body.querySelector('#label-top-k');
 
 let session;
 
@@ -38,25 +34,10 @@ async function reset() {
 }
 
 async function initDefaults() {
-  const defaults = await LanguageModel.params();
-  console.log('Model default:', defaults);
   if (!('LanguageModel' in self)) {
     showResponse('Model not available');
     return;
   }
-  sliderTemperature.value = defaults.defaultTemperature;
-  // Pending https://issues.chromium.org/issues/367771112.
-  // sliderTemperature.max = defaults.maxTemperature;
-  if (defaults.defaultTopK > 3) {
-    // limit default topK to 3
-    sliderTopK.value = 3;
-    labelTopK.textContent = 3;
-  } else {
-    sliderTopK.value = defaults.defaultTopK;
-    labelTopK.textContent = defaults.defaultTopK;
-  }
-  sliderTopK.max = defaults.maxTopK;
-  labelTemperature.textContent = defaults.defaultTemperature;
 }
 
 initDefaults();
@@ -67,16 +48,6 @@ buttonReset.addEventListener('click', () => {
   hide(elementResponse);
   reset();
   buttonReset.setAttribute('disabled', '');
-});
-
-sliderTemperature.addEventListener('input', (event) => {
-  labelTemperature.textContent = event.target.value;
-  reset();
-});
-
-sliderTopK.addEventListener('input', (event) => {
-  labelTopK.textContent = event.target.value;
-  reset();
 });
 
 inputPrompt.addEventListener('input', () => {
@@ -94,9 +65,7 @@ buttonPrompt.addEventListener('click', async () => {
     const params = {
       initialPrompts: [
         { role: 'system', content: 'You are a helpful and friendly assistant.' }
-      ],
-      temperature: sliderTemperature.value,
-      topK: sliderTopK.value
+      ]
     };
     const response = await runPrompt(prompt, params);
     showResponse(response);
