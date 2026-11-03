@@ -9,14 +9,14 @@
   "devDependencies": {
     "@types/mocha": "10.0.10",
     "@types/node": "26.6.5",
-    "@types/sinon": "22.0.0",
+    "@types/sinon": "22.0.2",
     "mocha": "12.0.3",
     "sinon": "22.1.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@babel/core": "8.0.7",
+    "@babel/core": "8.0.9",
     "typedoc": "0.28.20"
   }
 }
