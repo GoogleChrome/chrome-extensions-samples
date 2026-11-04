@@ -1,0 +1,54 @@
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-width: 300px;
+      /* Set a minimum width for the popup */
+      background-color: #b4bdef;
+      /* Set background color for the entire body */
+}
+
+.container {
+      padding: 16px;
+      max-height: 400px;
+      /* Limit the maximum height of the popup */
+      overflow-y: auto;
+      /* Enable vertical scrolling if needed */
+}
+
+ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+}
+
+li {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+}
+
+img {
+      margin-right: 8px;
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+      border-radius: 4px;
+}
+
+button {
+      margin-left: auto;
+      margin-right: 10px;
+
+      padding: 4px 8px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+}
+
+button:hover {
+      background-color: #d32f2f;
+}
