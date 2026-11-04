@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
       templateName: 'sample-template-' + counter,
       context: { counter: counter }
     };
+    // We use '*' as the targetOrigin because the 'chrome-extension://' scheme is not 
+    // supported as a valid targetOrigin in the postMessage API. For internal 
+    // extension messaging, this is a known platform limitation when communicating 
+    // with sandboxed frames.
     document.getElementById('theFrame').contentWindow.postMessage(message, '*');
   });
 
