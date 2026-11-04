@@ -1,8 +1,8 @@
 {
-  "name": "Offscreen clipboard writing",
+  "name": "Clipboard Writing",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "Shows how to write a string to the system clipboard using the offscreen document.",
+  "description": "Shows how to write a string to the system clipboard from a service worker.",
   "background": {
     "service_worker": "background.js"
   },
