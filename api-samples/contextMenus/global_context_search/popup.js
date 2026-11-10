@@ -2,28 +2,31 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// TLD: top level domain; the "com" in "google.com"
-import { tldLocales } from './locales.js';
+import { regions } from './locales.js';
 
 createForm().catch(console.error);
 
+/**
+ * Creates the popup form with region checkboxes.
+ * Users can enable or disable regions to customize context menu options.
+ */
 async function createForm() {
-  const { enabledTlds = Object.keys(tldLocales) } =
-    await chrome.storage.sync.get('enabledTlds');
-  const checked = new Set(enabledTlds);
+  const { enabledRegions = Object.keys(regions) } =
+    await chrome.storage.sync.get('enabledRegions');
+  const checked = new Set(enabledRegions);
 
   const form = document.getElementById('form');
-  for (const [tld, locale] of Object.entries(tldLocales)) {
+  for (const [regionId, regionConfig] of Object.entries(regions)) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.checked = checked.has(tld);
-    checkbox.name = tld;
+    checkbox.checked = checked.has(regionId);
+    checkbox.name = regionId;
     checkbox.addEventListener('click', (event) => {
       handleCheckboxClick(event).catch(console.error);
     });
 
     const span = document.createElement('span');
-    span.textContent = locale;
+    span.textContent = regionConfig.display;
 
     const div = document.createElement('div');
     div.appendChild(checkbox);
@@ -33,17 +36,23 @@ async function createForm() {
   }
 }
 
+/**
+ * Handles checkbox state changes and updates storage.
+ */
 async function handleCheckboxClick(event) {
   const checkbox = event.target;
-  const tld = checkbox.name;
+  const regionId = checkbox.name;
   const enabled = checkbox.checked;
 
-  const { enabledTlds = Object.keys(tldLocales) } =
-    await chrome.storage.sync.get('enabledTlds');
-  const tldSet = new Set(enabledTlds);
+  const { enabledRegions = Object.keys(regions) } =
+    await chrome.storage.sync.get('enabledRegions');
+  const regionSet = new Set(enabledRegions);
 
-  if (enabled) tldSet.add(tld);
-  else tldSet.delete(tld);
+  if (enabled) {
+    regionSet.add(regionId);
+  } else {
+    regionSet.delete(regionId);
+  }
 
-  await chrome.storage.sync.set({ enabledTlds: [...tldSet] });
+  await chrome.storage.sync.set({ enabledRegions: [...regionSet] });
 }
