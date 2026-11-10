@@ -6,7 +6,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@google/genai": "^2.30.0",
-    "rollup": "4.64.12"
+    "@google/genai": "^2.32.0",
+    "rollup": "4.67.4"
   }
 }
