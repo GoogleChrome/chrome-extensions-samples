@@ -1,16 +1,16 @@
-This recipe shows how to write a string to the system clipboard using the [Offscreen document][1].
+This recipe shows how to write a string to the system clipboard from an extension service worker. It tries to use `navigator.clipboard`, with a fallback to an [Offscreen document][1] for older versions of Chrome.
 
 ## Context
 
-As of January 2023, the web platform has two ways to interact with the clipboard: `document.execCommand()` and `navigator.clipboard` (see [MDN's docs][0]). Unfortunately, neither of these APIs are exposed to JavaScript workers. This means that in order for an extension to read from or write values to the system clipboard, the extension _must_ do so in a web page. Enter the Offscreen API. This API was introduced to give extension developers an unobtrusive way to use DOM APIs in the background.
+Starting in Chrome 157, extension service workers with the `"clipboardWrite"` permission can write to the system clipboard directly using `navigator.clipboard` (see [MDN's docs][0]).
 
-In the future, the Chrome team is planning to add clipboard support directly to extension service workers. As such, this recipe is written to make it as easy as possible to replace `addToClipboard()`'s offscreen document-based implementation with one that directly uses the appropriate clipboard API.
+Prior to Chrome 157, neither `navigator.clipboard` nor `document.execCommand()` was exposed to JavaScript workers. To support those versions (or formats like `text/html` that require a DOM), `addToClipboard()` falls back to the Offscreen API to write to the clipboard from a background DOM document.
 
 ## Running this extension
 
 1. Clone this repository.
 2. Load this directory in Chrome as an [unpacked extension][2].
-3. Open the Extension menu and click the extension named "Offscreen API - Clipboard".
+3. Open the Extension menu and click the extension named "Clipboard Writing".
 
 You will now have "Hello, World!" on your system clipboard.
 
