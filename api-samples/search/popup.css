@@ -1,0 +1,26 @@
+body {
+    width: 200px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.row {
+    margin: 3px;
+}
+
+input {
+    padding: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 12px;
+}
