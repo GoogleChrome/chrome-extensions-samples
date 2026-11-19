@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwXcgHmijBw+bghyCZXyerwlfzojzNcPpIUeQtI8OBhxLSyxNZgq4wl8v58uGTMMTzvqfNiLj3CT7j+JwG5MJTOCMXf1gSIGZaR53NmE53F5nR7VO/Vb/PhZkBhJbU7x5uQsfVyXyUeZH6BUaAaFRnc4kO5knrL3dfm3WQ9DTMRMIkJ62vx2ebGFV6Uiss3p99wwBbTvJahKpB0dPQZauF/rtBaqyeklaPqpTxVXdmrV3YgNEwA+n3CGnwRDVmhLyzDguOWo6ZI1xhEPxTlIq2GgpmUtbe59R43R/8Sg+nlPH+y6Wy9DvgJy3lUUOUVQDvu6NEqzUjKXtIpHyUcs+YwIDAQAB",
+  "trial_tokens": [
+    "Asfzkynpxnpf5C8XTPv7mqCfsqgOraqVl6UK9VTWWEgMCCc/EpM0sbU+9ae0KxOBHMRg0oN+7v8nf5Z8yTl9ng0AAAB1eyJvcmlnaW4iOiJjaHJvbWUtZXh0ZW5zaW9uOi8va2NrbW1lcGdhaW1raGlranBlYWhlaG9obG1rZmNkYmQiLCJmZWF0dXJlIjoiTGFuZ3VhZ2VEZXRlY3Rpb25BUEkiLCJleHBpcnkiOjE3NDk1OTk5OTl9"
+  ],
+  "name": "Built-in AI Text Detection Sample",
+  "version": "1.0",
+  "permissions": ["contextMenus"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
