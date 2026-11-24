@@ -36,15 +36,10 @@ async function subscribeUserVisibleOnlyFalse() {
 }
 
 function logSubscriptionDataToConsole(subscription) {
-  // The `subscription` data would normally only be know by the push server,
-  // but for this sample we'll print it out to the console so it can be pasted
-  // into a testing push notification server (at
-  // https://web-push-codelab.glitch.me/) to send push messages to this
-  // endpoint (extension).
-  console.log(
-    '[Service Worker] Subscription data to be pasted in the test push' +
-      'notification server: '
-  );
+  // For this local test, print the endpoint and subscription encryption keys.
+  // Pass them to the `web-push send-notification` CLI with your VAPID keys.
+  // Do not share subscription data or private VAPID keys publicly.
+  console.log('[Service Worker] Push subscription (keep private):');
   console.log(JSON.stringify(subscription));
 }
 
