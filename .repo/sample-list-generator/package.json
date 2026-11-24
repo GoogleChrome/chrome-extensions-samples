@@ -16,7 +16,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@babel/core": "8.1.0",
+    "@babel/core": "8.1.2",
     "typedoc": "0.28.20"
   }
 }
