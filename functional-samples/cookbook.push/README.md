@@ -16,7 +16,7 @@ Note: This sample requires Chrome 132+. Before Chrome 132, the same code works w
 1. Load this directory in Chrome as an [unpacked extension](https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked).
 1. Click “service worker (Inactive)” on the extension to load DevTools for `background.js`.
 1. In DevTools call: `await subscribeUserVisibleOnlyFalse();`
-1. Copy the JSON printed after “Subscription data to be pasted in the test push notification server:” and note its `endpoint`, `keys.p256dh`, and `keys.auth` values.
+1. Copy the JSON printed after “Push subscription (keep private):” and note its `endpoint`, `keys.p256dh`, and `keys.auth` values.
 1. From a local terminal, send a test message using the *same* VAPID key pair. Replace the placeholders with values from the subscription JSON and the generated keys:
 
    ```sh
